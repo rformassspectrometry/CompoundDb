@@ -19,14 +19,10 @@ Depends:
     Biobase
 Imports:
     ChemmineR,
-    xml2,
-    DBI,
-    RSQLite,
-    BiocGenerics,
-    dbplyr
+    tibble
 Suggests:
     knitr,
-    testthat
+    testthat,
     BiocStyle (>= 2.5.19)
 License: GPL (>= 2)
 URL: https://github.com/EuracBiomedicalResearch/CompoundDb
