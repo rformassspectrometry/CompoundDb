@@ -1,0 +1,35 @@
+Package: CompoundDb
+Type: Package
+Title: Creating and using (chemical) compound annotation databases
+Version: 0.0.1
+Authors@R: c(person(given = "Jan", family = "Stanstrup",
+                    email = "stanstrup@gmail.com",
+		    role = c("aut")),
+             person(given = "Johannes", family = "Rainer",
+	            email = "johannes.rainer@eurac.edu",
+		    role = c("aut", "cre")))
+Author: Johannes Rainer and Jan Stanstrup
+Maintainer: Johannes Rainer <johannes.rainer@eurac.edu>
+Description: CompoundDb provides functionality to create and use (chemical)
+    compound annotation databases from a variety of different sources such as
+    LipidMaps, HMDB, ChEBI.
+Depends:
+    R (>= 3.4),
+    methods,
+    Biobase
+Imports:
+    ChemmineR,
+    xml2,
+    DBI,
+    RSQLite,
+    BiocGenerics,
+    dbplyr
+Suggests:
+    knitr,
+    testthat
+    BiocStyle (>= 2.5.19)
+License: GPL (>= 2)
+URL: https://github.com/EuracBiomedicalResearch/CompoundDb
+biocViews: MassSpectrometry, Metabolomics
+VignetteBuilder: knitr
+RoxygenNote: 6.0.1

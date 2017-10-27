@@ -1,0 +1,658 @@
+
+  Marvin  01211310252D          
+
+ 22 24  0  0  0  0            999 V2000
+   -2.8644   -0.2905    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.8656   -1.1176    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.1509   -1.5304    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.1527    0.1221    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.4377   -0.2868    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.4343   -1.1151    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.7192   -1.5240    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.0030   -1.1092    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0
+   -0.0064   -0.2809    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0
+   -0.7260    0.1325    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.7066    0.1336    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.4211   -0.2790    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.1336    0.1349    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.1315    0.9606    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.4109    1.3705    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.7014    0.9543    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.8489   -0.2755    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+    2.8438    1.3760    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.7124   -1.5197    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -2.1504   -2.3552    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -3.5788    0.1217    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.0064    0.5438    0.0000 H   0  0  0  0  0  0  0  0  0  0  0  0
+  4  1  1  0  0  0  0
+  1 21  1  0  0  0  0
+  1  2  2  0  0  0  0
+  2  3  1  0  0  0  0
+  3 20  1  0  0  0  0
+  3  6  2  0  0  0  0
+  5  4  2  0  0  0  0
+  5 10  1  0  0  0  0
+  5  6  1  0  0  0  0
+  6  7  1  0  0  0  0
+  7  8  1  0  0  0  0
+  8 19  1  6  0  0  0
+  8  9  1  0  0  0  0
+  9 10  1  0  0  0  0
+  9 11  1  0  0  0  0
+  9 22  1  1  0  0  0
+ 16 11  1  0  0  0  0
+ 11 12  2  0  0  0  0
+ 12 13  1  0  0  0  0
+ 13 17  1  0  0  0  0
+ 13 14  2  0  0  0  0
+ 14 18  1  0  0  0  0
+ 14 15  1  0  0  0  0
+ 15 16  2  0  0  0  0
+M  END
+> <ChEBI ID>
+CHEBI:90
+
+> <ChEBI Name>
+(-)-epicatechin
+
+> <Star>
+3
+
+> <Definition>
+A catechin with (2<stereo>R</stereo>,3<stereo>R</stereo>)-configuration.
+
+> <Secondary ChEBI ID>
+CHEBI:18484
+
+> <SMILES>
+[H][C@@]1(Oc2cc(O)cc(O)c2C[C@H]1O)c1ccc(O)c(O)c1
+
+> <InChIKey>
+PFTAWBLQPZVEMU-UKRRQHHQSA-N
+
+> <InChI>
+InChI=1S/C15H14O6/c16-8-4-11(18)9-6-13(20)15(21-14(9)5-8)7-1-2-10(17)12(19)3-7/h1-5,13,15-20H,6H2/t13-,15-/m1/s1
+
+> <Formulae>
+C15H14O6
+
+> <Charge>
+0
+
+> <Mass>
+290.26810
+
+> <Monoisotopic Mass>
+290.079
+
+> <IUPAC Names>
+(2R,3R)-2-(3,4-dihydroxyphenyl)-3,4-dihydro-2H-chromene-3,5,7-triol
+
+> <Synonyms>
+(-)-Epicatechin
+
+> <CAS Registry Numbers>
+490-46-0
+
+> <KEGG COMPOUND Database Links>
+C09727
+
+> <LINCS Database Links>
+LSM-20956
+
+> <MetaCyc Database Links>
+CPD-7630
+
+> <KNApSAcK Database Links>
+C00000956
+
+> <LIPID MAPS instance Database Links>
+LMPK12020003
+
+> <PubChem Database Links>
+CID: 72276
+SID: 160709352
+
+> <PubMed Citation Links>
+10427682
+7655336
+
+> <UniProt Database Links>
+Q9SEV0
+
+> <Last Modified>
+25 Feb 2016
+
+$$$$
+
+  Marvin  02151210452D          
+
+ 11 12  0  0  0  0            999 V2000
+    0.0000   -0.8250    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0
+   -0.7145   -0.4125    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.7145    0.4125    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.7145   -0.4125    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    0.8250    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0
+   -0.4125    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000    1.6500    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.5395   -0.4125    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.1270   -1.1270    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.7145    0.4125    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.4290    0.8250    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+  5 10  1  0  0  0  0
+  5  3  1  0  0  0  0
+ 10  4  1  0  0  0  0
+  4  1  1  0  0  0  0
+  1  2  1  0  0  0  0
+  2  3  1  0  0  0  0
+  5  6  1  1  0  0  0
+  1  6  1  1  0  0  0
+  5  7  1  0  0  0  0
+  4  8  1  0  0  0  0
+  4  9  1  0  0  0  0
+ 10 11  2  0  0  0  0
+M  END
+> <ChEBI ID>
+CHEBI:165
+
+> <ChEBI Name>
+(1S,4R)-fenchone
+
+> <Star>
+3
+
+> <Definition>
+A fenchone that has 1<stereo>S</stereo>,4<stereo>R</stereo> stereochemistry. A colourless, oily liquid found in fennel oil, it is used in perfumery and as flavour in foods.
+
+> <Secondary ChEBI ID>
+CHEBI:63901
+
+> <InChI>
+InChI=1S/C10H16O/c1-9(2)7-4-5-10(3,6-7)8(9)11/h7H,4-6H2,1-3H3/t7-,10+/m1/s1
+
+> <InChIKey>
+LHXDLQBQYFFVNW-XCBNKYQSSA-N
+
+> <SMILES>
+CC1(C)[C@@H]2CC[C@@](C)(C2)C1=O
+
+> <Formulae>
+C10H16O
+
+> <Charge>
+0
+
+> <Mass>
+152.23340
+
+> <Monoisotopic Mass>
+152.120
+
+> <IUPAC Names>
+(1S,4R)-fenchan-2-one
+
+> <Synonyms>
+(+)-2-fenchanone
+(+)-fenchan-2-one
+(+)-fenchone
+(1S)-(+)-fenchone
+(1S)-fenchone
+(1S,4R)-(+)-2-fenchanone
+(1S,4R)-(+)-fenchan-2-one
+(1S,4R)-(+)-fenchone
+(1S,4R)-1,3,3-trimethylbicyclo[2.2.1]heptan-2-one
+(1S,4R)-2-fenchanone
+(1S,4R)-fenchan-2-one
+(1S,4R)-fenchone
+d-fenchone
+
+> <CAS Registry Numbers>
+4695-62-9
+
+> <IntEnz Database Links>
+EC 1.1.1.322
+
+> <KEGG COMPOUND Database Links>
+C11387
+
+> <PubChem Database Links>
+CID: 1201521
+SID: 17425496
+
+> <Rhea Database Links>
+RHEA:32331
+RHEA:32335
+
+> <Last Modified>
+10 Mar 2012
+
+$$$$
+
+  Mrv0541 12031312382D          
+
+ 10  9  0  0  0  0            999 V2000
+   -3.4915    0.0159    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0
+   -4.2059   -0.3966    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -6.3493    0.0159    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -7.0638   -0.3966    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.6349   -0.3966    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.9204    0.0159    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -5.6348   -1.2216    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.9203   -1.6340    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.9202   -2.4590    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+   -4.2059   -1.2214    0.0000 R   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0  0  0  0
+  4  3  1  0  0  0  0
+  5  3  1  0  0  0  0
+  5  7  1  0  0  0  0
+  5  6  1  0  0  0  0
+  2  6  1  0  0  0  0
+  7  8  1  0  0  0  0
+  8  9  2  0  0  0  0
+  8 10  1  0  0  0  0
+M  RGP  1   1   1
+M  END
+> <ChEBI ID>
+CHEBI:598
+
+> <ChEBI Name>
+1-alkyl-2-acylglycerol
+
+> <Star>
+3
+
+> <Definition>
+A glycerol ether having an alkyl substituent at the oxygen at the 1-position and an acyl substituent at the oxygen at the 2-position.
+
+> <Secondary ChEBI ID>
+CHEBI:19009
+
+> <SMILES>
+OCC(CO[*])OC([*])=O
+
+> <Formulae>
+C4H6O4R2
+
+> <Charge>
+0
+
+> <Mass>
+118.08800
+
+> <Monoisotopic Mass>
+118.027
+
+> <Synonyms>
+1-alkyl-2-acylglycerols
+2-Acyl-1-alkyl-sn-glycerol
+
+> <PubChem Database Links>
+SID: 172120883
+
+> <Last Modified>
+18 May 2016
+
+$$$$
+
+  Marvin  10251009462D          
+
+ 24 27  0  0  1  0            999 V2000
+   11.1150   -4.7233    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    9.6159   -5.7059    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   11.1150   -3.3884    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    9.6159   -3.2309    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   11.5999   -4.0559    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0
+    8.1869   -4.8809    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    8.9014   -3.6434    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    8.9014   -6.1184    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   11.3698   -2.6039    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+    8.1869   -5.7059    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    7.4725   -4.4684    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    7.4725   -6.1184    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    6.7581   -4.8809    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    6.7581   -5.7059    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    6.0436   -6.1184    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+    9.6159   -4.8809    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0
+    9.6159   -4.0559    0.0000 H   0  0  0  0  0  0  0  0  0  0  0  0
+    8.9014   -4.4684    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0
+    8.9014   -5.2934    0.0000 H   0  0  0  0  0  0  0  0  0  0  0  0
+   10.3303   -3.6434    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0
+   10.3303   -2.8185    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   10.3303   -4.4684    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0
+   10.3303   -5.2934    0.0000 H   0  0  0  0  0  0  0  0  0  0  0  0
+   12.4249   -4.0559    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+ 22 16  1  0  0  0  0
+ 22 20  1  0  0  0  0
+ 22  1  1  0  0  0  0
+ 16 18  1  0  0  0  0
+ 16  2  1  0  0  0  0
+ 20  3  1  0  0  0  0
+ 20  4  1  0  0  0  0
+  5  1  1  0  0  0  0
+ 18  6  1  0  0  0  0
+ 18  7  1  0  0  0  0
+  2  8  1  0  0  0  0
+  3  9  2  0  0  0  0
+  6 10  2  0  0  0  0
+  6 11  1  0  0  0  0
+ 10 12  1  0  0  0  0
+ 11 13  2  0  0  0  0
+ 12 14  2  0  0  0  0
+ 14 15  1  0  0  0  0
+  3  5  1  0  0  0  0
+  4  7  1  0  0  0  0
+  8 10  1  0  0  0  0
+ 13 14  1  0  0  0  0
+ 16 17  1  1  0  0  0
+ 18 19  1  6  0  0  0
+ 20 21  1  1  0  0  0
+ 22 23  1  6  0  0  0
+  5 24  1  6  0  0  0
+M  END
+> <ChEBI ID>
+CHEBI:776
+
+> <ChEBI Name>
+16alpha-hydroxyestrone
+
+> <Star>
+3
+
+> <Definition>
+The 16<stereo>alpha</stereo>-hydroxy derivative of estrone; a minor estrogen metabolite.
+
+> <Secondary ChEBI ID>
+CHEBI:60497
+
+> <InChI>
+InChI=1S/C18H22O3/c1-18-7-6-13-12-5-3-11(19)8-10(12)2-4-14(13)15(18)9-16(20)17(18)21/h3,5,8,13-16,19-20H,2,4,6-7,9H2,1H3/t13-,14-,15+,16-,18+/m1/s1
+
+> <SMILES>
+[H][C@]12CC[C@]3(C)C(=O)[C@H](O)C[C@@]3([H])[C@]1([H])CCc1cc(O)ccc21
+
+> <InChIKey>
+WPOCIZJTELRQMF-QFXBJFAPSA-N
+
+> <Formulae>
+C18H22O3
+
+> <Charge>
+0
+
+> <Mass>
+286.36550
+
+> <Monoisotopic Mass>
+286.157
+
+> <IUPAC Names>
+3,16alpha-dihydroxyestra-1,3,5(10)-trien-17-one
+
+> <Synonyms>
+16 alpha OHE
+16alpha-Hydroxyestrone
+16alpha-hydroxyestrone
+3,16alpha-Dihydroxyestra-1,3,5(10)-trien-17-one
+3,16alpha-dihydroxy-1,3,5(10)-estratrien-17-one
+estra-1,3,5(10)-triene-3,16alpha-diol-17-one
+
+> <Beilstein Registry Numbers>
+3214335
+
+> <CAS Registry Numbers>
+566-76-7
+
+> <KEGG COMPOUND Database Links>
+C05300
+
+> <LIPID MAPS instance Database Links>
+LMST02010034
+
+> <PubChem Database Links>
+CID: 115116
+SID: 99437353
+
+> <Rhea Database Links>
+RHEA:47204
+RHEA:52448
+RHEA:52452
+
+> <PubMed Citation Links>
+3621671
+
+> <Last Modified>
+21 Jun 2017
+
+$$$$
+
+  Marvin  11020709032D          
+
+ 10 10  0  0  0  0            999 V2000
+   -0.7770    0.1187    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.0625   -0.2938    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.6520    0.1187    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.0625    1.3563    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.0625    2.1813    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.0625    3.0063    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0
+    0.6520    0.9438    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.3664    1.3563    0.0000 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+   -0.7770    0.9438    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.4914    1.3563    0.0000 Cl  0  0  0  0  0  0  0  0  0  0  0  0
+  4  9  1  0  0  0  0
+  4  7  2  0  0  0  0
+  9  1  2  0  0  0  0
+  1  2  1  0  0  0  0
+  2  3  2  0  0  0  0
+  3  7  1  0  0  0  0
+  4  5  1  0  0  0  0
+  5  6  3  0  0  0  0
+  7  8  1  0  0  0  0
+  9 10  1  0  0  0  0
+M  END
+> <ChEBI ID>
+CHEBI:943
+
+> <ChEBI Name>
+2,6-dichlorobenzonitrile
+
+> <Star>
+3
+
+> <Definition>
+A nitrile that is benzonitrile which is substituted by chlorines at positions 2 and 6. A cellulose synthesis inhibitor, it is used as a pre-emergent and early post-emergent herbicide.
+
+> <Secondary ChEBI ID>
+CHEBI:73174
+
+> <InChI>
+InChI=1S/C7H3Cl2N/c8-6-2-1-3-7(9)5(6)4-10/h1-3H
+
+> <InChIKey>
+YOYAIZYFCNQIRF-UHFFFAOYSA-N
+
+> <SMILES>
+Clc1cccc(Cl)c1C#N
+
+> <Formulae>
+C7H3Cl2N
+
+> <Charge>
+0
+
+> <Mass>
+172.01086
+
+> <Monoisotopic Mass>
+170.964
+
+> <IUPAC Names>
+2,6-dichlorobenzonitrile
+
+> <Synonyms>
+2,6-DBN
+2,6-Dichlorobenzoic acid nitrile
+2,6-Dichlorobenzonitrile
+2,6-Dichlorophenyl cyanide
+DBN
+DCB
+Dichlobanil
+dichlobenil
+
+> <Beilstein Registry Numbers>
+1909167
+
+> <CAS Registry Numbers>
+1194-65-6
+
+> <KEGG COMPOUND Database Links>
+C11040
+
+> <LINCS Database Links>
+LSM-19017
+
+> <Wikipedia Database Links>
+2,6-Dichlorobenzonitrile
+
+> <Patent Database Links>
+WO2005030736
+WO2007089330
+
+> <PubChem Database Links>
+CID: 3031
+SID: 29214993
+
+> <PubMed Citation Links>
+16665454
+17225099
+20534772
+21703663
+
+> <UniProt Database Links>
+A2A5R2
+D4A631
+G3X9K3
+O46382
+Q42510
+Q7TSU1
+Q9Y6D5
+Q9Y6D6
+
+> <Last Modified>
+25 Feb 2016
+
+$$$$
+
+  Marvin  09120817212D          
+
+  7  6  0  0  0  0            999 V2000
+    1.4289   -0.1650    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.7145    0.2475    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000   -0.1650    0.0000 C   0  0  3  0  0  0  0  0  0  0  0  0
+   -0.7145    0.2475    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   -1.4289   -0.1650    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    0.7145    1.0725    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+    0.0000   -0.9900    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+  2  1  1  0  0  0  0
+  6  2  2  0  0  0  0
+  3  2  1  0  0  0  0
+  7  3  1  0  0  0  0
+  4  3  1  0  0  0  0
+  5  4  1  0  0  0  0
+M  END
+> <ChEBI ID>
+CHEBI:1148
+
+> <ChEBI Name>
+2-hydroxybutyric acid
+
+> <Star>
+3
+
+> <Definition>
+A hydroxybutyric acid having a single hydroxyl group located at position 2; urinary secretion of 2-hydroxybutyric acid is increased with alcohol ingestion or vigorous physical exercise and is associated with lactic acidosis and ketoacidosis in humans and diabetes in animals.
+
+> <Secondary ChEBI ID>
+CHEBI:675746
+
+> <SMILES>
+CCC(O)C(O)=O
+
+> <InChIKey>
+AFENDNXGAFYKQO-UHFFFAOYSA-N
+
+> <InChI>
+InChI=1S/C4H8O3/c1-2-3(5)4(6)7/h3,5H,2H2,1H3,(H,6,7)
+
+> <Formulae>
+C4H8O3
+
+> <Charge>
+0
+
+> <Mass>
+104.10450
+
+> <Monoisotopic Mass>
+104.047
+
+> <IUPAC Names>
+2-hydroxybutanoic acid
+
+> <Synonyms>
+2-Hydroxybutanoic acid
+2-Hydroxybutyric acid
+alpha-hydroxybutanoic acid
+alpha-hydroxybutyric acid
+
+> <Beilstein Registry Numbers>
+878248
+
+> <CAS Registry Numbers>
+600-15-7
+
+> <KEGG COMPOUND Database Links>
+C05984
+
+> <HMDB Database Links>
+HMDB00008
+
+> <Wikipedia Database Links>
+2-Hydroxybutyric_acid
+
+> <LIPID MAPS instance Database Links>
+LMFA01050004
+
+> <Patent Database Links>
+EP1762273
+EP1813262
+EP1955594
+US2007202067
+US2007226916
+WO2006130160
+
+> <PubChem Database Links>
+CID: 11266
+SID: 56352866
+
+> <SABIO-RK Database Links>
+11120
+12477
+12807
+1293
+6619
+6923
+8040
+9631
+
+> <PubMed Citation Links>
+15749359
+164303
+168632
+
+> <UniProt Database Links>
+P25051
+
+> <Last Modified>
+23 Oct 2015
+
+$$$$
