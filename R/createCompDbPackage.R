@@ -1,3 +1,44 @@
+#' @title Extract compound data from a file in SDF format
+#'
+#' @description
+#'
+#' `compound_tbl_sdf` extracts basic compound annotations from a file in SDF
+#' format (structure-data file). The function currently supports SDF files from:
+#' + HMDB (Human Metabolome Database): http://www.hmdb.ca
+#' + ChEBI (Chemical Entities of Biological Interest): http://ebi.ac.uk/chebi
+#' + LMSD (LIPID MAPS Structure Database).
+#'
+#' @param file `character(1)` with the name of the SDF file.
+#'
+#' @return A [tibble::tibble] with general compound information (one row per
+#' compound):
+#' + `compound_id`: the ID of the compound.
+#' + `compound_name`: the compound's name.
+#' + `inchi`: the inchi of the compound.
+#' + `formula`: the chemical formula.
+#' + `mass`: the compound's mass.
+#'
+#' @family compound table creation functions
+#'
+#' @author Johannes Rainer and Jan Stanstrup
+#'
+#' @export
+#' 
+#' @md
+#' 
+#' @examples
+#'
+#' ## Read compound information from a subset of HMDB
+#' fl <- system.file("sdf/HMDB_sub.sdf", package = "CompoundDb")
+#' compound_tbl_sdf(fl)
+compound_tbl_sdf <- function(file) {
+    if (missing(file))
+        stop("Please provide the file name using 'file'")
+    if (!file.exists(file))
+        stop("Can not fine file ", file)
+    .simple_import_compounds_sdf(file)
+}
+
 
 #' @description
 #'
