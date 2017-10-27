@@ -4,10 +4,13 @@
 \alias{compound_tbl_sdf}
 \title{Extract compound data from a file in SDF format}
 \usage{
-compound_tbl_sdf(file)
+compound_tbl_sdf(file, collapse)
 }
 \arguments{
 \item{file}{\code{character(1)} with the name of the SDF file.}
+
+\item{collapse}{optional \code{character(1)} to be used to collapse multiple
+values in the columns \code{"synonyms"}. See examples for details.}
 }
 \value{
 A \link[tibble:tibble]{tibble::tibble} with general compound information (one row per
@@ -18,6 +21,10 @@ compound):
 \item \code{inchi}: the inchi of the compound.
 \item \code{formula}: the chemical formula.
 \item \code{mass}: the compound's mass.
+\item \code{synonyms}: the compound's synonyms (aliases). This type of this column is
+by default a \code{list} to support multiple aliases per compound, unless
+argument \code{collapse} is provided, in which case multiple synonyms are pasted
+into a single element separated by the value of \code{collapse}.
 }
 }
 \description{
@@ -29,11 +36,27 @@ format (structure-data file). The function currently supports SDF files from:
 \item LMSD (LIPID MAPS Structure Database).
 }
 }
+\details{
+Column \code{"compound_name"} reports for HMDB files the \code{"GENERIC_NAME"}, for
+ChEBI the \code{"ChEBI Name"} and for Lipid Maps the \code{"COMMON_NAME"}, if that is
+not available, the first of the compounds synonyms and, if that is also not
+provided, the \code{"SYSTEMATIC_NAME"}.
+}
 \examples{
 
 ## Read compound information from a subset of HMDB
-fl <- system.file("sdf/HMDB_sub.sdf")
-compound_tbl_sdf(fl)
+fl <- system.file("sdf/HMDB_sub.sdf", package = "CompoundDb")
+cmps <- compound_tbl_sdf(fl)
+cmps
+
+## Column synonyms contains a list
+cmps$synonyms
+
+## If we provide the optional argument collapse, multiple entries will be
+## collapsed.
+cmps <- compound_tbl_sdf(fl, collapse = "|")
+cmps
+cmps$synonyms
 }
 \author{
 Johannes Rainer and Jan Stanstrup

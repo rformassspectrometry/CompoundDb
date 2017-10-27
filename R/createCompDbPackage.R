@@ -8,8 +8,18 @@
 #' + ChEBI (Chemical Entities of Biological Interest): http://ebi.ac.uk/chebi
 #' + LMSD (LIPID MAPS Structure Database).
 #'
+#' @details
+#'
+#' Column `"compound_name"` reports for HMDB files the `"GENERIC_NAME"`, for
+#' ChEBI the `"ChEBI Name"` and for Lipid Maps the `"COMMON_NAME"`, if that is
+#' not available, the first of the compounds synonyms and, if that is also not
+#' provided, the `"SYSTEMATIC_NAME"`.
+#' 
 #' @param file `character(1)` with the name of the SDF file.
 #'
+#' @param collapse optional `character(1)` to be used to collapse multiple
+#'     values in the columns `"synonyms"`. See examples for details.
+#' 
 #' @return A [tibble::tibble] with general compound information (one row per
 #' compound):
 #' + `compound_id`: the ID of the compound.
@@ -17,6 +27,10 @@
 #' + `inchi`: the inchi of the compound.
 #' + `formula`: the chemical formula.
 #' + `mass`: the compound's mass.
+#' + `synonyms`: the compound's synonyms (aliases). This type of this column is
+#'   by default a `list` to support multiple aliases per compound, unless
+#'   argument `collapse` is provided, in which case multiple synonyms are pasted
+#'   into a single element separated by the value of `collapse`.
 #'
 #' @family compound table creation functions
 #'
@@ -30,13 +44,29 @@
 #'
 #' ## Read compound information from a subset of HMDB
 #' fl <- system.file("sdf/HMDB_sub.sdf", package = "CompoundDb")
-#' compound_tbl_sdf(fl)
-compound_tbl_sdf <- function(file) {
+#' cmps <- compound_tbl_sdf(fl)
+#' cmps
+#' 
+#' ## Column synonyms contains a list
+#' cmps$synonyms
+#'
+#' ## If we provide the optional argument collapse, multiple entries will be
+#' ## collapsed.
+#' cmps <- compound_tbl_sdf(fl, collapse = "|")
+#' cmps
+#' cmps$synonyms
+compound_tbl_sdf <- function(file, collapse) {
     if (missing(file))
         stop("Please provide the file name using 'file'")
     if (!file.exists(file))
         stop("Can not fine file ", file)
-    .simple_import_compounds_sdf(file)
+    res <- .simple_import_compounds_sdf(file)
+    if (!missing(collapse)) {
+        ## collapse elements from lists.
+        res$synonyms <- vapply(res$synonyms, paste0, collapse = collapse,
+                               FUN.VALUE = "character")
+    }
+    res
 }
 
 
@@ -64,11 +94,24 @@ compound_tbl_sdf <- function(file) {
         stop("The SDF file is not supported. Supported are SDF files from ",
              "HMDB, ChEBI and LipidMaps.")
     colmap <- get(paste0(".", source_db, "_colmap"))
+    sep <- get(paste0(".", source_db, "_separator"))
+    ## Fix missing COMMON_NAME entries in LipidMaps (see issue #1)
+    nms <- full_mat[, colmap["name"]]
+    syns <- strsplit(full_mat[, colmap["synonyms"]], split = sep)
+    if (source_db == "lipidmaps") {
+        nas <- is.na(nms)
+        if (any(nas))
+            nms[nas] <- vapply(syns[nas], `[[`, 1, FUN.VALUE = "character")
+        nas <- is.na(nms)
+        if (any(nas))
+            nms[nas] <- full_mat[nas, "SYSTEMATIC_NAME"]
+    }
     data_frame(compound_id = full_mat[, colmap["id"]],
-               compound_name = full_mat[, colmap["name"]],
+               compound_name = nms,
                inchi = full_mat[, colmap["inchi"]],
                formula = full_mat[, colmap["formula"]],
-               mass = as.numeric(full_mat[, colmap["mass"]])
+               mass = as.numeric(full_mat[, colmap["mass"]]),
+               synonyms = syns
                )
 }
 
@@ -101,17 +144,23 @@ compound_tbl_sdf <- function(file) {
                   name = "GENERIC_NAME",
                   inchi = "INCHI_IDENTIFIER",
                   formula = "FORMULA",
-                  mass = "EXACT_MASS"
+                  mass = "EXACT_MASS",
+                  synonyms = "SYNONYMS"
                   )
+.hmdb_separator <- "; "
 .chebi_colmap <- c(id = "ChEBI ID",
                    name = "ChEBI Name",
                    inchi = "InChI",
                    formula = "Formulae",
-                   mass = "Monoisotopic Mass"
+                   mass = "Monoisotopic Mass",
+                   synonyms = "Synonyms"
                    )
+.chebi_separator <- " __ "
 .lipidmaps_colmap <- c(id = "LM_ID",
                        name = "COMMON_NAME",
                        inchi = "INCHI",
                        formula = "FORMULA",
-                       mass = "EXACT_MASS"
+                       mass = "EXACT_MASS",
+                       synonyms = "SYNONYMS"
                        )
+.lipidmaps_separator <- "; "
