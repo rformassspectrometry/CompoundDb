@@ -7,11 +7,12 @@
 #' + HMDB (Human Metabolome Database): http://www.hmdb.ca
 #' + ChEBI (Chemical Entities of Biological Interest): http://ebi.ac.uk/chebi
 #' + LMSD (LIPID MAPS Structure Database).
+#' + PubChem
 #'
 #' @details
 #'
 #' Column `"compound_name"` reports for HMDB files the `"GENERIC_NAME"`, for
-#' ChEBI the `"ChEBI Name"` and for Lipid Maps the `"COMMON_NAME"`, if that is
+#' ChEBI the `"ChEBI Name"`, for PubChem the `"PUBCHEM_IUPAC_TRADITIONAL_NAME"`, and for Lipid Maps the `"COMMON_NAME"`, if that is
 #' not available, the first of the compounds synonyms and, if that is also not
 #' provided, the `"SYSTEMATIC_NAME"`.
 #' 
@@ -136,6 +137,9 @@ compound_tbl_sdf <- function(file, collapse) {
         return("chebi")
     if (any(x == "LM_ID"))
         return("lipidmaps")
+    if (any(x == "PUBCHEM_COMPOUND_CID"))
+        return("pubchem")
+    
     NULL
 }
 
@@ -164,3 +168,18 @@ compound_tbl_sdf <- function(file, collapse) {
                        synonyms = "SYNONYMS"
                        )
 .lipidmaps_separator <- "; "
+.pubchem_colmap <- c(id = "PUBCHEM_COMPOUND_CID",
+                       name = "PUBCHEM_IUPAC_TRADITIONAL_NAME",
+                       inchi = "PUBCHEM_IUPAC_INCHI",
+                       formula = "PUBCHEM_MOLECULAR_FORMULA",
+                       mass = "PUBCHEM_EXACT_MASS",
+                       synonyms = "PUBCHEM_IUPAC_TRADITIONAL_NAME" 
+                       # Others: 
+                       # PUBCHEM_IUPAC_SYSTEMATIC_NAME, 
+                       # PUBCHEM_IUPAC_CAS_NAME, 
+                       # PUBCHEM_IUPAC_OPENEYE_NAME, 
+                       # PUBCHEM_IUPAC_NAME
+                       )
+.pubchem_separator <- "; " # there seems to be none
+
+

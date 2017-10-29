@@ -34,11 +34,12 @@ format (structure-data file). The function currently supports SDF files from:
 \item HMDB (Human Metabolome Database): http://www.hmdb.ca
 \item ChEBI (Chemical Entities of Biological Interest): http://ebi.ac.uk/chebi
 \item LMSD (LIPID MAPS Structure Database).
+\item PubChem
 }
 }
 \details{
 Column \code{"compound_name"} reports for HMDB files the \code{"GENERIC_NAME"}, for
-ChEBI the \code{"ChEBI Name"} and for Lipid Maps the \code{"COMMON_NAME"}, if that is
+ChEBI the \code{"ChEBI Name"}, for PubChem the \code{"PUBCHEM_IUPAC_TRADITIONAL_NAME"}, and for Lipid Maps the \code{"COMMON_NAME"}, if that is
 not available, the first of the compounds synonyms and, if that is also not
 provided, the \code{"SYSTEMATIC_NAME"}.
 }
