@@ -2,7 +2,7 @@
 
 This package provides functionality to create and use compound databases
 generated from (mostly publicly) available resources such as
-[HMDB](http://www.hmdb.ca) or [ChEBI](https://www.ebi.ac.uk/chebi/).
+[HMDB](http://www.hmdb.ca), [ChEBI](https://www.ebi.ac.uk/chebi/) and [PubChem](https://pubchem.ncbi.nlm.nih.gov).
 
 # How to contribute
 
