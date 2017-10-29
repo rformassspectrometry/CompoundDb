@@ -1,3 +1,5 @@
 README.md
 local_data/*
 
+^.*\.Rproj$
+^\.Rproj\.user$
