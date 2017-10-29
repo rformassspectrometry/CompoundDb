@@ -22,6 +22,14 @@ test_that(".simple_import_compounds_sdf works", {
     expect_equal(colnames(cmps), c("compound_id", "compound_name", "inchi",
                                    "formula", "mass", "synonyms"))
     expect_true(nrow(cmps) == 7)
+    
+    pubchem <- system.file("sdf/PubChem_sub.sdf", package = "CompoundDb")
+    cmps <- .simple_import_compounds_sdf(pubchem)
+    expect_true(is(cmps, "data.frame"))
+    expect_true(is(cmps, "tbl"))
+    expect_equal(colnames(cmps), c("compound_id", "compound_name", "inchi",
+                                   "formula", "mass", "synonyms"))
+    expect_true(nrow(cmps) == 12)
 })
 
 test_that("compound_tbl_sdf works", {
