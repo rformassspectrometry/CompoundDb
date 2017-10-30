@@ -7,15 +7,15 @@ test_that(".simple_import_compounds_sdf works", {
                                    "formula", "mass", "synonyms"))
     expect_true(nrow(cmps) == 7)
 
-    chebi <- system.file("sdf/ChEBI_sub.sdf", package = "CompoundDb")
-    cmps <- .simple_import_compounds_sdf(chebi)
+    chebi <- system.file("sdf/ChEBI_sub.sdf.gz", package = "CompoundDb")
+    cmps <- CompoundDb:::.simple_import_compounds_sdf(chebi)
     expect_true(is(cmps, "data.frame"))
     expect_true(is(cmps, "tbl"))
     expect_equal(colnames(cmps), c("compound_id", "compound_name", "inchi",
                                    "formula", "mass", "synonyms"))
     expect_true(nrow(cmps) == 6)
 
-    lm <- system.file("sdf/LipidMaps_sub.sdf", package = "CompoundDb")
+    lm <- system.file("sdf/LipidMaps_sub.sdf.gz", package = "CompoundDb")
     cmps <- .simple_import_compounds_sdf(lm)
     expect_true(is(cmps, "data.frame"))
     expect_true(is(cmps, "tbl"))
@@ -23,7 +23,7 @@ test_that(".simple_import_compounds_sdf works", {
                                    "formula", "mass", "synonyms"))
     expect_true(nrow(cmps) == 7)
     
-    pubchem <- system.file("sdf/PubChem_sub.sdf", package = "CompoundDb")
+    pubchem <- system.file("sdf/PubChem_sub.sdf.gz", package = "CompoundDb")
     cmps <- .simple_import_compounds_sdf(pubchem)
     expect_true(is(cmps, "data.frame"))
     expect_true(is(cmps, "tbl"))
@@ -44,7 +44,7 @@ test_that("compound_tbl_sdf works", {
     cmps <- compound_tbl_sdf(hmdb, collapse = "|")
     expect_true(is(cmps$synonyms, "character"))
 
-    chebi <- system.file("sdf/ChEBI_sub.sdf", package = "CompoundDb")
+    chebi <- system.file("sdf/ChEBI_sub.sdf.gz", package = "CompoundDb")
     cmps <- compound_tbl_sdf(chebi)
     expect_true(is(cmps, "data.frame"))
     expect_true(is(cmps, "tbl"))
@@ -55,7 +55,7 @@ test_that("compound_tbl_sdf works", {
     cmps <- compound_tbl_sdf(chebi, collapse = "|")
     expect_true(is(cmps$synonyms, "character"))
 
-    lm <- system.file("sdf/LipidMaps_sub.sdf", package = "CompoundDb")
+    lm <- system.file("sdf/LipidMaps_sub.sdf.gz", package = "CompoundDb")
     cmps <- compound_tbl_sdf(lm)
     expect_true(is(cmps, "data.frame"))
     expect_true(is(cmps, "tbl"))
@@ -66,7 +66,7 @@ test_that("compound_tbl_sdf works", {
     cmps <- compound_tbl_sdf(lm, collapse = "|")
     expect_true(is(cmps$synonyms, "character"))
 
-    pc <- system.file("sdf/PubChem_sub.sdf", package = "CompoundDb")
+    pc <- system.file("sdf/PubChem_sub.sdf.gz", package = "CompoundDb")
     cmps <- compound_tbl_sdf(pc)
     expect_true(is(cmps, "data.frame"))
     expect_true(is(cmps, "tbl"))
@@ -84,15 +84,15 @@ test_that(".guess_sdf_source works", {
     cn <- colnames(datablock2ma(datablock(read.SDFset(hmdb))))
     expect_true(.guess_sdf_source(cn) == "hmdb")
     
-    chebi <- system.file("sdf/ChEBI_sub.sdf", package = "CompoundDb")
+    chebi <- system.file("sdf/ChEBI_sub.sdf.gz", package = "CompoundDb")
     cn <- colnames(datablock2ma(datablock(read.SDFset(chebi))))
     expect_true(.guess_sdf_source(cn) == "chebi")
 
-    lm <- system.file("sdf/LipidMaps_sub.sdf", package = "CompoundDb")
+    lm <- system.file("sdf/LipidMaps_sub.sdf.gz", package = "CompoundDb")
     cn <- colnames(datablock2ma(datablock(read.SDFset(lm))))
     expect_true(.guess_sdf_source(cn) == "lipidmaps")
 
-    pc <- system.file("sdf/PubChem_sub.sdf", package = "CompoundDb")
+    pc <- system.file("sdf/PubChem_sub.sdf.gz", package = "CompoundDb")
     cn <- colnames(datablock2ma(datablock(read.SDFset(pc))))
     expect_true(.guess_sdf_source(cn) == "pubchem")
 
@@ -165,7 +165,7 @@ test_that(".valid_compound works", {
 })
 
 test_that("createCompDb and createCompDbPackage works", {
-    fl <- system.file("sdf/ChEBI_sub.sdf", package = "CompoundDb")
+    fl <- system.file("sdf/ChEBI_sub.sdf.gz", package = "CompoundDb")
     cmps <- compound_tbl_sdf(fl)
 
     metad <- data.frame(name = c("source", "url", "source_version",
