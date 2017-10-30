@@ -1,4 +1,4 @@
-import(PeakABro)
+import(CompoundDb)
 
 ### Don't export @DBOBJNAME@ (the object defined in this
 ### package): it is created and dynamically exported at load time (refer

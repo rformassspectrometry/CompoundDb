@@ -61,6 +61,9 @@ cmps
 cmps$synonyms
 }
 \seealso{
+\code{\link[=createCompDb]{createCompDb()}} for a function to create a SQLite-based compound
+database.
+
 Other compound table creation functions: \code{\link{compound_tbl_lipidblast}}
 }
 \author{

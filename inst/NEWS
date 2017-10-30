@@ -1,0 +1,4 @@
+Changes in version 0.0.2
+------------------------
+
+- Define CompDb class and all functionality to create CompDb databases.

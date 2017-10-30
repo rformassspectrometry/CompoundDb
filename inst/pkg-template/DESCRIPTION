@@ -4,7 +4,7 @@ Description: @PKGDESCRIPTION@
 Version: @PKGVERSION@
 Author: @AUTHOR@
 Maintainer: @MAINTAINER@
-Depends: PeakABro
+Depends: CompoundDb
 License: @LIC@
 organism: @ORGANISM@
 provider: @SOURCE@
