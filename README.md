@@ -1,3 +1,8 @@
+[![Build Status](https://travis-ci.org/EuracBiomedicalResearch/CompoundDb.svg?branch=master)](https://travis-ci.org/EuracBiomedicalResearch/CompoundDb) 
+[![codecov.io](https://codecov.io/github/EuracBiomedicalResearch/CompoundDb/coverage.svg?branch=master)](https://codecov.io/github/EuracBiomedicalResearch/CompoundDb?branch=master)
+
+
+
 # Creating and using (chemical) compound databases
 
 This package provides functionality to create and use compound databases
