@@ -19,7 +19,8 @@ Depends:
     Biobase
 Imports:
     ChemmineR,
-    tibble
+    tibble,
+    jsonlite
 Suggests:
     knitr,
     testthat,
