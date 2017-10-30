@@ -16,6 +16,10 @@
 #' and for Lipid Maps the `"COMMON_NAME"`, if that is
 #' not available, the first of the compounds synonyms and, if that is also not
 #' provided, the `"SYSTEMATIC_NAME"`.
+#'
+#' @note
+#'
+#' `compound_tbl_sdf` supports to read/process gzipped files.
 #' 
 #' @param file `character(1)` with the name of the SDF file.
 #'
@@ -293,8 +297,8 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' 
 #' `createCompDb` creates a `SQLite`-based [`CompDb`] object/database
 #' from a compound resource provided as a `data.frame` or `tbl`. Alternatively,
-#' the name of the file from which the annotation should be extracted can be
-#' provided. Supported are e.g. SDF files that can be processed using the
+#' the name(s) of the file(s) from which the annotation should be extracted can
+#' be provided. Supported are e.g. SDF files that can be processed using the
 #' [compound_tbl_sdf()] or LipidBlast files (see [compound_tbl_lipidblast()].
 #' 
 #' An additional `data.frame` providing metadata information is mandatory.
@@ -304,12 +308,15 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' + `"inchi"`: the inchi of the compound.
 #' + `"formula"`: the chemical formula.
 #' + `"mass"`: the compound's mass.
+#' + `"synonyms"`: additional synonyms/aliases for the compound. Should be
+#'   either a single character or a list of values for each compound.
 #'
 #' See e.g. [compound_tbl_sdf()] or [compound_tbl_lipidblast()] for functions
 #' creating such compound tables.
 #' 
 #' The metadata `data.frame` is supposed to have two columns named `"name"` and
-#' `"value"` providing the following minimal information as key-value pairs:
+#' `"value"` providing the following minimal information as key-value pairs
+#' (see `make_metadata` for a unitlity function to create such a `data.frame):
 #' + `"source"`: the source from which the data was retrieved (e.g. `"HMDB"`).
 #' + `"url"`: the url from which the original data was retrieved.
 #' + `"source_version"`: the version from the original data source
@@ -326,7 +333,8 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' with human metabolites will thus be named: `"CompDb.Hsapiens.HMDB.v4"`.
 #' 
 #' @param x For `createCompDb`: `data.frame` or `tbl` with the compound
-#'     annotations. See description for details.
+#'     annotations or `character` with the file name(s) from which the compound
+#'     annotations should be retrieved. See description for details.
 #'
 #'     For `createCompDbPackage`: `character(1)` with the file name of the
 #'     `CompDb` SQLite file (created by `createCompDb`).
@@ -367,12 +375,27 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #'     "source_date", "organism"), value = c("HMDB", "http://www.hmdb.ca",
 #'     "v4", "2017-08-27", "Hsapiens"))
 #'
+#' ## Alternatively use the make_metadata helper function
+#' metad <- make_metadata(source = "HMDB", source_version = "v4",
+#'     source_date = "2017-08", organism = "Hsapiens",
+#'     url = "http://www.hmdb.ca")
 #' ## Create a SQLite database in the temporary folder
 #' db_f <- createCompDb(cmps, metadata = metad, path = tempdir())
 #'
 #' ## The database can be loaded and accessed with a CompDb object
 #' db <- CompDb(db_f)
 #' db
+#'
+#' ## Create a database for a ChEBI subset providing the file name of the
+#' ## corresponding SDF file
+#' metad <- make_metadata(source = "ChEBI_sub", source_version = "2",
+#'     source_date = NA, organism = "Hsapiens", url = "www.ebi.ac.uk/chebi")
+#' db_f <- createCompDb(system.file("sdf/ChEBI_sub.sdf.gz",
+#'     package = "CompoundDb"), metadata = metad, path = tempdir())
+#' db <- CompDb(db_f)
+#' db
+#'
+#' compounds(db)
 #' 
 #' ## connect to the database and query it's tables using RSQlite
 #' library(RSQLite)
@@ -399,17 +422,33 @@ createCompDb <- function(x, metadata, path = ".") {
     dbWriteTable(con, name = "metadata", metadata, row.names = FALSE)
     ## compound table
     if (is.character(x)) {
-        ## Process each file iteratively.
-        ## 1) Determine file type, SDF, json.
-        ## 2) write to the table.
+        lapply(x, function(z) {
+            message("Import data from ", basename(z), " ...", appendLF = FALSE)
+            if (.is_sdf_filename(z)) {
+                tbl <- compound_tbl_sdf(z)
+            } else {
+                ## Assume this is a json file... might simply be wrong.
+                tbl <- compound_tbl_lipidblast(z)
+            }
+            message("OK")
+            .valid_compound(tbl, db = FALSE)
+            tbl_syn <- bind_cols(compound_id = rep(tbl$compound_id,
+                                                   lengths(tbl$synonyms)),
+                                 synonym = unlist(tbl$synonyms))
+            tbl <- tbl[, colnames(tbl) != "synonyms"]
+            dbWriteTable(con, name = "synonym", tbl_syn, row.names = FALSE,
+                         append = TRUE)
+            dbWriteTable(con, name = "compound", row.names = FALSE,
+                         tbl[, colnames(tbl) != "synonyms"], append = TRUE)
+        })
     } else {
-        .valid_compound(x)
+        .valid_compound(x, db = FALSE)
         x_synonym <- bind_cols(compound_id = rep(x$compound_id,
                                                  lengths(x$synonyms)),
                                synonym = unlist(x$synonyms))
-        x[,] <- x[, colnames(x) != "synonyms"]
         dbWriteTable(con, name = "synonym", x_synonym, row.names = FALSE)
-        dbWriteTable(con, name = "compound", x, row.names = FALSE)
+        dbWriteTable(con, name = "compound", x[, colnames(x) != "synonyms"],
+                     row.names = FALSE)
     }
     ## Creating indices
     dbExecute(con, "create index compound_id_idx on compound (compound_id)")
@@ -420,8 +459,9 @@ createCompDb <- function(x, metadata, path = ".") {
 
 .required_metadata_keys <- c("source", "url", "source_version", "source_date",
                              "organism")
-.required_compound_columns <- c("compound_id", "compound_name", "inchi",
-                                "formula", "mass", "synonyms")
+.required_compound_db_columns <- c("compound_id", "compound_name", "inchi",
+                                   "formula", "mass")
+.required_compound_columns <- c(.required_compound_db_columns, "synonyms")
 
 #' @description Create the database file name from the metadata `data.frame`.
 #'     The function checks also for the presence of all required metadata fields
@@ -455,10 +495,6 @@ createCompDb <- function(x, metadata, path = ".") {
                                         collapse = ", "),
                                  " not found in metadata data.frame"))
         vals <- vals[keys %in% .required_metadata_keys]
-        if (length(vals))
-            if (any(is.na(vals)) | any(length(vals) == 0))
-                txt <- c(txt, paste0("values for metadata data.frame fields ",
-                                     "should not be empty or NA"))
     } else {
         txt <- c(txt, paste0("metadata data.frame needs to have columns ",
                              "named 'name' and 'value'"))
@@ -472,14 +508,19 @@ createCompDb <- function(x, metadata, path = ".") {
 
 #' @description Check that the compounds table contains all required data.
 #'
+#' @param db `logical(1)` whether validity should be checked on the internal
+#'     database table instead of the input file.
 #' @md
 #' 
 #' @noRd
-.valid_compound <- function(x, error = TRUE) {
+.valid_compound <- function(x, error = TRUE, db = TRUE) {
     txt <- character()
     if (!is.data.frame(x))
         txt <- c(txt, "'x' is supposed to be a data.frame")
-    got_it <- .required_compound_columns %in% colnames(x)
+    .req_cols <- .required_compound_db_columns
+    if (!db)
+        .req_cols <- .required_compound_columns
+    got_it <- .req_cols %in% colnames(x)
     if (!all(got_it)) {
         txt <- c(txt, paste0("Miss required columns: ",
                              paste0(.required_compound_columns[!got_it],
@@ -487,6 +528,14 @@ createCompDb <- function(x, metadata, path = ".") {
     } else {
         if (!is.numeric(x$mass))
             txt <- c(txt, "Column 'mass' should be numeric")
+    }
+    if (db) {
+        ## Do not allow more columns than expected!
+        is_ok <- colnames(x) %in% .req_cols
+        if (any(!is_ok)) {
+            txt <- c(txt, paste0("Column(s) ", paste(colnames(x)[!is_ok]),
+                                 " are not expected"))
+        }
     }
     if (length(txt))
         if (error)
@@ -558,4 +607,59 @@ createCompDbPackage <- function(x, version, maintainer, author,
     dir.create(sqlite_path, showWarnings = FALSE, recursive = TRUE)
     file.copy(x, to = file.path(sqlite_path, paste0(pkg_name, ".sqlite")))
     invisible(TRUE)
+}
+
+#' @description Simple test function to evaluate whether a file is an SDF file
+#'     based on its file name.
+#'
+#' @param x `character(1)` the file name to be tested.
+#'
+#' @noRd
+#'
+#' @md
+#'
+#' @author Johannes Rainer
+.is_sdf_filename <- function(x) {
+    grepl(".sdf($|.gz$)", x, ignore.case = TRUE)
+}
+
+#' @description `make_metadata` helps generating a metadata `data.frame` in the
+#'     correct format expected by the `createCompDb` function. The function
+#'     returns a `data.frame`.
+#'
+#' @param source For `make_metadata`: `character(1)` with the name of the
+#'     resource that provided the compound annotation.
+#'
+#' @param url For `make_metadata`: `character(1)` with the url to the original
+#'     resource.
+#'
+#' @param source_version For `make_metadata`: `character(1)` with the version
+#'     of the original resource providing the annotation.
+#'
+#' @param source_date For `make_metadata`: `character(1)` with the date of the
+#'     resource's release.
+#'
+#' @param organism For `make_metadata`: `character(1)` with the name of the
+#'     organism. This should be in the format `"Hsapiens"` for human,
+#'     `"Mmusculus"` for mouse etc.
+#' 
+#' @export
+#' 
+#' @md
+#' 
+#' @rdname createCompDb
+make_metadata <- function(source, url, source_version, source_date, organism) {
+    if (any(c(missing(source), missing(url), missing(source_version),
+              missing(source_date), missing(organism))))
+        stop("Arguments 'source', 'url', 'source_version', 'source_date', ",
+             "'organism' are required")
+    if (any(c(is.null(source), is.null(url), is.null(source_version),
+              is.null(source_date), is.null(organism))))
+        stop("'NULL' is not allowed for 'source', 'url', 'source_version', ",
+             "'organism'")
+    data.frame(name = c("source", "url", "source_version", "source_date",
+                        "organism"),
+               value = as.character(c(source, url, source_version,
+                                      source_date, organism)),
+               stringsAsFactors = FALSE)
 }

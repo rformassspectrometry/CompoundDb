@@ -44,6 +44,9 @@ and for Lipid Maps the \code{"COMMON_NAME"}, if that is
 not available, the first of the compounds synonyms and, if that is also not
 provided, the \code{"SYSTEMATIC_NAME"}.
 }
+\note{
+\code{compound_tbl_sdf} supports to read/process gzipped files.
+}
 \examples{
 
 ## Read compound information from a subset of HMDB

@@ -257,3 +257,4 @@ tables <- function(x) {
 .get_property <- function(x, name) {
     x@.properties[[name]]
 }
+

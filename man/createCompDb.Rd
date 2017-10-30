@@ -3,16 +3,20 @@
 \name{createCompDb}
 \alias{createCompDb}
 \alias{createCompDbPackage}
+\alias{make_metadata}
 \title{Create a CompDb database}
 \usage{
 createCompDb(x, metadata, path = ".")
 
 createCompDbPackage(x, version, maintainer, author, path = ".",
   license = "Artistic-2.0")
+
+make_metadata(source, url, source_version, source_date, organism)
 }
 \arguments{
 \item{x}{For \code{createCompDb}: \code{data.frame} or \code{tbl} with the compound
-annotations. See description for details.\preformatted{For `createCompDbPackage`: `character(1)` with the file name of the
+annotations or \code{character} with the file name(s) from which the compound
+annotations should be retrieved. See description for details.\preformatted{For `createCompDbPackage`: `character(1)` with the file name of the
 `CompDb` SQLite file (created by `createCompDb`).
 }}
 
@@ -35,6 +39,22 @@ of the package author.}
 
 \item{license}{For \code{createCompDbPackage}: \code{character(1)} with the
 license of the package respectively the originating provider.}
+
+\item{source}{For \code{make_metadata}: \code{character(1)} with the name of the
+resource that provided the compound annotation.}
+
+\item{url}{For \code{make_metadata}: \code{character(1)} with the url to the original
+resource.}
+
+\item{source_version}{For \code{make_metadata}: \code{character(1)} with the version
+of the original resource providing the annotation.}
+
+\item{source_date}{For \code{make_metadata}: \code{character(1)} with the date of the
+resource's release.}
+
+\item{organism}{For \code{make_metadata}: \code{character(1)} with the name of the
+organism. This should be in the format \code{"Hsapiens"} for human,
+\code{"Mmusculus"} for mouse etc.}
 }
 \value{
 For \code{createCompDb}: a \code{character(1)} with the database name
@@ -43,8 +63,8 @@ For \code{createCompDb}: a \code{character(1)} with the database name
 \description{
 \code{createCompDb} creates a \code{SQLite}-based \code{\link{CompDb}} object/database
 from a compound resource provided as a \code{data.frame} or \code{tbl}. Alternatively,
-the name of the file from which the annotation should be extracted can be
-provided. Supported are e.g. SDF files that can be processed using the
+the name(s) of the file(s) from which the annotation should be extracted can
+be provided. Supported are e.g. SDF files that can be processed using the
 \code{\link[=compound_tbl_sdf]{compound_tbl_sdf()}} or LipidBlast files (see \code{\link[=compound_tbl_lipidblast]{compound_tbl_lipidblast()}}.
 
 An additional \code{data.frame} providing metadata information is mandatory.
@@ -55,13 +75,16 @@ Required columns for the \code{data.frame} providing the compound information ar
 \item \code{"inchi"}: the inchi of the compound.
 \item \code{"formula"}: the chemical formula.
 \item \code{"mass"}: the compound's mass.
+\item \code{"synonyms"}: additional synonyms/aliases for the compound. Should be
+either a single character or a list of values for each compound.
 }
 
 See e.g. \code{\link[=compound_tbl_sdf]{compound_tbl_sdf()}} or \code{\link[=compound_tbl_lipidblast]{compound_tbl_lipidblast()}} for functions
 creating such compound tables.
 
 The metadata \code{data.frame} is supposed to have two columns named \code{"name"} and
-\code{"value"} providing the following minimal information as key-value pairs:
+\code{"value"} providing the following minimal information as key-value pairs
+(see \code{make_metadata} for a unitlity function to create such a `data.frame):
 \itemize{
 \item \code{"source"}: the source from which the data was retrieved (e.g. \code{"HMDB"}).
 \item \code{"url"}: the url from which the original data was retrieved.
@@ -74,6 +97,10 @@ The metadata \code{data.frame} is supposed to have two columns named \code{"name
 
 \code{createCompDbPackage} creates an R data package with the data from a
 \code{\link{CompDb}} object.
+
+\code{make_metadata} helps generating a metadata \code{data.frame} in the
+correct format expected by the \code{createCompDb} function. The function
+returns a \code{data.frame}.
 }
 \details{
 Metadata information is also used to create the file name for the database
@@ -92,12 +119,27 @@ metad <- data.frame(name = c("source", "url", "source_version",
     "source_date", "organism"), value = c("HMDB", "http://www.hmdb.ca",
     "v4", "2017-08-27", "Hsapiens"))
 
+## Alternatively use the make_metadata helper function
+metad <- make_metadata(source = "HMDB", source_version = "v4",
+    source_date = "2017-08", organism = "Hsapiens",
+    url = "http://www.hmdb.ca")
 ## Create a SQLite database in the temporary folder
 db_f <- createCompDb(cmps, metadata = metad, path = tempdir())
 
 ## The database can be loaded and accessed with a CompDb object
 db <- CompDb(db_f)
 db
+
+## Create a database for a ChEBI subset providing the file name of the
+## corresponding SDF file
+metad <- make_metadata(source = "ChEBI_sub", source_version = "2",
+    source_date = NA, organism = "Hsapiens", url = "www.ebi.ac.uk/chebi")
+db_f <- createCompDb(system.file("sdf/ChEBI_sub.sdf.gz",
+    package = "CompoundDb"), metadata = metad, path = tempdir())
+db <- CompDb(db_f)
+db
+
+compounds(db)
 
 ## connect to the database and query it's tables using RSQlite
 library(RSQLite)

@@ -133,8 +133,6 @@ test_that(".valid_metadata works", {
     expect_error(.valid_metadata(metadata[, 1, drop = FALSE]))
     expect_error(.valid_metadata(metadata[1:4, ]))
     metadata_fail <- metadata
-    metadata_fail[1, 2] <- NA
-    expect_error(.valid_metadata(metadata_fail))
 
     ## Valid one.
     expect_true(.valid_metadata(metadata))
@@ -154,7 +152,11 @@ test_that(".valid_compound works", {
     cmps <- data.frame(compound_id = c("01", "02"), compound_name = c("a", "b"),
                        inchi = c("i1", "i2"), formula = c("some", "thing"),
                        mass = c(1, 3), synonyms = c("a", "b"))
-    expect_true(.valid_compound(cmps))
+    expect_true(.valid_compound(cmps, db = FALSE))
+    expect_true(.valid_compound(cmps[, 1:5]))
+    expect_error(.valid_compound(cmps[, 1:5], db = FALSE))
+    expect_error(.valid_compound(cmps, db = TRUE))
+
     ## Errors
     expect_error(.valid_compound("b"))
     expect_true(is.character(.valid_compound("b", error = FALSE)))
@@ -183,4 +185,69 @@ test_that("createCompDb and createCompDbPackage works", {
                                    maintainer = "John Doe <john.doe@mail.com>",
                                    author = "J Doe", path = tempdir())
     expect_true(res)
+
+    ## Provide a single file name.
+    fl <- system.file("sdf/LipidMaps_sub.sdf.gz", package = "CompoundDb")
+    metad <- make_metadata(source = "LipidMaps", source_date = "2016",
+                           source_version = "xx", organism = "Hsapiens",
+                           url = NA)
+    res <- createCompDb(fl, metadata = metad, path = tempdir())
+    db <- CompDb(res)
+    md <- CompoundDb:::.metadata(db)
+    expect_true(is.na(md$value[md$name == "url"]))
+    ## Multiple files.
+    fls <- c(system.file("sdf/LipidMaps_sub.sdf.gz", package = "CompoundDb"),
+             system.file("sdf/HMDB_sub.sdf", package = "CompoundDb"),
+             system.file("sdf/ChEBI_sub.sdf.gz", package = "CompoundDb")
+             )
+    metad <- make_metadata(source = "Multiple", source_date = "2016",
+                           source_version = "xx", organism = "Hsapiens",
+                           url = NA)
+    res <- createCompDb(fls, metadata = metad, path = tempdir())
+    db <- CompDb(res)
+    expect_true(nrow(compounds(db)) == 20)
+        
+    ## Multiple files including json.
+    fls <- c(fls, system.file("json/MoNa-LipidBlast_sub.json",
+                              package = "CompoundDb"))
+    metad <- make_metadata(source = "EvenMore", source_date = "2016",
+                           source_version = "xx", organism = "Hsapiens",
+                           url = NA)
+    res <- createCompDb(fls, metadata = metad, path = tempdir())
+    db <- CompDb(res)
+    expect_true(nrow(compounds(db)) == 28)
+    
+    ## Error with one unsupported file.
+    fls <- c(fls, system.file("NEWS", package = "CompoundDb"))
+    metad <- make_metadata(source = "Fails", source_date = "2016",
+                           source_version = "xx", organism = "Hsapiens",
+                           url = NA)
+    expect_error(createCompDb(fls, metadata = metad, path = tempdir()))
+})
+
+test_that(".is_sdf_filename works", {
+    expect_true(.is_sdf_filename("somesdf.file.sdf"))
+    expect_true(.is_sdf_filename("somesdf.file.SDF"))
+    expect_true(.is_sdf_filename("somesdf.file.SDF.gz"))
+    expect_true(.is_sdf_filename("somesdf.file.SDF.GZ"))
+    expect_false(.is_sdf_filename("somesdf.file.SDF.GZIP"))
+    expect_false(.is_sdf_filename("somesdf.file.SDF.zup"))
+
+    expect_true(all(.is_sdf_filename(c("bla.sdf", "blu.sdf.gz"))))
+})
+
+test_that("make_metadata works", {
+    res <- make_metadata(source = "some", source_version = 1,
+                         source_date = "now", url = "some url",
+                         organism = "Hsapiens")
+    expect_true(is(res, "data.frame"))
+    expect_true(.valid_metadata(res))
+    expect_equal(res[, "value"], c("some", "some url", "1", "now",
+                                   "Hsapiens"))
+    ## Errors...
+    expect_error(make_metadata())
+    expect_error(make_metadata(source = "a", source_version = "2",
+                               source_date = "now", organism = "MM"))
+    expect_error(make_metadata(source = "a", source_version = "2", url = NULL,
+                               source_date = "now", organism = "MM"))
 })

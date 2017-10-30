@@ -2,3 +2,5 @@ Changes in version 0.0.2
 ------------------------
 
 - Define CompDb class and all functionality to create CompDb databases.
+- createCompDb supports file names as input and create a database including
+  annotations from all files.
