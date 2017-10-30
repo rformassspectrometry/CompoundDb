@@ -164,3 +164,51 @@ compound_tbl_sdf <- function(file, collapse) {
                        synonyms = "SYNONYMS"
                        )
 .lipidmaps_separator <- "; "
+
+#' @description Import compound information from a LipidBlast file in json
+#'     format.
+#'
+#' @note This is a modified version from Jan's generate_lipidblast_tbl that
+#'     extracts the mass also from the json and does not calculate it.
+#' 
+#' @author Jan Stanstrup and Johannes Rainer
+#'
+#' @importFrom jsonlite read_json
+#' @importFrom dplyr bind_rows
+#' 
+#' @md
+#'
+#' @noRd
+.import_lipidblast <- function(file) {
+    lipidb <- read_json(file)
+
+    parse_element <- function(x) {
+        id <- x$id
+        cmp <- x$compound[[1]]
+        ## get the name(s) -> name + aliases
+        nms <- vapply(cmp$names, `[[`, "name", FUN.VALUE = "character")
+        mass <- unlist(lapply(cmp$metaData, function(z) {
+            if (z$name == "total exact mass")
+                z$value
+        }))
+        if (is.null(mass))
+            mass <- NA_character_
+        frml <- unlist(lapply(cmp$metaData, function(z) {
+            if (z$name == "molecular formula")
+                z$value
+        }))
+        if (is.null(frml))
+            mass <- NA_character_
+        list(
+            id = x$id,
+            name = nms[1],
+            inchi = cmp$inchi,
+            formula = frml,
+            mass = mass,
+            synonyms = nms[-1]
+        )
+    }
+    
+    res <- lapply(lipidb, parse_element)
+    bind_rows(res)
+}
