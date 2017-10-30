@@ -6,13 +6,14 @@
 #' format (structure-data file). The function currently supports SDF files from:
 #' + HMDB (Human Metabolome Database): http://www.hmdb.ca
 #' + ChEBI (Chemical Entities of Biological Interest): http://ebi.ac.uk/chebi
-#' + LMSD (LIPID MAPS Structure Database).
-#' + PubChem
+#' + LMSD (LIPID MAPS Structure Database): http://www.lipidmaps.org
+#' + PubChem: https://pubchem.ncbi.nlm.nih.gov/
 #'
 #' @details
 #'
 #' Column `"compound_name"` reports for HMDB files the `"GENERIC_NAME"`, for
-#' ChEBI the `"ChEBI Name"`, for PubChem the `"PUBCHEM_IUPAC_TRADITIONAL_NAME"`, and for Lipid Maps the `"COMMON_NAME"`, if that is
+#' ChEBI the `"ChEBI Name"`, for PubChem the `"PUBCHEM_IUPAC_TRADITIONAL_NAME"`,
+#' and for Lipid Maps the `"COMMON_NAME"`, if that is
 #' not available, the first of the compounds synonyms and, if that is also not
 #' provided, the `"SYSTEMATIC_NAME"`.
 #' 
@@ -70,6 +71,58 @@ compound_tbl_sdf <- function(file, collapse) {
     res
 }
 
+#' @title Extract compound data from LipidBlast
+#'
+#' @description
+#'
+#' `compound_tbl_lipidblast` extracts basic comopund annotations from a
+#' LipidBlast file in (json format) downloaded from
+#' http://mona.fiehnlab.ucdavis.edu/downloads
+#' 
+#' @param file `character(1)` with the name of the file name.
+#'
+#' @param collapse optional `character(1)` to be used to collapse multiple
+#'     values in the columns `"synonyms"`. See examples for details.
+#' 
+#' @return A [tibble::tibble] with general compound information (one row per
+#' compound):
+#' + `compound_id`: the ID of the compound.
+#' + `compound_name`: the compound's name.
+#' + `inchi`: the inchi of the compound.
+#' + `formula`: the chemical formula.
+#' + `mass`: the compound's mass.
+#' + `synonyms`: the compound's synonyms (aliases). This type of this column is
+#'   by default a `list` to support multiple aliases per compound, unless
+#'   argument `collapse` is provided, in which case multiple synonyms are pasted
+#'   into a single element separated by the value of `collapse`.
+#'
+#' @family compound table creation functions
+#'
+#' @author Johannes Rainer and Jan Stanstrup
+#'
+#' @export
+#' 
+#' @md
+#' 
+#' @examples
+#'
+#' ## Read compound information from a subset of HMDB
+#' fl <- system.file("json/MoNa-LipidBlast_sub.json", package = "CompoundDb")
+#' cmps <- compound_tbl_lipidblast(fl)
+#' cmps
+compound_tbl_lipidblast <- function(file, collapse) {
+    if (missing(file))
+        stop("Please provide the file name using 'file'")
+    if (!file.exists(file))
+        stop("Can not fine file ", file)
+    res <- .import_lipidblast(file)
+    if (!missing(collapse)) {
+        ## collapse elements from lists.
+        res$synonyms <- vapply(res$synonyms, paste0, collapse = collapse,
+                               FUN.VALUE = "character")
+    }
+    res    
+}
 
 #' @description
 #'
@@ -218,8 +271,8 @@ compound_tbl_sdf <- function(file, collapse) {
         if (is.null(frml))
             mass <- NA_character_
         list(
-            id = x$id,
-            name = nms[1],
+            compound_id = x$id,
+            compound_name = nms[1],
             inchi = cmp$inchi,
             formula = frml,
             mass = mass,

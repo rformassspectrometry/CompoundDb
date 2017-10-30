@@ -15,12 +15,12 @@ Description: CompoundDb provides functionality to create and use (chemical)
     LipidMaps, HMDB, ChEBI.
 Depends:
     R (>= 3.4),
-    methods,
-    Biobase
+    methods
 Imports:
     ChemmineR,
     tibble,
-    jsonlite
+    jsonlite,
+    dplyr
 Suggests:
     knitr,
     testthat,
