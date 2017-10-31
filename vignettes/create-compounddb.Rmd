@@ -1,0 +1,146 @@
+---
+title: "Creating CompoundDb annotation resources"
+package: CompoundDb
+output:
+  BiocStyle::html_document:
+    toc_float: true
+vignette: >
+  %\VignetteIndexEntry{Creating CompoundDb annotation resources}
+  %\VignetteEngine{knitr::rmarkdown}
+  %%\VignetteKeywords{Mass Spectrometry, Metabolomics, Infrastructure, Bioinformatics}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r style, echo = FALSE, results = 'asis'}
+BiocStyle::markdown()
+```
+
+**Authors**: Johannes Rainer<br />
+**Modified**: `r file.info("create-compounddb.Rmd")$mtime`<br />
+**Compiled**: `r date()`
+
+# Introduction
+
+Chemical compound annotation and information can be retrieved from a variety of
+sources including [HMDB](http://www.hmdb.ca),
+[LipidMaps](http://www.lipidmaps.org) or [ChEBI](http://ebi.ac.uk/chebi). The
+`CompoundDb` package provides functionality to extract data relevant for
+(chromatographic) peak annotations in metabolomics/lipidomics experiments from
+these sources and to store it into a common format (i.e. an `CompDb`
+object/database). This vignette describes how such `CompDb` objects can be
+created exemplified with package-internal test files that represent data subsets
+from some annotation resources.
+
+The R object to represent the compound annotation is the `CompDb` object. Each
+object (respectively its database) is supposed to contain and provide
+annotations from a single source (e.g. HMDB or LipidMaps) but it is also
+possible to create cross-source databases too.
+
+# Create a `CompDb` object for HMDB
+
+The `CompDb` package provides the `compound_tbl_sdf` and the
+`compound_tbl_lipidblast` functions to extract relevant compound annotation from
+files in SDF (structure-data file) format or in the json files from LipidBlast
+(http://mona.fiehnlab.ucdavis.edu/downloads). `CompoundDb` allows to process SDF
+files from:
+
++ Human Metabolome Database (HMDB), http://www.hmdb.ca
++ Chemical Entities of Biological Interest (ChEBI): http://ebi.ac.uk/chebi
++ LIPID MAPS Structure Database (LMSD): http://www.lipidmaps.org
++ PubChem: https://pubchem.ncbi.nlm.nih.gov
+
+Below we use the `compound_tbl_sdf` to extract compound annotations from a SDF
+file representing a very small subset of the HMDB database.
+
+```{r compound_tbl, message = FALSE, warnings = FALSE}
+library(CompoundDb)
+
+## Locate the file
+hmdb_file <- system.file("sdf/HMDB_sub.sdf", package = "CompoundDb")
+## Extract the data
+cmps <- compound_tbl_sdf(hmdb_file)
+```
+
+The function returns by default a (`data.frame`-equivalent) `tibble` (from the
+*tidyverse*'s `tibble` package).
+
+```{r cmps}
+cmps
+```
+
+The `tibble` contains columns
++ `compound_id`: the resource-specific ID of the compound.
++ `compound_name`: the name of the compound, mostly a generic or common name.
++ `inchi`: the compound's inchi.
++ `formula`: the chemical formula of the compound.
++ `mass`: the compounds (monoisotopic) mass.
++ `synonyms`: a `list` of aliases/synonyms for the compound.
+
+We can pass this `tibble` along with additional required metadata information to
+the `createCompDb` function to create a SQLite-based database with the compound
+annotations. The metadata information for such a `CompDb` resource is crucial as
+it defines the origin of the annotations and its version. This information
+should thus be carefully defined by the user. Below we use the `make_metadata`
+helper function to create a `data.frame` in the expected format. The organism
+should be provided in the format e.g. `"Hsapiens"` for human or `"Mmusculus"`
+for mouse, i.e. capital first letter followed by lower case characters without
+whitespaces.
+
+```{r metadata, message = FALSE}
+metad <- make_metadata(source = "HMDB", url = "http://www.hmdb.ca",
+                       source_version = "4.0", source_date = "2017-09",
+                       organism = "Hsapiens")
+```
+
+We create now a SQLite database for the HMDB subset. With `path` we specify the
+path to the directory in which we want to save the database. This defaults to
+the current location, but for this example we save the database into a temporary
+folder.
+
+```{r createCompDb}
+db_file <- createCompDb(cmps, metadata = metad, path = tempdir())
+```
+
+To use this database we pass it to the `CompDb` function which returns a
+`CompDb` objects acting as an interface to the database.
+
+```{r CompDb}
+cmpdb <- CompDb(db_file)
+cmpdb
+```
+
+We can e.g. use the `compounds` function to extract all compounds from the
+database. With parameter `columns` we can choose the database columns to return.
+
+```{r compounds}
+compounds(cmpdb, columns = c("compound_name", "formula", "mass"))
+```
+
+For use of the created `CompDb` object/database across R sessions or to share
+the resouce, we can also create an R-package containing the annotation.  To
+enable reproducible research, each `CompDb` package should contain the version
+of the originating data source in its file name (which is by default extracted
+from the metadata of the resource). Below we create a `CompDb` package from the
+generated database file. We have to provide in addition some general information
+related to the package such as its version and its maintainer.
+
+```{r createCompoundDbPackage, warning = FALSE}
+createCompDbPackage(
+    db_file, version = "0.0.1", author = "J Rainer", path = tempdir(),
+    maintainer = "Johannes Rainer <johannes.rainer@eurac.edu>")
+```
+
+The function creates a folder (in our case in a temporary directory) that can be
+build and installed with `R CMD build` and `R CMD INSTALL`.
+
+Special care should also be put on the license of the package that can be passed
+with the `license` parameter. The license of the package and how and if the
+package can be distributed will depend also on the license of the originating
+resource.
+
+# Session information
+
+```{r sessioninfo, echo=FALSE}
+sessionInfo()
+```
+
