@@ -107,6 +107,11 @@ Metadata information is also used to create the file name for the database
 file. The name starts with \code{"CompDb"}, followed by the organism, the
 data source and its version. A compound database file for HMDB version 4
 with human metabolites will thus be named: \code{"CompDb.Hsapiens.HMDB.v4"}.
+
+A single \code{CompDb} database is created from multiple SDF files (e.g. for
+\emph{PubChem}) if all the file names are provided with parameter \code{x}. Parallel
+processing is currently not enabled because SQLite does not support it yet
+natively.
 }
 \examples{
 

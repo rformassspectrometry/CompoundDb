@@ -331,6 +331,11 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' file. The name starts with `"CompDb"`, followed by the organism, the
 #' data source and its version. A compound database file for HMDB version 4
 #' with human metabolites will thus be named: `"CompDb.Hsapiens.HMDB.v4"`.
+#'
+#' A single `CompDb` database is created from multiple SDF files (e.g. for
+#' *PubChem*) if all the file names are provided with parameter `x`. Parallel
+#' processing is currently not enabled because SQLite does not support it yet
+#' natively.
 #' 
 #' @param x For `createCompDb`: `data.frame` or `tbl` with the compound
 #'     annotations or `character` with the file name(s) from which the compound
