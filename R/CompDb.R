@@ -4,8 +4,7 @@
 #'
 #' @title Simple compound (metabolite) databases
 #'
-#' @aliases CompDb-class show,CompDb-method dbconn,CompDb-method
-#'     show dbconn
+#' @aliases CompDb-class show dbconn,CompDb-method show,CompDb-method
 #' 
 #' @description
 #'

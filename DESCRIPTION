@@ -25,8 +25,7 @@ Imports:
     dbplyr,
     RSQLite,
     Biobase,
-    BiocGenerics,
-    BiocParallel
+    BiocGenerics
 Suggests:
     knitr,
     testthat,

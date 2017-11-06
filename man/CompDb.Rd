@@ -4,10 +4,9 @@
 \name{CompDb}
 \alias{CompDb}
 \alias{CompDb-class}
-\alias{show,CompDb-method}
-\alias{dbconn,CompDb-method}
 \alias{show}
-\alias{dbconn}
+\alias{dbconn,CompDb-method}
+\alias{show,CompDb-method}
 \alias{CompDb}
 \alias{compounds}
 \alias{src_compdb}
