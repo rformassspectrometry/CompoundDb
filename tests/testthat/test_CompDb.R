@@ -1,5 +1,6 @@
 test_that("CompDb constructor and low level functions", {
     expect_error(CompDb())
+    expect_error(CompDb(3))
     cmp <- new("CompDb")
     expect_true(is.null(.dbconn(cmp)))
     expect_true(is.null(dbconn(cmp)))
@@ -35,6 +36,8 @@ test_that("CompDb constructor and low level functions", {
     expect_equal(names(tbls), c("compound", "metadata", "synonym"))
     tbls <- .tables(cmp, name = "not_there")
     expect_equal(length(tbls), 1)
+    tbls <- tables(cmp)
+    expect_equal(length(tbls), 2)
     
     ## .get_property
     prps <- .get_property(cmp, "tables")

@@ -118,6 +118,8 @@ test_that("compound_tbl_lipidblast works", {
                                    "formula", "mass", "synonyms"))
     expect_true(nrow(cmps) == 8)
     expect_true(is(cmps$synonyms, "character"))
+    cmps <- compound_tbl_lipidblast(lb, collapse = ";")
+    expect_true(is.character(cmps$synonyms))
 })
 
 test_that(".valid_metadata works", {
