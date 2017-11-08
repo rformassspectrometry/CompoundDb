@@ -1,0 +1,105 @@
+test_that("CompoundIdFilter, .field, .sql_condition, sql_value work", {
+    fl <- CompoundIdFilter("samid")
+    expect_true(is(fl, "CompoundIdFilter"))
+    expect_true(is(fl, "CharacterFilter"))
+    expect_true(is(fl, "AnnotationFilter"))
+
+    expect_error(CompoundIdFilter())
+
+    expect_equal(.field(fl), "compound_id")
+    expect_equal(.sql_condition(fl), "=")
+    expect_equal(.sql_value(fl), "'samid'")
+})
+
+test_that("CompoundNameFilter works", {
+    fl <- CompoundNameFilter("a")
+    expect_true(is(fl, "CompoundNameFilter"))
+    expect_true(is(fl, "CharacterFilter"))
+    expect_true(is(fl, "AnnotationFilter"))
+
+    expect_error(CompoundNameFilter())
+
+    expect_equal(.field(fl), "compound_name")
+    expect_equal(.sql_condition(fl), "=")
+    expect_equal(.sql_value(fl), "'a'")
+})
+
+test_that(".field works", {
+    library(AnnotationFilter)
+    gif <- GeneIdFilter("a")
+    sf <- SymbolFilter("b")
+    tif <- TxIdFilter("c")
+    expect_equal(.field(gif), "gene_id")
+    expect_equal(.field(AnnotationFilterList(gif)), "gene_id")
+    expect_equal(.field(AnnotationFilterList(gif, tif)), c("gene_id", "tx_id"))
+    expect_equal(.field(
+        AnnotationFilterList(gif, AnnotationFilterList(tif, sf))),
+        c("gene_id", "tx_id", "symbol"))
+})
+
+test_that(".process_filter works", {
+    library(AnnotationFilter)
+    gif <- GeneIdFilter("a")
+    fl <- CompoundIdFilter("d")
+    
+    expect_error(.process_filter("3"))
+    expect_error(.process_filter(gif))
+    expect_error(.process_filter(AnnotationFilterList(gif, fl)))
+
+    expect_equal(.process_filter(fl), AnnotationFilterList(fl))
+    expect_equal(.process_filter(~compound_id == "d"), AnnotationFilterList(fl))
+})
+
+test_that(".sql_condition works", {
+    fl <- CompoundIdFilter("a")
+    expect_equal(.sql_condition(fl), "=")
+    fl <- CompoundIdFilter("a", "!=")
+    expect_equal(.sql_condition(fl), "!=")
+    fl <- CompoundIdFilter(c("a", "b"), "!=")
+    expect_equal(.sql_condition(fl), "not in")
+    fl <- CompoundIdFilter(c("a", "b"), "==")
+    expect_equal(.sql_condition(fl), "in")
+    fl <- CompoundIdFilter("a", "startsWith")
+    expect_equal(.sql_condition(fl), "like")
+})
+
+test_that(".sql_value works", {
+    fl <- CompoundIdFilter("a")
+    expect_equal(.sql_value(fl), "'a'")
+    fl <- CompoundIdFilter(c("a", "b"))
+    expect_equal(.sql_value(fl), "('a','b')")
+    fl <- CompoundIdFilter("a", condition = "startsWith")
+    expect_equal(.sql_value(fl), "'a%'")
+    fl <- CompoundIdFilter("a", condition = "endsWith")
+    expect_equal(.sql_value(fl), "'%a'")
+    fl <- CompoundIdFilter("a", condition = "contains")
+    expect_equal(.sql_value(fl), "'%a%'")
+})
+
+test_that(".sql_logicOp works", {
+    afl <- AnnotationFilter(~ compound_id == "a" & compound_name == "2323434")
+    expect_equal(.sql_logicOp(afl), "and")
+    afl <- AnnotationFilter(~ compound_id == "a" | compound_name == "2323434")
+    expect_equal(.sql_logicOp(afl), "or")
+    afl <- AnnotationFilter(~ compound_id == "a" & compound_name == "2323434" |
+                            gene_id == "123")
+    expect_equal(.sql_logicOp(afl), c("and", "or"))
+})
+
+test_that(".where_filter works", {
+    fl <- CompoundIdFilter("5")
+    afl <- AnnotationFilter(~ compound_id == "a" & compound_name == "1")
+    expect_equal(.where_filter(fl), "compound_id = '5'")
+    expect_equal(.where_filter(afl),
+                 "(compound_id = 'a' and compound_name = '1')")
+    afl_2 <- AnnotationFilterList(fl, afl, logicOp = "|")
+    expect_equal(.where_filter(afl_2),
+                 paste0("(compound_id = '5' or (compound_id =",
+                        " 'a' and compound_name = '1'))"))
+    afl_2 <- AnnotationFilterList(afl_2, afl, logicOp = "&")
+    expect_equal(.where_filter(afl_2),
+                 paste0("((compound_id = '5' or (compound_id",
+                        " = 'a' and compound_name = '1')",
+                        ") and (compound_id = 'a' and ",
+                        "compound_name = '1'))"))
+})

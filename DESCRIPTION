@@ -15,7 +15,8 @@ Description: CompoundDb provides functionality to create and use (chemical)
     LipidMaps, HMDB, ChEBI.
 Depends:
     R (>= 3.4),
-    methods
+    methods,
+    AnnotationFilter
 Imports:
     ChemmineR,
     tibble,
@@ -36,6 +37,7 @@ biocViews: MassSpectrometry, Metabolomics
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
 Collate: 
+    'AnnotationFilters.R'
     'createCompDbPackage.R'
     'CompDb.R'
     'CompDb-methods.R'

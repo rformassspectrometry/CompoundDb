@@ -18,23 +18,28 @@
 #' @md
 #'
 #' @noRd
-.build_query_CompDb <- function(x, columns, filter) {
+.build_query_CompDb <- function(x, columns, filter, order) {
     if (missing(x))
         stop("'x' is required")
     if (missing(columns))
         stop("'columns' is required")
-    if (!missing(filter))
-        stop("Not implemented yet")
     tbls <- .tables(x)
     col_ok <- columns %in% unique(unlist(tbls, use.names = FALSE))
     if (!all(col_ok))
         stop("Columns ", paste0(columns[!col_ok], collapse = ", "),
              " are not present in the database. Use 'tables' to list ",
              "all tables and their columns.")
+    ## Depending on 'filter' we might have to add some more tables/columns!
+    if (!missing(filter)) {
+        filter <- .process_filter(filter)
+        columns_flts <- .field(filter)
+        columns <- unique(c(columns, columns_flts))
+    }
+    ## By default we will return also the filter columns!
     columns_tbl <- .reduce_tables(tbls, columns)
     paste0(.select(unlist(.prefix_columns(columns_tbl), use.names = FALSE)),
            .from(names(columns_tbl)),
-           .where(filter))
+           .where(filter), .order(order))
 }
 
 #' @description
@@ -46,10 +51,13 @@
 #' @md
 #'
 #' @noRd
-.select <- function(columns) {
+.select <- function(columns, distinct = TRUE) {
     if (missing(columns))
         stop("No columns provided")
-    paste0("select ", paste0(columns, collapse = ","))
+    if (distinct)
+        dst <- "distinct "
+    else dst <- ""
+    paste0("select ", dst, paste0(columns, collapse = ","))
 }
 
 #' @description
@@ -81,6 +89,7 @@
                                         "synonym.compound_id)"),
           "left outer join")
     )
+    x <- .add_join_tables(x)
     q <- x[1]
     tbls_used <- x[1]
     tbls <- x[-1]
@@ -100,6 +109,28 @@
     q
 }
 
+#' @description Helper function to add additional tables required to join the
+#'     provided tables.
+#'
+#' @note This function uses some hard-coded logic based on the database layout
+#'     to define if, and which, tables are needed for a join.
+#' 
+#' @param x `character` with the names of the tables to be joined.
+#'
+#' @return `character` with all tables needed to join the tables in `x`
+#'     (contain `x` plus eventually required additional tables).
+#'
+#' @md
+#'
+#' @author Johannes Rainer
+#' 
+#' @noRd
+.add_join_tables <- function(x) {
+    ## So far we don't have to add anything here.
+    unique(x)
+}
+
+
 #' @description
 #'
 #' Create the *where* condition for the SQL query based on the provided filter.
@@ -110,10 +141,24 @@
 #'
 #' @noRd
 .where <- function(filter) {
-    if (!missing(filter)) {
-        stop("Filtering is not yet implemented")
-    }
-    NULL
+    if (!missing(filter))
+        paste0(" where ", .where_filter(filter))
+    else NULL
+}
+
+#' @description
+#'
+#' Add a order statement. Thus far we are not testing/checking for correctness.
+#'
+#' @author Johannes Rainer
+#'
+#' @md
+#'
+#' @noRd
+.order <- function(order) {
+    if (!missing(order))
+        paste0(" order by ", order)
+    else NULL
 }
 
 #' @description

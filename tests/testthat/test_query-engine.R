@@ -29,6 +29,21 @@ test_that(".prefix_columns works", {
                            b = c("b.d", "b.e")))
 })
 
+test_that(".add_join_tables works", {
+    expect_equal(.add_join_tables(c("a", "b")), c("a", "b"))
+})
+
+test_that(".where works", {
+    expect_equal(.where(), NULL)
+    expect_error(.where("something"))
+    expect_equal(.where(CompoundIdFilter("a")), " where compound_id = 'a'")
+})
+
+test_that(".order works", {
+    expect_equal(.order(), NULL)
+    expect_equal(.order("a"), " order by a")
+})
+
 test_that(".from works", {
     expect_equal(.from("compound"), " from compound")
     expect_error(.from(c("a", "b")))
@@ -46,16 +61,37 @@ test_that(".where works", {
 })
 
 test_that(".select works", {
-    expect_equal(.select(c("a", "b")), "select a,b")
+    expect_equal(.select(c("a", "b"), distinct = FALSE), "select a,b")
+    expect_equal(.select(c("a", "b")), "select distinct a,b")
     expect_error(.select())
 })
 
 test_that(".build_query_CompDb works", {
     res <- .build_query_CompDb(
         cmp_db, columns = c("compound_id", "inchi"))
-    expect_equal(res, "select compound.compound_id,compound.inchi from compound")
+    expect_equal(res, paste0("select distinct compound.compound_id,compound.",
+                             "inchi from compound"))
     expect_error(.build_query_CompDb(
         cmp_db, columns = c("od", "inchi")))
+    res <- .build_query_CompDb(
+        cmp_db, columns = c("compound_id", "inchi"), order = "something")
+    expect_equal(res, paste0("select distinct compound.compound_id,compound.",
+                             "inchi from compound order by something"))
+    res <- .build_query_CompDb(
+        cmp_db, columns = c("compound_id", "inchi"),
+        filter = ~ compound_id == "a")
+    expect_equal(res, paste0("select distinct compound.compound_id,compound.",
+                             "inchi from compound where compound_id = 'a'"))
+    res <- .build_query_CompDb(
+        cmp_db, columns = c("compound_id", "inchi"),
+        filter = ~ compound_id == "a" | compound_name != "b")
+    expect_equal(res, paste0("select distinct compound.compound_id,compound.",
+                             "inchi,compound.compound_name from compound ",
+                             "where (compound_id = 'a' or compound_name ",
+                             "!= 'b')"))
+    expect_error(.build_query_CompDb(
+        cmp_db, columns = c("compound_id", "inchi"),
+        filter = ~ compound_id == "a" | gene_id != "b"))
 })
 
 test_that(".join_tables works", {

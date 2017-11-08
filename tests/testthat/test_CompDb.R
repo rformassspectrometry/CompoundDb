@@ -52,6 +52,9 @@ test_that("compounds works", {
     expect_equal(colnames(cmps_tbl), c("compound_id", "compound_name"))
 
     expect_error(compounds(cmp_db, filter = "something"))
+
+    expect_true(
+        nrow(compounds(cmp_db, filter = ~ compound_id == "HMDB0000005")) == 1)
 })
 
 test_that("src_compound works", {
