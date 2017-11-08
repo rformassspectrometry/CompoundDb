@@ -611,7 +611,7 @@ createCompDbPackage <- function(x, version, maintainer, author,
     sqlite_path <- file.path(path, pkg_name, "inst", "extdata")
     dir.create(sqlite_path, showWarnings = FALSE, recursive = TRUE)
     file.copy(x, to = file.path(sqlite_path, paste0(pkg_name, ".sqlite")))
-    invisible(TRUE)
+    invisible(file.path(path, pkg_name))
 }
 
 #' @description Simple test function to evaluate whether a file is an SDF file

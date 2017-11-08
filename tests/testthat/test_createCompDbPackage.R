@@ -183,8 +183,9 @@ test_that("createCompDb and createCompDbPackage works", {
     ## createCompDbPackage:
     res <- createCompDbPackage(db_f, version = "0.0.1",
                                    maintainer = "John Doe <john.doe@mail.com>",
-                                   author = "J Doe", path = tempdir())
-    expect_true(res)
+                               author = "J Doe", path = tempdir())
+    expect_true(is.character(res))
+    expect_equal(basename(res), "CompDb.Hsapiens.ChEBI.unknown")
 
     ## Provide a single file name.
     fl <- system.file("sdf/LipidMaps_sub.sdf.gz", package = "CompoundDb")
