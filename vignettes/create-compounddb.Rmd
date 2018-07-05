@@ -44,10 +44,10 @@ files in SDF (structure-data file) format or in the json files from LipidBlast
 (http://mona.fiehnlab.ucdavis.edu/downloads). `CompoundDb` allows to process SDF
 files from:
 
-+ Human Metabolome Database (HMDB), http://www.hmdb.ca
-+ Chemical Entities of Biological Interest (ChEBI): http://ebi.ac.uk/chebi
-+ LIPID MAPS Structure Database (LMSD): http://www.lipidmaps.org
-+ PubChem: https://pubchem.ncbi.nlm.nih.gov
+- Human Metabolome Database (HMDB), http://www.hmdb.ca
+- Chemical Entities of Biological Interest (ChEBI): http://ebi.ac.uk/chebi
+- LIPID MAPS Structure Database (LMSD): http://www.lipidmaps.org
+- PubChem: https://pubchem.ncbi.nlm.nih.gov
 
 Below we use the `compound_tbl_sdf` to extract compound annotations from a SDF
 file representing a very small subset of the HMDB database.
@@ -69,12 +69,13 @@ cmps
 ```
 
 The `tibble` contains columns
-+ `compound_id`: the resource-specific ID of the compound.
-+ `compound_name`: the name of the compound, mostly a generic or common name.
-+ `inchi`: the compound's inchi.
-+ `formula`: the chemical formula of the compound.
-+ `mass`: the compounds (monoisotopic) mass.
-+ `synonyms`: a `list` of aliases/synonyms for the compound.
+
+- `compound_id`: the resource-specific ID of the compound.
+- `compound_name`: the name of the compound, mostly a generic or common name.
+- `inchi`: the compound's inchi.
+- `formula`: the chemical formula of the compound.
+- `mass`: the compounds (monoisotopic) mass.
+- `synonyms`: a `list` of aliases/synonyms for the compound.
 
 We can pass this `tibble` along with additional required metadata information to
 the `createCompDb` function to create a SQLite-based database with the compound

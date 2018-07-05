@@ -1,7 +1,7 @@
 Package: CompoundDb
 Type: Package
 Title: Creating and using (chemical) compound annotation databases
-Version: 0.0.3
+Version: 0.1.0
 Authors@R: c(person(given = "Jan", family = "Stanstrup",
                     email = "stanstrup@gmail.com",
 		    role = c("aut")),
@@ -26,7 +26,9 @@ Imports:
     dbplyr,
     RSQLite,
     Biobase,
-    BiocGenerics
+    BiocGenerics,
+    xml2,
+    MSnbase
 Suggests:
     knitr,
     testthat,
@@ -41,4 +43,6 @@ Collate:
     'createCompDbPackage.R'
     'CompDb.R'
     'CompDb-methods.R'
+    'functions-Spectrum.R'
     'query-engine.R'
+    'spectrum-import-functions.R'
