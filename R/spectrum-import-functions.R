@@ -7,6 +7,9 @@
 #'
 #' @param x `character(1)` with the file path/name of the xml file.
 #'
+#' @param nonStop `logical(1)` whether content-related errors should be
+#'     reported as a `warning`.
+#' 
 #' @return `data.frame`
 #'
 #' @author Johannes Rainer
@@ -30,26 +33,38 @@
 #' @noRd
 #'
 #' @importFrom xml2 read_xml xml_text xml_find_first xml_find_all xml_double
-.import_hmdb_ms_ms_spectrum <- function(x) {
-    x <- read_xml(x)
-    id <- xml_text(xml_find_first(x, "id"))
-    cmp_id <- xml_text(xml_find_first(x, "database-id"))
-    if (id == "" || cmp_id == "")
-        stop("Could not extract the HMDB ID from ", basename(x),
-             "! Is the file a spectrum xml file from HMDB?")
-    plrty <- xml_text(xml_find_first(x, "ionization-mode"))
+.import_hmdb_ms_ms_spectrum <- function(x, nonStop = FALSE) {
+    x_ml <- read_xml(x)
+    id <- xml_text(xml_find_first(x_ml, "id"))
+    cmp_id <- xml_text(xml_find_first(x_ml, "database-id"))
+    if (id == "" || cmp_id == "") {
+        msg <- paste0("Could not extract the HMDB ID from ", basename(x),
+                      "! Is the file a spectrum xml file from HMDB?")
+        if (nonStop) {
+            warning(msg)
+            return(data.frame())
+        } else stop(msg)
+    }
+    plrty <- xml_text(xml_find_first(x_ml, "ionization-mode"))
     ## 0: negative, +1: positive, NA: not set.
     if (plrty == "")
         plrty <- NA_integer_
     else plrty <- ifelse(plrty == "Positive", yes = 1L, no = 1L)
-    cev <- xml_double(xml_find_first(x, "collision-energy-voltage"))
-    prd <- xml_text(xml_find_first(x, "predicted"))
+    cev <- xml_double(xml_find_first(x_ml, "collision-energy-voltage"))
+    prd <- xml_text(xml_find_first(x_ml, "predicted"))
     if (prd == "")
         prd <- NA
     else prd <- ifelse(prd == "false", yes = FALSE, no = TRUE)
-    splsh <- xml_text(xml_find_first(x, "splash-key"))
-    mz <- xml_double(xml_find_all(x, "ms-ms-peaks/ms-ms-peak/mass-charge"))
-    int <- xml_double(xml_find_all(x, "ms-ms-peaks/ms-ms-peak/intensity"))
+    splsh <- xml_text(xml_find_first(x_ml, "splash-key"))
+    mz <- xml_double(xml_find_all(x_ml, "ms-ms-peaks/ms-ms-peak/mass-charge"))
+    int <- xml_double(xml_find_all(x_ml, "ms-ms-peaks/ms-ms-peak/intensity"))
+    if (!length(mz) | !length(int) | length(mz) != length(int)) {
+        msg <- paste0("No mz and intensity values found in file ", basename(x))
+        if (nonStop) {
+            warning(msg)
+            return(data.frame())
+        } else stop(msg)
+    }
     ## Return result.
     data.frame(spectrum_id = id,
                compound_id = cmp_id,
@@ -75,7 +90,8 @@
 #' @return `data.frame` with as many rows as there are peaks and columns:
 #' 
 #' - spectrum_id (`character`): the HMDB-internal ID of the spectrum.
-#' - compound_id (`character`): the HMDB ID the spectrum is associated with.
+#' - compound_id (`character`): the HMDB compound ID the spectrum is associated
+#'   with.
 #' - polarity (`integer`): 0 for negative, 1 for positive, `NA` for not set.
 #' - collision_energy (`numeric`): collision energy voltage.
 #' - predicted (`logical`): whether the spectrum is predicted or experimentally
@@ -91,6 +107,9 @@
 #'
 #' @export
 #'
+#' @seealso [Spectrum2List()] for converting the returned `data.frame` into
+#'     a [Spectrum2List] object (list of [Spectrum2] objects with annotations).
+#' 
 #' @references
 #'
 #' Wohlgemuth G, Mehta SS, Mejia RF, Neumann S, Pedrosa D, Pluskal T,
@@ -118,7 +137,7 @@ msms_spectra_hmdb <- function(x) {
     ## for (i in 15383:length(fls)) {
     ##     tmp <- CompoundDb:::.import_hmdb_ms_ms_spectrum(fls[i])
     ## }
-    do.call(rbind, lapply(fls, .import_hmdb_ms_ms_spectrum))
+    do.call(rbind, lapply(fls, .import_hmdb_ms_ms_spectrum, nonStop = TRUE))
 }
 
 ## Function to import spectrum data from MoNa etc.

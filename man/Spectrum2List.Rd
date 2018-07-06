@@ -11,7 +11,7 @@ Spectrum2List(...)
 }
 \arguments{
 \item{...}{\link{Spectrum2} object(s), a \code{list} of \link{Spectrum2} objects or a
-\code{data.frame}. See descritpion for details.}
+\code{data.frame}. See below for details.}
 }
 \description{
 \code{Spectrum2List} objects allow to collect one or more \link{Spectrum2} object(s)
@@ -74,9 +74,11 @@ mcols(spl)
 }
 \seealso{
 \link{Spectrum2} in the \code{MSnbase} package.
+
+\code{\link[=msms_spectra_hmdb]{msms_spectra_hmdb()}} for a function to import a \code{data.frame} from files
+containing spectrum MS/MS information from HMDB (http://www.hmdb.ca) in
+xml format.
 }
 \author{
-Johannes Rainer
-
 Johannes Rainer
 }

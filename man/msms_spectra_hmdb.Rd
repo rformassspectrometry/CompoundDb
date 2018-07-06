@@ -13,7 +13,8 @@ msms_spectra_hmdb(x)
 \code{data.frame} with as many rows as there are peaks and columns:
 \itemize{
 \item spectrum_id (\code{character}): the HMDB-internal ID of the spectrum.
-\item compound_id (\code{character}): the HMDB ID the spectrum is associated with.
+\item compound_id (\code{character}): the HMDB compound ID the spectrum is associated
+with.
 \item polarity (\code{integer}): 0 for negative, 1 for positive, \code{NA} for not set.
 \item collision_energy (\code{numeric}): collision energy voltage.
 \item predicted (\code{logical}): whether the spectrum is predicted or experimentally
@@ -46,6 +47,10 @@ Schymanski EL, Willighagen EL, Wilson M, Wishart DS, Arita M,
 Dorrestein PC, Bandeira N, Wang M, Schulze T, Selak RM, Steinbeck C,
 Nainala VC, Mistrik R, Nishioka T, Fiehn O. SPLASH, A hashed identifier for
 mass spectra. Nature Biotechnology 2016 34(11):1099-1101
+}
+\seealso{
+\code{\link[=Spectrum2List]{Spectrum2List()}} for converting the returned \code{data.frame} into
+a \link{Spectrum2List} object (list of \link{Spectrum2} objects with annotations).
 }
 \author{
 Johannes Rainer

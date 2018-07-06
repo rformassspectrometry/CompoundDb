@@ -12,11 +12,15 @@
 #' annotations to each individual [Spectrum2] object. These can be accessed/set
 #' with the [mcols] method.
 #'
-#' @author Johannes Rainer
-#'
 #' @md
 #'
-#' @seealso [Spectrum2] in the `MSnbase` package.
+#' @seealso
+#'
+#' [Spectrum2] in the `MSnbase` package.
+#'
+#' [msms_spectra_hmdb()] for a function to import a `data.frame` from files
+#' containing spectrum MS/MS information from HMDB (http://www.hmdb.ca) in
+#' xml format.
 #'
 #' @rdname Spectrum2List
 NULL
@@ -124,7 +128,7 @@ setMethod("show", "Spectrum2List", function(object) {
 #' Any additional columns are added to the object's metadata columns `mcols`.
 #'
 #' @param ... [Spectrum2] object(s), a `list` of [Spectrum2] objects or a
-#'     `data.frame`. See descritpion for details.
+#'     `data.frame`. See below for details.
 #'
 #' @author Johannes Rainer
 #'
