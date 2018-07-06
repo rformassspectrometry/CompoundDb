@@ -16,7 +16,9 @@ Description: CompoundDb provides functionality to create and use (chemical)
 Depends:
     R (>= 3.4),
     methods,
-    AnnotationFilter
+    AnnotationFilter,
+    S4Vectors,
+    MSnbase
 Imports:
     ChemmineR,
     tibble,
@@ -27,8 +29,7 @@ Imports:
     RSQLite,
     Biobase,
     BiocGenerics,
-    xml2,
-    MSnbase
+    xml2
 Suggests:
     knitr,
     testthat,
@@ -43,6 +44,7 @@ Collate:
     'createCompDbPackage.R'
     'CompDb.R'
     'CompDb-methods.R'
+    'Spectrum2List.R'
     'functions-Spectrum.R'
     'query-engine.R'
     'spectrum-import-functions.R'

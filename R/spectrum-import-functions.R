@@ -114,6 +114,10 @@ msms_spectra_hmdb <- function(x) {
     if (!length(fls))
         stop("Unable to find any MS/MS spectrum xml files from HMDB in ",
              "folder ", x)
+    message("Going to process ", length(fls), " xml files.")
+    ## for (i in 15383:length(fls)) {
+    ##     tmp <- CompoundDb:::.import_hmdb_ms_ms_spectrum(fls[i])
+    ## }
     do.call(rbind, lapply(fls, .import_hmdb_ms_ms_spectrum))
 }
 
