@@ -12,6 +12,12 @@
 #' annotations to each individual [Spectrum2] object. These can be accessed/set
 #' with the [mcols] method.
 #'
+#' @details
+#'
+#' `Spectrum2List` inherits all methods from the [SimpleList] class of the
+#' `S4Vectors` package. This includes `lapply` and other data manipulation
+#' and subsetting operations.
+#' 
 #' @md
 #'
 #' @seealso
@@ -63,7 +69,7 @@ setValidity("Spectrum2List", function(object) {
     print(out, quote = FALSE, right = TRUE, max = length(out))
 }
 
-#' @importMethodsFrom S4Vectors showAsCell
+#' @importMethodsFrom S4Vectors showAsCell mcols<-
 #'
 #' @importMethodsFrom MSnbase msLevel rtime precursorMz peaksCount
 .make_naked_matrix_from_Spectrum2List <- function(x) {
@@ -88,13 +94,6 @@ setValidity("Spectrum2List", function(object) {
     }
     res
 }
-
-#' @importFrom methods show
-#'
-#' @export
-setMethod("show", "Spectrum2List", function(object) {
-    .show_Spectrum2List(object, margin = "  ", print.classinfo = TRUE)
-})
 
 #' @rdname Spectrum2List
 #'

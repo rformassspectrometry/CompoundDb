@@ -45,6 +45,6 @@ Collate:
     'CompDb.R'
     'CompDb-methods.R'
     'Spectrum2List.R'
-    'functions-Spectrum.R'
+    'Spectrum2List-methods.R'
     'query-engine.R'
     'spectrum-import-functions.R'
