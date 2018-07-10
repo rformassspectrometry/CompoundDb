@@ -1,7 +1,4 @@
 test_that("Spectrum2List construction works as expected", {
-    library(CompoundDb)
-    library(testthat)
-
     sp1 <- new("Spectrum2", mz = c(1, 2, 4), intensity = c(4, 5, 2))
     sp2 <- new("Spectrum2", mz = c(1, 2, 3, 4), intensity = c(5, 3, 2, 5))
 

@@ -10,7 +10,7 @@ db_file <- createCompDb(cmps, metadata = metad, path = tempdir())
 cmp_db <- CompDb(db_file)
 
 dr <- system.file("xml/", package = "CompoundDb")
-expect_warning(spl_ <- Spectrum2List(msms_spectra_hmdb(dr)))
+spl_ <- Spectrum2List(msms_spectra_hmdb(dr))
 
 
 test_check("CompoundDb")
