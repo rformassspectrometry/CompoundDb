@@ -25,6 +25,8 @@
 #' - predicted (`logical`): whether the spectrum is predicted or experimentally
 #'   verified.
 #' - splash (`character`): the SPLASH key of the spectrum.
+#' - instrument_type (`character`): the type of instrument on which the
+#'   spectrum was measured.
 #' - mz (`numeric`): m/z values of the spectrum.
 #' - intensity (`numeric`): intensity of the spectrum.
 #' 
@@ -56,6 +58,9 @@
         prd <- NA
     else prd <- ifelse(prd == "false", yes = FALSE, no = TRUE)
     splsh <- xml_text(xml_find_first(x_ml, "splash-key"))
+    itype <- xml_text(xml_find_first(x_ml, "instrument-type"))
+    if (itype == "")
+        itype <- NA_character_
     mz <- xml_double(xml_find_all(x_ml, "ms-ms-peaks/ms-ms-peak/mass-charge"))
     int <- xml_double(xml_find_all(x_ml, "ms-ms-peaks/ms-ms-peak/intensity"))
     if (!length(mz) | !length(int) | length(mz) != length(int)) {
@@ -72,6 +77,7 @@
                collision_energy = cev,
                predicted = prd,
                splash = splsh,
+               instrument_type = itype,
                mz = mz,
                intensity = int,
                stringsAsFactors = FALSE)
@@ -98,6 +104,8 @@
 #'   verified.
 #' - splash (`character`): the SPLASH (SPectraL hASH) key of the spectrum
 #'   (Wohlgemuth 2016).
+#' - instrument_type (`character`): the type of MS instrument on which the
+#'   spectrum was measured.
 #' - mz (`numeric`): m/z values of the spectrum.
 #' - intensity (`numeric`): intensity of the spectrum.
 #'

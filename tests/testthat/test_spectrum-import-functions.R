@@ -11,7 +11,7 @@ test_that(".import_hmdb_ms_ms_spectrum works", {
     res <- CompoundDb:::.import_hmdb_ms_ms_spectrum(fl)
     expect_equal(colnames(res), c("spectrum_id", "compound_id", "polarity",
                                   "collision_energy", "predicted", "splash",
-                                  "mz", "intensity"))
+                                  "instrument_type", "mz", "intensity"))
     expect_equal(nrow(res), 7)
 
     expect_equal(res$compound_id[1], xml_text(xml_find_first(x, "database-id")))
@@ -30,7 +30,7 @@ test_that("msms_spectra_hmdb works", {
     expect_true(length(unique(res$spectrum_id)) == 4)
     expect_equal(colnames(res), c("spectrum_id", "compound_id", "polarity",
                                   "collision_energy", "predicted", "splash",
-                                  "mz", "intensity"))
+                                  "instrument_type", "mz", "intensity"))
 
     ## Construct the Spectrum2List of these
     spl <- Spectrum2List(res)

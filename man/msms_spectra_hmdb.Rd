@@ -21,6 +21,8 @@ with.
 verified.
 \item splash (\code{character}): the SPLASH (SPectraL hASH) key of the spectrum
 (Wohlgemuth 2016).
+\item instrument_type (\code{character}): the type of MS instrument on which the
+spectrum was measured.
 \item mz (\code{numeric}): m/z values of the spectrum.
 \item intensity (\code{numeric}): intensity of the spectrum.
 }
