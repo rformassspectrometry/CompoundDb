@@ -85,7 +85,7 @@ compound_tbl_sdf <- function(file, collapse) {
 #' `compound_tbl_lipidblast` extracts basic comopund annotations from a
 #' LipidBlast file in (json format) downloaded from
 #' http://mona.fiehnlab.ucdavis.edu/downloads
-#' 
+#'
 #' @param file `character(1)` with the name of the file name.
 #'
 #' @param collapse optional `character(1)` to be used to collapse multiple
@@ -347,6 +347,10 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' @param metadata For `createCompDb`: `data.frame` with metadata
 #'     information. See description for details.
 #'
+#' @param msms_spectra For `createCompDb`: `data.frame` with MS/MS spectrum
+#'     data. See [msms_spectra_hmdb()] for the expected format and a function
+#'     to import such data from spectrum xml files from HMDB.
+#' 
 #' @param path `character(1)` with the path to the directory where the database
 #'     file or package folder should be written. Defaults to the current
 #'     directory.
@@ -362,11 +366,17 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #'
 #' @author Johannes Rainer
 #'
-#' @seealso [compound_tbl_sdf()] and [compound_tbl_lipidblast()] for functions
-#'     to extract compound annotations from files in SDF format, or files from
-#'     LipidBlast.
-#'     [CompDb()] for how to use a compound database.
+#' @seealso
+#'
+#' [compound_tbl_sdf()] and [compound_tbl_lipidblast()] for functions
+#' to extract compound annotations from files in SDF format, or files from
+#' LipidBlast.
+#'
+#' [msms_spectra_hmdb()] for a function to import MS/MS spectrum data from
+#' respective xml files from HMDB.
 #' 
+#' [CompDb()] for how to use a compound database.
+#'
 #' @md
 #'
 #' @examples
@@ -391,6 +401,27 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' db <- CompDb(db_f)
 #' db
 #'
+#' ## Create a database for HMDB that includes also MS/MS spectrum data
+#' metad2 <- make_metadata(source = "HMDB_with_spectra", source_version = "v4",
+#'     source_date = "2017-08", organism = "Hsapiens",
+#'     url = "http://www.hmdb.ca")
+#'
+#' ## Import spectrum information from selected MS/MS xml files from HMDB
+#' ## that are provided in the package
+#' xml_path <- system.file("xml", package = "CompoundDb")
+#' spctra <- msms_spectra_hmdb(xml_path)
+#' 
+#' ## Create a SQLite database in the temporary folder
+#' db_f2 <- createCompDb(cmps, metadata = metad2, msms_spectra = spctra,
+#'     path = tempdir())
+#'
+#' ## The database can be loaded and accessed with a CompDb object
+#' db2 <- CompDb(db_f2)
+#' db2
+#'
+#' ## Does the database contain spectrum data?
+#' hasSpectra(db2)
+#' 
 #' ## Create a database for a ChEBI subset providing the file name of the
 #' ## corresponding SDF file
 #' metad <- make_metadata(source = "ChEBI_sub", source_version = "2",
@@ -411,7 +442,7 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #'
 #' ## To create a CompDb R-package we could simply use the
 #' ## createCompDbPackage function on the SQLite database file name.
-createCompDb <- function(x, metadata, path = ".") {
+createCompDb <- function(x, metadata, msms_spectra, path = ".") {
     .valid_metadata(metadata)
     db_file <- paste0(path, "/", .db_file_from_metadata(metadata), ".sqlite")
     con <- dbConnect(dbDriver("SQLite"), dbname = db_file)
@@ -458,6 +489,27 @@ createCompDb <- function(x, metadata, path = ".") {
     ## Creating indices
     dbExecute(con, "create index compound_id_idx on compound (compound_id)")
     dbExecute(con, "create index compound_name_idx on compound (compound_name)")
+    ## Process spectra.
+    if (!missing(msms_spectra) && is.data.frame(msms_spectra)) {
+        .check_msms_spectra_columns(msms_spectra)
+        ## All IDs have to be present in the compound table
+        comp_ids <- dbGetQuery(
+            con, "select distinct compound_id from compound")$compound_id
+        if (!all(msms_spectra$compound_id %in% comp_ids))
+            stop("All compound identifiers in 'msms_spectra' have to be ",
+                 "present also in 'x'")
+        msms_spectrum_peak <- unique(msms_spectra[, c("spectrum_id", "mz",
+                                                      "intensity")])
+        dbWriteTable(con, name = "msms_spectrum_peak", msms_spectrum_peak,
+                     row.names = FALSE)
+        msms_spectrum_metadata <- unique(msms_spectra[, !(colnames(msms_spectra)
+            %in% c("mz", "intensity"))])
+        dbWriteTable(con, name = "msms_spectrum_metadata",
+                     msms_spectrum_metadata, row.names = FALSE)
+        dbExecute(con, "create index msms_id_idx on msms_spectrum_peak (spectrum_id)")
+        dbExecute(con, "create index msms_mid_idx on msms_spectrum_metadata (spectrum_id)")
+        dbExecute(con, "create index msms_cid_idx on msms_spectrum_metadata (compound_id)")
+    }
     dbDisconnect(con)
     invisible(db_file)
 }
@@ -467,6 +519,37 @@ createCompDb <- function(x, metadata, path = ".") {
 .required_compound_db_columns <- c("compound_id", "compound_name", "inchi",
                                    "formula", "mass")
 .required_compound_columns <- c(.required_compound_db_columns, "synonyms")
+
+.required_msms_spectrum_columns <- c(spectrum_id = "character",
+                                     compound_id = "character",
+                                     polarity = "integer",
+                                     collision_energy = "numeric",
+                                     predicted = "logical",
+                                     splash = "character",
+                                     instrument_type = "character",
+                                     mz = "numeric",
+                                     intensity = "numeric")
+
+.check_msms_spectra_columns <- function(x) {
+    coltypes <- unlist(lapply(x, class))
+    not_found <- which(!(names(.required_msms_spectrum_columns) %in%
+                         names(coltypes)))
+    if (length(not_found))
+        stop("Required column(s) ",
+             paste0("'", names(.required_msms_spectrum_columns)[not_found], "'"),
+             " not found in 'msms_spectra'", call. = FALSE)
+    common_cols <- union(names(coltypes),
+                         names(.required_msms_spectrum_columns))
+    wrong_type <- which(coltypes[common_cols] !=
+                        .required_msms_spectrum_columns[common_cols])
+    if (length(wrong_type))
+        stop("One or more columns contain data of the wrong type: ",
+             paste(names(coltypes[names(wrong_type)]),
+                   coltypes[names(wrong_type)], sep = ":", collapse = ", "),
+             ". Please refer to the documentation of createCompDb for the ",
+             "correct data types.")
+    TRUE
+}
 
 #' @description Create the database file name from the metadata `data.frame`.
 #'     The function checks also for the presence of all required metadata fields

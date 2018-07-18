@@ -6,7 +6,7 @@
 \alias{make_metadata}
 \title{Create a CompDb database}
 \usage{
-createCompDb(x, metadata, path = ".")
+createCompDb(x, metadata, msms_spectra, path = ".")
 
 createCompDbPackage(x, version, maintainer, author, path = ".",
   license = "Artistic-2.0")
@@ -22,6 +22,10 @@ annotations should be retrieved. See description for details.\preformatted{For `
 
 \item{metadata}{For \code{createCompDb}: \code{data.frame} with metadata
 information. See description for details.}
+
+\item{msms_spectra}{For \code{createCompDb}: \code{data.frame} with MS/MS spectrum
+data. See \code{\link[=msms_spectra_hmdb]{msms_spectra_hmdb()}} for the expected format and a function
+to import such data from spectrum xml files from HMDB.}
 
 \item{path}{\code{character(1)} with the path to the directory where the database
 file or package folder should be written. Defaults to the current
@@ -135,6 +139,27 @@ db_f <- createCompDb(cmps, metadata = metad, path = tempdir())
 db <- CompDb(db_f)
 db
 
+## Create a database for HMDB that includes also MS/MS spectrum data
+metad2 <- make_metadata(source = "HMDB_with_spectra", source_version = "v4",
+    source_date = "2017-08", organism = "Hsapiens",
+    url = "http://www.hmdb.ca")
+
+## Import spectrum information from selected MS/MS xml files from HMDB
+## that are provided in the package
+xml_path <- system.file("xml", package = "CompoundDb")
+spctra <- msms_spectra_hmdb(xml_path)
+
+## Create a SQLite database in the temporary folder
+db_f2 <- createCompDb(cmps, metadata = metad2, msms_spectra = spctra,
+    path = tempdir())
+
+## The database can be loaded and accessed with a CompDb object
+db2 <- CompDb(db_f2)
+db2
+
+## Does the database contain spectrum data?
+hasSpectra(db2)
+
 ## Create a database for a ChEBI subset providing the file name of the
 ## corresponding SDF file
 metad <- make_metadata(source = "ChEBI_sub", source_version = "2",
@@ -160,6 +185,10 @@ dbGetQuery(con, "select * from compound")
 \code{\link[=compound_tbl_sdf]{compound_tbl_sdf()}} and \code{\link[=compound_tbl_lipidblast]{compound_tbl_lipidblast()}} for functions
 to extract compound annotations from files in SDF format, or files from
 LipidBlast.
+
+\code{\link[=msms_spectra_hmdb]{msms_spectra_hmdb()}} for a function to import MS/MS spectrum data from
+respective xml files from HMDB.
+
 \code{\link[=CompDb]{CompDb()}} for how to use a compound database.
 }
 \author{

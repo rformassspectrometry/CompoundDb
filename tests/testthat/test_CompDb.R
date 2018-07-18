@@ -38,6 +38,14 @@ test_that("CompDb constructor and low level functions", {
     expect_equal(length(tbls), 1)
     tbls <- tables(cmp)
     expect_equal(length(tbls), 2)
+
+    ## tables with spectra
+    tbls <- tables(cmp_spctra_db)
+    expect_equal(length(tbls), 4)
+    expect_equal(names(tbls), c("compound",
+                                "msms_spectrum_metadata",
+                                "msms_spectrum_peak",
+                                "synonym"))
     
     ## .get_property
     prps <- .get_property(cmp, "tables")
@@ -63,4 +71,11 @@ test_that("compounds works", {
 test_that("src_compound works", {
     src_cmp <- src_compdb(cmp_db)
     expect_true(is(src_cmp, "src_dbi"))
+})
+
+test_that(".hasSpectra/hasSpectra works", {
+    expect_false(.hasSpectra(cmp_db))
+    expect_false(hasSpectra(cmp_db))
+    expect_true(.hasSpectra(cmp_spctra_db))
+    expect_true(hasSpectra(cmp_spctra_db))
 })

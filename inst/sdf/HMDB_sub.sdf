@@ -900,3 +900,300 @@ Deoxyuridine
 1-(2-Deoxy-beta-D-erythro-pentofuranosyl)-2,4(1H,3H)-Pyrimidinedione; 1-(2-Deoxy-beta-D-ribofuranosyl)-2,4(1H,3H)-Pyrimidinedione; 1-(2-Deoxy-beta-delta-erythro-pentofuranosyl)-2,4(1H,3H)-Pyrimidinedione; 1-(2-Deoxy-beta-delta-ribofuranosyl)-2,4(1H,3H)-Pyrimidinedione; 1-(2-Deoxy-D-erythro-pentofuranosyl)uracil; 1-(2-Deoxy-delta-erythro-pentofuranosyl)uracil; 2'-Deoxyuridine; 2'-Desoxyuridine; Deoxyribose uracil; Desoxyuridine; Uracil deoxyriboside; Uracil desoxyuridine
 
 $$$$
+
+  Mrv0541 02231219562D          
+
+ 13 14  0  0  0  0            999 V2000
+   29.9950  -11.9735    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0
+   28.6752  -15.0398    0.0000 N   0  0  0  0  0  0  0  0  0  0  0  0
+   29.7387  -12.7576    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   28.9314  -12.9278    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   27.8946  -14.7884    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   28.6752  -13.7119    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   27.8946  -13.9633    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   29.1567  -14.3759    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   27.1801  -15.2008    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   27.1801  -13.5508    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   26.4655  -14.7884    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   26.4655  -13.9633    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   30.4956  -11.8680    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+  1  3  1  0  0  0  0
+  1 13  1  0  0  0  0
+  2  5  1  0  0  0  0
+  2  8  1  0  0  0  0
+  3  4  1  0  0  0  0
+  4  6  1  0  0  0  0
+  5  7  1  0  0  0  0
+  5  9  2  0  0  0  0
+  6  7  1  0  0  0  0
+  6  8  2  0  0  0  0
+  7 10  2  0  0  0  0
+  9 11  1  0  0  0  0
+ 10 12  1  0  0  0  0
+ 11 12  2  0  0  0  0
+M  END
+> <DATABASE_ID>
+HMDB0004370
+
+> <DATABASE_NAME>
+hmdb
+
+> <SMILES>
+CNCCC1=CNC2=CC=CC=C12
+
+> <INCHI_IDENTIFIER>
+InChI=1S/C11H14N2/c1-12-7-6-9-8-13-11-5-3-2-4-10(9)11/h2-5,8,12-13H,6-7H2,1H3
+
+> <INCHI_KEY>
+NCIKQJBVUNUXLW-UHFFFAOYSA-N
+
+> <FORMULA>
+C11H14N2
+
+> <MOLECULAR_WEIGHT>
+174.2423
+
+> <EXACT_MASS>
+174.115698458
+
+> <JCHEM_ACCEPTOR_COUNT>
+1
+
+> <JCHEM_AVERAGE_POLARIZABILITY>
+20.418245240233116
+
+> <JCHEM_BIOAVAILABILITY>
+1
+
+> <JCHEM_DONOR_COUNT>
+2
+
+> <JCHEM_FORMAL_CHARGE>
+0
+
+> <JCHEM_GHOSE_FILTER>
+1
+
+> <JCHEM_IUPAC>
+[2-(1H-indol-3-yl)ethyl](methyl)amine
+
+> <ALOGPS_LOGP>
+2.02
+
+> <JCHEM_LOGP>
+1.9190178436666665
+
+> <ALOGPS_LOGS>
+-2.57
+
+> <JCHEM_MDDR_LIKE_RULE>
+0
+
+> <JCHEM_NUMBER_OF_RINGS>
+2
+
+> <JCHEM_PHYSIOLOGICAL_CHARGE>
+1
+
+> <JCHEM_PKA_STRONGEST_ACIDIC>
+17.16782291158749
+
+> <JCHEM_PKA_STRONGEST_BASIC>
+10.310210734339782
+
+> <JCHEM_POLAR_SURFACE_AREA>
+27.82
+
+> <JCHEM_REFRACTIVITY>
+55.147500000000015
+
+> <JCHEM_ROTATABLE_BOND_COUNT>
+3
+
+> <JCHEM_RULE_OF_FIVE>
+1
+
+> <ALOGPS_SOLUBILITY>
+4.70e-01 g/l
+
+> <JCHEM_TRADITIONAL_IUPAC>
+methyltryptamine
+
+> <JCHEM_VEBER_RULE>
+1
+
+> <HMDB_ID>
+HMDB0004370
+
+> <GENERIC_NAME>
+N-Methyltryptamine
+
+> <SYNONYMS>
+1-Methyl-2-(3-indolyl)ethylamine; 2-(1H-Indol-3-yl)-N-methylethanamine; 3-(2-(Methylamino)ethyl)indole; Dipterine; Dl-Methyltryptamine; Methyltryptamine; N-Methylindoleethylamine; N-Monomethyltryptamine; N-Omega-methyltryptamine
+
+$$$$
+
+  Mrv0541 02231220492D          
+
+ 29 31  0  0  1  0            999 V2000
+   16.9509  -11.8217    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
+   16.9509   -6.8714    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0
+   17.7315   -6.6202    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0
+   16.9509   -7.6965    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   18.2130   -7.2841    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   17.7315   -7.9479    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   16.2364   -6.4590    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   17.9878   -5.8359    0.0000 C   0  0  1  0  0  0  0  0  0  0  0  0
+   16.2364   -8.1091    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   16.9509   -6.0464    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   15.5220   -6.8714    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   15.5220   -7.6965    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   18.7951   -5.6657    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   17.4368   -5.2219    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   16.2364   -8.9341    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   19.0515   -4.8815    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   19.8587   -4.7115    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   15.5220   -9.3466    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   20.1150   -3.9272    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   15.5220  -10.1716    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   16.2364  -10.5841    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   19.5640   -3.3131    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   20.9223   -3.7571    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   14.8073  -10.5841    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   16.2364  -11.4091    0.0000 C   0  0  2  0  0  0  0  0  0  0  0  0
+   14.8073  -11.4091    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   15.5220  -11.8217    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   14.0929  -10.1716    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+   17.0382   -8.5168    0.0000 H   0  0  0  0  0  0  0  0  0  0  0  0
+ 25  1  1  1  0  0  0
+  2  3  1  0  0  0  0
+  2  4  1  0  0  0  0
+  2  7  1  0  0  0  0
+  2 10  1  1  0  0  0
+  3  5  1  0  0  0  0
+  3  8  1  1  0  0  0
+  4  6  1  0  0  0  0
+  4  9  1  0  0  0  0
+  5  6  1  0  0  0  0
+  7 11  1  0  0  0  0
+  8 13  1  0  0  0  0
+  8 14  1  6  0  0  0
+  9 12  1  0  0  0  0
+  9 15  2  0  0  0  0
+ 11 12  1  0  0  0  0
+ 13 16  1  0  0  0  0
+ 15 18  1  0  0  0  0
+ 16 17  1  0  0  0  0
+ 17 19  1  0  0  0  0
+ 18 20  2  0  0  0  0
+ 19 22  1  0  0  0  0
+ 19 23  1  0  0  0  0
+ 20 21  1  0  0  0  0
+ 20 24  1  0  0  0  0
+ 21 25  1  0  0  0  0
+ 24 26  1  0  0  0  0
+ 24 28  2  0  0  0  0
+ 25 27  1  0  0  0  0
+ 26 27  1  0  0  0  0
+ 29  4  1  6  0  0  0
+M  END
+> <DATABASE_ID>
+HMDB0006719
+
+> <DATABASE_NAME>
+hmdb
+
+> <SMILES>
+CC(C)CCC[C@@H](C)[C@H]1CCC2([H])\C(CCC[C@]12C)=C\C=C1/C[C@@H](O)CCC1=C
+
+> <INCHI_IDENTIFIER>
+InChI=1S/C27H44O/c1-19(2)8-6-9-21(4)25-15-16-26-22(10-7-17-27(25,26)5)12-13-23-18-24(28)14-11-20(23)3/h12-13,19,21,24-26,28H,3,6-11,14-18H2,1-2,4-5H3/b22-12+,23-13+/t21-,24+,25-,26?,27-/m1/s1
+
+> <INCHI_KEY>
+QYSXJUFSXHHAJI-YYJGPZIQSA-N
+
+> <FORMULA>
+C27H44O
+
+> <MOLECULAR_WEIGHT>
+384.6377
+
+> <EXACT_MASS>
+384.33921603
+
+> <JCHEM_ACCEPTOR_COUNT>
+1
+
+> <JCHEM_AVERAGE_POLARIZABILITY>
+49.53937104020938
+
+> <JCHEM_BIOAVAILABILITY>
+1
+
+> <JCHEM_DONOR_COUNT>
+1
+
+> <JCHEM_FORMAL_CHARGE>
+0
+
+> <JCHEM_GHOSE_FILTER>
+0
+
+> <JCHEM_IUPAC>
+(1S,3E)-3-{2-[(1R,4E,7aR)-7a-methyl-1-[(2R)-6-methylheptan-2-yl]-octahydro-1H-inden-4-ylidene]ethylidene}-4-methylidenecyclohexan-1-ol
+
+> <ALOGPS_LOGP>
+7.98
+
+> <JCHEM_LOGP>
+7.125460754666667
+
+> <ALOGPS_LOGS>
+-6.01
+
+> <JCHEM_MDDR_LIKE_RULE>
+1
+
+> <JCHEM_NUMBER_OF_RINGS>
+3
+
+> <JCHEM_PHYSIOLOGICAL_CHARGE>
+0
+
+> <JCHEM_PKA_STRONGEST_ACIDIC>
+18.384341369959035
+
+> <JCHEM_PKA_STRONGEST_BASIC>
+-1.3184890847799178
+
+> <JCHEM_POLAR_SURFACE_AREA>
+20.23
+
+> <JCHEM_REFRACTIVITY>
+123.22449999999998
+
+> <JCHEM_ROTATABLE_BOND_COUNT>
+6
+
+> <JCHEM_RULE_OF_FIVE>
+0
+
+> <ALOGPS_SOLUBILITY>
+3.80e-04 g/l
+
+> <JCHEM_TRADITIONAL_IUPAC>
+trans-vitamin D3
+
+> <JCHEM_VEBER_RULE>
+1
+
+> <HMDB_ID>
+HMDB0006719
+
+> <GENERIC_NAME>
+5,6-trans-Vitamin D3
+
+> <SYNONYMS>
+3-[(2E)-2-[(1R,3aS,7aR)-1-[(1R)-1,5-dimethylhexyl]octahydro-7a-methyl-4H-inden-4-ylidene]ethylidene]-4-methylene-Cyclohexanol; 5,6-trans-Cholecalciferol; 5,6-trans-Vitamin D3; trans-Vitamin D3
+
+$$$$

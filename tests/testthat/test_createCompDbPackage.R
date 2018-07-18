@@ -5,7 +5,7 @@ test_that(".simple_import_compounds_sdf works", {
     expect_true(is(cmps, "tbl"))
     expect_equal(colnames(cmps), c("compound_id", "compound_name", "inchi",
                                    "formula", "mass", "synonyms"))
-    expect_true(nrow(cmps) == 7)
+    expect_true(nrow(cmps) == 9)
 
     chebi <- system.file("sdf/ChEBI_sub.sdf.gz", package = "CompoundDb")
     cmps <- CompoundDb:::.simple_import_compounds_sdf(chebi)
@@ -39,7 +39,7 @@ test_that("compound_tbl_sdf works", {
     expect_true(is(cmps, "tbl"))
     expect_equal(colnames(cmps), c("compound_id", "compound_name", "inchi",
                                    "formula", "mass", "synonyms"))
-    expect_true(nrow(cmps) == 7)
+    expect_true(nrow(cmps) == 9)
     expect_true(is(cmps$synonyms, "list"))
     cmps <- compound_tbl_sdf(hmdb, collapse = "|")
     expect_true(is(cmps$synonyms, "character"))
@@ -208,7 +208,7 @@ test_that("createCompDb and createCompDbPackage works", {
                            url = NA)
     res <- createCompDb(fls, metadata = metad, path = tempdir())
     db <- CompDb(res)
-    expect_true(nrow(compounds(db)) == 20)
+    expect_true(nrow(compounds(db)) == 22)
         
     ## Multiple files including json.
     fls <- c(fls, system.file("json/MoNa-LipidBlast_sub.json",
@@ -218,7 +218,7 @@ test_that("createCompDb and createCompDbPackage works", {
                            url = NA)
     res <- createCompDb(fls, metadata = metad, path = tempdir())
     db <- CompDb(res)
-    expect_true(nrow(compounds(db)) == 28)
+    expect_true(nrow(compounds(db)) == 30)
     
     ## Error with one unsupported file.
     fls <- c(fls, system.file("NEWS", package = "CompoundDb"))
@@ -253,4 +253,12 @@ test_that("make_metadata works", {
                                source_date = "now", organism = "MM"))
     expect_error(make_metadata(source = "a", source_version = "2", url = NULL,
                                source_date = "now", organism = "MM"))
+})
+
+test_that(".check_msms_spectra_columns works", {
+    expect_true(.check_msms_spectra_columns(msms_spctra))
+    tmp <- msms_spctra
+    expect_error(.check_msms_spectra_columns(tmp[, 1:4]))
+    tmp$polarity <- as.character(tmp$polarity)
+    expect_error(.check_msms_spectra_columns(tmp))
 })

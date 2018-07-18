@@ -8,6 +8,7 @@
 \alias{dbconn,CompDb-method}
 \alias{show,CompDb-method}
 \alias{CompDb}
+\alias{hasSpectra}
 \alias{compounds}
 \alias{src_compdb}
 \alias{tables}
@@ -17,6 +18,8 @@
 show(object)
 
 CompDb(x)
+
+hasSpectra(x)
 
 compounds(x, columns, filter, return.type = "data.frame")
 
@@ -34,7 +37,7 @@ to the database with parameter \code{x}.\preformatted{For all other methods: a `
 
 \item{columns}{For \code{compounds}: \code{character} with the names of the database
 columns that should be retrieved. Use \code{tables} for a list of available
-column names.}
+column names. \code{"compound_id"} will always be}
 
 \item{filter}{For \code{compounds}: not yet supported.}
 
@@ -52,6 +55,9 @@ database (usually an SQLite database).
 
 \code{CompDb} \emph{constructs} a \code{CompDb} object by connecting
 to the provided database file.
+
+\code{hasSpectra} returns \code{TRUE} if MS/MS spectrum data is available
+in the database and \code{FALSE} otherwise.
 
 \code{compounds} extracts compound data from the \code{CompDb} object. In contrast
 to \code{src_compdb} it returns the actual data as a \code{data.frame} (if

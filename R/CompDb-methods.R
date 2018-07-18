@@ -29,6 +29,11 @@ setMethod("show", "CompDb", function(object) {
         cmp_nr <- dbGetQuery(con, paste0("select count(distinct compound_id) ",
                                          "from compound"))
         cat(" compound count:", cmp_nr[1, 1], "\n")
+        if (hasSpectra(object)) {
+            spctra <- dbGetQuery(con, paste0("select count(distinct spectrum_",
+                                             "id) from msms_spectrum_metadata"))
+            cat(" MS/MS spectra count:", spctra[1, 1], "\n")
+        }
     } else {
         cat(" no database connection available\n")
     }

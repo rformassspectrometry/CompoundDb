@@ -12,13 +12,16 @@
 #'   provided.
 #' + Based on the columns, get the table name from which the data should be
 #'   retrieved (or which tables should be joined if more than one).
+#' + `start_from` allows to specify from which table we want to start the join
+#'   query. That's important if we don't have all features in all tables
+#'   annotated. Example is that we don't have MS/MS spectra from all compounds!
 #' 
 #' @author Johannes Rainer
 #'
 #' @md
 #'
 #' @noRd
-.build_query_CompDb <- function(x, columns, filter, order) {
+.build_query_CompDb <- function(x, columns, filter, order, start_from) {
     if (missing(x))
         stop("'x' is required")
     if (missing(columns))
@@ -36,7 +39,7 @@
         columns <- unique(c(columns, columns_flts))
     }
     ## By default we will return also the filter columns!
-    columns_tbl <- .reduce_tables(tbls, columns)
+    columns_tbl <- .reduce_tables_start_from(tbls, columns, start_from)
     paste0(.select(unlist(.prefix_columns(columns_tbl), use.names = FALSE)),
            .from(names(columns_tbl)),
            .where(filter), .order(order))
@@ -85,8 +88,18 @@
 #' @noRd
 .join_tables <- function(x){
     .JOINS <- rbind(
-        c("compound", "synonym", paste0("on (compound.compound_id=",
-                                        "synonym.compound_id)"),
+        c("compound", "synonym",
+          "on (compound.compound_id=synonym.compound_id)",
+          "left outer join"),
+        c("compound", "msms_spectrum_metadata",
+          "on (compound.compound_id=msms_spectrum_metadata.compound_id)",
+          "left outer join"),
+        c("msms_spectrum_metadata", "msms_spectrum_peak",
+          paste0("on (msms_spectrum_metadata.spectrum_id=",
+                 "msms_spectrum_peak.spectrum_id)"),
+          "left outer join"),
+        c("msms_spectrum_metadata", "synonym",
+          "on (msms_spectrum_metadata.compound_id=synonym.compound_id)",
           "left outer join")
     )
     x <- .add_join_tables(x)
@@ -126,6 +139,9 @@
 #' 
 #' @noRd
 .add_join_tables <- function(x) {
+    ## msms_spectrum_peak with any other table: need also msms_spectrum_metadata
+    if (any(x == "msms_spectrum_peak") & length(x) > 1)
+        x <- c(x, "msms_spectrum_metadata")
     ## So far we don't have to add anything here.
     unique(x)
 }
@@ -170,10 +186,21 @@
 #' most columns and removed from all other tables. See examples below for
 #' details.
 #'
+#' @details
+#'
+#' This function works well for databases where each entity is annotated/linked
+#' to each other. For databases where e.g. not all features in one table a
+#' have entries in table b this function might lead to unexpected/unwanted
+#' results since table joins are always performed as left (outer joins). In
+#' such cases the [.reduce_tables_start_from()] function should be used instead.
+#' 
 #' @param tables `list` of `character`. Names of the list are the table names,
 #'     the elements its column names.
 #'
 #' @param columns `character` with the column names that should be retained.
+#'
+#' @param start_with `character(1)` with the name of the table from which
+#'     the query should start.
 #' 
 #' @return `list` being a subset of `tables` that contains only the `columns`.
 #' 
@@ -189,10 +216,10 @@
 #'     tx = c("tx_id", "gene_id", "tx_name", "redundant_field", "tx_start"),
 #'     exon = c("exon_id", "redundant_field", "tx_id"))
 #'
-#' .reduce_tables(tabs, columns = c("tx_id", "gene_id"))
-#' .reduce_tables(tabs, columns = c("gene_id", "gene_name"))
-#' .reduce_tables(tabs, columns = c("gene_name", "exon_id", "redundant_field",
-#'     "tx_id"))
+#' CompoundDb:::.reduce_tables(tabs, columns = c("tx_id", "gene_id"))
+#' CompoundDb:::.reduce_tables(tabs, columns = c("gene_id", "gene_name"))
+#' CompoundDb:::.reduce_tables(tabs, columns = c("gene_name", "exon_id",
+#'    "redundant_field", "tx_id"))
 .reduce_tables <- function(tables, columns) {
     ## Get to known in which tables the columns are.
     columns_tbl <- lapply(tables, function(z){
@@ -208,6 +235,71 @@
         tmp_columns <- tmp_columns[!got_them]
     }
     columns_tbl[lengths(columns_tbl) > 0]
+}
+
+#' @description
+#'
+#' This function is similar to [.reduce_tables()] function but ensures in
+#' addition that the table defined by `start_from` is included in the result
+#' set and is listed as first table. The function thus can be used for database
+#' queries that should contain elements from a certain database table and join
+#' other tables to that. See examples below for more details.
+#'
+#' @note
+#'
+#' `columns` has to contain at least one column from the database table
+#' `start_from`, otherwise `start_from` can not be included resulting in a
+#' warning.
+#' 
+#' @param tables see [.reduce_tables()]
+#'
+#' @param columns see [.reduce_tables()]
+#'
+#' @param start_from `character(1)` defining the database table name that
+#'     should be listed as first table in the result.
+#'
+#' @md
+#'
+#' @noRd
+#'
+#' @author Johannes Rainer
+#'
+#' @examples
+#'
+#' ## Define database tables with some redundand fields.
+#' tabs <- list(
+#'     compound = c("compound_id", "compound_name", "red_field"),
+#'     spectrum = c("spectrum_id", "compound_id"),
+#'     other_tab = c("compound_id", "red_field"))
+#'
+#' .reduce_tables_start_from(tabs, c("compound_id"))
+#' .reduce_tables_start_from(tabs, c("compound_id", "red_field"))
+#' .reduce_tables_start_from(tabs, c("compound_id", "red_field"),
+#'     start_from = "other_tab")
+#' .reduce_tables_start_from(tabs, c("compound_id", "red_field"),
+#'     start_from = "spectrum")
+#' .reduce_tables_start_from(tabs, c("compound_name", "red_field"),
+#'     start_from = "spectrum")
+#' .reduce_tables_start_from(tabs, c("compound_name", "red_field"),
+#'     start_from = "spectrum_bla") 
+.reduce_tables_start_from <- function(tables, columns, start_from) {
+    tbls <- .reduce_tables(tables, columns)
+    if (!missing(start_from)) {
+        if (!any(names(tables) == start_from))
+            stop("Table '", start_from, "' not known")
+        start_from_clms <- intersect(tables[[start_from]], unlist(tbls))
+        if (length(start_from_clms)) {
+            tbls <- lapply(tbls, function(z) {
+                z[!(z %in% start_from_clms)]
+            })
+            tbls <- tbls[lengths(tbls) > 0]
+            tbls <- c(list(start_from_clms), tbls)
+            names(tbls)[1] <- start_from
+        } else
+            warning("No column from table '", start_from, "' in 'columns' ",
+                    .call = FALSE)
+    }
+    tbls
 }
 
 .prefix_columns <- function(x) {

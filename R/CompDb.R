@@ -103,8 +103,8 @@ setValidity("CompDb", function(object) {
     required_tables <- c("compound", "metadata")
     got <- required_tables %in% tables
     if (!all(got))
-        stop("Required tables ", paste0(required_tables[!got]), "not found",
-             " in the database")
+        txt <- c(txt, paste0("Required tables ", paste0(required_tables[!got]),
+                             "not found in the database"))
     ## Check table columns.
     comps <- dbGetQuery(x, "select * from compound limit 3")
     res <- .valid_compound(comps, error = FALSE)
@@ -114,6 +114,19 @@ setValidity("CompDb", function(object) {
     res <- .valid_metadata(metad, error = FALSE)
     if (is.character(res))
         txt <- c(txt, res)
+    if (length(grep("msms", tables))) {
+        req_tables <- c("msms_spectrum_metadata", "msms_spectrum_peak")
+        got <- req_tables %in% tables
+        if (!all(got))
+            txt <- c(txt, paste0("Required tables ", paste0(req_tables[!got]),
+                                 "not found in the database"))
+        compound_cmp_id <- dbGetQuery(x, "select compound_id from compound")[,1]
+        spectrum_cmp_id <- dbGetQuery(
+            x, "select compound_id from msms_spectrum_metadata")[, 1]
+        if (!all(spectrum_cmp_id %in% compound_cmp_id))
+            txt <- c(txt, paste0("Not all compound ids in the msms_spectrum_me",
+                                 "tadata table are also in the compound table"))
+    }
     if (length(txt)) txt else TRUE
 }
 
@@ -164,6 +177,23 @@ CompDb <- function(x) {
     x@dbcon
 }
 
+.hasSpectra <- function(x) {
+    all(c("msms_spectrum_peak", "msms_spectrum_metadata") %in%
+        names(.tables(x)))
+}
+
+#' @description `hasSpectra` returns `TRUE` if MS/MS spectrum data is available
+#'     in the database and `FALSE` otherwise.
+#'
+#' @export
+#' 
+#' @rdname CompDb
+#'
+#' @md
+hasSpectra <- function(x) {
+    .hasSpectra(x)
+}
+
 #' @description
 #'
 #' `compounds` extracts compound data from the `CompDb` object. In contrast
@@ -173,7 +203,7 @@ CompDb <- function(x) {
 #'
 #' @param columns For `compounds`: `character` with the names of the database
 #'     columns that should be retrieved. Use `tables` for a list of available
-#'     column names.
+#'     column names. `"compound_id"` will always be 
 #'
 #' @param filter For `compounds`: not yet supported.
 #'
@@ -194,6 +224,9 @@ compounds <- function(x, columns, filter, return.type = "data.frame") {
     match.arg(return.type, c("data.frame", "tibble"))
     if (missing(columns))
         columns <- .tables(x, "compound")[[1]]
+    ## Require compound_id to be present
+    if (!any(columns == "compound_id"))
+        columns <- c("compound_id", columns)
     res <- dbGetQuery(.dbconn(x),
                       .build_query_CompDb(x, columns = columns,
                                               filter = filter))
