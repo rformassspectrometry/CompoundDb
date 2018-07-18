@@ -66,6 +66,12 @@ test_that("compounds works", {
 
     expect_true(
         nrow(compounds(cmp_db, filter = ~ compound_id == "HMDB0000005")) == 1)
+    ## compounds should always return all entries from the compound table, even
+    ## if entries from another table are queried.
+    res <- compounds(cmp_spctra_db, columns = c("spectrum_id", "splash"))
+    cmp_ids <- compounds(cmp_spctra_db, columns = "compound_id")$compound_id
+    expect_true(all(cmp_ids %in% res$compound_id))
+    expect_true(sum(is.na(res$spectrum_id)) == 6)
 })
 
 test_that("src_compound works", {

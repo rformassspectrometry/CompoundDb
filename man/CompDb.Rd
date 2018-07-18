@@ -13,6 +13,7 @@
 \alias{src_compdb}
 \alias{tables}
 \alias{dbconn,CompDb-method}
+\alias{spectra,CompDb-method}
 \title{Simple compound (metabolite) databases}
 \usage{
 show(object)
@@ -28,6 +29,9 @@ src_compdb(x)
 tables(x)
 
 \S4method{dbconn}{CompDb}(x)
+
+\S4method{spectra}{CompDb}(object, columns, filter,
+  return.type = "Spectrum2List")
 }
 \arguments{
 \item{x}{For \code{CompDb}: \code{character(1)} with the file name of the SQLite
@@ -35,14 +39,16 @@ compound database. Alternatively it is possible to provide the connection
 to the database with parameter \code{x}.\preformatted{For all other methods: a `CompDb` object.
 }}
 
-\item{columns}{For \code{compounds}: \code{character} with the names of the database
-columns that should be retrieved. Use \code{tables} for a list of available
-column names. \code{"compound_id"} will always be}
+\item{columns}{For \code{compounds}, \code{spectra}: \code{character} with the names of the
+database columns that should be retrieved. Use \code{\link[=tables]{tables()}} for a list of
+available column names.}
 
 \item{filter}{For \code{compounds}: not yet supported.}
 
 \item{return.type}{For \code{compounds}: \code{character} defining the type/class of
 the return object. Can be either \code{"data.frame"} (default) or
+\code{"tibble"}.
+For \code{spectra}: either \code{"Spectrum2List"} (default), \code{"data.frame"} or
 \code{"tibble"}.}
 
 \item{object}{For all methods: a \code{CompDb} object.}
@@ -59,11 +65,6 @@ to the provided database file.
 \code{hasSpectra} returns \code{TRUE} if MS/MS spectrum data is available
 in the database and \code{FALSE} otherwise.
 
-\code{compounds} extracts compound data from the \code{CompDb} object. In contrast
-to \code{src_compdb} it returns the actual data as a \code{data.frame} (if
-\code{return.type = "data.frame"}) or a \code{\link[tibble:tibble]{tibble::tibble()}} (if
-\code{return.type = "tibble"}).
-
 \code{src_compdb} provides access to the \code{CompDb}'s database \emph{via}
 the functionality from the \code{dplyr}/\code{dbplyr} package.
 
@@ -78,6 +79,36 @@ database.
 \code{CompDb} providing the name of the (SQLite) database file providing
 the compound annotation data.
 }
+\section{Retrieve annotations from the database}{
+
+
+Annotations/compound informations can be retrieved from a \code{CompDb} database
+with the \code{compounds} and \code{spectra} functions:
+\itemize{
+\item \code{compounds} extracts compound data from the \code{CompDb} object. In contrast
+to \code{src_compdb} it returns the actual data as a \code{data.frame} (if
+\code{return.type = "data.frame"}) or a \code{\link[tibble:tibble]{tibble::tibble()}} (if
+\code{return.type = "tibble"}). A \code{compounds} call will always return all
+elements from the \emph{compound} table (unless a \code{filter} is used). Also, the
+result \code{data.frame} will always contain the compound identifier in column
+\code{"compound_id"}.
+\item \code{spectra} extract spectra from the database and returns them as a
+\code{\link[=Spectrum2List]{Spectrum2List()}} object. Additional annotations requested with the
+\code{columns} parameter will be added as metadata columns.
+}
+}
+
+\section{Filtering the database}{
+
+
+Data access methods such as \code{compounds} and \code{spectra} allow to filter the
+results using specific filter classes and expressions. Filtering uses the
+concepts from Bioconductor's \code{AnnotationFilter} package. All information
+for a certain compound with the ID \code{"HMDB0000001"} can for example be
+retrieved by passing the filter expression
+\code{filter = ~ compound_id == "HMDB0000001"} to the \code{compounds} function.
+}
+
 \examples{
 
 ## Create a small CompDb from a provided HMDB subset
@@ -87,8 +118,14 @@ metad <- data.frame(name = c("source", "url", "source_version",
     "source_date", "organism"),
     value = c("sub_HMDB", "http://www.hmdb.ca", "4", "2017", "Hsapiens"),
     stringsAsFactors = FALSE)
+
+## Load also MS/MS spectra from HMDB xml files
+xml_path <- system.file("xml", package = "CompoundDb")
+spctra <- msms_spectra_hmdb(xml_path)
+
 ## Create the SQLite database:
-db_file <- createCompDb(cmps, metadata = metad, path = tempdir())
+db_file <- createCompDb(cmps, metadata = metad, msms_spectra = spctra,
+    path = tempdir())
 
 ## Create a CompDb object
 cmp_db <- CompDb(db_file)
@@ -106,6 +143,10 @@ compounds(cmp_db, columns = c("compound_id", "compound_name", "inchi"))
 res <- compounds(cmp_db, columns = c("compound_id", "compound_name", "synonym"))
 head(res)
 
+## Extract spectra for a specific HMDB compound.
+sps <- spectra(cmp_db, filter = ~ compound_id == "HMDB0000001")
+sps
+
 ## Using return.type = "tibble" the result will be returned as a "tibble"
 compounds(cmp_db, return.type = "tibble")
 
@@ -121,8 +162,9 @@ cmp_tbl <- tbl(src_cmp, "compound")
 cmp_tbl \%>\% select(compound_id, compound_name, inchi) \%>\% collect()
 }
 \seealso{
-\code{\link[=createCompDb]{createCompDb()}} for the function to create a SQLite compound
-database.
+\code{\link[=createCompDb]{createCompDb()}} for the function to create a SQLite compound database.
+
+\code{\link[=CompoundIdFilter]{CompoundIdFilter()}} for filters that can be used on the \code{CompDb} database.
 }
 \author{
 Johannes Rainer

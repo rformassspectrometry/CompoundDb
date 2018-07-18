@@ -40,3 +40,41 @@ setMethod("show", "CompDb", function(object) {
 })
 
 # organism
+
+
+#' @importFrom ProtGenerics spectra
+#'
+#' @export
+#'
+#' @md
+#'
+#' @rdname CompDb
+setMethod("spectra", "CompDb", function(object, columns, filter,
+                                        return.type = "Spectrum2List") {
+    if (!hasSpectra(object))
+        stop("No spectrum data available in the provided database")
+    match.arg(return.type, c("Spectrum2List", "data.frame", "tibble"))
+    if (missing(columns))
+        columns <- unique(unlist(
+            .tables(object, c("msms_spectrum_peak", "msms_spectrum_metadata"))))
+    ordr <- "msms_spectrum_peak.spectrum_id"
+    if (return.type == "Spectrum2List") {
+        columns <- unique(c("mz", "intensity", "polarity", "collision_energy",
+                            columns))
+        ordr <- "msms_spectrum_peak.spectrum_id, msms_spectrum_peak.mz"
+    }
+    if (!any(columns == "spectrum_id"))
+        columns <- c("spectrum_id", columns)
+    res <- dbGetQuery(.dbconn(object),
+                      .build_query_CompDb(object, columns = columns,
+                                          filter = filter,
+                                          start_from = "msms_spectrum_metadata",
+                                          order = ordr))
+    if (any(columns == "predicted"))
+        res$predicted <- as.logical(res$predicted)
+    if (return.type == "tibble")
+        res <- as_tibble(res)
+    if (return.type == "Spectrum2List")
+        res <- Spectrum2List(res)
+    res
+})

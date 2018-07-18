@@ -93,13 +93,27 @@ metad <- make_metadata(source = "HMDB", url = "http://www.hmdb.ca",
                        organism = "Hsapiens")
 ```
 
+Before we create the `CompDb` database we load also MS/MS spectrum data from
+some xml files from HMDB. For this we define the path to a directory containing
+the respective xml files and use the `msms_spectra_hmdb` to import the spectrum
+data into a single `data.frame`. Currently only the MS/MS spectrum xml files
+from HMDB in the provided folder are processed.
+
+```{r msms_spectra, message = FALSE}
+xml_path <- system.file("xml", package = "CompoundDb")
+spctra <- msms_spectra_hmdb(xml_path)
+```
+
+At present only MS/MS spectra from xml files downloaded from HMDB are supported.
+
 We create now a SQLite database for the HMDB subset. With `path` we specify the
 path to the directory in which we want to save the database. This defaults to
 the current location, but for this example we save the database into a temporary
 folder.
 
 ```{r createCompDb}
-db_file <- createCompDb(cmps, metadata = metad, path = tempdir())
+db_file <- createCompDb(cmps, metadata = metad, msms_spectra = spctra,
+                        path = tempdir())
 ```
 
 To use this database we pass it to the `CompDb` function which returns a
@@ -115,6 +129,13 @@ database. With parameter `columns` we can choose the database columns to return.
 
 ```{r compounds}
 compounds(cmpdb, columns = c("compound_name", "formula", "mass"))
+```
+
+Analogous we can use the `spectra` function to extract spectrum data from the
+database.
+
+```{r spectra}
+spectra(cmpdb)
 ```
 
 For use of the created `CompDb` object/database across R sessions or to share

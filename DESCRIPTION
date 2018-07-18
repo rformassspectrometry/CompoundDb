@@ -29,6 +29,7 @@ Imports:
     RSQLite,
     Biobase,
     BiocGenerics,
+    ProtGenerics,
     xml2
 Suggests:
     knitr,

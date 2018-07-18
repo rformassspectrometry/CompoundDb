@@ -53,20 +53,22 @@ setValidity("Spectrum2List", function(object) {
 
 #' @importMethodsFrom S4Vectors mcols
 .show_Spectrum2List <- function(x, margin = "", print.classinfo = FALSE) {
-    cat("Spectrum2List with", length(x), "spectra and", ncol(mcols(x)),
-        " metadata column(s):\n")
-    out <- S4Vectors:::makePrettyMatrixForCompactPrinting(
-                           x, .make_naked_matrix_from_Spectrum2List)
-    if (print.classinfo) {
-        .COL2CLASS <- c(msLevel = "integer", rtime = "numeric",
-                        precursorMz = "numeric", peaksCount = "integer")
-        classinfo <- S4Vectors:::makeClassinfoRowForCompactPrinting(x,
-                                                                    .COL2CLASS)
-        out <- rbind(classinfo, out)
+    cat("Spectrum2List with", length(x), "spectra and", length(mcols(x)),
+        "metadata column(s):\n")
+    if (length(x) > 0) {
+        out <- S4Vectors:::makePrettyMatrixForCompactPrinting(
+                               x, .make_naked_matrix_from_Spectrum2List)
+        if (print.classinfo) {
+            .COL2CLASS <- c(msLevel = "integer", rtime = "numeric",
+                            precursorMz = "numeric", peaksCount = "integer")
+            classinfo <- S4Vectors:::makeClassinfoRowForCompactPrinting(
+                                         x, .COL2CLASS)
+            out <- rbind(classinfo, out)
+        }
+        if (nrow(out) != 0L)
+            rownames(out) <- paste0(margin, rownames(out))
+        print(out, quote = FALSE, right = TRUE, max = length(out))
     }
-    if (nrow(out) != 0L)
-        rownames(out) <- paste0(margin, rownames(out))
-    print(out, quote = FALSE, right = TRUE, max = length(out))
 }
 
 #' @importMethodsFrom S4Vectors showAsCell mcols<-

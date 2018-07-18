@@ -19,6 +19,32 @@
 #' `CompDb` providing the name of the (SQLite) database file providing
 #' the compound annotation data.
 #'
+#' @section Retrieve annotations from the database:
+#'
+#' Annotations/compound informations can be retrieved from a `CompDb` database
+#' with the `compounds` and `spectra` functions:
+#'
+#' - `compounds` extracts compound data from the `CompDb` object. In contrast
+#'   to `src_compdb` it returns the actual data as a `data.frame` (if
+#'   `return.type = "data.frame"`) or a [tibble::tibble()] (if
+#'   `return.type = "tibble"`). A `compounds` call will always return all
+#'   elements from the *compound* table (unless a `filter` is used). Also, the
+#'   result `data.frame` will always contain the compound identifier in column
+#'   `"compound_id"`.
+#'
+#' - `spectra` extract spectra from the database and returns them as a
+#'   [Spectrum2List()] object. Additional annotations requested with the
+#'   `columns` parameter will be added as metadata columns.
+#' 
+#' @section Filtering the database:
+#'
+#' Data access methods such as `compounds` and `spectra` allow to filter the
+#' results using specific filter classes and expressions. Filtering uses the
+#' concepts from Bioconductor's `AnnotationFilter` package. All information
+#' for a certain compound with the ID `"HMDB0000001"` can for example be
+#' retrieved by passing the filter expression
+#' `filter = ~ compound_id == "HMDB0000001"` to the `compounds` function.
+#' 
 #' @usage
 #' show(object)
 #' 
@@ -34,8 +60,11 @@
 #'
 #' @md
 #'
-#' @seealso [createCompDb()] for the function to create a SQLite compound
-#'     database.
+#' @seealso
+#'
+#' [createCompDb()] for the function to create a SQLite compound database.
+#'
+#' [CompoundIdFilter()] for filters that can be used on the `CompDb` database.
 #'
 #' @examples
 #'
@@ -46,8 +75,14 @@
 #'     "source_date", "organism"),
 #'     value = c("sub_HMDB", "http://www.hmdb.ca", "4", "2017", "Hsapiens"),
 #'     stringsAsFactors = FALSE)
+#'
+#' ## Load also MS/MS spectra from HMDB xml files
+#' xml_path <- system.file("xml", package = "CompoundDb")
+#' spctra <- msms_spectra_hmdb(xml_path)
+#' 
 #' ## Create the SQLite database:
-#' db_file <- createCompDb(cmps, metadata = metad, path = tempdir())
+#' db_file <- createCompDb(cmps, metadata = metad, msms_spectra = spctra,
+#'     path = tempdir())
 #'
 #' ## Create a CompDb object
 #' cmp_db <- CompDb(db_file)
@@ -65,6 +100,10 @@
 #' res <- compounds(cmp_db, columns = c("compound_id", "compound_name", "synonym"))
 #' head(res)
 #'
+#' ## Extract spectra for a specific HMDB compound.
+#' sps <- spectra(cmp_db, filter = ~ compound_id == "HMDB0000001")
+#' sps
+#' 
 #' ## Using return.type = "tibble" the result will be returned as a "tibble"
 #' compounds(cmp_db, return.type = "tibble")
 #' 
@@ -194,21 +233,16 @@ hasSpectra <- function(x) {
     .hasSpectra(x)
 }
 
-#' @description
-#'
-#' `compounds` extracts compound data from the `CompDb` object. In contrast
-#' to `src_compdb` it returns the actual data as a `data.frame` (if
-#' `return.type = "data.frame"`) or a [tibble::tibble()] (if
-#' `return.type = "tibble"`).
-#'
-#' @param columns For `compounds`: `character` with the names of the database
-#'     columns that should be retrieved. Use `tables` for a list of available
-#'     column names. `"compound_id"` will always be 
+#' @param columns For `compounds`, `spectra`: `character` with the names of the
+#'     database columns that should be retrieved. Use [tables()] for a list of
+#'     available column names. 
 #'
 #' @param filter For `compounds`: not yet supported.
 #'
 #' @param return.type For `compounds`: `character` defining the type/class of
 #'     the return object. Can be either `"data.frame"` (default) or
+#'     `"tibble"`.
+#'     For `spectra`: either `"Spectrum2List"` (default), `"data.frame"` or
 #'     `"tibble"`.
 #'
 #' @importFrom tibble as_tibble
@@ -229,7 +263,10 @@ compounds <- function(x, columns, filter, return.type = "data.frame") {
         columns <- c("compound_id", columns)
     res <- dbGetQuery(.dbconn(x),
                       .build_query_CompDb(x, columns = columns,
-                                              filter = filter))
+                                          filter = filter,
+                                          start_from = "compound"))
+    if (any(columns == "predicted"))
+        res$predicted <- as.logical(res$predicted)
     if (return.type == "tibble")
         as_tibble(res)
     else res
