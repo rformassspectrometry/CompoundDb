@@ -72,3 +72,4 @@ Other compound table creation functions: \code{\link{compound_tbl_lipidblast}}
 \author{
 Johannes Rainer and Jan Stanstrup
 }
+\concept{compound table creation functions}

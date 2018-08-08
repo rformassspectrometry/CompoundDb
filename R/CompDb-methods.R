@@ -34,9 +34,7 @@ setMethod("show", "CompDb", function(object) {
                                              "id) from msms_spectrum_metadata"))
             cat(" MS/MS spectra count:", spctra[1, 1], "\n")
         }
-    } else {
-        cat(" no database connection available\n")
-    }
+    } else cat(" no database connection available\n")
 })
 
 # organism

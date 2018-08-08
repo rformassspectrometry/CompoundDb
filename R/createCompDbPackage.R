@@ -298,11 +298,21 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' `createCompDb` creates a `SQLite`-based [`CompDb`] object/database
 #' from a compound resource provided as a `data.frame` or `tbl`. Alternatively,
 #' the name(s) of the file(s) from which the annotation should be extracted can
-#' be provided. Supported are e.g. SDF files that can be processed using the
+#' be provided. Supported are SDF files (such as those from the
+#' *Human Metabolome Database* HMDB) that can be read using the
 #' [compound_tbl_sdf()] or LipidBlast files (see [compound_tbl_lipidblast()].
 #' 
-#' An additional `data.frame` providing metadata information is mandatory.
-#' Required columns for the `data.frame` providing the compound information are:
+#' An additional `data.frame` providing metadata information including the data
+#' source, date, version and organism is mandatory.
+#'
+#' Optionally MS/MS (MS2) spectra for compounds can be also stored in the
+#' database. Currently only MS/MS spectra from HMDB are supported. These can
+#' be downloaded in XML format from HMDB (http://www.hmdb.ca), loaded with
+#' the [msms_spectra_hmdb()] function and passed to the function with the
+#' `msms_spectra` argument.
+#' 
+#' Required columns for the `data.frame` providing the compound information (
+#' parameter `x`) are:
 #' + `"id"`: the ID of the compound (e.g. an HMDB ID).
 #' + `"name"`: the compound's name.
 #' + `"inchi"`: the inchi of the compound.

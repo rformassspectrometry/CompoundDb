@@ -91,7 +91,13 @@
 #' HMDB (http://www.hmdb.ca). HMDB stores MS/MS spectrum data in xml files, one
 #' file per spectrum.
 #'
-#' @param x `character(1)`: the directory containing the xml files.
+#' @note
+#'
+#' The HMDB xml files are supposed to be extracted from the downloaded zip file
+#' into a folder and should not be renamed. The function identifies xml files
+#' containing MS/MS spectra by their file name.
+#' 
+#' @param x `character(1)`: with the path to directory containing the xml files.
 #'
 #' @return `data.frame` with as many rows as there are peaks and columns:
 #' 
@@ -115,8 +121,13 @@
 #'
 #' @export
 #'
-#' @seealso [Spectrum2List()] for converting the returned `data.frame` into
-#'     a [Spectrum2List] object (list of [Spectrum2] objects with annotations).
+#' @seealso
+#'
+#' [Spectrum2List()] for converting the returned `data.frame` into
+#' a [Spectrum2List] object (list of [Spectrum2] objects with annotations).
+#'
+#' [createCompDb()] for the function to create a [CompDb] database with
+#' compound annotation and spectrum data.
 #' 
 #' @references
 #'

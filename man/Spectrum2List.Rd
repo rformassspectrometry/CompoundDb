@@ -5,7 +5,6 @@
 \alias{Spectrum2List}
 \alias{Spectrum2List-class}
 \alias{show,Spectrum2List-method}
-\alias{Spectrum2List}
 \alias{$,Spectrum2List-method}
 \alias{$<-,Spectrum2List-method}
 \alias{mz,Spectrum2List-method}

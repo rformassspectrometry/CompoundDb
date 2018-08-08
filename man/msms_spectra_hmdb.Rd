@@ -7,7 +7,7 @@
 msms_spectra_hmdb(x)
 }
 \arguments{
-\item{x}{\code{character(1)}: the directory containing the xml files.}
+\item{x}{\code{character(1)}: with the path to directory containing the xml files.}
 }
 \value{
 \code{data.frame} with as many rows as there are peaks and columns:
@@ -32,6 +32,11 @@ spectrum was measured.
 HMDB (http://www.hmdb.ca). HMDB stores MS/MS spectrum data in xml files, one
 file per spectrum.
 }
+\note{
+The HMDB xml files are supposed to be extracted from the downloaded zip file
+into a folder and should not be renamed. The function identifies xml files
+containing MS/MS spectra by their file name.
+}
 \examples{
 
 ## Locate the folder within the package containing test xml files.
@@ -53,6 +58,9 @@ mass spectra. Nature Biotechnology 2016 34(11):1099-1101
 \seealso{
 \code{\link[=Spectrum2List]{Spectrum2List()}} for converting the returned \code{data.frame} into
 a \link{Spectrum2List} object (list of \link{Spectrum2} objects with annotations).
+
+\code{\link[=createCompDb]{createCompDb()}} for the function to create a \link{CompDb} database with
+compound annotation and spectrum data.
 }
 \author{
 Johannes Rainer

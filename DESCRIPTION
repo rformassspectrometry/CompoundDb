@@ -39,7 +39,7 @@ License: GPL (>= 2)
 URL: https://github.com/EuracBiomedicalResearch/CompoundDb
 biocViews: MassSpectrometry, Metabolomics
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 Collate: 
     'AnnotationFilters.R'
     'createCompDbPackage.R'

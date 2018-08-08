@@ -7,12 +7,10 @@
 \alias{show}
 \alias{dbconn,CompDb-method}
 \alias{show,CompDb-method}
-\alias{CompDb}
 \alias{hasSpectra}
 \alias{compounds}
 \alias{src_compdb}
 \alias{tables}
-\alias{dbconn,CompDb-method}
 \alias{spectra,CompDb-method}
 \title{Simple compound (metabolite) databases}
 \usage{

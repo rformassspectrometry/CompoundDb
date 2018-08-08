@@ -68,11 +68,21 @@ For \code{createCompDb}: a \code{character(1)} with the database name
 \code{createCompDb} creates a \code{SQLite}-based \code{\link{CompDb}} object/database
 from a compound resource provided as a \code{data.frame} or \code{tbl}. Alternatively,
 the name(s) of the file(s) from which the annotation should be extracted can
-be provided. Supported are e.g. SDF files that can be processed using the
+be provided. Supported are SDF files (such as those from the
+\emph{Human Metabolome Database} HMDB) that can be read using the
 \code{\link[=compound_tbl_sdf]{compound_tbl_sdf()}} or LipidBlast files (see \code{\link[=compound_tbl_lipidblast]{compound_tbl_lipidblast()}}.
 
-An additional \code{data.frame} providing metadata information is mandatory.
-Required columns for the \code{data.frame} providing the compound information are:
+An additional \code{data.frame} providing metadata information including the data
+source, date, version and organism is mandatory.
+
+Optionally MS/MS (MS2) spectra for compounds can be also stored in the
+database. Currently only MS/MS spectra from HMDB are supported. These can
+be downloaded in XML format from HMDB (http://www.hmdb.ca), loaded with
+the \code{\link[=msms_spectra_hmdb]{msms_spectra_hmdb()}} function and passed to the function with the
+\code{msms_spectra} argument.
+
+Required columns for the \code{data.frame} providing the compound information (
+parameter \code{x}) are:
 \itemize{
 \item \code{"id"}: the ID of the compound (e.g. an HMDB ID).
 \item \code{"name"}: the compound's name.
