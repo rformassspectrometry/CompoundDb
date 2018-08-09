@@ -4,15 +4,20 @@
 \alias{msms_spectra_hmdb}
 \title{Import MS/MS spectra from HMDB xml files}
 \usage{
-msms_spectra_hmdb(x)
+msms_spectra_hmdb(x, collapsed = TRUE)
 }
 \arguments{
 \item{x}{\code{character(1)}: with the path to directory containing the xml files.}
+
+\item{collapsed}{\code{logical(1)} whether the returned \code{data.frame} should be
+\emph{collapsed} or \emph{expanded}. See description for more details.}
 }
 \value{
 \code{data.frame} with as many rows as there are peaks and columns:
 \itemize{
-\item spectrum_id (\code{character}): the HMDB-internal ID of the spectrum.
+\item spectrum_id (\code{character}): an arbitrary, unique ID identifying values
+from one xml file.
+\item original_spectrum_id (\code{character}): the HMDB-internal ID of the spectrum.
 \item compound_id (\code{character}): the HMDB compound ID the spectrum is associated
 with.
 \item polarity (\code{integer}): 0 for negative, 1 for positive, \code{NA} for not set.
@@ -23,19 +28,30 @@ verified.
 (Wohlgemuth 2016).
 \item instrument_type (\code{character}): the type of MS instrument on which the
 spectrum was measured.
-\item mz (\code{numeric}): m/z values of the spectrum.
-\item intensity (\code{numeric}): intensity of the spectrum.
+\item mz (\code{numeric} or \code{list} of \code{numeric}): m/z values of the spectrum.
+\item intensity (\code{numeric} or \code{list} of \code{numeric}): intensity of the spectrum.
 }
 }
 \description{
 \code{msms_spectra_hmdb} imports MS/MS spectra from corresponding xml files from
-HMDB (http://www.hmdb.ca). HMDB stores MS/MS spectrum data in xml files, one
-file per spectrum.
+HMDB (http://www.hmdb.ca) and returns the data as a \code{data.frame}. HMDB
+stores MS/MS spectrum data in xml files, one file per spectrum.
+
+Depending on the parameter \code{collapsed}, the returned \code{data.frame} is either
+\emph{collapsed}, meaning that each row represents data from one spectrum xml
+file, or \emph{expanded} with one row for each m/z and intensity pair for each
+spectrum. Columns \code{"mz"} and \code{"intensity"} are of type \code{list} for
+\code{collapsed = TRUE} and \code{numeric} for \code{collapsed = FALSE}.
 }
 \note{
 The HMDB xml files are supposed to be extracted from the downloaded zip file
 into a folder and should not be renamed. The function identifies xml files
 containing MS/MS spectra by their file name.
+
+The same spectrum ID can be associated with multiple compounds. Thus, the
+function assignes an arbitrary ID (column \code{"spectrum_id"}) to values from
+each file. The original ID of the spectrum in HMDB is provided in column
+\code{"original_spectrum_id"}.
 }
 \examples{
 
@@ -47,6 +63,10 @@ dir(pth)
 
 ## Import spectrum data from HMDB MS/MS spectrum xml files in that directory
 msms_spectra_hmdb(pth)
+
+## Import the data as an *expanded* data frame, i.e. with a row for each
+## single m/z (intensity) value.
+msms_spectra_hmdb(pth, collapsed = FALSE)
 }
 \references{
 Wohlgemuth G, Mehta SS, Mejia RF, Neumann S, Pedrosa D, Pluskal T,

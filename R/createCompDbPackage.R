@@ -501,6 +501,8 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
     dbExecute(con, "create index compound_name_idx on compound (compound_name)")
     ## Process spectra.
     if (!missing(msms_spectra) && is.data.frame(msms_spectra)) {
+        if (is.list(msms_spectra$mz))
+            msms_spectra <- .expand_spectrum_df(msms_spectra)
         .check_msms_spectra_columns(msms_spectra)
         ## All IDs have to be present in the compound table
         comp_ids <- dbGetQuery(
