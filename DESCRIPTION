@@ -49,3 +49,4 @@ Collate:
     'Spectrum2List-methods.R'
     'query-engine.R'
     'spectrum-import-functions.R'
+    'utility-functions.R'

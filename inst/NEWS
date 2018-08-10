@@ -1,8 +1,10 @@
 Changes in version 0.1.0
 ------------------------
 
+- Add expandMzIntensity function.
 - Add spectra method to extract spectra from the CompDb database.
-- Add functionality to store MS/MS spectra in a CompDb database.
+- Add functionality to store MS/MS spectra in a CompDb database (m/z and
+  intensity values stored as BLOB).
 - Add functionality to load MS/MS spectra from HMDB xml files.
 
 

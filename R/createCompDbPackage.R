@@ -501,30 +501,67 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
     dbExecute(con, "create index compound_name_idx on compound (compound_name)")
     ## Process spectra.
     if (!missing(msms_spectra) && is.data.frame(msms_spectra)) {
-        if (is.list(msms_spectra$mz))
-            msms_spectra <- .expand_spectrum_df(msms_spectra)
-        .check_msms_spectra_columns(msms_spectra)
-        ## All IDs have to be present in the compound table
-        comp_ids <- dbGetQuery(
-            con, "select distinct compound_id from compound")$compound_id
+        comp_ids <- unique(x$compound_id)
         if (!all(msms_spectra$compound_id %in% comp_ids))
             stop("All compound identifiers in 'msms_spectra' have to be ",
                  "present also in 'x'")
-        msms_spectrum_peak <- unique(msms_spectra[, c("spectrum_id", "mz",
-                                                      "intensity")])
-        dbWriteTable(con, name = "msms_spectrum_peak", msms_spectrum_peak,
-                     row.names = FALSE)
-        msms_spectrum_metadata <- unique(msms_spectra[, !(colnames(msms_spectra)
-            %in% c("mz", "intensity"))])
-        dbWriteTable(con, name = "msms_spectrum_metadata",
-                     msms_spectrum_metadata, row.names = FALSE)
-        dbExecute(con, "create index msms_id_idx on msms_spectrum_peak (spectrum_id)")
-        dbExecute(con, "create index msms_mid_idx on msms_spectrum_metadata (spectrum_id)")
-        dbExecute(con, "create index msms_cid_idx on msms_spectrum_metadata (compound_id)")
+        msms_spectra <- msms_spectra[msms_spectra$compound_id %in% comp_ids, ]
+        .insert_msms_spectra_blob(con, msms_spectra)
     }
     dbDisconnect(con)
     invisible(db_file)
 }
+
+#' Function to insert MS/MS spectrum data into a single database table with
+#' one row per spectrum and m/z and intensity vectors stored as BLOB.
+#'
+#' @param con database connection
+#'
+#' @param x `data.frame` with the spectrum data, such as returned by
+#' [msms_spectra_hmdb]
+#'
+#' @noRd
+#'
+#' @author Johannes Rainer
+.insert_msms_spectra_blob <- function(con, x, ...) {
+    if (is.numeric(x$mz))
+        x <- .collapse_spectrum_df(x)
+    .check_msms_spectra_columns(x, blob = TRUE)
+    x$mz <- lapply(x$mz, base::serialize, NULL)
+    x$intensity <- lapply(x$intensity, base::serialize, NULL)
+    dbWriteTable(con, name = "msms_spectrum", x, row.names = FALSE, ...)
+    dbExecute(con, "create index msms_cidb_idx on msms_spectrum (compound_id)")
+}
+
+#' Function to insert MS/MS spectrum data into two database tables:
+#' msms_spectrum_peak with the individual m/z and intensity values and
+#' msms_spectrum_metadata with the spectrum annotations. Both tables are linked
+#' via the spectrum_id.
+#'
+#' @param con database connection
+#'
+#' @param x `data.frame` with the spectrum data, such as returned by
+#' [msms_spectra_hmdb]
+#'
+#' @noRd
+#'
+#' @author Johannes Rainer
+.insert_msms_spectra <- function(con, x) {
+    if (is.list(x$mz))
+        x <- .expand_spectrum_df(x)
+    .check_msms_spectra_columns(x, blob = FALSE)
+    msms_spectrum_peak <- x[, c("spectrum_id", "mz", "intensity")]
+    dbWriteTable(con, name = "msms_spectrum_peak", msms_spectrum_peak,
+                 row.names = FALSE)
+    msms_spectrum_metadata <- unique(x[, !(colnames(x) %in%
+                                           c("mz", "intensity"))])
+    dbWriteTable(con, name = "msms_spectrum_metadata",
+                 msms_spectrum_metadata, row.names = FALSE)
+    dbExecute(con, "create index msms_id_idx on msms_spectrum_peak (spectrum_id)")
+    dbExecute(con, "create index msms_mid_idx on msms_spectrum_metadata (spectrum_id)")
+    dbExecute(con, "create index msms_cid_idx on msms_spectrum_metadata (compound_id)")
+}
+
 
 .required_metadata_keys <- c("source", "url", "source_version", "source_date",
                              "organism")
@@ -542,18 +579,28 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
                                      mz = "numeric",
                                      intensity = "numeric")
 
-.check_msms_spectra_columns <- function(x) {
+.required_msms_spectrum_columns_blob <- c(spectrum_id = "character",
+                                          compound_id = "character",
+                                          polarity = "integer",
+                                          collision_energy = "numeric",
+                                          predicted = "logical",
+                                          splash = "character",
+                                          instrument_type = "character",
+                                          mz = "list",
+                                          intensity = "list")
+
+.check_msms_spectra_columns <- function(x, blob = TRUE) {
     coltypes <- unlist(lapply(x, class))
-    not_found <- which(!(names(.required_msms_spectrum_columns) %in%
-                         names(coltypes)))
+    if (blob)
+        req_cols <- .required_msms_spectrum_columns_blob
+    else req_cols <- .required_msms_spectrum_columns
+    not_found <- which(!(names(req_cols) %in% names(coltypes)))
     if (length(not_found))
         stop("Required column(s) ",
-             paste0("'", names(.required_msms_spectrum_columns)[not_found], "'"),
+             paste0("'", names(req_cols)[not_found], "'"),
              " not found in 'msms_spectra'", call. = FALSE)
-    common_cols <- union(names(coltypes),
-                         names(.required_msms_spectrum_columns))
-    wrong_type <- which(coltypes[common_cols] !=
-                        .required_msms_spectrum_columns[common_cols])
+    common_cols <- union(names(coltypes), names(req_cols))
+    wrong_type <- which(coltypes[common_cols] != req_cols[common_cols])
     if (length(wrong_type))
         stop("One or more columns contain data of the wrong type: ",
              paste(names(coltypes[names(wrong_type)]),

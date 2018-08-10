@@ -1,4 +1,3 @@
-
 #' @name Spectrum2List
 #'
 #' @aliases Spectrum2List-class show,Spectrum2List-method
@@ -108,8 +107,8 @@ setValidity("Spectrum2List", function(object) {
 #' have to be present:
 #'
 #' - spectrum_id: (`character`) defining the 
-#' - mz: (`numeric`) the m/z value of each peak.
-#' - intensity: (`numeric`) the peak's intensity.
+#' - mz: (`numeric` or `list` of `numeric`) the m/z value of each peak.
+#' - intensity: (`numeric` or `list` of `numeric`) the peak's intensity.
 #'
 #' Optional columns listed below are used to fill the indicated slots of the
 #' [Spectrum2] object:
@@ -171,6 +170,9 @@ Spectrum2List <- function(...) {
 
 #' @description Create a list of `Spectrum2` objects from a `data.frame`.
 #'
+#' @note Columns `spectrum_id` is supposed to uniquely identify values
+#'     belonging to one spectrum.
+#'
 #' @param x `data.frame` with spectrum data.
 #' 
 #' @author Johannes Rainer
@@ -199,11 +201,12 @@ Spectrum2List <- function(...) {
     supp_cols <- c(req_cols, "polarity", "ms_level", "rt", "precursor_mz",
                    "precursor_charge", "precursor_intensity",
                    "collision_energy")
-    mz <- x$mz
-    int <- x$intensity
-    nvals <- lengths(split(x$mz, factor(x$spectrum_id,
-                                          levels = unique(x$spectrum_id))))
-    x <- unique(x[, !(colnames(x) %in% c("mz", "intensity"))])
+    if (is.numeric(x$mz))
+        x <- .collapse_spectrum_df(x)
+    mz <- unlist(x$mz)
+    int <- unlist(x$intensity)
+    nvals <- lengths(x$mz)
+    x <- x[, !(colnames(x)) %in% c("mz", "intensity")]
     if (nrow(x) != length(unique(x$spectrum_id)))
         stop("Unexpected number of rows in data.frame")
     ## Process optional columns.

@@ -41,10 +41,9 @@ test_that("CompDb constructor and low level functions", {
 
     ## tables with spectra
     tbls <- tables(cmp_spctra_db)
-    expect_equal(length(tbls), 4)
+    expect_equal(length(tbls), 3)
     expect_equal(names(tbls), c("compound",
-                                "msms_spectrum_metadata",
-                                "msms_spectrum_peak",
+                                "msms_spectrum",
                                 "synonym"))
     
     ## .get_property

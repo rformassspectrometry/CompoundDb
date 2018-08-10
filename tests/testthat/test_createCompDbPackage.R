@@ -261,4 +261,20 @@ test_that(".check_msms_spectra_columns works", {
     expect_error(.check_msms_spectra_columns(tmp[, 1:4]))
     tmp$polarity <- as.character(tmp$polarity)
     expect_error(.check_msms_spectra_columns(tmp))
+    dr <- system.file("xml/", package = "CompoundDb")
+    tmp <- msms_spectra_hmdb(dr, collapsed = FALSE)
+    expect_true(.check_msms_spectra_columns(tmp, blob = FALSE))
+})
+
+test_that(".insert_msms_spectra works", {
+    library(RSQLite)
+    con <- dbConnect(dbDriver("SQLite"), dbname = tempfile())
+    CompoundDb:::.insert_msms_spectra_blob(con, msms_spctra)
+    res <- dbGetQuery(con, "select * from msms_spectrum")
+    expect_equal(nrow(res), nrow(msms_spctra))
+    msms_spctra_exp <- CompoundDb:::.expand_spectrum_df(msms_spctra)
+    CompoundDb:::.insert_msms_spectra_blob(con, msms_spctra_exp,
+                                           overwrite = TRUE)
+    res_2 <- dbGetQuery(con, "select * from msms_spectrum")
+    expect_equal(res, res_2)
 })

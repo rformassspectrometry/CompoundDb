@@ -154,17 +154,25 @@ setValidity("CompDb", function(object) {
     if (is.character(res))
         txt <- c(txt, res)
     if (length(grep("msms", tables))) {
-        req_tables <- c("msms_spectrum_metadata", "msms_spectrum_peak")
-        got <- req_tables %in% tables
-        if (!all(got))
-            txt <- c(txt, paste0("Required tables ", paste0(req_tables[!got]),
-                                 "not found in the database"))
+        ## BLOB
+        if (!any(tables == "msms_spectrum"))
+            txt <- c(txt, paste0("Required table msms_spectrum not found in",
+                                 " the database"))
         compound_cmp_id <- dbGetQuery(x, "select compound_id from compound")[,1]
-        spectrum_cmp_id <- dbGetQuery(
-            x, "select compound_id from msms_spectrum_metadata")[, 1]
+        spectrum_cmp_id <- dbGetQuery(x, paste0("select compound_id from ",
+                                                "msms_spectrum"))[, 1]
+        ## Uncomment below if we switch back to individual m/z value storing
+        ## req_tables <- c("msms_spectrum_metadata", "msms_spectrum_peak")
+        ## got <- req_tables %in% tables
+        ## if (!all(got))
+        ##     txt <- c(txt, paste0("Required tables ", paste0(req_tables[!got]),
+        ##                          "not found in the database"))
+        ## compound_cmp_id <- dbGetQuery(x, "select compound_id from compound")[,1]
+        ## spectrum_cmp_id <- dbGetQuery(
+        ##     x, "select compound_id from msms_spectrum_metadata")[, 1]
         if (!all(spectrum_cmp_id %in% compound_cmp_id))
-            txt <- c(txt, paste0("Not all compound ids in the msms_spectrum_me",
-                                 "tadata table are also in the compound table"))
+            txt <- c(txt, paste0("Not all compound ids in the msms_spectrum",
+                                 " table are also in the compound table"))
     }
     if (length(txt)) txt else TRUE
 }
@@ -217,8 +225,9 @@ CompDb <- function(x) {
 }
 
 .hasSpectra <- function(x) {
-    all(c("msms_spectrum_peak", "msms_spectrum_metadata") %in%
-        names(.tables(x)))
+    ## all(c("msms_spectrum_peak", "msms_spectrum_metadata") %in%
+    ##     names(.tables(x)))
+    any(names(.tables(x)) == "msms_spectrum")
 }
 
 #' @description `hasSpectra` returns `TRUE` if MS/MS spectrum data is available
@@ -258,15 +267,10 @@ compounds <- function(x, columns, filter, return.type = "data.frame") {
     match.arg(return.type, c("data.frame", "tibble"))
     if (missing(columns))
         columns <- .tables(x, "compound")[[1]]
-    ## Require compound_id to be present
     if (!any(columns == "compound_id"))
         columns <- c("compound_id", columns)
-    res <- dbGetQuery(.dbconn(x),
-                      .build_query_CompDb(x, columns = columns,
-                                          filter = filter,
-                                          start_from = "compound"))
-    if (any(columns == "predicted"))
-        res$predicted <- as.logical(res$predicted)
+    res <- .fetch_data(x, columns = columns, filter = filter,
+                       start_from = "compound")
     if (return.type == "tibble")
         as_tibble(res)
     else res

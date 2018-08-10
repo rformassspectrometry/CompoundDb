@@ -29,7 +29,7 @@ tables(x)
 \S4method{dbconn}{CompDb}(x)
 
 \S4method{spectra}{CompDb}(object, columns, filter,
-  return.type = "Spectrum2List")
+  return.type = c("Spectrum2List", "data.frame", "tibble"))
 }
 \arguments{
 \item{x}{For \code{CompDb}: \code{character(1)} with the file name of the SQLite

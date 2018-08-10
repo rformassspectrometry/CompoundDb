@@ -38,7 +38,7 @@
         columns_flts <- .field(filter)
         columns <- unique(c(columns, columns_flts))
     }
-    ## By default we will return also the filter columns!
+    ## By default we return also the filter columns!
     columns_tbl <- .reduce_tables_start_from(tbls, columns, start_from)
     paste0(.select(unlist(.prefix_columns(columns_tbl), use.names = FALSE)),
            .from(names(columns_tbl)),
@@ -91,16 +91,23 @@
         c("compound", "synonym",
           "on (compound.compound_id=synonym.compound_id)",
           "left outer join"),
-        c("compound", "msms_spectrum_metadata",
-          "on (compound.compound_id=msms_spectrum_metadata.compound_id)",
+        c("compound", "msms_spectrum",
+          "on (compound.compound_id=msms_spectrum.compound_id)",
           "left outer join"),
-        c("msms_spectrum_metadata", "msms_spectrum_peak",
-          paste0("on (msms_spectrum_metadata.spectrum_id=",
-                 "msms_spectrum_peak.spectrum_id)"),
-          "left outer join"),
-        c("msms_spectrum_metadata", "synonym",
-          "on (msms_spectrum_metadata.compound_id=synonym.compound_id)",
+        c("msms_spectrum", "synonym",
+          "on (msms_spectrum.compound_id=synonym.compound_id)",
           "left outer join")
+        ## BELOW is for having the spectrum data split in two tables.
+        ## c("compound", "msms_spectrum_metadata",
+        ##   "on (compound.compound_id=msms_spectrum_metadata.compound_id)",
+        ##   "left outer join"),
+        ## c("msms_spectrum_metadata", "msms_spectrum_peak",
+        ##   paste0("on (msms_spectrum_metadata.spectrum_id=",
+        ##          "msms_spectrum_peak.spectrum_id)"),
+        ##   "left outer join"),
+        ## c("msms_spectrum_metadata", "synonym",
+        ##   "on (msms_spectrum_metadata.compound_id=synonym.compound_id)",
+        ##   "left outer join")
     )
     x <- .add_join_tables(x)
     q <- x[1]
@@ -139,10 +146,9 @@
 #' 
 #' @noRd
 .add_join_tables <- function(x) {
-    ## msms_spectrum_peak with any other table: need also msms_spectrum_metadata
-    if (any(x == "msms_spectrum_peak") & length(x) > 1)
-        x <- c(x, "msms_spectrum_metadata")
-    ## So far we don't have to add anything here.
+    ## ## msms_spectrum_peak with any other table: need also msms_spectrum_metadata
+    ## if (any(x == "msms_spectrum_peak") & length(x) > 1)
+    ##     x <- c(x, "msms_spectrum_metadata")
     unique(x)
 }
 
@@ -307,4 +313,37 @@
                   SIMPLIFY = FALSE)
 }
 
+#' Main interface function to retrieve data from the database. Performs the
+#' SQL call, gets data, formats data etc.
+#'
+#' @author Johannes Rainer
+#' 
+#' @noRd
+.fetch_data <- function(x, columns, filter, start_from, order) {
+    ## If any column is mz or intensity we have to add also spectrum_id, other
+    ## wise it's not possible to assign them correctly
+    if (any(columns %in% c("mz", "intensity")) & !any(columns == "spectrum_id"))
+        columns <- c(columns, "spectrum_id")
+    res <- dbGetQuery(.dbconn(x), .build_query_CompDb(x, columns = columns,
+                                                      filter = filter,
+                                                      start_from = start_from,
+                                                      order = order))
+    if (any(columns == "predicted"))
+        res$predicted <- as.logical(res$predicted)
+    .deserialize_mz_intensity(res)
+}
 
+#' Deserialize m/z and intensity values stored as BLOB in the database.
+#'
+#' @author Johannes Rainer
+#' 
+#' @noRd
+.deserialize_mz_intensity <- function(x) {
+    if (nrow(x)) {
+        if (is.raw(x$mz[[1]]))
+            x$mz <- lapply(x$mz, unserialize)
+        if (is.raw(x$intensity[[1]]))
+            x$intensity <- lapply(x$intensity, unserialize)
+    }
+    x
+}

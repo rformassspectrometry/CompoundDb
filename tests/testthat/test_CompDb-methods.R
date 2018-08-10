@@ -12,12 +12,13 @@ test_that("dbconn,CompDb works", {
 
 test_that("spectra,CompDb works", {
     expect_error(spectra(cmp_db))
-    res <- spectra(cmp_spctra_db)
+    res <- spectra(cmp_spctra_db, return.type = "Spectrum2List")
     expect_true(is(res, "Spectrum2List"))
     expect_true(length(res) == 4)
     res <- spectra(cmp_spctra_db, return.type = "data.frame")
     expect_true(is.data.frame(res))
-    mzs <- split(res$mz, res$spectrum_id)
+    ## mzs <- split(res$mz, res$spectrum_id)
+    mzs <- res$mz
     expect_true(all(!vapply(mzs, is.unsorted, logical(1))))
     res <- spectra(cmp_spctra_db, return.type = "tibble")
     expect_true(is(res, "tbl"))

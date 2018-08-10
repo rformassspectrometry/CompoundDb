@@ -59,8 +59,8 @@ row is expected to represent one peak and the following required columns
 have to be present:
 \itemize{
 \item spectrum_id: (\code{character}) defining the
-\item mz: (\code{numeric}) the m/z value of each peak.
-\item intensity: (\code{numeric}) the peak's intensity.
+\item mz: (\code{numeric} or \code{list} of \code{numeric}) the m/z value of each peak.
+\item intensity: (\code{numeric} or \code{list} of \code{numeric}) the peak's intensity.
 }
 
 Optional columns listed below are used to fill the indicated slots of the

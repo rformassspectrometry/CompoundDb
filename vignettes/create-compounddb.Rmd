@@ -138,7 +138,10 @@ compounds(cmpdb, columns = c("compound_name", "formula", "mass"))
 ```
 
 Analogously we can use the `spectra` function to extract spectrum data from the
-database.
+database. The function returns by default a `Spectrum2List` object, that allows
+to store multiple `Spectrum2` objects in a `list`-like structure with additional
+annotations available in *metadata columns* (that can be accessed either with
+`$` or `mcols`).
 
 ```{r spectra}
 spectra(cmpdb)

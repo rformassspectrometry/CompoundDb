@@ -30,8 +30,10 @@ setMethod("show", "CompDb", function(object) {
                                          "from compound"))
         cat(" compound count:", cmp_nr[1, 1], "\n")
         if (hasSpectra(object)) {
+            ## spctra <- dbGetQuery(con, paste0("select count(distinct spectrum_",
+            ##                                  "id) from msms_spectrum_metadata"))
             spctra <- dbGetQuery(con, paste0("select count(distinct spectrum_",
-                                             "id) from msms_spectrum_metadata"))
+                                             "id) from msms_spectrum"))
             cat(" MS/MS spectra count:", spctra[1, 1], "\n")
         }
     } else cat(" no database connection available\n")
@@ -48,28 +50,29 @@ setMethod("show", "CompDb", function(object) {
 #'
 #' @rdname CompDb
 setMethod("spectra", "CompDb", function(object, columns, filter,
-                                        return.type = "Spectrum2List") {
+                                        return.type = c("Spectrum2List",
+                                                        "data.frame",
+                                                        "tibble")) {
     if (!hasSpectra(object))
-        stop("No spectrum data available in the provided database")
-    match.arg(return.type, c("Spectrum2List", "data.frame", "tibble"))
+        stop("No spectrum data available in the provided database",
+             call. = FALSE)
+    return.type <- match.arg(return.type)
     if (missing(columns))
-        columns <- unique(unlist(
-            .tables(object, c("msms_spectrum_peak", "msms_spectrum_metadata"))))
-    ordr <- "msms_spectrum_peak.spectrum_id"
+        columns <- .tables(object, "msms_spectrum")[[1]]
+    ## columns <- unique(unlist(
+    ##     .tables(object, c("msms_spectrum_peak", "msms_spectrum_metadata"))))
+    ## ordr <- "msms_spectrum_peak.spectrum_id"
+    ordr <- "msms_spectrum.spectrum_id"
     if (return.type == "Spectrum2List") {
         columns <- unique(c("mz", "intensity", "polarity", "collision_energy",
                             columns))
-        ordr <- "msms_spectrum_peak.spectrum_id, msms_spectrum_peak.mz"
+        ## ordr <- paste0(ordr, ", msms_spectrum_peak.mz")
     }
     if (!any(columns == "spectrum_id"))
         columns <- c("spectrum_id", columns)
-    res <- dbGetQuery(.dbconn(object),
-                      .build_query_CompDb(object, columns = columns,
-                                          filter = filter,
-                                          start_from = "msms_spectrum_metadata",
-                                          order = ordr))
-    if (any(columns == "predicted"))
-        res$predicted <- as.logical(res$predicted)
+    res <- .fetch_data(object, columns = columns, filter = filter,
+                       start_from = "msms_spectrum", order = ordr)
+    ## start_from = "msms_spectrum_metadata", order = ordr)
     if (return.type == "tibble")
         res <- as_tibble(res)
     if (return.type == "Spectrum2List")
