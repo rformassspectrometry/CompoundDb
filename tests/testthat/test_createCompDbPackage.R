@@ -1,4 +1,5 @@
 test_that(".simple_import_compounds_sdf works", {
+    
     hmdb <- system.file("sdf/HMDB_sub.sdf", package = "CompoundDb")
     cmps <- .simple_import_compounds_sdf(hmdb)
     expect_true(is(cmps, "data.frame"))
@@ -33,6 +34,9 @@ test_that(".simple_import_compounds_sdf works", {
 })
 
 test_that("compound_tbl_sdf works", {
+    expect_error(compound_tbl_sdf())
+    expect_error(compound_tbl_sdf("somefile"))
+    
     hmdb <- system.file("sdf/HMDB_sub.sdf", package = "CompoundDb")
     cmps <- compound_tbl_sdf(hmdb)
     expect_true(is(cmps, "data.frame"))
@@ -110,6 +114,9 @@ test_that(".import_lipidblast works", {
 })
 
 test_that("compound_tbl_lipidblast works", {
+    expect_error(compound_tbl_lipidblast())
+    expect_error(compound_tbl_lipidblast("sddfd"))
+    
     lb <- system.file("json/MoNa-LipidBlast_sub.json", package = "CompoundDb")
     cmps <- compound_tbl_lipidblast(lb)
     expect_true(is(cmps, "data.frame"))
@@ -188,7 +195,13 @@ test_that("createCompDb and createCompDbPackage works", {
                                author = "J Doe", path = tempdir())
     expect_true(is.character(res))
     expect_equal(basename(res), "CompDb.Hsapiens.ChEBI.unknown")
+    expect_error(createCompDbPackage(5, version = "0.0.1",
+                                     maintainer = "John Doe <john.doe@mail.com>",
+                                   author = "J Doe", path = tempdir()))
+    expect_error(createCompDbPackage(dbf, version = "0.0.1",
+                                   author = "J Doe", path = tempdir()))
 
+    
     ## Provide a single file name.
     fl <- system.file("sdf/LipidMaps_sub.sdf.gz", package = "CompoundDb")
     metad <- make_metadata(source = "LipidMaps", source_date = "2016",
@@ -266,7 +279,7 @@ test_that(".check_msms_spectra_columns works", {
     expect_true(.check_msms_spectra_columns(tmp, blob = FALSE))
 })
 
-test_that(".insert_msms_spectra works", {
+test_that(".insert_msms_spectra_blob works", {
     library(RSQLite)
     con <- dbConnect(dbDriver("SQLite"), dbname = tempfile())
     CompoundDb:::.insert_msms_spectra_blob(con, msms_spctra)
@@ -277,4 +290,17 @@ test_that(".insert_msms_spectra works", {
                                            overwrite = TRUE)
     res_2 <- dbGetQuery(con, "select * from msms_spectrum")
     expect_equal(res, res_2)
+})
+
+test_that(".insert_msms_spectra works", {
+    library(RSQLite)
+    con <- dbConnect(dbDriver("SQLite"), dbname = tempfile())
+    CompoundDb:::.insert_msms_spectra(con, msms_spctra)
+    res <- dbGetQuery(con, "select * from msms_spectrum_metadata")
+    expect_equal(nrow(res), nrow(msms_spctra))
+    expect_equal(res$splash, msms_spctra$splash)
+    res_2 <- dbGetQuery(con, "select * from msms_spectrum_peak")
+    expect_equal(colnames(res_2), c("spectrum_id", "mz", "intensity"))
+    expect_equal(res_2$mz, unlist(msms_spctra$mz))
+    expect_equal(res_2$intensity, unlist(msms_spctra$intensity))    
 })

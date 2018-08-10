@@ -75,6 +75,7 @@ test_that(".select works", {
 test_that(".build_query_CompDb works", {
     expect_error(.build_query_CompDb())
     expect_error(.build_query_CompDb(columns = c("compound_id", "inchi")))
+    expect_error(.build_query_CompDb(cmp_db))
     res <- .build_query_CompDb(
         cmp_db, columns = c("compound_id", "inchi"))
     expect_equal(res, paste0("select distinct compound.compound_id,compound.",

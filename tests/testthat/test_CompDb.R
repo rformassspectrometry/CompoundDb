@@ -76,6 +76,7 @@ test_that("compounds works", {
 test_that("src_compound works", {
     src_cmp <- src_compdb(cmp_db)
     expect_true(is(src_cmp, "src_dbi"))
+    expect_error(src_compdb(5))
 })
 
 test_that(".hasSpectra/hasSpectra works", {
