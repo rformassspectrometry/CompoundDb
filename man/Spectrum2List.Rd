@@ -10,6 +10,23 @@
 \alias{mz,Spectrum2List-method}
 \alias{intensity,Spectrum2List-method}
 \alias{rtime,Spectrum2List-method}
+\alias{precursorMz,Spectrum2List-method}
+\alias{precursorCharge,Spectrum2List-method}
+\alias{precScanNum,Spectrum2List-method}
+\alias{precursorIntensity,Spectrum2List-method}
+\alias{acquisitionNum,Spectrum2List-method}
+\alias{scanIndex,Spectrum2List-method}
+\alias{peaksCount,Spectrum2List,ANY-method}
+\alias{msLevel,Spectrum2List-method}
+\alias{tic,Spectrum2List-method}
+\alias{ionCount,Spectrum2List-method}
+\alias{collisionEnergy,Spectrum2List-method}
+\alias{fromFile,Spectrum2List-method}
+\alias{polarity,Spectrum2List-method}
+\alias{smoothed,Spectrum2List-method}
+\alias{isEmpty,Spectrum2List-method}
+\alias{centroided,Spectrum2List-method}
+\alias{isCentroided,Spectrum2List-method}
 \title{List of Spectrum 2 objects along with annotations}
 \usage{
 Spectrum2List(...)
@@ -23,6 +40,40 @@ Spectrum2List(...)
 \S4method{intensity}{Spectrum2List}(object)
 
 \S4method{rtime}{Spectrum2List}(object)
+
+\S4method{precursorMz}{Spectrum2List}(object)
+
+\S4method{precursorCharge}{Spectrum2List}(object)
+
+\S4method{precScanNum}{Spectrum2List}(object)
+
+\S4method{precursorIntensity}{Spectrum2List}(object)
+
+\S4method{acquisitionNum}{Spectrum2List}(object)
+
+\S4method{scanIndex}{Spectrum2List}(object)
+
+\S4method{peaksCount}{Spectrum2List,ANY}(object)
+
+\S4method{msLevel}{Spectrum2List}(object)
+
+\S4method{tic}{Spectrum2List}(object)
+
+\S4method{ionCount}{Spectrum2List}(object)
+
+\S4method{collisionEnergy}{Spectrum2List}(object)
+
+\S4method{fromFile}{Spectrum2List}(object)
+
+\S4method{polarity}{Spectrum2List}(object)
+
+\S4method{smoothed}{Spectrum2List}(object)
+
+\S4method{isEmpty}{Spectrum2List}(x)
+
+\S4method{centroided}{Spectrum2List}(object)
+
+\S4method{isCentroided}{Spectrum2List}(object)
 }
 \arguments{
 \item{...}{\link{Spectrum2} object(s), a \code{list} of \link{Spectrum2} objects or a
@@ -94,7 +145,7 @@ be accessed with the `mcols` function.
 
 
 These methods allow to access the attributes and values of the individual
-`Spectrum2` objects. For more details please refer to the corresoonding
+`Spectrum2` objects. For more details please refer to the corresponding
 methods in the `MSnbase` package
 
 - `mz` return the m/z values of each spectrum as a `list` of `numeric`
@@ -105,6 +156,42 @@ methods in the `MSnbase` package
 
 - `rtime` return the retention time of each spectrum as a `numeric` vector
   with length equal to the length of `object`.
+
+- `precursorMz`, `precursorCharge`, `precursorIntensity`, `precScanNum`
+  return precursor m/z values, charge, intensity and scan number for each
+  spectrum as a `numeric` (or `integer`) vector with length equal to the
+  length of `object`.
+
+- `acquisitionNum` and `scanIndex` return the acquisition number of each
+  spectrum and its scan index as an `integer` vector with the same length
+  than `object`.
+
+- `ionCount` and `tic` return the ion count and total ion current of each
+  spectrum.
+
+- `peaksCount` returns the number of peaks for each spectrum as a `integer`
+  vector.
+
+- `msLevel` returns the MS level of each spectrum.
+
+- `collisionEnergy` returns the collision energy for each spectrum.
+
+- `polarity` returns the spectra's polarity.
+
+- `fromFile` returns the index from the (e.g. mzML) file the spectra where
+  from. This applies only for spectra read using e.g. `MSnbase`'s
+  `readMSData` function.
+
+- `smoothed` whether spectra have been smoothed (i.e. processed with the
+  [MSnbase::smooth] method. Returns a `logical` of length equal to the
+  number of spectra.
+
+- `isEmpty` returns `TRUE` for spectra without peak data.
+
+- `centroided`, `isCentroided` returns for each spectrum whether it contains
+  *centroided* data. While `centroided` returns the internal attribute of
+  each spectrum, `isCentroided` tries to guess whether spectra are
+  centroided from the actual peak data.
 }
 
 \examples{
@@ -150,6 +237,59 @@ intensity(spl)
 
 ## Extract the retention time values for the individual spectra
 rtime(spl)
+
+## Extract the precursor m/z of each spectrum.
+precursorMz(spl)
+
+## Extract the precursor charge of each spectrum.
+precursorCharge(spl)
+
+## Extract the precursor scan number for each spectrum.
+precScanNum(spl)
+
+## Extract the precursor intensity of each spectrum.
+precursorIntensity(spl)
+
+## Extract the acquisition number of each spectrum.
+acquisitionNum(spl)
+
+## Extract the scan index of each spectrum.
+scanIndex(spl)
+
+## Get the number of peaks per spectrum.
+peaksCount(spl)
+
+## Get the MS level of each spectrum.
+msLevel(spl)
+
+## Get the total ion current for each spectrum.
+tic(spl)
+
+## Get the total ion current for each spectrum.
+ionCount(spl)
+
+## Extract the collision energy for spectrum.
+collisionEnergy(spl)
+
+## Extract the file index for the spectrum.
+fromFile(spl)
+
+## Get the polarity for each spectrum.
+polarity(spl)
+
+## Whether spectra are smoothed (i.e. processed with the `MSnbase::smooth`
+## function.
+smoothed(spl)
+
+## Are spectra empty (i.e. contain no peak data)?
+isEmpty(spl)
+
+## Do the spectra contain centroided data?
+centroided(spl)
+
+## Do the spectra contain centroided data? Whether spectra are centroided
+## is estimated from the peak data.
+isCentroided(spl)
 }
 \seealso{
 \link{Spectrum2} in the \code{MSnbase} package.

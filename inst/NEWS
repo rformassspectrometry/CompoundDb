@@ -1,3 +1,11 @@
+Changes in version 0.1.1
+------------------------
+
+- Add precursorMz, precursorCharge, precursorIntensity, acquisitionNum,
+  scanIndex, peaksCount, msLevel, tic, ionCount, collisionEnergy, fromFile,
+  polarity, smoothed, isEmpty, centroided and isCentroided methods for
+  Spectrum2List.
+
 Changes in version 0.1.0
 ------------------------
 
