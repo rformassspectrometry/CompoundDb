@@ -3,7 +3,7 @@ test_that(".reduce_tables works", {
                  tx = c("tx_id", "gene_id", "tx_name", "redundant_field",
                         "tx_start"),
                  exon = c("exon_id", "redundant_field", "tx_id"))
-    
+
     res <- .reduce_tables(tabs, columns = c("tx_id", "gene_id"))
     expect_equal(length(res), 1)
     expect_equal(res, list(tx = c("tx_id", "gene_id")))
@@ -30,10 +30,10 @@ test_that(".prefix_columns works", {
 })
 
 test_that(".add_join_tables works", {
-    expect_equal(CompoundDb:::.add_join_tables(c("a", "b")), c("a", "b"))
-    expect_equal(CompoundDb:::.add_join_tables(c("msms_spectrum_peak")),
+    expect_equal(.add_join_tables(c("a", "b")), c("a", "b"))
+    expect_equal(.add_join_tables(c("msms_spectrum_peak")),
                  c("msms_spectrum_peak"))
-    expect_equal(CompoundDb:::.add_join_tables(c("msms_spectrum", "compound")),
+    expect_equal(.add_join_tables(c("msms_spectrum", "compound")),
                  c("msms_spectrum", "compound"))
     ## expect_equal(.add_join_tables(c("msms_spectrum_peak", "compound")),
     ##              c("msms_spectrum_peak", "compound", "msms_spectrum_metadata"))
@@ -279,7 +279,7 @@ test_that(".deserialize_mz_intensity works", {
                      stringsAsFactors = FALSE)
     df$mz <- list(serialize(1:3, NULL), serialize(5:10, NULL),
                   serialize(3:9, NULL))
-    df_ds <- CompoundDb:::.deserialize_mz_intensity(df)
+    df_ds <- .deserialize_mz_intensity(df)
     expect_equal(df[, 1:2], df_ds[, 1:2])
     expect_equal(df_ds$mz[[1]], 1:3)
     expect_equal(df_ds$mz[[2]], 5:10)
@@ -288,7 +288,7 @@ test_that(".deserialize_mz_intensity works", {
     ## Now from the database...
     library(RSQLite)
     res <- dbGetQuery(dbconn(cmp_spctra_db), "select * from msms_spectrum")
-    res <- CompoundDb:::.deserialize_mz_intensity(res)
+    res <- .deserialize_mz_intensity(res)
     expect_true(is.numeric(res$mz[[1]]))
     expect_true(is.numeric(res$mz[[2]]))
     expect_true(is.numeric(res$mz[[3]]))
@@ -299,25 +299,24 @@ test_that(".deserialize_mz_intensity works", {
 
 test_that(".fetch_data works", {
     clmns <- c("compound_id", "compound_name", "inchi")
-    res <- CompoundDb:::.fetch_data(cmp_db, clmns)
+    res <- .fetch_data(cmp_db, clmns)
     expect_true(is.data.frame(res))
     expect_equal(colnames(res), clmns)
 
     ## With filter.
-    res <- CompoundDb:::.fetch_data(cmp_db, clmns,
-                                    filter = ~ compound_id == "HMDB0000002")
+    res <- .fetch_data(cmp_db, clmns,
+                       filter = ~ compound_id == "HMDB0000002")
     expect_equal(colnames(res), clmns)
     expect_true(all(res$compound_id == "HMDB0000002"))
 
     ## MS/MS spectra
-    res <- CompoundDb:::.fetch_data(cmp_spctra_db,
-                                    columns = c("mz", "compound_id"))
+    res <- .fetch_data(cmp_spctra_db,
+                       columns = c("mz", "compound_id"))
     expect_equal(colnames(res), c("mz", "compound_id", "spectrum_id"))
     expect_true(is.numeric(res$mz[[1]]))
-    res <- CompoundDb:::.fetch_data(cmp_spctra_db,
-                                    columns = c("mz", "compound_id"),
-                                    filter = ~ compound_id == "HMDB0000002")
+    res <- .fetch_data(cmp_spctra_db,
+                       columns = c("mz", "compound_id"),
+                       filter = ~ compound_id == "HMDB0000002")
     expect_equal(colnames(res), c("mz", "compound_id", "spectrum_id"))
     expect_true(nrow(res) == 0)
 })
-

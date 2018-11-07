@@ -45,10 +45,10 @@ test_that("CompDb constructor and low level functions", {
     expect_equal(names(tbls), c("compound",
                                 "msms_spectrum",
                                 "synonym"))
-    
+
     ## .get_property
     prps <- .get_property(cmp, "tables")
-    expect_equal(prps, CompoundDb:::.tables(cmp, metadata = TRUE))
+    expect_equal(prps, .tables(cmp, metadata = TRUE))
     prps <- .get_property(cmp, "not_there")
     expect_equal(prps, NULL)
 })

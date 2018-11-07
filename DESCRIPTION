@@ -1,7 +1,7 @@
 Package: CompoundDb
 Type: Package
 Title: Creating and using (chemical) compound annotation databases
-Version: 0.1.1
+Version: 0.2.0
 Authors@R: c(person(given = "Jan", family = "Stanstrup",
                     email = "stanstrup@gmail.com",
 		    role = c("aut")),
@@ -18,7 +18,7 @@ Depends:
     methods,
     AnnotationFilter,
     S4Vectors,
-    MSnbase
+    MSnbase (>= 2.8.0)
 Imports:
     ChemmineR,
     tibble,
@@ -39,14 +39,12 @@ License: GPL (>= 2)
 URL: https://github.com/EuracBiomedicalResearch/CompoundDb
 biocViews: MassSpectrometry, Metabolomics
 VignetteBuilder: knitr
-RoxygenNote: 6.1.0
-Collate: 
+RoxygenNote: 6.1.1
+Collate:
     'AnnotationFilters.R'
     'createCompDbPackage.R'
     'CompDb.R'
     'CompDb-methods.R'
-    'Spectrum2List.R'
-    'Spectrum2List-methods.R'
     'query-engine.R'
     'spectrum-import-functions.R'
     'utility-functions.R'

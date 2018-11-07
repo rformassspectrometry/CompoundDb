@@ -28,7 +28,7 @@ sources including [HMDB](http://www.hmdb.ca),
 (chromatographic) peak annotations in metabolomics/lipidomics experiments from
 these sources and to store it into a common format (i.e. an `CompDb`
 object/database). This vignette describes how such `CompDb` objects can be
-created exemplified with package-internal test files that represent data 
+created exemplified with package-internal test files that represent data
 subsets from some annotation resources.
 
 The R object to represent the compound annotation is the `CompDb` object. Each
@@ -138,10 +138,10 @@ compounds(cmpdb, columns = c("compound_name", "formula", "mass"))
 ```
 
 Analogously we can use the `spectra` function to extract spectrum data from the
-database. The function returns by default a `Spectrum2List` object, that allows
+database. The function returns by default a `Spectra` object, that allows
 to store multiple `Spectrum2` objects in a `list`-like structure with additional
-annotations available in *metadata columns* (that can be accessed either with
-`$` or `mcols`).
+annotations available in *metadata columns* (that can be accessed with
+`mcols`).
 
 ```{r spectra}
 spectra(cmpdb)
@@ -174,4 +174,3 @@ resource.
 ```{r sessioninfo, echo=FALSE}
 sessionInfo()
 ```
-

@@ -29,7 +29,7 @@ tables(x)
 \S4method{dbconn}{CompDb}(x)
 
 \S4method{spectra}{CompDb}(object, columns, filter,
-  return.type = c("Spectrum2List", "data.frame", "tibble"))
+  return.type = c("Spectra", "data.frame", "tibble"))
 }
 \arguments{
 \item{x}{For \code{CompDb}: \code{character(1)} with the file name of the SQLite
@@ -46,7 +46,7 @@ available column names.}
 \item{return.type}{For \code{compounds}: \code{character} defining the type/class of
 the return object. Can be either \code{"data.frame"} (default) or
 \code{"tibble"}.
-For \code{spectra}: either \code{"Spectrum2List"} (default), \code{"data.frame"} or
+For \code{spectra}: either \code{"Spectra"} (default), \code{"data.frame"} or
 \code{"tibble"}.}
 
 \item{object}{For all methods: a \code{CompDb} object.}
@@ -91,7 +91,7 @@ elements from the \emph{compound} table (unless a \code{filter} is used). Also, 
 result \code{data.frame} will always contain the compound identifier in column
 \code{"compound_id"}.
 \item \code{spectra} extract spectra from the database and returns them as a
-\code{\link[=Spectrum2List]{Spectrum2List()}} object. Additional annotations requested with the
+\code{\link[=Spectra]{Spectra()}} object. Additional annotations requested with the
 \code{columns} parameter will be added as metadata columns.
 }
 }

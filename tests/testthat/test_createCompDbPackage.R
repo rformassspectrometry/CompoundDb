@@ -1,5 +1,5 @@
 test_that(".simple_import_compounds_sdf works", {
-    
+
     hmdb <- system.file("sdf/HMDB_sub.sdf", package = "CompoundDb")
     cmps <- .simple_import_compounds_sdf(hmdb)
     expect_true(is(cmps, "data.frame"))
@@ -9,7 +9,7 @@ test_that(".simple_import_compounds_sdf works", {
     expect_true(nrow(cmps) == 9)
 
     chebi <- system.file("sdf/ChEBI_sub.sdf.gz", package = "CompoundDb")
-    cmps <- CompoundDb:::.simple_import_compounds_sdf(chebi)
+    cmps <- .simple_import_compounds_sdf(chebi)
     expect_true(is(cmps, "data.frame"))
     expect_true(is(cmps, "tbl"))
     expect_equal(colnames(cmps), c("compound_id", "compound_name", "inchi",
@@ -23,7 +23,7 @@ test_that(".simple_import_compounds_sdf works", {
     expect_equal(colnames(cmps), c("compound_id", "compound_name", "inchi",
                                    "formula", "mass", "synonyms"))
     expect_true(nrow(cmps) == 7)
-    
+
     pubchem <- system.file("sdf/PubChem_sub.sdf.gz", package = "CompoundDb")
     cmps <- .simple_import_compounds_sdf(pubchem)
     expect_true(is(cmps, "data.frame"))
@@ -36,7 +36,7 @@ test_that(".simple_import_compounds_sdf works", {
 test_that("compound_tbl_sdf works", {
     expect_error(compound_tbl_sdf())
     expect_error(compound_tbl_sdf("somefile"))
-    
+
     hmdb <- system.file("sdf/HMDB_sub.sdf", package = "CompoundDb")
     cmps <- compound_tbl_sdf(hmdb)
     expect_true(is(cmps, "data.frame"))
@@ -87,7 +87,7 @@ test_that(".guess_sdf_source works", {
     library(ChemmineR)
     cn <- colnames(datablock2ma(datablock(read.SDFset(hmdb))))
     expect_true(.guess_sdf_source(cn) == "hmdb")
-    
+
     chebi <- system.file("sdf/ChEBI_sub.sdf.gz", package = "CompoundDb")
     cn <- colnames(datablock2ma(datablock(read.SDFset(chebi))))
     expect_true(.guess_sdf_source(cn) == "chebi")
@@ -116,7 +116,7 @@ test_that(".import_lipidblast works", {
 test_that("compound_tbl_lipidblast works", {
     expect_error(compound_tbl_lipidblast())
     expect_error(compound_tbl_lipidblast("sddfd"))
-    
+
     lb <- system.file("json/MoNa-LipidBlast_sub.json", package = "CompoundDb")
     cmps <- compound_tbl_lipidblast(lb)
     expect_true(is(cmps, "data.frame"))
@@ -135,7 +135,7 @@ test_that(".valid_metadata works", {
     expect_true(is.character(
         .valid_metadata("something", error = FALSE)))
     metadata <- data.frame(name = c("source", "url", "source_version",
-                                   "source_date", "organism"),
+                                    "source_date", "organism"),
                            value = c("HMDB1", "http://www.hmdb.ca", "4", "2017",
                                      "Hsapiens"),
                            stringsAsFactors = FALSE)
@@ -191,17 +191,17 @@ test_that("createCompDb and createCompDbPackage works", {
 
     ## createCompDbPackage:
     res <- createCompDbPackage(db_f, version = "0.0.1",
-                                   maintainer = "John Doe <john.doe@mail.com>",
+                               maintainer = "John Doe <john.doe@mail.com>",
                                author = "J Doe", path = tempdir())
     expect_true(is.character(res))
     expect_equal(basename(res), "CompDb.Hsapiens.ChEBI.unknown")
     expect_error(createCompDbPackage(5, version = "0.0.1",
                                      maintainer = "John Doe <john.doe@mail.com>",
-                                   author = "J Doe", path = tempdir()))
+                                     author = "J Doe", path = tempdir()))
     expect_error(createCompDbPackage(dbf, version = "0.0.1",
-                                   author = "J Doe", path = tempdir()))
+                                     author = "J Doe", path = tempdir()))
 
-    
+
     ## Provide a single file name.
     fl <- system.file("sdf/LipidMaps_sub.sdf.gz", package = "CompoundDb")
     metad <- make_metadata(source = "LipidMaps", source_date = "2016",
@@ -209,7 +209,7 @@ test_that("createCompDb and createCompDbPackage works", {
                            url = NA)
     res <- createCompDb(fl, metadata = metad, path = tempdir())
     db <- CompDb(res)
-    md <- CompoundDb:::.metadata(db)
+    md <- .metadata(db)
     expect_true(is.na(md$value[md$name == "url"]))
     ## Multiple files.
     fls <- c(system.file("sdf/LipidMaps_sub.sdf.gz", package = "CompoundDb"),
@@ -222,7 +222,7 @@ test_that("createCompDb and createCompDbPackage works", {
     res <- createCompDb(fls, metadata = metad, path = tempdir())
     db <- CompDb(res)
     expect_true(nrow(compounds(db)) == 22)
-        
+
     ## Multiple files including json.
     fls <- c(fls, system.file("json/MoNa-LipidBlast_sub.json",
                               package = "CompoundDb"))
@@ -232,7 +232,7 @@ test_that("createCompDb and createCompDbPackage works", {
     res <- createCompDb(fls, metadata = metad, path = tempdir())
     db <- CompDb(res)
     expect_true(nrow(compounds(db)) == 30)
-    
+
     ## Error with one unsupported file.
     fls <- c(fls, system.file("NEWS", package = "CompoundDb"))
     metad <- make_metadata(source = "Fails", source_date = "2016",
@@ -282,12 +282,12 @@ test_that(".check_msms_spectra_columns works", {
 test_that(".insert_msms_spectra_blob works", {
     library(RSQLite)
     con <- dbConnect(dbDriver("SQLite"), dbname = tempfile())
-    CompoundDb:::.insert_msms_spectra_blob(con, msms_spctra)
+    .insert_msms_spectra_blob(con, msms_spctra)
     res <- dbGetQuery(con, "select * from msms_spectrum")
     expect_equal(nrow(res), nrow(msms_spctra))
-    msms_spctra_exp <- CompoundDb:::.expand_spectrum_df(msms_spctra)
-    CompoundDb:::.insert_msms_spectra_blob(con, msms_spctra_exp,
-                                           overwrite = TRUE)
+    msms_spctra_exp <- .expand_spectrum_df(msms_spctra)
+    .insert_msms_spectra_blob(con, msms_spctra_exp,
+                              overwrite = TRUE)
     res_2 <- dbGetQuery(con, "select * from msms_spectrum")
     expect_equal(res, res_2)
 })
@@ -295,12 +295,12 @@ test_that(".insert_msms_spectra_blob works", {
 test_that(".insert_msms_spectra works", {
     library(RSQLite)
     con <- dbConnect(dbDriver("SQLite"), dbname = tempfile())
-    CompoundDb:::.insert_msms_spectra(con, msms_spctra)
+    .insert_msms_spectra(con, msms_spctra)
     res <- dbGetQuery(con, "select * from msms_spectrum_metadata")
     expect_equal(nrow(res), nrow(msms_spctra))
     expect_equal(res$splash, msms_spctra$splash)
     res_2 <- dbGetQuery(con, "select * from msms_spectrum_peak")
     expect_equal(colnames(res_2), c("spectrum_id", "mz", "intensity"))
     expect_equal(res_2$mz, unlist(msms_spctra$mz))
-    expect_equal(res_2$intensity, unlist(msms_spctra$intensity))    
+    expect_equal(res_2$intensity, unlist(msms_spctra$intensity))
 })

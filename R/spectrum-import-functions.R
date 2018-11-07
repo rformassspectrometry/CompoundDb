@@ -14,7 +14,7 @@
 #'     *collapsed* or *expanded*. Collapsed means that the `data.frame` will
 #'     have a single row and the m/z and intensity values are stored as a
 #'     `list` in columns `"mz"` and `"intensity"`.
-#' 
+#'
 #' @return `data.frame`
 #'
 #' @author Johannes Rainer
@@ -33,7 +33,7 @@
 #'   spectrum was measured.
 #' - mz (`numeric` or `list`): m/z values of the spectrum.
 #' - intensity (`numeric` or `list`): intensity of the spectrum.
-#' 
+#'
 #' @md
 #'
 #' @noRd
@@ -123,14 +123,14 @@
 #' function assignes an arbitrary ID (column `"spectrum_id"`) to values from
 #' each file. The original ID of the spectrum in HMDB is provided in column
 #' `"original_spectrum_id"`.
-#' 
+#'
 #' @param x `character(1)`: with the path to directory containing the xml files.
 #'
 #' @param collapsed `logical(1)` whether the returned `data.frame` should be
 #'     *collapsed* or *expanded*. See description for more details.
 #'
 #' @return `data.frame` with as many rows as there are peaks and columns:
-#' 
+#'
 #' - spectrum_id (`character`): an arbitrary, unique ID identifying values
 #'   from one xml file.
 #' - original_spectrum_id (`character`): the HMDB-internal ID of the spectrum.
@@ -155,12 +155,12 @@
 #'
 #' @seealso
 #'
-#' [Spectrum2List()] for converting the returned `data.frame` into
-#' a [Spectrum2List] object (list of [Spectrum2] objects with annotations).
+#' [Spectra()] for converting the returned `data.frame` into
+#' a [Spectra] object (list of [Spectrum] objects with annotations).
 #'
 #' [createCompDb()] for the function to create a [CompDb] database with
 #' compound annotation and spectrum data.
-#' 
+#'
 #' @references
 #'
 #' Wohlgemuth G, Mehta SS, Mejia RF, Neumann S, Pedrosa D, Pluskal T,
@@ -168,7 +168,7 @@
 #' Dorrestein PC, Bandeira N, Wang M, Schulze T, Selak RM, Steinbeck C,
 #' Nainala VC, Mistrik R, Nishioka T, Fiehn O. SPLASH, A hashed identifier for
 #' mass spectra. Nature Biotechnology 2016 34(11):1099-1101
-#' 
+#'
 #' @examples
 #'
 #' ## Locate the folder within the package containing test xml files.
@@ -199,5 +199,126 @@ msms_spectra_hmdb <- function(x, collapsed = TRUE) {
     message("OK")
     res
 }
+
+#' @description Create a list of `Spectrum2` objects from a `data.frame`.
+#'
+#' @note Columns `spectrum_id` is supposed to uniquely identify values
+#'     belonging to one spectrum.
+#'
+#' @param x `data.frame` with spectrum data.
+#'
+#' @author Johannes Rainer
+#'
+#' @return `list` with elements `"spectra"` containing the `list` of
+#'     `Spectrum2` objects and `mcols` with the metadata columns not used
+#'     for the `Spectrum2` object creation.
+#' @noRd
+#'
+#' @md
+#'
+#' @importFrom S4Vectors DataFrame
+#'
+#' @examples
+#'
+#' df <- data.frame(spectrum_id = c("a", "a", "b"), mz = c(1, 2, 1),
+#'     intensity = c(2, 3, 5), comp_id = "Z", polarity = 1,
+#'     stringsAsFactors = FALSE)
+#'
+#' res <- CompoundDb:::.spectra2_from_df(df)
+.spectra2_from_df <- function(x) {
+    ## Check required columns.
+    req_cols <- c("spectrum_id", "mz", "intensity")
+    if (!all(req_cols %in% colnames(x)))
+        stop("required columns 'spectrum_id', 'mz' and 'intensity' missing")
+    supp_cols <- c(req_cols, "polarity", "ms_level", "rt", "precursor_mz",
+                   "precursor_charge", "precursor_intensity",
+                   "collision_energy")
+    if (is.numeric(x$mz))
+        x <- .collapse_spectrum_df(x)
+    mz <- unlist(x$mz)
+    int <- unlist(x$intensity)
+    nvals <- lengths(x$mz)
+    x <- x[, !(colnames(x)) %in% c("mz", "intensity")]
+    if (nrow(x) != length(unique(x$spectrum_id)))
+        stop("Unexpected number of rows in data.frame")
+    ## Process optional columns.
+    ## polarity -> polarity
+    if (length(colnames(x)) && any(colnames(x) == "polarity")) {
+        polarity <- x$polarity
+        x <- x[, colnames(x) != "polarity"]
+    } else polarity <- integer()
+    ## rt -> rt
+    if (length(colnames(x)) && any(colnames(x) == "rt")) {
+        rt <- x$rt
+        x <- x[, colnames(x) != "rt"]
+    } else rt <- numeric()
+    ## ms_level -> msLevel
+    if (length(colnames(x)) && any(colnames(x) == "ms_level")) {
+        msLevel <- x$ms_level
+        x <- x[, colnames(x) != "ms_level"]
+    } else msLevel <- rep(2L, nrow(x))
+    ## precursor_mz -> precursorMz
+    if (length(colnames(x)) && any(colnames(x) == "precursor_mz")) {
+        precursorMz <- x$precursor_mz
+        x <- x[, colnames(x) != "precursor_mz"]
+    } else precursorMz <- numeric()
+    ## precursor_charge -> precursorCharge
+    if (length(colnames(x)) && any(colnames(x) == "precursor_charge")) {
+        precursorCharge <- x$precursor_charge
+        x <- x[, colnames(x) != "precursor_charge"]
+    } else precursorCharge <- integer()
+    ## precursor_intensity -> precursorIntensity
+    if (length(colnames(x)) && any(colnames(x) == "precursor_intensity")) {
+        precursorIntensity <- x$precursor_intensity
+        x <- x[, colnames(x) != "precursor_intensity"]
+    } else precursorIntensity <- numeric()
+    ## collision_energy -> collisionEnergy
+    if (length(colnames(x)) && any(colnames(x) == "collision_energy")) {
+        collisionEnergy <- x$collision_energy
+        x <- x[, colnames(x) != "collision_energy"]
+    } else collisionEnergy <- numeric()
+    ## acquisition_num -> acquisitionNum
+    if (length(colnames(x)) && any(colnames(x) == "acquisition_num")) {
+        acquisitionNum <- x$acquisition_num
+        x <- x[, colnames(x) != "acquisition_num"]
+    } else acquisitionNum <- integer()
+    ## scan_index -> scanIndex
+    if (length(colnames(x)) && any(colnames(x) == "scan_index")) {
+        scanIndex <- x$scan_index
+        x <- x[, colnames(x) != "scan_index"]
+    } else scanIndex <- integer()
+    ## from_file -> fromFile
+    if (length(colnames(x)) && any(colnames(x) == "from_file")) {
+        fromFile <- x$from_file
+        x <- x[, colnames(x) != "from_file"]
+    } else fromFile <- integer()
+    ## precursor_scan_num -> precScanNum
+    if (length(colnames(x)) && any(colnames(x) == "precursor_scan_num")) {
+        precScanNum <- x$precursor_scan_num
+        x <- x[, colnames(x) != "precursor_scan_num"]
+    } else precScanNum <- integer()
+
+    ## Create the spectra
+    spl <- MSnbase:::Spectra2_mz_sorted(peaksCount = nvals, rt = rt,
+                                        acquisitionNum = acquisitionNum,
+                                        scanIndex = scanIndex, mz = mz,
+                                        intensity = int, fromFile = fromFile,
+                                        polarity = polarity, msLevel = msLevel,
+                                        precScanNum = precScanNum,
+                                        precursorMz = precursorMz,
+                                        precursorIntensity = precursorIntensity,
+                                        precursorCharge = precursorCharge,
+                                        collisionEnergy = collisionEnergy,
+                                        nvalue = nvals)
+    list(spectra = spl, mcols = DataFrame(x))
+}
+
+#' @export
+#'
+#' @importFrom MSnbase Spectra
+setAs("data.frame", "Spectra", function(from) {
+    res <- .spectra2_from_df(from)
+    Spectra(res$spectra, elementMetadata = res$mcols)
+})
 
 ## Function to import spectrum data from MoNa etc.

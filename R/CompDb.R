@@ -5,7 +5,7 @@
 #' @title Simple compound (metabolite) databases
 #'
 #' @aliases CompDb-class show dbconn,CompDb-method show,CompDb-method
-#' 
+#'
 #' @description
 #'
 #' `CompDb` objects provide access to general (metabolite) compound
@@ -33,9 +33,9 @@
 #'   `"compound_id"`.
 #'
 #' - `spectra` extract spectra from the database and returns them as a
-#'   [Spectrum2List()] object. Additional annotations requested with the
+#'   [Spectra()] object. Additional annotations requested with the
 #'   `columns` parameter will be added as metadata columns.
-#' 
+#'
 #' @section Filtering the database:
 #'
 #' Data access methods such as `compounds` and `spectra` allow to filter the
@@ -44,10 +44,10 @@
 #' for a certain compound with the ID `"HMDB0000001"` can for example be
 #' retrieved by passing the filter expression
 #' `filter = ~ compound_id == "HMDB0000001"` to the `compounds` function.
-#' 
+#'
 #' @usage
 #' show(object)
-#' 
+#'
 #' @param object For all methods: a `CompDb` object.
 #'
 #' @param x For `CompDb`: `character(1)` with the file name of the SQLite
@@ -55,7 +55,7 @@
 #'     to the database with parameter `x`.
 #'
 #'     For all other methods: a `CompDb` object.
-#' 
+#'
 #' @author Johannes Rainer
 #'
 #' @md
@@ -79,7 +79,7 @@
 #' ## Load also MS/MS spectra from HMDB xml files
 #' xml_path <- system.file("xml", package = "CompoundDb")
 #' spctra <- msms_spectra_hmdb(xml_path)
-#' 
+#'
 #' ## Create the SQLite database:
 #' db_file <- createCompDb(cmps, metadata = metad, msms_spectra = spctra,
 #'     path = tempdir())
@@ -103,10 +103,10 @@
 #' ## Extract spectra for a specific HMDB compound.
 #' sps <- spectra(cmp_db, filter = ~ compound_id == "HMDB0000001")
 #' sps
-#' 
+#'
 #' ## Using return.type = "tibble" the result will be returned as a "tibble"
 #' compounds(cmp_db, return.type = "tibble")
-#' 
+#'
 #' ## Use the CompDb in a dplyr setup
 #' library(dplyr)
 #' src_cmp <- src_compdb(cmp_db)
@@ -120,8 +120,8 @@
 NULL
 
 #' @importFrom methods new
-#' 
-#' @exportClass CompDb 
+#'
+#' @exportClass CompDb
 .CompDb <- setClass("CompDb",
                     slots = c(dbcon = "DBIConnection",
                               .properties = "list"),
@@ -181,7 +181,7 @@ setValidity("CompDb", function(object) {
 #'     to the provided database file.
 #'
 #' @md
-#' 
+#'
 #' @export
 CompDb <- function(x) {
     if (missing(x))
@@ -234,7 +234,7 @@ CompDb <- function(x) {
 #'     in the database and `FALSE` otherwise.
 #'
 #' @export
-#' 
+#'
 #' @rdname CompDb
 #'
 #' @md
@@ -244,14 +244,14 @@ hasSpectra <- function(x) {
 
 #' @param columns For `compounds`, `spectra`: `character` with the names of the
 #'     database columns that should be retrieved. Use [tables()] for a list of
-#'     available column names. 
+#'     available column names.
 #'
 #' @param filter For `compounds`: not yet supported.
 #'
 #' @param return.type For `compounds`: `character` defining the type/class of
 #'     the return object. Can be either `"data.frame"` (default) or
 #'     `"tibble"`.
-#'     For `spectra`: either `"Spectrum2List"` (default), `"data.frame"` or
+#'     For `spectra`: either `"Spectra"` (default), `"data.frame"` or
 #'     `"tibble"`.
 #'
 #' @importFrom tibble as_tibble
@@ -259,7 +259,7 @@ hasSpectra <- function(x) {
 #' @export
 #'
 #' @rdname CompDb
-#' 
+#'
 #' @md
 compounds <- function(x, columns, filter, return.type = "data.frame") {
     if (!is(x, "CompDb"))
@@ -284,9 +284,9 @@ compounds <- function(x, columns, filter, return.type = "data.frame") {
 #' @importFrom dbplyr src_dbi
 #'
 #' @export
-#' 
+#'
 #' @rdname CompDb
-#' 
+#'
 #' @md
 src_compdb <- function(x) {
     if (!is(x, "CompDb"))
@@ -302,7 +302,7 @@ src_compdb <- function(x) {
 #'     tables.
 #'
 #' @param metadata `logical(1)` whether the metadata should be returned too.
-#' 
+#'
 #' @md
 #'
 #' @noRd
@@ -319,7 +319,7 @@ src_compdb <- function(x) {
 #'     the fields/columns from each table in the database.
 #'
 #' @export
-#' 
+#'
 #' @rdname CompDb
 #'
 #' @md
@@ -330,4 +330,3 @@ tables <- function(x) {
 .get_property <- function(x, name) {
     x@.properties[[name]]
 }
-

@@ -12,7 +12,7 @@ cmp_db <- CompDb(db_file)
 
 dr <- system.file("xml/", package = "CompoundDb")
 msms_spctra <- msms_spectra_hmdb(dr)
-spl_ <- Spectrum2List(msms_spctra)
+spl_ <- as(msms_spctra, "Spectra")
 
 metad2 <- data.frame(name = c("source", "url", "source_version",
                               "source_date", "organism"),

@@ -8,7 +8,7 @@
 #' @export
 #'
 #' @md
-#' 
+#'
 #' @rdname CompDb
 setMethod("dbconn", "CompDb", function(x) {
     .dbconn(x)
@@ -17,7 +17,7 @@ setMethod("dbconn", "CompDb", function(x) {
 #' @importFrom methods show
 #'
 #' @md
-#' 
+#'
 #' @export
 setMethod("show", "CompDb", function(object) {
     cat("class:", class(object), "\n")
@@ -48,9 +48,11 @@ setMethod("show", "CompDb", function(object) {
 #'
 #' @md
 #'
+#' @importClassesFrom MSnbase Spectra
+#'
 #' @rdname CompDb
 setMethod("spectra", "CompDb", function(object, columns, filter,
-                                        return.type = c("Spectrum2List",
+                                        return.type = c("Spectra",
                                                         "data.frame",
                                                         "tibble")) {
     if (!hasSpectra(object))
@@ -63,7 +65,7 @@ setMethod("spectra", "CompDb", function(object, columns, filter,
     ##     .tables(object, c("msms_spectrum_peak", "msms_spectrum_metadata"))))
     ## ordr <- "msms_spectrum_peak.spectrum_id"
     ordr <- "msms_spectrum.spectrum_id"
-    if (return.type == "Spectrum2List") {
+    if (return.type == "Spectra") {
         columns <- unique(c("mz", "intensity", "polarity", "collision_energy",
                             columns))
         ## ordr <- paste0(ordr, ", msms_spectrum_peak.mz")
@@ -75,7 +77,7 @@ setMethod("spectra", "CompDb", function(object, columns, filter,
     ## start_from = "msms_spectrum_metadata", order = ordr)
     if (return.type == "tibble")
         res <- as_tibble(res)
-    if (return.type == "Spectrum2List")
-        res <- Spectrum2List(res)
+    if (return.type == "Spectra")
+        res <- as(res, "Spectra")
     res
 })

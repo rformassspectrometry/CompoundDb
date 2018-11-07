@@ -76,8 +76,8 @@ Nainala VC, Mistrik R, Nishioka T, Fiehn O. SPLASH, A hashed identifier for
 mass spectra. Nature Biotechnology 2016 34(11):1099-1101
 }
 \seealso{
-\code{\link[=Spectrum2List]{Spectrum2List()}} for converting the returned \code{data.frame} into
-a \link{Spectrum2List} object (list of \link{Spectrum2} objects with annotations).
+\code{\link[=Spectra]{Spectra()}} for converting the returned \code{data.frame} into
+a \link{Spectra} object (list of \link{Spectrum} objects with annotations).
 
 \code{\link[=createCompDb]{createCompDb()}} for the function to create a \link{CompDb} database with
 compound annotation and spectrum data.

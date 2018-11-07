@@ -1,5 +1,9 @@
+Changes in version 0.2.0
+
+- Re-use Spectra object from MSnbase
+
+
 Changes in version 0.1.1
-------------------------
 
 - Add precursorMz, precursorCharge, precursorIntensity, acquisitionNum,
   scanIndex, peaksCount, msLevel, tic, ionCount, collisionEnergy, fromFile,
@@ -7,7 +11,6 @@ Changes in version 0.1.1
   Spectrum2List.
 
 Changes in version 0.1.0
-------------------------
 
 - Add expandMzIntensity function.
 - Add spectra method to extract spectra from the CompDb database.
@@ -17,13 +20,11 @@ Changes in version 0.1.0
 
 
 Changes in version 0.0.3
-------------------------
 
 - Add CompoundIdFilter and CompoundNameFilter classes and filtering framework.
 
 
 Changes in version 0.0.2
-------------------------
 
 - Define CompDb class and all functionality to create CompDb databases.
 - createCompDb supports file names as input and create a database including
