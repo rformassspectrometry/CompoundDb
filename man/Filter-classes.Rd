@@ -7,11 +7,19 @@
 \alias{CompoundIdFilter}
 \alias{CompoundNameFilter-class}
 \alias{CompoundNameFilter}
+\alias{MsmsMzRangeMinFilter-class}
+\alias{MsmsMzRangeMinFilter}
+\alias{MsmsMzRangeMaxFilter-class}
+\alias{MsmsMzRangeMaxFilter}
 \title{Filters supported by CompDb}
 \usage{
 CompoundIdFilter(value, condition = "==")
 
 CompoundNameFilter(value, condition = "==")
+
+MsmsMzRangeMinFilter(value, condition = ">=")
+
+MsmsMzRangeMaxFilter(value, condition = "<=")
 }
 \arguments{
 \item{value}{The value for the filter. For details see
@@ -30,6 +38,12 @@ The supported filters are:
 \itemize{
 \item \code{CompoundIdFilter}: filter based on the compound ID.
 \item \code{CompoundNameFilter}: filter based on the compound name.
+\item \code{MsmsMzRangeMinFilter}: retrieve entries based on the smallest m/z of all
+peaks of their MS/MS spectra. Requires that MS/MS spectra data are present
+(i.e. \code{hasSpectra(cmp_db)} returns \code{TRUE}).
+\item \code{MsmsMzRangeMaxFilter}: retrieve entries based on the largest m/z of all
+peaks of their MS/MS spectra. Requires that MS/MS spectra data are present
+(i.e. \code{hasSpectra(cmp_db)} returns \code{TRUE}).
 }
 }
 \examples{

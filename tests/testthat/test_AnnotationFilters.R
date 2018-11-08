@@ -41,13 +41,20 @@ test_that(".process_filter works", {
     library(AnnotationFilter)
     gif <- GeneIdFilter("a")
     fl <- CompoundIdFilter("d")
-    
+
     expect_error(.process_filter("3"))
     expect_error(.process_filter(gif))
     expect_error(.process_filter(AnnotationFilterList(gif, fl)))
 
     expect_equal(.process_filter(fl), AnnotationFilterList(fl))
     expect_equal(.process_filter(~compound_id == "d"), AnnotationFilterList(fl))
+
+    expect_error(.process_filter(~ compound_id == "d" & msms_mz_range_min > 12))
+    expect_error(.process_filter(~ compound_id == "d" & msms_mz_range_min > 12,
+                                 cmp_db))
+    res <- .process_filter(~ compound_id == "d" & msms_mz_range_min > 12,
+                           cmp_spctra_db)
+    expect_true(is(res, "AnnotationFilterList"))
 })
 
 test_that(".sql_condition works", {
@@ -102,4 +109,53 @@ test_that(".where_filter works", {
                         " = 'a' and compound_name = '1')",
                         ") and (compound_id = 'a' and ",
                         "compound_name = '1'))"))
+})
+
+test_that("MsmsMzRangeMinFilter works", {
+    fl <- MsmsMzRangeMinFilter(12.3)
+    expect_true(is(fl, "MsmsMzRangeMinFilter"))
+    expect_true(is(fl, "DoubleFilter"))
+
+    expect_equal(value(fl), 12.3)
+
+    expect_error(MsmsMzRangeMinFilter())
+    expect_error(MsmsMzRangeMinFilter("d"))
+    expect_error(MsmsMzRangeMinFilter(c(2.4, 3.5)))
+
+    expect_equal(.field(fl), "msms_mz_range_min")
+    expect_equal(.sql_condition(fl), ">=")
+    expect_equal(.sql_value(fl), 12.3)
+})
+
+test_that("MsmsMzRangeMaxFilter works", {
+    fl <- MsmsMzRangeMaxFilter(12.3)
+    expect_true(is(fl, "MsmsMzRangeMaxFilter"))
+    expect_true(is(fl, "DoubleFilter"))
+
+    expect_equal(value(fl), 12.3)
+
+    expect_error(MsmsMzRangeMaxFilter())
+    expect_error(MsmsMzRangeMaxFilter("d"))
+    expect_error(MsmsMzRangeMaxFilter(c(2.4, 3.5)))
+
+    expect_equal(.field(fl), "msms_mz_range_max")
+    expect_equal(.sql_condition(fl), "<=")
+    expect_equal(.sql_value(fl), 12.3)
+})
+
+test_that(".supported_filters works", {
+    res <- .supported_filters()
+    expect_equal(colnames(res), c("filter", "field"))
+    res_2 <- .supported_filters(cmp_db)
+    expect_equal(res, res_2)
+    res_2 <- .supported_filters(cmp_spctra_db)
+    expect_true(nrow(res_2) > nrow(res))
+})
+
+test_that(".filter_class works", {
+    res <- .filter_class(MsmsMzRangeMinFilter(3))
+    expect_equal(res, "MsmsMzRangeMinFilter")
+    res <- .filter_class(AnnotationFilterList(CompoundIdFilter("a"),
+                                              MsmsMzRangeMinFilter(3)))
+    expect_equal(res, c("CompoundIdFilter", "MsmsMzRangeMinFilter"))
 })

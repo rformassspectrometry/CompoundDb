@@ -6,6 +6,8 @@
 #' Utility function to create a SQL query for a `CompDb` database
 #' given the provided column names and filter.
 #'
+#' @param x `CompDb`
+#'
 #' @details
 #'
 #' + Check first the parameter `columns` to see if valid column names were
@@ -15,7 +17,7 @@
 #' + `start_from` allows to specify from which table we want to start the join
 #'   query. That's important if we don't have all features in all tables
 #'   annotated. Example is that we don't have MS/MS spectra from all compounds!
-#' 
+#'
 #' @author Johannes Rainer
 #'
 #' @md
@@ -34,7 +36,7 @@
              "all tables and their columns.")
     ## Depending on 'filter' we might have to add some more tables/columns!
     if (!missing(filter)) {
-        filter <- .process_filter(filter)
+        filter <- .process_filter(filter, x)
         columns_flts <- .field(filter)
         columns <- unique(c(columns, columns_flts))
     }
@@ -134,7 +136,7 @@
 #'
 #' @note This function uses some hard-coded logic based on the database layout
 #'     to define if, and which, tables are needed for a join.
-#' 
+#'
 #' @param x `character` with the names of the tables to be joined.
 #'
 #' @return `character` with all tables needed to join the tables in `x`
@@ -143,7 +145,7 @@
 #' @md
 #'
 #' @author Johannes Rainer
-#' 
+#'
 #' @noRd
 .add_join_tables <- function(x) {
     ## ## msms_spectrum_peak with any other table: need also msms_spectrum_metadata
@@ -184,7 +186,7 @@
 }
 
 #' @description
-#' 
+#'
 #' Helper function that reduces the provided `list` of table columns to
 #' contain only the provided columns. In addition the function ensures that
 #' each element in `columns` is only present once across all tables: if a
@@ -199,7 +201,7 @@
 #' have entries in table b this function might lead to unexpected/unwanted
 #' results since table joins are always performed as left (outer joins). In
 #' such cases the [.reduce_tables_start_from()] function should be used instead.
-#' 
+#'
 #' @param tables `list` of `character`. Names of the list are the table names,
 #'     the elements its column names.
 #'
@@ -207,9 +209,9 @@
 #'
 #' @param start_with `character(1)` with the name of the table from which
 #'     the query should start.
-#' 
+#'
 #' @return `list` being a subset of `tables` that contains only the `columns`.
-#' 
+#'
 #' @author Johannes Rainer
 #'
 #' @md
@@ -256,7 +258,7 @@
 #' `columns` has to contain at least one column from the database table
 #' `start_from`, otherwise `start_from` can not be included resulting in a
 #' warning.
-#' 
+#'
 #' @param tables see [.reduce_tables()]
 #'
 #' @param columns see [.reduce_tables()]
@@ -287,7 +289,7 @@
 #' .reduce_tables_start_from(tabs, c("compound_name", "red_field"),
 #'     start_from = "spectrum")
 #' .reduce_tables_start_from(tabs, c("compound_name", "red_field"),
-#'     start_from = "spectrum_bla") 
+#'     start_from = "spectrum_bla")
 .reduce_tables_start_from <- function(tables, columns, start_from) {
     tbls <- .reduce_tables(tables, columns)
     if (!missing(start_from)) {
@@ -317,7 +319,7 @@
 #' SQL call, gets data, formats data etc.
 #'
 #' @author Johannes Rainer
-#' 
+#'
 #' @noRd
 .fetch_data <- function(x, columns, filter, start_from, order) {
     ## If any column is mz or intensity we have to add also spectrum_id, other
@@ -336,7 +338,7 @@
 #' Deserialize m/z and intensity values stored as BLOB in the database.
 #'
 #' @author Johannes Rainer
-#' 
+#'
 #' @noRd
 .deserialize_mz_intensity <- function(x) {
     if (nrow(x)) {

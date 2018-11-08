@@ -35,6 +35,7 @@ jobs:
         - mkdir -p ~/.R
         - echo -e 'MAKEFLAGS = -j2' > ~/.R/Makevars
         - echo 'options(Ncpus = 2)' > ~/.Rprofile
+        - echo 'options(repos = c(CRAN = "https://cran.rstudio.com"))' > ~/.Rprofile
         - echo 'utils::chooseCRANmirror(ind = 1)' > ~/.Rprofile
       script: true
       name: "Build dependencies and cache"

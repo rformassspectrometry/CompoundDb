@@ -1,6 +1,7 @@
 Changes in version 0.2.0
 
-- Re-use Spectra object from MSnbase
+- Add MsmsMzRangeMinFilter and MsmsMzRangeMaxFilter (issue #29).
+- Re-use Spectra object from MSnbase.
 - Add supportedFilters,CompDb method.
 
 
@@ -10,6 +11,7 @@ Changes in version 0.1.1
   scanIndex, peaksCount, msLevel, tic, ionCount, collisionEnergy, fromFile,
   polarity, smoothed, isEmpty, centroided and isCentroided methods for
   Spectrum2List.
+
 
 Changes in version 0.1.0
 

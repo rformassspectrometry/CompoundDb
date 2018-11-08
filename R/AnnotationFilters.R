@@ -10,13 +10,19 @@
 #' The supported filters are:
 #' - `CompoundIdFilter`: filter based on the compound ID.
 #' - `CompoundNameFilter`: filter based on the compound name.
-#' 
+#' - `MsmsMzRangeMinFilter`: retrieve entries based on the smallest m/z of all
+#'   peaks of their MS/MS spectra. Requires that MS/MS spectra data are present
+#'   (i.e. `hasSpectra(cmp_db)` returns `TRUE`).
+#' - `MsmsMzRangeMaxFilter`: retrieve entries based on the largest m/z of all
+#'   peaks of their MS/MS spectra. Requires that MS/MS spectra data are present
+#'   (i.e. `hasSpectra(cmp_db)` returns `TRUE`).
+#'
 #' @param value The value for the filter. For details see
 #'     [AnnotationFilter::AnnotationFilter()].
 #'
 #' @param condition The condition for the filter. For details see
 #'     [AnnotationFilter::AnnotationFilter()].
-#' 
+#'
 #' @author Johannes Rainer
 #'
 #' @md
@@ -46,7 +52,7 @@ NULL
 #' @importClassesFrom AnnotationFilter CharacterFilter AnnotationFilter
 #'
 #' @exportClass CompoundIdFilter
-#' 
+#'
 #' @rdname Filter-classes
 setClass("CompoundIdFilter", contains = "CharacterFilter",
          prototype = list(
@@ -55,14 +61,14 @@ setClass("CompoundIdFilter", contains = "CharacterFilter",
              field = "compound_id"
          ))
 #' @export CompoundIdFilter
-#' 
+#'
 #' @rdname Filter-classes
 CompoundIdFilter <- function(value, condition = "==") {
     new("CompoundIdFilter", value = as.character(value), condition = condition)
 }
 
 #' @exportClass CompoundNameFilter
-#' 
+#'
 #' @rdname Filter-classes
 setClass("CompoundNameFilter", contains = "CharacterFilter",
          prototype = list(
@@ -71,10 +77,46 @@ setClass("CompoundNameFilter", contains = "CharacterFilter",
              field = "compound_name"
          ))
 #' @export CompoundNameFilter
-#' 
+#'
 #' @rdname Filter-classes
 CompoundNameFilter <- function(value, condition = "==") {
     new("CompoundNameFilter", value = as.character(value),
+        condition = condition)
+}
+
+#' @importClassesFrom AnnotationFilter DoubleFilter
+#'
+#' @exportClass MsmsMzRangeMinFilter
+#'
+#' @rdname Filter-classes
+setClass("MsmsMzRangeMinFilter", contains = "DoubleFilter",
+         prototype = list(
+             condition = ">=",
+             value = 0,
+             field = "msms_mz_range_min"
+         ))
+#' @export MsmsMzRangeMinFilter
+#'
+#' @rdname Filter-classes
+MsmsMzRangeMinFilter <- function(value, condition = ">=") {
+    new("MsmsMzRangeMinFilter", value = as.numeric(value),
+        condition = condition)
+}
+
+#' @exportClass MsmsMzRangeMaxFilter
+#'
+#' @rdname Filter-classes
+setClass("MsmsMzRangeMaxFilter", contains = "DoubleFilter",
+         prototype = list(
+             condition = "<=",
+             value = 0,
+             field = "msms_mz_range_max"
+         ))
+#' @export MsmsMzRangeMaxFilter
+#'
+#' @rdname Filter-classes
+MsmsMzRangeMaxFilter <- function(value, condition = "<=") {
+    new("MsmsMzRangeMaxFilter", value = as.numeric(value),
         condition = condition)
 }
 
@@ -83,7 +125,7 @@ CompoundNameFilter <- function(value, condition = "==") {
 #'     be overwritten if the name differs.
 #'
 #' @importClassesFrom AnnotationFilter AnnotationFilterList
-#' 
+#'
 #' @author Johannes Rainer
 #'
 #' @md
@@ -103,11 +145,11 @@ CompoundNameFilter <- function(value, condition = "==") {
 #' @return A `character(1)` representing the condition for the SQL call.
 #'
 #' @importMethodsFrom AnnotationFilter condition value
-#' 
+#'
 #' @author Johannes Rainer
-#' 
+#'
 #' @md
-#' 
+#'
 #' @noRd
 .sql_condition <- function(x) {
     cond <- condition(x)
@@ -128,11 +170,11 @@ CompoundNameFilter <- function(value, condition = "==") {
 #'     in quotes.
 #'
 #' @param x `AnnotationFilter`.
-#' 
+#'
 #' @author Johannes Rainer
 #'
 #' @md
-#' 
+#'
 #' @noRd
 .sql_value <- function(x) {
     vals <- unique(value(x))
@@ -161,9 +203,9 @@ CompoundNameFilter <- function(value, condition = "==") {
 #' @return `character` with the logical operator(s) in SQL format.
 #'
 #' @importMethodsFrom AnnotationFilter logicOp
-#' 
+#'
 #' @author Johannes Rainer
-#' 
+#'
 #' @md
 #'
 #' @noRd
@@ -213,16 +255,20 @@ CompoundNameFilter <- function(value, condition = "==") {
 #'    type of objects is provided, the submitted filters are supported by the
 #'    databse and the result is an `AnnotationFilterList`.
 #'
+#' @param x filters.
+#'
+#' @param db `CompDb`.
+#'
 #' @return `AnnotationFilterList`
-#' 
+#'
 #' @importFrom AnnotationFilter AnnotationFilterList AnnotationFilter
-#' 
+#'
 #' @author Johannes Rainer
 #'
 #' @md
 #'
 #' @noRd
-.process_filter <- function(x) {
+.process_filter <- function(x, db) {
     if (is(x, "formula"))
         x <- AnnotationFilter(x)
     if (is(x, "AnnotationFilter"))
@@ -230,7 +276,7 @@ CompoundNameFilter <- function(value, condition = "==") {
     if (!is(x, "AnnotationFilterList"))
         stop("'filter' has to be an object excending 'AnnotationFilter', an ",
              "'AnnotationFilterList' or a valid filter expression")
-    supp_flts <- .supported_filters()
+    supp_flts <- .supported_filters(db)
     have_flts <- .filter_class(x)
     got_it <- have_flts %in% supp_flts$filter
     if (any(!got_it))
@@ -241,8 +287,8 @@ CompoundNameFilter <- function(value, condition = "==") {
 
 #' @description List supported filters for the database.
 #'
-#' @param x `BioCHRIStes`
-#' 
+#' @param x `CompDb`
+#'
 #' @author Johannes Rainer
 #'
 #' @md
@@ -254,10 +300,18 @@ CompoundNameFilter <- function(value, condition = "==") {
                      field = c("compound_id",
                                "compound_name"),
                      stringsAsFactors = FALSE)
+    if (!missing(x) && hasSpectra(x)) {
+        df <- rbind(df,
+                    data.frame(filter = c("MsmsMzRangeMinFilter",
+                                          "MsmsMzRangeMaxFilter"),
+                               field = c("msms_mz_range_min",
+                                         "msms_mz_range_max"),
+                               stringsAsFactors = FALSE))
+    }
     df[order(df$filter), ]
 }
 
-#' @description Get an `AnnotationFilter` clss name.
+#' @description Get an `AnnotationFilter` class name.
 #'
 #' @param x `AnnotationFilterList` or `AnnotationFilter`.
 #'
