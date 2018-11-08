@@ -45,6 +45,9 @@
 #' retrieved by passing the filter expression
 #' `filter = ~ compound_id == "HMDB0000001"` to the `compounds` function.
 #'
+#' Use the [supportedFilters] passing the [CompDb] object as an argument to
+#' get a list of all supported filters.
+#'
 #' @usage
 #' show(object)
 #'

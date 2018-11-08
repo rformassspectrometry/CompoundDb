@@ -304,3 +304,22 @@ test_that(".insert_msms_spectra works", {
     expect_equal(res_2$mz, unlist(msms_spctra$mz))
     expect_equal(res_2$intensity, unlist(msms_spctra$intensity))
 })
+
+test_that(".add_mz_range_column works", {
+    z <- msms_spctra
+    res <- .add_mz_range_column(z)
+    expect_true(ncol(res) == ncol(z) + 2)
+    expect_true(all(c("msms_mz_range_min", "msms_mz_range_max") %in% colnames(res)))
+
+    colnames(z)[colnames(z) == "mz"] <- "other"
+    expect_error(.add_mz_range_column(z))
+
+    ## Expanded
+    z <- .expand_spectrum_df(msms_spctra)
+    res <- .add_mz_range_column(z)
+    mzs <- split(res$mz, res$spectrum_id)
+    mzmin <- split(res$msms_mz_range_min, res$spectrum_id)
+    mzmax <- split(res$msms_mz_range_max, res$spectrum_id)
+    expect_equal(lapply(mzs, min), lapply(mzmin, min))
+    expect_equal(lapply(mzs, max), lapply(mzmax, max))
+})

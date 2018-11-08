@@ -20,12 +20,12 @@
 #' @note
 #'
 #' `compound_tbl_sdf` supports to read/process gzipped files.
-#' 
+#'
 #' @param file `character(1)` with the name of the SDF file.
 #'
 #' @param collapse optional `character(1)` to be used to collapse multiple
 #'     values in the columns `"synonyms"`. See examples for details.
-#' 
+#'
 #' @return A [tibble::tibble] with general compound information (one row per
 #' compound):
 #' + `compound_id`: the ID of the compound.
@@ -43,19 +43,19 @@
 #' @author Johannes Rainer and Jan Stanstrup
 #'
 #' @export
-#' 
+#'
 #' @md
 #'
 #' @seealso [createCompDb()] for a function to create a SQLite-based compound
 #'     database.
-#' 
+#'
 #' @examples
 #'
 #' ## Read compound information from a subset of HMDB
 #' fl <- system.file("sdf/HMDB_sub.sdf", package = "CompoundDb")
 #' cmps <- compound_tbl_sdf(fl)
 #' cmps
-#' 
+#'
 #' ## Column synonyms contains a list
 #' cmps$synonyms
 #'
@@ -90,7 +90,7 @@ compound_tbl_sdf <- function(file, collapse) {
 #'
 #' @param collapse optional `character(1)` to be used to collapse multiple
 #'     values in the columns `"synonyms"`. See examples for details.
-#' 
+#'
 #' @return A [tibble::tibble] with general compound information (one row per
 #' compound):
 #' + `compound_id`: the ID of the compound.
@@ -108,9 +108,9 @@ compound_tbl_sdf <- function(file, collapse) {
 #' @author Johannes Rainer and Jan Stanstrup
 #'
 #' @export
-#' 
+#'
 #' @md
-#' 
+#'
 #' @examples
 #'
 #' ## Read compound information from a subset of HMDB
@@ -128,7 +128,7 @@ compound_tbl_lipidblast <- function(file, collapse) {
         res$synonyms <- vapply(res$synonyms, paste0, collapse = collapse,
                                FUN.VALUE = "character")
     }
-    res    
+    res
 }
 
 #' @description
@@ -139,14 +139,14 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #'
 #' @return A [tibble::tibble] with columns `"compound_id"`, `"compound_name"`,
 #'     `"inchi"`, `"formula"`, `"mass"`.
-#' 
+#'
 #' @importFrom ChemmineR read.SDFset datablock datablock2ma
 #' @importFrom tibble data_frame
-#' 
+#'
 #' @md
 #'
 #' @author Johannes Rainer
-#' 
+#'
 #' @noRd
 .simple_import_compounds_sdf <- function(x) {
     full_mat <- datablock2ma(datablock(read.SDFset(x)))
@@ -184,11 +184,11 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' @param x `character` with the column names of the data table.
 #'
 #' @return `character(1)` with the name of the resource or `NULL`.
-#' 
+#'
 #' @md
 #'
 #' @author Johannes Rainer
-#' 
+#'
 #' @noRd
 .guess_sdf_source <- function(x) {
     if (any(x == "HMDB_ID"))
@@ -199,7 +199,7 @@ compound_tbl_lipidblast <- function(file, collapse) {
         return("lipidmaps")
     if (any(x == "PUBCHEM_COMPOUND_CID"))
         return("pubchem")
-    
+
     NULL
 }
 
@@ -233,11 +233,11 @@ compound_tbl_lipidblast <- function(file, collapse) {
                        inchi = "PUBCHEM_IUPAC_INCHI",
                        formula = "PUBCHEM_MOLECULAR_FORMULA",
                        mass = "PUBCHEM_EXACT_MASS",
-                       synonyms = "PUBCHEM_IUPAC_TRADITIONAL_NAME" 
-                       # Others: 
-                       # PUBCHEM_IUPAC_SYSTEMATIC_NAME, 
-                       # PUBCHEM_IUPAC_CAS_NAME, 
-                       # PUBCHEM_IUPAC_OPENEYE_NAME, 
+                       synonyms = "PUBCHEM_IUPAC_TRADITIONAL_NAME"
+                       # Others:
+                       # PUBCHEM_IUPAC_SYSTEMATIC_NAME,
+                       # PUBCHEM_IUPAC_CAS_NAME,
+                       # PUBCHEM_IUPAC_OPENEYE_NAME,
                        # PUBCHEM_IUPAC_NAME
                        )
 .pubchem_separator <- "; " # there seems to be none
@@ -248,12 +248,12 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #'
 #' @note This is a modified version from Jan's generate_lipidblast_tbl that
 #'     extracts the mass also from the json and does not calculate it.
-#' 
+#'
 #' @author Jan Stanstrup and Johannes Rainer
 #'
 #' @importFrom jsonlite read_json
 #' @importFrom dplyr bind_rows
-#' 
+#'
 #' @md
 #'
 #' @noRd
@@ -286,7 +286,7 @@ compound_tbl_lipidblast <- function(file, collapse) {
             synonyms = nms[-1]
         )
     }
-    
+
     res <- lapply(lipidb, parse_element)
     bind_rows(res)
 }
@@ -294,14 +294,14 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' @title Create a CompDb database
 #'
 #' @description
-#' 
+#'
 #' `createCompDb` creates a `SQLite`-based [`CompDb`] object/database
 #' from a compound resource provided as a `data.frame` or `tbl`. Alternatively,
 #' the name(s) of the file(s) from which the annotation should be extracted can
 #' be provided. Supported are SDF files (such as those from the
 #' *Human Metabolome Database* HMDB) that can be read using the
 #' [compound_tbl_sdf()] or LipidBlast files (see [compound_tbl_lipidblast()].
-#' 
+#'
 #' An additional `data.frame` providing metadata information including the data
 #' source, date, version and organism is mandatory.
 #'
@@ -310,7 +310,7 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' be downloaded in XML format from HMDB (http://www.hmdb.ca), loaded with
 #' the [msms_spectra_hmdb()] function and passed to the function with the
 #' `msms_spectra` argument.
-#' 
+#'
 #' Required columns for the `data.frame` providing the compound information (
 #' parameter `x`) are:
 #' + `"id"`: the ID of the compound (e.g. an HMDB ID).
@@ -323,7 +323,7 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #'
 #' See e.g. [compound_tbl_sdf()] or [compound_tbl_lipidblast()] for functions
 #' creating such compound tables.
-#' 
+#'
 #' The metadata `data.frame` is supposed to have two columns named `"name"` and
 #' `"value"` providing the following minimal information as key-value pairs
 #' (see `make_metadata` for a unitlity function to create such a `data.frame):
@@ -346,7 +346,7 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' *PubChem*) if all the file names are provided with parameter `x`. Parallel
 #' processing is currently not enabled because SQLite does not support it yet
 #' natively.
-#' 
+#'
 #' @param x For `createCompDb`: `data.frame` or `tbl` with the compound
 #'     annotations or `character` with the file name(s) from which the compound
 #'     annotations should be retrieved. See description for details.
@@ -360,14 +360,14 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' @param msms_spectra For `createCompDb`: `data.frame` with MS/MS spectrum
 #'     data. See [msms_spectra_hmdb()] for the expected format and a function
 #'     to import such data from spectrum xml files from HMDB.
-#' 
+#'
 #' @param path `character(1)` with the path to the directory where the database
 #'     file or package folder should be written. Defaults to the current
 #'     directory.
 #'
 #' @return For `createCompDb`: a `character(1)` with the database name
 #'     (invisibly).
-#' 
+#'
 #' @importFrom DBI dbDriver dbWriteTable dbExecute dbDisconnect
 #' @importFrom RSQLite dbConnect
 #' @importFrom dplyr bind_cols bind_rows
@@ -384,7 +384,7 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #'
 #' [msms_spectra_hmdb()] for a function to import MS/MS spectrum data from
 #' respective xml files from HMDB.
-#' 
+#'
 #' [CompDb()] for how to use a compound database.
 #'
 #' @md
@@ -420,7 +420,7 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' ## that are provided in the package
 #' xml_path <- system.file("xml", package = "CompoundDb")
 #' spctra <- msms_spectra_hmdb(xml_path)
-#' 
+#'
 #' ## Create a SQLite database in the temporary folder
 #' db_f2 <- createCompDb(cmps, metadata = metad2, msms_spectra = spctra,
 #'     path = tempdir())
@@ -431,7 +431,7 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #'
 #' ## Does the database contain spectrum data?
 #' hasSpectra(db2)
-#' 
+#'
 #' ## Create a database for a ChEBI subset providing the file name of the
 #' ## corresponding SDF file
 #' metad <- make_metadata(source = "ChEBI_sub", source_version = "2",
@@ -442,7 +442,7 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' db
 #'
 #' compounds(db)
-#' 
+#'
 #' ## connect to the database and query it's tables using RSQlite
 #' library(RSQLite)
 #' con <- dbConnect(dbDriver("SQLite"), db_f)
@@ -518,7 +518,7 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
 #' @param con database connection
 #'
 #' @param x `data.frame` with the spectrum data, such as returned by
-#' [msms_spectra_hmdb]
+#' [msms_spectra_hmdb()]
 #'
 #' @noRd
 #'
@@ -526,11 +526,39 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
 .insert_msms_spectra_blob <- function(con, x, ...) {
     if (is.numeric(x$mz))
         x <- .collapse_spectrum_df(x)
+    x <- .add_mz_range_column(x)
     .check_msms_spectra_columns(x, blob = TRUE)
     x$mz <- lapply(x$mz, base::serialize, NULL)
     x$intensity <- lapply(x$intensity, base::serialize, NULL)
     dbWriteTable(con, name = "msms_spectrum", x, row.names = FALSE, ...)
     dbExecute(con, "create index msms_cidb_idx on msms_spectrum (compound_id)")
+}
+
+#' Add mz_min and mz_max columns to data.frame x
+#'
+#' @param x `data.frame` with MS MS spectrum data such as returned by
+#'     [msms_spectra_hmdb()] **and** eventually collapsed with
+#'     [.collapse_spectrum_df].
+#'
+#' @noRd
+#'
+#' @author Johannes Rainer
+.add_mz_range_column <- function(x) {
+    if (!any(colnames(x) == "mz"))
+        stop("Required column 'mz' not found")
+    if (is.list(x$mz)) {
+        mzr <- do.call(rbind, lapply(x$mz, range))
+        x$msms_mz_range_min <- mzr[, 1]
+        x$msms_mz_range_max <- mzr[, 2]
+        x
+    } else {
+        fct <- factor(x$spectrum_id, levels = unique(x$spectrum_id))
+        mzs <- split(x$mz, f = fct)
+        mzr <- do.call(rbind, lapply(mzs, range, na.rm = TRUE))
+        x$msms_mz_range_min <- unsplit(mzr[, 1], fct)
+        x$msms_mz_range_max <- unsplit(mzr[, 2], fct)
+        x
+    }
 }
 
 #' Function to insert MS/MS spectrum data into two database tables:
@@ -553,6 +581,7 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
     msms_spectrum_peak <- x[, c("spectrum_id", "mz", "intensity")]
     dbWriteTable(con, name = "msms_spectrum_peak", msms_spectrum_peak,
                  row.names = FALSE)
+    x <- .add_mz_range_column(x)
     msms_spectrum_metadata <- unique(x[, !(colnames(x) %in%
                                            c("mz", "intensity"))])
     dbWriteTable(con, name = "msms_spectrum_metadata",
@@ -577,7 +606,8 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
                                      splash = "character",
                                      instrument_type = "character",
                                      mz = "numeric",
-                                     intensity = "numeric")
+                                     intensity = "numeric"
+                                     )
 
 .required_msms_spectrum_columns_blob <- c(spectrum_id = "character",
                                           compound_id = "character",
@@ -587,7 +617,8 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
                                           splash = "character",
                                           instrument_type = "character",
                                           mz = "list",
-                                          intensity = "list")
+                                          intensity = "list"
+                                          )
 
 .check_msms_spectra_columns <- function(x, blob = TRUE) {
     coltypes <- unlist(lapply(x, class))
@@ -615,7 +646,7 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
 #'     ensuring that these are also not `NA` or `NULL`.
 #'
 #' @md
-#' 
+#'
 #' @noRd
 .db_file_from_metadata <- function(x) {
     paste0("CompDb.", x$value[x$name == "organism"], ".",
@@ -626,7 +657,7 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
 #' @description Check the metadata `data.frame` for required columns.
 #'
 #' @md
-#' 
+#'
 #' @noRd
 .valid_metadata <- function(metadata, error = TRUE) {
     txt <- character()
@@ -658,7 +689,7 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
 #' @param db `logical(1)` whether validity should be checked on the internal
 #'     database table instead of the input file.
 #' @md
-#' 
+#'
 #' @noRd
 .valid_compound <- function(x, error = TRUE, db = TRUE) {
     txt <- character()
@@ -710,11 +741,11 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
 #'
 #' @param license For `createCompDbPackage`: `character(1)` with the
 #'     license of the package respectively the originating provider.
-#' 
+#'
 #' @export
 #'
 #' @md
-#' 
+#'
 #' @rdname createCompDb
 createCompDbPackage <- function(x, version, maintainer, author,
                                     path = ".", license = "Artistic-2.0") {
@@ -789,11 +820,11 @@ createCompDbPackage <- function(x, version, maintainer, author,
 #' @param organism For `make_metadata`: `character(1)` with the name of the
 #'     organism. This should be in the format `"Hsapiens"` for human,
 #'     `"Mmusculus"` for mouse etc.
-#' 
+#'
 #' @export
-#' 
+#'
 #' @md
-#' 
+#'
 #' @rdname createCompDb
 make_metadata <- function(source, url, source_version, source_date, organism) {
     if (any(c(missing(source), missing(url), missing(source_version),

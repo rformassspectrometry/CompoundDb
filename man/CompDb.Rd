@@ -12,6 +12,7 @@
 \alias{src_compdb}
 \alias{tables}
 \alias{spectra,CompDb-method}
+\alias{supportedFilters,CompDb-method}
 \title{Simple compound (metabolite) databases}
 \usage{
 show(object)
@@ -30,6 +31,8 @@ tables(x)
 
 \S4method{spectra}{CompDb}(object, columns, filter,
   return.type = c("Spectra", "data.frame", "tibble"))
+
+\S4method{supportedFilters}{CompDb}(object)
 }
 \arguments{
 \item{x}{For \code{CompDb}: \code{character(1)} with the file name of the SQLite
@@ -105,6 +108,9 @@ concepts from Bioconductor's \code{AnnotationFilter} package. All information
 for a certain compound with the ID \code{"HMDB0000001"} can for example be
 retrieved by passing the filter expression
 \code{filter = ~ compound_id == "HMDB0000001"} to the \code{compounds} function.
+
+Use the \link{supportedFilters} passing the \link{CompDb} object as an argument to
+get a list of all supported filters.
 }
 
 \examples{

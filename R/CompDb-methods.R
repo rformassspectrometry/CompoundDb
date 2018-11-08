@@ -81,3 +81,14 @@ setMethod("spectra", "CompDb", function(object, columns, filter,
         res <- as(res, "Spectra")
     res
 })
+
+#' @importMethodsFrom AnnotationFilter supportedFilters
+#'
+#' @export
+#'
+#' @md
+#'
+#' @rdname CompDb
+setMethod("supportedFilters", "CompDb", function(object) {
+    .supported_filters(object)
+})

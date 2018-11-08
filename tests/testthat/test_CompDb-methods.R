@@ -39,3 +39,10 @@ test_that("spectra,CompDb works", {
     expect_equal(res[[which(mcols(res)$spectrum_id == "2")]],
                  res_all[[which(mcols(res_all)$spectrum_id == "2")]])
 })
+
+test_that("supportedFilters works", {
+    res <- supportedFilters(cmp_db)
+    expect_equal(colnames(res), c("filter", "field"))
+    res_2 <- supportedFilters(cmp_spctra_db)
+    expect_true(nrow(res) < nrow(res_2))
+})
