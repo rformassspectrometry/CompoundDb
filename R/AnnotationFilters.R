@@ -12,10 +12,10 @@
 #' - `CompoundNameFilter`: filter based on the compound name.
 #' - `MsmsMzRangeMinFilter`: retrieve entries based on the smallest m/z of all
 #'   peaks of their MS/MS spectra. Requires that MS/MS spectra data are present
-#'   (i.e. `hasSpectra(cmp_db)` returns `TRUE`).
+#'   (i.e. `hasMsMsSpectra(cmp_db)` returns `TRUE`).
 #' - `MsmsMzRangeMaxFilter`: retrieve entries based on the largest m/z of all
 #'   peaks of their MS/MS spectra. Requires that MS/MS spectra data are present
-#'   (i.e. `hasSpectra(cmp_db)` returns `TRUE`).
+#'   (i.e. `hasMsMsSpectra(cmp_db)` returns `TRUE`).
 #'
 #' @param value The value for the filter. For details see
 #'     [AnnotationFilter::AnnotationFilter()].
@@ -300,7 +300,7 @@ MsmsMzRangeMaxFilter <- function(value, condition = "<=") {
                      field = c("compound_id",
                                "compound_name"),
                      stringsAsFactors = FALSE)
-    if (!missing(x) && hasSpectra(x)) {
+    if (!missing(x) && .has_msms_spectra(x)) {
         df <- rbind(df,
                     data.frame(filter = c("MsmsMzRangeMinFilter",
                                           "MsmsMzRangeMaxFilter"),

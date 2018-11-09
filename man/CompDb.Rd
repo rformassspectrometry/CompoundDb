@@ -7,7 +7,7 @@
 \alias{show}
 \alias{dbconn,CompDb-method}
 \alias{show,CompDb-method}
-\alias{hasSpectra}
+\alias{hasMsMsSpectra}
 \alias{compounds}
 \alias{src_compdb}
 \alias{tables}
@@ -19,7 +19,7 @@ show(object)
 
 CompDb(x)
 
-hasSpectra(x)
+hasMsMsSpectra(x)
 
 compounds(x, columns, filter, return.type = "data.frame")
 
@@ -63,8 +63,8 @@ database (usually an SQLite database).
 \code{CompDb} \emph{constructs} a \code{CompDb} object by connecting
 to the provided database file.
 
-\code{hasSpectra} returns \code{TRUE} if MS/MS spectrum data is available
-in the database and \code{FALSE} otherwise.
+\code{hasMsMsSpectra} returns \code{TRUE} if MS/MS spectrum data is
+available in the database and \code{FALSE} otherwise.
 
 \code{src_compdb} provides access to the \code{CompDb}'s database \emph{via}
 the functionality from the \code{dplyr}/\code{dbplyr} package.

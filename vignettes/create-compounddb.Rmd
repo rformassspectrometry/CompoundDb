@@ -51,7 +51,9 @@ files from:
 - PubChem: https://pubchem.ncbi.nlm.nih.gov
 
 Below we use the `compound_tbl_sdf` to extract compound annotations from a SDF
-file representing a very small subset of the HMDB database.
+file representing a very small subset of the HMDB database. To generate a
+database for the full HMDB we would have to download the *structures.sdf* file
+containing all metabolites and load that file instead.
 
 ```{r compound_tbl, message = FALSE, warnings = FALSE}
 library(CompoundDb)
@@ -88,7 +90,8 @@ function. The function identifies the xml files containing MS/MS spectra based
 on their their file name and loads the respective spectrum data. The folder can
 therefore also contain other files, but the xml files from HMDB should not be
 renamed or the function will not recognice them. Note also that at present only
-MS/MS spectrum xml files from HMDB are supported (one xml file per spectrum).
+MS/MS spectrum xml files from HMDB are supported (one xml file per spectrum);
+these could be downloaded from HMDB with the *hmdb_all_spectra.zip* file.
 
 ```{r msms_spectra, message = FALSE}
 ## Locate the folder with the xml files

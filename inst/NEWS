@@ -1,5 +1,7 @@
 Changes in version 0.2.0
 
+- Add hasMz,Spectrum and hasMz,Spectra methods to look for m/z values within
+  spectra (issue #28).
 - Add MsmsMzRangeMinFilter and MsmsMzRangeMaxFilter (issue #29).
 - Re-use Spectra object from MSnbase.
 - Add supportedFilters,CompDb method.

@@ -29,7 +29,7 @@ setMethod("show", "CompDb", function(object) {
         cmp_nr <- dbGetQuery(con, paste0("select count(distinct compound_id) ",
                                          "from compound"))
         cat(" compound count:", cmp_nr[1, 1], "\n")
-        if (hasSpectra(object)) {
+        if (.has_msms_spectra(object)) {
             ## spctra <- dbGetQuery(con, paste0("select count(distinct spectrum_",
             ##                                  "id) from msms_spectrum_metadata"))
             spctra <- dbGetQuery(con, paste0("select count(distinct spectrum_",
@@ -55,7 +55,7 @@ setMethod("spectra", "CompDb", function(object, columns, filter,
                                         return.type = c("Spectra",
                                                         "data.frame",
                                                         "tibble")) {
-    if (!hasSpectra(object))
+    if (!.has_msms_spectra(object))
         stop("No spectrum data available in the provided database",
              call. = FALSE)
     return.type <- match.arg(return.type)

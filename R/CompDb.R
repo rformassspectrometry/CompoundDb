@@ -227,22 +227,22 @@ CompDb <- function(x) {
     x@dbcon
 }
 
-.hasSpectra <- function(x) {
+.has_msms_spectra <- function(x) {
     ## all(c("msms_spectrum_peak", "msms_spectrum_metadata") %in%
     ##     names(.tables(x)))
     any(names(.tables(x)) == "msms_spectrum")
 }
 
-#' @description `hasSpectra` returns `TRUE` if MS/MS spectrum data is available
-#'     in the database and `FALSE` otherwise.
+#' @description `hasMsMsSpectra` returns `TRUE` if MS/MS spectrum data is
+#'     available in the database and `FALSE` otherwise.
 #'
 #' @export
 #'
 #' @rdname CompDb
 #'
 #' @md
-hasSpectra <- function(x) {
-    .hasSpectra(x)
+hasMsMsSpectra <- function(x) {
+    .has_msms_spectra(x)
 }
 
 #' @param columns For `compounds`, `spectra`: `character` with the names of the

@@ -40,10 +40,10 @@ The supported filters are:
 \item \code{CompoundNameFilter}: filter based on the compound name.
 \item \code{MsmsMzRangeMinFilter}: retrieve entries based on the smallest m/z of all
 peaks of their MS/MS spectra. Requires that MS/MS spectra data are present
-(i.e. \code{hasSpectra(cmp_db)} returns \code{TRUE}).
+(i.e. \code{hasMsMsSpectra(cmp_db)} returns \code{TRUE}).
 \item \code{MsmsMzRangeMaxFilter}: retrieve entries based on the largest m/z of all
 peaks of their MS/MS spectra. Requires that MS/MS spectra data are present
-(i.e. \code{hasSpectra(cmp_db)} returns \code{TRUE}).
+(i.e. \code{hasMsMsSpectra(cmp_db)} returns \code{TRUE}).
 }
 }
 \examples{

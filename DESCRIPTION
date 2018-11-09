@@ -41,10 +41,13 @@ biocViews: MassSpectrometry, Metabolomics
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
 Collate:
+    'AllGenerics.R'
     'AnnotationFilters.R'
     'createCompDbPackage.R'
     'CompDb.R'
     'CompDb-methods.R'
+    'Spectra-functions.R'
+    'Spectra-methods.R'
     'query-engine.R'
     'spectrum-import-functions.R'
     'utility-functions.R'

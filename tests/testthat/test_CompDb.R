@@ -79,9 +79,9 @@ test_that("src_compound works", {
     expect_error(src_compdb(5))
 })
 
-test_that(".hasSpectra/hasSpectra works", {
-    expect_false(.hasSpectra(cmp_db))
-    expect_false(hasSpectra(cmp_db))
-    expect_true(.hasSpectra(cmp_spctra_db))
-    expect_true(hasSpectra(cmp_spctra_db))
+test_that(".has_msms_spectra/hasMsMsSpectra works", {
+    expect_false(.has_msms_spectra(cmp_db))
+    expect_false(hasMsMsSpectra(cmp_db))
+    expect_true(.has_msms_spectra(cmp_spctra_db))
+    expect_true(hasMsMsSpectra(cmp_spctra_db))
 })

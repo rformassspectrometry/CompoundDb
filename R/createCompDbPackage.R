@@ -429,8 +429,8 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' db2 <- CompDb(db_f2)
 #' db2
 #'
-#' ## Does the database contain spectrum data?
-#' hasSpectra(db2)
+#' ## Does the database contain MS/MS spectrum data?
+#' hasMsMsSpectra(db2)
 #'
 #' ## Create a database for a ChEBI subset providing the file name of the
 #' ## corresponding SDF file
