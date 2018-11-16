@@ -59,7 +59,7 @@ containing all metabolites and load that file instead.
 library(CompoundDb)
 
 ## Locate the file
-hmdb_file <- system.file("sdf/HMDB_sub.sdf", package = "CompoundDb")
+hmdb_file <- system.file("sdf/HMDB_sub.sdf.gz", package = "CompoundDb")
 ## Extract the data
 cmps <- compound_tbl_sdf(hmdb_file)
 ```

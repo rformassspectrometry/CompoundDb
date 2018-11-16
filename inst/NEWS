@@ -1,3 +1,8 @@
+Changes in version 0.2.1
+
+- Add support for MoNa SDF files (issue #30).
+
+
 Changes in version 0.2.0
 
 - Add hasMz,Spectrum and hasMz,Spectra methods to look for m/z values within

@@ -35,6 +35,7 @@ format (structure-data file). The function currently supports SDF files from:
 \item ChEBI (Chemical Entities of Biological Interest): http://ebi.ac.uk/chebi
 \item LMSD (LIPID MAPS Structure Database): http://www.lipidmaps.org
 \item PubChem: https://pubchem.ncbi.nlm.nih.gov/
+\item MoNa: http://mona.fiehnlab.ucdavis.edu/
 }
 }
 \details{
@@ -50,7 +51,7 @@ provided, the \code{"SYSTEMATIC_NAME"}.
 \examples{
 
 ## Read compound information from a subset of HMDB
-fl <- system.file("sdf/HMDB_sub.sdf", package = "CompoundDb")
+fl <- system.file("sdf/HMDB_sub.sdf.gz", package = "CompoundDb")
 cmps <- compound_tbl_sdf(fl)
 cmps
 

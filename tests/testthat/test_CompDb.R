@@ -11,7 +11,7 @@ test_that("CompDb constructor and low level functions", {
                            value = c("HMDB_tmp", "http://www.hmdb.ca", "4",
                                      "2017", "Hsapiens"),
                            stringsAsFactors = FALSE)
-    fl <- system.file("sdf/HMDB_sub.sdf", package = "CompoundDb")
+    fl <- system.file("sdf/HMDB_sub.sdf.gz", package = "CompoundDb")
     cmps <- compound_tbl_sdf(fl)
     db_f <- createCompDb(cmps, metadata = metadata, path = tempdir())
     cmp <- CompDb(db_f)

@@ -8,6 +8,7 @@
 #' + ChEBI (Chemical Entities of Biological Interest): http://ebi.ac.uk/chebi
 #' + LMSD (LIPID MAPS Structure Database): http://www.lipidmaps.org
 #' + PubChem: https://pubchem.ncbi.nlm.nih.gov/
+#' + MoNa: http://mona.fiehnlab.ucdavis.edu/
 #'
 #' @details
 #'
@@ -49,10 +50,12 @@
 #' @seealso [createCompDb()] for a function to create a SQLite-based compound
 #'     database.
 #'
+#' @importFrom ChemmineR read.SDFset datablock datablock2ma
+#'
 #' @examples
 #'
 #' ## Read compound information from a subset of HMDB
-#' fl <- system.file("sdf/HMDB_sub.sdf", package = "CompoundDb")
+#' fl <- system.file("sdf/HMDB_sub.sdf.gz", package = "CompoundDb")
 #' cmps <- compound_tbl_sdf(fl)
 #' cmps
 #'
@@ -69,7 +72,8 @@ compound_tbl_sdf <- function(file, collapse) {
         stop("Please provide the file name using 'file'")
     if (!file.exists(file))
         stop("Can not fine file ", file)
-    res <- .simple_import_compounds_sdf(file)
+    res <- .simple_extract_compounds_sdf(
+        datablock2ma(datablock(read.SDFset(file))))
     if (!missing(collapse)) {
         ## collapse elements from lists.
         res$synonyms <- vapply(res$synonyms, paste0, collapse = collapse,
@@ -135,12 +139,11 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #'
 #' Internal function to extract compound information from a file in SDF format.
 #'
-#' @param x `character(1)` with the name of the file.
+#' @param x what is returned by datablock2ma(datablock(read.SDFset)).
 #'
 #' @return A [tibble::tibble] with columns `"compound_id"`, `"compound_name"`,
 #'     `"inchi"`, `"formula"`, `"mass"`.
 #'
-#' @importFrom ChemmineR read.SDFset datablock datablock2ma
 #' @importFrom tibble data_frame
 #'
 #' @md
@@ -148,30 +151,33 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' @author Johannes Rainer
 #'
 #' @noRd
-.simple_import_compounds_sdf <- function(x) {
-    full_mat <- datablock2ma(datablock(read.SDFset(x)))
-    source_db <- .guess_sdf_source(colnames(full_mat))
+.simple_extract_compounds_sdf <- function(x) {
+    source_db <- .guess_sdf_source(colnames(x))
     if (is.null(source_db))
         stop("The SDF file is not supported. Supported are SDF files from ",
              "HMDB, ChEBI and LipidMaps.")
     colmap <- get(paste0(".", source_db, "_colmap"))
     sep <- get(paste0(".", source_db, "_separator"))
     ## Fix missing COMMON_NAME entries in LipidMaps (see issue #1)
-    nms <- full_mat[, colmap["name"]]
-    syns <- strsplit(full_mat[, colmap["synonyms"]], split = sep)
+    nms <- x[, colmap["name"]]
+    syns <- strsplit(x[, colmap["synonyms"]], split = sep)
     if (source_db == "lipidmaps") {
         nas <- is.na(nms)
         if (any(nas))
             nms[nas] <- vapply(syns[nas], `[[`, 1, FUN.VALUE = "character")
         nas <- is.na(nms)
         if (any(nas))
-            nms[nas] <- full_mat[nas, "SYSTEMATIC_NAME"]
+            nms[nas] <- x[nas, "SYSTEMATIC_NAME"]
     }
-    data_frame(compound_id = full_mat[, colmap["id"]],
+    if (source_db == "mona") {
+        inchis <- paste0("InChI",
+                         .extract_field_from_string(x[, "COMMENT"], "InChI"))
+    } else inchis <- x[, colmap["inchi"]]
+    data_frame(compound_id = x[, colmap["id"]],
                compound_name = nms,
-               inchi = full_mat[, colmap["inchi"]],
-               formula = full_mat[, colmap["formula"]],
-               mass = as.numeric(full_mat[, colmap["mass"]]),
+               inchi = inchis,
+               formula = x[, colmap["formula"]],
+               mass = as.numeric(x[, colmap["mass"]]),
                synonyms = syns
                )
 }
@@ -199,7 +205,10 @@ compound_tbl_lipidblast <- function(file, collapse) {
         return("lipidmaps")
     if (any(x == "PUBCHEM_COMPOUND_CID"))
         return("pubchem")
-
+    if (any(x == "ID")) {
+        message("Guessing we've got a SDF file from MoNa.")
+        return("mona")
+    }
     NULL
 }
 
@@ -241,7 +250,13 @@ compound_tbl_lipidblast <- function(file, collapse) {
                        # PUBCHEM_IUPAC_NAME
                        )
 .pubchem_separator <- "; " # there seems to be none
-
+.mona_colmap <- c(id = "ID",
+                  name = "NAME",
+                  inchi = "INCHI",
+                  formula = "FORMULA",
+                  mass = "EXACT MASS",
+                  synonyms = "SYNONYMS")
+.mona_separator <- " __ "
 
 #' @description Import compound information from a LipidBlast file in json
 #'     format.
@@ -392,7 +407,7 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' @examples
 #'
 #' ## Read compounds for a HMDB subset
-#' fl <- system.file("sdf/HMDB_sub.sdf", package = "CompoundDb")
+#' fl <- system.file("sdf/HMDB_sub.sdf.gz", package = "CompoundDb")
 #' cmps <- compound_tbl_sdf(fl)
 #'
 #' ## Create a metadata data.frame for the compounds.

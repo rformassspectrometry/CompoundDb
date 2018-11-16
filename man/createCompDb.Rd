@@ -130,7 +130,7 @@ natively.
 \examples{
 
 ## Read compounds for a HMDB subset
-fl <- system.file("sdf/HMDB_sub.sdf", package = "CompoundDb")
+fl <- system.file("sdf/HMDB_sub.sdf.gz", package = "CompoundDb")
 cmps <- compound_tbl_sdf(fl)
 
 ## Create a metadata data.frame for the compounds.

@@ -322,3 +322,29 @@ setAs("data.frame", "Spectra", function(from) {
 })
 
 ## Function to import spectrum data from MoNa etc.
+
+#' Function to import compound and spectra data from MoNa. Because we lack
+#' some fields we are not using the [.simple_import_compounds_sdf()] function
+#' but define the import specifically for MoNa.
+#'
+#' @noRd
+#'
+#' @author Johannes Rainer
+.import_mona <- function(x, nonStop = TRUE) {
+    message("Reading SDF file ... ", appendLF = FALSE)
+    sdfs <- datablock2ma(datablock(read.SDFset(x, skipErrors = nonStop)))
+    message("OK")
+    message("Extracting compound information ... ", appendLF = FALSE)
+    suppressMessages(cmps <- .simple_extract_compounds_sdf(sdfs))
+    message("OK")
+    message("Extracting spectrum information ... ", appendLF = FALSE)
+    message("OK")
+}
+
+#' Extract spectrum data from a MoNa SDF file
+#'
+#' @author Johannes Rainer
+#'
+#' @noRd
+.extract_spectra_mona_sdf <- function(x) {
+}

@@ -1,7 +1,7 @@
 Package: CompoundDb
 Type: Package
 Title: Creating and using (chemical) compound annotation databases
-Version: 0.2.0
+Version: 0.2.1
 Authors@R: c(person(given = "Jan", family = "Stanstrup",
                     email = "stanstrup@gmail.com",
 		    role = c("aut")),

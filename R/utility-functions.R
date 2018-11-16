@@ -71,7 +71,7 @@
 #' @md
 #'
 #' @export
-#' 
+#'
 #' @author Johannes Rainer
 #'
 #' @examples
@@ -92,4 +92,30 @@ expandMzIntensity <- function(x) {
     if (!is.data.frame(x))
         stop("'x' is expected to be a data.frame")
     .expand_spectrum_df(x)
+}
+
+#' Use a pattern search to extract the value for a field from a string
+#'
+#' @param x `character` string
+#'
+#' @param field `character` defining how the field can be identified
+#'
+#' @param delimiter `character` defining how the field's end is defined.
+#'
+#' @author Johannes Rainer
+#'
+#' @return `character` with the field or `NA` if the field is not present.
+#'
+#' @noRd
+#'
+#' @examples
+#'
+#' strng <- "some=bl df;other=some nice thing;last=the last entry"
+#' .extract_field_from_string(strng, "some=", delimiter = ";")
+#' .extract_field_from_string(strng, "other=", delimiter = ";")
+#' .extract_field_from_string(strng, "last=", delimiter = ";")
+.extract_field_from_string <- function(x, field, delimiter = " __ ") {
+    res <- sub(paste0(".*?", field, "(.*?)(", delimiter, ".*|$)"), "\\1", x)
+    res[res == x] <- NA_character_
+    res
 }

@@ -1,7 +1,7 @@
 library("testthat")
 library("CompoundDb")
 
-hmdb <- system.file("sdf/HMDB_sub.sdf", package = "CompoundDb")
+hmdb <- system.file("sdf/HMDB_sub.sdf.gz", package = "CompoundDb")
 cmps <- compound_tbl_sdf(hmdb)
 metad <- data.frame(name = c("source", "url", "source_version",
                              "source_date", "organism"),

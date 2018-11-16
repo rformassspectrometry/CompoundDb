@@ -116,7 +116,7 @@ get a list of all supported filters.
 \examples{
 
 ## Create a small CompDb from a provided HMDB subset
-cmps <- compound_tbl_sdf(system.file("sdf/HMDB_sub.sdf",
+cmps <- compound_tbl_sdf(system.file("sdf/HMDB_sub.sdf.gz",
     package = "CompoundDb"))
 metad <- data.frame(name = c("source", "url", "source_version",
     "source_date", "organism"),

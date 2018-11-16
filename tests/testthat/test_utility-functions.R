@@ -14,3 +14,19 @@ test_that("expandMzIntensity, .expand and .collapse_spectrum_df work", {
     expect_equal(res_3, res)
     expect_error(expandMzIntensity(4))
 })
+
+test_that(".extract_field_from_string works", {
+    strng <- "some=bl df;other=some nice thing;last=the last entry"
+    res <- .extract_field_from_string(strng, "some=", ";")
+    expect_equal(res, "bl df")
+    res <- .extract_field_from_string(strng, "notthere=", ";")
+    expect_equal(res, NA_character_)
+    res <- .extract_field_from_string(strng, "last=", ";")
+    expect_equal(res, "the last entry")
+
+    strngs <- c(strng, "some=second")
+    res <- CompoundDb:::.extract_field_from_string(strngs, "some=", ";")
+    expect_equal(res, c("bl df", "second"))
+    res <- CompoundDb:::.extract_field_from_string(strngs, "last=", ";")
+    expect_equal(res, c("the last entry", NA))
+})
