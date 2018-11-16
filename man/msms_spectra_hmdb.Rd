@@ -81,7 +81,10 @@ a \link{Spectra} object (list of \link{Spectrum} objects with annotations).
 
 \code{\link[=createCompDb]{createCompDb()}} for the function to create a \link{CompDb} database with
 compound annotation and spectrum data.
+
+Other spectrum data import functions.: \code{\link{msms_spectra_mona}}
 }
 \author{
 Johannes Rainer
 }
+\concept{spectrum data import functions.}

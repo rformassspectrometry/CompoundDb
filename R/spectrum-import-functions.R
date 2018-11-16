@@ -153,6 +153,8 @@
 #'
 #' @export
 #'
+#' @family spectrum data import functions.
+#'
 #' @seealso
 #'
 #' [Spectra()] for converting the returned `data.frame` into
@@ -321,24 +323,85 @@ setAs("data.frame", "Spectra", function(from) {
     Spectra(res$spectra, elementMetadata = res$mcols)
 })
 
-## Function to import spectrum data from MoNa etc.
-
-#' Function to import compound and spectra data from MoNa. Because we lack
-#' some fields we are not using the [.simple_import_compounds_sdf()] function
-#' but define the import specifically for MoNa.
+#' @title Import MS/MS spectra from MoNa
 #'
-#' @noRd
+#' @description
+#'
+#' `msms_spectra_mona` imports MS/MS spectra from a MoNa (Massbank of North
+#' America, http://mona.fiehnlab.ucdavis.edu/downloads) SDF file and returns
+#' the data as a `data.frame`.
+#'
+#' Depending on the parameter `collapsed`, the returned `data.frame` is either
+#' *collapsed*, meaning that each row represents data from one spectrum,
+#' or *expanded* with one row for each m/z and intensity pair for each
+#' spectrum. Columns `"mz"` and `"intensity"` are of type `list` for
+#' `collapsed = TRUE` and `numeric` for `collapsed = FALSE`.
+#'
+#' @note
+#'
+#' The identifiers provided by MoNa are used as *compound_id*, the returned
+#' *spectrum_id* is an artificially generated unique identifier for each
+#' spectrum. Also, MoNa does not provide a *splash* for a spectrum, hence the
+#' corresponding column will only contain `NA`.
+#'
+#' @param x `character(1)`: with the path to directory containing the xml files.
+#'
+#' @param collapsed `logical(1)` whether the returned `data.frame` should be
+#'     *collapsed* or *expanded*. See description for more details.
+#'
+#' @return `data.frame` with as many rows as there are peaks and columns:
+#'
+#' - spectrum_id (`character`): an arbitrary, unique ID for each spectrum.
+#' - original_spectrum_id (`character`): `NA`.
+#' - compound_id (`character`): the compound ID the spectrum is associated
+#'   with.
+#' - polarity (`integer`): 0 for negative, 1 for positive, `NA` for not set.
+#' - collision_energy (`character`): collision energy voltage.
+#' - predicted (`logical`): whether the spectrum is predicted or experimentally
+#'   verified.
+#' - splash (`character`): `NA` since SPLASH (SPectraL hASH) keys are not
+#'   provided.
+#' - instrument_type (`character`): the type of MS instrument on which the
+#'   spectrum was measured.
+#' - mz (`numeric` or `list` of `numeric`): m/z values of the spectrum.
+#' - intensity (`numeric` or `list` of `numeric`): intensity of the spectrum.
+#'
+#' @md
 #'
 #' @author Johannes Rainer
-.import_mona <- function(x, nonStop = TRUE) {
+#'
+#' @export
+#'
+#' @family spectrum data import functions.
+#'
+#' @seealso
+#'
+#' [Spectra()] for converting the returned `data.frame` into
+#' a [Spectra] object (list of [Spectrum] objects with annotations).
+#'
+#' [createCompDb()] for the function to create a [CompDb] database with
+#' compound annotation and spectrum data.
+#'
+#' @examples
+#'
+#' ## Define the test file containing the data
+#' fl <- system.file("sdf/MoNa_export-All_Spectra_sub.sdf.gz",
+#'     package = "CompoundDb")
+#' ## Import spectrum data from the SDF file with a subset of the MoNa data
+#' msms_spectra_mona(fl)
+#'
+#' ## Import the data as an *expanded* data frame, i.e. with a row for each
+#' ## single m/z (intensity) value.
+#' msms_spectra_mona(fl, collapsed = FALSE)
+msms_spectra_mona <- function(x, collapsed = TRUE) {
     message("Reading SDF file ... ", appendLF = FALSE)
-    sdfs <- datablock2ma(datablock(read.SDFset(x, skipErrors = nonStop)))
+    sdf <- datablock2ma(datablock(read.SDFset(x, skipErrors = TRUE)))
     message("OK")
-    message("Extracting compound information ... ", appendLF = FALSE)
-    suppressMessages(cmps <- .simple_extract_compounds_sdf(sdfs))
+    message("Extracting ", nrow(sdf), " spectra ... ", appendLF = FALSE)
+    spctra <- .extract_spectra_mona_sdf(sdf)
     message("OK")
-    message("Extracting spectrum information ... ", appendLF = FALSE)
-    message("OK")
+    if (collapsed) spctra
+    else .expand_spectrum_df(spctra)
 }
 
 #' Extract spectrum data from a MoNa SDF file
@@ -347,4 +410,22 @@ setAs("data.frame", "Spectra", function(from) {
 #'
 #' @noRd
 .extract_spectra_mona_sdf <- function(x) {
+    n <- nrow(x)
+    spids <- sprintf(paste0("SP", "%0", ceiling(log10(n + 1)), "d"), 1:n)
+    plrty <- rep(NA_integer_, n)
+    plrty[grep("P", x[, "ION MODE"])] <- 1L
+    plrty[grep("N", x[, "ION MODE"])] <- 0L
+    mzint <- lapply(strsplit(x[, "MASS SPECTRAL PEAKS"], " | __ "),
+                    function(z) matrix(as.numeric(z), ncol = 2, byrow = TRUE))
+    res <- data.frame(spectrum_id = spids,
+               compound_id = x[, "ID"],
+               polarity = plrty,
+               collision_energy = x[, "COLLISION ENERGY"],
+               predicted = NA,
+               splash = NA_character_,
+               instrument_type = x[, "INSTRUMENT TYPE"],
+               stringsAsFactors = FALSE)
+    res$mz <- lapply(mzint, function(z) z[, 1])
+    res$intensity <- lapply(mzint, function(z) z[, 2])
+    res
 }

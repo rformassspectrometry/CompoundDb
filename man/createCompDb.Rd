@@ -78,8 +78,8 @@ source, date, version and organism is mandatory.
 Optionally MS/MS (MS2) spectra for compounds can be also stored in the
 database. Currently only MS/MS spectra from HMDB are supported. These can
 be downloaded in XML format from HMDB (http://www.hmdb.ca), loaded with
-the \code{\link[=msms_spectra_hmdb]{msms_spectra_hmdb()}} function and passed to the function with the
-\code{msms_spectra} argument.
+the \code{\link[=msms_spectra_hmdb]{msms_spectra_hmdb()}} or \code{\link[=msms_spectra_mona]{msms_spectra_mona()}} function and passed to
+the function with the \code{msms_spectra} argument.
 
 Required columns for the \code{data.frame} providing the compound information (
 parameter \code{x}) are:
@@ -196,8 +196,11 @@ dbGetQuery(con, "select * from compound")
 to extract compound annotations from files in SDF format, or files from
 LipidBlast.
 
-\code{\link[=msms_spectra_hmdb]{msms_spectra_hmdb()}} for a function to import MS/MS spectrum data from
-respective xml files from HMDB.
+\code{\link[=import_mona_sdf]{import_mona_sdf()}} to import both the compound and spectrum data from a
+SDF file from MoNa (Massbank of North America) in one call.
+
+\code{\link[=msms_spectra_hmdb]{msms_spectra_hmdb()}} and \code{\link[=msms_spectra_mona]{msms_spectra_mona()}} for functions to import
+MS/MS spectrum data from xml files from HMDB or an SDF file from MoNa.
 
 \code{\link[=CompDb]{CompDb()}} for how to use a compound database.
 }

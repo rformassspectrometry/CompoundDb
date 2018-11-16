@@ -161,18 +161,15 @@ setValidity("CompDb", function(object) {
         if (!any(tables == "msms_spectrum"))
             txt <- c(txt, paste0("Required table msms_spectrum not found in",
                                  " the database"))
+        res <- .deserialize_mz_intensity(
+            dbGetQuery(x, "select * from msms_spectrum limit 3"))
+        res$predicted <- as.logical(res$predicted)
+        res <- .valid_msms_spectrum(res, error = FALSE)
+        if (is.character(res))
+            txt <- c(txt, res)
         compound_cmp_id <- dbGetQuery(x, "select compound_id from compound")[,1]
         spectrum_cmp_id <- dbGetQuery(x, paste0("select compound_id from ",
                                                 "msms_spectrum"))[, 1]
-        ## Uncomment below if we switch back to individual m/z value storing
-        ## req_tables <- c("msms_spectrum_metadata", "msms_spectrum_peak")
-        ## got <- req_tables %in% tables
-        ## if (!all(got))
-        ##     txt <- c(txt, paste0("Required tables ", paste0(req_tables[!got]),
-        ##                          "not found in the database"))
-        ## compound_cmp_id <- dbGetQuery(x, "select compound_id from compound")[,1]
-        ## spectrum_cmp_id <- dbGetQuery(
-        ##     x, "select compound_id from msms_spectrum_metadata")[, 1]
         if (!all(spectrum_cmp_id %in% compound_cmp_id))
             txt <- c(txt, paste0("Not all compound ids in the msms_spectrum",
                                  " table are also in the compound table"))

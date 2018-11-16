@@ -323,8 +323,8 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' Optionally MS/MS (MS2) spectra for compounds can be also stored in the
 #' database. Currently only MS/MS spectra from HMDB are supported. These can
 #' be downloaded in XML format from HMDB (http://www.hmdb.ca), loaded with
-#' the [msms_spectra_hmdb()] function and passed to the function with the
-#' `msms_spectra` argument.
+#' the [msms_spectra_hmdb()] or [msms_spectra_mona()] function and passed to
+#' the function with the `msms_spectra` argument.
 #'
 #' Required columns for the `data.frame` providing the compound information (
 #' parameter `x`) are:
@@ -397,8 +397,11 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' to extract compound annotations from files in SDF format, or files from
 #' LipidBlast.
 #'
-#' [msms_spectra_hmdb()] for a function to import MS/MS spectrum data from
-#' respective xml files from HMDB.
+#' [import_mona_sdf()] to import both the compound and spectrum data from a
+#' SDF file from MoNa (Massbank of North America) in one call.
+#'
+#' [msms_spectra_hmdb()] and [msms_spectra_mona()] for functions to import
+#' MS/MS spectrum data from xml files from HMDB or an SDF file from MoNa.
 #'
 #' [CompDb()] for how to use a compound database.
 #'
@@ -542,7 +545,8 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
     if (is.numeric(x$mz))
         x <- .collapse_spectrum_df(x)
     x <- .add_mz_range_column(x)
-    .check_msms_spectra_columns(x, blob = TRUE)
+    x$collision_energy <- as.character(x$collision_energy)
+    .valid_msms_spectrum(x, blob = TRUE)
     x$mz <- lapply(x$mz, base::serialize, NULL)
     x$intensity <- lapply(x$intensity, base::serialize, NULL)
     dbWriteTable(con, name = "msms_spectrum", x, row.names = FALSE, ...)
@@ -592,7 +596,8 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
 .insert_msms_spectra <- function(con, x) {
     if (is.list(x$mz))
         x <- .expand_spectrum_df(x)
-    .check_msms_spectra_columns(x, blob = FALSE)
+    x$collision_energy <- as.character(x$collision_energy)
+    .valid_msms_spectrum(x, blob = FALSE)
     msms_spectrum_peak <- x[, c("spectrum_id", "mz", "intensity")]
     dbWriteTable(con, name = "msms_spectrum_peak", msms_spectrum_peak,
                  row.names = FALSE)
@@ -616,7 +621,7 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
 .required_msms_spectrum_columns <- c(spectrum_id = "character",
                                      compound_id = "character",
                                      polarity = "integer",
-                                     collision_energy = "numeric",
+                                     collision_energy = "character",
                                      predicted = "logical",
                                      splash = "character",
                                      instrument_type = "character",
@@ -627,7 +632,7 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
 .required_msms_spectrum_columns_blob <- c(spectrum_id = "character",
                                           compound_id = "character",
                                           polarity = "integer",
-                                          collision_energy = "numeric",
+                                          collision_energy = "character",
                                           predicted = "logical",
                                           splash = "character",
                                           instrument_type = "character",
@@ -635,25 +640,31 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
                                           intensity = "list"
                                           )
 
-.check_msms_spectra_columns <- function(x, blob = TRUE) {
+.valid_msms_spectrum <- function(x, blob = TRUE, error = TRUE) {
     coltypes <- unlist(lapply(x, class))
+    msg <- NULL
     if (blob)
         req_cols <- .required_msms_spectrum_columns_blob
     else req_cols <- .required_msms_spectrum_columns
     not_found <- which(!(names(req_cols) %in% names(coltypes)))
     if (length(not_found))
-        stop("Required column(s) ",
-             paste0("'", names(req_cols)[not_found], "'"),
-             " not found in 'msms_spectra'", call. = FALSE)
+        msg <- c(msg, paste0("Required column(s) ",
+                             paste0("'", names(req_cols)[not_found], "'"),
+                             " not found in 'msms_spectra'"))
     common_cols <- union(names(coltypes), names(req_cols))
     wrong_type <- which(coltypes[common_cols] != req_cols[common_cols])
     if (length(wrong_type))
-        stop("One or more columns contain data of the wrong type: ",
-             paste(names(coltypes[names(wrong_type)]),
-                   coltypes[names(wrong_type)], sep = ":", collapse = ", "),
-             ". Please refer to the documentation of createCompDb for the ",
-             "correct data types.")
-    TRUE
+        msg <- c(msg,
+                 paste0("One or more columns contain data of the wrong type: ",
+                        paste(names(coltypes[names(wrong_type)]),
+                              coltypes[names(wrong_type)], sep = ":",
+                              collapse = ", "),
+                        ". Please refer to the documentation of createCompDb ",
+                        "for the correct data types."))
+    if (length(msg))
+        if (error) stop(msg)
+        else msg
+    else TRUE
 }
 
 #' @description Create the database file name from the metadata `data.frame`.
@@ -855,4 +866,56 @@ make_metadata <- function(source, url, source_version, source_date, organism) {
                value = as.character(c(source, url, source_version,
                                       source_date, organism)),
                stringsAsFactors = FALSE)
+}
+
+#' @title Import compound and spectrum information from MoNa
+#'
+#' `import_mona_sdf` allows to import compound and spectrum information from an
+#' SDF file from MoNa (Massbank of North America
+#' http://mona.fiehnlab.ucdavis.edu/). This function is a convenience function
+#' using the [compound_tbl_sdf()] and [msms_spectra_mona()] functions for data
+#' import but avoiding to read the SDF files twice.
+#'
+#' @param x `character(1)` being the SDF file name.
+#'
+#' @param nonStop `logical(1)` wheter file content specific errors should
+#'     only reported as warnings and not break the full import process.
+#'
+#' @author Johannes Rainer
+#'
+#' @return A `list` with elements `"compound"` and `"msms_spectrum"` containing
+#'     data.frames with compound and MS/MS spectrum data, respectively.
+#'
+#' @export
+#'
+#' @md
+#'
+#' @seealso
+#'
+#' [compound_tbl_sdf()] to read only the compound information.
+#'
+#' [msms_spectra_mona()] to read only the spectrum data.
+#'
+#' @examples
+#'
+#' ## Define the test file containing a small subset from MoNa
+#' fl <- system.file("sdf/MoNa_export-All_Spectra_sub.sdf.gz",
+#'     package = "CompoundDb")
+#'
+#' ## Import the data
+#' res <- import_mona_sdf(fl)
+import_mona_sdf <- function(x, nonStop = TRUE) {
+    message("Reading SDF file ... ", appendLF = FALSE)
+    sdfs <- datablock2ma(datablock(read.SDFset(x, skipErrors = nonStop)))
+    if (!any(colnames(sdfs) == "MASS SPECTRAL PEAKS"))
+        stop("The provided file does not contain \"MASS SPECTRAL PEAKS\" ",
+             "elements. Is this an SDF file from MoNa?")
+    message("OK")
+    message("Extracting compound information ... ", appendLF = FALSE)
+    suppressMessages(cmps <- .simple_extract_compounds_sdf(sdfs))
+    message("OK")
+    message("Extracting spectrum information ... ", appendLF = FALSE)
+    spctra <- .extract_spectra_mona_sdf(sdfs)
+    message("OK")
+    list(compound = cmps, msms_spectrum = spctra)
 }

@@ -49,6 +49,7 @@ files from:
 - Chemical Entities of Biological Interest (ChEBI): http://ebi.ac.uk/chebi
 - LIPID MAPS Structure Database (LMSD): http://www.lipidmaps.org
 - PubChem: https://pubchem.ncbi.nlm.nih.gov
+- MoNa (Massbank of North America): http://mona.fiehnlab.ucdavis.edu
 
 Below we use the `compound_tbl_sdf` to extract compound annotations from a SDF
 file representing a very small subset of the HMDB database. To generate a
@@ -171,6 +172,17 @@ Special care should also be put on the license of the package that can be passed
 with the `license` parameter. The license of the package and how and if the
 package can be distributed will depend also on the license of the originating
 resource.
+
+# Create a `CompDb` object for MoNa
+
+MoNa (Massbank of North America) provides a large SDF file with all spectra
+which can be used to create a `CompDb` object with compound information and
+MS/MS spectra.
+
+In the example below we read compound and spectrum data from a
+small SDF file that contains the first 7 spectra from an MoNa SDF file.
+
+
 
 # Session information
 

@@ -217,3 +217,21 @@ test_that(".spectra2_from_df works", {
     expect_equal(colnames(res$mcols), c("spectrum_id", "compound_id"))
     expect_equal(res$mcols$spectrum_id, unique(df$spectrum_id))
 })
+
+test_that("msms_spectra_mona works", {
+    fl <- system.file("sdf/MoNa_export-All_Spectra_sub.sdf.gz",
+                      package = "CompoundDb")
+    res <- msms_spectra_mona(fl)
+    expect_equal(nrow(res), 7)
+    res <- msms_spectra_mona(fl, collapsed = FALSE)
+    expect_equal(nrow(res), 179)
+})
+
+test_that(".extract_spectra_mona_sdf works", {
+    fl <- system.file("sdf/MoNa_export-All_Spectra_sub.sdf.gz",
+                      package = "CompoundDb")
+    x <- datablock2ma(datablock(read.SDFset(fl)))
+    res <- .extract_spectra_mona_sdf(x)
+    expect_true(all(res$polarity == 1L))
+    expect_true(is.character(res$collision_energy))
+})

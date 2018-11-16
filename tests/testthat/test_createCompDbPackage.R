@@ -282,15 +282,21 @@ test_that("make_metadata works", {
                                source_date = "now", organism = "MM"))
 })
 
-test_that(".check_msms_spectra_columns works", {
-    expect_true(.check_msms_spectra_columns(msms_spctra))
+test_that(".valid_msms_spectrum works", {
+    msms_spctra_local <- msms_spctra
+    msms_spctra_local$collision_energy <-
+        as.character(msms_spctra_local$collision_energy)
+    expect_true(.valid_msms_spectrum(msms_spctra_local))
     tmp <- msms_spctra
-    expect_error(.check_msms_spectra_columns(tmp[, 1:4]))
+    expect_error(.valid_msms_spectrum(tmp[, 1:4]))
     tmp$polarity <- as.character(tmp$polarity)
-    expect_error(.check_msms_spectra_columns(tmp))
+    expect_error(.valid_msms_spectrum(tmp))
+    res <- .valid_msms_spectrum(tmp, error = FALSE)
+    expect_true(is.character(res))
     dr <- system.file("xml/", package = "CompoundDb")
     tmp <- msms_spectra_hmdb(dr, collapsed = FALSE)
-    expect_true(.check_msms_spectra_columns(tmp, blob = FALSE))
+    tmp$collision_energy <- as.character(tmp$collision_energy)
+    expect_true(.valid_msms_spectrum(tmp, blob = FALSE))
 })
 
 test_that(".insert_msms_spectra_blob works", {
@@ -336,4 +342,17 @@ test_that(".add_mz_range_column works", {
     mzmax <- split(res$msms_mz_range_max, res$spectrum_id)
     expect_equal(lapply(mzs, min), lapply(mzmin, min))
     expect_equal(lapply(mzs, max), lapply(mzmax, max))
+})
+
+test_that("import_mona_sdf works", {
+    mona <- system.file("sdf/MoNa_export-All_Spectra_sub.sdf.gz",
+                        package = "CompoundDb")
+    chebi <- system.file("sdf/ChEBI_sub.sdf.gz", package = "CompoundDb")
+
+    res <- import_mona_sdf(mona)
+    expect_equal(names(res), c("compound", "msms_spectrum"))
+    expect_equal(nrow(res$compound), 7)
+    expect_equal(nrow(res$msms_spectrum), 7)
+
+    expect_error(import_mona_sdf(chebi))
 })

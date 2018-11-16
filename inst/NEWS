@@ -1,5 +1,9 @@
 Changes in version 0.2.1
 
+- Change field collision_energy to character to support values from
+  MoNa (issue #31).
+- Add functions import_mona_sdf and msms_spectra_mona functions to enable
+  import of spectrum data from MoNa SDF files (issue #30).
 - Add support for MoNa SDF files (issue #30).
 
 
