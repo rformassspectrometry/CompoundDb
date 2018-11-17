@@ -8,7 +8,7 @@
 #' + ChEBI (Chemical Entities of Biological Interest): http://ebi.ac.uk/chebi
 #' + LMSD (LIPID MAPS Structure Database): http://www.lipidmaps.org
 #' + PubChem: https://pubchem.ncbi.nlm.nih.gov/
-#' + MoNa: http://mona.fiehnlab.ucdavis.edu/
+#' + MoNa: http://mona.fiehnlab.ucdavis.edu/ (see notes below!)
 #'
 #' @details
 #'
@@ -20,7 +20,13 @@
 #'
 #' @note
 #'
-#' `compound_tbl_sdf` supports to read/process gzipped files.
+#' `compound_tbl_sdf` supports also to read/process gzipped files.
+#'
+#' MoNa SDF files organize the data by individual spectra (i.e. each element
+#' is one spectrum) and individual compounds can not easily and consistently
+#' defined (i.e. not all entries have an InChI ID or other means to uniquely
+#' identify compounds). Thus, the function returns a highly redundant compount
+#' table. Feedback on how to reduce this redundancy would be highly welcome!
 #'
 #' @param file `character(1)` with the name of the SDF file.
 #'
@@ -169,17 +175,24 @@ compound_tbl_lipidblast <- function(file, collapse) {
         if (any(nas))
             nms[nas] <- x[nas, "SYSTEMATIC_NAME"]
     }
+    res <- data_frame(compound_id = x[, colmap["id"]],
+                      compound_name = nms,
+                      inchi = x[, colmap["inchi"]],
+                      formula = x[, colmap["formula"]],
+                      mass = as.numeric(x[, colmap["mass"]]),
+                      synonyms = syns
+                      )
     if (source_db == "mona") {
-        inchis <- paste0("InChI",
-                         .extract_field_from_string(x[, "COMMENT"], "InChI"))
-    } else inchis <- x[, colmap["inchi"]]
-    data_frame(compound_id = x[, colmap["id"]],
-               compound_name = nms,
-               inchi = inchis,
-               formula = x[, colmap["formula"]],
-               mass = as.numeric(x[, colmap["mass"]]),
-               synonyms = syns
-               )
+        warning("MoNa data can currently not be normalized and the ",
+                "compound table contains thus highly redundant data.")
+        ## Eventually reduce and normalize.
+        inchis <- .extract_field_from_string(x[, "COMMENT"], "InChI")
+        nona <- !is.na(inchis)
+        inchis[nona] <- paste0("InChI", inchis[nona])
+        res$inchi <- inchis
+        res$compound_id <- .compound_id_from_mona_sdf(x)
+        res
+    } else res
 }
 
 #' @description
@@ -252,7 +265,7 @@ compound_tbl_lipidblast <- function(file, collapse) {
 .pubchem_separator <- "; " # there seems to be none
 .mona_colmap <- c(id = "ID",
                   name = "NAME",
-                  inchi = "INCHI",
+                  inchi = "INCHIKEY",
                   formula = "FORMULA",
                   mass = "EXACT MASS",
                   synonyms = "SYNONYMS")
@@ -875,6 +888,14 @@ make_metadata <- function(source, url, source_version, source_date, organism) {
 #' http://mona.fiehnlab.ucdavis.edu/). This function is a convenience function
 #' using the [compound_tbl_sdf()] and [msms_spectra_mona()] functions for data
 #' import but avoiding to read the SDF files twice.
+#'
+#' @note
+#'
+#' MoNa SDF files organize the data by individual spectra (i.e. each element
+#' is one spectrum) and individual compounds can not easily and consistently
+#' defined (i.e. not all entries have an InChI ID or other means to uniquely
+#' identify compounds). Thus, the function returns a highly redundant compount
+#' table. Feedback on how to reduce this redundancy would be highly welcome!
 #'
 #' @param x `character(1)` being the SDF file name.
 #'

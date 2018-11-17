@@ -119,3 +119,40 @@ expandMzIntensity <- function(x) {
     res[res == x] <- NA_character_
     res
 }
+
+## #' Convert inchi keys to an artificial compound ID
+## #'
+## #' @noRd
+## .inchikey2id <- function(x, prefix = "CMP") {
+##     x <- factor(x, levels = unique(x))
+##     sprintf(paste0(prefix, "%0", ceiling(log10(length(levels(x)) + 1)), "d"),
+##             as.integer(x))
+## }
+
+## #' Make a unique mona compounds table
+## #'
+## #' @noRd
+## .reduce_mona_compounds <- function() {
+##     ## HECK! don't have an inchikey for each!
+##     cmp_id <- .inchikey2id(x$inchi)
+##     tbl <- split.data.frame(x, f = cmp_id)
+##     tbl_red <- lapply(tbl, function(z) {
+##         if (length(unique(z$formula)) > 1)
+##             stop("Formula is not unique")
+##         data_frame(compound_id = NA_character_,
+##                    compound_name = z$compound_name[1],
+##                    inchi = z$inchi[1],
+##                    formula = z$formula[1],
+##                    mass = .aggregate_nums(z$mass),
+##                    synonyms = unique(c(z$compound_name,
+##                                        unlist(z$synonyms, use.names = FALSE))))
+##     })
+## }
+
+## .aggregate_nums <- function(x, tolerance = 0.000001) {
+##     if (length(x) == 1)
+##         return(x)
+##     if (all(diff(x) < tolerance))
+##         x[1]
+##     else stop("Difference of values is larger than allowed")
+## }

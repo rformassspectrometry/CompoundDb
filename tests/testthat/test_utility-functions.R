@@ -30,3 +30,11 @@ test_that(".extract_field_from_string works", {
     res <- CompoundDb:::.extract_field_from_string(strngs, "last=", ";")
     expect_equal(res, c("the last entry", NA))
 })
+
+## test_that(".inchikey2id works", {
+##     ids <- c("b", "a", "a", "c", "d", "a", "f", "g", "b", "d", "a")
+##     ids_new <- .inchikey2id(ids)
+##     expect_equal(length(ids_new), length(ids))
+##     expect_equal(length(unique(ids_new)), length(unique(ids)))
+##     expect_equal(as.numeric(factor(ids_new)), as.numeric(factor(ids)))
+## })

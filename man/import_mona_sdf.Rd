@@ -31,6 +31,13 @@ http://mona.fiehnlab.ucdavis.edu/). This function is a convenience function
 using the \code{\link[=compound_tbl_sdf]{compound_tbl_sdf()}} and \code{\link[=msms_spectra_mona]{msms_spectra_mona()}} functions for data
 import but avoiding to read the SDF files twice.
 }
+\note{
+MoNa SDF files organize the data by individual spectra (i.e. each element
+is one spectrum) and individual compounds can not easily and consistently
+defined (i.e. not all entries have an InChI ID or other means to uniquely
+identify compounds). Thus, the function returns a highly redundant compount
+table. Feedback on how to reduce this redundancy would be highly welcome!
+}
 \examples{
 
 ## Define the test file containing a small subset from MoNa

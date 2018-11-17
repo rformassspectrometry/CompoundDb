@@ -49,7 +49,8 @@ files from:
 - Chemical Entities of Biological Interest (ChEBI): http://ebi.ac.uk/chebi
 - LIPID MAPS Structure Database (LMSD): http://www.lipidmaps.org
 - PubChem: https://pubchem.ncbi.nlm.nih.gov
-- MoNa (Massbank of North America): http://mona.fiehnlab.ucdavis.edu
+- MoNa (Massbank of North America): http://mona.fiehnlab.ucdavis.edu (for MoNa
+  import see the next section).
 
 Below we use the `compound_tbl_sdf` to extract compound annotations from a SDF
 file representing a very small subset of the HMDB database. To generate a
@@ -177,11 +178,50 @@ resource.
 
 MoNa (Massbank of North America) provides a large SDF file with all spectra
 which can be used to create a `CompDb` object with compound information and
-MS/MS spectra.
+MS/MS spectra. Note however that MoNa is organized by spectra and the annotation
+of the compounds is not consistent and normalized. Spectra from the same
+compound can have their own compound identified and data that e.g. can differ in
+their chemical formula, precision of their exact mass or other fields.
 
-In the example below we read compound and spectrum data from a
-small SDF file that contains the first 7 spectra from an MoNa SDF file.
+Similar to the example above, compound annotations can be imported with the
+`compound_tbl_sdf` function while spectrum data can be imported with
+`msms_spectra_mona`. In the example below we use however the `import_mona_sdf`
+that wraps both functions to reads both compound and spectrum data from a SDF
+file without having to import the file twice. As an example we use a small
+subset from a MoNa SDF file that contains only 7 spectra.
 
+```{r mona-import, message = FALSE}
+mona_sub <- system.file("sdf/MoNa_export-All_Spectra_sub.sdf.gz",
+                        package = "CompoundDb")
+mona_data <- import_mona_sdf(mona_sub)
+```
+
+As a result we get a `list` with a data.frame each for compound and spectrum
+information. These can be passed along to the `createCompDb` function to create
+the database (see below).
+
+```{r mona-metadata}
+metad <- make_metadata(source = "MoNa",
+                       url = "http://mona.fiehnlab.ucdavis.edu/",
+                       source_version = "2018.11", source_date = "2018-11",
+                       organism = "Unspecified")
+mona_db_file <- createCompDb(mona_data$compound, metadata = metad,
+                             msms_spectra = mona_data$msms_spectrum,
+                             path = tempdir())
+```
+
+We can now load and use this database, e.g. by extracting all compounds as shown
+below.
+
+```{r mona-compounds}
+mona <- CompDb(mona_db_file)
+compounds(mona)
+```
+
+As stated in the introduction of this section the `compound` information
+contains redundant information and the table has essentially one row per
+spectrum. Feedback on how to reduce the redundancy in the compound table is
+highly appreciated.
 
 
 # Session information

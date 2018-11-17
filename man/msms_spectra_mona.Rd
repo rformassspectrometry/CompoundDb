@@ -16,7 +16,8 @@ msms_spectra_mona(x, collapsed = TRUE)
 \code{data.frame} with as many rows as there are peaks and columns:
 \itemize{
 \item spectrum_id (\code{character}): an arbitrary, unique ID for each spectrum.
-\item original_spectrum_id (\code{character}): \code{NA}.
+\item original_spectrum_id (\code{character}): The ID from the spectrum as specified
+in the MoNa SDF.
 \item compound_id (\code{character}): the compound ID the spectrum is associated
 with.
 \item polarity (\code{integer}): 0 for negative, 1 for positive, \code{NA} for not set.
@@ -43,9 +44,10 @@ spectrum. Columns \code{"mz"} and \code{"intensity"} are of type \code{list} for
 \code{collapsed = TRUE} and \code{numeric} for \code{collapsed = FALSE}.
 }
 \note{
-The identifiers provided by MoNa are used as \emph{compound_id}, the returned
-\emph{spectrum_id} is an artificially generated unique identifier for each
-spectrum. Also, MoNa does not provide a \emph{splash} for a spectrum, hence the
+The identifiers provided by MoNa are used as \emph{spectrum_id}. Note also that
+the MoNa data is not normalized in the sense that each spectrum is
+associated to one compound and the compound data is partially redundant.
+Also, MoNa does not provide a \emph{splash} for a spectrum, hence the
 corresponding column will only contain \code{NA}.
 }
 \examples{

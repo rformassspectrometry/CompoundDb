@@ -35,7 +35,7 @@ format (structure-data file). The function currently supports SDF files from:
 \item ChEBI (Chemical Entities of Biological Interest): http://ebi.ac.uk/chebi
 \item LMSD (LIPID MAPS Structure Database): http://www.lipidmaps.org
 \item PubChem: https://pubchem.ncbi.nlm.nih.gov/
-\item MoNa: http://mona.fiehnlab.ucdavis.edu/
+\item MoNa: http://mona.fiehnlab.ucdavis.edu/ (see notes below!)
 }
 }
 \details{
@@ -46,7 +46,13 @@ not available, the first of the compounds synonyms and, if that is also not
 provided, the \code{"SYSTEMATIC_NAME"}.
 }
 \note{
-\code{compound_tbl_sdf} supports to read/process gzipped files.
+\code{compound_tbl_sdf} supports also to read/process gzipped files.
+
+MoNa SDF files organize the data by individual spectra (i.e. each element
+is one spectrum) and individual compounds can not easily and consistently
+defined (i.e. not all entries have an InChI ID or other means to uniquely
+identify compounds). Thus, the function returns a highly redundant compount
+table. Feedback on how to reduce this redundancy would be highly welcome!
 }
 \examples{
 

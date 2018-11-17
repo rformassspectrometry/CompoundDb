@@ -235,3 +235,9 @@ test_that(".extract_spectra_mona_sdf works", {
     expect_true(all(res$polarity == 1L))
     expect_true(is.character(res$collision_energy))
 })
+
+test_that(".compound_id_from_mona_sdf works", {
+    res <- .compound_id_from_mona_sdf(matrix(nrow = 4))
+    expect_equal(length(res), 4)
+    expect_equal(res, c("CMP1", "CMP2", "CMP3", "CMP4"))
+})
