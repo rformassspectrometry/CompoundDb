@@ -37,7 +37,8 @@
 #' compound):
 #' + `compound_id`: the ID of the compound.
 #' + `compound_name`: the compound's name.
-#' + `inchi`: the inchi of the compound.
+#' + `inchi`: the InChI of the compound.
+#' + `inchikey`: the InChI key.
 #' + `formula`: the chemical formula.
 #' + `mass`: the compound's mass.
 #' + `synonyms`: the compound's synonyms (aliases). This type of this column is
@@ -178,6 +179,7 @@ compound_tbl_lipidblast <- function(file, collapse) {
     res <- data_frame(compound_id = x[, colmap["id"]],
                       compound_name = nms,
                       inchi = x[, colmap["inchi"]],
+                      inchi_key = x[, colmap["inchi_key"]],
                       formula = x[, colmap["formula"]],
                       mass = as.numeric(x[, colmap["mass"]]),
                       synonyms = syns
@@ -229,6 +231,7 @@ compound_tbl_lipidblast <- function(file, collapse) {
 .hmdb_colmap <- c(id = "HMDB_ID",
                   name = "GENERIC_NAME",
                   inchi = "INCHI_IDENTIFIER",
+                  inchi_key = "INCHI_KEY",
                   formula = "FORMULA",
                   mass = "EXACT_MASS",
                   synonyms = "SYNONYMS"
@@ -237,6 +240,7 @@ compound_tbl_lipidblast <- function(file, collapse) {
 .chebi_colmap <- c(id = "ChEBI ID",
                    name = "ChEBI Name",
                    inchi = "InChI",
+                   inchi_key = "InChIKey",
                    formula = "Formulae",
                    mass = "Monoisotopic Mass",
                    synonyms = "Synonyms"
@@ -245,27 +249,30 @@ compound_tbl_lipidblast <- function(file, collapse) {
 .lipidmaps_colmap <- c(id = "LM_ID",
                        name = "COMMON_NAME",
                        inchi = "INCHI",
+                       inchi_key = "INCHI_KEY",
                        formula = "FORMULA",
                        mass = "EXACT_MASS",
                        synonyms = "SYNONYMS"
                        )
 .lipidmaps_separator <- "; "
 .pubchem_colmap <- c(id = "PUBCHEM_COMPOUND_CID",
-                       name = "PUBCHEM_IUPAC_TRADITIONAL_NAME",
-                       inchi = "PUBCHEM_IUPAC_INCHI",
-                       formula = "PUBCHEM_MOLECULAR_FORMULA",
-                       mass = "PUBCHEM_EXACT_MASS",
-                       synonyms = "PUBCHEM_IUPAC_TRADITIONAL_NAME"
+                     name = "PUBCHEM_IUPAC_TRADITIONAL_NAME",
+                     inchi = "PUBCHEM_IUPAC_INCHI",
+                     inchi_key = "PUBCHEM_IUPAC_INCHIKEY",
+                     formula = "PUBCHEM_MOLECULAR_FORMULA",
+                     mass = "PUBCHEM_EXACT_MASS",
+                     synonyms = "PUBCHEM_IUPAC_TRADITIONAL_NAME"
                        # Others:
-                       # PUBCHEM_IUPAC_SYSTEMATIC_NAME,
-                       # PUBCHEM_IUPAC_CAS_NAME,
-                       # PUBCHEM_IUPAC_OPENEYE_NAME,
-                       # PUBCHEM_IUPAC_NAME
-                       )
+                                        # PUBCHEM_IUPAC_SYSTEMATIC_NAME,
+                                        # PUBCHEM_IUPAC_CAS_NAME,
+                                        # PUBCHEM_IUPAC_OPENEYE_NAME,
+                                        # PUBCHEM_IUPAC_NAME
+                     )
 .pubchem_separator <- "; " # there seems to be none
 .mona_colmap <- c(id = "ID",
                   name = "NAME",
                   inchi = "INCHIKEY",
+                  inchi_key = "INCHIKEY",
                   formula = "FORMULA",
                   mass = "EXACT MASS",
                   synonyms = "SYNONYMS")
@@ -309,6 +316,7 @@ compound_tbl_lipidblast <- function(file, collapse) {
             compound_id = x$id,
             compound_name = nms[1],
             inchi = cmp$inchi,
+            inchi_key = NA_character_,
             formula = frml,
             mass = mass,
             synonyms = nms[-1]
@@ -628,7 +636,7 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
 .required_metadata_keys <- c("source", "url", "source_version", "source_date",
                              "organism")
 .required_compound_db_columns <- c("compound_id", "compound_name", "inchi",
-                                   "formula", "mass")
+                                   "inchi_key", "formula", "mass")
 .required_compound_columns <- c(.required_compound_db_columns, "synonyms")
 
 .required_msms_spectrum_columns <- c(spectrum_id = "character",
