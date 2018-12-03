@@ -1,5 +1,8 @@
 Changes in version 0.2.1
 
+- Add ... to compound_tbl_sdf to allow passing additional parameters to
+  read.SDFset.
+- Add inchi_key column to compound table.
 - Change field collision_energy to character to support values from
   MoNa (issue #31).
 - Add functions import_mona_sdf and msms_spectra_mona functions to enable

@@ -33,6 +33,9 @@
 #' @param collapse optional `character(1)` to be used to collapse multiple
 #'     values in the columns `"synonyms"`. See examples for details.
 #'
+#' @param ... optional parameters to be passed to the [read.SDFset()] function,
+#'     such as `skipErrors = TRUE` to ignore entries that fail to be read.
+#'
 #' @return A [tibble::tibble] with general compound information (one row per
 #' compound):
 #' + `compound_id`: the ID of the compound.
@@ -74,13 +77,13 @@
 #' cmps <- compound_tbl_sdf(fl, collapse = "|")
 #' cmps
 #' cmps$synonyms
-compound_tbl_sdf <- function(file, collapse) {
+compound_tbl_sdf <- function(file, collapse, ...) {
     if (missing(file))
         stop("Please provide the file name using 'file'")
     if (!file.exists(file))
         stop("Can not fine file ", file)
     res <- .simple_extract_compounds_sdf(
-        datablock2ma(datablock(read.SDFset(file))))
+        datablock2ma(datablock(read.SDFset(file, ...))))
     if (!missing(collapse)) {
         ## collapse elements from lists.
         res$synonyms <- vapply(res$synonyms, paste0, collapse = collapse,
