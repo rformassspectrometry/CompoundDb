@@ -28,6 +28,104 @@
     x_new[, colnames(x)]
 }
 
+#' @title Collapsing and expanding data frames
+#'
+#' `collapse_table` collapses rows of a `data.frame` resulting in a
+#' `data.frame` with the number of rows equal to unique elements in columns
+#' `by`. Unique elements in the remaining columns will be combined into a
+#' `list` per row (hence allowing for a different number of elements).
+#'
+#' @details
+#'
+#' `collapse_table` collapses the input `data.frame` based on columns `by`.
+#' Reduction of the resulting `data.frame` is equivalent to
+#' `unique(x[, by])`, with all other columns than `by` containing `list`s of
+#' (unique) elements of these columns. See examples for details.
+#'
+#' @param by Columns defining how the table should be collapsed.
+#'     The result `data.frame` will contain single, unique elements in these
+#'     columns. See details section for more information.
+#'     Can be a `character` with column names, an `integer` with column indices
+#'     or a `logical` (same length then `ncol(x)`).
+#'
+#' @param column Columns that should
+#'
+#' @author Johannes Rainer
+#'
+#' @md
+#'
+#' @noRd
+#'
+#' @examples
+#'
+#' df <- data.frame(A = c("a", "a", "a", "c", "c", "d", "d", "d"),
+#'     B = c("e", "e", "f", "f", "g", "g", "h", "h"),
+#'     C = c("m", "n", "o", "p", "q", "r", "s", "t"),
+#'     D = c(1, 2, 1, 2, 1, 1, 2, 2),
+#'     stringsAsFactors = FALSE)
+#'
+#' ## Collapse by a single column.
+#' res <- .collapse_table(df, by = "A")
+#'
+#' ## Column "A" contains unique elements
+#' res$A
+#'
+#' ## Elements of all other columns have been collapsed into a list
+#' ## of unique elements.
+#' res$B
+#' res$C
+#'
+#' res
+#'
+#' ## Collapse by the first two columns
+#' res <- .collapse_table(df, by = c("A", "B"))
+#'
+#' ## Result for the first two columns is same as if unique was used
+#' unique(df[, c("A", "B")])
+#' res[, c("A", "B")]
+#'
+#' res$C
+#'
+#' res$D
+.collapse_table <- function(x, by) {
+    if (missing(by) || !length(by))
+        return(x)
+    by <- .column_indices(x, by)
+    if (length(by) == 0)
+        return(x)
+    x <- as.list(x)
+    ids <- do.call(paste, x[by])
+    ids <- factor(ids, levels = base::unique(ids))
+    res <- lapply(lapply(x, base::split, f = ids), function(z) {
+        z_red <- lapply(z, base::unique)
+        if (all(lengths(z_red) == 1))
+            z_red <- unlist(z_red, use.names = FALSE)
+        unname(z_red)
+    })
+    as.data.frame(as.tibble(res))
+}
+
+#' Simple helper function to return column indices in `x` with `y` being either
+#' the column names, a `logical` or `integer` vector.
+#'
+#' @return `integer` with the index of the columns `y` in `x`
+#'
+#' @noRd
+.column_indices <- function(x, y) {
+    if (is.character(y))
+        y <- match(y, colnames(x))
+    if (is.logical(y))
+        if (length(y) == ncol(x))
+            y <- which(y)
+        else stop("If a 'logical' is submitted its length has to match the ",
+                  "number of columns of 'x'")
+    y <- as.integer(y)
+    if (is.integer(y))
+        if (!all(y %in% seq_len(ncol(x))))
+            stop("Index out of bounds")
+    y[!is.na(y)]
+}
+
 #' @description
 #'
 #' Function to expand a collapsed spectrum `data.frame` (such as collapsed with
