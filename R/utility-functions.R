@@ -15,12 +15,18 @@
 #' @md
 #'
 #' @author Johannes Rainer
+#'
+#' @examples
+#'
+#' spctr <- data.frame(spectrum_id = rep(c("a", "b"), each = 10),
+#'     mz = 1:20, intensity = 1:20)
 .collapse_spectrum_df <- function(x) {
     ## Simple solution is to split by required column $spectrum_id that has to
     ## uniquely identify values belonging to one spectrum. More complicated
-    ## solution would be to build a unique identified from all columns except
+    ## solution would be to build a unique identifier from all columns except
     ## mz and intensity.
-    x_new <- base::unique(x[, !colnames(x) %in% c("mz", "intensity")])
+    x_new <- base::unique(x[, !colnames(x) %in% c("mz", "intensity"),
+                            drop = FALSE])
     idf <- factor(x$spectrum_id, levels = base::unique(x$spectrum_id))
     x_new$mz <- unname(base::split(x$mz, idf))
     x_new$intensity <- unname(base::split(x$intensity, idf))
@@ -33,7 +39,7 @@
 #' `collapse_table` collapses rows of a `data.frame` resulting in a
 #' `data.frame` with the number of rows equal to unique elements in columns
 #' `by`. Unique elements in the remaining columns will be combined into a
-#' `list` per row (hence allowing for a different number of elements).
+#' `list` per row (hence allowing for multiple elements with different lengths).
 #'
 #' @details
 #'
@@ -42,13 +48,22 @@
 #' `unique(x[, by])`, with all other columns than `by` containing `list`s of
 #' (unique) elements of these columns. See examples for details.
 #'
+#' Parameter `combineElements` allows to specify how elements within each
+#' `list` are supposed to be reduced. With `"as.is"` there is no reduction,
+#' which also means that redundant elements are present in columns `by`.
+#'
+#' @param x `data.frame`.
+#'
 #' @param by Columns defining how the table should be collapsed.
 #'     The result `data.frame` will contain single, unique elements in these
 #'     columns. See details section for more information.
 #'     Can be a `character` with column names, an `integer` with column indices
 #'     or a `logical` (same length then `ncol(x)`).
 #'
-#' @param column Columns that should
+#' @param combinElements `character(1)` specifying the function to possibly
+#'     reduce elements within each `list`.
+#'
+#' @importFrom tibble as.tibble
 #'
 #' @author Johannes Rainer
 #'
@@ -87,17 +102,30 @@
 #' res$C
 #'
 #' res$D
-.collapse_table <- function(x, by) {
+.collapse_table <- function(x, by,
+                            combineElements = c("uniqueWithoutNA", "as.is")) {
+    combineElements <- match.arg(combineElements)
     if (missing(by) || !length(by))
         return(x)
-    by <- .column_indices(x, by)
+    by <- CompoundDb:::.column_indices(x, by)
     if (length(by) == 0)
         return(x)
     x <- as.list(x)
+    combine_fun <- switch(combineElements,
+                          as.is = function(el) el,
+                          uniqueWithoutNA = function(el) {
+                              notna <- !is.na(el)
+                              if (any(notna))
+                                  base::unique(el[notna])
+                              else el[1]
+                          })
+    ## Could also think of another function to make elements unique
+    unique_fun <- function(el) {
+    }
     ids <- do.call(paste, x[by])
     ids <- factor(ids, levels = base::unique(ids))
     res <- lapply(lapply(x, base::split, f = ids), function(z) {
-        z_red <- lapply(z, base::unique)
+        z_red <- lapply(z, combine_fun)
         if (all(lengths(z_red) == 1))
             z_red <- unlist(z_red, use.names = FALSE)
         unname(z_red)
@@ -105,25 +133,37 @@
     as.data.frame(as.tibble(res))
 }
 
-#' Simple helper function to return column indices in `x` with `y` being either
-#' the column names, a `logical` or `integer` vector.
+#' Expands a table previously collapsed. All columns that are of type `list`
+#' will be expanded. Elements in all other columns will be repeated as many
+#' times as required to result in a `data.frame` for which each row in any
+#' column contains a single value.
 #'
-#' @return `integer` with the index of the columns `y` in `x`
+#' WARNING: this does not work. We have to take some assumptions here if we
+#' want to expand this again! Expand by a single column is *simple*, if you
+#' have several it's tricky.
+#' It *would* work, if we wouldn't call unique in the command above and leave
+#' the order of the elements in each list as it is.
+#'
+#'
+#' @author Johannes Rainer
 #'
 #' @noRd
-.column_indices <- function(x, y) {
-    if (is.character(y))
-        y <- match(y, colnames(x))
-    if (is.logical(y))
-        if (length(y) == ncol(x))
-            y <- which(y)
-        else stop("If a 'logical' is submitted its length has to match the ",
-                  "number of columns of 'x'")
-    y <- as.integer(y)
-    if (is.integer(y))
-        if (!all(y %in% seq_len(ncol(x))))
-            stop("Index out of bounds")
-    y[!is.na(y)]
+.expand_table <- function(x, by) {
+    if (missing(by))
+        by <- vapply(x, is.list, logical(1))
+    by <- .column_indices(x, by)
+    ## Uff that's going to be tricky
+    nrx <- nrow(x)
+    lens <- vapply(x[, by], lengths, numeric(nrx))
+    if (any(lens == 0))
+        stop("Some columns have lists of length 0.")
+    lens_all <- apply(lens, 1, prod)
+    res <- x[rep(seq_len(nrx), lens_all), -by, drop = FALSE]
+    for (i in seq_along(by)) {
+        ## repeat each alement by the product of the remaining columns.
+        tms <- apply(lens[, -i, drop = FALSE], 1, prod)
+        rep(x[, by[i]], tms)
+    }
 }
 
 #' @description
@@ -216,6 +256,27 @@ expandMzIntensity <- function(x) {
     res <- sub(paste0(".*?", field, "(.*?)(", delimiter, ".*|$)"), "\\1", x)
     res[res == x] <- NA_character_
     res
+}
+
+#' Simple helper function to return column indices in `x` with `y` being either
+#' the column names, a `logical` or `integer` vector.
+#'
+#' @return `integer` with the index of the columns `y` in `x`
+#'
+#' @noRd
+.column_indices <- function(x, y) {
+    if (is.character(y))
+        y <- match(y, colnames(x))
+    if (is.logical(y))
+        if (length(y) == ncol(x))
+            y <- which(y)
+        else stop("If a 'logical' is submitted its length has to match the ",
+                  "number of columns of 'x'")
+    y <- as.integer(y)
+    if (is.integer(y))
+        if (!all(y %in% seq_len(ncol(x))))
+            stop("Index out of bounds")
+    y[!is.na(y)]
 }
 
 ## #' Convert inchi keys to an artificial compound ID
