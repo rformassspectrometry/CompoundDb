@@ -1,7 +1,21 @@
-[![Build Status](https://travis-ci.org/EuracBiomedicalResearch/CompoundDb.svg?branch=master)](https://travis-ci.org/EuracBiomedicalResearch/CompoundDb) 
+[![Build Status](https://travis-ci.org/EuracBiomedicalResearch/CompoundDb.svg?branch=master)](https://travis-ci.org/EuracBiomedicalResearch/CompoundDb)
 [![codecov.io](https://codecov.io/github/EuracBiomedicalResearch/CompoundDb/coverage.svg?branch=master)](https://codecov.io/github/EuracBiomedicalResearch/CompoundDb?branch=master)
 
+# Requirements
 
+This package depends on several other R/Bioconductor packages. These can be
+installed with the code below.
+
+```r
+install.packages("BiocManager")
+BiocManager::install(c("devtools", "AnnotationFilter", "S4Vectors",
+                       "MSnbase", "ChemmineR", "tibble", "jsonlite",
+                       "dbplyr", "RSQLite", "Biobase", "BiocGenerics",
+                       "ProtGenerics", "xml2"))
+
+#' Install also Jan Stanstrup's commonMZ package
+devtools::install_github("stanstrup/commonMZ")
+```
 
 # Creating and using (chemical) compound databases
 
@@ -19,4 +33,3 @@ contributor).
 style](http://bioconductor.org/developers/how-to/coding-style/).
 4) Ensure the package passes `R CMD build` and `R CMD check`.
 5) Make a pull request.
-

@@ -1,3 +1,10 @@
+Changes in version 0.2.2
+
+- Add adduct information from Jan Stanstrup's commonMZ package.
+- Add matchWithPpm function to match numeric values allowing for a small
+  difference.
+
+
 Changes in version 0.2.1
 
 - Change field collision_energy to character to support values from
