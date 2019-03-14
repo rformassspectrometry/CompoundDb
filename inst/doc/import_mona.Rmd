@@ -1,0 +1,126 @@
+---
+title: "Handle and import data from MoNa"
+package: CompoundDb
+output:
+  BiocStyle::html_document:
+    toc_float: true
+vignette: >
+  %\VignetteIndexEntry{Handle and import data from MoNa}
+  %\VignetteEngine{knitr::rmarkdown}
+  %%\VignetteKeywords{Mass Spectrometry, Metabolomics, Infrastructure, Bioinformatics}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r style, echo = FALSE, results = 'asis'}
+BiocStyle::markdown()
+```
+
+**Authors**: Johannes Rainer<br />
+**Modified**: `r file.info("import_mona.Rmd")$mtime`<br />
+**Compiled**: `r date()`
+
+# Introduction
+
+MoNa (MassBank of North America) provides a large set of spectra. Data can be
+downloaded in SDF or custom json format. The data files are
+*MoNa-export-All_Spectra.sdf* or *MoNa-export-All_Spectra.json*.
+
+# Data import
+
+## SDF file
+
+Reading the full data:
+
+```{r full}
+library(CompoundDb)
+library(ChemmineR)
+mona_full <- "/Users/jo/tmp/MoNa/2018_11/MoNA-export-All_Spectra.sdf"
+mona_full <- datablock2ma(datablock(read.SDFset(mona_full, skipErrors = TRUE)))
+```
+
+
+Testing how and if we can process the SDF format file.
+
+```{r sdf-test, message = FALSE, warning = FALSE}
+library(CompoundDb)
+mona_path <- "../../local_data/MoNa_export-All_Spectra_sub.sdf"
+
+library(ChemmineR)
+full_mat <- datablock2ma(datablock(read.SDFset(mona_path)))
+
+
+## tmp <- compound_tbl_sdf(mona_path)
+```
+
+We've got all columns for the compound table **except** inchi! We've got only
+the inchi key, but not the inchi. The inchi could however be extracted from the
+*COMMENTS* field using `.extract_field_from_string(x, "InChI")`. For spectra we
+do have *SPECTRUM TYPE*, *PRECURSOR M/Z*, *INSTRUMENT TYPE*, *INSTRUMENT*,
+*COLLISION ENERGY*, *ION MODE*, *NUM PEAKS* and *MASS SPECTRAL PEAKS*. Field
+*COMMENT* contains potential additional spectrum related data.
+
+```{r}
+full_mat[, "ID"]
+full_mat[, "MASS SPECTRAL PEAKS"]
+
+colnames(full_mat)
+```
+
+The database columns we need for `msms_spectrum` are:
+
+- `spectrum_id` (character): not present. Will have to define internally.
+- `compound_id` (character): field `"ID"`.
+- `polarity` (integer): field `"ION MODE"`: P or N
+- `collision_energy` (numeric): field `"COLLISION ENERGY"`. Which contains
+  however character values!
+- `predicted` (logical) ?
+- `splash` (character) not present.
+- `instrument_type` (character): field `"INSTRUMENT TYPE"`.
+- `mz` (list)
+- `intensity` (list).
+
+Extracting the mz and intensities could prove to be tricky...
+
+What values for polarity do we have? N: 0 negative, P: 1 positive, NA not set.
+
+Extract spectrum data.
+
+```{r}
+tmp <- full_mat[1, "MASS SPECTRAL PEAKS"]
+tmp_num <- as.numeric(unlist(strsplit(gsub("__ ", "", tmp), " ", fixed = TRUE), use.names = FALSE))
+
+library(microbenchmark)
+microbenchmark({
+    tmp_mat <- matrix(tmp_num, ncol = 2, byrow = TRUE)
+    mzs <- tmp_mat[, 1]
+    ints <- tmp_mat[, 2]
+},
+{
+    idx <- seq(1, (length(tmp_num) - 1), by = 2)
+    mzs <- tmp_num[idx]
+    ints <- tmp_num[idx + 1]
+})
+## matrix is way faster.
+
+.sdf_peak_mat <- function(x) {
+    matrix(as.numeric(unlist(strsplit(x, " | __ "), use.names = FALSE)),
+           ncol = 2, byrow = TRUE)
+}
+
+
+microbenchmark(lapply(sub_mat[, "MASS SPECTRAL PEAKS"], .sdf_peak_mat),
+               lapply(strsplit(sub_mat[, "MASS SPECTRAL PEAKS"], " | __ "),
+                      function(z) matrix(as.numeric(z), ncol = 2, byrow = TRUE)))
+## Extracting peaks
+system.time(res <- lapply(strsplit(full_mat[, "MASS SPECTRAL PEAKS"], " | __ "),
+                          function(z) matrix(as.numeric(z), ncol = 2, byrow = TRUE)))
+## 273 seconds on the full data set
+mz_list <- lapply(res, function(z) z[, 1])
+int_list <- lapply(res, function(z) z[, 2])
+
+spctra <- data.frame(compound_id = full_mat[, "ID"],
+                     instrument_type = full_mat[, "INSTRUMENT TYPE"],
+                     stringsAsFactors = FALSE)
+spctra$mz <- mz_list
+spctra$intensity <- int_list
+```

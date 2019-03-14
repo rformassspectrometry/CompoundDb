@@ -4,13 +4,16 @@
 \alias{compound_tbl_sdf}
 \title{Extract compound data from a file in SDF format}
 \usage{
-compound_tbl_sdf(file, collapse)
+compound_tbl_sdf(file, collapse, ...)
 }
 \arguments{
 \item{file}{\code{character(1)} with the name of the SDF file.}
 
 \item{collapse}{optional \code{character(1)} to be used to collapse multiple
 values in the columns \code{"synonyms"}. See examples for details.}
+
+\item{...}{optional parameters to be passed to the \code{\link[=read.SDFset]{read.SDFset()}} function,
+such as \code{skipErrors = TRUE} to ignore entries that fail to be read.}
 }
 \value{
 A \link[tibble:tibble]{tibble::tibble} with general compound information (one row per

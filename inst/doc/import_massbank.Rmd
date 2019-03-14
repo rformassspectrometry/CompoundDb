@@ -1,0 +1,232 @@
+# Import data from MassBank
+
+Importing data from Massbank. Massbank provides spectrum data as individual
+files with additional (optional) metadata fields.
+
+```{r}
+mb_dir <- "/Users/jo/Projects/compounds/MassBank/2018_11/MassBank-data/"
+fls <- dir(mb_dir, pattern = ".txt$", recursive = TRUE, full.names = TRUE)
+
+system.time(
+    massbank <- do.call(rbind, lapply(fls, CompoundDb:::.import_massbank_file))
+)  ## 75 seconds
+
+massbank <- cbind(massbank, idx = 1:nrow(massbank))
+massbank_noinchi <- massbank[is.na(massbank$inchi), ]
+
+massbank_clpsd <- .collapse_table(massbank, by = c("inchi"))
+
+multi_mass <- which(lengths(massbank_clpsd$mass) > 1)
+length(multi_mass)
+
+massbank_clpsd[multi_mass[1], ]
+
+massbank_clpsd$synonyms[[1]]
+
+```
+
+OK, so we could reduce the table like that, having then a *compound* for each
+InChI, with all spectra mapped to that (column *idx*).
+
+External identifiers:
+- chebi_id
+- kegg_id
+- pubchem_id
+- chemspider_id
+- hmdb_id
+
+hm, have 5 tables or a single one:
+
+- *xref*: *compound_id*, *external_id*, *external_db*.
+
+hm, but how to join the table then? Make a view for each?
+
+
+# Test Massbank data import
+
+
+Here we test how to import data from MassBank (downloaded from the github repo).
+
+The files are in text format.
+
+```{r}
+txt <- "/Users/jo/tmp/MassBank/2018_11/MassBank-data/BGC_Munich/RP000201.txt"
+
+lns <- readLines(txt)
+
+CompoundDb:::.extract_field_from_string(lns, "ACCESSION: ")
+CompoundDb:::.extract_field_from_string(lns, "CH\\$NAME: ")
+
+.extract_name <- function(x) {
+    res <- CompoundDb:::.extract_field_from_string(lns, "CH\\$NAME: ")
+    nona <- !is.na(res)
+    if (any(nona))
+        res[nona]
+    else NA_character_
+}
+
+.extract_name2 <- function(x) {
+    idx <- grep("CH$NAME", x, fixed = TRUE)
+    if (length(idx))
+        (strsplit(x[idx], " ", fixed = TRUE)[-1])
+    else NA_character_
+}
+
+.extract_name3 <- function(x) {
+    idx <- grep("CH$NAME", x, fixed = TRUE)
+    if (length(idx))
+        CompoundDb:::.extract_field_from_string(x[idx], "CH\\$NAME: ")
+    else NA_character_
+}
+
+.massbank_extract_field <- function(x, field = "CH$NAME: ") {
+    idx <- grep(field, x, fixed = TRUE)
+    if (length(idx))
+        sub(field, "", x[idx], fixed = TRUE)
+    else NA_character_
+}
+
+.massbank_extract_field2 <- function(x, field = "^CH\\$NAME: ") {
+    idx <- grep(field, x, fixed = FALSE)
+    if (length(idx))
+        sub(field, "", x[idx], fixed = FALSE)
+    else NA_character_
+}
+
+.extract_name(lns)
+
+.extract_name2(lns)
+
+.massbank_extract_field(lns)
+.massbank_extract_field2(lns)
+
+library(microbenchmark)
+microbenchmark(.extract_name(lns), .extract_name2(lns), .extract_name3(lns),
+               .massbank_extract_field(lns), .massbank_extract_field2(lns))
+
+
+```
+
+Compound information we can extract:
+- `compound_id`: no explicit compound name here, but we could use one of the
+  external database links.
+- `compound_name`: we can have multiple `"CH$NAME: "` - use one here, others
+  down for synonyms.
+- `inchi`: `"CH$IUPAC: "`.
+- `formula`: `"CH$FORMULA: "`.
+- `mass`: `"CH$EXACT_MASS: "`.
+- `synonyms`: `"CH$NAME: "`
+
+Additional fields we might want to get:
+- `inchi_key`: `"CH$LINK: INCHIKEY "`.
+- additional identifiers: `"CH$LINK: CHEBI "`, `"CH$LINK: KEGG "`, `"CH$LINK:
+  PUBCHEM "`, `"CH$LINK: CHEMSPIDER "`.
+
+We could use an self-generated identifier and collapse entries with the same
+identifier based on either of the ones above.
+
+TODO read all compound data (one line per spectrum) and try to figure out how
+much redundancy there is and how we could reduce that.
+
+```{r}
+## Check reading of a set of files.
+fls <- dir(system.file("txt", package = "CompoundDb"), full.names = TRUE)
+res <- lapply(fls, CompoundDb:::.import_massbank_file)
+res <- do.call(rbind, res)
+
+## Read the full Massbank:
+fls <- dir("/Users/jo/tmp/MassBank/2018_11/MassBank-data/", recursive = TRUE,
+           pattern = ".txt$", full.names = TRUE)
+system.time(
+    massbank <- do.call(rbind, lapply(fls, CompoundDb:::.import_massbank_file))
+)  ## 75 seconds
+
+```
+
+For which identifier do we have most entries?
+
+```{r}
+sum(is.na(massbank$inchi))                   # 0
+sum(is.na(massbank$chebi_id))                # 40168
+sum(is.na(massbank$kegg_id))                 # 35413
+sum(is.na(massbank$pubchem_id))              # 22501
+sum(is.na(massbank$chemspider_id))           # 30389
+
+## What if we used inchi as identifier for a compound?
+tmp <- split(massbank, massbank$inchi)
+tmp <- lapply(tmp, unique)
+names(tmp) <- NULL
+nrs <- vapply(tmp, nrow, integer(1))
+table(nrs)
+
+idx <- which(nrs > 1)
+
+ex <- tmp[[idx[1]]]
+unique(ex$synonyms)
+unique(ex$formula)
+unique(ex$mass)
+unique(ex$inchi)
+unique(ex$kegg_id)
+unique(ex$chemspider_id)
+
+unique_compound <- function(x) {
+    res <- x[1, ]
+    res$synonyms <- list(unique(unlist(x$synonyms)))
+    mass
+    res
+}
+
+## second try, is it only the synonyms?
+cmps <- split(massbank[, -1], massbank$inchi)
+cmps <- lapply(cmps, unique)
+nrs <- vapply(cmps, nrow, integer(1))
+table(nrs)
+idx <- which(nrs > 1)
+
+ex <- cmps[[idx[4]]]
+unique(ex$formula)
+unique(ex$mass)
+unique(ex$chebi_id)
+unique(ex$kegg_id)
+unique(ex$pubchem_id)
+unique(ex$chemspider_id)
+
+## Hm, it's two different compounds - with same weight etc. weird. They have
+## different inchikey but same inchi (???)
+```
+
+In principle InChI should be sufficient to identify each compound uniquely. To
+test we try that on the hmdb database: check if each HMDB ID is uniquely
+associated to an InChI and/or an InChI key.
+
+```{r}
+library(CompoundDb)
+hmdb <- CompDb("/Users/jo/tmp/hmdb/4.1/CompDb.Hsapiens.HMDB.4.1.sqlite")
+cmps <- compounds(hmdb)
+length(unique(cmps$compound_id))
+length(unique(cmps$inchi))
+length(unique(cmps$inchi_key))
+
+cmps_spl <- split(cmps, cmps$inchi_key)
+idx <- which(vapply(cmps_spl, nrow, integer(1)) > 1)
+
+cmps_spl[idx[1]]
+
+## Question is if we should also reduce this to a unique InChI and have an
+## external identifier field.
+cmps2 <- compounds(hmdb, columns = c("compound_id", "inchi", "synonym"))
+```
+
+OK, now, structure != compound??? InChI is identifier for structure, but not for
+compound?
+
+We could have the following: database tables for external
+identifiers. Two options there:
+- one table for each external identifier.
+- one table for all with columns *database*, *external_id*, *compound_id*
+  (that's the internal one linking to *compound* table).
+
+
+Questions:
+- Do I have standardized InChIs?
+- Do the compounds with the same InChIs share (part/all) of their synonyms?

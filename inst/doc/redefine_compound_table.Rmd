@@ -1,0 +1,46 @@
+# Redefining the compound table (issue #35)
+
+While HMDB defines compounds with their own ID and associates spectra to each of
+these compounds, such information is not available in neither MoNa nor
+Massbank. Both provide only spectrum data and, while providing also compound
+identifiers (in various databases) this information is not consistent enough
+across entries to define a common *compound*.
+
+Some questions that have to be answered are:
+- [ ] Can the *InChI* be used to identify a compound?
+- [ ] Why do have some compounds the same *InChI*? Are these isotopes? Do they
+      have **different** masses?
+
+## Possible options
+
+- Define a compound for each individual InChI and link these to additional
+  identifiers, such as *hmdb_id*, *pubchem_id* etc. These would be in external
+  table(s).
+
+- Define a compound reducing elements that have a common set of identifiers,
+  e.g. same InChI and HMDB ID, or same InChI and PubChem ID. This could work for
+  Massbank. Possible candidates for *commonness* are (where same formula and
+  mass are a prerequisite):
+  - InChi
+  - HMDB
+  - PubChem
+  - ChEBI
+  - Name/Synonym.
+  - Formula
+  - Mass.
+  Here we could define a function such `normalize_compound_table` that performs
+  this task. The input should be a large compound table (such as created by
+  simply adding the information from Massbank) and the result a `data.frame`
+  with some columns (such as *pubchem_id*) being of type `list`. These latter
+  would then have to be put in separate tables.
+
+For the second option: the database table layout would be like this:
+
+- `msms_spectrum` with a `spectrum_id` and a `compound_id` linking to the
+  compound table.
+- `compound` table with `compound_id` (should be an integer) and columns
+  `inchi`, `inchi_key`, `mass` and `formula`. These have to be unique.
+- `synonym` table with columns `compound_id` and `synonym` (the first element
+  being the *official* name.
+- `pubchem` table with columns `compound_id` and `pubchem_compound_id`.
+- `chebi` table with columns `compound_id` and `chebi_id`.

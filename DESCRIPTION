@@ -1,7 +1,7 @@
 Package: CompoundDb
 Type: Package
 Title: Creating and using (chemical) compound annotation databases
-Version: 0.2.1
+Version: 0.2.2
 Authors@R: c(person(given = "Jan", family = "Stanstrup",
                     email = "stanstrup@gmail.com",
 		    role = c("aut")),
@@ -48,6 +48,9 @@ Collate:
     'CompDb-methods.R'
     'Spectra-functions.R'
     'Spectra-methods.R'
+    'mass-utility-functions.R'
+    'massbank-import-functions.R'
     'query-engine.R'
     'spectrum-import-functions.R'
     'utility-functions.R'
+    'zzz.R'

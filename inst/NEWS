@@ -1,3 +1,9 @@
+Changes in version 0.2.2
+
+- Add list of adducts based on Jan Stanstrups adduct tables from the chemhelper
+  package.
+
+
 Changes in version 0.2.1
 
 - Add ... to compound_tbl_sdf to allow passing additional parameters to
