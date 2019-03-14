@@ -48,6 +48,8 @@ Collate:
     'CompDb-methods.R'
     'Spectra-functions.R'
     'Spectra-methods.R'
+    'mass-utility-functions.R'
     'query-engine.R'
     'spectrum-import-functions.R'
     'utility-functions.R'
+    'zzz.R'
