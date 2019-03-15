@@ -112,9 +112,10 @@ mz2mass <- function(x, adduct = adducts()) {
     adduct$charge <- abs(adduct$charge)
     lapply(x, function(z) {
         res <- (adduct$charge * z - adduct$massdiff) / adduct$nmol
+        names(res) <- adduct$name
+        res
     })
 }
-
 
 #' @param pattern For `adducts`: optional `character(1)` specifying a pattern to
 #'     be used to retrieve selected adducts, e.g. containing a hydrogen.

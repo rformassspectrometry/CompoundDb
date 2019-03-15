@@ -75,6 +75,7 @@ test_that("mz2mass works", {
 
     ## m/z taken from HMDB
     res <- mz2mass(76.0393, adduct = "[M+H]+")
+    expect_equal(names(res[[1]]), "[M+H]+")
     expect_true(all.equal(unname(res[[1]]), mass, tolerance = 1e-6))
     res <- mz2mass(120.0032, adduct = "[M+2Na-H]+")
     expect_true(all.equal(unname(res[[1]]), mass, tolerance = 1e-6))
