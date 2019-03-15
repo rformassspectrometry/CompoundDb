@@ -3,6 +3,8 @@ Changes in version 0.2.2
 - Add adduct information from Jan Stanstrup's commonMZ package.
 - Add matchWithPpm function to match numeric values allowing for a small
   difference.
+- Add adducts function to retrieve adduct definitions.
+- Add mass2mz and mz2mass to convert between mass and m/z for provided adducts.
 
 
 Changes in version 0.2.1

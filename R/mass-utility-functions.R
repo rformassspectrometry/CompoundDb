@@ -83,6 +83,8 @@ matchWithPpm <- function(x, y, ppm = 0) {
 #'
 #' @author Johannes Rainer, Jan Stanstrup
 #'
+#' @export
+#'
 #' @examples
 #'
 #' masses <- c(75.032028409, 105.042595, 162.115698458, 180.063385)
@@ -92,7 +94,7 @@ matchWithPpm <- function(x, y, ppm = 0) {
 #' mzs <- mass2mz(masses, adduct = c("[M+H]+", "[M+Na]+"))
 mass2mz <- function(x, adduct = adducts()) {
     if (is.character(adduct))
-        adduct <- adducts()[adduct, ]
+        adduct <- adducts(name = adduct)
     adduct$charge <- abs(adduct$charge)
     lapply(x, function(z) {
         res <- (adduct$nmol * z + adduct$massdiff) / adduct$charge
@@ -101,7 +103,17 @@ mass2mz <- function(x, adduct = adducts()) {
     })
 }
 
-##mz2mass
+#' @export
+#'
+#' @rdname mass2mz
+mz2mass <- function(x, adduct = adducts()) {
+    if (is.character(adduct))
+        adduct <- adducts(name = adduct)
+    adduct$charge <- abs(adduct$charge)
+    lapply(x, function(z) {
+        res <- (adduct$charge * z - adduct$massdiff) / adduct$nmol
+    })
+}
 
 
 #' @param pattern For `adducts`: optional `character(1)` specifying a pattern to
@@ -110,15 +122,20 @@ mass2mz <- function(x, adduct = adducts()) {
 #' @param polarity For `adducts`: optional `numeric(1)` to retrieve only adducts
 #'     with positive (`polarity = 1`) or negative (`polarity = -1`) polarity.
 #'
+#' @param name For `adducts`: define the names of the adducts for which the
+#'     definition should be returned.
+#'
 #' @param set For `adducts`: `character(1)` defining sets of adducts.
 #'
 #' @param ... For `adducts`: additional parameters to be passed to the [grep()]
 #'     function.
 #' @md
 #'
+#' @export
+#'
 #' @rdname mass2mz
-adducts <- function(pattern, polarity, set, ...) {
-    adds <- CompoundDb:::ADDUCTS
+adducts <- function(pattern, polarity, name, set, ...) {
+    adds <- ADDUCTS
     if (!missing(polarity)) {
         if (polarity < 0)
             adds <- adds[adds$charge < 0, ]
@@ -126,5 +143,7 @@ adducts <- function(pattern, polarity, set, ...) {
     }
     if (!missing(pattern))
         adds <- adds[grep(pattern, adds$name, ...), ]
-    adds[order(adds$name), ]
+    if (!missing(name))
+        adds <- adds[match(name, adds$name), ]
+    adds
 }
