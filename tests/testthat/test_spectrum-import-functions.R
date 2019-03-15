@@ -51,7 +51,7 @@ test_that("msms_spectra_hmdb works", {
 
     ## Construct the Spectra of these
     spl <- as(res, "Spectra")
-    expect_equal(sapply(spl, polarity), c(1, 1, 1, 0))
+    expect_equal(unname(sapply(spl, polarity)), c(1, 1, 1, 0))
 
     dr <- system.file("sdf", package = "CompoundDb")
     expect_error(msms_spectra_hmdb(dr))
