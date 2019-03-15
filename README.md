@@ -3,8 +3,13 @@
 
 # Requirements
 
-This package depends on several other R/Bioconductor packages. These can be
-installed with the code below.
+The package can be installed with
+
+```r
+devtools::install_github("EuracBiomedicalResearch/CompoundDb")
+```
+
+In case there are missing package dependencies, run the code below first:
 
 ```r
 install.packages("BiocManager")
@@ -16,6 +21,7 @@ BiocManager::install(c("devtools", "AnnotationFilter", "S4Vectors",
 #' Install also Jan Stanstrup's commonMZ package
 devtools::install_github("stanstrup/commonMZ")
 ```
+
 
 # Creating and using (chemical) compound databases
 
