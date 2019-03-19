@@ -5,6 +5,7 @@ Changes in version 0.2.2
   difference.
 - Add adducts function to retrieve adduct definitions.
 - Add mass2mz and mz2mass to convert between mass and m/z for provided adducts.
+- Add annotateMz method to annotate m/z values.
 
 
 Changes in version 0.2.1
