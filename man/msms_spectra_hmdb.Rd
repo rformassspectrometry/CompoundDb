@@ -28,6 +28,9 @@ verified.
 (Wohlgemuth 2016).
 \item instrument_type (\code{character}): the type of MS instrument on which the
 spectrum was measured.
+\item instrument (\code{character}): the MS instrument (not available for all spectra
+in HMDB).
+\item precursor_mz (\code{numeric}): not provided by HMDB and thus \code{NA}.
 \item mz (\code{numeric} or \code{list} of \code{numeric}): m/z values of the spectrum.
 \item intensity (\code{numeric} or \code{list} of \code{numeric}): intensity of the spectrum.
 }

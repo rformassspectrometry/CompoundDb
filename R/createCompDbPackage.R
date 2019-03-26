@@ -186,7 +186,8 @@ compound_tbl_lipidblast <- function(file, collapse) {
                       )
     if (source_db == "mona") {
         warning("MoNa data can currently not be normalized and the ",
-                "compound table contains thus highly redundant data.")
+                "compound table contains thus highly redundant data.",
+                call. = FALSE)
         ## Eventually reduce and normalize.
         inchis <- .extract_field_from_string(x[, "COMMENT"], "InChI")
         nona <- !is.na(inchis)
@@ -345,7 +346,8 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' database. Currently only MS/MS spectra from HMDB are supported. These can
 #' be downloaded in XML format from HMDB (http://www.hmdb.ca), loaded with
 #' the [msms_spectra_hmdb()] or [msms_spectra_mona()] function and passed to
-#' the function with the `msms_spectra` argument.
+#' the function with the `msms_spectra` argument. See [msms_spectra_hmdb()] or
+#' [msms_spectra_mona()] for information on the expected columns and format.
 #'
 #' Required columns for the `data.frame` providing the compound information (
 #' parameter `x`) are:
@@ -646,6 +648,8 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
                                      predicted = "logical",
                                      splash = "character",
                                      instrument_type = "character",
+                                     instrument = "character",
+                                     precursor_mz = "numeric",
                                      mz = "numeric",
                                      intensity = "numeric"
                                      )
@@ -657,6 +661,8 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
                                           predicted = "logical",
                                           splash = "character",
                                           instrument_type = "character",
+                                          instrument = "character",
+                                          precursor_mz = "numeric",
                                           mz = "list",
                                           intensity = "list"
                                           )

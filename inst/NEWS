@@ -1,3 +1,8 @@
+Changes in version 0.2.3
+
+- Add instrument and precursor_mz spectra data columns (issue #32).
+
+
 Changes in version 0.2.2
 
 - Add adduct information from Jan Stanstrup's commonMZ package.
