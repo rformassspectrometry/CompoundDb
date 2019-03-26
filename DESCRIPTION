@@ -1,13 +1,16 @@
 Package: CompoundDb
 Type: Package
 Title: Creating and using (chemical) compound annotation databases
-Version: 0.2.2
+Version: 0.2.3
 Authors@R: c(person(given = "Jan", family = "Stanstrup",
                     email = "stanstrup@gmail.com",
-		    role = c("aut")),
+		    role = c("aut"),
+		    comment = c(ORCID = "0000-0003-0541-7369")),
              person(given = "Johannes", family = "Rainer",
 	            email = "johannes.rainer@eurac.edu",
-		    role = c("aut", "cre")))
+		    role = c("aut", "cre"),
+		    comment = c(ORCID = "0000-0002-6977-7147"))
+		    )
 Author: Johannes Rainer and Jan Stanstrup
 Maintainer: Johannes Rainer <johannes.rainer@eurac.edu>
 Description: CompoundDb provides functionality to create and use (chemical)
@@ -30,11 +33,14 @@ Imports:
     Biobase,
     BiocGenerics,
     ProtGenerics,
-    xml2
+    xml2,
+    commonMZ
 Suggests:
     knitr,
     testthat,
     BiocStyle (>= 2.5.19)
+Remotes:
+    stanstrup/commonMZ
 License: GPL (>= 2)
 URL: https://github.com/EuracBiomedicalResearch/CompoundDb
 biocViews: MassSpectrometry, Metabolomics

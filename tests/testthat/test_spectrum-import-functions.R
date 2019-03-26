@@ -10,7 +10,8 @@ test_that(".import_hmdb_ms_ms_spectrum works", {
     res <- .import_hmdb_ms_ms_spectrum(fl, collapsed = FALSE)
     expect_equal(colnames(res), c("spectrum_id", "compound_id", "polarity",
                                   "collision_energy", "predicted", "splash",
-                                  "instrument_type", "mz", "intensity"))
+                                  "instrument_type", "instrument",
+                                  "precursor_mz", "mz", "intensity"))
     expect_equal(nrow(res), 7)
 
     expect_equal(res$compound_id[1], xml_text(xml_find_first(x, "database-id")))
@@ -28,7 +29,6 @@ test_that(".import_hmdb_ms_ms_spectrum works", {
                       package = "CompoundDb")
     expect_error(.import_hmdb_ms_ms_spectrum(fl))
     expect_warning(.import_hmdb_ms_ms_spectrum(fl, nonStop = TRUE))
-
 })
 
 test_that("msms_spectra_hmdb works", {
@@ -37,21 +37,23 @@ test_that("msms_spectra_hmdb works", {
     expect_true(length(unique(res$spectrum_id)) == 4)
     expect_equal(colnames(res), c("original_spectrum_id", "compound_id",
                                   "polarity", "collision_energy", "predicted",
-                                  "splash", "instrument_type", "mz",
-                                  "intensity", "spectrum_id"))
+                                  "splash", "instrument_type", "instrument",
+                                  "precursor_mz", "mz", "intensity",
+                                  "spectrum_id"))
     ## Get it in collapsed form.
     res_clpsd <- msms_spectra_hmdb(dr, collapsed = TRUE)
     expect_equal(colnames(res_clpsd),
                  c("original_spectrum_id", "compound_id", "polarity",
                    "collision_energy", "predicted", "splash",
-                   "instrument_type", "mz", "intensity", "spectrum_id"))
+                   "instrument_type", "instrument", "precursor_mz",
+                   "mz", "intensity", "spectrum_id"))
     expect_true(nrow(res_clpsd) == 4)
     expect_equal(unlist(res_clpsd$mz), res$mz)
     expect_equal(unlist(res_clpsd$intensity), res$intensity)
 
     ## Construct the Spectra of these
     spl <- as(res, "Spectra")
-    expect_equal(sapply(spl, polarity), c(1, 1, 1, 0))
+    expect_equal(unname(sapply(spl, polarity)), c(1, 1, 1, 0))
 
     dr <- system.file("sdf", package = "CompoundDb")
     expect_error(msms_spectra_hmdb(dr))
@@ -234,6 +236,7 @@ test_that(".extract_spectra_mona_sdf works", {
     res <- .extract_spectra_mona_sdf(x)
     expect_true(all(res$polarity == 1L))
     expect_true(is.character(res$collision_energy))
+    expect_true(is.numeric(res$precursor_mz))
 })
 
 test_that(".compound_id_from_mona_sdf works", {

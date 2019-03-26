@@ -28,6 +28,8 @@ verified.
 provided.
 \item instrument_type (\code{character}): the type of MS instrument on which the
 spectrum was measured.
+\item instrument (\code{character}): the MS instrument.
+\item precursor_mz (\code{numeric}): precursor m/z.
 \item mz (\code{numeric} or \code{list} of \code{numeric}): m/z values of the spectrum.
 \item intensity (\code{numeric} or \code{list} of \code{numeric}): intensity of the spectrum.
 }

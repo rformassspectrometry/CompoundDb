@@ -65,6 +65,10 @@
     itype <- xml_text(xml_find_first(x_ml, "instrument-type"))
     if (itype == "")
         itype <- NA_character_
+    instr <- xml_text(xml_find_first(x_ml, "notes"))
+    if (instr == "")
+        instr <- NA_character_
+    else instr <- .extract_field_from_string(instr, "instrument=", "\n")
     mz <- xml_double(xml_find_all(x_ml, "ms-ms-peaks/ms-ms-peak/mass-charge"))
     int <- xml_double(xml_find_all(x_ml, "ms-ms-peaks/ms-ms-peak/intensity"))
     if (!length(mz) | !length(int) | length(mz) != length(int)) {
@@ -82,6 +86,8 @@
                           predicted = prd,
                           splash = splsh,
                           instrument_type = itype,
+                          instrument = instr,
+                          precursor_mz = NA_real_,
                           stringsAsFactors = FALSE)
         res$mz <- list(mz)
         res$intensity <- list(int)
@@ -94,6 +100,8 @@
                    predicted = prd,
                    splash = splsh,
                    instrument_type = itype,
+                   instrument = instr,
+                   precursor_mz = NA_real_,
                    mz = mz,
                    intensity = int,
                    stringsAsFactors = FALSE)
@@ -144,6 +152,9 @@
 #'   (Wohlgemuth 2016).
 #' - instrument_type (`character`): the type of MS instrument on which the
 #'   spectrum was measured.
+#' - instrument (`character`): the MS instrument (not available for all spectra
+#'   in HMDB).
+#' - precursor_mz (`numeric`): not provided by HMDB and thus `NA`.
 #' - mz (`numeric` or `list` of `numeric`): m/z values of the spectrum.
 #' - intensity (`numeric` or `list` of `numeric`): intensity of the spectrum.
 #'
@@ -365,6 +376,8 @@ setAs("data.frame", "Spectra", function(from) {
 #'   provided.
 #' - instrument_type (`character`): the type of MS instrument on which the
 #'   spectrum was measured.
+#' - instrument (`character`): the MS instrument.
+#' - precursor_mz (`numeric`): precursor m/z.
 #' - mz (`numeric` or `list` of `numeric`): m/z values of the spectrum.
 #' - intensity (`numeric` or `list` of `numeric`): intensity of the spectrum.
 #'
@@ -425,6 +438,8 @@ msms_spectra_mona <- function(x, collapsed = TRUE) {
                predicted = NA,
                splash = NA_character_,
                instrument_type = x[, "INSTRUMENT TYPE"],
+               instrument = x[, "INSTRUMENT"],
+               precursor_mz = as.numeric(x[, "PRECURSOR M/Z"]),
                spectrum_id = as.character(1:nrow(x)),
                stringsAsFactors = FALSE)
     res$mz <- lapply(mzint, function(z) z[, 1])

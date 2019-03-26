@@ -16,7 +16,7 @@ test_that(".spectrum_has_mz and hasMz work", {
     expect_false(hasMz(sp1, mzs, ppm = 0))
 
     res <- hasMz(spl, mzs)
-    expect_equal(res, c(TRUE, FALSE, TRUE))
+    expect_equal(unname(res), c(TRUE, FALSE, TRUE))
     names(spl) <- c("a", "b", "c")
     res <- hasMz(spl, mzs)
     expect_equal(res, c(a = TRUE, b = FALSE, c = TRUE))

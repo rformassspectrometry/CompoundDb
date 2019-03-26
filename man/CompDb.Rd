@@ -21,7 +21,7 @@ CompDb(x)
 
 hasMsMsSpectra(x)
 
-compounds(x, columns, filter, return.type = "data.frame")
+compounds(x, columns, filter, return.type = "data.frame", ...)
 
 src_compdb(x)
 
@@ -51,6 +51,8 @@ the return object. Can be either \code{"data.frame"} (default) or
 \code{"tibble"}.
 For \code{spectra}: either \code{"Spectra"} (default), \code{"data.frame"} or
 \code{"tibble"}.}
+
+\item{...}{additional arguments. Currently not used.}
 
 \item{object}{For all methods: a \code{CompDb} object.}
 }

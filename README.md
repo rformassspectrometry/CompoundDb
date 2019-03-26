@@ -1,6 +1,26 @@
 [![Build Status](https://travis-ci.org/EuracBiomedicalResearch/CompoundDb.svg?branch=master)](https://travis-ci.org/EuracBiomedicalResearch/CompoundDb)
 [![codecov.io](https://codecov.io/github/EuracBiomedicalResearch/CompoundDb/coverage.svg?branch=master)](https://codecov.io/github/EuracBiomedicalResearch/CompoundDb?branch=master)
 
+# Requirements
+
+The package can be installed with
+
+```r
+devtools::install_github("EuracBiomedicalResearch/CompoundDb")
+```
+
+In case there are missing package dependencies, run the code below first:
+
+```r
+install.packages("BiocManager")
+BiocManager::install(c("devtools", "AnnotationFilter", "S4Vectors",
+                       "MSnbase", "ChemmineR", "tibble", "jsonlite",
+                       "dbplyr", "RSQLite", "Biobase", "BiocGenerics",
+                       "ProtGenerics", "xml2"))
+
+#' Install also Jan Stanstrup's commonMZ package
+devtools::install_github("stanstrup/commonMZ")
+```
 
 
 # Creating and using (chemical) compound databases

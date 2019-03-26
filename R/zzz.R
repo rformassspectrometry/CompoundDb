@@ -1,11 +1,8 @@
-#' @importFrom utils read.table
+#' @importFrom commonMZ MZ_CAMERA
 #'
 #' @noRd
 .onLoad <- function(libname, pkgname) {
-    path <- system.file("extdata", package = pkgname)
-    dta <- read.table(paste0(path, "/adducts.txt"), sep = "\t", as.is = TRUE,
-                      header = TRUE)
-    add_list <- split(dta, dta$name)
-    add_env <- list2env(split(dta, dta$name))
-    assign("ADDUCTS", add_env, envir = asNamespace(pkgname))
+    dta <- as.data.frame(rbind(commonMZ::MZ_CAMERA("pos", warn_clash = FALSE),
+                               commonMZ::MZ_CAMERA("neg", warn_clash = FALSE)))
+    assign("ADDUCTS", dta, envir = asNamespace(pkgname))
 }

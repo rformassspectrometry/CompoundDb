@@ -79,7 +79,8 @@ Optionally MS/MS (MS2) spectra for compounds can be also stored in the
 database. Currently only MS/MS spectra from HMDB are supported. These can
 be downloaded in XML format from HMDB (http://www.hmdb.ca), loaded with
 the \code{\link[=msms_spectra_hmdb]{msms_spectra_hmdb()}} or \code{\link[=msms_spectra_mona]{msms_spectra_mona()}} function and passed to
-the function with the \code{msms_spectra} argument.
+the function with the \code{msms_spectra} argument. See \code{\link[=msms_spectra_hmdb]{msms_spectra_hmdb()}} or
+\code{\link[=msms_spectra_mona]{msms_spectra_mona()}} for information on the expected columns and format.
 
 Required columns for the \code{data.frame} providing the compound information (
 parameter \code{x}) are:

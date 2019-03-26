@@ -254,6 +254,8 @@ hasMsMsSpectra <- function(x) {
 #'     For `spectra`: either `"Spectra"` (default), `"data.frame"` or
 #'     `"tibble"`.
 #'
+#' @param ... additional arguments. Currently not used.
+#'
 #' @importFrom tibble as_tibble
 #'
 #' @export
@@ -261,7 +263,7 @@ hasMsMsSpectra <- function(x) {
 #' @rdname CompDb
 #'
 #' @md
-compounds <- function(x, columns, filter, return.type = "data.frame") {
+compounds <- function(x, columns, filter, return.type = "data.frame", ...) {
     if (!is(x, "CompDb"))
         stop("'x' is supposed to be a 'CompDb' object")
     match.arg(return.type, c("data.frame", "tibble"))
