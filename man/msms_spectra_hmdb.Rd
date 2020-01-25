@@ -15,7 +15,7 @@ msms_spectra_hmdb(x, collapsed = TRUE)
 \value{
 \code{data.frame} with as many rows as there are peaks and columns:
 \itemize{
-\item spectrum_id (\code{character}): an arbitrary, unique ID identifying values
+\item spectrum_id (\code{integer}): an arbitrary, unique ID identifying values
 from one xml file.
 \item original_spectrum_id (\code{character}): the HMDB-internal ID of the spectrum.
 \item compound_id (\code{character}): the HMDB compound ID the spectrum is associated
@@ -79,13 +79,11 @@ Nainala VC, Mistrik R, Nishioka T, Fiehn O. SPLASH, A hashed identifier for
 mass spectra. Nature Biotechnology 2016 34(11):1099-1101
 }
 \seealso{
-\code{\link[=Spectra]{Spectra()}} for converting the returned \code{data.frame} into
-a \link{Spectra} object (list of \link{Spectrum} objects with annotations).
-
 \code{\link[=createCompDb]{createCompDb()}} for the function to create a \link{CompDb} database with
 compound annotation and spectrum data.
 
-Other spectrum data import functions.: \code{\link{msms_spectra_mona}}
+Other spectrum data import functions.: 
+\code{\link{msms_spectra_mona}()}
 }
 \author{
 Johannes Rainer

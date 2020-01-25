@@ -7,16 +7,12 @@
 #'
 #' @export
 #'
-#' @md
-#'
 #' @rdname CompDb
 setMethod("dbconn", "CompDb", function(x) {
     .dbconn(x)
 })
 
 #' @importFrom methods show
-#'
-#' @md
 #'
 #' @export
 setMethod("show", "CompDb", function(object) {
@@ -42,51 +38,29 @@ setMethod("show", "CompDb", function(object) {
 # organism
 
 
-#' @importFrom ProtGenerics spectra
+#' @importMethodsFrom Spectra Spectra
+#'
+#'
+#' @importClassesFrom Spectra Spectra
 #'
 #' @export
 #'
-#' @md
-#'
-#' @importClassesFrom MSnbase Spectra
-#'
 #' @rdname CompDb
-setMethod("spectra", "CompDb", function(object, columns, filter,
-                                        return.type = c("Spectra",
-                                                        "data.frame",
-                                                        "tibble")) {
-    if (!.has_msms_spectra(object))
-        stop("No spectrum data available in the provided database",
-             call. = FALSE)
-    return.type <- match.arg(return.type)
-    if (missing(columns))
-        columns <- .tables(object, "msms_spectrum")[[1]]
-    ## columns <- unique(unlist(
-    ##     .tables(object, c("msms_spectrum_peak", "msms_spectrum_metadata"))))
-    ## ordr <- "msms_spectrum_peak.spectrum_id"
-    ordr <- "msms_spectrum.spectrum_id"
-    if (return.type == "Spectra") {
-        columns <- unique(c("mz", "intensity", "polarity", "collision_energy",
-                            columns))
-        ## ordr <- paste0(ordr, ", msms_spectrum_peak.mz")
+setMethod("Spectra", "CompDb", function(object, columns, filter, ...) {
+    if (!.has_msms_spectra(object)) {
+        warning("No spectrum data available in the provided database",
+                call. = FALSE)
+        return(Spectra())
     }
-    if (!any(columns == "spectrum_id"))
-        columns <- c("spectrum_id", columns)
-    res <- .fetch_data(object, columns = columns, filter = filter,
-                       start_from = "msms_spectrum", order = ordr)
-    ## start_from = "msms_spectrum_metadata", order = ordr)
-    if (return.type == "tibble")
-        res <- as_tibble(res)
-    if (return.type == "Spectra")
-        res <- as(res, "Spectra")
-    res
+    sps <- new("Spectra")
+    sps@backend <- backendInitialize(MsBackendCompDb(), x = object,
+                                     columns = columns, filter = filter, ...)
+    sps
 })
 
 #' @importMethodsFrom AnnotationFilter supportedFilters
 #'
 #' @export
-#'
-#' @md
 #'
 #' @rdname CompDb
 setMethod("supportedFilters", "CompDb", function(object) {

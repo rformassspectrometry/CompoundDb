@@ -22,7 +22,7 @@
 #' @section Retrieve annotations from the database:
 #'
 #' Annotations/compound informations can be retrieved from a `CompDb` database
-#' with the `compounds` and `spectra` functions:
+#' with the `compounds` and `Spectra` functions:
 #'
 #' - `compounds` extracts compound data from the `CompDb` object. In contrast
 #'   to `src_compdb` it returns the actual data as a `data.frame` (if
@@ -32,13 +32,14 @@
 #'   result `data.frame` will always contain the compound identifier in column
 #'   `"compound_id"`.
 #'
-#' - `spectra` extract spectra from the database and returns them as a
-#'   [Spectra()] object. Additional annotations requested with the
-#'   `columns` parameter will be added as metadata columns.
+#' - `Spectra` extract spectra from the database and returns them as a
+#'   [Spectra()] object from the `Spectra` package. Additional annotations
+#'   requested with the `columns` parameter are added as additional spectra
+#'   variables.
 #'
 #' @section Filtering the database:
 #'
-#' Data access methods such as `compounds` and `spectra` allow to filter the
+#' Data access methods such as `compounds` and `Spectra` allow to filter the
 #' results using specific filter classes and expressions. Filtering uses the
 #' concepts from Bioconductor's `AnnotationFilter` package. All information
 #' for a certain compound with the ID `"HMDB0000001"` can for example be
@@ -104,7 +105,7 @@
 #' head(res)
 #'
 #' ## Extract spectra for a specific HMDB compound.
-#' sps <- spectra(cmp_db, filter = ~ compound_id == "HMDB0000001")
+#' sps <- Spectra(cmp_db, filter = ~ compound_id == "HMDB0000001")
 #' sps
 #'
 #' ## Using return.type = "tibble" the result will be returned as a "tibble"
@@ -157,12 +158,22 @@ setValidity("CompDb", function(object) {
     if (is.character(res))
         txt <- c(txt, res)
     if (length(grep("msms", tables))) {
-        ## BLOB
-        if (!any(tables == "msms_spectrum"))
-            txt <- c(txt, paste0("Required table msms_spectrum not found in",
+        if (!all(c("msms_spectrum", "msms_spectrum_peak") %in% tables))
+            txt <- c(txt, paste0("Required tables msms_spectrum and ",
+                                 "msms_spectrum_peak not found in",
                                  " the database"))
-        res <- .deserialize_mz_intensity(
-            dbGetQuery(x, "select * from msms_spectrum limit 3"))
+        res <- dbGetQuery(x, "select * from msms_spectrum limit 3")
+        if (!any(colnames(res) == "spectrum_id"))
+            stop("Required column 'spectrum_id' not found in table msms_spectrum")
+        res2 <- dbGetQuery(x, "select * from msms_spectrum_peak limit 3")
+        if (!all(c("spectrum_id", "mz", "intensity", "peak_id") %in%
+                 colnames(res2)))
+            stop("Required columns 'spectrum_id', 'mz', 'intensity' and ",
+                 "'peak_id' not found in table msms_spectrum_peak")
+        res <- dbGetQuery(
+            x, paste0("select * from msms_spectrum join msms_spectrum_peak on ",
+                      "(msms_spectrum.spectrum_id=msms_spectrum_peak.spectrum_",
+                      "id) where compound_id = '", res$compound_id[1], "'"))
         res$predicted <- as.logical(res$predicted)
         res <- .valid_msms_spectrum(res, error = FALSE)
         if (is.character(res))
@@ -179,8 +190,6 @@ setValidity("CompDb", function(object) {
 
 #' @description `CompDb` *constructs* a `CompDb` object by connecting
 #'     to the provided database file.
-#'
-#' @md
 #'
 #' @export
 CompDb <- function(x) {
@@ -236,23 +245,20 @@ CompDb <- function(x) {
 #' @export
 #'
 #' @rdname CompDb
-#'
-#' @md
 hasMsMsSpectra <- function(x) {
     .has_msms_spectra(x)
 }
 
-#' @param columns For `compounds`, `spectra`: `character` with the names of the
+#' @param columns For `compounds`, `Spectra`: `character` with the names of the
 #'     database columns that should be retrieved. Use [tables()] for a list of
 #'     available column names.
 #'
-#' @param filter For `compounds`: not yet supported.
+#' @param filter For `compounds` and `Spectra`: filter expression or
+#'     [AnnotationFilter()] defining a filter to be used to retrieve specific
+#'     elements from the database.
 #'
-#' @param return.type For `compounds`: `character` defining the type/class of
-#'     the return object. Can be either `"data.frame"` (default) or
-#'     `"tibble"`.
-#'     For `spectra`: either `"Spectra"` (default), `"data.frame"` or
-#'     `"tibble"`.
+#' @param return.type For `compounds`: either `"data.frame"` or `"tibble"` to
+#'     return the result as a [data.frame()] or [tibble()], respectively.
 #'
 #' @param ... additional arguments. Currently not used.
 #'
@@ -261,12 +267,11 @@ hasMsMsSpectra <- function(x) {
 #' @export
 #'
 #' @rdname CompDb
-#'
-#' @md
-compounds <- function(x, columns, filter, return.type = "data.frame", ...) {
+compounds <- function(x, columns, filter,
+                      return.type = c("data.frame", "tibble"), ...) {
     if (!is(x, "CompDb"))
         stop("'x' is supposed to be a 'CompDb' object")
-    match.arg(return.type, c("data.frame", "tibble"))
+    match.arg(return.type)
     if (missing(columns))
         columns <- .tables(x, "compound")[[1]]
     if (!any(columns == "compound_id"))
@@ -288,8 +293,6 @@ compounds <- function(x, columns, filter, return.type = "data.frame", ...) {
 #' @export
 #'
 #' @rdname CompDb
-#'
-#' @md
 src_compdb <- function(x) {
     if (!is(x, "CompDb"))
         stop("'x' is supposed to be a 'CompDb' object")
@@ -323,8 +326,6 @@ src_compdb <- function(x) {
 #' @export
 #'
 #' @rdname CompDb
-#'
-#' @md
 tables <- function(x) {
     .tables(x)
 }

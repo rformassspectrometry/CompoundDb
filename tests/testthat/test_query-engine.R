@@ -41,8 +41,9 @@ test_that(".add_join_tables works", {
 
 test_that(".where works", {
     expect_equal(.where(), NULL)
-    expect_error(.where("something"))
     expect_equal(.where(CompoundIdFilter("a")), " where compound_id = 'a'")
+    expect_equal(.where(CompoundIdFilter("a"), list(table = "compound_id")),
+                 " where table.compound_id = 'a'")
 })
 
 test_that(".order works", {
@@ -59,11 +60,6 @@ test_that(".from works", {
     expect_equal(.from(c("synonym", "compound")),
                  paste0(" from synonym left outer join compound on (compound.",
                         "compound_id=synonym.compound_id)"))
-})
-
-test_that(".where works", {
-    expect_equal(.where(), NULL)
-    expect_error(.where("something"))
 })
 
 test_that(".select works", {
@@ -89,15 +85,16 @@ test_that(".build_query_CompDb works", {
     res <- .build_query_CompDb(
         cmp_db, columns = c("compound_id", "inchi"),
         filter = ~ compound_id == "a")
-    expect_equal(res, paste0("select distinct compound.compound_id,compound.",
-                             "inchi from compound where compound_id = 'a'"))
+    expect_equal(res,
+                 paste0("select distinct compound.compound_id,compound.",
+                        "inchi from compound where compound.compound_id = 'a'"))
     res <- .build_query_CompDb(
         cmp_db, columns = c("compound_id", "inchi"),
         filter = ~ compound_id == "a" | compound_name != "b")
     expect_equal(res, paste0("select distinct compound.compound_id,compound.",
                              "inchi,compound.compound_name from compound ",
-                             "where (compound_id = 'a' or compound_name ",
-                             "!= 'b')"))
+                             "where (compound.compound_id = 'a' or ",
+                             "compound.compound_name != 'b')"))
     expect_error(.build_query_CompDb(
         cmp_db, columns = c("compound_id", "inchi"),
         filter = ~ compound_id == "a" | gene_id != "b"))
@@ -105,17 +102,16 @@ test_that(".build_query_CompDb works", {
     expect_error(.build_query_CompDb(cmp_db,
                                      columns = c("compound_id", "intensity")))
     ## compound, msms_spectrum
-    res <- .build_query_CompDb(cmp_spctra_db, start_from = "compound",
-                               columns = c("compound_id", "intensity"))
+    expect_error(.build_query_CompDb(cmp_spctra_db, start_from = "compound",
+                                     columns = c("compound_id", "intensity")),
+                 "can not be joined")
+    res <- .build_query_CompDb(
+        cmp_spctra_db, columns = c("compound_id", "intensity", "splash"))
     expect_equal(
-        res, paste0("select distinct compound.compound_id,msms_spectrum.intens",
-                    "ity from compound left outer join msms_spectrum on (compo",
-                    "und.compound_id=msms_spectrum.compound_id)"))
-    res <- .build_query_CompDb(cmp_spctra_db,
-                               columns = c("compound_id", "intensity"))
-    expect_equal(
-        res, paste0("select distinct msms_spectrum.compound_id,msms_spectrum.i",
-                    "ntensity from msms_spectrum"))
+        res, paste0("select distinct msms_spectrum.compound_id,msms_spectrum.s",
+                    "plash,msms_spectrum_peak.intensity from msms_spectrum lef",
+                    "t outer join msms_spectrum_peak on (msms_spectrum.spectru",
+                    "m_id=msms_spectrum_peak.spectrum_id)"))
     res <- .build_query_CompDb(cmp_spctra_db,
                                columns = c("splash", "inchi"))
     expect_equal(
@@ -123,90 +119,24 @@ test_that(".build_query_CompDb works", {
                     "compound left outer join msms_spectrum on (compound.compo",
                     "und_id=msms_spectrum.compound_id)"))
     res <- .build_query_CompDb(cmp_spctra_db, start_from = "msms_spectrum",
-                               columns = c("splash", "inchi"))
+                               columns = c("splash", "inchi"),
+                               filter = ~ compound_id == "a")
     expect_equal(
-        res, paste0("select distinct msms_spectrum.splash,compound.inchi from ",
-                    "msms_spectrum left outer join compound on (compound.compo",
-                    "und_id=msms_spectrum.compound_id)"))
+        res, paste0("select distinct msms_spectrum.compound_id,msms_spectrum.s",
+                    "plash,compound.inchi from msms_spectrum left outer join c",
+                    "ompound on (compound.compound_id=msms_spectrum.compound_i",
+                    "d) where msms_spectrum.compound_id = 'a'"))
     ## msms_spectrum, synonym
-    res <- .build_query_CompDb(cmp_spctra_db,
-                               columns = c("synonym", "mz"))
+    expect_error(.build_query_CompDb(
+        cmp_spctra_db, columns = c("synonym", "mz")), "can not be")
+    res <- .build_query_CompDb(
+        cmp_spctra_db, columns = c("synonym", "mz", "polarity"))
     expect_equal(
-        res, paste0("select distinct msms_spectrum.mz,synonym.synonym from msm",
-                    "s_spectrum left outer join synonym on (msms_spectrum.comp",
-                    "ound_id=synonym.compound_id)"))
-    res <- .build_query_CompDb(cmp_spctra_db, start_from = "synonym",
-                               columns = c("synonym", "mz"))
-    expect_equal(
-        res, paste0("select distinct synonym.synonym,msms_spectrum.mz from syn",
-                    "onym left outer join msms_spectrum on (msms_spectrum.comp",
-                    "ound_id=synonym.compound_id)"))
-    ## ## compound, msms_spectrum_intensity
-    ## expect_equal(res, paste0("select distinct compound.compound_id,msms_spectr",
-    ##                          "um_peak.intensity from compound left outer join ",
-    ##                          "msms_spectrum_metadata on (compound.compound_id=",
-    ##                          "msms_spectrum_metadata.compound_id) left outer j",
-    ##                          "oin msms_spectrum_peak on (msms_spectrum_metadat",
-    ##                          "a.spectrum_id=msms_spectrum_peak.spectrum_id)"))
-    ## res <- .build_query_CompDb(cmp_spctra_db,
-    ##                            columns = c("compound_id", "intensity"),
-    ##                            start_from = "msms_spectrum_peak")
-    ## expect_equal(res, paste0("select distinct msms_spectrum_peak.intensity,com",
-    ##                          "pound.compound_id from msms_spectrum_peak left o",
-    ##                          "uter join msms_spectrum_metadata on (msms_spectr",
-    ##                          "um_metadata.spectrum_id=msms_spectrum_peak.spect",
-    ##                          "rum_id) left outer join compound on (compound.co",
-    ##                          "mpound_id=msms_spectrum_metadata.compound_id)"))
-    ## ## msms_spectrum_metadata, compound
-    ## res <- .build_query_CompDb(cmp_spctra_db,
-    ##                            columns = c("splash", "inchi"))
-    ## expect_equal(
-    ##     res, paste0("select distinct compound.inchi,msms_spectrum_metadata.spl",
-    ##                 "ash from compound left outer join msms_spectrum_metadata ",
-    ##                 "on (compound.compound_id=msms_spectrum_metadata.compound_",
-    ##                 "id)"))
-    ## res <- .build_query_CompDb(cmp_spctra_db,
-    ##                            columns = c("splash", "inchi"),
-    ##                            start_from = "msms_spectrum_metadata")
-    ## expect_equal(
-    ##     res, paste0("select distinct msms_spectrum_metadata.splash,compound.in",
-    ##                 "chi from msms_spectrum_metadata left outer join compound ",
-    ##                 "on (compound.compound_id=msms_spectrum_metadata.compound_",
-    ##                 "id)"))
-    ## ## msms_spectrum_peak, synonym
-    ## res <- .build_query_CompDb(cmp_spctra_db,
-    ##                            columns = c("synonym", "mz"))
-    ## expect_equal(
-    ##     res, paste0("select distinct msms_spectrum_peak.mz,synonym.synonym fro",
-    ##                 "m msms_spectrum_peak left outer join msms_spectrum_metada",
-    ##                 "ta on (msms_spectrum_metadata.spectrum_id=msms_spectrum_p",
-    ##                 "eak.spectrum_id) left outer join synonym on (msms_spectru",
-    ##                 "m_metadata.compound_id=synonym.compound_id)"))
-    ## res <- .build_query_CompDb(cmp_spctra_db,
-    ##                            columns = c("synonym", "mz"),
-    ##                            start_from = "synonym")
-    ## expect_equal(
-    ##     res, paste0("select distinct synonym.synonym,msms_spectrum_peak.mz fro",
-    ##                 "m synonym left outer join msms_spectrum_metadata on (msms",
-    ##                 "_spectrum_metadata.compound_id=synonym.compound_id) left ",
-    ##                 "outer join msms_spectrum_peak on (msms_spectrum_metadata.",
-    ##                 "spectrum_id=msms_spectrum_peak.spectrum_id)"))
-    ## ##msms_spectrum_metadata, synonym
-    ## res <- .build_query_CompDb(cmp_spctra_db,
-    ##                            columns = c("synonym", "splash"))
-    ## expect_equal(
-    ##     res, paste0("select distinct msms_spectrum_metadata.splash,synonym.syn",
-    ##                 "onym from msms_spectrum_metadata left outer join synonym ",
-    ##                 "on (msms_spectrum_metadata.compound_id=synonym.compound_i",
-    ##                 "d)"))
-    ## res <- .build_query_CompDb(cmp_spctra_db,
-    ##                            columns = c("synonym", "splash"),
-    ##                            start_from = "synonym")
-    ## expect_equal(
-    ##     res, paste0("select distinct synonym.synonym,msms_spectrum_metadata.sp",
-    ##                 "lash from synonym left outer join msms_spectrum_metadata ",
-    ##                 "on (msms_spectrum_metadata.compound_id=synonym.compound_i",
-    ##                 "d)"))
+        res, paste0("select distinct msms_spectrum.polarity,msms_spectrum_peak",
+                    ".mz,synonym.synonym from msms_spectrum left outer join sy",
+                    "nonym on (msms_spectrum.compound_id=synonym.compound_id) ",
+                    "left outer join msms_spectrum_peak on (msms_spectrum.spec",
+                    "trum_id=msms_spectrum_peak.spectrum_id)"))
 })
 
 test_that(".join_tables works", {
@@ -285,16 +215,16 @@ test_that(".deserialize_mz_intensity works", {
     expect_equal(df_ds$mz[[2]], 5:10)
     expect_equal(df_ds$mz[[3]], 3:9)
 
-    ## Now from the database...
-    library(RSQLite)
-    res <- dbGetQuery(dbconn(cmp_spctra_db), "select * from msms_spectrum")
-    res <- .deserialize_mz_intensity(res)
-    expect_true(is.numeric(res$mz[[1]]))
-    expect_true(is.numeric(res$mz[[2]]))
-    expect_true(is.numeric(res$mz[[3]]))
-    expect_true(is.numeric(res$intensity[[1]]))
-    expect_true(is.numeric(res$intensity[[2]]))
-    expect_true(is.numeric(res$intensity[[3]]))
+    ## ## Now from the database...
+    ## library(RSQLite)
+    ## res <- dbGetQuery(dbconn(cmp_spctra_db), "select * from msms_spectrum")
+    ## res <- .deserialize_mz_intensity(res)
+    ## expect_true(is.numeric(res$mz[[1]]))
+    ## expect_true(is.numeric(res$mz[[2]]))
+    ## expect_true(is.numeric(res$mz[[3]]))
+    ## expect_true(is.numeric(res$intensity[[1]]))
+    ## expect_true(is.numeric(res$intensity[[2]]))
+    ## expect_true(is.numeric(res$intensity[[3]]))
 })
 
 test_that(".fetch_data works", {
@@ -311,12 +241,15 @@ test_that(".fetch_data works", {
 
     ## MS/MS spectra
     res <- .fetch_data(cmp_spctra_db,
-                       columns = c("mz", "compound_id"))
-    expect_equal(colnames(res), c("mz", "compound_id", "spectrum_id"))
+                       columns = c("mz", "compound_name", "polarity"))
+    expect_equal(colnames(res), c("polarity", "spectrum_id", "mz",
+                                  "compound_name"))
     expect_true(is.numeric(res$mz[[1]]))
-    res <- .fetch_data(cmp_spctra_db,
-                       columns = c("mz", "compound_id"),
-                       filter = ~ compound_id == "HMDB0000002")
-    expect_equal(colnames(res), c("mz", "compound_id", "spectrum_id"))
-    expect_true(nrow(res) == 0)
+    res <- CompoundDb:::.fetch_data(cmp_spctra_db,
+                       columns = c("compound_name", "spectrum_id",
+                                   "compound_id"),
+                       filter = ~ compound_id == "HMDB0000001")
+    expect_equal(colnames(res), c("compound_name", "compound_id",
+                                  "spectrum_id"))
+    expect_true(nrow(res) == 2)
 })

@@ -8,8 +8,14 @@
 \usage{
 createCompDb(x, metadata, msms_spectra, path = ".")
 
-createCompDbPackage(x, version, maintainer, author, path = ".",
-  license = "Artistic-2.0")
+createCompDbPackage(
+  x,
+  version,
+  maintainer,
+  author,
+  path = ".",
+  license = "Artistic-2.0"
+)
 
 make_metadata(source, url, source_version, source_date, organism)
 }

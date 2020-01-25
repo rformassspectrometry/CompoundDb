@@ -44,7 +44,7 @@
 #' @author Johannes Rainer
 .expand_spectrum_df <- function(x) {
     x_exp <- x[rep(seq_len(nrow(x)), lengths(x$mz)),
-               !colnames(x) %in% c("mz", "intensity")]
+               !colnames(x) %in% c("mz", "intensity"), drop = FALSE]
     rownames(x_exp) <- NULL
     x_exp$mz <- unlist(x$mz)
     x_exp$intensity <- unlist(x$intensity)
@@ -67,8 +67,6 @@
 #'
 #' @return `data.frame` with `"mz"` and `"intensity"` columns *expanded*. See
 #'     description for details.
-#'
-#' @md
 #'
 #' @export
 #'

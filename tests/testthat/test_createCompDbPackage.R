@@ -287,7 +287,8 @@ test_that(".valid_msms_spectrum works", {
     msms_spctra_local <- msms_spctra
     msms_spctra_local$collision_energy <-
         as.character(msms_spctra_local$collision_energy)
-    expect_true(.valid_msms_spectrum(msms_spctra_local))
+    expect_true(.valid_msms_spectrum(msms_spctra_local,
+                                     blob = is.list(msms_spctra_local$mz)))
     tmp <- msms_spctra
     expect_error(.valid_msms_spectrum(tmp[, 1:4]))
     tmp$polarity <- as.character(tmp$polarity)
@@ -300,28 +301,15 @@ test_that(".valid_msms_spectrum works", {
     expect_true(.valid_msms_spectrum(tmp, blob = FALSE))
 })
 
-test_that(".insert_msms_spectra_blob works", {
-    library(RSQLite)
-    con <- dbConnect(dbDriver("SQLite"), dbname = tempfile())
-    .insert_msms_spectra_blob(con, msms_spctra)
-    res <- dbGetQuery(con, "select * from msms_spectrum")
-    expect_equal(nrow(res), nrow(msms_spctra))
-    msms_spctra_exp <- .expand_spectrum_df(msms_spctra)
-    .insert_msms_spectra_blob(con, msms_spctra_exp,
-                              overwrite = TRUE)
-    res_2 <- dbGetQuery(con, "select * from msms_spectrum")
-    expect_equal(res, res_2)
-})
-
 test_that(".insert_msms_spectra works", {
     library(RSQLite)
     con <- dbConnect(dbDriver("SQLite"), dbname = tempfile())
     .insert_msms_spectra(con, msms_spctra)
-    res <- dbGetQuery(con, "select * from msms_spectrum_metadata")
+    res <- dbGetQuery(con, "select * from msms_spectrum")
     expect_equal(nrow(res), nrow(msms_spctra))
     expect_equal(res$splash, msms_spctra$splash)
     res_2 <- dbGetQuery(con, "select * from msms_spectrum_peak")
-    expect_equal(colnames(res_2), c("spectrum_id", "mz", "intensity"))
+    expect_equal(colnames(res_2), c("spectrum_id", "mz", "intensity", "peak_id"))
     expect_equal(res_2$mz, unlist(msms_spctra$mz))
     expect_equal(res_2$intensity, unlist(msms_spctra$intensity))
 })

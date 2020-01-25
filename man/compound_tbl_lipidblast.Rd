@@ -40,7 +40,8 @@ cmps <- compound_tbl_lipidblast(fl)
 cmps
 }
 \seealso{
-Other compound table creation functions: \code{\link{compound_tbl_sdf}}
+Other compound table creation functions: 
+\code{\link{compound_tbl_sdf}()}
 }
 \author{
 Johannes Rainer and Jan Stanstrup

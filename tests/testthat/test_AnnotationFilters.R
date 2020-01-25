@@ -109,6 +109,8 @@ test_that(".where_filter works", {
                         " = 'a' and compound_name = '1')",
                         ") and (compound_id = 'a' and ",
                         "compound_name = '1'))"))
+    res <- .where_filter(fl, c(compound_id = "test.compound_id"))
+    expect_equal(res, "test.compound_id = '5'")
 })
 
 test_that("MsmsMzRangeMinFilter works", {
