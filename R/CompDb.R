@@ -271,7 +271,7 @@ compounds <- function(x, columns, filter,
                       return.type = c("data.frame", "tibble"), ...) {
     if (!is(x, "CompDb"))
         stop("'x' is supposed to be a 'CompDb' object")
-    match.arg(return.type)
+    return.type <- match.arg(return.type)
     if (missing(columns))
         columns <- .tables(x, "compound")[[1]]
     if (!any(columns == "compound_id"))

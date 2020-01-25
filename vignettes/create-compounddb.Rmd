@@ -23,13 +23,13 @@ BiocStyle::markdown()
 
 Chemical compound annotation and information can be retrieved from a variety of
 sources including [HMDB](http://www.hmdb.ca),
-[LipidMaps](http://www.lipidmaps.org) or [ChEBI](http://ebi.ac.uk/chebi). The
-`CompoundDb` package provides functionality to extract data relevant for
-(chromatographic) peak annotations in metabolomics/lipidomics experiments from
-these sources and to store it into a common format (i.e. an `CompDb`
-object/database). This vignette describes how such `CompDb` objects can be
-created exemplified with package-internal test files that represent data
-subsets from some annotation resources.
+[LipidMaps](http://www.lipidmaps.org) or
+[ChEBI](https://www.ebi.ac.uk/chebi). The `CompoundDb` package provides
+functionality to extract data relevant for (chromatographic) peak annotations in
+metabolomics/lipidomics experiments from these sources and to store it into a
+common format (i.e. an `CompDb` object/database). This vignette describes how
+such `CompDb` objects can be created exemplified with package-internal test
+files that represent data subsets from some annotation resources.
 
 The R object to represent the compound annotation is the `CompDb` object. Each
 object (respectively its database) is supposed to contain and provide
@@ -46,7 +46,7 @@ files in SDF (structure-data file) format or in the json files from LipidBlast
 files from:
 
 - Human Metabolome Database (HMDB), http://www.hmdb.ca
-- Chemical Entities of Biological Interest (ChEBI): http://ebi.ac.uk/chebi
+- Chemical Entities of Biological Interest (ChEBI): https://www.ebi.ac.uk/chebi
 - LIPID MAPS Structure Database (LMSD): http://www.lipidmaps.org
 - PubChem: https://pubchem.ncbi.nlm.nih.gov
 - MoNa (Massbank of North America): http://mona.fiehnlab.ucdavis.edu (for MoNa
