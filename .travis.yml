@@ -5,7 +5,7 @@ cache:
   directories:
     - ~/.AnnotationHub
 sudo: required
-warnings_are_errors: true
+warnings_are_errors: false
 dist: trusty
 
 # Set CXX1X for R-devel, as R-devel does not detect CXX1X support for gcc 4.6.3,
@@ -31,6 +31,12 @@ jobs:
         - testthat
         - knitr
         - roxygen2
+        - magick
+      r_github_packages:
+        - rformassspectrometry/MsCoreUtils
+        - rformassspectrometry/Spectra
+        - lgatto/ProtGenerics
+        - stanstrup/commonMZ
       before_install:
         - mkdir -p ~/.R
         - echo -e 'MAKEFLAGS = -j2' > ~/.R/Makevars
@@ -59,23 +65,6 @@ jobs:
       script:
         - travis_wait 20 Rscript -e 'covr::codecov()'
       name: "codecov and pkgdown (on master)"
-
-# r_packages:
-#   - covr
-
-# # before_script:
-# #   - echo "BiocParallel::register(BiocParallel::SerialParam())" > ~/.Rprofile
-
-# script:
-#   - |
-#     R CMD build .
-#     travis_wait 40 R CMD check --no-build-vignettes --no-vignettes CompoundDb*tar.gz
-
-# after_failure:
-#   find *Rcheck -name '*.fail' -print -exec cat '{}' \;
-
-# after_success:
-#   - travis_wait 20 Rscript -e 'covr::codecov()'
 
 # In general the r-travis script automatically dump the logs after failure but
 # because of a bug in travis the output is often truncated. See
