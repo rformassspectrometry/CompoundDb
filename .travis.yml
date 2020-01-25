@@ -31,7 +31,6 @@ jobs:
         - testthat
         - knitr
         - roxygen2
-        - magick
       r_github_packages:
         - rformassspectrometry/MsCoreUtils
         - rformassspectrometry/Spectra
