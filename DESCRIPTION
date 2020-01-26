@@ -1,7 +1,7 @@
 Package: CompoundDb
 Type: Package
-Title: Creating and using (chemical) compound annotation databases
-Version: 0.2.3
+Title: Creating and using (Chemical) Compound Annotation Databases
+Version: 0.3.0
 Authors@R: c(person(given = "Jan", family = "Stanstrup",
                     email = "stanstrup@gmail.com",
 		    role = c("aut"),
@@ -21,7 +21,7 @@ Depends:
     methods,
     AnnotationFilter,
     S4Vectors,
-    MSnbase (>= 2.8.0)
+    Spectra
 Imports:
     ChemmineR,
     tibble,
@@ -34,26 +34,32 @@ Imports:
     BiocGenerics,
     ProtGenerics,
     xml2,
-    commonMZ
+    commonMZ,
+    MsCoreUtils,
+    IRanges
 Suggests:
     knitr,
     testthat,
     BiocStyle (>= 2.5.19)
 Remotes:
-    stanstrup/commonMZ
+    stanstrup/commonMZ,
+    rformassspectrometry/Spectra,
+    rformassspectrometry/MsCoreUtils
 License: GPL (>= 2)
 URL: https://github.com/EuracBiomedicalResearch/CompoundDb
 biocViews: MassSpectrometry, Metabolomics
 VignetteBuilder: knitr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
+Roxygen: list(markdown=TRUE)
 Collate:
     'AllGenerics.R'
     'AnnotationFilters.R'
     'createCompDbPackage.R'
     'CompDb.R'
     'CompDb-methods.R'
+    'MsBackendCompDb-functions.R'
+    'MsBackendCompDb.R'
     'Spectra-functions.R'
-    'Spectra-methods.R'
     'mass-utility-functions.R'
     'query-engine.R'
     'spectrum-import-functions.R'

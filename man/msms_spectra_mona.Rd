@@ -15,7 +15,7 @@ msms_spectra_mona(x, collapsed = TRUE)
 \value{
 \code{data.frame} with as many rows as there are peaks and columns:
 \itemize{
-\item spectrum_id (\code{character}): an arbitrary, unique ID for each spectrum.
+\item spectrum_id (\code{integer}): an arbitrary, unique ID for each spectrum.
 \item original_spectrum_id (\code{character}): The ID from the spectrum as specified
 in the MoNa SDF.
 \item compound_id (\code{character}): the compound ID the spectrum is associated
@@ -65,13 +65,11 @@ msms_spectra_mona(fl)
 msms_spectra_mona(fl, collapsed = FALSE)
 }
 \seealso{
-\code{\link[=Spectra]{Spectra()}} for converting the returned \code{data.frame} into
-a \link{Spectra} object (list of \link{Spectrum} objects with annotations).
-
 \code{\link[=createCompDb]{createCompDb()}} for the function to create a \link{CompDb} database with
 compound annotation and spectrum data.
 
-Other spectrum data import functions.: \code{\link{msms_spectra_hmdb}}
+Other spectrum data import functions.: 
+\code{\link{msms_spectra_hmdb}()}
 }
 \author{
 Johannes Rainer

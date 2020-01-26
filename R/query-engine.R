@@ -44,7 +44,7 @@
     columns_tbl <- .reduce_tables_start_from(tbls, columns, start_from)
     paste0(.select(unlist(.prefix_columns(columns_tbl), use.names = FALSE)),
            .from(names(columns_tbl)),
-           .where(filter), .order(order))
+           .where(filter, columns_tbl), .order(order))
 }
 
 #' @description
@@ -98,18 +98,10 @@
           "left outer join"),
         c("msms_spectrum", "synonym",
           "on (msms_spectrum.compound_id=synonym.compound_id)",
+          "left outer join"),
+        c("msms_spectrum", "msms_spectrum_peak",
+          "on (msms_spectrum.spectrum_id=msms_spectrum_peak.spectrum_id)",
           "left outer join")
-        ## BELOW is for having the spectrum data split in two tables.
-        ## c("compound", "msms_spectrum_metadata",
-        ##   "on (compound.compound_id=msms_spectrum_metadata.compound_id)",
-        ##   "left outer join"),
-        ## c("msms_spectrum_metadata", "msms_spectrum_peak",
-        ##   paste0("on (msms_spectrum_metadata.spectrum_id=",
-        ##          "msms_spectrum_peak.spectrum_id)"),
-        ##   "left outer join"),
-        ## c("msms_spectrum_metadata", "synonym",
-        ##   "on (msms_spectrum_metadata.compound_id=synonym.compound_id)",
-        ##   "left outer join")
     )
     x <- .add_join_tables(x)
     q <- x[1]
@@ -164,10 +156,16 @@
 #' @md
 #'
 #' @noRd
-.where <- function(filter) {
-    if (!missing(filter))
-        paste0(" where ", .where_filter(filter))
-    else NULL
+.where <- function(filter, column_list = list()) {
+    if (!missing(filter)) {
+        if (length(column_list)) {
+            nms <- unlist(column_list, use.names = FALSE)
+            column_list <- unlist(.prefix_columns(column_list),
+                                  use.names = FALSE)
+            names(column_list) <- nms
+        }
+        paste0(" where ", .where_filter(filter, column_list))
+    } else NULL
 }
 
 #' @description

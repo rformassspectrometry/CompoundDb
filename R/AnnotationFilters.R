@@ -224,19 +224,23 @@ MsmsMzRangeMaxFilter <- function(value, condition = "<=") {
 #'     `AnnotationFilterList`.
 #' @param x `AnnotationFilter` or `AnnotationFilterList`.
 #'
+#' @param columns `character` with prefixed column names, names representing
+#'     the column names.
+#'
 #' @return `character(1)` with the *where* condition for a given filter (without
 #'     `"where"`).
 #'
 #' @author Johannes Rainer
 #'
-#' @md
-#'
 #' @noRd
-.where_filter <- function(x) {
-    if (is(x, "AnnotationFilter"))
-        paste(.field(x), .sql_condition(x), .sql_value(x))
-    else {
-        whrs <- lapply(x, .where_filter)
+.where_filter <- function(x, columns = list()) {
+    if (is(x, "AnnotationFilter")) {
+        fld <- .field(x)
+        if (length(columns))
+            fld <- columns[fld]
+        paste(fld, .sql_condition(x), .sql_value(x))
+    } else {
+        whrs <- lapply(x, .where_filter, columns = columns)
         log_ops <- .sql_logicOp(x)
         res <- whrs[[1]]
         if (length(x) > 1) {

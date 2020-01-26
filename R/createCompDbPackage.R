@@ -52,8 +52,6 @@
 #'
 #' @export
 #'
-#' @md
-#'
 #' @seealso [createCompDb()] for a function to create a SQLite-based compound
 #'     database.
 #'
@@ -119,8 +117,6 @@ compound_tbl_sdf <- function(file, collapse) {
 #' @author Johannes Rainer and Jan Stanstrup
 #'
 #' @export
-#'
-#' @md
 #'
 #' @examples
 #'
@@ -428,8 +424,6 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #'
 #' [CompDb()] for how to use a compound database.
 #'
-#' @md
-#'
 #' @examples
 #'
 #' ## Read compounds for a HMDB subset
@@ -547,33 +541,10 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
             stop("All compound identifiers in 'msms_spectra' have to be ",
                  "present also in 'x'")
         msms_spectra <- msms_spectra[msms_spectra$compound_id %in% comp_ids, ]
-        .insert_msms_spectra_blob(con, msms_spectra)
+        .insert_msms_spectra(con, msms_spectra)
     }
     dbDisconnect(con)
     invisible(db_file)
-}
-
-#' Function to insert MS/MS spectrum data into a single database table with
-#' one row per spectrum and m/z and intensity vectors stored as BLOB.
-#'
-#' @param con database connection
-#'
-#' @param x `data.frame` with the spectrum data, such as returned by
-#' [msms_spectra_hmdb()]
-#'
-#' @noRd
-#'
-#' @author Johannes Rainer
-.insert_msms_spectra_blob <- function(con, x, ...) {
-    if (is.numeric(x$mz))
-        x <- .collapse_spectrum_df(x)
-    x <- .add_mz_range_column(x)
-    x$collision_energy <- as.character(x$collision_energy)
-    .valid_msms_spectrum(x, blob = TRUE)
-    x$mz <- lapply(x$mz, base::serialize, NULL)
-    x$intensity <- lapply(x$intensity, base::serialize, NULL)
-    dbWriteTable(con, name = "msms_spectrum", x, row.names = FALSE, ...)
-    dbExecute(con, "create index msms_cidb_idx on msms_spectrum (compound_id)")
 }
 
 #' Add mz_min and mz_max columns to data.frame x
@@ -617,21 +588,26 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
 #'
 #' @author Johannes Rainer
 .insert_msms_spectra <- function(con, x) {
-    if (is.list(x$mz))
-        x <- .expand_spectrum_df(x)
     x$collision_energy <- as.character(x$collision_energy)
-    .valid_msms_spectrum(x, blob = FALSE)
+    .valid_msms_spectrum(x, blob = is.list(x$mz))
+    x <- .add_mz_range_column(x)
     msms_spectrum_peak <- x[, c("spectrum_id", "mz", "intensity")]
+    if (is.list(msms_spectrum_peak$mz))
+        msms_spectrum_peak <- .expand_spectrum_df(msms_spectrum_peak)
+    if (!is.numeric(msms_spectrum_peak$mz) ||
+        !is.numeric(msms_spectrum_peak$intensity))
+        stop("Columns 'mz' and 'intensity' should only contain numeric values")
+    msms_spectrum_peak <- msms_spectrum_peak[
+        order(msms_spectrum_peak$spectrum_id, msms_spectrum_peak$mz), ]
+    msms_spectrum_peak$peak_id <- seq_len(nrow(msms_spectrum_peak))
+    x <- unique(x[, !(colnames(x) %in% c("mz", "intensity"))])
     dbWriteTable(con, name = "msms_spectrum_peak", msms_spectrum_peak,
                  row.names = FALSE)
-    x <- .add_mz_range_column(x)
-    msms_spectrum_metadata <- unique(x[, !(colnames(x) %in%
-                                           c("mz", "intensity"))])
-    dbWriteTable(con, name = "msms_spectrum_metadata",
-                 msms_spectrum_metadata, row.names = FALSE)
+    dbWriteTable(con, name = "msms_spectrum", x, row.names = FALSE)
     dbExecute(con, "create index msms_id_idx on msms_spectrum_peak (spectrum_id)")
-    dbExecute(con, "create index msms_mid_idx on msms_spectrum_metadata (spectrum_id)")
-    dbExecute(con, "create index msms_cid_idx on msms_spectrum_metadata (compound_id)")
+    dbExecute(con, "create index msms_pid_idx on msms_spectrum_peak (peak_id)")
+    dbExecute(con, "create index msms_mid_idx on msms_spectrum (spectrum_id)")
+    dbExecute(con, "create index msms_cid_idx on msms_spectrum (compound_id)")
 }
 
 
@@ -641,7 +617,7 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
                                    "inchi_key", "formula", "mass")
 .required_compound_columns <- c(.required_compound_db_columns, "synonyms")
 
-.required_msms_spectrum_columns <- c(spectrum_id = "character",
+.required_msms_spectrum_columns <- c(spectrum_id = "integer",
                                      compound_id = "character",
                                      polarity = "integer",
                                      collision_energy = "character",
@@ -654,7 +630,7 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
                                      intensity = "numeric"
                                      )
 
-.required_msms_spectrum_columns_blob <- c(spectrum_id = "character",
+.required_msms_spectrum_columns_blob <- c(spectrum_id = "integer",
                                           compound_id = "character",
                                           polarity = "integer",
                                           collision_energy = "character",
@@ -667,7 +643,7 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
                                           intensity = "list"
                                           )
 
-.valid_msms_spectrum <- function(x, blob = TRUE, error = TRUE) {
+.valid_msms_spectrum <- function(x, blob = FALSE, error = TRUE) {
     coltypes <- unlist(lapply(x, class))
     msg <- NULL
     if (blob)
@@ -698,8 +674,6 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
 #'     The function checks also for the presence of all required metadata fields
 #'     ensuring that these are also not `NA` or `NULL`.
 #'
-#' @md
-#'
 #' @noRd
 .db_file_from_metadata <- function(x) {
     paste0("CompDb.", x$value[x$name == "organism"], ".",
@@ -708,8 +682,6 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
 }
 
 #' @description Check the metadata `data.frame` for required columns.
-#'
-#' @md
 #'
 #' @noRd
 .valid_metadata <- function(metadata, error = TRUE) {
@@ -797,8 +769,6 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
 #'
 #' @export
 #'
-#' @md
-#'
 #' @rdname createCompDb
 createCompDbPackage <- function(x, version, maintainer, author,
                                     path = ".", license = "Artistic-2.0") {
@@ -876,8 +846,6 @@ createCompDbPackage <- function(x, version, maintainer, author,
 #'
 #' @export
 #'
-#' @md
-#'
 #' @rdname createCompDb
 make_metadata <- function(source, url, source_version, source_date, organism) {
     if (any(c(missing(source), missing(url), missing(source_version),
@@ -922,8 +890,6 @@ make_metadata <- function(source, url, source_version, source_date, organism) {
 #'     data.frames with compound and MS/MS spectrum data, respectively.
 #'
 #' @export
-#'
-#' @md
 #'
 #' @seealso
 #'

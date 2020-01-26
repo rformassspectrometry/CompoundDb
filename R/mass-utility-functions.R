@@ -77,8 +77,6 @@ matchWithPpm <- function(x, y, ppm = 0) {
 #'
 #' @rdname mass2mz
 #'
-#' @md
-#'
 #' @author Johannes Rainer, Jan Stanstrup
 #'
 #' @export
@@ -128,7 +126,6 @@ mz2mass <- function(x, adduct = adducts()) {
 #'
 #' @param ... For `adducts`: additional parameters to be passed to the [grep()]
 #'     function.
-#' @md
 #'
 #' @export
 #'
@@ -264,8 +261,6 @@ adducts <- function(pattern, polarity, name, set, ...) {
 #' @author Johannes Rainer
 #'
 #' @export
-#'
-#' @md
 #'
 #' @examples
 #'

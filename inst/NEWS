@@ -1,3 +1,10 @@
+Changes in version 0.3.0
+
+- Change from MSnbase to RforMassSpectrometry packages (Spectra and
+  MsCoreUtils).
+- Store MS/MS spectra in two tables, msms_spectrum and msms_spectrum_peak.
+
+
 Changes in version 0.2.3
 
 - Add instrument and precursor_mz spectra data columns (issue #32).

@@ -23,13 +23,13 @@ BiocStyle::markdown()
 
 Chemical compound annotation and information can be retrieved from a variety of
 sources including [HMDB](http://www.hmdb.ca),
-[LipidMaps](http://www.lipidmaps.org) or [ChEBI](http://ebi.ac.uk/chebi). The
-`CompoundDb` package provides functionality to extract data relevant for
-(chromatographic) peak annotations in metabolomics/lipidomics experiments from
-these sources and to store it into a common format (i.e. an `CompDb`
-object/database). This vignette describes how such `CompDb` objects can be
-created exemplified with package-internal test files that represent data
-subsets from some annotation resources.
+[LipidMaps](http://www.lipidmaps.org) or
+[ChEBI](https://www.ebi.ac.uk/chebi). The `CompoundDb` package provides
+functionality to extract data relevant for (chromatographic) peak annotations in
+metabolomics/lipidomics experiments from these sources and to store it into a
+common format (i.e. an `CompDb` object/database). This vignette describes how
+such `CompDb` objects can be created exemplified with package-internal test
+files that represent data subsets from some annotation resources.
 
 The R object to represent the compound annotation is the `CompDb` object. Each
 object (respectively its database) is supposed to contain and provide
@@ -46,7 +46,7 @@ files in SDF (structure-data file) format or in the json files from LipidBlast
 files from:
 
 - Human Metabolome Database (HMDB), http://www.hmdb.ca
-- Chemical Entities of Biological Interest (ChEBI): http://ebi.ac.uk/chebi
+- Chemical Entities of Biological Interest (ChEBI): https://www.ebi.ac.uk/chebi
 - LIPID MAPS Structure Database (LMSD): http://www.lipidmaps.org
 - PubChem: https://pubchem.ncbi.nlm.nih.gov
 - MoNa (Massbank of North America): http://mona.fiehnlab.ucdavis.edu (for MoNa
@@ -78,6 +78,7 @@ The `tibble` contains columns
 - `compound_id`: the resource-specific ID of the compound.
 - `compound_name`: the name of the compound, mostly a generic or common name.
 - `inchi`: the compound's inchi.
+- `inchi_key`: the INCHI key.
 - `formula`: the chemical formula of the compound.
 - `mass`: the compounds (monoisotopic) mass.
 - `synonyms`: a `list` of aliases/synonyms for the compound.
@@ -136,20 +137,75 @@ cmpdb
 
 To extract all compounds from the database we can use the `compounds`
 function. The parameter `columns` allows to choose the database columns to
-return.
+return. Any columns for any of the database tables are supported. To get an
+overview of available database tables and their columns, the `tables` function
+can be used:
+
+```{r}
+tables(cmpdb)
+```
+
+Below we extract only selected columns from the *compounds* table.
 
 ```{r compounds}
 compounds(cmpdb, columns = c("compound_name", "formula", "mass"))
 ```
 
-Analogously we can use the `spectra` function to extract spectrum data from the
-database. The function returns by default a `Spectra` object, that allows
-to store multiple `Spectrum2` objects in a `list`-like structure with additional
-annotations available in *metadata columns* (that can be accessed with
-`mcols`).
+Analogously we can use the `Spectra` function to extract spectrum data from the
+database. The function returns by default a `Spectra` object from the `R
+Biocpkg("Spectra")` package with all spectra metadata available as *spectra variables*.
 
 ```{r spectra}
-spectra(cmpdb)
+sps <- Spectra(cmpdb)
+sps
+```
+
+The available *spectra variables* for the `Spectra` object can be retrieved with
+`spectraVariables`:
+
+```{r spectraVariables}
+spectraVariables(sps)
+```
+
+Individual spectra variables can be accessed with the `$` operator:
+
+```{r}
+sps$collision_energy
+```
+
+And the actual m/z and intensity values with `mz` and `intensity`:
+
+```{r
+mz(sps)
+
+## m/z of the 2nd spectrum
+mz(sps)[[2]]
+```
+
+Note that it is also possible to retrieve specific spectra, e.g. for a provided
+compound, or add compound annotations to the `Spectra` object. Below we use the
+filter expression `~ compound_id == "HMDB0000001"`to get only MS/MS spectra for
+the specified compound. In addition we ask for the `"compound_name"` and
+`"inchi_key"` of the compound.
+
+```{r spectra-selected}
+sps <- Spectra(cmpdb, filter = ~ compound_id == "HMDB0000001",
+               columns = c(tables(cmpdb)$msms_spectrum, "compound_name",
+                           "inchi_key"))
+sps
+```
+
+The available spectra variables:
+
+```{r}
+spectraVariables(sps)
+```
+
+The compound's name and INCHI key have thus also been added as spectra
+variables:
+
+```{r}
+sps$inchi_key
 ```
 
 To share or archive the such created `CompDb` database, we can also create a
