@@ -52,6 +52,9 @@ setMethod("Spectra", "CompDb", function(object, columns, filter, ...) {
                 call. = FALSE)
         return(Spectra())
     }
+    if (!requireNamespace("Spectra", quietly = TRUE))
+        stop("The use of 'Spectra' requires package 'Spectra'. Please ",
+             "install with 'Biobase::install(\"RforMassSpectrometry/Spectra\")'")
     sps <- new("Spectra")
     sps@backend <- backendInitialize(MsBackendCompDb(), x = object,
                                      columns = columns, filter = filter, ...)

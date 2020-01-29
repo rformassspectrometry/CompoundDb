@@ -1,7 +1,7 @@
 Package: CompoundDb
 Type: Package
 Title: Creating and using (Chemical) Compound Annotation Databases
-Version: 0.3.0
+Version: 0.3.1
 Authors@R: c(person(given = "Jan", family = "Stanstrup",
                     email = "stanstrup@gmail.com",
 		    role = c("aut"),
@@ -20,8 +20,7 @@ Depends:
     R (>= 3.4),
     methods,
     AnnotationFilter,
-    S4Vectors,
-    Spectra
+    S4Vectors
 Imports:
     ChemmineR,
     tibble,
@@ -36,7 +35,8 @@ Imports:
     xml2,
     commonMZ,
     MsCoreUtils,
-    IRanges
+    IRanges,
+    Spectra
 Suggests:
     knitr,
     testthat,
