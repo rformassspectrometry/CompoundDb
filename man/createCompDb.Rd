@@ -98,6 +98,7 @@ parameter \code{x}) are:
 \item \code{"mass"}: the compound's mass.
 \item \code{"synonyms"}: additional synonyms/aliases for the compound. Should be
 either a single character or a list of values for each compound.
+\item \code{"smiles"}: the compound's SMILES.
 }
 
 See e.g. \code{\link[=compound_tbl_sdf]{compound_tbl_sdf()}} or \code{\link[=compound_tbl_lipidblast]{compound_tbl_lipidblast()}} for functions

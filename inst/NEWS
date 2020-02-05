@@ -1,3 +1,8 @@
+Changes in version 0.3.2
+
+- Import also smiles from SDF files.
+
+
 Changes in version 0.3.0
 
 - Move package Spectra from Depends to Imports

@@ -45,6 +45,7 @@
 #'   by default a `list` to support multiple aliases per compound, unless
 #'   argument `collapse` is provided, in which case multiple synonyms are pasted
 #'   into a single element separated by the value of `collapse`.
+#' + `smiles`: the compound's SMILES (if provided).
 #'
 #' @family compound table creation functions
 #'
@@ -180,6 +181,10 @@ compound_tbl_lipidblast <- function(file, collapse) {
                       mass = as.numeric(x[, colmap["mass"]]),
                       synonyms = syns
                       )
+    if (is.na(colmap["smiles"])) {
+        res$smiles <- NA_character_
+    } else
+        res$smiles <- x[, colmap["smiles"]]
     if (source_db == "mona") {
         warning("MoNa data can currently not be normalized and the ",
                 "compound table contains thus highly redundant data.",
@@ -231,7 +236,8 @@ compound_tbl_lipidblast <- function(file, collapse) {
                   inchi_key = "INCHI_KEY",
                   formula = "FORMULA",
                   mass = "EXACT_MASS",
-                  synonyms = "SYNONYMS"
+                  synonyms = "SYNONYMS",
+                  smiles = "SMILES"
                   )
 .hmdb_separator <- "; "
 .chebi_colmap <- c(id = "ChEBI ID",
@@ -240,7 +246,8 @@ compound_tbl_lipidblast <- function(file, collapse) {
                    inchi_key = "InChIKey",
                    formula = "Formulae",
                    mass = "Monoisotopic Mass",
-                   synonyms = "Synonyms"
+                   synonyms = "Synonyms",
+                   smiles = "SMILES"
                    )
 .chebi_separator <- " __ "
 .lipidmaps_colmap <- c(id = "LM_ID",
@@ -249,7 +256,8 @@ compound_tbl_lipidblast <- function(file, collapse) {
                        inchi_key = "INCHI_KEY",
                        formula = "FORMULA",
                        mass = "EXACT_MASS",
-                       synonyms = "SYNONYMS"
+                       synonyms = "SYNONYMS",
+                       smiles = NA
                        )
 .lipidmaps_separator <- "; "
 .pubchem_colmap <- c(id = "PUBCHEM_COMPOUND_CID",
@@ -258,7 +266,8 @@ compound_tbl_lipidblast <- function(file, collapse) {
                      inchi_key = "PUBCHEM_IUPAC_INCHIKEY",
                      formula = "PUBCHEM_MOLECULAR_FORMULA",
                      mass = "PUBCHEM_EXACT_MASS",
-                     synonyms = "PUBCHEM_IUPAC_TRADITIONAL_NAME"
+                     synonyms = "PUBCHEM_IUPAC_TRADITIONAL_NAME",
+                     smiles = "PUBCHEM_OPENEYE_CAN_SMILES"
                        # Others:
                                         # PUBCHEM_IUPAC_SYSTEMATIC_NAME,
                                         # PUBCHEM_IUPAC_CAS_NAME,
@@ -272,7 +281,9 @@ compound_tbl_lipidblast <- function(file, collapse) {
                   inchi_key = "INCHIKEY",
                   formula = "FORMULA",
                   mass = "EXACT MASS",
-                  synonyms = "SYNONYMS")
+                  synonyms = "SYNONYMS",
+                  smiles = NA
+                  )
 .mona_separator <- " __ "
 
 #' @description Import compound information from a LipidBlast file in json
@@ -354,6 +365,7 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' + `"mass"`: the compound's mass.
 #' + `"synonyms"`: additional synonyms/aliases for the compound. Should be
 #'   either a single character or a list of values for each compound.
+#' + `"smiles"`: the compound's SMILES.
 #'
 #' See e.g. [compound_tbl_sdf()] or [compound_tbl_lipidblast()] for functions
 #' creating such compound tables.
@@ -732,14 +744,14 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
         if (!is.numeric(x$mass))
             txt <- c(txt, "Column 'mass' should be numeric")
     }
-    if (db) {
-        ## Do not allow more columns than expected!
-        is_ok <- colnames(x) %in% .req_cols
-        if (any(!is_ok)) {
-            txt <- c(txt, paste0("Column(s) ", paste(colnames(x)[!is_ok]),
-                                 " are not expected"))
-        }
-    }
+    ## if (db) {
+    ##     ## Do not allow more columns than expected!
+    ##     is_ok <- colnames(x) %in% .req_cols
+    ##     if (any(!is_ok)) {
+    ##         txt <- c(txt, paste0("Column(s) ", paste(colnames(x)[!is_ok]),
+    ##                              " are not expected"))
+    ##     }
+    ## }
     if (length(txt))
         if (error)
             stop(paste(txt, collapse = "\n"))

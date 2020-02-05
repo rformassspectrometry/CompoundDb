@@ -82,6 +82,7 @@ The `tibble` contains columns
 - `formula`: the chemical formula of the compound.
 - `mass`: the compounds (monoisotopic) mass.
 - `synonyms`: a `list` of aliases/synonyms for the compound.
+- `smiles`: the SMILES of the compound.
 
 To create a simple compound database, we could pass this `tibble` along with
 additional required metadata information to the `createCompDb` function. In the

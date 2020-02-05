@@ -6,7 +6,8 @@ test_that(".simple_extract_compounds_sdf works", {
     expect_true(is(cmps, "data.frame"))
     expect_true(is(cmps, "tbl"))
     expect_equal(colnames(cmps), c("compound_id", "compound_name", "inchi",
-                                   "inchi_key", "formula", "mass", "synonyms"))
+                                   "inchi_key", "formula", "mass", "synonyms",
+                                   "smiles"))
     expect_true(nrow(cmps) == 9)
 
     chebi <- system.file("sdf/ChEBI_sub.sdf.gz", package = "CompoundDb")
@@ -15,7 +16,8 @@ test_that(".simple_extract_compounds_sdf works", {
     expect_true(is(cmps, "data.frame"))
     expect_true(is(cmps, "tbl"))
     expect_equal(colnames(cmps), c("compound_id", "compound_name", "inchi",
-                                   "inchi_key", "formula", "mass", "synonyms"))
+                                   "inchi_key", "formula", "mass", "synonyms",
+                                   "smiles"))
     expect_true(nrow(cmps) == 6)
 
     lm <- system.file("sdf/LipidMaps_sub.sdf.gz", package = "CompoundDb")
@@ -24,7 +26,8 @@ test_that(".simple_extract_compounds_sdf works", {
     expect_true(is(cmps, "data.frame"))
     expect_true(is(cmps, "tbl"))
     expect_equal(colnames(cmps), c("compound_id", "compound_name", "inchi",
-                                   "inchi_key", "formula", "mass", "synonyms"))
+                                   "inchi_key", "formula", "mass", "synonyms",
+                                   "smiles"))
     expect_true(nrow(cmps) == 7)
 
     pubchem <- system.file("sdf/PubChem_sub.sdf.gz", package = "CompoundDb")
@@ -33,7 +36,8 @@ test_that(".simple_extract_compounds_sdf works", {
     expect_true(is(cmps, "data.frame"))
     expect_true(is(cmps, "tbl"))
     expect_equal(colnames(cmps), c("compound_id", "compound_name", "inchi",
-                                   "inchi_key", "formula", "mass", "synonyms"))
+                                   "inchi_key", "formula", "mass", "synonyms",
+                                   "smiles"))
     expect_true(nrow(cmps) == 12)
 
     mona <- system.file("sdf/MoNa_export-All_Spectra_sub.sdf.gz",
@@ -43,7 +47,8 @@ test_that(".simple_extract_compounds_sdf works", {
     expect_true(is(cmps, "data.frame"))
     expect_true(is(cmps, "tbl"))
     expect_equal(colnames(cmps), c("compound_id", "compound_name", "inchi",
-                                   "inchi_key", "formula", "mass", "synonyms"))
+                                   "inchi_key", "formula", "mass", "synonyms",
+                                   "smiles"))
     expect_true(nrow(cmps) == 7)
 })
 
@@ -56,7 +61,8 @@ test_that("compound_tbl_sdf works", {
     expect_true(is(cmps, "data.frame"))
     expect_true(is(cmps, "tbl"))
     expect_equal(colnames(cmps), c("compound_id", "compound_name", "inchi",
-                                   "inchi_key", "formula", "mass", "synonyms"))
+                                   "inchi_key", "formula", "mass", "synonyms",
+                                   "smiles"))
     expect_true(nrow(cmps) == 9)
     expect_true(is(cmps$synonyms, "list"))
     cmps <- compound_tbl_sdf(hmdb, collapse = "|")
@@ -67,7 +73,8 @@ test_that("compound_tbl_sdf works", {
     expect_true(is(cmps, "data.frame"))
     expect_true(is(cmps, "tbl"))
     expect_equal(colnames(cmps), c("compound_id", "compound_name", "inchi",
-                                   "inchi_key", "formula", "mass", "synonyms"))
+                                   "inchi_key", "formula", "mass", "synonyms",
+                                   "smiles"))
     expect_true(nrow(cmps) == 6)
     expect_true(is(cmps$synonyms, "list"))
     cmps <- compound_tbl_sdf(chebi, collapse = "|")
@@ -78,7 +85,8 @@ test_that("compound_tbl_sdf works", {
     expect_true(is(cmps, "data.frame"))
     expect_true(is(cmps, "tbl"))
     expect_equal(colnames(cmps), c("compound_id", "compound_name", "inchi",
-                                   "inchi_key", "formula", "mass", "synonyms"))
+                                   "inchi_key", "formula", "mass", "synonyms",
+                                   "smiles"))
     expect_true(nrow(cmps) == 7)
     expect_true(is(cmps$synonyms, "list"))
     cmps <- compound_tbl_sdf(lm, collapse = "|")
@@ -89,7 +97,8 @@ test_that("compound_tbl_sdf works", {
     expect_true(is(cmps, "data.frame"))
     expect_true(is(cmps, "tbl"))
     expect_equal(colnames(cmps), c("compound_id", "compound_name", "inchi",
-                                   "inchi_key", "formula", "mass", "synonyms"))
+                                   "inchi_key", "formula", "mass", "synonyms",
+                                   "smiles"))
     expect_true(nrow(cmps) == 12)
     expect_true(is(cmps$synonyms, "list"))
     cmps <- compound_tbl_sdf(pc, collapse = "|")
@@ -179,7 +188,7 @@ test_that(".valid_compound works", {
     expect_true(.valid_compound(cmps, db = FALSE))
     expect_true(.valid_compound(cmps[, 1:6]))
     expect_error(.valid_compound(cmps[, 1:6], db = FALSE))
-    expect_error(.valid_compound(cmps, db = TRUE))
+    expect_true(.valid_compound(cmps, db = TRUE))
 
     ## Errors
     expect_error(.valid_compound("b"))

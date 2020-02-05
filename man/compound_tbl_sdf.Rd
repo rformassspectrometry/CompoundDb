@@ -26,6 +26,7 @@ compound):
 by default a \code{list} to support multiple aliases per compound, unless
 argument \code{collapse} is provided, in which case multiple synonyms are pasted
 into a single element separated by the value of \code{collapse}.
+\item \code{smiles}: the compound's SMILES (if provided).
 }
 }
 \description{
