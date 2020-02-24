@@ -31,6 +31,7 @@ jobs:
         - testthat
         - knitr
         - roxygen2
+        - S4Vectors
       r_github_packages:
         - rformassspectrometry/MsCoreUtils
         - rformassspectrometry/Spectra
