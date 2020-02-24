@@ -105,7 +105,8 @@ compound_tbl_sdf <- function(file, collapse) {
 #' compound):
 #' + `compound_id`: the ID of the compound.
 #' + `compound_name`: the compound's name.
-#' + `inchi`: the inchi of the compound.
+#' + `inchi`: the InChI of the compound.
+#' + `inchikey`: the InChI key.
 #' + `formula`: the chemical formula.
 #' + `mass`: the compound's mass.
 #' + `synonyms`: the compound's synonyms (aliases). This type of this column is
@@ -358,11 +359,12 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #'
 #' Required columns for the `data.frame` providing the compound information (
 #' parameter `x`) are:
-#' + `"id"`: the ID of the compound (e.g. an HMDB ID).
-#' + `"name"`: the compound's name.
-#' + `"inchi"`: the inchi of the compound.
-#' + `"formula"`: the chemical formula.
-#' + `"mass"`: the compound's mass.
+#' + `compound_id`: the ID of the compound.
+#' + `compound_name`: the compound's name.
+#' + `inchi`: the InChI of the compound.
+#' + `inchikey`: the InChI key.
+#' + `formula`: the chemical formula.
+#' + `mass`: the compound's mass.
 #' + `"synonyms"`: additional synonyms/aliases for the compound. Should be
 #'   either a single character or a list of values for each compound.
 #' + `"smiles"`: the compound's SMILES.
