@@ -61,7 +61,7 @@
 #'     For all other methods: a `CompDb` object.
 #' 
 #' @param flags flags passed to the SQLite database connection.
-#'     See \link[RSQLite]{SQLite}. Defaults to read-only, i.e. RSQLite::SQLITE_RO.
+#'     See [SQLite()]. Defaults to read-only, i.e. RSQLite::SQLITE_RO.
 #' 
 #' 
 #' @author Johannes Rainer
@@ -200,7 +200,7 @@ CompDb <- function(x, flags = RSQLite::SQLITE_RO) {
     if (missing(x))
         stop("Argument 'x' is required")
     if (is.character(x)) {
-        ## Assume it's the file name of the SQLite database, open it read only
+        ## Assume it's the file name of the SQLite database
         x <- dbConnect(dbDriver("SQLite"), dbname = x,
                          flags = flags)
     }
