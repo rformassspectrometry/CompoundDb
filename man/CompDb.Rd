@@ -16,7 +16,7 @@
 \usage{
 show(object)
 
-CompDb(x)
+CompDb(x, flags = RSQLite::SQLITE_RO)
 
 hasMsMsSpectra(x)
 
@@ -37,6 +37,9 @@ tables(x)
 compound database. Alternatively it is possible to provide the connection
 to the database with parameter \code{x}.\preformatted{For all other methods: a `CompDb` object.
 }}
+
+\item{flags}{flags passed to the SQLite database connection.
+See \link[RSQLite]{SQLite}. Defaults to read-only, i.e. RSQLite::SQLITE_RO.}
 
 \item{columns}{For \code{compounds}, \code{Spectra}: \code{character} with the names of the
 database columns that should be retrieved. Use \code{\link[=tables]{tables()}} for a list of
