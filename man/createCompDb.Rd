@@ -91,11 +91,12 @@ the function with the \code{msms_spectra} argument. See \code{\link[=msms_spectr
 Required columns for the \code{data.frame} providing the compound information (
 parameter \code{x}) are:
 \itemize{
-\item \code{"id"}: the ID of the compound (e.g. an HMDB ID).
-\item \code{"name"}: the compound's name.
-\item \code{"inchi"}: the inchi of the compound.
-\item \code{"formula"}: the chemical formula.
-\item \code{"mass"}: the compound's mass.
+\item \code{compound_id}: the ID of the compound.
+\item \code{compound_name}: the compound's name.
+\item \code{inchi}: the InChI of the compound.
+\item \code{inchikey}: the InChI key.
+\item \code{formula}: the chemical formula.
+\item \code{mass}: the compound's mass.
 \item \code{"synonyms"}: additional synonyms/aliases for the compound. Should be
 either a single character or a list of values for each compound.
 \item \code{"smiles"}: the compound's SMILES.
