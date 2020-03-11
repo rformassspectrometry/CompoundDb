@@ -10,7 +10,7 @@
 #' the [Spectra()] call on [CompDb()] will return a `Spectra` object that uses
 #' this backend.
 #'
-#' @param columns for `spectraData`: `character` with names of columns/spectra
+#' @param columns for `asDataFrame`: `character` with names of columns/spectra
 #'     variables that should be returned. Defaults to
 #'     `spectraVariables(object)`.
 #'
@@ -56,10 +56,10 @@
 #'
 #' - `mz<-`: not supported.
 #'
-#' - `spectraData`: returns the complete spectrum data including m/z and
+#' - `asDataFrame`: returns the complete spectrum data including m/z and
 #'   intensity values as a [DataFrame()].
 #'
-#' - `spectraData<-`: replace the spectrum metadata. Note that columns `"mz"`
+#' - `asDataFrame<-`: replace the spectrum metadata. Note that columns `"mz"`
 #'   and `"intensity"` are ignored.
 #'
 #' - `$<-`: replace or add a spectrum variable. Note that `mz`, `intensity` and
@@ -183,7 +183,7 @@ setReplaceMethod("mz", "MsBackendCompDb", function(object, value) {
     stop(class(object), " does not support replacing m/z values")
 })
 
-#' @importMethodsFrom Spectra spectraData spectraVariables
+#' @importMethodsFrom Spectra asDataFrame spectraVariables
 #'
 #' @rdname MsBackendCompDb
 #'
@@ -192,7 +192,7 @@ setReplaceMethod("mz", "MsBackendCompDb", function(object, value) {
 #' @importFrom methods as
 #'
 #' @export
-setMethod("spectraData", "MsBackendCompDb",
+setMethod("asDataFrame", "MsBackendCompDb",
           function(object, columns = spectraVariables(object)) {
               have_cols <- intersect(columns, colnames(object@spectraData))
               res <- object@spectraData[, have_cols, drop = FALSE]
@@ -213,10 +213,10 @@ setMethod("spectraData", "MsBackendCompDb",
 
 #' @rdname MsBackendCompDb
 #'
-#' @importMethodsFrom Spectra spectraData<-
+#' @importMethodsFrom Spectra asDataFrame<-
 #'
 #' @export
-setReplaceMethod("spectraData", "MsBackendCompDb", function(object, value) {
+setReplaceMethod("asDataFrame", "MsBackendCompDb", function(object, value) {
     if (inherits(value, "DataFrame") &&
         any(colnames(value) %in% c("mz", "intensity"))) {
         warning("Ignoring columns \"mz\" and \"intensity\" ",
