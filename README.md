@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/EuracBiomedicalResearch/CompoundDb.svg?branch=master)](https://travis-ci.org/EuracBiomedicalResearch/CompoundDb)
 [![codecov.io](https://codecov.io/github/EuracBiomedicalResearch/CompoundDb/coverage.svg?branch=master)](https://codecov.io/github/EuracBiomedicalResearch/CompoundDb?branch=master)
+[![R-CMD-check](https://github.com/EuracBiomedicalResearch/CompoundDb/workflows/R-CMD-check/badge.svg)](https://github.com/EuracBiomedicalResearch/CompoundDb/actions?query=workflow%3AR-CMD-check)
 
 # Installation and requirements
 
