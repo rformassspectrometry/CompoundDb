@@ -62,8 +62,8 @@ jobs:
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
-	  install.packages("BiocManager")
-	  BiocManager::install(c("ChemmineR", "AnnotationFilter"))
+          install.packages("BiocManager")
+          BiocManager::install(c("ChemmineR", "AnnotationFilter"))
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
 
