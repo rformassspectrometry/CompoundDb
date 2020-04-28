@@ -5,3 +5,4 @@ local_data/*
 ^.*\.Rproj$
 ^\.Rproj\.user$
 .travis.yml
+^\.github$

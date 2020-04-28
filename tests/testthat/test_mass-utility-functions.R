@@ -209,17 +209,17 @@ test_that("annotateMz,ANY,ANY works", {
     res <- annotateMz(mzs, cmps, ppm = 5)
     expect_true(length(res) == length(mzs))
     expect_true(all(unlist(lapply(res, class)) == class(cmps)))
-    expect_equal(res[[1]]$compound_id[1], "HMDB0000008")
-    expect_equal(res[[1]]$compound_id[2], "HMDB0000011")
-    expect_equal(res[[2]]$compound_id[1], "HMDB0000002")
-    expect_equal(res[[3]]$compound_id[1], "HMDB0000008")
-    expect_equal(res[[4]]$compound_id[1], "HMDB0000002")
+    expect_equal(unname(res[[1]]$compound_id[1]), "HMDB0000008")
+    expect_equal(unname(res[[1]]$compound_id[2]), "HMDB0000011")
+    expect_equal(unname(res[[2]]$compound_id[1]), "HMDB0000002")
+    expect_equal(unname(res[[3]]$compound_id[1]), "HMDB0000008")
+    expect_equal(unname(res[[4]]$compound_id[1]), "HMDB0000002")
     expect_equal(res[[4]]$adduct[1], "[M+K]+")
 
     res <- annotateMz(mzs, as.data.frame(cmps), adduct = "[M+H]+")
     expect_true(all(unlist(lapply(res, class)) == "data.frame"))
-    expect_equal(res[[1]]$compound_id, c("HMDB0000008", "HMDB0000011"))
-    expect_equal(res[[2]]$compound_id, c("HMDB0000002"))
+    expect_equal(unname(res[[1]]$compound_id), c("HMDB0000008", "HMDB0000011"))
+    expect_equal(unname(res[[2]]$compound_id), c("HMDB0000002"))
     expect_true(is.na(res[[3]]$compound_id))
     expect_true(is.na(res[[4]]$compound_id))
     expect_true(is.na(res[[5]]$compound_id))
@@ -232,12 +232,13 @@ test_that("annotateMz,ANY,ANY works", {
     expect_true(is.data.frame(res))
     expect_true(all(colnames(res) == c(colnames(mzs_df), colnames(cmps),
                                        "adduct", "ppm")))
-    expect_equal(res$compound_id, c(NA, NA, NA, "HMDB0000002", NA))
+    expect_equal(unname(res$compound_id), c(NA, NA, NA, "HMDB0000002", NA))
     res <- annotateMz(mzs_df, cmps, mzcol = "mzmed",
                       adduct = c("[M+H]+", "[M+Na]+"))
     expect_equal(res$id, c("a", "a", "b", "c", "c", "d", "e"))
-    expect_equal(res$compound_id, c("HMDB0000008", "HMDB0000011", "HMDB0000002",
-                                    "HMDB0000008", "HMDB0000011", NA, NA))
+    expect_equal(unname(res$compound_id), c("HMDB0000008", "HMDB0000011",
+                                            "HMDB0000002", "HMDB0000008",
+                                            "HMDB0000011", NA, NA))
 
     ## numeric, CompDb
     res <- annotateMz(mzs, cmp_db, adduct = "[M+H]+")
