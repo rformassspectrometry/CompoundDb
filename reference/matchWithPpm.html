@@ -74,7 +74,7 @@ specified with parameter ppm (part per million)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CompoundDb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
       </span>
     </div>
 
@@ -133,7 +133,7 @@ specified with parameter ppm (part per million)." />
 specified with parameter <code>ppm</code> (part per million).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>matchWithPpm</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>ppm</span> <span class='kw'>=</span> <span class='fl'>0</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/matchWithPpm.html'>matchWithPpm</a></span>(<span class='kw'>x</span>, <span class='kw'>y</span>, ppm = <span class='fl'>0</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -159,20 +159,23 @@ accepted.</p></td>
 
     <p><code>list</code> with <code>integer</code> representing the index in <code>y</code> where each
 element in <code>x</code> matches (given the provided ppm).</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Johannes Rainer</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>yvals</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>1000</span>))
-<span class='no'>yvals</span>[<span class='fl'>123</span>] <span class='kw'>&lt;-</span> <span class='no'>yvals</span>[<span class='fl'>2</span>] - <span class='no'>yvals</span>[<span class='fl'>2</span>] * <span class='fl'>10</span> * <span class='fl'>1e-6</span>
-<span class='no'>yvals</span>[<span class='fl'>124</span>] <span class='kw'>&lt;-</span> <span class='no'>yvals</span>[<span class='fl'>2</span>] + <span class='no'>yvals</span>[<span class='fl'>2</span>] * <span class='fl'>10</span> * <span class='fl'>1e-6</span>
-<span class='no'>yvals</span>[<span class='fl'>125</span>] <span class='kw'>&lt;-</span> <span class='no'>yvals</span>[<span class='fl'>2</span>] + <span class='no'>yvals</span>[<span class='fl'>2</span>] * <span class='fl'>12</span> * <span class='fl'>1e-6</span>
-<span class='no'>xvals</span> <span class='kw'>&lt;-</span> <span class='no'>yvals</span>[<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>3</span>, <span class='fl'>20</span>, <span class='fl'>21</span>, <span class='fl'>20</span>)]
-<span class='no'>xvals</span>[<span class='fl'>2</span>] <span class='kw'>&lt;-</span> <span class='no'>xvals</span>[<span class='fl'>2</span>] + (<span class='fl'>10</span> * <span class='no'>xvals</span>[<span class='fl'>2</span>] / <span class='fl'>1e6</span>)
-<span class='no'>xvals</span>[<span class='fl'>3</span>] <span class='kw'>&lt;-</span> <span class='no'>xvals</span>[<span class='fl'>3</span>] - (<span class='fl'>10</span> * <span class='no'>xvals</span>[<span class='fl'>3</span>] / <span class='fl'>1e6</span>)
-<span class='no'>xvals</span>[<span class='fl'>6</span>] <span class='kw'>&lt;-</span> <span class='no'>xvals</span>[<span class='fl'>6</span>] + (<span class='fl'>12</span> * <span class='no'>xvals</span>[<span class='fl'>6</span>] / <span class='fl'>1e6</span>)
+<span class='kw'>yvals</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>1000</span>))
+<span class='kw'>yvals</span>[<span class='fl'>123</span>] <span class='op'>&lt;-</span> <span class='kw'>yvals</span>[<span class='fl'>2</span>] <span class='op'>-</span> <span class='kw'>yvals</span>[<span class='fl'>2</span>] <span class='op'>*</span> <span class='fl'>10</span> <span class='op'>*</span> <span class='fl'>1e-6</span>
+<span class='kw'>yvals</span>[<span class='fl'>124</span>] <span class='op'>&lt;-</span> <span class='kw'>yvals</span>[<span class='fl'>2</span>] <span class='op'>+</span> <span class='kw'>yvals</span>[<span class='fl'>2</span>] <span class='op'>*</span> <span class='fl'>10</span> <span class='op'>*</span> <span class='fl'>1e-6</span>
+<span class='kw'>yvals</span>[<span class='fl'>125</span>] <span class='op'>&lt;-</span> <span class='kw'>yvals</span>[<span class='fl'>2</span>] <span class='op'>+</span> <span class='kw'>yvals</span>[<span class='fl'>2</span>] <span class='op'>*</span> <span class='fl'>12</span> <span class='op'>*</span> <span class='fl'>1e-6</span>
+<span class='kw'>xvals</span> <span class='op'>&lt;-</span> <span class='kw'>yvals</span>[<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>3</span>, <span class='fl'>20</span>, <span class='fl'>21</span>, <span class='fl'>20</span>)]
+<span class='kw'>xvals</span>[<span class='fl'>2</span>] <span class='op'>&lt;-</span> <span class='kw'>xvals</span>[<span class='fl'>2</span>] <span class='op'>+</span> (<span class='fl'>10</span> <span class='op'>*</span> <span class='kw'>xvals</span>[<span class='fl'>2</span>] <span class='op'>/</span> <span class='fl'>1e6</span>)
+<span class='kw'>xvals</span>[<span class='fl'>3</span>] <span class='op'>&lt;-</span> <span class='kw'>xvals</span>[<span class='fl'>3</span>] <span class='op'>-</span> (<span class='fl'>10</span> <span class='op'>*</span> <span class='kw'>xvals</span>[<span class='fl'>3</span>] <span class='op'>/</span> <span class='fl'>1e6</span>)
+<span class='kw'>xvals</span>[<span class='fl'>6</span>] <span class='op'>&lt;-</span> <span class='kw'>xvals</span>[<span class='fl'>6</span>] <span class='op'>+</span> (<span class='fl'>12</span> <span class='op'>*</span> <span class='kw'>xvals</span>[<span class='fl'>6</span>] <span class='op'>/</span> <span class='fl'>1e6</span>)
 
 <span class='co'>## Perfect matches:</span>
-<span class='fu'>matchWithPpm</span>(<span class='no'>xvals</span>, <span class='no'>yvals</span>)</div><div class='output co'>#&gt; [[1]]
+<span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/matchWithPpm.html'>matchWithPpm</a></span>(<span class='kw'>xvals</span>, <span class='kw'>yvals</span>)</div><div class='output co'>#&gt; [[1]]
 #&gt; [1] 2
 #&gt; 
 #&gt; [[2]]
@@ -191,7 +194,7 @@ element in <code>x</code> matches (given the provided ppm).</p>
 #&gt; integer(0)
 #&gt; </div><div class='input'>
 <span class='co'>## Match allowing +/- 10ppm difference</span>
-<span class='fu'>matchWithPpm</span>(<span class='no'>xvals</span>, <span class='no'>yvals</span>, <span class='kw'>ppm</span> <span class='kw'>=</span> <span class='fl'>10</span>)</div><div class='output co'>#&gt; [[1]]
+<span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/matchWithPpm.html'>matchWithPpm</a></span>(<span class='kw'>xvals</span>, <span class='kw'>yvals</span>, ppm = <span class='fl'>10</span>)</div><div class='output co'>#&gt; [[1]]
 #&gt; [1]   2 123 124
 #&gt; 
 #&gt; [[2]]
@@ -210,7 +213,7 @@ element in <code>x</code> matches (given the provided ppm).</p>
 #&gt; integer(0)
 #&gt; </div><div class='input'>
 <span class='co'>## Match allowing +/- 20ppm difference</span>
-<span class='fu'>matchWithPpm</span>(<span class='no'>xvals</span>, <span class='no'>yvals</span>, <span class='kw'>ppm</span> <span class='kw'>=</span> <span class='fl'>20</span>)</div><div class='output co'>#&gt; [[1]]
+<span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/matchWithPpm.html'>matchWithPpm</a></span>(<span class='kw'>xvals</span>, <span class='kw'>yvals</span>, ppm = <span class='fl'>20</span>)</div><div class='output co'>#&gt; [[1]]
 #&gt; [1]   2 123 124 125
 #&gt; 
 #&gt; [[2]]

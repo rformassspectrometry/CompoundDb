@@ -80,7 +80,7 @@ MoNa: http://mona.fiehnlab.ucdavis.edu/ (see notes below!)
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CompoundDb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
       </span>
     </div>
 
@@ -145,7 +145,7 @@ format (structure-data file). The function currently supports SDF files from:</p
 
     </div>
 
-    <pre class="usage"><span class='fu'>compound_tbl_sdf</span>(<span class='no'>file</span>, <span class='no'>collapse</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/compound_tbl_sdf.html'>compound_tbl_sdf</a></span>(<span class='kw'>file</span>, <span class='kw'>collapse</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -195,17 +195,20 @@ identify compounds). Thus, the function returns a highly redundant compount
 table. Feedback on how to reduce this redundancy would be highly welcome!</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='createCompDb.html'>createCompDb()</a></code> for a function to create a SQLite-based compound
+    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/CompoundDb/man/createCompDb.html'>createCompDb()</a></code> for a function to create a SQLite-based compound
 database.</p>
 <p>Other compound table creation functions: 
-<code><a href='compound_tbl_lipidblast.html'>compound_tbl_lipidblast</a>()</code></p></div>
+<code><a href='https://rdrr.io/pkg/CompoundDb/man/compound_tbl_lipidblast.html'>compound_tbl_lipidblast</a>()</code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Johannes Rainer and Jan Stanstrup</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'>## Read compound information from a subset of HMDB</span>
-<span class='no'>fl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"sdf/HMDB_sub.sdf.gz"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"CompoundDb"</span>)
-<span class='no'>cmps</span> <span class='kw'>&lt;-</span> <span class='fu'>compound_tbl_sdf</span>(<span class='no'>fl</span>)
-<span class='no'>cmps</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 9 x 8</span><span>
+<span class='kw'>fl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"sdf/HMDB_sub.sdf.gz"</span>, package = <span class='st'>"CompoundDb"</span>)
+<span class='kw'>cmps</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/compound_tbl_sdf.html'>compound_tbl_sdf</a></span>(<span class='kw'>fl</span>)
+<span class='kw'>cmps</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 9 x 8</span><span>
 #&gt;   compound_id compound_name  inchi    inchi_key  formula  mass synonyms smiles  
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   
 #&gt; </span><span style='color: #555555;'>1</span><span> HMDB0000001 1-Methylhisti… InChI=1… BRMWTNUJH… C7H11N… 169.  </span><span style='color: #555555;'>&lt;chr [9</span><span>… </span><span style='color: #555555;'>"</span><span>CN1C=N…
@@ -218,7 +221,7 @@ database.</p>
 #&gt; </span><span style='color: #555555;'>8</span><span> HMDB0004370 N-Methyltrypt… InChI=1… NCIKQJBVU… C11H14… 174.  </span><span style='color: #555555;'>&lt;chr [9</span><span>… </span><span style='color: #555555;'>"</span><span>CNCCC1…
 #&gt; </span><span style='color: #555555;'>9</span><span> HMDB0006719 5,6-trans-Vit… InChI=1… QYSXJUFSX… C27H44O 384.  </span><span style='color: #555555;'>&lt;chr [4</span><span>… </span><span style='color: #555555;'>"</span><span>CC(C)C…</div><div class='input'>
 <span class='co'>## Column synonyms contains a list</span>
-<span class='no'>cmps</span>$<span class='no'>synonyms</span></div><div class='output co'>#&gt; $CMP1
+<span class='kw'>cmps</span><span class='op'>$</span><span class='kw'>synonyms</span></div><div class='output co'>#&gt; $CMP1
 #&gt; [1] "1 Methylhistidine"      "1-Methyl histidine"     "1-Methyl-Histidine"    
 #&gt; [4] "1-Methyl-L-histidine"   "1-MHis"                 "1-N-Methyl-L-histidine"
 #&gt; [7] "L-1-Methylhistidine"    "N1-Methyl-L-histidine"  "Pi-methylhistidine"    
@@ -320,8 +323,8 @@ database.</p>
 #&gt; </div><div class='input'>
 <span class='co'>## If we provide the optional argument collapse, multiple entries will be</span>
 <span class='co'>## collapsed.</span>
-<span class='no'>cmps</span> <span class='kw'>&lt;-</span> <span class='fu'>compound_tbl_sdf</span>(<span class='no'>fl</span>, <span class='kw'>collapse</span> <span class='kw'>=</span> <span class='st'>"|"</span>)
-<span class='no'>cmps</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 9 x 8</span><span>
+<span class='kw'>cmps</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/compound_tbl_sdf.html'>compound_tbl_sdf</a></span>(<span class='kw'>fl</span>, collapse = <span class='st'>"|"</span>)
+<span class='kw'>cmps</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 9 x 8</span><span>
 #&gt;   compound_id compound_name  inchi    inchi_key formula  mass synonyms   smiles 
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
 #&gt; </span><span style='color: #555555;'>1</span><span> HMDB0000001 1-Methylhisti… InChI=1… BRMWTNUJ… C7H11N… 169.  1 Methylh… </span><span style='color: #555555;'>"</span><span>CN1C=…
@@ -332,7 +335,7 @@ database.</p>
 #&gt; </span><span style='color: #555555;'>6</span><span> HMDB0000011 (R)-3-Hydroxy… InChI=1… WHBMMWSB… C4H8O3  104.  (R)-(-)-b… </span><span style='color: #555555;'>"</span><span>C[C@@…
 #&gt; </span><span style='color: #555555;'>7</span><span> HMDB0000012 Deoxyuridine   InChI=1… MXHRCPNR… C9H12N… 228.  1-(2-Deox… </span><span style='color: #555555;'>"</span><span>OC[C@…
 #&gt; </span><span style='color: #555555;'>8</span><span> HMDB0004370 N-Methyltrypt… InChI=1… NCIKQJBV… C11H14… 174.  1-Methyl-… </span><span style='color: #555555;'>"</span><span>CNCCC…
-#&gt; </span><span style='color: #555555;'>9</span><span> HMDB0006719 5,6-trans-Vit… InChI=1… QYSXJUFS… C27H44O 384.  3-[(2E)-2… </span><span style='color: #555555;'>"</span><span>CC(C)…</div><div class='input'><span class='no'>cmps</span>$<span class='no'>synonyms</span></div><div class='output co'>#&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       CMP1 
+#&gt; </span><span style='color: #555555;'>9</span><span> HMDB0006719 5,6-trans-Vit… InChI=1… QYSXJUFS… C27H44O 384.  3-[(2E)-2… </span><span style='color: #555555;'>"</span><span>CC(C)…</div><div class='input'><span class='kw'>cmps</span><span class='op'>$</span><span class='kw'>synonyms</span></div><div class='output co'>#&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       CMP1 
 #&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  "1 Methylhistidine|1-Methyl histidine|1-Methyl-Histidine|1-Methyl-L-histidine|1-MHis|1-N-Methyl-L-histidine|L-1-Methylhistidine|N1-Methyl-L-histidine|Pi-methylhistidine" 
 #&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       CMP2 
 #&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      "1,3-Diamino-N-propane|1,3-Propanediamine|1,3-Propylenediamine|1,3-Trimethylenediamine|3-Aminopropylamine|a,w-Propanediamine|Propane-1,3-diamine|Trimethylenediamine" 

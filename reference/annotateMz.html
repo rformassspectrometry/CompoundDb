@@ -82,7 +82,7 @@ that if compounds is [CompDb()], alistofdata.frame`s is returned.s" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CompoundDb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
       </span>
     </div>
 
@@ -137,7 +137,7 @@ that if compounds is [CompDb()], alistofdata.frame`s is returned.s" />
 
     <div class="ref-description">
     <p><code>annotateMz</code> annotates m/z values using either a <code>data.frame</code> containing
-compound definitions or a <code><a href='CompDb.html'>CompDb()</a></code> and a user provided list of potential
+compound definitions or a <code><a href='https://rdrr.io/pkg/CompoundDb/man/CompDb.html'>CompDb()</a></code> and a user provided list of potential
 (expected) adducts. In detail, the function calculates for each input m/z
 value the masses of the potential ion adducts and compares these with
 (monoisotopic) masses provided in the reference annotation. A hit is returned
@@ -150,13 +150,13 @@ that if <code>compounds</code> is <code>[CompDb()], a</code>list<code>of</code>d
     </div>
 
     <pre class="usage"><span class='co'># S4 method for numeric,DataFrameOrEquivalent</span>
-<span class='fu'>annotateMz</span>(<span class='no'>object</span>, <span class='no'>compounds</span>, <span class='kw'>adduct</span> <span class='kw'>=</span> <span class='fu'><a href='mass2mz.html'>adducts</a></span>(), <span class='kw'>ppm</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/annotateMz.html'>annotateMz</a></span>(<span class='kw'>object</span>, <span class='kw'>compounds</span>, adduct = <span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/mass2mz.html'>adducts</a></span>(), ppm = <span class='fl'>10</span>, <span class='kw'>...</span>)
 
 <span class='co'># S4 method for DataFrameOrEquivalent,DataFrameOrEquivalent</span>
-<span class='fu'>annotateMz</span>(<span class='no'>object</span>, <span class='no'>compounds</span>, <span class='kw'>adduct</span> <span class='kw'>=</span> <span class='fu'><a href='mass2mz.html'>adducts</a></span>(), <span class='kw'>ppm</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>mzcol</span> <span class='kw'>=</span> <span class='st'>"mz"</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/annotateMz.html'>annotateMz</a></span>(<span class='kw'>object</span>, <span class='kw'>compounds</span>, adduct = <span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/mass2mz.html'>adducts</a></span>(), ppm = <span class='fl'>10</span>, mzcol = <span class='st'>"mz"</span>, <span class='kw'>...</span>)
 
 <span class='co'># S4 method for numericOrDataFrameOrEquivalent,CompDb</span>
-<span class='fu'>annotateMz</span>(<span class='no'>object</span>, <span class='no'>compounds</span>, <span class='kw'>adduct</span> <span class='kw'>=</span> <span class='fu'><a href='mass2mz.html'>adducts</a></span>(), <span class='kw'>ppm</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/annotateMz.html'>annotateMz</a></span>(<span class='kw'>object</span>, <span class='kw'>compounds</span>, adduct = <span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/mass2mz.html'>adducts</a></span>(), ppm = <span class='fl'>10</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -168,14 +168,14 @@ equivalent) with a column containing the m/z values.</p></td>
     </tr>
     <tr>
       <th>compounds</th>
-      <td><p>either a <code>data.frame</code> (or equivalent) or a <code><a href='CompDb.html'>CompDb()</a></code> with
+      <td><p>either a <code>data.frame</code> (or equivalent) or a <code><a href='https://rdrr.io/pkg/CompoundDb/man/CompDb.html'>CompDb()</a></code> with
 the reference annotations. A column named <code>"mass"</code> is mandatory if
 <code>compounds</code> is a <code>data.frame</code>.</p></td>
     </tr>
     <tr>
       <th>adduct</th>
       <td><p>adduct definition. Either a <code>data.frame</code> as returned by
-<code><a href='mass2mz.html'>adducts()</a></code> or a <code>character</code> with the names of the adduct(s) in that
+<code><a href='https://rdrr.io/pkg/CompoundDb/man/mass2mz.html'>adducts()</a></code> or a <code>character</code> with the names of the adduct(s) in that
 <code>data.frame</code>.</p></td>
     </tr>
     <tr>
@@ -197,14 +197,17 @@ column name in <code>object</code> containing the m/z values. Defaults to <code>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>See description above for details.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Johannes Rainer</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'>## Read compound annotations from a package-internal SDF file containing</span>
 <span class='co'>## a small subset of HMDB annotations</span>
-<span class='no'>fl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"sdf/HMDB_sub.sdf.gz"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"CompoundDb"</span>)
-<span class='no'>cmps</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='compound_tbl_sdf.html'>compound_tbl_sdf</a></span>(<span class='no'>fl</span>)
-<span class='no'>cmps</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 9 x 8</span><span>
+<span class='kw'>fl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"sdf/HMDB_sub.sdf.gz"</span>, package = <span class='st'>"CompoundDb"</span>)
+<span class='kw'>cmps</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/compound_tbl_sdf.html'>compound_tbl_sdf</a></span>(<span class='kw'>fl</span>)
+<span class='kw'>cmps</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 9 x 8</span><span>
 #&gt;   compound_id compound_name  inchi    inchi_key  formula  mass synonyms smiles  
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   
 #&gt; </span><span style='color: #555555;'>1</span><span> HMDB0000001 1-Methylhisti… InChI=1… BRMWTNUJH… C7H11N… 169.  </span><span style='color: #555555;'>&lt;chr [9</span><span>… </span><span style='color: #555555;'>"</span><span>CN1C=N…
@@ -218,13 +221,13 @@ column name in <code>object</code> containing the m/z values. Defaults to <code>
 #&gt; </span><span style='color: #555555;'>9</span><span> HMDB0006719 5,6-trans-Vit… InChI=1… QYSXJUFSX… C27H44O 384.  </span><span style='color: #555555;'>&lt;chr [4</span><span>… </span><span style='color: #555555;'>"</span><span>CC(C)C…</div><div class='input'>
 <span class='co'>## Annotate provided m/z values assuming they represent mass-to-charge</span>
 <span class='co'>## values for [M+H]+ adducts.</span>
-<span class='no'>mzs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>105.0546</span>, <span class='fl'>75.09168</span>, <span class='fl'>127.0365</span>, <span class='fl'>113.04756</span>, <span class='fl'>113.1210</span>)
+<span class='kw'>mzs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>105.0546</span>, <span class='fl'>75.09168</span>, <span class='fl'>127.0365</span>, <span class='fl'>113.04756</span>, <span class='fl'>113.1210</span>)
 
-<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>annotateMz</span>(<span class='no'>mzs</span>, <span class='no'>cmps</span>, <span class='kw'>adduct</span> <span class='kw'>=</span> <span class='st'>"[M+H]+"</span>)
+<span class='kw'>res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/annotateMz.html'>annotateMz</a></span>(<span class='kw'>mzs</span>, <span class='kw'>cmps</span>, adduct = <span class='st'>"[M+H]+"</span>)
 
 <span class='co'>## res is a `list` with the matching hits for each m/z and the specified</span>
 <span class='co'>## adduct. If no match was found the result contains only `NA` values.</span>
-<span class='no'>res</span></div><div class='output co'>#&gt; [[1]]
+<span class='kw'>res</span></div><div class='output co'>#&gt; [[1]]
 #&gt; </span><span style='color: #555555;'># A tibble: 2 x 10</span><span>
 #&gt;   compound_id compound_name inchi inchi_key formula  mass synonyms smiles adduct
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
@@ -262,7 +265,7 @@ column name in <code>object</code> containing the m/z values. Defaults to <code>
 #&gt; </div><div class='input'>
 <span class='co'>## Annotating using all adducts defined by `adducts()` and accepting a</span>
 <span class='co'>## 20ppm difference between the masses</span>
-<span class='fu'>annotateMz</span>(<span class='no'>mzs</span>, <span class='no'>cmps</span>, <span class='kw'>ppm</span> <span class='kw'>=</span> <span class='fl'>20</span>)</div><div class='output co'>#&gt; [[1]]
+<span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/annotateMz.html'>annotateMz</a></span>(<span class='kw'>mzs</span>, <span class='kw'>cmps</span>, ppm = <span class='fl'>20</span>)</div><div class='output co'>#&gt; [[1]]
 #&gt; </span><span style='color: #555555;'># A tibble: 6 x 10</span><span>
 #&gt;   compound_id compound_name inchi inchi_key formula  mass synonyms smiles adduct
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
@@ -311,10 +314,10 @@ column name in <code>object</code> containing the m/z values. Defaults to <code>
 #&gt; </div><div class='input'>
 <span class='co'>## It is also possible to annotate an input data.frame, in which case each</span>
 <span class='co'>## input will be duplicated depending on the number of hits for each m/z</span>
-<span class='no'>mzs_df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>id</span> <span class='kw'>=</span> <span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>5</span>], <span class='kw'>mzmed</span> <span class='kw'>=</span> <span class='no'>mzs</span>)
+<span class='kw'>mzs_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(id = <span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>], mzmed = <span class='kw'>mzs</span>)
 
-<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>annotateMz</span>(<span class='no'>mzs_df</span>, <span class='no'>cmps</span>, <span class='kw'>mzcol</span> <span class='kw'>=</span> <span class='st'>"mzmed"</span>, <span class='kw'>adduct</span> <span class='kw'>=</span> <span class='st'>"[M+H]+"</span>)
-<span class='no'>res</span></div><div class='output co'>#&gt;   id     mzmed compound_id             compound_name
+<span class='kw'>res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/annotateMz.html'>annotateMz</a></span>(<span class='kw'>mzs_df</span>, <span class='kw'>cmps</span>, mzcol = <span class='st'>"mzmed"</span>, adduct = <span class='st'>"[M+H]+"</span>)
+<span class='kw'>res</span></div><div class='output co'>#&gt;   id     mzmed compound_id             compound_name
 #&gt; 1  a 105.05460 HMDB0000008     2-Hydroxybutyric acid
 #&gt; 2  a 105.05460 HMDB0000011 (R)-3-Hydroxybutyric acid
 #&gt; 3  b  75.09168 HMDB0000002        1,3-Diaminopropane
@@ -349,9 +352,8 @@ column name in <code>object</code> containing the m/z values. Defaults to <code>
 #&gt; 4              &lt;NA&gt;   &lt;NA&gt;         NA
 #&gt; 5              &lt;NA&gt;   &lt;NA&gt;         NA
 #&gt; 6              &lt;NA&gt;   &lt;NA&gt;         NA</div><div class='input'>
-## Note that `compounds` could also be `CompDb` database, in which a search
-## against the annotations provided in that database would be performed.
-</div></span></pre>
+<span class='co'>## Note that `compounds` could also be `CompDb` database, in which a search</span>
+<span class='co'>## against the annotations provided in that database would be performed.</span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

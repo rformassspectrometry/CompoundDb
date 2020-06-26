@@ -117,7 +117,7 @@ returns a data.frame." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CompoundDb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
       </span>
     </div>
 
@@ -171,20 +171,20 @@ returns a data.frame." />
     </div>
 
     <div class="ref-description">
-    <p><code>createCompDb</code> creates a <code>SQLite</code>-based <code><a href='CompDb.html'>CompDb</a></code> object/database
+    <p><code>createCompDb</code> creates a <code>SQLite</code>-based <code><a href='https://rdrr.io/pkg/CompoundDb/man/CompDb.html'>CompDb</a></code> object/database
 from a compound resource provided as a <code>data.frame</code> or <code>tbl</code>. Alternatively,
 the name(s) of the file(s) from which the annotation should be extracted can
 be provided. Supported are SDF files (such as those from the
 <em>Human Metabolome Database</em> HMDB) that can be read using the
-<code><a href='compound_tbl_sdf.html'>compound_tbl_sdf()</a></code> or LipidBlast files (see <code><a href='compound_tbl_lipidblast.html'>compound_tbl_lipidblast()</a></code>.</p>
+<code><a href='https://rdrr.io/pkg/CompoundDb/man/compound_tbl_sdf.html'>compound_tbl_sdf()</a></code> or LipidBlast files (see <code><a href='https://rdrr.io/pkg/CompoundDb/man/compound_tbl_lipidblast.html'>compound_tbl_lipidblast()</a></code>.</p>
 <p>An additional <code>data.frame</code> providing metadata information including the data
 source, date, version and organism is mandatory.</p>
 <p>Optionally MS/MS (MS2) spectra for compounds can be also stored in the
 database. Currently only MS/MS spectra from HMDB are supported. These can
 be downloaded in XML format from HMDB (http://www.hmdb.ca), loaded with
-the <code><a href='msms_spectra_hmdb.html'>msms_spectra_hmdb()</a></code> or <code><a href='msms_spectra_mona.html'>msms_spectra_mona()</a></code> function and passed to
-the function with the <code>msms_spectra</code> argument. See <code><a href='msms_spectra_hmdb.html'>msms_spectra_hmdb()</a></code> or
-<code><a href='msms_spectra_mona.html'>msms_spectra_mona()</a></code> for information on the expected columns and format.</p>
+the <code><a href='https://rdrr.io/pkg/CompoundDb/man/msms_spectra_hmdb.html'>msms_spectra_hmdb()</a></code> or <code><a href='https://rdrr.io/pkg/CompoundDb/man/msms_spectra_mona.html'>msms_spectra_mona()</a></code> function and passed to
+the function with the <code>msms_spectra</code> argument. See <code><a href='https://rdrr.io/pkg/CompoundDb/man/msms_spectra_hmdb.html'>msms_spectra_hmdb()</a></code> or
+<code><a href='https://rdrr.io/pkg/CompoundDb/man/msms_spectra_mona.html'>msms_spectra_mona()</a></code> for information on the expected columns and format.</p>
 <p>Required columns for the <code>data.frame</code> providing the compound information (
 parameter <code>x</code>) are:</p><ul>
 <li><p><code>compound_id</code>: the ID of the compound.</p></li>
@@ -198,7 +198,7 @@ either a single character or a list of values for each compound.</p></li>
 <li><p><code>"smiles"</code>: the compound's SMILES.</p></li>
 </ul>
 
-<p>See e.g. <code><a href='compound_tbl_sdf.html'>compound_tbl_sdf()</a></code> or <code><a href='compound_tbl_lipidblast.html'>compound_tbl_lipidblast()</a></code> for functions
+<p>See e.g. <code><a href='https://rdrr.io/pkg/CompoundDb/man/compound_tbl_sdf.html'>compound_tbl_sdf()</a></code> or <code><a href='https://rdrr.io/pkg/CompoundDb/man/compound_tbl_lipidblast.html'>compound_tbl_lipidblast()</a></code> for functions
 creating such compound tables.</p>
 <p>The metadata <code>data.frame</code> is supposed to have two columns named <code>"name"</code> and
 <code>"value"</code> providing the following minimal information as key-value pairs
@@ -213,24 +213,24 @@ creating such compound tables.</p>
 </ul>
 
 <p><code>createCompDbPackage</code> creates an R data package with the data from a
-<code><a href='CompDb.html'>CompDb</a></code> object.</p>
+<code><a href='https://rdrr.io/pkg/CompoundDb/man/CompDb.html'>CompDb</a></code> object.</p>
 <p><code>make_metadata</code> helps generating a metadata <code>data.frame</code> in the
 correct format expected by the <code>createCompDb</code> function. The function
 returns a <code>data.frame</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>createCompDb</span>(<span class='no'>x</span>, <span class='no'>metadata</span>, <span class='no'>msms_spectra</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='st'>"."</span>)
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/createCompDb.html'>createCompDb</a></span>(<span class='kw'>x</span>, <span class='kw'>metadata</span>, <span class='kw'>msms_spectra</span>, path = <span class='st'>"."</span>)
 
-<span class='fu'>createCompDbPackage</span>(
-  <span class='no'>x</span>,
-  <span class='no'>version</span>,
-  <span class='no'>maintainer</span>,
-  <span class='no'>author</span>,
-  <span class='kw'>path</span> <span class='kw'>=</span> <span class='st'>"."</span>,
-  <span class='kw'>license</span> <span class='kw'>=</span> <span class='st'>"Artistic-2.0"</span>
+<span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/createCompDb.html'>createCompDbPackage</a></span>(
+  <span class='kw'>x</span>,
+  <span class='kw'>version</span>,
+  <span class='kw'>maintainer</span>,
+  <span class='kw'>author</span>,
+  path = <span class='st'>"."</span>,
+  license = <span class='st'>"Artistic-2.0"</span>
 )
 
-<span class='fu'>make_metadata</span>(<span class='no'>source</span>, <span class='no'>url</span>, <span class='no'>source_version</span>, <span class='no'>source_date</span>, <span class='no'>organism</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/createCompDb.html'>make_metadata</a></span>(<span class='kw'>source</span>, <span class='kw'>url</span>, <span class='kw'>source_version</span>, <span class='kw'>source_date</span>, <span class='kw'>organism</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -251,7 +251,7 @@ information. See description for details.</p></td>
     <tr>
       <th>msms_spectra</th>
       <td><p>For <code>createCompDb</code>: <code>data.frame</code> with MS/MS spectrum
-data. See <code><a href='msms_spectra_hmdb.html'>msms_spectra_hmdb()</a></code> for the expected format and a function
+data. See <code><a href='https://rdrr.io/pkg/CompoundDb/man/msms_spectra_hmdb.html'>msms_spectra_hmdb()</a></code> for the expected format and a function
 to import such data from spectrum xml files from HMDB.</p></td>
     </tr>
     <tr>
@@ -325,75 +325,78 @@ processing is currently not enabled because SQLite does not support it yet
 natively.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='compound_tbl_sdf.html'>compound_tbl_sdf()</a></code> and <code><a href='compound_tbl_lipidblast.html'>compound_tbl_lipidblast()</a></code> for functions
+    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/CompoundDb/man/compound_tbl_sdf.html'>compound_tbl_sdf()</a></code> and <code><a href='https://rdrr.io/pkg/CompoundDb/man/compound_tbl_lipidblast.html'>compound_tbl_lipidblast()</a></code> for functions
 to extract compound annotations from files in SDF format, or files from
 LipidBlast.</p>
-<p><code><a href='import_mona_sdf.html'>import_mona_sdf()</a></code> to import both the compound and spectrum data from a
+<p><code><a href='https://rdrr.io/pkg/CompoundDb/man/import_mona_sdf.html'>import_mona_sdf()</a></code> to import both the compound and spectrum data from a
 SDF file from MoNa (Massbank of North America) in one call.</p>
-<p><code><a href='msms_spectra_hmdb.html'>msms_spectra_hmdb()</a></code> and <code><a href='msms_spectra_mona.html'>msms_spectra_mona()</a></code> for functions to import
+<p><code><a href='https://rdrr.io/pkg/CompoundDb/man/msms_spectra_hmdb.html'>msms_spectra_hmdb()</a></code> and <code><a href='https://rdrr.io/pkg/CompoundDb/man/msms_spectra_mona.html'>msms_spectra_mona()</a></code> for functions to import
 MS/MS spectrum data from xml files from HMDB or an SDF file from MoNa.</p>
-<p><code><a href='CompDb.html'>CompDb()</a></code> for how to use a compound database.</p></div>
+<p><code><a href='https://rdrr.io/pkg/CompoundDb/man/CompDb.html'>CompDb()</a></code> for how to use a compound database.</p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Johannes Rainer</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'>## Read compounds for a HMDB subset</span>
-<span class='no'>fl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"sdf/HMDB_sub.sdf.gz"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"CompoundDb"</span>)
-<span class='no'>cmps</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='compound_tbl_sdf.html'>compound_tbl_sdf</a></span>(<span class='no'>fl</span>)
+<span class='kw'>fl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"sdf/HMDB_sub.sdf.gz"</span>, package = <span class='st'>"CompoundDb"</span>)
+<span class='kw'>cmps</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/compound_tbl_sdf.html'>compound_tbl_sdf</a></span>(<span class='kw'>fl</span>)
 
 <span class='co'>## Create a metadata data.frame for the compounds.</span>
-<span class='no'>metad</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"source"</span>, <span class='st'>"url"</span>, <span class='st'>"source_version"</span>,
-    <span class='st'>"source_date"</span>, <span class='st'>"organism"</span>), <span class='kw'>value</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"HMDB"</span>, <span class='st'>"http://www.hmdb.ca"</span>,
+<span class='kw'>metad</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(name = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"source"</span>, <span class='st'>"url"</span>, <span class='st'>"source_version"</span>,
+    <span class='st'>"source_date"</span>, <span class='st'>"organism"</span>), value = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"HMDB"</span>, <span class='st'>"http://www.hmdb.ca"</span>,
     <span class='st'>"v4"</span>, <span class='st'>"2017-08-27"</span>, <span class='st'>"Hsapiens"</span>))
 
 <span class='co'>## Alternatively use the make_metadata helper function</span>
-<span class='no'>metad</span> <span class='kw'>&lt;-</span> <span class='fu'>make_metadata</span>(<span class='kw'>source</span> <span class='kw'>=</span> <span class='st'>"HMDB"</span>, <span class='kw'>source_version</span> <span class='kw'>=</span> <span class='st'>"v4"</span>,
-    <span class='kw'>source_date</span> <span class='kw'>=</span> <span class='st'>"2017-08"</span>, <span class='kw'>organism</span> <span class='kw'>=</span> <span class='st'>"Hsapiens"</span>,
-    <span class='kw'>url</span> <span class='kw'>=</span> <span class='st'>"http://www.hmdb.ca"</span>)
+<span class='kw'>metad</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/createCompDb.html'>make_metadata</a></span>(source = <span class='st'>"HMDB"</span>, source_version = <span class='st'>"v4"</span>,
+    source_date = <span class='st'>"2017-08"</span>, organism = <span class='st'>"Hsapiens"</span>,
+    url = <span class='st'>"http://www.hmdb.ca"</span>)
 <span class='co'>## Create a SQLite database in the temporary folder</span>
-<span class='no'>db_f</span> <span class='kw'>&lt;-</span> <span class='fu'>createCompDb</span>(<span class='no'>cmps</span>, <span class='kw'>metadata</span> <span class='kw'>=</span> <span class='no'>metad</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+<span class='kw'>db_f</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/createCompDb.html'>createCompDb</a></span>(<span class='kw'>cmps</span>, metadata = <span class='kw'>metad</span>, path = <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
 
 <span class='co'>## The database can be loaded and accessed with a CompDb object</span>
-<span class='no'>db</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='CompDb.html'>CompDb</a></span>(<span class='no'>db_f</span>)
-<span class='no'>db</span></div><div class='output co'>#&gt; class: CompDb 
+<span class='kw'>db</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/CompDb.html'>CompDb</a></span>(<span class='kw'>db_f</span>)
+<span class='kw'>db</span></div><div class='output co'>#&gt; class: CompDb 
 #&gt;  data source: HMDB 
 #&gt;  version: v4 
 #&gt;  organism: Hsapiens 
 #&gt;  compound count: 9 </div><div class='input'>
 <span class='co'>## Create a database for HMDB that includes also MS/MS spectrum data</span>
-<span class='no'>metad2</span> <span class='kw'>&lt;-</span> <span class='fu'>make_metadata</span>(<span class='kw'>source</span> <span class='kw'>=</span> <span class='st'>"HMDB_with_spectra"</span>, <span class='kw'>source_version</span> <span class='kw'>=</span> <span class='st'>"v4"</span>,
-    <span class='kw'>source_date</span> <span class='kw'>=</span> <span class='st'>"2017-08"</span>, <span class='kw'>organism</span> <span class='kw'>=</span> <span class='st'>"Hsapiens"</span>,
-    <span class='kw'>url</span> <span class='kw'>=</span> <span class='st'>"http://www.hmdb.ca"</span>)
+<span class='kw'>metad2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/createCompDb.html'>make_metadata</a></span>(source = <span class='st'>"HMDB_with_spectra"</span>, source_version = <span class='st'>"v4"</span>,
+    source_date = <span class='st'>"2017-08"</span>, organism = <span class='st'>"Hsapiens"</span>,
+    url = <span class='st'>"http://www.hmdb.ca"</span>)
 
 <span class='co'>## Import spectrum information from selected MS/MS xml files from HMDB</span>
 <span class='co'>## that are provided in the package</span>
-<span class='no'>xml_path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"xml"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"CompoundDb"</span>)
-<span class='no'>spctra</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='msms_spectra_hmdb.html'>msms_spectra_hmdb</a></span>(<span class='no'>xml_path</span>)</div><div class='output co'>#&gt; <span class='message'>Going to process 4 xml files.</span></div><div class='output co'>#&gt; <span class='message'>Postprocessing data ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='input'>
+<span class='kw'>xml_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"xml"</span>, package = <span class='st'>"CompoundDb"</span>)
+<span class='kw'>spctra</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/msms_spectra_hmdb.html'>msms_spectra_hmdb</a></span>(<span class='kw'>xml_path</span>)</div><div class='output co'>#&gt; <span class='message'>Going to process 4 xml files.</span></div><div class='output co'>#&gt; <span class='message'>Postprocessing data ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='input'>
 <span class='co'>## Create a SQLite database in the temporary folder</span>
-<span class='no'>db_f2</span> <span class='kw'>&lt;-</span> <span class='fu'>createCompDb</span>(<span class='no'>cmps</span>, <span class='kw'>metadata</span> <span class='kw'>=</span> <span class='no'>metad2</span>, <span class='kw'>msms_spectra</span> <span class='kw'>=</span> <span class='no'>spctra</span>,
-    <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+<span class='kw'>db_f2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/createCompDb.html'>createCompDb</a></span>(<span class='kw'>cmps</span>, metadata = <span class='kw'>metad2</span>, msms_spectra = <span class='kw'>spctra</span>,
+    path = <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
 
 <span class='co'>## The database can be loaded and accessed with a CompDb object</span>
-<span class='no'>db2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='CompDb.html'>CompDb</a></span>(<span class='no'>db_f2</span>)
-<span class='no'>db2</span></div><div class='output co'>#&gt; class: CompDb 
+<span class='kw'>db2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/CompDb.html'>CompDb</a></span>(<span class='kw'>db_f2</span>)
+<span class='kw'>db2</span></div><div class='output co'>#&gt; class: CompDb 
 #&gt;  data source: HMDB_with_spectra 
 #&gt;  version: v4 
 #&gt;  organism: Hsapiens 
 #&gt;  compound count: 9 
 #&gt;  MS/MS spectra count: 4 </div><div class='input'>
 <span class='co'>## Does the database contain MS/MS spectrum data?</span>
-<span class='fu'><a href='CompDb.html'>hasMsMsSpectra</a></span>(<span class='no'>db2</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/CompDb.html'>hasMsMsSpectra</a></span>(<span class='kw'>db2</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
 <span class='co'>## Create a database for a ChEBI subset providing the file name of the</span>
 <span class='co'>## corresponding SDF file</span>
-<span class='no'>metad</span> <span class='kw'>&lt;-</span> <span class='fu'>make_metadata</span>(<span class='kw'>source</span> <span class='kw'>=</span> <span class='st'>"ChEBI_sub"</span>, <span class='kw'>source_version</span> <span class='kw'>=</span> <span class='st'>"2"</span>,
-    <span class='kw'>source_date</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>organism</span> <span class='kw'>=</span> <span class='st'>"Hsapiens"</span>, <span class='kw'>url</span> <span class='kw'>=</span> <span class='st'>"www.ebi.ac.uk/chebi"</span>)
-<span class='no'>db_f</span> <span class='kw'>&lt;-</span> <span class='fu'>createCompDb</span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"sdf/ChEBI_sub.sdf.gz"</span>,
-    <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"CompoundDb"</span>), <span class='kw'>metadata</span> <span class='kw'>=</span> <span class='no'>metad</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())</div><div class='output co'>#&gt; <span class='message'>Import data from ChEBI_sub.sdf.gz ...</span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='input'><span class='no'>db</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='CompDb.html'>CompDb</a></span>(<span class='no'>db_f</span>)
-<span class='no'>db</span></div><div class='output co'>#&gt; class: CompDb 
+<span class='kw'>metad</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/createCompDb.html'>make_metadata</a></span>(source = <span class='st'>"ChEBI_sub"</span>, source_version = <span class='st'>"2"</span>,
+    source_date = <span class='fl'>NA</span>, organism = <span class='st'>"Hsapiens"</span>, url = <span class='st'>"www.ebi.ac.uk/chebi"</span>)
+<span class='kw'>db_f</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/createCompDb.html'>createCompDb</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"sdf/ChEBI_sub.sdf.gz"</span>,
+    package = <span class='st'>"CompoundDb"</span>), metadata = <span class='kw'>metad</span>, path = <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())</div><div class='output co'>#&gt; <span class='message'>Import data from ChEBI_sub.sdf.gz ...</span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='input'><span class='kw'>db</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/CompDb.html'>CompDb</a></span>(<span class='kw'>db_f</span>)
+<span class='kw'>db</span></div><div class='output co'>#&gt; class: CompDb 
 #&gt;  data source: ChEBI_sub 
 #&gt;  version: 2 
 #&gt;  organism: Hsapiens 
 #&gt;  compound count: 6 </div><div class='input'>
-<span class='fu'><a href='CompDb.html'>compounds</a></span>(<span class='no'>db</span>)</div><div class='output co'>#&gt;   compound_id            compound_name
+<span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/CompDb.html'>compounds</a></span>(<span class='kw'>db</span>)</div><div class='output co'>#&gt;   compound_id            compound_name
 #&gt; 1  CHEBI:1148    2-hydroxybutyric acid
 #&gt; 2   CHEBI:165         (1S,4R)-fenchone
 #&gt; 3   CHEBI:598   1-alkyl-2-acylglycerol
@@ -422,18 +425,18 @@ MS/MS spectrum data from xml files from HMDB or an SDF file from MoNa.</p>
 #&gt; 5                     [H][C@@]1(Oc2cc(O)cc(O)c2C[C@H]1O)c1ccc(O)c(O)c1
 #&gt; 6                                                    Clc1cccc(Cl)c1C#N</div><div class='input'>
 <span class='co'>## connect to the database and query it's tables using RSQlite</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>RSQLite</span>)
-<span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='fu'>dbConnect</span>(<span class='fu'>dbDriver</span>(<span class='st'>"SQLite"</span>), <span class='no'>db_f</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://rsqlite.r-dbi.org'>RSQLite</a></span>)
+<span class='kw'>con</span> <span class='op'>&lt;-</span> <span class='fu'>dbConnect</span>(<span class='fu'>dbDriver</span>(<span class='st'>"SQLite"</span>), <span class='kw'>db_f</span>)
 
-<span class='fu'>dbGetQuery</span>(<span class='no'>con</span>, <span class='st'>"select * from metadata"</span>)</div><div class='output co'>#&gt;                 name                    value
+<span class='fu'>dbGetQuery</span>(<span class='kw'>con</span>, <span class='st'>"select * from metadata"</span>)</div><div class='output co'>#&gt;                 name                    value
 #&gt; 1             source                ChEBI_sub
 #&gt; 2                url      www.ebi.ac.uk/chebi
 #&gt; 3     source_version                        2
 #&gt; 4        source_date                     &lt;NA&gt;
 #&gt; 5           organism                 Hsapiens
-#&gt; 6   db_creation_date Tue Apr 28 14:38:00 2020
+#&gt; 6   db_creation_date Fri Jun 26 09:54:35 2020
 #&gt; 7 supporting_package               CompoundDb
-#&gt; 8  supporting_object                   CompDb</div><div class='input'><span class='fu'>dbGetQuery</span>(<span class='no'>con</span>, <span class='st'>"select * from compound"</span>)</div><div class='output co'>#&gt;   compound_id            compound_name
+#&gt; 8  supporting_object                   CompDb</div><div class='input'><span class='fu'>dbGetQuery</span>(<span class='kw'>con</span>, <span class='st'>"select * from compound"</span>)</div><div class='output co'>#&gt;   compound_id            compound_name
 #&gt; 1    CHEBI:90          (-)-epicatechin
 #&gt; 2   CHEBI:165         (1S,4R)-fenchone
 #&gt; 3   CHEBI:598   1-alkyl-2-acylglycerol
@@ -461,9 +464,8 @@ MS/MS spectrum data from xml files from HMDB or an SDF file from MoNa.</p>
 #&gt; 4 [H][C@]12CC[C@]3(C)C(=O)[C@H](O)C[C@@]3([H])[C@]1([H])CCc1cc(O)ccc21
 #&gt; 5                                                    Clc1cccc(Cl)c1C#N
 #&gt; 6                                                         CCC(O)C(O)=O</div><div class='input'>
-## To create a CompDb R-package we could simply use the
-## createCompDbPackage function on the SQLite database file name.
-</div></pre>
+<span class='co'>## To create a CompDb R-package we could simply use the</span>
+<span class='co'>## createCompDbPackage function on the SQLite database file name.</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
