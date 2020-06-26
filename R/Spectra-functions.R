@@ -22,14 +22,8 @@
 #'
 #' @noRd
 #'
-#' @importFrom MsCoreUtils ppm
+#' @importFrom MsCoreUtils ppm common
 .has_mz <- function(x, mz, tolerance = 0, ppm = 10, which = c("any", "all")) {
     which <- match.arg(which)
-    tiddle <- ppm(mz, ppm)
-    have_peaks <- outer(mz - tiddle - tolerance, x, "<=") &
-        outer(mz + tiddle + tolerance, x, ">=")
-    if (which == "any")
-        any(have_peaks)
-    else
-        all(rowSums(have_peaks) > 0)
+    do.call(which, list(common(mz, x, tolerance = tolerance, ppm = ppm)))
 }
