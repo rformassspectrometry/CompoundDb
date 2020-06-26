@@ -206,6 +206,8 @@ jobs:
           message(paste('****', Sys.time(), 'installing rcmdcheck and BiocCheck ****'))
           remotes::install_cran("rcmdcheck")
           BiocManager::install("BiocCheck")
+          remotes::install_github("stanstrup/commonMZ")
+          remotes::install_github("RforMassSpectrometry/Spectra")
         shell: Rscript {0}
 
       - name: Session info
@@ -405,6 +407,8 @@ jobs:
           message(paste('****', Sys.time(), 'installing rcmdcheck and BiocCheck ****'))
           remotes::install_cran("rcmdcheck")
           BiocManager::install("BiocCheck")
+          remotes::install_github("stanstrup/commonMZ")
+          remotes::install_github("RforMassSpectrometry/Spectra")
         shell: Rscript {0}
 
       - name: Session info
