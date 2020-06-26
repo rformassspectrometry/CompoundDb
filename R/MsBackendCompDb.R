@@ -187,7 +187,7 @@ setReplaceMethod("mz", "MsBackendCompDb", function(object, value) {
 #'
 #' @rdname MsBackendCompDb
 #'
-#' @importMethodFrom S4Vectors as
+#' @importMethodsFrom S4Vectors as
 #'
 #' @importFrom methods as
 #'
