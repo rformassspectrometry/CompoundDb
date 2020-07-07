@@ -209,6 +209,7 @@ jobs:
 
           ## Install required Spectra package
           BiocManager::install("RforMassSpectrometry/Spectra")
+          BiocManager::install("stanstrup/commonMZ")
         shell: Rscript {0}
 
       - name: Session info
@@ -416,6 +417,7 @@ jobs:
 
           ## Install required Spectra package
           BiocManager::install("RforMassSpectrometry/Spectra")
+          BiocManager::install("stanstrup/commonMZ")
         shell: Rscript {0}
 
       - name: Session info
