@@ -76,7 +76,7 @@ columns repeated as many times as there are m/z and intensity values." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CompoundDb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
       </span>
     </div>
 
@@ -137,7 +137,7 @@ stored as a <code>list</code> in columns <code>"mz"</code> and <code>"intensity"
 columns repeated as many times as there are m/z and intensity values.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/expandMzIntensity.html'>expandMzIntensity</a></span>(<span class='kw'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>expandMzIntensity</span>(<span class='kw'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -145,8 +145,8 @@ columns repeated as many times as there are m/z and intensity values.</p>
     <tr>
       <th>x</th>
       <td><p><code>data.frame</code> with <em>collapsed</em> m/z and intensity values in columns
-<code>"mz"</code> and <code>"intensity"</code>, such as returned by <code><a href='https://rdrr.io/pkg/CompoundDb/man/msms_spectra_hmdb.html'>msms_spectra_hmdb()</a></code> with
-parameter <code>collapsed = TRUE</code>, or by <code>spectra()</code> or <code><a href='https://rdrr.io/pkg/CompoundDb/man/CompDb.html'>compounds()</a></code> calls.</p></td>
+<code>"mz"</code> and <code>"intensity"</code>, such as returned by <code><a href='msms_spectra_hmdb.html'>msms_spectra_hmdb()</a></code> with
+parameter <code>collapsed = TRUE</code>, or by <code>spectra()</code> or <code><a href='CompDb.html'>compounds()</a></code> calls.</p></td>
     </tr>
     </table>
 
@@ -162,7 +162,7 @@ description for details.</p>
     <pre class="examples"><div class='input'>
 <span class='co'>## Read a data.frame with collapsed columns mz and intensity columns</span>
 <span class='kw'>dr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"xml/"</span>, package = <span class='st'>"CompoundDb"</span>)
-<span class='kw'>msms_spctra</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/msms_spectra_hmdb.html'>msms_spectra_hmdb</a></span>(<span class='kw'>dr</span>)</div><div class='output co'>#&gt; <span class='message'>Going to process 4 xml files.</span></div><div class='output co'>#&gt; <span class='message'>Postprocessing data ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='input'>
+<span class='kw'>msms_spctra</span> <span class='op'>&lt;-</span> <span class='fu'><a href='msms_spectra_hmdb.html'>msms_spectra_hmdb</a></span>(<span class='kw'>dr</span>)</div><div class='output co'>#&gt; <span class='message'>Going to process 4 xml files.</span></div><div class='output co'>#&gt; <span class='message'>Postprocessing data ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='input'>
 <span class='kw'>msms_spctra</span></div><div class='output co'>#&gt;   original_spectrum_id compound_id polarity collision_energy predicted
 #&gt; 1                    1 HMDB0000001        1               10     FALSE
 #&gt; 2                    2 HMDB0000001        1               25     FALSE
@@ -210,7 +210,7 @@ description for details.</p>
 #&gt;  [9] 367.3006 383.3319
 #&gt; </div><div class='input'>
 <span class='co'>## Expand the data.frame to get one row per m/z and intensity value</span>
-<span class='kw'>spctra_exp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/expandMzIntensity.html'>expandMzIntensity</a></span>(<span class='kw'>msms_spctra</span>)
+<span class='kw'>spctra_exp</span> <span class='op'>&lt;-</span> <span class='fu'>expandMzIntensity</span>(<span class='kw'>msms_spctra</span>)
 <span class='kw'>spctra_exp</span></div><div class='output co'>#&gt;    original_spectrum_id compound_id polarity collision_energy predicted
 #&gt; 1                     1 HMDB0000001        1               10     FALSE
 #&gt; 2                     1 HMDB0000001        1               10     FALSE

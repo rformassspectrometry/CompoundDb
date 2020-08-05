@@ -80,7 +80,7 @@ MoNa: http://mona.fiehnlab.ucdavis.edu/ (see notes below!)
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CompoundDb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
       </span>
     </div>
 
@@ -145,7 +145,7 @@ format (structure-data file). The function currently supports SDF files from:</p
 
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/compound_tbl_sdf.html'>compound_tbl_sdf</a></span>(<span class='kw'>file</span>, <span class='kw'>collapse</span>)</pre>
+    <pre class="usage"><span class='fu'>compound_tbl_sdf</span>(<span class='kw'>file</span>, <span class='kw'>collapse</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -195,10 +195,10 @@ identify compounds). Thus, the function returns a highly redundant compount
 table. Feedback on how to reduce this redundancy would be highly welcome!</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/CompoundDb/man/createCompDb.html'>createCompDb()</a></code> for a function to create a SQLite-based compound
+    <div class='dont-index'><p><code><a href='createCompDb.html'>createCompDb()</a></code> for a function to create a SQLite-based compound
 database.</p>
 <p>Other compound table creation functions: 
-<code><a href='https://rdrr.io/pkg/CompoundDb/man/compound_tbl_lipidblast.html'>compound_tbl_lipidblast</a>()</code></p></div>
+<code><a href='compound_tbl_lipidblast.html'>compound_tbl_lipidblast</a>()</code></p></div>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Johannes Rainer and Jan Stanstrup</p>
@@ -207,7 +207,7 @@ database.</p>
     <pre class="examples"><div class='input'>
 <span class='co'>## Read compound information from a subset of HMDB</span>
 <span class='kw'>fl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"sdf/HMDB_sub.sdf.gz"</span>, package = <span class='st'>"CompoundDb"</span>)
-<span class='kw'>cmps</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/compound_tbl_sdf.html'>compound_tbl_sdf</a></span>(<span class='kw'>fl</span>)
+<span class='kw'>cmps</span> <span class='op'>&lt;-</span> <span class='fu'>compound_tbl_sdf</span>(<span class='kw'>fl</span>)
 <span class='kw'>cmps</span></div><div class='output co'>#&gt; # A tibble: 9 x 8
 #&gt;   compound_id compound_name  inchi    inchi_key  formula  mass synonyms smiles  
 #&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;   &lt;dbl&gt; &lt;named &gt; &lt;chr&gt;   
@@ -323,7 +323,7 @@ database.</p>
 #&gt; </div><div class='input'>
 <span class='co'>## If we provide the optional argument collapse, multiple entries will be</span>
 <span class='co'>## collapsed.</span>
-<span class='kw'>cmps</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/compound_tbl_sdf.html'>compound_tbl_sdf</a></span>(<span class='kw'>fl</span>, collapse = <span class='st'>"|"</span>)
+<span class='kw'>cmps</span> <span class='op'>&lt;-</span> <span class='fu'>compound_tbl_sdf</span>(<span class='kw'>fl</span>, collapse = <span class='st'>"|"</span>)
 <span class='kw'>cmps</span></div><div class='output co'>#&gt; # A tibble: 9 x 8
 #&gt;   compound_id compound_name  inchi    inchi_key formula  mass synonyms   smiles 
 #&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;  

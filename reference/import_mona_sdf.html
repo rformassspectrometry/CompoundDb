@@ -8,10 +8,10 @@
 
 <title>Import compound and spectrum information from MoNa
 
-<code>import_mona_sdf</code> allows to import compound and spectrum information from an
+import_mona_sdf allows to import compound and spectrum information from an
 SDF file from MoNa (Massbank of North America
 http://mona.fiehnlab.ucdavis.edu/). This function is a convenience function
-using the <code><a href='https://rdrr.io/pkg/CompoundDb/man/compound_tbl_sdf.html'>compound_tbl_sdf()</a></code> and <code><a href='https://rdrr.io/pkg/CompoundDb/man/msms_spectra_mona.html'>msms_spectra_mona()</a></code> functions for data
+using the compound_tbl_sdf() and msms_spectra_mona() functions for data
 import but avoiding to read the SDF files twice. — import_mona_sdf • CompoundDb</title>
 
 
@@ -47,10 +47,10 @@ import but avoiding to read the SDF files twice. — import_mona_sdf • Compoun
 
 <meta property="og:title" content="Import compound and spectrum information from MoNa
 
-<code>import_mona_sdf</code> allows to import compound and spectrum information from an
+import_mona_sdf allows to import compound and spectrum information from an
 SDF file from MoNa (Massbank of North America
 http://mona.fiehnlab.ucdavis.edu/). This function is a convenience function
-using the <code><a href='https://rdrr.io/pkg/CompoundDb/man/compound_tbl_sdf.html'>compound_tbl_sdf()</a></code> and <code><a href='https://rdrr.io/pkg/CompoundDb/man/msms_spectra_mona.html'>msms_spectra_mona()</a></code> functions for data
+using the compound_tbl_sdf() and msms_spectra_mona() functions for data
 import but avoiding to read the SDF files twice. — import_mona_sdf" />
 <meta property="og:description" content="Import compound and spectrum information from MoNa
 import_mona_sdf allows to import compound and spectrum information from an
@@ -89,7 +89,7 @@ import but avoiding to read the SDF files twice." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CompoundDb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
       </span>
     </div>
 
@@ -142,7 +142,7 @@ import but avoiding to read the SDF files twice." />
 <code>import_mona_sdf</code> allows to import compound and spectrum information from an
 SDF file from MoNa (Massbank of North America
 http://mona.fiehnlab.ucdavis.edu/). This function is a convenience function
-using the <code><a href='https://rdrr.io/pkg/CompoundDb/man/compound_tbl_sdf.html'>compound_tbl_sdf()</a></code> and <code><a href='https://rdrr.io/pkg/CompoundDb/man/msms_spectra_mona.html'>msms_spectra_mona()</a></code> functions for data
+using the <code><a href='compound_tbl_sdf.html'>compound_tbl_sdf()</a></code> and <code><a href='msms_spectra_mona.html'>msms_spectra_mona()</a></code> functions for data
 import but avoiding to read the SDF files twice.</h1>
     <small class="dont-index">Source: <a href='https://github.com/EuracBiomedicalResearch/CompoundDb/blob/master/R/createCompDbPackage.R'><code>R/createCompDbPackage.R</code></a></small>
     <div class="hidden name"><code>import_mona_sdf.Rd</code></div>
@@ -153,11 +153,11 @@ import but avoiding to read the SDF files twice.</h1>
 <p><code>import_mona_sdf</code> allows to import compound and spectrum information from an
 SDF file from MoNa (Massbank of North America
 http://mona.fiehnlab.ucdavis.edu/). This function is a convenience function
-using the <code><a href='https://rdrr.io/pkg/CompoundDb/man/compound_tbl_sdf.html'>compound_tbl_sdf()</a></code> and <code><a href='https://rdrr.io/pkg/CompoundDb/man/msms_spectra_mona.html'>msms_spectra_mona()</a></code> functions for data
+using the <code><a href='compound_tbl_sdf.html'>compound_tbl_sdf()</a></code> and <code><a href='msms_spectra_mona.html'>msms_spectra_mona()</a></code> functions for data
 import but avoiding to read the SDF files twice.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/import_mona_sdf.html'>import_mona_sdf</a></span>(<span class='kw'>x</span>, nonStop = <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>import_mona_sdf</span>(<span class='kw'>x</span>, nonStop = <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -186,8 +186,8 @@ identify compounds). Thus, the function returns a highly redundant compount
 table. Feedback on how to reduce this redundancy would be highly welcome!</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/CompoundDb/man/compound_tbl_sdf.html'>compound_tbl_sdf()</a></code> to read only the compound information.</p>
-<p><code><a href='https://rdrr.io/pkg/CompoundDb/man/msms_spectra_mona.html'>msms_spectra_mona()</a></code> to read only the spectrum data.</p></div>
+    <div class='dont-index'><p><code><a href='compound_tbl_sdf.html'>compound_tbl_sdf()</a></code> to read only the compound information.</p>
+<p><code><a href='msms_spectra_mona.html'>msms_spectra_mona()</a></code> to read only the spectrum data.</p></div>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Johannes Rainer</p>
@@ -199,7 +199,7 @@ table. Feedback on how to reduce this redundancy would be highly welcome!</p>
     package = <span class='st'>"CompoundDb"</span>)
 
 <span class='co'>## Import the data</span>
-<span class='kw'>res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/CompoundDb/man/import_mona_sdf.html'>import_mona_sdf</a></span>(<span class='kw'>fl</span>)</div><div class='output co'>#&gt; <span class='message'>Reading SDF file ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Extracting compound information ... </span></div><div class='output co'>#&gt; <span class='warning'>Warning: MoNa data can currently not be normalized and the compound table contains thus highly redundant data.</span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Extracting spectrum information ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div></pre>
+<span class='kw'>res</span> <span class='op'>&lt;-</span> <span class='fu'>import_mona_sdf</span>(<span class='kw'>fl</span>)</div><div class='output co'>#&gt; <span class='message'>Reading SDF file ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Extracting compound information ... </span></div><div class='output co'>#&gt; <span class='warning'>Warning: MoNa data can currently not be normalized and the compound table contains thus highly redundant data.</span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Extracting spectrum information ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
