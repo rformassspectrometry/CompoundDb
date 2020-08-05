@@ -39,7 +39,7 @@
 #' methods are inherited directly from the parent [MsBackendDataFrame()] class.
 #' See that help page for a complete listing of methods.
 #'
-#' - `as.list`: gets the full list of peak matrices. Returns a [SimpleList()],
+#' - `as.list`: gets the full list of peak matrices. Returns a [list()],
 #'   length equal to the number of spectra and each element being a `matrix`
 #'   with columns `"mz"` and `"intensity"` with the spectra's m/z and intensity
 #'   values.
@@ -137,8 +137,8 @@ setMethod("show", "MsBackendCompDb", function(object) {
 #' @export
 setMethod("as.list", "MsBackendCompDb", function(x) {
     if (!length(x))
-        return(SimpleList())
-    SimpleList(.peaks(x))
+        return(list())
+    .peaks(x)
 })
 
 #' @importFrom IRanges NumericList
