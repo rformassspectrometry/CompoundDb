@@ -1,3 +1,9 @@
+Changes in version 0.4.2
+
+- Fix bug in `as.list,MsBackendCompDb` which returned a `SimpleList` instead of
+  a `list`.
+
+
 Changes in version 0.4.0
 
 - Rename method `spectraData` for `MsBackendCompDb` into `asDataFrame`

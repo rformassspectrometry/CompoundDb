@@ -25,11 +25,11 @@ test_that("as.list,MsBackendCompDb works", {
     be <- MsBackendCompDb()
     res <- as.list(be)
     expect_true(length(res) == 0)
-    expect_true(is(res, "SimpleList"))
+    expect_true(is(res, "list"))
 
     be <- Spectra(cmp_spctra_db)@backend
     res <- as.list(be)
-    expect_true(is(res, "SimpleList"))
+    expect_true(is(res, "list"))
     expect_true(length(res) == length(be))
     expect_true(is.matrix(res[[1]]))
     expect_true(all(colnames(res[[2]]) %in% c("mz", "intensity")))

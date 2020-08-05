@@ -78,7 +78,7 @@ The methods listed here are implemented for the \code{MsBackendCompDb}. All othe
 methods are inherited directly from the parent \code{\link[=MsBackendDataFrame]{MsBackendDataFrame()}} class.
 See that help page for a complete listing of methods.
 \itemize{
-\item \code{as.list}: gets the full list of peak matrices. Returns a \code{\link[=SimpleList]{SimpleList()}},
+\item \code{as.list}: gets the full list of peak matrices. Returns a \code{\link[=list]{list()}},
 length equal to the number of spectra and each element being a \code{matrix}
 with columns \code{"mz"} and \code{"intensity"} with the spectra's m/z and intensity
 values.
