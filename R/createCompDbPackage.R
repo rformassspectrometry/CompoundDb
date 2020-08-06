@@ -359,18 +359,49 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #'
 #' Required columns for the `data.frame` providing the compound information (
 #' parameter `x`) are:
-#' + `compound_id`: the ID of the compound.
-#' + `compound_name`: the compound's name.
-#' + `inchi`: the InChI of the compound.
-#' + `inchikey`: the InChI key.
-#' + `formula`: the chemical formula.
-#' + `mass`: the compound's mass.
+#' + `"compound_id"`: the ID of the compound.
+#' + `"compound_name"`: the compound's name.
+#' + `"inchi"`: the InChI of the compound.
+#' + `"inchikey"`: the InChI key.
+#' + `"formula"`: the chemical formula.
+#' + `"mass"`: the compound's mass.
 #' + `"synonyms"`: additional synonyms/aliases for the compound. Should be
 #'   either a single character or a list of values for each compound.
-#' + `"smiles"`: the compound's SMILES.
+#'
+#' Any additional columns in the provided `data.frame` (such as e.g. `"smiles"`
+#' providing the compound's SMILES) are also supported and will be inserted into
+#' the database table.
 #'
 #' See e.g. [compound_tbl_sdf()] or [compound_tbl_lipidblast()] for functions
 #' creating such compound tables.
+#'
+#' The table containing the MS2 spectra data should have the following format
+#' and columns:
+#'
+#' + `"spectrum_id"`: an arbitrary ID for the spectrum. Has to be an `integer`.
+#' + `"compound_id"`: the ID of the compound to which the spectrum can be
+#'   associated with. This has to be present in the `data.frame` defining the
+#'   compounds.
+#' + `"polarity"`: the polarity (as an `integer`, `0` for negative, `1` for
+#'   positive, `NA` for not set).
+#' + `"collision_energy"`: the collision energy.
+#' + `"predicted"`: whether the spectrum was predicted or measured.
+#' + `"splash"`: the SPLASH of the spectrum.
+#' + `"instrument_type"`: the instrument type.
+#' + `"instrument"`: the name of the instrument.
+#' + `"precursor_mz"`: the precursor m/z (as a `numeric`).
+#' + `"mz"`: the m/z values.
+#' + `"intensity"`: the intensity values.
+#'
+#' Only for columns `"spectrum_id"`, `"compound_id"`, `"mz"` and `"intensity"`
+#' a value has to be provided in each row of the `data.frame`. The others are
+#' optional. Note that the `data.frame` can be either in the format as in the
+#' example below (i.e. each row being one spectrum and columns `"mz"` and
+#' `"intensity"` being of type `list` each element being the m/z or intensity
+#' values of one spectrum) or in a *full* form, in which each row represents
+#' one *peak* and all columns except `"mz"` and `"intensity"` containing
+#' redundant information of each spectrum (hence columns `"mz"` and
+#' `"intensity"` being of type `numeric`).
 #'
 #' The metadata `data.frame` is supposed to have two columns named `"name"` and
 #' `"value"` providing the following minimal information as key-value pairs
