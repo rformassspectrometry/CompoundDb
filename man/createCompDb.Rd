@@ -91,19 +91,51 @@ the function with the \code{msms_spectra} argument. See \code{\link[=msms_spectr
 Required columns for the \code{data.frame} providing the compound information (
 parameter \code{x}) are:
 \itemize{
-\item \code{compound_id}: the ID of the compound.
-\item \code{compound_name}: the compound's name.
-\item \code{inchi}: the InChI of the compound.
-\item \code{inchikey}: the InChI key.
-\item \code{formula}: the chemical formula.
-\item \code{mass}: the compound's mass.
+\item \code{"compound_id"}: the ID of the compound.
+\item \code{"compound_name"}: the compound's name.
+\item \code{"inchi"}: the InChI of the compound.
+\item \code{"inchikey"}: the InChI key.
+\item \code{"formula"}: the chemical formula.
+\item \code{"mass"}: the compound's mass.
 \item \code{"synonyms"}: additional synonyms/aliases for the compound. Should be
 either a single character or a list of values for each compound.
-\item \code{"smiles"}: the compound's SMILES.
 }
+
+Any additional columns in the provided \code{data.frame} (such as e.g. \code{"smiles"}
+providing the compound's SMILES) are also supported and will be inserted into
+the database table.
 
 See e.g. \code{\link[=compound_tbl_sdf]{compound_tbl_sdf()}} or \code{\link[=compound_tbl_lipidblast]{compound_tbl_lipidblast()}} for functions
 creating such compound tables.
+
+The table containing the MS2 spectra data should have the following format
+and columns:
+\itemize{
+\item \code{"spectrum_id"}: an arbitrary ID for the spectrum. Has to be an \code{integer}.
+\item \code{"compound_id"}: the ID of the compound to which the spectrum can be
+associated with. This has to be present in the \code{data.frame} defining the
+compounds.
+\item \code{"polarity"}: the polarity (as an \code{integer}, \code{0} for negative, \code{1} for
+positive, \code{NA} for not set).
+\item \code{"collision_energy"}: the collision energy.
+\item \code{"predicted"}: whether the spectrum was predicted or measured.
+\item \code{"splash"}: the SPLASH of the spectrum.
+\item \code{"instrument_type"}: the instrument type.
+\item \code{"instrument"}: the name of the instrument.
+\item \code{"precursor_mz"}: the precursor m/z (as a \code{numeric}).
+\item \code{"mz"}: the m/z values.
+\item \code{"intensity"}: the intensity values.
+}
+
+Only for columns \code{"spectrum_id"}, \code{"compound_id"}, \code{"mz"} and \code{"intensity"}
+a value has to be provided in each row of the \code{data.frame}. The others are
+optional. Note that the \code{data.frame} can be either in the format as in the
+example below (i.e. each row being one spectrum and columns \code{"mz"} and
+\code{"intensity"} being of type \code{list} each element being the m/z or intensity
+values of one spectrum) or in a \emph{full} form, in which each row represents
+one \emph{peak} and all columns except \code{"mz"} and \code{"intensity"} containing
+redundant information of each spectrum (hence columns \code{"mz"} and
+\code{"intensity"} being of type \code{numeric}).
 
 The metadata \code{data.frame} is supposed to have two columns named \code{"name"} and
 \code{"value"} providing the following minimal information as key-value pairs

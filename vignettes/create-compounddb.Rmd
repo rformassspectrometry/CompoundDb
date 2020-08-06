@@ -52,6 +52,10 @@ files from:
 - MoNa (Massbank of North America): http://mona.fiehnlab.ucdavis.edu (for MoNa
   import see the next section).
 
+Note however that it is also possible to define such a table manually and
+use that to create the database. See the help page of `createCompDb` for more
+details on that.
+
 Below we use the `compound_tbl_sdf` to extract compound annotations from a SDF
 file representing a very small subset of the HMDB database. To generate a
 database for the full HMDB we would have to download the *structures.sdf* file
@@ -102,6 +106,9 @@ these could be downloaded from HMDB with the *hmdb_all_spectra.zip* file.
 xml_path <- system.file("xml", package = "CompoundDb")
 spctra <- msms_spectra_hmdb(xml_path)
 ```
+
+Also here, spectra information can be manually provided by adhering to the
+expected structure of the `data.frame` (see `?createCompDb` for details).
 
 At last we have to create the metadata for the resource. The metadata
 information for a `CompDb` resource is crucial as it defines the origin of the
