@@ -56,19 +56,48 @@ the function with the msms_spectra argument. See msms_spectra_hmdb() or
 msms_spectra_mona() for information on the expected columns and format.
 Required columns for the data.frame providing the compound information (
 parameter x) are:
-compound_id: the ID of the compound.
-compound_name: the compound's name.
-inchi: the InChI of the compound.
-inchikey: the InChI key.
-formula: the chemical formula.
-mass: the compound's mass.
+&quot;compound_id&quot;: the ID of the compound.
+&quot;compound_name&quot;: the compound's name.
+&quot;inchi&quot;: the InChI of the compound.
+&quot;inchikey&quot;: the InChI key.
+&quot;formula&quot;: the chemical formula.
+&quot;mass&quot;: the compound's mass.
 &quot;synonyms&quot;: additional synonyms/aliases for the compound. Should be
 either a single character or a list of values for each compound.
-&quot;smiles&quot;: the compound's SMILES.
 
 
+Any additional columns in the provided data.frame (such as e.g. &quot;smiles&quot;
+providing the compound's SMILES) are also supported and will be inserted into
+the database table.
 See e.g. compound_tbl_sdf() or compound_tbl_lipidblast() for functions
 creating such compound tables.
+The table containing the MS2 spectra data should have the following format
+and columns:
+&quot;spectrum_id&quot;: an arbitrary ID for the spectrum. Has to be an integer.
+&quot;compound_id&quot;: the ID of the compound to which the spectrum can be
+associated with. This has to be present in the data.frame defining the
+compounds.
+&quot;polarity&quot;: the polarity (as an integer, 0 for negative, 1 for
+positive, NA for not set).
+&quot;collision_energy&quot;: the collision energy.
+&quot;predicted&quot;: whether the spectrum was predicted or measured.
+&quot;splash&quot;: the SPLASH of the spectrum.
+&quot;instrument_type&quot;: the instrument type.
+&quot;instrument&quot;: the name of the instrument.
+&quot;precursor_mz&quot;: the precursor m/z (as a numeric).
+&quot;mz&quot;: the m/z values.
+&quot;intensity&quot;: the intensity values.
+
+
+Only for columns &quot;spectrum_id&quot;, &quot;compound_id&quot;, &quot;mz&quot; and &quot;intensity&quot;
+a value has to be provided in each row of the data.frame. The others are
+optional. Note that the data.frame can be either in the format as in the
+example below (i.e. each row being one spectrum and columns &quot;mz&quot; and
+&quot;intensity&quot; being of type list each element being the m/z or intensity
+values of one spectrum) or in a full form, in which each row represents
+one peak and all columns except &quot;mz&quot; and &quot;intensity&quot; containing
+redundant information of each spectrum (hence columns &quot;mz&quot; and
+&quot;intensity&quot; being of type numeric).
 The metadata data.frame is supposed to have two columns named &quot;name&quot; and
 &quot;value&quot; providing the following minimal information as key-value pairs
 (see make_metadata for a unitlity function to create such a `data.frame):
@@ -187,19 +216,48 @@ the function with the <code>msms_spectra</code> argument. See <code><a href='msm
 <code><a href='msms_spectra_mona.html'>msms_spectra_mona()</a></code> for information on the expected columns and format.</p>
 <p>Required columns for the <code>data.frame</code> providing the compound information (
 parameter <code>x</code>) are:</p><ul>
-<li><p><code>compound_id</code>: the ID of the compound.</p></li>
-<li><p><code>compound_name</code>: the compound's name.</p></li>
-<li><p><code>inchi</code>: the InChI of the compound.</p></li>
-<li><p><code>inchikey</code>: the InChI key.</p></li>
-<li><p><code>formula</code>: the chemical formula.</p></li>
-<li><p><code>mass</code>: the compound's mass.</p></li>
+<li><p><code>"compound_id"</code>: the ID of the compound.</p></li>
+<li><p><code>"compound_name"</code>: the compound's name.</p></li>
+<li><p><code>"inchi"</code>: the InChI of the compound.</p></li>
+<li><p><code>"inchikey"</code>: the InChI key.</p></li>
+<li><p><code>"formula"</code>: the chemical formula.</p></li>
+<li><p><code>"mass"</code>: the compound's mass.</p></li>
 <li><p><code>"synonyms"</code>: additional synonyms/aliases for the compound. Should be
 either a single character or a list of values for each compound.</p></li>
-<li><p><code>"smiles"</code>: the compound's SMILES.</p></li>
 </ul>
 
+<p>Any additional columns in the provided <code>data.frame</code> (such as e.g. <code>"smiles"</code>
+providing the compound's SMILES) are also supported and will be inserted into
+the database table.</p>
 <p>See e.g. <code><a href='compound_tbl_sdf.html'>compound_tbl_sdf()</a></code> or <code><a href='compound_tbl_lipidblast.html'>compound_tbl_lipidblast()</a></code> for functions
 creating such compound tables.</p>
+<p>The table containing the MS2 spectra data should have the following format
+and columns:</p><ul>
+<li><p><code>"spectrum_id"</code>: an arbitrary ID for the spectrum. Has to be an <code>integer</code>.</p></li>
+<li><p><code>"compound_id"</code>: the ID of the compound to which the spectrum can be
+associated with. This has to be present in the <code>data.frame</code> defining the
+compounds.</p></li>
+<li><p><code>"polarity"</code>: the polarity (as an <code>integer</code>, <code>0</code> for negative, <code>1</code> for
+positive, <code>NA</code> for not set).</p></li>
+<li><p><code>"collision_energy"</code>: the collision energy.</p></li>
+<li><p><code>"predicted"</code>: whether the spectrum was predicted or measured.</p></li>
+<li><p><code>"splash"</code>: the SPLASH of the spectrum.</p></li>
+<li><p><code>"instrument_type"</code>: the instrument type.</p></li>
+<li><p><code>"instrument"</code>: the name of the instrument.</p></li>
+<li><p><code>"precursor_mz"</code>: the precursor m/z (as a <code>numeric</code>).</p></li>
+<li><p><code>"mz"</code>: the m/z values.</p></li>
+<li><p><code>"intensity"</code>: the intensity values.</p></li>
+</ul>
+
+<p>Only for columns <code>"spectrum_id"</code>, <code>"compound_id"</code>, <code>"mz"</code> and <code>"intensity"</code>
+a value has to be provided in each row of the <code>data.frame</code>. The others are
+optional. Note that the <code>data.frame</code> can be either in the format as in the
+example below (i.e. each row being one spectrum and columns <code>"mz"</code> and
+<code>"intensity"</code> being of type <code>list</code> each element being the m/z or intensity
+values of one spectrum) or in a <em>full</em> form, in which each row represents
+one <em>peak</em> and all columns except <code>"mz"</code> and <code>"intensity"</code> containing
+redundant information of each spectrum (hence columns <code>"mz"</code> and
+<code>"intensity"</code> being of type <code>numeric</code>).</p>
 <p>The metadata <code>data.frame</code> is supposed to have two columns named <code>"name"</code> and
 <code>"value"</code> providing the following minimal information as key-value pairs
 (see <code>make_metadata</code> for a unitlity function to create such a `data.frame):</p><ul>
@@ -434,7 +492,7 @@ MS/MS spectrum data from xml files from HMDB or an SDF file from MoNa.</p>
 #&gt; 3     source_version                        2
 #&gt; 4        source_date                     &lt;NA&gt;
 #&gt; 5           organism                 Hsapiens
-#&gt; 6   db_creation_date Wed Aug  5 07:49:07 2020
+#&gt; 6   db_creation_date Thu Aug  6 07:22:44 2020
 #&gt; 7 supporting_package               CompoundDb
 #&gt; 8  supporting_object                   CompDb</div><div class='input'><span class='fu'>dbGetQuery</span>(<span class='kw'>con</span>, <span class='st'>"select * from compound"</span>)</div><div class='output co'>#&gt;   compound_id            compound_name
 #&gt; 1    CHEBI:90          (-)-epicatechin

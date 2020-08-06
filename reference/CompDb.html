@@ -377,7 +377,7 @@ get a list of all supported filters.</p>
 #&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from 'package:base':</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='kw'>src_cmp</span> <span class='op'>&lt;-</span> <span class='fu'>src_compdb</span>(<span class='kw'>cmp_db</span>)
-<span class='kw'>src_cmp</span></div><div class='output co'>#&gt; src:  sqlite 3.30.1 [/tmp/Rtmp2JUDyp/CompDb.Hsapiens.sub_HMDB.4.sqlite]
+<span class='kw'>src_cmp</span></div><div class='output co'>#&gt; src:  sqlite 3.30.1 [/tmp/RtmpGd0FrN/CompDb.Hsapiens.sub_HMDB.4.sqlite]
 #&gt; tbls: compound, metadata, msms_spectrum, msms_spectrum_peak, synonym</div><div class='input'>
 <span class='co'>## Get a tbl for the compound table</span>
 <span class='kw'>cmp_tbl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/tbl.html'>tbl</a></span>(<span class='kw'>src_cmp</span>, <span class='st'>"compound"</span>)
