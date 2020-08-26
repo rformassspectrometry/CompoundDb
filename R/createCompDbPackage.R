@@ -215,14 +215,14 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #'
 #' @noRd
 .guess_sdf_source <- function(x) {
-    if (any(x == "HMDB_ID"))
-        return("hmdb")
     if (any(x == "ChEBI ID"))
         return("chebi")
     if (any(x == "LM_ID"))
         return("lipidmaps")
     if (any(x == "PUBCHEM_COMPOUND_CID"))
         return("pubchem")
+    if (any(x == "HMDB_ID"))
+        return("hmdb")
     if (any(x == "ID")) {
         message("Guessing we've got a SDF file from MoNa.")
         return("mona")
