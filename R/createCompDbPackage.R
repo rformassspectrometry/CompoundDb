@@ -252,7 +252,7 @@ compound_tbl_lipidblast <- function(file, collapse) {
                    )
 .chebi_separator <- " __ "
 .lipidmaps_colmap <- c(id = "LM_ID",
-                       name = "COMMON_NAME",
+                       name = "NAME",
                        inchi = "INCHI",
                        inchi_key = "INCHI_KEY",
                        formula = "FORMULA",
