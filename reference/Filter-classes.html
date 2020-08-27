@@ -86,7 +86,7 @@ peaks of their MS/MS spectra. Requires that MS/MS spectra data are present
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CompoundDb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
       </span>
     </div>
 
@@ -193,18 +193,22 @@ for a <code>CompDb</code> object.</p></div>
 
 <span class='co'>## Create a filter for the compound id</span>
 <span class='kw'>cf</span> <span class='op'>&lt;-</span> <span class='fu'>CompoundIdFilter</span>(<span class='st'>"comp_a"</span>)
-<span class='kw'>cf</span></div><div class='output co'>#&gt; class: CompoundIdFilter 
+<span class='kw'>cf</span>
+</div><div class='output co'>#&gt; class: CompoundIdFilter 
 #&gt; condition: == 
 #&gt; value: comp_a </div><div class='input'>
 <span class='co'>## Create a filter using a formula expression</span>
-<span class='fu'>AnnotationFilter</span>(<span class='op'>~</span> <span class='kw'>compound_id</span> <span class='op'>==</span> <span class='st'>"comp_b"</span>)</div><div class='output co'>#&gt; class: CompoundIdFilter 
+<span class='fu'>AnnotationFilter</span>(<span class='op'>~</span> <span class='kw'>compound_id</span> <span class='op'>==</span> <span class='st'>"comp_b"</span>)
+</div><div class='output co'>#&gt; class: CompoundIdFilter 
 #&gt; condition: == 
 #&gt; value: comp_b </div><div class='input'>
 <span class='co'>## Combine filters</span>
-<span class='fu'>AnnotationFilterList</span>(<span class='fu'>CompoundIdFilter</span>(<span class='st'>"a"</span>), <span class='fu'>CompoundNameFilter</span>(<span class='st'>"b"</span>))</div><div class='output co'>#&gt; AnnotationFilterList of length 2 
+<span class='fu'>AnnotationFilterList</span>(<span class='fu'>CompoundIdFilter</span>(<span class='st'>"a"</span>), <span class='fu'>CompoundNameFilter</span>(<span class='st'>"b"</span>))
+</div><div class='output co'>#&gt; AnnotationFilterList of length 2 
 #&gt; compound_id == 'a' &amp; compound_name == 'b'</div><div class='input'>
 <span class='co'>## Using a formula expression</span>
-<span class='fu'>AnnotationFilter</span>(<span class='op'>~</span> <span class='kw'>compound_id</span> <span class='op'>==</span> <span class='st'>"a"</span> <span class='op'>|</span> <span class='kw'>compound_name</span> != <span class='st'>"b"</span>)</div><div class='output co'>#&gt; AnnotationFilterList of length 2 
+<span class='fu'>AnnotationFilter</span>(<span class='op'>~</span> <span class='kw'>compound_id</span> <span class='op'>==</span> <span class='st'>"a"</span> <span class='op'>|</span> <span class='kw'>compound_name</span> != <span class='st'>"b"</span>)
+</div><div class='output co'>#&gt; AnnotationFilterList of length 2 
 #&gt; compound_id == 'a' | compound_name != 'b'</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

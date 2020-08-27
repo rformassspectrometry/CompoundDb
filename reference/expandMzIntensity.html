@@ -76,7 +76,7 @@ columns repeated as many times as there are m/z and intensity values." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CompoundDb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
       </span>
     </div>
 
@@ -162,8 +162,10 @@ description for details.</p>
     <pre class="examples"><div class='input'>
 <span class='co'>## Read a data.frame with collapsed columns mz and intensity columns</span>
 <span class='kw'>dr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"xml/"</span>, package = <span class='st'>"CompoundDb"</span>)
-<span class='kw'>msms_spctra</span> <span class='op'>&lt;-</span> <span class='fu'><a href='msms_spectra_hmdb.html'>msms_spectra_hmdb</a></span>(<span class='kw'>dr</span>)</div><div class='output co'>#&gt; <span class='message'>Going to process 4 xml files.</span></div><div class='output co'>#&gt; <span class='message'>Postprocessing data ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='input'>
-<span class='kw'>msms_spctra</span></div><div class='output co'>#&gt;   original_spectrum_id compound_id polarity collision_energy predicted
+<span class='kw'>msms_spctra</span> <span class='op'>&lt;-</span> <span class='fu'><a href='msms_spectra_hmdb.html'>msms_spectra_hmdb</a></span>(<span class='kw'>dr</span>)
+</div><div class='output co'>#&gt; <span class='message'>Going to process 4 xml files.</span></div><div class='output co'>#&gt; <span class='message'>Postprocessing data ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='input'>
+<span class='kw'>msms_spctra</span>
+</div><div class='output co'>#&gt;   original_spectrum_id compound_id polarity collision_energy predicted
 #&gt; 1                    1 HMDB0000001        1               10     FALSE
 #&gt; 2                    2 HMDB0000001        1               25     FALSE
 #&gt; 3               446575 HMDB0004370        1               NA     FALSE
@@ -194,7 +196,8 @@ description for details.</p>
 #&gt; 3           3
 #&gt; 4           4</div><div class='input'>
 <span class='co'>## Columns mz and intensity are "collased"</span>
-<span class='kw'>msms_spctra</span><span class='op'>$</span><span class='kw'>mz</span></div><div class='output co'>#&gt; [[1]]
+<span class='kw'>msms_spctra</span><span class='op'>$</span><span class='kw'>mz</span>
+</div><div class='output co'>#&gt; [[1]]
 #&gt; [1] 109.20 124.20 124.50 170.16 170.52
 #&gt; 
 #&gt; [[2]]
@@ -211,7 +214,8 @@ description for details.</p>
 #&gt; </div><div class='input'>
 <span class='co'>## Expand the data.frame to get one row per m/z and intensity value</span>
 <span class='kw'>spctra_exp</span> <span class='op'>&lt;-</span> <span class='fu'>expandMzIntensity</span>(<span class='kw'>msms_spctra</span>)
-<span class='kw'>spctra_exp</span></div><div class='output co'>#&gt;    original_spectrum_id compound_id polarity collision_energy predicted
+<span class='kw'>spctra_exp</span>
+</div><div class='output co'>#&gt;    original_spectrum_id compound_id polarity collision_energy predicted
 #&gt; 1                     1 HMDB0000001        1               10     FALSE
 #&gt; 2                     1 HMDB0000001        1               10     FALSE
 #&gt; 3                     1 HMDB0000001        1               10     FALSE

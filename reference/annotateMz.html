@@ -82,7 +82,7 @@ that if compounds is [CompDb()], alistofdata.frame`s is returned.s" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CompoundDb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
       </span>
     </div>
 
@@ -207,18 +207,19 @@ column name in <code>object</code> containing the m/z values. Defaults to <code>
 <span class='co'>## a small subset of HMDB annotations</span>
 <span class='kw'>fl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"sdf/HMDB_sub.sdf.gz"</span>, package = <span class='st'>"CompoundDb"</span>)
 <span class='kw'>cmps</span> <span class='op'>&lt;-</span> <span class='fu'><a href='compound_tbl_sdf.html'>compound_tbl_sdf</a></span>(<span class='kw'>fl</span>)
-<span class='kw'>cmps</span></div><div class='output co'>#&gt; # A tibble: 9 x 8
+<span class='kw'>cmps</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 9 x 8</span><span>
 #&gt;   compound_id compound_name  inchi    inchi_key  formula  mass synonyms smiles  
-#&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;   &lt;dbl&gt; &lt;named &gt; &lt;chr&gt;   
-#&gt; 1 HMDB0000001 1-Methylhisti… InChI=1… BRMWTNUJH… C7H11N… 169.  &lt;chr [9… "CN1C=N…
-#&gt; 2 HMDB0000002 1,3-Diaminopr… InChI=1… XFNJVJPLK… C3H10N2  74.1 &lt;chr [8… "NCCCN" 
-#&gt; 3 HMDB0000005 2-Ketobutyric… InChI=1… TYEYBOSBB… C4H6O3  102.  &lt;chr [3… "CCC(=O…
-#&gt; 4 HMDB0000008 2-Hydroxybuty… InChI=1… AFENDNXGA… C4H8O3  104.  &lt;chr [2… "CCC(O)…
-#&gt; 5 HMDB0000010 2-Methoxyestr… InChI=1… WHEUWNKSC… C19H24… 300.  &lt;chr [7… "[H][C@…
-#&gt; 6 HMDB0000011 (R)-3-Hydroxy… InChI=1… WHBMMWSBF… C4H8O3  104.  &lt;chr [2… "C[C@@H…
-#&gt; 7 HMDB0000012 Deoxyuridine   InChI=1… MXHRCPNRJ… C9H12N… 228.  &lt;chr [1… "OC[C@H…
-#&gt; 8 HMDB0004370 N-Methyltrypt… InChI=1… NCIKQJBVU… C11H14… 174.  &lt;chr [9… "CNCCC1…
-#&gt; 9 HMDB0006719 5,6-trans-Vit… InChI=1… QYSXJUFSX… C27H44O 384.  &lt;chr [4… "CC(C)C…</div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   
+#&gt; </span><span style='color: #555555;'>1</span><span> HMDB0000001 1-Methylhisti… InChI=1… BRMWTNUJH… C7H11N… 169.  </span><span style='color: #555555;'>&lt;chr [9</span><span>… </span><span style='color: #555555;'>"</span><span>CN1C=N…
+#&gt; </span><span style='color: #555555;'>2</span><span> HMDB0000002 1,3-Diaminopr… InChI=1… XFNJVJPLK… C3H10N2  74.1 </span><span style='color: #555555;'>&lt;chr [8</span><span>… </span><span style='color: #555555;'>"</span><span>NCCCN</span><span style='color: #555555;'>"</span><span> 
+#&gt; </span><span style='color: #555555;'>3</span><span> HMDB0000005 2-Ketobutyric… InChI=1… TYEYBOSBB… C4H6O3  102.  </span><span style='color: #555555;'>&lt;chr [3</span><span>… </span><span style='color: #555555;'>"</span><span>CCC(=O…
+#&gt; </span><span style='color: #555555;'>4</span><span> HMDB0000008 2-Hydroxybuty… InChI=1… AFENDNXGA… C4H8O3  104.  </span><span style='color: #555555;'>&lt;chr [2</span><span>… </span><span style='color: #555555;'>"</span><span>CCC(O)…
+#&gt; </span><span style='color: #555555;'>5</span><span> HMDB0000010 2-Methoxyestr… InChI=1… WHEUWNKSC… C19H24… 300.  </span><span style='color: #555555;'>&lt;chr [7</span><span>… </span><span style='color: #555555;'>"</span><span>[H][C@…
+#&gt; </span><span style='color: #555555;'>6</span><span> HMDB0000011 (R)-3-Hydroxy… InChI=1… WHBMMWSBF… C4H8O3  104.  </span><span style='color: #555555;'>&lt;chr [2</span><span>… </span><span style='color: #555555;'>"</span><span>C[C@@H…
+#&gt; </span><span style='color: #555555;'>7</span><span> HMDB0000012 Deoxyuridine   InChI=1… MXHRCPNRJ… C9H12N… 228.  </span><span style='color: #555555;'>&lt;chr [1</span><span>… </span><span style='color: #555555;'>"</span><span>OC[C@H…
+#&gt; </span><span style='color: #555555;'>8</span><span> HMDB0004370 N-Methyltrypt… InChI=1… NCIKQJBVU… C11H14… 174.  </span><span style='color: #555555;'>&lt;chr [9</span><span>… </span><span style='color: #555555;'>"</span><span>CNCCC1…
+#&gt; </span><span style='color: #555555;'>9</span><span> HMDB0006719 5,6-trans-Vit… InChI=1… QYSXJUFSX… C27H44O 384.  </span><span style='color: #555555;'>&lt;chr [4</span><span>… </span><span style='color: #555555;'>"</span><span>CC(C)C…</div><div class='input'>
 <span class='co'>## Annotate provided m/z values assuming they represent mass-to-charge</span>
 <span class='co'>## values for [M+H]+ adducts.</span>
 <span class='kw'>mzs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>105.0546</span>, <span class='fl'>75.09168</span>, <span class='fl'>127.0365</span>, <span class='fl'>113.04756</span>, <span class='fl'>113.1210</span>)
@@ -227,97 +228,100 @@ column name in <code>object</code> containing the m/z values. Defaults to <code>
 
 <span class='co'>## res is a `list` with the matching hits for each m/z and the specified</span>
 <span class='co'>## adduct. If no match was found the result contains only `NA` values.</span>
-<span class='kw'>res</span></div><div class='output co'>#&gt; [[1]]
-#&gt; # A tibble: 2 x 10
+<span class='kw'>res</span>
+</div><div class='output co'>#&gt; [[1]]
+#&gt; </span><span style='color: #555555;'># A tibble: 2 x 10</span><span>
 #&gt;   compound_id compound_name inchi inchi_key formula  mass synonyms smiles adduct
-#&gt;   &lt;chr&gt;       &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;dbl&gt; &lt;named &gt; &lt;chr&gt;  &lt;chr&gt; 
-#&gt; 1 HMDB0000008 2-Hydroxybut… InCh… AFENDNXG… C4H8O3   104. &lt;chr [2… CCC(O… [M+H]+
-#&gt; 2 HMDB0000011 (R)-3-Hydrox… InCh… WHBMMWSB… C4H8O3   104. &lt;chr [2… C[C@@… [M+H]+
-#&gt; # … with 1 more variable: ppm &lt;dbl&gt;
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'>1</span><span> HMDB0000008 2-Hydroxybut… InCh… AFENDNXG… C4H8O3   104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… CCC(O… [M+H]+
+#&gt; </span><span style='color: #555555;'>2</span><span> HMDB0000011 (R)-3-Hydrox… InCh… WHBMMWSB… C4H8O3   104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… C[C@@… [M+H]+
+#&gt; </span><span style='color: #555555;'># … with 1 more variable: ppm </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; 
 #&gt; [[2]]
-#&gt; # A tibble: 1 x 10
+#&gt; </span><span style='color: #555555;'># A tibble: 1 x 10</span><span>
 #&gt;   compound_id compound_name inchi inchi_key formula  mass synonyms smiles adduct
-#&gt;   &lt;chr&gt;       &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;dbl&gt; &lt;named &gt; &lt;chr&gt;  &lt;chr&gt; 
-#&gt; 1 HMDB0000002 1,3-Diaminop… InCh… XFNJVJPL… C3H10N2  74.1 &lt;chr [8… NCCCN  [M+H]+
-#&gt; # … with 1 more variable: ppm &lt;dbl&gt;
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'>1</span><span> HMDB0000002 1,3-Diaminop… InCh… XFNJVJPL… C3H10N2  74.1 </span><span style='color: #555555;'>&lt;chr [8</span><span>… NCCCN  [M+H]+
+#&gt; </span><span style='color: #555555;'># … with 1 more variable: ppm </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; 
 #&gt; [[3]]
-#&gt; # A tibble: 1 x 10
+#&gt; </span><span style='color: #555555;'># A tibble: 1 x 10</span><span>
 #&gt;   compound_id compound_name inchi inchi_key formula  mass synonyms smiles adduct
-#&gt;   &lt;chr&gt;       &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;dbl&gt; &lt;named &gt; &lt;chr&gt;  &lt;chr&gt; 
-#&gt; 1 &lt;NA&gt;        &lt;NA&gt;          &lt;NA&gt;  &lt;NA&gt;      &lt;NA&gt;       NA &lt;lgl [1… &lt;NA&gt;   &lt;NA&gt;  
-#&gt; # … with 1 more variable: ppm &lt;dbl&gt;
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='color: #BB0000;'>NA</span><span>          </span><span style='color: #BB0000;'>NA</span><span>            </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>        </span><span style='color: #BB0000;'>NA</span><span>         </span><span style='color: #BB0000;'>NA</span><span> </span><span style='color: #555555;'>&lt;lgl [1</span><span>… </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>    
+#&gt; </span><span style='color: #555555;'># … with 1 more variable: ppm </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; 
 #&gt; [[4]]
-#&gt; # A tibble: 1 x 10
+#&gt; </span><span style='color: #555555;'># A tibble: 1 x 10</span><span>
 #&gt;   compound_id compound_name inchi inchi_key formula  mass synonyms smiles adduct
-#&gt;   &lt;chr&gt;       &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;dbl&gt; &lt;named &gt; &lt;chr&gt;  &lt;chr&gt; 
-#&gt; 1 &lt;NA&gt;        &lt;NA&gt;          &lt;NA&gt;  &lt;NA&gt;      &lt;NA&gt;       NA &lt;lgl [1… &lt;NA&gt;   &lt;NA&gt;  
-#&gt; # … with 1 more variable: ppm &lt;dbl&gt;
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='color: #BB0000;'>NA</span><span>          </span><span style='color: #BB0000;'>NA</span><span>            </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>        </span><span style='color: #BB0000;'>NA</span><span>         </span><span style='color: #BB0000;'>NA</span><span> </span><span style='color: #555555;'>&lt;lgl [1</span><span>… </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>    
+#&gt; </span><span style='color: #555555;'># … with 1 more variable: ppm </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; 
 #&gt; [[5]]
-#&gt; # A tibble: 1 x 10
+#&gt; </span><span style='color: #555555;'># A tibble: 1 x 10</span><span>
 #&gt;   compound_id compound_name inchi inchi_key formula  mass synonyms smiles adduct
-#&gt;   &lt;chr&gt;       &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;dbl&gt; &lt;named &gt; &lt;chr&gt;  &lt;chr&gt; 
-#&gt; 1 &lt;NA&gt;        &lt;NA&gt;          &lt;NA&gt;  &lt;NA&gt;      &lt;NA&gt;       NA &lt;lgl [1… &lt;NA&gt;   &lt;NA&gt;  
-#&gt; # … with 1 more variable: ppm &lt;dbl&gt;
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='color: #BB0000;'>NA</span><span>          </span><span style='color: #BB0000;'>NA</span><span>            </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>        </span><span style='color: #BB0000;'>NA</span><span>         </span><span style='color: #BB0000;'>NA</span><span> </span><span style='color: #555555;'>&lt;lgl [1</span><span>… </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>    
+#&gt; </span><span style='color: #555555;'># … with 1 more variable: ppm </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </div><div class='input'>
 <span class='co'>## Annotating using all adducts defined by `adducts()` and accepting a</span>
 <span class='co'>## 20ppm difference between the masses</span>
-<span class='fu'>annotateMz</span>(<span class='kw'>mzs</span>, <span class='kw'>cmps</span>, ppm = <span class='fl'>20</span>)</div><div class='output co'>#&gt; [[1]]
-#&gt; # A tibble: 6 x 10
+<span class='fu'>annotateMz</span>(<span class='kw'>mzs</span>, <span class='kw'>cmps</span>, ppm = <span class='fl'>20</span>)
+</div><div class='output co'>#&gt; [[1]]
+#&gt; </span><span style='color: #555555;'># A tibble: 6 x 10</span><span>
 #&gt;   compound_id compound_name inchi inchi_key formula  mass synonyms smiles adduct
-#&gt;   &lt;chr&gt;       &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;dbl&gt; &lt;named &gt; &lt;chr&gt;  &lt;chr&gt; 
-#&gt; 1 HMDB0000008 2-Hydroxybut… InCh… AFENDNXG… C4H8O3   104. &lt;chr [2… CCC(O… [2M+2…
-#&gt; 2 HMDB0000011 (R)-3-Hydrox… InCh… WHBMMWSB… C4H8O3   104. &lt;chr [2… C[C@@… [2M+2…
-#&gt; 3 HMDB0000008 2-Hydroxybut… InCh… AFENDNXG… C4H8O3   104. &lt;chr [2… CCC(O… [3M+3…
-#&gt; 4 HMDB0000011 (R)-3-Hydrox… InCh… WHBMMWSB… C4H8O3   104. &lt;chr [2… C[C@@… [3M+3…
-#&gt; 5 HMDB0000008 2-Hydroxybut… InCh… AFENDNXG… C4H8O3   104. &lt;chr [2… CCC(O… [M+H]+
-#&gt; 6 HMDB0000011 (R)-3-Hydrox… InCh… WHBMMWSB… C4H8O3   104. &lt;chr [2… C[C@@… [M+H]+
-#&gt; # … with 1 more variable: ppm &lt;dbl&gt;
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'>1</span><span> HMDB0000008 2-Hydroxybut… InCh… AFENDNXG… C4H8O3   104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… CCC(O… [2M+2…
+#&gt; </span><span style='color: #555555;'>2</span><span> HMDB0000011 (R)-3-Hydrox… InCh… WHBMMWSB… C4H8O3   104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… C[C@@… [2M+2…
+#&gt; </span><span style='color: #555555;'>3</span><span> HMDB0000008 2-Hydroxybut… InCh… AFENDNXG… C4H8O3   104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… CCC(O… [3M+3…
+#&gt; </span><span style='color: #555555;'>4</span><span> HMDB0000011 (R)-3-Hydrox… InCh… WHBMMWSB… C4H8O3   104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… C[C@@… [3M+3…
+#&gt; </span><span style='color: #555555;'>5</span><span> HMDB0000008 2-Hydroxybut… InCh… AFENDNXG… C4H8O3   104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… CCC(O… [M+H]+
+#&gt; </span><span style='color: #555555;'>6</span><span> HMDB0000011 (R)-3-Hydrox… InCh… WHBMMWSB… C4H8O3   104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… C[C@@… [M+H]+
+#&gt; </span><span style='color: #555555;'># … with 1 more variable: ppm </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; 
 #&gt; [[2]]
-#&gt; # A tibble: 4 x 10
+#&gt; </span><span style='color: #555555;'># A tibble: 4 x 10</span><span>
 #&gt;   compound_id compound_name inchi inchi_key formula  mass synonyms smiles adduct
-#&gt;   &lt;chr&gt;       &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;dbl&gt; &lt;named &gt; &lt;chr&gt;  &lt;chr&gt; 
-#&gt; 1 HMDB0000002 1,3-Diaminop… InCh… XFNJVJPL… C3H10N2  74.1 &lt;chr [8… NCCCN  [M+H]+
-#&gt; 2 HMDB0000002 1,3-Diaminop… InCh… XFNJVJPL… C3H10N2  74.1 &lt;chr [8… NCCCN  [2M+2…
-#&gt; 3 HMDB0000002 1,3-Diaminop… InCh… XFNJVJPL… C3H10N2  74.1 &lt;chr [8… NCCCN  [3M+3…
-#&gt; 4 HMDB0000001 1-Methylhist… InCh… BRMWTNUJ… C7H11N… 169.  &lt;chr [9… CN1C=… [M+H-…
-#&gt; # … with 1 more variable: ppm &lt;dbl&gt;
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'>1</span><span> HMDB0000002 1,3-Diaminop… InCh… XFNJVJPL… C3H10N2  74.1 </span><span style='color: #555555;'>&lt;chr [8</span><span>… NCCCN  [M+H]+
+#&gt; </span><span style='color: #555555;'>2</span><span> HMDB0000002 1,3-Diaminop… InCh… XFNJVJPL… C3H10N2  74.1 </span><span style='color: #555555;'>&lt;chr [8</span><span>… NCCCN  [2M+2…
+#&gt; </span><span style='color: #555555;'>3</span><span> HMDB0000002 1,3-Diaminop… InCh… XFNJVJPL… C3H10N2  74.1 </span><span style='color: #555555;'>&lt;chr [8</span><span>… NCCCN  [3M+3…
+#&gt; </span><span style='color: #555555;'>4</span><span> HMDB0000001 1-Methylhist… InCh… BRMWTNUJ… C7H11N… 169.  </span><span style='color: #555555;'>&lt;chr [9</span><span>… CN1C=… [M+H-…
+#&gt; </span><span style='color: #555555;'># … with 1 more variable: ppm </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; 
 #&gt; [[3]]
-#&gt; # A tibble: 4 x 10
+#&gt; </span><span style='color: #555555;'># A tibble: 4 x 10</span><span>
 #&gt;   compound_id compound_name inchi inchi_key formula  mass synonyms smiles adduct
-#&gt;   &lt;chr&gt;       &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;dbl&gt; &lt;named &gt; &lt;chr&gt;  &lt;chr&gt; 
-#&gt; 1 HMDB0000008 2-Hydroxybut… InCh… AFENDNXG… C4H8O3   104. &lt;chr [2… CCC(O… [M+Na…
-#&gt; 2 HMDB0000011 (R)-3-Hydrox… InCh… WHBMMWSB… C4H8O3   104. &lt;chr [2… C[C@@… [M+Na…
-#&gt; 3 HMDB0000008 2-Hydroxybut… InCh… AFENDNXG… C4H8O3   104. &lt;chr [2… CCC(O… [2M+2…
-#&gt; 4 HMDB0000011 (R)-3-Hydrox… InCh… WHBMMWSB… C4H8O3   104. &lt;chr [2… C[C@@… [2M+2…
-#&gt; # … with 1 more variable: ppm &lt;dbl&gt;
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'>1</span><span> HMDB0000008 2-Hydroxybut… InCh… AFENDNXG… C4H8O3   104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… CCC(O… [M+Na…
+#&gt; </span><span style='color: #555555;'>2</span><span> HMDB0000011 (R)-3-Hydrox… InCh… WHBMMWSB… C4H8O3   104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… C[C@@… [M+Na…
+#&gt; </span><span style='color: #555555;'>3</span><span> HMDB0000008 2-Hydroxybut… InCh… AFENDNXG… C4H8O3   104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… CCC(O… [2M+2…
+#&gt; </span><span style='color: #555555;'>4</span><span> HMDB0000011 (R)-3-Hydrox… InCh… WHBMMWSB… C4H8O3   104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… C[C@@… [2M+2…
+#&gt; </span><span style='color: #555555;'># … with 1 more variable: ppm </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; 
 #&gt; [[4]]
-#&gt; # A tibble: 2 x 10
+#&gt; </span><span style='color: #555555;'># A tibble: 2 x 10</span><span>
 #&gt;   compound_id compound_name inchi inchi_key formula  mass synonyms smiles adduct
-#&gt;   &lt;chr&gt;       &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;dbl&gt; &lt;named &gt; &lt;chr&gt;  &lt;chr&gt; 
-#&gt; 1 HMDB0000002 1,3-Diaminop… InCh… XFNJVJPL… C3H10N2  74.1 &lt;chr [8… NCCCN  [M+K]+
-#&gt; 2 HMDB0000002 1,3-Diaminop… InCh… XFNJVJPL… C3H10N2  74.1 &lt;chr [8… NCCCN  [2M+2…
-#&gt; # … with 1 more variable: ppm &lt;dbl&gt;
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'>1</span><span> HMDB0000002 1,3-Diaminop… InCh… XFNJVJPL… C3H10N2  74.1 </span><span style='color: #555555;'>&lt;chr [8</span><span>… NCCCN  [M+K]+
+#&gt; </span><span style='color: #555555;'>2</span><span> HMDB0000002 1,3-Diaminop… InCh… XFNJVJPL… C3H10N2  74.1 </span><span style='color: #555555;'>&lt;chr [8</span><span>… NCCCN  [2M+2…
+#&gt; </span><span style='color: #555555;'># … with 1 more variable: ppm </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; 
 #&gt; [[5]]
-#&gt; # A tibble: 1 x 10
+#&gt; </span><span style='color: #555555;'># A tibble: 1 x 10</span><span>
 #&gt;   compound_id compound_name inchi inchi_key formula  mass synonyms smiles adduct
-#&gt;   &lt;chr&gt;       &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;dbl&gt; &lt;named &gt; &lt;chr&gt;  &lt;chr&gt; 
-#&gt; 1 HMDB0004370 N-Methyltryp… InCh… NCIKQJBV… C11H14…  174. &lt;chr [9… CNCCC… [M+H-…
-#&gt; # … with 1 more variable: ppm &lt;dbl&gt;
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'>1</span><span> HMDB0004370 N-Methyltryp… InCh… NCIKQJBV… C11H14…  174. </span><span style='color: #555555;'>&lt;chr [9</span><span>… CNCCC… [M+H-…
+#&gt; </span><span style='color: #555555;'># … with 1 more variable: ppm </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </div><div class='input'>
 <span class='co'>## It is also possible to annotate an input data.frame, in which case each</span>
 <span class='co'>## input will be duplicated depending on the number of hits for each m/z</span>
 <span class='kw'>mzs_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(id = <span class='kw'>letters</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>], mzmed = <span class='kw'>mzs</span>)
 
 <span class='kw'>res</span> <span class='op'>&lt;-</span> <span class='fu'>annotateMz</span>(<span class='kw'>mzs_df</span>, <span class='kw'>cmps</span>, mzcol = <span class='st'>"mzmed"</span>, adduct = <span class='st'>"[M+H]+"</span>)
-<span class='kw'>res</span></div><div class='output co'>#&gt;   id     mzmed compound_id             compound_name
+<span class='kw'>res</span>
+</div><div class='output co'>#&gt;   id     mzmed compound_id             compound_name
 #&gt; 1  a 105.05460 HMDB0000008     2-Hydroxybutyric acid
 #&gt; 2  a 105.05460 HMDB0000011 (R)-3-Hydroxybutyric acid
 #&gt; 3  b  75.09168 HMDB0000002        1,3-Diaminopropane
@@ -353,7 +357,8 @@ column name in <code>object</code> containing the m/z values. Defaults to <code>
 #&gt; 5              &lt;NA&gt;   &lt;NA&gt;         NA
 #&gt; 6              &lt;NA&gt;   &lt;NA&gt;         NA</div><div class='input'>
 <span class='co'>## Note that `compounds` could also be `CompDb` database, in which a search</span>
-<span class='co'>## against the annotations provided in that database would be performed.</span></div></pre>
+<span class='co'>## against the annotations provided in that database would be performed.</span>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

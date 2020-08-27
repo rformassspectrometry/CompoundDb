@@ -79,7 +79,7 @@ collapsed = TRUE and numeric for collapsed = FALSE." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CompoundDb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.3</span>
       </span>
     </div>
 
@@ -214,13 +214,15 @@ compound annotation and spectrum data.</p>
 <span class='kw'>pth</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"xml"</span>, package = <span class='st'>"CompoundDb"</span>)
 
 <span class='co'>## List all files in that directory</span>
-<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='kw'>pth</span>)</div><div class='output co'>#&gt; [1] "fail"                                              
+<span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='kw'>pth</span>)
+</div><div class='output co'>#&gt; [1] "fail"                                              
 #&gt; [2] "HMDB0000001_ms_ms_spectrum_1_experimental.xml"     
 #&gt; [3] "HMDB0000001_ms_ms_spectrum_2_experimental.xml"     
 #&gt; [4] "HMDB0004370_ms_ms_spectrum_446575_experimental.xml"
 #&gt; [5] "HMDB0006719_ms_ms_spectrum_370739_predicted.xml"   </div><div class='input'>
 <span class='co'>## Import spectrum data from HMDB MS/MS spectrum xml files in that directory</span>
-<span class='fu'>msms_spectra_hmdb</span>(<span class='kw'>pth</span>)</div><div class='output co'>#&gt; <span class='message'>Going to process 4 xml files.</span></div><div class='output co'>#&gt; <span class='message'>Postprocessing data ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt;   original_spectrum_id compound_id polarity collision_energy predicted
+<span class='fu'>msms_spectra_hmdb</span>(<span class='kw'>pth</span>)
+</div><div class='output co'>#&gt; <span class='message'>Going to process 4 xml files.</span></div><div class='output co'>#&gt; <span class='message'>Postprocessing data ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt;   original_spectrum_id compound_id polarity collision_energy predicted
 #&gt; 1                    1 HMDB0000001        1               10     FALSE
 #&gt; 2                    2 HMDB0000001        1               25     FALSE
 #&gt; 3               446575 HMDB0004370        1               NA     FALSE
@@ -252,7 +254,8 @@ compound annotation and spectrum data.</p>
 #&gt; 4           4</div><div class='input'>
 <span class='co'>## Import the data as an *expanded* data frame, i.e. with a row for each</span>
 <span class='co'>## single m/z (intensity) value.</span>
-<span class='fu'>msms_spectra_hmdb</span>(<span class='kw'>pth</span>, collapsed = <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>Going to process 4 xml files.</span></div><div class='output co'>#&gt; <span class='message'>Postprocessing data ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt;    original_spectrum_id compound_id polarity collision_energy predicted
+<span class='fu'>msms_spectra_hmdb</span>(<span class='kw'>pth</span>, collapsed = <span class='fl'>FALSE</span>)
+</div><div class='output co'>#&gt; <span class='message'>Going to process 4 xml files.</span></div><div class='output co'>#&gt; <span class='message'>Postprocessing data ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt;    original_spectrum_id compound_id polarity collision_energy predicted
 #&gt; 1                     1 HMDB0000001        1               10     FALSE
 #&gt; 2                     1 HMDB0000001        1               10     FALSE
 #&gt; 3                     1 HMDB0000001        1               10     FALSE
