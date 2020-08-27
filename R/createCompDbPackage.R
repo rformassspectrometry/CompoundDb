@@ -25,8 +25,10 @@
 #' MoNa SDF files organize the data by individual spectra (i.e. each element
 #' is one spectrum) and individual compounds can not easily and consistently
 #' defined (i.e. not all entries have an InChI ID or other means to uniquely
-#' identify compounds). Thus, the function returns a highly redundant compount
+#' identify compounds). Thus, the function returns a highly redundant compound
 #' table. Feedback on how to reduce this redundancy would be highly welcome!
+#' 
+#' LIPID MAPS was tested August 2020. Older SDF files might not work as the field names were changed.
 #'
 #' @param file `character(1)` with the name of the SDF file.
 #'
@@ -143,11 +145,14 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' @description
 #'
 #' Internal function to extract compound information from a file in SDF format.
-#'
+#' 
 #' @param x what is returned by datablock2ma(datablock(read.SDFset)).
 #'
 #' @return A [tibble::tibble] with columns `"compound_id"`, `"compound_name"`,
 #'     `"inchi"`, `"formula"`, `"mass"`.
+#'
+#' @note
+#' LIPID MAPS was tested August 2020. Older SDF files might not work as the field names were changed.
 #'
 #' @importFrom tibble data_frame
 #'
@@ -203,11 +208,15 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' @description
 #'
 #' Based on the provided `colnames` guess whether the file is from HMDB,
-#' ChEBI or LipidBlast.
+#' ChEBI, LIPID MAPS, PubChem or LipidBlast.
+#' 
 #'
 #' @param x `character` with the column names of the data table.
 #'
 #' @return `character(1)` with the name of the resource or `NULL`.
+#'
+#' @note
+#' LIPID MAPS was tested August 2020. Older SDF files might not work as the field names were changed.
 #'
 #' @md
 #'
