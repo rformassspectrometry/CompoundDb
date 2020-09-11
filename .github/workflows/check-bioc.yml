@@ -207,6 +207,8 @@ jobs:
           remotes::install_cran("rcmdcheck")
           BiocManager::install("BiocCheck")
 
+          BiocManager::install("stringi")
+
           ## Install required Spectra package
           BiocManager::install("RforMassSpectrometry/Spectra")
           BiocManager::install("stanstrup/commonMZ")
@@ -414,6 +416,8 @@ jobs:
           message(paste('****', Sys.time(), 'installing rcmdcheck and BiocCheck ****'))
           remotes::install_cran("rcmdcheck")
           BiocManager::install("BiocCheck")
+
+          BiocManager::install("stringi")
 
           ## Install required Spectra package
           BiocManager::install("RforMassSpectrometry/Spectra")
