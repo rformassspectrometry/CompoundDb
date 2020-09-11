@@ -10,7 +10,7 @@ vignette: >
   %\VignetteKeywords{Mass Spectrometry, Metabolomics, Infrastructure, Bioinformatics}
   %\VignetteEncoding{UTF-8}
   %\VignettePackage{MsBackendHmdb}
-  %\VignetteDepends{Spectra,MsBackendHmdb}
+  %\VignetteDepends{Spectra,BiocStyle}
 ---
 
 ```{r style, echo = FALSE, results = 'asis'}
