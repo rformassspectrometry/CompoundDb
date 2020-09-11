@@ -1,7 +1,6 @@
-Changes in version 0.5.0
+Changes in version 0.4.3
 
-- Adapt to `Spectra` version 0.99.4: replace `as.list` with `peaksData` and
-  `asDataFrame` with `spectraData`.
+- Updated to match new LIPID MAPS field names.
 
 
 Changes in version 0.4.2

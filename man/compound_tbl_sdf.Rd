@@ -53,8 +53,10 @@ provided, the \code{"SYSTEMATIC_NAME"}.
 MoNa SDF files organize the data by individual spectra (i.e. each element
 is one spectrum) and individual compounds can not easily and consistently
 defined (i.e. not all entries have an InChI ID or other means to uniquely
-identify compounds). Thus, the function returns a highly redundant compount
+identify compounds). Thus, the function returns a highly redundant compound
 table. Feedback on how to reduce this redundancy would be highly welcome!
+
+LIPID MAPS was tested August 2020. Older SDF files might not work as the field names were changed.
 }
 \examples{
 
