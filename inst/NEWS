@@ -1,3 +1,9 @@
+Changes in version 0.5.0
+
+- Adapt to `Spectra` version 0.99.4: replace `as.list` with `peaksData` and
+  `asDataFrame` with `spectraData`.
+
+
 Changes in version 0.4.2
 
 - Fix bug in `as.list,MsBackendCompDb` which returned a `SimpleList` instead of

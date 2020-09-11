@@ -21,14 +21,14 @@ test_that("backendInitialize,MsBackendCompDb works", {
                                                    "dataOrigin")))
 })
 
-test_that("as.list,MsBackendCompDb works", {
+test_that("peaksData,MsBackendCompDb works", {
     be <- MsBackendCompDb()
-    res <- as.list(be)
+    res <- peaksData(be)
     expect_true(length(res) == 0)
     expect_true(is(res, "list"))
 
     be <- Spectra(cmp_spctra_db)@backend
-    res <- as.list(be)
+    res <- peaksData(be)
     expect_true(is(res, "list"))
     expect_true(length(res) == length(be))
     expect_true(is.matrix(res[[1]]))
@@ -63,31 +63,31 @@ test_that("mz,mz<-,MsBackendCompDb works", {
     expect_error(mz(be) <- res, "not support replacing")
 })
 
-test_that("asDataFrame,asDataFrame<-,MsBackendCompDb works", {
+test_that("spectraData,spectraData<-,MsBackendCompDb works", {
     be <- MsBackendCompDb()
-    res <- asDataFrame(be)
+    res <- spectraData(be)
     expect_true(is(res, "DataFrame"))
     expect_true(nrow(res) == 0)
 
     be <- Spectra(cmp_spctra_db)@backend
-    res <- asDataFrame(be)
+    res <- spectraData(be)
     expect_true(is(res, "DataFrame"))
     expect_true(nrow(res) == 4)
     expect_equal(res$mz, mz(be))
     expect_equal(res$intensity, intensity(be))
 
     be <- be[c(3, 4, 2, 1)]
-    res <- asDataFrame(be, c("compound_id", "mz", "polarity"))
+    res <- spectraData(be, c("compound_id", "mz", "polarity"))
     expect_true(all(c("compound_id", "mz", "polarity") == colnames(res)))
     expect_equal(res$mz, mz(be))
 
-    expect_error(asDataFrame(be, "sorry"), "column 'sorry' not available")
+    expect_error(spectraData(be, "sorry"), "column 'sorry' not available")
 
-    ## asDataFrame<-
-    res <- asDataFrame(be)
+    ## spectraData<-
+    res <- spectraData(be)
     res$compound_id <- c("A", "B", "C", "D")
     res$polarity <- rep(0L, 4)
-    expect_warning(asDataFrame(be) <- res, "Ignoring columns")
+    expect_warning(spectraData(be) <- res, "Ignoring columns")
 })
 
 test_that("$<-,MsBackendCompDb works", {
