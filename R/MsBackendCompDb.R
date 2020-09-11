@@ -10,7 +10,7 @@
 #' the [Spectra()] call on [CompDb()] will return a `Spectra` object that uses
 #' this backend.
 #'
-#' @param columns for `asDataFrame`: `character` with names of columns/spectra
+#' @param columns for `spectraData`: `character` with names of columns/spectra
 #'     variables that should be returned. Defaults to
 #'     `spectraVariables(object)`.
 #'
@@ -39,7 +39,7 @@
 #' methods are inherited directly from the parent [MsBackendDataFrame()] class.
 #' See that help page for a complete listing of methods.
 #'
-#' - `as.list`: gets the full list of peak matrices. Returns a [list()],
+#' - `peaksData`: gets the full list of peak matrices. Returns a [list()],
 #'   length equal to the number of spectra and each element being a `matrix`
 #'   with columns `"mz"` and `"intensity"` with the spectra's m/z and intensity
 #'   values.
@@ -56,10 +56,10 @@
 #'
 #' - `mz<-`: not supported.
 #'
-#' - `asDataFrame`: returns the complete spectrum data including m/z and
+#' - `spectraData`: returns the complete spectrum data including m/z and
 #'   intensity values as a [DataFrame()].
 #'
-#' - `asDataFrame<-`: replace the spectrum metadata. Note that columns `"mz"`
+#' - `spectraData<-`: replace the spectrum metadata. Note that columns `"mz"`
 #'   and `"intensity"` are ignored.
 #'
 #' - `$<-`: replace or add a spectrum variable. Note that `mz`, `intensity` and
@@ -70,6 +70,8 @@
 #' @author Johannes Rainer
 #'
 #' @exportClass MsBackendCompDb
+#'
+#' @importMethodsFrom Spectra peaksData
 setClass("MsBackendCompDb",
          contains = "MsBackendDataFrame",
          slots = c("dbcon", "DBIConnection"),
@@ -130,15 +132,15 @@ setMethod("show", "MsBackendCompDb", function(object) {
 
 #' @importFrom S4Vectors SimpleList
 #'
-#' @importMethodsFrom BiocGenerics as.list
+#' @importMethodsFrom Spectra peaksData
 #'
 #' @rdname MsBackendCompDb
 #'
 #' @export
-setMethod("as.list", "MsBackendCompDb", function(x) {
-    if (!length(x))
+setMethod("peaksData", "MsBackendCompDb", function(object) {
+    if (!length(object))
         return(list())
-    .peaks(x)
+    .peaks(object)
 })
 
 #' @importFrom IRanges NumericList
@@ -183,14 +185,14 @@ setReplaceMethod("mz", "MsBackendCompDb", function(object, value) {
     stop(class(object), " does not support replacing m/z values")
 })
 
-#' @importMethodsFrom Spectra asDataFrame spectraVariables
+#' @importMethodsFrom Spectra spectraData spectraVariables
 #'
 #' @rdname MsBackendCompDb
 #'
 #' @importFrom methods as
 #'
 #' @export
-setMethod("asDataFrame", "MsBackendCompDb",
+setMethod("spectraData", "MsBackendCompDb",
           function(object, columns = spectraVariables(object)) {
               have_cols <- intersect(columns, colnames(object@spectraData))
               res <- object@spectraData[, have_cols, drop = FALSE]
@@ -211,10 +213,10 @@ setMethod("asDataFrame", "MsBackendCompDb",
 
 #' @rdname MsBackendCompDb
 #'
-#' @importMethodsFrom Spectra asDataFrame<-
+#' @importMethodsFrom Spectra spectraData<-
 #'
 #' @export
-setReplaceMethod("asDataFrame", "MsBackendCompDb", function(object, value) {
+setReplaceMethod("spectraData", "MsBackendCompDb", function(object, value) {
     if (inherits(value, "DataFrame") &&
         any(colnames(value) %in% c("mz", "intensity"))) {
         warning("Ignoring columns \"mz\" and \"intensity\" ",

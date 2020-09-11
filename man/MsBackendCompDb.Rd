@@ -7,13 +7,13 @@
 \alias{MsBackendCompDb-class}
 \alias{backendInitialize,MsBackendCompDb-method}
 \alias{show,MsBackendCompDb-method}
-\alias{as.list,MsBackendCompDb-method}
+\alias{peaksData,MsBackendCompDb-method}
 \alias{intensity,MsBackendCompDb-method}
 \alias{intensity<-,MsBackendCompDb-method}
 \alias{mz,MsBackendCompDb-method}
 \alias{mz<-,MsBackendCompDb-method}
-\alias{asDataFrame,MsBackendCompDb-method}
-\alias{asDataFrame<-,MsBackendCompDb-method}
+\alias{spectraData,MsBackendCompDb-method}
+\alias{spectraData<-,MsBackendCompDb-method}
 \alias{$<-,MsBackendCompDb-method}
 \title{CompDb-based MS spectrum backend}
 \usage{
@@ -23,7 +23,7 @@ MsBackendCompDb()
 
 \S4method{show}{MsBackendCompDb}(object)
 
-\S4method{as.list}{MsBackendCompDb}(x)
+\S4method{peaksData}{MsBackendCompDb}(object)
 
 \S4method{intensity}{MsBackendCompDb}(object)
 
@@ -33,9 +33,9 @@ MsBackendCompDb()
 
 \S4method{mz}{MsBackendCompDb}(object) <- value
 
-\S4method{asDataFrame}{MsBackendCompDb}(object, columns = spectraVariables(object))
+\S4method{spectraData}{MsBackendCompDb}(object, columns = spectraVariables(object))
 
-\S4method{asDataFrame}{MsBackendCompDb}(object) <- value
+\S4method{spectraData}{MsBackendCompDb}(object) <- value
 
 \S4method{$}{MsBackendCompDb}(x, name) <- value
 }
@@ -44,7 +44,7 @@ MsBackendCompDb()
 
 \item{x}{an \code{MsBackendCompDb} instance.}
 
-\item{columns}{for \code{asDataFrame}: \code{character} with names of columns/spectra
+\item{columns}{for \code{spectraData}: \code{character} with names of columns/spectra
 variables that should be returned. Defaults to
 \code{spectraVariables(object)}.}
 
@@ -78,7 +78,7 @@ The methods listed here are implemented for the \code{MsBackendCompDb}. All othe
 methods are inherited directly from the parent \code{\link[=MsBackendDataFrame]{MsBackendDataFrame()}} class.
 See that help page for a complete listing of methods.
 \itemize{
-\item \code{as.list}: gets the full list of peak matrices. Returns a \code{\link[=list]{list()}},
+\item \code{peaksData}: gets the full list of peak matrices. Returns a \code{\link[=list]{list()}},
 length equal to the number of spectra and each element being a \code{matrix}
 with columns \code{"mz"} and \code{"intensity"} with the spectra's m/z and intensity
 values.
@@ -90,9 +90,9 @@ The actual intensity values are retrieved from the database.
 each element being a \code{numeric} with the m/z values of one spectrum. These
 values are retrieved from the database.
 \item \verb{mz<-}: not supported.
-\item \code{asDataFrame}: returns the complete spectrum data including m/z and
+\item \code{spectraData}: returns the complete spectrum data including m/z and
 intensity values as a \code{\link[=DataFrame]{DataFrame()}}.
-\item \verb{asDataFrame<-}: replace the spectrum metadata. Note that columns \code{"mz"}
+\item \verb{spectraData<-}: replace the spectrum metadata. Note that columns \code{"mz"}
 and \code{"intensity"} are ignored.
 \item \verb{$<-}: replace or add a spectrum variable. Note that \code{mz}, \code{intensity} and
 \code{spectrum_id} variables can not be replaced.

@@ -1,7 +1,7 @@
 Package: CompoundDb
 Type: Package
 Title: Creating and using (Chemical) Compound Annotation Databases
-Version: 0.4.3
+Version: 0.5.0
 Authors@R: c(person(given = "Jan", family = "Stanstrup",
                     email = "stanstrup@gmail.com",
 		    role = c("aut"),
@@ -36,7 +36,7 @@ Imports:
     commonMZ,
     MsCoreUtils,
     IRanges,
-    Spectra (>= 0.5.0)
+    Spectra (>= 0.99.3)
 Suggests:
     knitr,
     testthat,
