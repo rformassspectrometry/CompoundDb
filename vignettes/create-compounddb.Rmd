@@ -7,8 +7,10 @@ output:
 vignette: >
   %\VignetteIndexEntry{Creating CompoundDb annotation resources}
   %\VignetteEngine{knitr::rmarkdown}
-  %%\VignetteKeywords{Mass Spectrometry, Metabolomics, Infrastructure, Bioinformatics}
+  %\VignetteKeywords{Mass Spectrometry, Metabolomics, Infrastructure, Bioinformatics}
   %\VignetteEncoding{UTF-8}
+  %\VignettePackage{MsBackendHmdb}
+  %\VignetteDepends{Spectra,BiocStyle}
 ---
 
 ```{r style, echo = FALSE, results = 'asis'}
