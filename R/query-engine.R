@@ -274,7 +274,7 @@
 #'
 #' ## Define database tables with some redundand fields.
 #' tabs <- list(
-#'     compound = c("compound_id", "compound_name", "red_field"),
+#'     compound = c("compound_id", "name", "red_field"),
 #'     spectrum = c("spectrum_id", "compound_id"),
 #'     other_tab = c("compound_id", "red_field"))
 #'
@@ -284,9 +284,9 @@
 #'     start_from = "other_tab")
 #' .reduce_tables_start_from(tabs, c("compound_id", "red_field"),
 #'     start_from = "spectrum")
-#' .reduce_tables_start_from(tabs, c("compound_name", "red_field"),
+#' .reduce_tables_start_from(tabs, c("name", "red_field"),
 #'     start_from = "spectrum")
-#' .reduce_tables_start_from(tabs, c("compound_name", "red_field"),
+#' .reduce_tables_start_from(tabs, c("name", "red_field"),
 #'     start_from = "spectrum_bla")
 .reduce_tables_start_from <- function(tables, columns, start_from) {
     tbls <- .reduce_tables(tables, columns)

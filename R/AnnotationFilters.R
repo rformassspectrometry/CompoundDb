@@ -9,7 +9,7 @@
 #'
 #' The supported filters are:
 #' - `CompoundIdFilter`: filter based on the compound ID.
-#' - `CompoundNameFilter`: filter based on the compound name.
+#' - `NameFilter`: filter based on the compound name.
 #' - `MsmsMzRangeMinFilter`: retrieve entries based on the smallest m/z of all
 #'   peaks of their MS/MS spectra. Requires that MS/MS spectra data are present
 #'   (i.e. `hasMsMsSpectra(cmp_db)` returns `TRUE`).
@@ -43,10 +43,10 @@
 #' AnnotationFilter(~ compound_id == "comp_b")
 #'
 #' ## Combine filters
-#' AnnotationFilterList(CompoundIdFilter("a"), CompoundNameFilter("b"))
+#' AnnotationFilterList(CompoundIdFilter("a"), NameFilter("b"))
 #'
 #' ## Using a formula expression
-#' AnnotationFilter(~ compound_id == "a" | compound_name != "b")
+#' AnnotationFilter(~ compound_id == "a" | name != "b")
 NULL
 
 #' @importClassesFrom AnnotationFilter CharacterFilter AnnotationFilter
@@ -67,20 +67,20 @@ CompoundIdFilter <- function(value, condition = "==") {
     new("CompoundIdFilter", value = as.character(value), condition = condition)
 }
 
-#' @exportClass CompoundNameFilter
+#' @exportClass NameFilter
 #'
 #' @rdname Filter-classes
-setClass("CompoundNameFilter", contains = "CharacterFilter",
+setClass("NameFilter", contains = "CharacterFilter",
          prototype = list(
              condition = "==",
              value = "",
-             field = "compound_name"
+             field = "name"
          ))
-#' @export CompoundNameFilter
+#' @export NameFilter
 #'
 #' @rdname Filter-classes
-CompoundNameFilter <- function(value, condition = "==") {
-    new("CompoundNameFilter", value = as.character(value),
+NameFilter <- function(value, condition = "==") {
+    new("NameFilter", value = as.character(value),
         condition = condition)
 }
 
@@ -300,9 +300,9 @@ MsmsMzRangeMaxFilter <- function(value, condition = "<=") {
 #' @noRd
 .supported_filters <- function(x) {
     df <- data.frame(filter = c("CompoundIdFilter",
-                                "CompoundNameFilter"),
+                                "NameFilter"),
                      field = c("compound_id",
-                               "compound_name"),
+                               "name"),
                      stringsAsFactors = FALSE)
     if (!missing(x) && .has_msms_spectra(x)) {
         df <- rbind(df,

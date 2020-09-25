@@ -1,3 +1,9 @@
+Changes in version 0.6.0
+
+- Rename column names: compound_name -> name, mass -> exactmass, inchi_key ->
+  inchikey.
+
+
 Changes in version 0.5.0
 
 - Replace `as.list` with `peaksData`.

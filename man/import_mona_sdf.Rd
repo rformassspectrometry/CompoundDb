@@ -35,7 +35,7 @@ import but avoiding to read the SDF files twice.
 MoNa SDF files organize the data by individual spectra (i.e. each element
 is one spectrum) and individual compounds can not easily and consistently
 defined (i.e. not all entries have an InChI ID or other means to uniquely
-identify compounds). Thus, the function returns a highly redundant compount
+identify compounds). Thus, the function returns a highly redundant compound
 table. Feedback on how to reduce this redundancy would be highly welcome!
 }
 \examples{

@@ -82,11 +82,11 @@ cmps
 The `tibble` contains columns
 
 - `compound_id`: the resource-specific ID of the compound.
-- `compound_name`: the name of the compound, mostly a generic or common name.
+- `name`: the name of the compound, mostly a generic or common name.
 - `inchi`: the compound's inchi.
-- `inchi_key`: the INCHI key.
+- `inchikey`: the INCHI key.
 - `formula`: the chemical formula of the compound.
-- `mass`: the compounds (monoisotopic) mass.
+- `exactmass`: the compounds (monoisotopic) mass.
 - `synonyms`: a `list` of aliases/synonyms for the compound.
 - `smiles`: the SMILES of the compound.
 
@@ -158,7 +158,7 @@ tables(cmpdb)
 Below we extract only selected columns from the *compounds* table.
 
 ```{r compounds}
-compounds(cmpdb, columns = c("compound_name", "formula", "mass"))
+compounds(cmpdb, columns = c("name", "formula", "exactmass"))
 ```
 
 Analogously we can use the `Spectra` function to extract spectrum data from the
@@ -196,13 +196,13 @@ mz(sps)[[2]]
 Note that it is also possible to retrieve specific spectra, e.g. for a provided
 compound, or add compound annotations to the `Spectra` object. Below we use the
 filter expression `~ compound_id == "HMDB0000001"`to get only MS/MS spectra for
-the specified compound. In addition we ask for the `"compound_name"` and
-`"inchi_key"` of the compound.
+the specified compound. In addition we ask for the `"name"` and
+`"inchikey"` of the compound.
 
 ```{r spectra-selected}
 sps <- Spectra(cmpdb, filter = ~ compound_id == "HMDB0000001",
-               columns = c(tables(cmpdb)$msms_spectrum, "compound_name",
-                           "inchi_key"))
+               columns = c(tables(cmpdb)$msms_spectrum, "name",
+                           "inchikey"))
 sps
 ```
 
@@ -216,7 +216,7 @@ The compound's name and INCHI key have thus also been added as spectra
 variables:
 
 ```{r}
-sps$inchi_key
+sps$inchikey
 ```
 
 To share or archive the such created `CompDb` database, we can also create a

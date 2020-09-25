@@ -18,7 +18,7 @@
 equivalent) with a column containing the m/z values.}
 
 \item{compounds}{either a \code{data.frame} (or equivalent) or a \code{\link[=CompDb]{CompDb()}} with
-the reference annotations. A column named \code{"mass"} is mandatory if
+the reference annotations. A column named \code{"exactmass"} is mandatory if
 \code{compounds} is a \code{data.frame}.}
 
 \item{adduct}{adduct definition. Either a \code{data.frame} as returned by

@@ -5,8 +5,8 @@
 \alias{Filter-classes}
 \alias{CompoundIdFilter-class}
 \alias{CompoundIdFilter}
-\alias{CompoundNameFilter-class}
-\alias{CompoundNameFilter}
+\alias{NameFilter-class}
+\alias{NameFilter}
 \alias{MsmsMzRangeMinFilter-class}
 \alias{MsmsMzRangeMinFilter}
 \alias{MsmsMzRangeMaxFilter-class}
@@ -15,7 +15,7 @@
 \usage{
 CompoundIdFilter(value, condition = "==")
 
-CompoundNameFilter(value, condition = "==")
+NameFilter(value, condition = "==")
 
 MsmsMzRangeMinFilter(value, condition = ">=")
 
@@ -37,7 +37,7 @@ introduced by Bioconductor's \code{AnnotationFilter} package.
 The supported filters are:
 \itemize{
 \item \code{CompoundIdFilter}: filter based on the compound ID.
-\item \code{CompoundNameFilter}: filter based on the compound name.
+\item \code{NameFilter}: filter based on the compound name.
 \item \code{MsmsMzRangeMinFilter}: retrieve entries based on the smallest m/z of all
 peaks of their MS/MS spectra. Requires that MS/MS spectra data are present
 (i.e. \code{hasMsMsSpectra(cmp_db)} returns \code{TRUE}).
@@ -57,10 +57,10 @@ cf
 AnnotationFilter(~ compound_id == "comp_b")
 
 ## Combine filters
-AnnotationFilterList(CompoundIdFilter("a"), CompoundNameFilter("b"))
+AnnotationFilterList(CompoundIdFilter("a"), NameFilter("b"))
 
 ## Using a formula expression
-AnnotationFilter(~ compound_id == "a" | compound_name != "b")
+AnnotationFilter(~ compound_id == "a" | name != "b")
 }
 \seealso{
 \code{\link[=supportedFilters]{supportedFilters()}} for the method to list all supported filters
