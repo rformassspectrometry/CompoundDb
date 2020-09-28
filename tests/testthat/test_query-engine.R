@@ -90,11 +90,11 @@ test_that(".build_query_CompDb works", {
                         "inchi from compound where compound.compound_id = 'a'"))
     res <- .build_query_CompDb(
         cmp_db, columns = c("compound_id", "inchi"),
-        filter = ~ compound_id == "a" | compound_name != "b")
+        filter = ~ compound_id == "a" | name != "b")
     expect_equal(res, paste0("select distinct compound.compound_id,compound.",
-                             "inchi,compound.compound_name from compound ",
+                             "inchi,compound.name from compound ",
                              "where (compound.compound_id = 'a' or ",
-                             "compound.compound_name != 'b')"))
+                             "compound.name != 'b')"))
     expect_error(.build_query_CompDb(
         cmp_db, columns = c("compound_id", "inchi"),
         filter = ~ compound_id == "a" | gene_id != "b"))
@@ -182,7 +182,7 @@ test_that(".join_tables works", {
 
 test_that(".reduce_tables_start_from works", {
     tabs <- list(
-        compound = c("compound_id", "compound_name", "red_field"),
+        compound = c("compound_id", "name", "red_field"),
         spectrum = c("spectrum_id", "compound_id"),
         other_tab = c("compound_id", "red_field"))
     res <- .reduce_tables_start_from(tabs, c("compound_id"))
@@ -196,11 +196,11 @@ test_that(".reduce_tables_start_from works", {
                                      start_from = "spectrum")
     expect_equal(res, list(spectrum = "compound_id", compound = "red_field"))
     expect_warning(res <- .reduce_tables_start_from(
-                       tabs, c("compound_name", "red_field"),
+                       tabs, c("name", "red_field"),
                        start_from = "spectrum"))
-    expect_equal(res, list(compound = c("compound_name", "red_field")))
+    expect_equal(res, list(compound = c("name", "red_field")))
     expect_error(.reduce_tables_start_from(tabs,
-                                           c("compound_name", "red_field"),
+                                           c("name", "red_field"),
                                            start_from = "spectrum_bla") )
 })
 
@@ -228,7 +228,7 @@ test_that(".deserialize_mz_intensity works", {
 })
 
 test_that(".fetch_data works", {
-    clmns <- c("compound_id", "compound_name", "inchi")
+    clmns <- c("compound_id", "name", "inchi")
     res <- .fetch_data(cmp_db, clmns)
     expect_true(is.data.frame(res))
     expect_equal(colnames(res), clmns)
@@ -241,15 +241,15 @@ test_that(".fetch_data works", {
 
     ## MS/MS spectra
     res <- .fetch_data(cmp_spctra_db,
-                       columns = c("mz", "compound_name", "polarity"))
+                       columns = c("mz", "name", "polarity"))
     expect_equal(colnames(res), c("polarity", "spectrum_id", "mz",
-                                  "compound_name"))
+                                  "name"))
     expect_true(is.numeric(res$mz[[1]]))
     res <- CompoundDb:::.fetch_data(cmp_spctra_db,
-                       columns = c("compound_name", "spectrum_id",
+                       columns = c("name", "spectrum_id",
                                    "compound_id"),
                        filter = ~ compound_id == "HMDB0000001")
-    expect_equal(colnames(res), c("compound_name", "compound_id",
+    expect_equal(colnames(res), c("name", "compound_id",
                                   "spectrum_id"))
     expect_true(nrow(res) == 2)
 })

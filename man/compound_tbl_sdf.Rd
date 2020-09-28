@@ -17,11 +17,11 @@ A \link[tibble:tibble]{tibble::tibble} with general compound information (one ro
 compound):
 \itemize{
 \item \code{compound_id}: the ID of the compound.
-\item \code{compound_name}: the compound's name.
+\item \code{name}: the compound's name.
 \item \code{inchi}: the InChI of the compound.
 \item \code{inchikey}: the InChI key.
 \item \code{formula}: the chemical formula.
-\item \code{mass}: the compound's mass.
+\item \code{exactmass}: the compound's (monoisotopic exact) mass.
 \item \code{synonyms}: the compound's synonyms (aliases). This type of this column is
 by default a \code{list} to support multiple aliases per compound, unless
 argument \code{collapse} is provided, in which case multiple synonyms are pasted
@@ -41,7 +41,7 @@ format (structure-data file). The function currently supports SDF files from:
 }
 }
 \details{
-Column \code{"compound_name"} reports for HMDB files the \code{"GENERIC_NAME"}, for
+Column \code{"name"} reports for HMDB files the \code{"GENERIC_NAME"}, for
 ChEBI the \code{"ChEBI Name"}, for PubChem the \code{"PUBCHEM_IUPAC_TRADITIONAL_NAME"},
 and for Lipid Maps the \code{"COMMON_NAME"}, if that is
 not available, the first of the compounds synonyms and, if that is also not

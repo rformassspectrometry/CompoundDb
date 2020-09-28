@@ -29,8 +29,8 @@ test_that("Spectra,CompDb works", {
 
     ## filter and columns
     res <- Spectra(cmp_spctra_db, filter = ~ compound_id == "HMDB0000001",
-                   columns = c("inchi", "compound_name"))
-    expect_true(all(c("spectrum_id", "compound_name", "inchi") %in%
+                   columns = c("inchi", "name"))
+    expect_true(all(c("spectrum_id", "name", "inchi") %in%
                     spectraVariables(res)))
     expect_true(length(res) == 2)
 

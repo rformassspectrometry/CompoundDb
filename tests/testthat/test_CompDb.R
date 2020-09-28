@@ -57,10 +57,10 @@ test_that("CompDb constructor and low level functions", {
 test_that("compounds works", {
     cmps <- compounds(cmp_db)
     expect_true(is(cmps, "data.frame"))
-    cmps_tbl <- compounds(cmp_db, columns = c("compound_id", "compound_name"),
+    cmps_tbl <- compounds(cmp_db, columns = c("compound_id", "name"),
                           return.type = "tibble")
     expect_true(is(cmps_tbl, "tbl"))
-    expect_equal(colnames(cmps_tbl), c("compound_id", "compound_name"))
+    expect_equal(colnames(cmps_tbl), c("compound_id", "name"))
 
     expect_error(compounds(cmp_db, filter = "something"))
 

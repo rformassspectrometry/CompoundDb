@@ -12,7 +12,7 @@
 #'
 #' @details
 #'
-#' Column `"compound_name"` reports for HMDB files the `"GENERIC_NAME"`, for
+#' Column `"name"` reports for HMDB files the `"GENERIC_NAME"`, for
 #' ChEBI the `"ChEBI Name"`, for PubChem the `"PUBCHEM_IUPAC_TRADITIONAL_NAME"`,
 #' and for Lipid Maps the `"COMMON_NAME"`, if that is
 #' not available, the first of the compounds synonyms and, if that is also not
@@ -27,7 +27,7 @@
 #' defined (i.e. not all entries have an InChI ID or other means to uniquely
 #' identify compounds). Thus, the function returns a highly redundant compound
 #' table. Feedback on how to reduce this redundancy would be highly welcome!
-#' 
+#'
 #' LIPID MAPS was tested August 2020. Older SDF files might not work as the field names were changed.
 #'
 #' @param file `character(1)` with the name of the SDF file.
@@ -38,11 +38,11 @@
 #' @return A [tibble::tibble] with general compound information (one row per
 #' compound):
 #' + `compound_id`: the ID of the compound.
-#' + `compound_name`: the compound's name.
+#' + `name`: the compound's name.
 #' + `inchi`: the InChI of the compound.
 #' + `inchikey`: the InChI key.
 #' + `formula`: the chemical formula.
-#' + `mass`: the compound's mass.
+#' + `exactmass`: the compound's (monoisotopic exact) mass.
 #' + `synonyms`: the compound's synonyms (aliases). This type of this column is
 #'   by default a `list` to support multiple aliases per compound, unless
 #'   argument `collapse` is provided, in which case multiple synonyms are pasted
@@ -106,11 +106,11 @@ compound_tbl_sdf <- function(file, collapse) {
 #' @return A [tibble::tibble] with general compound information (one row per
 #' compound):
 #' + `compound_id`: the ID of the compound.
-#' + `compound_name`: the compound's name.
+#' + `name`: the compound's name.
 #' + `inchi`: the InChI of the compound.
 #' + `inchikey`: the InChI key.
 #' + `formula`: the chemical formula.
-#' + `mass`: the compound's mass.
+#' + `exactmass`: the compound's mass.
 #' + `synonyms`: the compound's synonyms (aliases). This type of this column is
 #'   by default a `list` to support multiple aliases per compound, unless
 #'   argument `collapse` is provided, in which case multiple synonyms are pasted
@@ -145,11 +145,11 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' @description
 #'
 #' Internal function to extract compound information from a file in SDF format.
-#' 
+#'
 #' @param x what is returned by datablock2ma(datablock(read.SDFset)).
 #'
-#' @return A [tibble::tibble] with columns `"compound_id"`, `"compound_name"`,
-#'     `"inchi"`, `"formula"`, `"mass"`.
+#' @return A [tibble::tibble] with columns `"compound_id"`, `"name"`,
+#'     `"inchi"`, `"formula"`, `"exactmass"`.
 #'
 #' @note
 #' LIPID MAPS was tested August 2020. Older SDF files might not work as the field names were changed.
@@ -180,11 +180,11 @@ compound_tbl_lipidblast <- function(file, collapse) {
             nms[nas] <- x[nas, "SYSTEMATIC_NAME"]
     }
     res <- data_frame(compound_id = x[, colmap["id"]],
-                      compound_name = nms,
+                      name = nms,
                       inchi = x[, colmap["inchi"]],
-                      inchi_key = x[, colmap["inchi_key"]],
+                      inchikey = x[, colmap["inchikey"]],
                       formula = x[, colmap["formula"]],
-                      mass = as.numeric(x[, colmap["mass"]]),
+                      exactmass = as.numeric(x[, colmap["exactmass"]]),
                       synonyms = syns
                       )
     if (is.na(colmap["smiles"])) {
@@ -209,7 +209,7 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #'
 #' Based on the provided `colnames` guess whether the file is from HMDB,
 #' ChEBI, LIPID MAPS, PubChem or LipidBlast.
-#' 
+#'
 #'
 #' @param x `character` with the column names of the data table.
 #'
@@ -243,9 +243,9 @@ compound_tbl_lipidblast <- function(file, collapse) {
 .hmdb_colmap <- c(id = "HMDB_ID",
                   name = "GENERIC_NAME",
                   inchi = "INCHI_IDENTIFIER",
-                  inchi_key = "INCHI_KEY",
+                  inchikey = "INCHI_KEY",
                   formula = "FORMULA",
-                  mass = "EXACT_MASS",
+                  exactmass = "EXACT_MASS",
                   synonyms = "SYNONYMS",
                   smiles = "SMILES"
                   )
@@ -253,9 +253,9 @@ compound_tbl_lipidblast <- function(file, collapse) {
 .chebi_colmap <- c(id = "ChEBI ID",
                    name = "ChEBI Name",
                    inchi = "InChI",
-                   inchi_key = "InChIKey",
+                   inchikey = "InChIKey",
                    formula = "Formulae",
-                   mass = "Monoisotopic Mass",
+                   exactmass = "Monoisotopic Mass",
                    synonyms = "Synonyms",
                    smiles = "SMILES"
                    )
@@ -263,9 +263,9 @@ compound_tbl_lipidblast <- function(file, collapse) {
 .lipidmaps_colmap <- c(id = "LM_ID",
                        name = "NAME",
                        inchi = "INCHI",
-                       inchi_key = "INCHI_KEY",
+                       inchikey = "INCHI_KEY",
                        formula = "FORMULA",
-                       mass = "EXACT_MASS",
+                       exactmass = "EXACT_MASS",
                        synonyms = "SYNONYMS",
                        smiles = NA
                        )
@@ -273,9 +273,9 @@ compound_tbl_lipidblast <- function(file, collapse) {
 .pubchem_colmap <- c(id = "PUBCHEM_COMPOUND_CID",
                      name = "PUBCHEM_IUPAC_TRADITIONAL_NAME",
                      inchi = "PUBCHEM_IUPAC_INCHI",
-                     inchi_key = "PUBCHEM_IUPAC_INCHIKEY",
+                     inchikey = "PUBCHEM_IUPAC_INCHIKEY",
                      formula = "PUBCHEM_MOLECULAR_FORMULA",
-                     mass = "PUBCHEM_EXACT_MASS",
+                     exactmass = "PUBCHEM_EXACT_MASS",
                      synonyms = "PUBCHEM_IUPAC_TRADITIONAL_NAME",
                      smiles = "PUBCHEM_OPENEYE_CAN_SMILES"
                        # Others:
@@ -288,9 +288,9 @@ compound_tbl_lipidblast <- function(file, collapse) {
 .mona_colmap <- c(id = "ID",
                   name = "NAME",
                   inchi = "INCHIKEY",
-                  inchi_key = "INCHIKEY",
+                  inchikey = "INCHIKEY",
                   formula = "FORMULA",
-                  mass = "EXACT MASS",
+                  exactmass = "EXACT MASS",
                   synonyms = "SYNONYMS",
                   smiles = NA
                   )
@@ -332,11 +332,11 @@ compound_tbl_lipidblast <- function(file, collapse) {
             mass <- NA_character_
         list(
             compound_id = x$id,
-            compound_name = nms[1],
+            name = nms[1],
             inchi = cmp$inchi,
-            inchi_key = NA_character_,
+            inchikey = NA_character_,
             formula = frml,
-            mass = mass,
+            exactmass = mass,
             synonyms = nms[-1]
         )
     }
@@ -369,11 +369,11 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' Required columns for the `data.frame` providing the compound information (
 #' parameter `x`) are:
 #' + `"compound_id"`: the ID of the compound.
-#' + `"compound_name"`: the compound's name.
+#' + `"name"`: the compound's name.
 #' + `"inchi"`: the InChI of the compound.
 #' + `"inchikey"`: the InChI key.
 #' + `"formula"`: the chemical formula.
-#' + `"mass"`: the compound's mass.
+#' + `"exactmass"`: the compound's (exact) mass.
 #' + `"synonyms"`: additional synonyms/aliases for the compound. Should be
 #'   either a single character or a list of values for each compound.
 #'
@@ -587,7 +587,7 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
     }
     ## Creating indices
     dbExecute(con, "create index compound_id_idx on compound (compound_id)")
-    dbExecute(con, "create index compound_name_idx on compound (compound_name)")
+    dbExecute(con, "create index compound_name_idx on compound (name)")
     ## Process spectra.
     if (!missing(msms_spectra) && is.data.frame(msms_spectra)) {
         comp_ids <- unique(x$compound_id)
@@ -667,8 +667,8 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
 
 .required_metadata_keys <- c("source", "url", "source_version", "source_date",
                              "organism")
-.required_compound_db_columns <- c("compound_id", "compound_name", "inchi",
-                                   "inchi_key", "formula", "mass")
+.required_compound_db_columns <- c("compound_id", "name", "inchi",
+                                   "inchikey", "formula", "exactmass")
 .required_compound_columns <- c(.required_compound_db_columns, "synonyms")
 
 .required_msms_spectrum_columns <- c(spectrum_id = "integer",
@@ -783,8 +783,8 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
                              paste0(.required_compound_columns[!got_it],
                                     collapse = ", ")))
     } else {
-        if (!is.numeric(x$mass))
-            txt <- c(txt, "Column 'mass' should be numeric")
+        if (!is.numeric(x$exactmass))
+            txt <- c(txt, "Column 'exactmass' should be numeric")
     }
     ## if (db) {
     ##     ## Do not allow more columns than expected!
@@ -930,7 +930,7 @@ make_metadata <- function(source, url, source_version, source_date, organism) {
 #' MoNa SDF files organize the data by individual spectra (i.e. each element
 #' is one spectrum) and individual compounds can not easily and consistently
 #' defined (i.e. not all entries have an InChI ID or other means to uniquely
-#' identify compounds). Thus, the function returns a highly redundant compount
+#' identify compounds). Thus, the function returns a highly redundant compound
 #' table. Feedback on how to reduce this redundancy would be highly welcome!
 #'
 #' @param x `character(1)` being the SDF file name.

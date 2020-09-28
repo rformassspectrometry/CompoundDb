@@ -17,11 +17,11 @@ A \link[tibble:tibble]{tibble::tibble} with general compound information (one ro
 compound):
 \itemize{
 \item \code{compound_id}: the ID of the compound.
-\item \code{compound_name}: the compound's name.
+\item \code{name}: the compound's name.
 \item \code{inchi}: the InChI of the compound.
 \item \code{inchikey}: the InChI key.
 \item \code{formula}: the chemical formula.
-\item \code{mass}: the compound's mass.
+\item \code{exactmass}: the compound's mass.
 \item \code{synonyms}: the compound's synonyms (aliases). This type of this column is
 by default a \code{list} to support multiple aliases per compound, unless
 argument \code{collapse} is provided, in which case multiple synonyms are pasted

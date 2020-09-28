@@ -153,7 +153,7 @@ adducts <- function(pattern, polarity, name, set, ...) {
 #' @param x `numeric` with m/z values.
 #'
 #' @param cmps `data.frame` with a column containing monoisotopic masses in a
-#'     column named `"mass"`.
+#'     column named `"exactmass"`.
 #'
 #' @param adduct Adduct definition. Either a `data.frame` as returned by
 #'     [adducts()] or a `character` with the names of the adducts in that
@@ -202,7 +202,7 @@ adducts <- function(pattern, polarity, name, set, ...) {
     not_found$ppm <- NA_real_
     lapply(x, function(z) {
         mss <- (adduct$charge * z - adduct$massdiff) / adduct$nmol
-        idx <- matchWithPpm(mss, cmps$mass, ppm = ppm)
+        idx <- matchWithPpm(mss, cmps$exactmass, ppm = ppm)
         hits <- lengths(idx)
         idx <- unlist(idx, use.names = FALSE)
         if (length(idx)) {
@@ -210,7 +210,7 @@ adducts <- function(pattern, polarity, name, set, ...) {
             rownames(res) <- NULL
             res$adduct <- rep(adduct$name, hits)
             rep_mss <- rep(mss, hits)
-            res$ppm <- abs(res$mass - rep_mss) * 1e6 / res$mass
+            res$ppm <- abs(res$exactmass - rep_mss) * 1e6 / res$exactmass
             res[order(res$ppm), ]
         } else not_found
     })
@@ -241,7 +241,7 @@ adducts <- function(pattern, polarity, name, set, ...) {
 #'     equivalent) with a column containing the m/z values.
 #'
 #' @param compounds either a `data.frame` (or equivalent) or a [CompDb()] with
-#'     the reference annotations. A column named `"mass"` is mandatory if
+#'     the reference annotations. A column named `"exactmass"` is mandatory if
 #'     `compounds` is a `data.frame`.
 #'
 #' @param adduct adduct definition. Either a `data.frame` as returned by
@@ -297,8 +297,8 @@ setMethod(
     "annotateMz", signature(object = "numeric",
                             compounds = "DataFrameOrEquivalent"),
     function(object, compounds, adduct = adducts(), ppm = 10, ...) {
-        if (!any(colnames(compounds) == "mass"))
-            stop("Required column \"mass\" not found in 'compounds'",
+        if (!any(colnames(compounds) == "exactmass"))
+            stop("Required column \"exactmass\" not found in 'compounds'",
                  call. = FALSE)
         .annotate_adduct_mz(object, compounds, adduct = adduct, ppm = ppm)
     })

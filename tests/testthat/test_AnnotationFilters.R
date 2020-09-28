@@ -11,15 +11,15 @@ test_that("CompoundIdFilter, .field, .sql_condition, sql_value work", {
     expect_equal(.sql_value(fl), "'samid'")
 })
 
-test_that("CompoundNameFilter works", {
-    fl <- CompoundNameFilter("a")
-    expect_true(is(fl, "CompoundNameFilter"))
+test_that("NameFilter works", {
+    fl <- NameFilter("a")
+    expect_true(is(fl, "NameFilter"))
     expect_true(is(fl, "CharacterFilter"))
     expect_true(is(fl, "AnnotationFilter"))
 
-    expect_error(CompoundNameFilter())
+    expect_error(NameFilter())
 
-    expect_equal(.field(fl), "compound_name")
+    expect_equal(.field(fl), "name")
     expect_equal(.sql_condition(fl), "=")
     expect_equal(.sql_value(fl), "'a'")
 })
@@ -84,31 +84,31 @@ test_that(".sql_value works", {
 })
 
 test_that(".sql_logicOp works", {
-    afl <- AnnotationFilter(~ compound_id == "a" & compound_name == "2323434")
+    afl <- AnnotationFilter(~ compound_id == "a" & name == "2323434")
     expect_equal(.sql_logicOp(afl), "and")
-    afl <- AnnotationFilter(~ compound_id == "a" | compound_name == "2323434")
+    afl <- AnnotationFilter(~ compound_id == "a" | name == "2323434")
     expect_equal(.sql_logicOp(afl), "or")
-    afl <- AnnotationFilter(~ compound_id == "a" & compound_name == "2323434" |
+    afl <- AnnotationFilter(~ compound_id == "a" & name == "2323434" |
                             gene_id == "123")
     expect_equal(.sql_logicOp(afl), c("and", "or"))
 })
 
 test_that(".where_filter works", {
     fl <- CompoundIdFilter("5")
-    afl <- AnnotationFilter(~ compound_id == "a" & compound_name == "1")
+    afl <- AnnotationFilter(~ compound_id == "a" & name == "1")
     expect_equal(.where_filter(fl), "compound_id = '5'")
     expect_equal(.where_filter(afl),
-                 "(compound_id = 'a' and compound_name = '1')")
+                 "(compound_id = 'a' and name = '1')")
     afl_2 <- AnnotationFilterList(fl, afl, logicOp = "|")
     expect_equal(.where_filter(afl_2),
                  paste0("(compound_id = '5' or (compound_id =",
-                        " 'a' and compound_name = '1'))"))
+                        " 'a' and name = '1'))"))
     afl_2 <- AnnotationFilterList(afl_2, afl, logicOp = "&")
     expect_equal(.where_filter(afl_2),
                  paste0("((compound_id = '5' or (compound_id",
-                        " = 'a' and compound_name = '1')",
+                        " = 'a' and name = '1')",
                         ") and (compound_id = 'a' and ",
-                        "compound_name = '1'))"))
+                        "name = '1'))"))
     res <- .where_filter(fl, c(compound_id = "test.compound_id"))
     expect_equal(res, "test.compound_id = '5'")
 })

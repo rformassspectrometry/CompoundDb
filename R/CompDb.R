@@ -59,11 +59,11 @@
 #'     to the database with parameter `x`.
 #'
 #'     For all other methods: a `CompDb` object.
-#' 
+#'
 #' @param flags flags passed to the SQLite database connection.
 #'     See [SQLite()]. Defaults to read-only, i.e. RSQLite::SQLITE_RO.
-#' 
-#' 
+#'
+#'
 #' @author Johannes Rainer
 #'
 #' @md
@@ -100,12 +100,12 @@
 #' tables(cmp_db)
 #'
 #' ## Extract a data.frame with the id, name and inchi of all compounds
-#' compounds(cmp_db, columns = c("compound_id", "compound_name", "inchi"))
+#' compounds(cmp_db, columns = c("compound_id", "name", "inchi"))
 #'
 #' ## Add also the synonyms (aliases) for the compounds. This will cause the
 #' ## tables compound and synonym to be joined. The elements of the compound_id
-#' ## and compound_name are now no longer unique
-#' res <- compounds(cmp_db, columns = c("compound_id", "compound_name", "synonym"))
+#' ## and name are now no longer unique
+#' res <- compounds(cmp_db, columns = c("compound_id", "name", "synonym"))
 #' head(res)
 #'
 #' ## Extract spectra for a specific HMDB compound.
@@ -124,7 +124,7 @@
 #' cmp_tbl <- tbl(src_cmp, "compound")
 #'
 #' ## Extract the id, name and inchi
-#' cmp_tbl %>% select(compound_id, compound_name, inchi) %>% collect()
+#' cmp_tbl %>% select(compound_id, name, inchi) %>% collect()
 NULL
 
 #' @importFrom methods new
