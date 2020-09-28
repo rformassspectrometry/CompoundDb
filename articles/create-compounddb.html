@@ -31,18 +31,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CompoundDb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -100,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2020-09-15 13:26:43<br><strong>Compiled</strong>: Tue Sep 15 13:32:31 2020</p>
+</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2020-09-28 16:02:36<br><strong>Compiled</strong>: Mon Sep 28 16:17:12 2020</p>
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
@@ -141,31 +135,31 @@ document.addEventListener("DOMContentLoaded", function() {
 <span class="kw">cmps</span>
 </pre></div>
 <pre><code>## # A tibble: 9 x 8
-##   compound_id compound_name  inchi    inchi_key  formula  mass synonyms smiles  
-##   &lt;chr&gt;       &lt;chr&gt;          &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;   &lt;dbl&gt; &lt;named &gt; &lt;chr&gt;   
-## 1 HMDB0000001 1-Methylhisti… InChI=1… BRMWTNUJH… C7H11N… 169.  &lt;chr [9… "CN1C=N…
-## 2 HMDB0000002 1,3-Diaminopr… InChI=1… XFNJVJPLK… C3H10N2  74.1 &lt;chr [8… "NCCCN" 
-## 3 HMDB0000005 2-Ketobutyric… InChI=1… TYEYBOSBB… C4H6O3  102.  &lt;chr [3… "CCC(=O…
-## 4 HMDB0000008 2-Hydroxybuty… InChI=1… AFENDNXGA… C4H8O3  104.  &lt;chr [2… "CCC(O)…
-## 5 HMDB0000010 2-Methoxyestr… InChI=1… WHEUWNKSC… C19H24… 300.  &lt;chr [7… "[H][C@…
-## 6 HMDB0000011 (R)-3-Hydroxy… InChI=1… WHBMMWSBF… C4H8O3  104.  &lt;chr [2… "C[C@@H…
-## 7 HMDB0000012 Deoxyuridine   InChI=1… MXHRCPNRJ… C9H12N… 228.  &lt;chr [1… "OC[C@H…
-## 8 HMDB0004370 N-Methyltrypt… InChI=1… NCIKQJBVU… C11H14… 174.  &lt;chr [9… "CNCCC1…
-## 9 HMDB0006719 5,6-trans-Vit… InChI=1… QYSXJUFSX… C27H44O 384.  &lt;chr [4… "CC(C)C…</code></pre>
+##   compound_id name    inchi      inchikey  formula exactmass synonyms smiles    
+##   &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;       &lt;dbl&gt; &lt;named &gt; &lt;chr&gt;     
+## 1 HMDB0000001 1-Meth… InChI=1S/… BRMWTNUJ… C7H11N…     169.  &lt;chr [9… "CN1C=NC(…
+## 2 HMDB0000002 1,3-Di… InChI=1S/… XFNJVJPL… C3H10N2      74.1 &lt;chr [8… "NCCCN"   
+## 3 HMDB0000005 2-Keto… InChI=1S/… TYEYBOSB… C4H6O3      102.  &lt;chr [3… "CCC(=O)C…
+## 4 HMDB0000008 2-Hydr… InChI=1S/… AFENDNXG… C4H8O3      104.  &lt;chr [2… "CCC(O)C(…
+## 5 HMDB0000010 2-Meth… InChI=1S/… WHEUWNKS… C19H24…     300.  &lt;chr [7… "[H][C@@]…
+## 6 HMDB0000011 (R)-3-… InChI=1S/… WHBMMWSB… C4H8O3      104.  &lt;chr [2… "C[C@@H](…
+## 7 HMDB0000012 Deoxyu… InChI=1S/… MXHRCPNR… C9H12N…     228.  &lt;chr [1… "OC[C@H]1…
+## 8 HMDB0004370 N-Meth… InChI=1S/… NCIKQJBV… C11H14…     174.  &lt;chr [9… "CNCCC1=C…
+## 9 HMDB0006719 5,6-tr… InChI=1S/… QYSXJUFS… C27H44O     384.  &lt;chr [4… "CC(C)CCC…</code></pre>
 <p>The <code>tibble</code> contains columns</p>
 <ul>
 <li>
 <code>compound_id</code>: the resource-specific ID of the compound.</li>
 <li>
-<code>compound_name</code>: the name of the compound, mostly a generic or common name.</li>
+<code>name</code>: the name of the compound, mostly a generic or common name.</li>
 <li>
 <code>inchi</code>: the compound’s inchi.</li>
 <li>
-<code>inchi_key</code>: the INCHI key.</li>
+<code>inchikey</code>: the INCHI key.</li>
 <li>
 <code>formula</code>: the chemical formula of the compound.</li>
 <li>
-<code>mass</code>: the compounds (monoisotopic) mass.</li>
+<code>exactmass</code>: the compounds (monoisotopic) mass.</li>
 <li>
 <code>synonyms</code>: a <code>list</code> of aliases/synonyms for the compound.</li>
 <li>
@@ -205,8 +199,8 @@ document.addEventListener("DOMContentLoaded", function() {
 <span class="fu"><a href="../reference/CompDb.html">tables</a></span>(<span class="kw">cmpdb</span>)
 </pre></div>
 <pre><code>## $compound
-## [1] "compound_id"   "compound_name" "inchi"         "inchi_key"    
-## [5] "formula"       "mass"          "smiles"       
+## [1] "compound_id" "name"        "inchi"       "inchikey"    "formula"    
+## [6] "exactmass"   "smiles"     
 ## 
 ## $msms_spectrum
 ##  [1] "original_spectrum_id" "compound_id"          "polarity"            
@@ -221,18 +215,18 @@ document.addEventListener("DOMContentLoaded", function() {
 ## [1] "compound_id" "synonym"</code></pre>
 <p>Below we extract only selected columns from the <em>compounds</em> table.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="fu"><a href="../reference/CompDb.html">compounds</a></span>(<span class="kw">cmpdb</span>, columns = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"compound_name"</span>, <span class="st">"formula"</span>, <span class="st">"mass"</span>))
+<span class="fu"><a href="../reference/CompDb.html">compounds</a></span>(<span class="kw">cmpdb</span>, columns = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"name"</span>, <span class="st">"formula"</span>, <span class="st">"exactmass"</span>))
 </pre></div>
-<pre><code>##   compound_id             compound_name   formula     mass
-## 1 HMDB0000001         1-Methylhistidine C7H11N3O2 169.0851
-## 2 HMDB0000002        1,3-Diaminopropane   C3H10N2  74.0844
-## 3 HMDB0000005        2-Ketobutyric acid    C4H6O3 102.0317
-## 4 HMDB0000008     2-Hydroxybutyric acid    C4H8O3 104.0473
-## 5 HMDB0000010          2-Methoxyestrone  C19H24O3 300.1725
-## 6 HMDB0000011 (R)-3-Hydroxybutyric acid    C4H8O3 104.0473
-## 7 HMDB0000012              Deoxyuridine C9H12N2O5 228.0746
-## 8 HMDB0004370        N-Methyltryptamine  C11H14N2 174.1157
-## 9 HMDB0006719      5,6-trans-Vitamin D3   C27H44O 384.3392</code></pre>
+<pre><code>##   compound_id                      name   formula exactmass
+## 1 HMDB0000001         1-Methylhistidine C7H11N3O2  169.0851
+## 2 HMDB0000002        1,3-Diaminopropane   C3H10N2   74.0844
+## 3 HMDB0000005        2-Ketobutyric acid    C4H6O3  102.0317
+## 4 HMDB0000008     2-Hydroxybutyric acid    C4H8O3  104.0473
+## 5 HMDB0000010          2-Methoxyestrone  C19H24O3  300.1725
+## 6 HMDB0000011 (R)-3-Hydroxybutyric acid    C4H8O3  104.0473
+## 7 HMDB0000012              Deoxyuridine C9H12N2O5  228.0746
+## 8 HMDB0004370        N-Methyltryptamine  C11H14N2  174.1157
+## 9 HMDB0006719      5,6-trans-Vitamin D3   C27H44O  384.3392</code></pre>
 <p>Analogously we can use the <code>Spectra</code> function to extract spectrum data from the database. The function returns by default a <code>Spectra</code> object from the <code>R Biocpkg("Spectra")</code> package with all spectra metadata available as <em>spectra variables</em>.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/RforMassSpectrometry/Spectra">Spectra</a></span>)
@@ -287,11 +281,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
 ## m/z of the 2nd spectrum
 mz(sps)[[2]]</code></pre>
-<p>Note that it is also possible to retrieve specific spectra, e.g. for a provided compound, or add compound annotations to the <code>Spectra</code> object. Below we use the filter expression <code>~ compound_id == "HMDB0000001"</code>to get only MS/MS spectra for the specified compound. In addition we ask for the <code>"compound_name"</code> and <code>"inchi_key"</code> of the compound.</p>
+<p>Note that it is also possible to retrieve specific spectra, e.g. for a provided compound, or add compound annotations to the <code>Spectra</code> object. Below we use the filter expression <code>~ compound_id == "HMDB0000001"</code>to get only MS/MS spectra for the specified compound. In addition we ask for the <code>"name"</code> and <code>"inchikey"</code> of the compound.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit">
 <span class="kw">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html">Spectra</a></span>(<span class="kw">cmpdb</span>, filter = <span class="op">~</span> <span class="kw">compound_id</span> <span class="op">==</span> <span class="st">"HMDB0000001"</span>,
-               columns = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="../reference/CompDb.html">tables</a></span>(<span class="kw">cmpdb</span>)<span class="op">$</span><span class="kw">msms_spectrum</span>, <span class="st">"compound_name"</span>,
-                           <span class="st">"inchi_key"</span>))
+               columns = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="../reference/CompDb.html">tables</a></span>(<span class="kw">cmpdb</span>)<span class="op">$</span><span class="kw">msms_spectrum</span>, <span class="st">"name"</span>,
+                           <span class="st">"inchikey"</span>))
 <span class="kw">sps</span>
 </pre></div>
 <pre><code>## MSn data (Spectra) with 2 spectra in a MsBackendCompDb backend:
@@ -321,10 +315,10 @@ mz(sps)[[2]]</code></pre>
 ## [23] "instrument_type"         "instrument"             
 ## [25] "precursor_mz"            "spectrum_id"            
 ## [27] "msms_mz_range_min"       "msms_mz_range_max"      
-## [29] "compound_name"           "inchi_key"</code></pre>
+## [29] "name"                    "inchikey"</code></pre>
 <p>The compound’s name and INCHI key have thus also been added as spectra variables:</p>
 <div class="sourceCode" id="cb30"><pre class="downlit">
-<span class="kw">sps</span><span class="op">$</span><span class="kw">inchi_key</span>
+<span class="kw">sps</span><span class="op">$</span><span class="kw">inchikey</span>
 </pre></div>
 <pre><code>## [1] "BRMWTNUJHUMWMS-LURJTMIESA-N" "BRMWTNUJHUMWMS-LURJTMIESA-N"</code></pre>
 <p>To share or archive the such created <code>CompDb</code> database, we can also create a dedicated R package containing the annotation. To enable reproducible research, each <code>CompDb</code> package should contain the version of the originating data source in its file name (which is by default extracted from the metadata of the resource). Below we create a <code>CompDb</code> package from the generated database file. Required additional information we have to provide to the function are the package creator/maintainer and its version.</p>
@@ -333,7 +327,7 @@ mz(sps)[[2]]</code></pre>
     <span class="kw">db_file</span>, version = <span class="st">"0.0.1"</span>, author = <span class="st">"J Rainer"</span>, path = <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(),
     maintainer = <span class="st">"Johannes Rainer &lt;johannes.rainer@eurac.edu&gt;"</span>)
 </pre></div>
-<pre><code>## Creating package in /tmp/RtmppeIfdU/CompDb.Hsapiens.HMDB.4.0</code></pre>
+<pre><code>## Creating package in /tmp/RtmpiTlC1k/CompDb.Hsapiens.HMDB.4.0</code></pre>
 <p>The function creates a folder (in our case in a temporary directory) that can be build and installed with <code>R CMD build</code> and <code>R CMD INSTALL</code>.</p>
 <p>Special care should also be put on the license of the package that can be passed with the <code>license</code> parameter. The license of the package and how and if the package can be distributed will depend also on the license of the originating resource.</p>
 </div>
@@ -364,7 +358,7 @@ mz(sps)[[2]]</code></pre>
 <span class="kw">mona</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/CompDb.html">CompDb</a></span>(<span class="kw">mona_db_file</span>)
 <span class="fu"><a href="../reference/CompDb.html">compounds</a></span>(<span class="kw">mona</span>)
 </pre></div>
-<pre><code>##   compound_id        compound_name
+<pre><code>##   compound_id                 name
 ## 1        CMP1         Sulfaclozine
 ## 2        CMP2 Sulfachlorpyridazine
 ## 3        CMP3        Sulfadimidine
@@ -380,25 +374,25 @@ mz(sps)[[2]]</code></pre>
 ## 5 InChI=1S/C12H14N4O2S/c1-8-7-9(2)15-12(14-8)16-19(17,18)11-5-3-10(13)4-6-11/h3-7H,13H2,1-2H3,(H,14,15,16)
 ## 6 InChI=1S/C12H14N4O2S/c1-8-7-9(2)15-12(14-8)16-19(17,18)11-5-3-10(13)4-6-11/h3-7H,13H2,1-2H3,(H,14,15,16)
 ## 7 InChI=1S/C12H14N4O2S/c1-8-7-9(2)15-12(14-8)16-19(17,18)11-5-3-10(13)4-6-11/h3-7H,13H2,1-2H3,(H,14,15,16)
-##                     inchi_key      formula     mass smiles
-## 1 QKLPUVXBJHRFQZ-UHFFFAOYSA-N C10H9ClN4O2S 284.0135   &lt;NA&gt;
-## 2 XOXHILFPRYWFOD-UHFFFAOYSA-N C10H9ClN4O2S 284.0135   &lt;NA&gt;
-## 3 ASWVTGNCAZCNNR-UHFFFAOYSA-N  C12H14N4O2S 278.0837   &lt;NA&gt;
-## 4 ASWVTGNCAZCNNR-UHFFFAOYSA-N  C12H14N4O2S 278.0837   &lt;NA&gt;
-## 5 ASWVTGNCAZCNNR-UHFFFAOYSA-N  C12H14N4O2S 278.0837   &lt;NA&gt;
-## 6 ASWVTGNCAZCNNR-UHFFFAOYSA-N  C12H14N4O2S 278.0837   &lt;NA&gt;
-## 7 ASWVTGNCAZCNNR-UHFFFAOYSA-N  C12H14N4O2S 278.0837   &lt;NA&gt;</code></pre>
+##                      inchikey      formula exactmass smiles
+## 1 QKLPUVXBJHRFQZ-UHFFFAOYSA-N C10H9ClN4O2S  284.0135   &lt;NA&gt;
+## 2 XOXHILFPRYWFOD-UHFFFAOYSA-N C10H9ClN4O2S  284.0135   &lt;NA&gt;
+## 3 ASWVTGNCAZCNNR-UHFFFAOYSA-N  C12H14N4O2S  278.0837   &lt;NA&gt;
+## 4 ASWVTGNCAZCNNR-UHFFFAOYSA-N  C12H14N4O2S  278.0837   &lt;NA&gt;
+## 5 ASWVTGNCAZCNNR-UHFFFAOYSA-N  C12H14N4O2S  278.0837   &lt;NA&gt;
+## 6 ASWVTGNCAZCNNR-UHFFFAOYSA-N  C12H14N4O2S  278.0837   &lt;NA&gt;
+## 7 ASWVTGNCAZCNNR-UHFFFAOYSA-N  C12H14N4O2S  278.0837   &lt;NA&gt;</code></pre>
 <p>As stated in the introduction of this section the <code>compound</code> information contains redundant information and the table has essentially one row per spectrum. Feedback on how to reduce the redundancy in the compound table is highly appreciated.</p>
 </div>
 <div id="session-information" class="section level1">
 <h1 class="hasAnchor">
 <a href="#session-information" class="anchor"></a>Session information</h1>
-<pre><code>## R version 4.0.2 Patched (2020-09-10 r79182)
+<pre><code>## R version 4.0.2 Patched (2020-09-24 r79253)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 20.04.1 LTS
 ## 
 ## Matrix products: default
-## BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/openblas-openmp/libopenblasp-r0.3.8.so
+## BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.8.so
 ## 
 ## locale:
 ##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
@@ -413,16 +407,16 @@ mz(sps)[[2]]</code></pre>
 ## [8] methods   base     
 ## 
 ## other attached packages:
-## [1] Spectra_0.99.4          ProtGenerics_1.21.0     BiocParallel_1.23.2    
-## [4] CompoundDb_0.5.0        S4Vectors_0.27.12       BiocGenerics_0.35.4    
-## [7] AnnotationFilter_1.13.0 BiocStyle_2.17.0       
+## [1] Spectra_0.99.6          ProtGenerics_1.21.0     BiocParallel_1.23.2    
+## [4] CompoundDb_0.6.0        S4Vectors_0.27.13       BiocGenerics_0.35.4    
+## [7] AnnotationFilter_1.13.0 BiocStyle_2.17.1       
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] Biobase_2.49.1         tidyr_1.1.2            bit64_4.0.5           
 ##  [4] jsonlite_1.7.1         assertthat_0.2.1       BiocManager_1.30.10   
 ##  [7] blob_1.2.1             GenomeInfoDbData_1.2.3 cellranger_1.1.0      
 ## [10] yaml_2.2.1             pillar_1.4.6           RSQLite_2.2.0         
-## [13] backports_1.1.9        glue_1.4.2             digest_0.6.25         
+## [13] backports_1.1.10       glue_1.4.2             digest_0.6.25         
 ## [16] GenomicRanges_1.41.6   XVector_0.29.3         colorspace_1.4-1      
 ## [19] htmltools_0.5.0        pkgconfig_2.0.3        bookdown_0.20         
 ## [22] zlibbioc_1.35.0        purrr_0.3.4            scales_1.1.1          
@@ -437,10 +431,10 @@ mz(sps)[[2]]</code></pre>
 ## [49] compiler_4.0.2         pkgdown_1.6.1.9000     GenomeInfoDb_1.25.11  
 ## [52] systemfonts_0.3.1      rlang_0.4.7            grid_4.0.2            
 ## [55] RCurl_1.98-1.2         rsvg_2.1               rjson_0.2.20          
-## [58] MsCoreUtils_1.1.3      htmlwidgets_1.5.1      bitops_1.0-6          
+## [58] MsCoreUtils_1.1.5      htmlwidgets_1.5.1      bitops_1.0-6          
 ## [61] base64enc_0.1-3        rmarkdown_2.3          gtable_0.3.0          
 ## [64] DBI_1.1.0              R6_2.4.1               gridExtra_2.3         
-## [67] knitr_1.29             dplyr_1.0.2            utf8_1.1.4            
+## [67] knitr_1.30             dplyr_1.0.2            utf8_1.1.4            
 ## [70] bit_4.0.4              rprojroot_1.3-2        ragg_0.3.1            
 ## [73] readr_1.3.1            desc_1.2.0             stringi_1.5.3         
 ## [76] Rcpp_1.0.5             vctrs_0.3.4            png_0.1-7             
