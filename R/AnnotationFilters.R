@@ -16,6 +16,8 @@
 #' - `MsmsMzRangeMaxFilter`: retrieve entries based on the largest m/z of all
 #'   peaks of their MS/MS spectra. Requires that MS/MS spectra data are present
 #'   (i.e. `hasMsMsSpectra(cmp_db)` returns `TRUE`).
+#' - `SpectrumIdFilter`: retrieve entries associated with the provided IDs of
+#'   MS/MS spectra.
 #'
 #' @param value The value for the filter. For details see
 #'     [AnnotationFilter::AnnotationFilter()].
@@ -65,6 +67,22 @@ setClass("CompoundIdFilter", contains = "CharacterFilter",
 #' @rdname Filter-classes
 CompoundIdFilter <- function(value, condition = "==") {
     new("CompoundIdFilter", value = as.character(value), condition = condition)
+}
+
+#' @exportClass SpectrumIdFilter
+#'
+#' @rdname Filter-classes
+setClass("SpectrumIdFilter", contains = "CharacterFilter",
+         prototype = list(
+             condition = "==",
+             value = "",
+             field = "spectrum_id"
+         ))
+#' @export SpectrumIdFilter
+#'
+#' @rdname Filter-classes
+SpectrumIdFilter <- function(value, condition = "==") {
+    new("SpectrumIdFilter", value = value, condition = condition)
 }
 
 #' @exportClass NameFilter
@@ -307,9 +325,11 @@ MsmsMzRangeMaxFilter <- function(value, condition = "<=") {
     if (!missing(x) && .has_msms_spectra(x)) {
         df <- rbind(df,
                     data.frame(filter = c("MsmsMzRangeMinFilter",
-                                          "MsmsMzRangeMaxFilter"),
+                                          "MsmsMzRangeMaxFilter",
+                                          "SpectrumIdFilter"),
                                field = c("msms_mz_range_min",
-                                         "msms_mz_range_max"),
+                                         "msms_mz_range_max",
+                                         "spectrum_id"),
                                stringsAsFactors = FALSE))
     }
     df[order(df$filter), ]

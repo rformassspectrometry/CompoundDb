@@ -1,3 +1,8 @@
+Changes in version 0.6.1
+
+- Add `SpectrumIdFilter` to support filtering by spectrum IDs.
+
+
 Changes in version 0.6.0
 
 - Rename column names: compound_name -> name, mass -> exactmass, inchi_key ->

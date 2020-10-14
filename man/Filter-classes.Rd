@@ -5,6 +5,8 @@
 \alias{Filter-classes}
 \alias{CompoundIdFilter-class}
 \alias{CompoundIdFilter}
+\alias{SpectrumIdFilter-class}
+\alias{SpectrumIdFilter}
 \alias{NameFilter-class}
 \alias{NameFilter}
 \alias{MsmsMzRangeMinFilter-class}
@@ -14,6 +16,8 @@
 \title{Filters supported by CompDb}
 \usage{
 CompoundIdFilter(value, condition = "==")
+
+SpectrumIdFilter(value, condition = "==")
 
 NameFilter(value, condition = "==")
 
@@ -44,6 +48,8 @@ peaks of their MS/MS spectra. Requires that MS/MS spectra data are present
 \item \code{MsmsMzRangeMaxFilter}: retrieve entries based on the largest m/z of all
 peaks of their MS/MS spectra. Requires that MS/MS spectra data are present
 (i.e. \code{hasMsMsSpectra(cmp_db)} returns \code{TRUE}).
+\item \code{SpectrumIdFilter}: retrieve entries associated with the provided IDs of
+MS/MS spectra.
 }
 }
 \examples{
