@@ -53,6 +53,8 @@ peaks of their MS/MS spectra. Requires that MS/MS spectra data are present
 MsmsMzRangeMaxFilter: retrieve entries based on the largest m/z of all
 peaks of their MS/MS spectra. Requires that MS/MS spectra data are present
 (i.e. hasMsMsSpectra(cmp_db) returns TRUE).
+SpectrumIdFilter: retrieve entries associated with the provided IDs of
+MS/MS spectra.
 
 " />
 
@@ -86,7 +88,7 @@ peaks of their MS/MS spectra. Requires that MS/MS spectra data are present
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CompoundDb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.1</span>
       </span>
     </div>
 
@@ -147,17 +149,21 @@ peaks of their MS/MS spectra. Requires that MS/MS spectra data are present
 <li><p><code>MsmsMzRangeMaxFilter</code>: retrieve entries based on the largest m/z of all
 peaks of their MS/MS spectra. Requires that MS/MS spectra data are present
 (i.e. <code><a href='CompDb.html'>hasMsMsSpectra(cmp_db)</a></code> returns <code>TRUE</code>).</p></li>
+<li><p><code>SpectrumIdFilter</code>: retrieve entries associated with the provided IDs of
+MS/MS spectra.</p></li>
 </ul>
 
     </div>
 
-    <pre class="usage"><span class='fu'>CompoundIdFilter</span>(<span class='kw'>value</span>, condition = <span class='st'>"=="</span>)
+    <pre class="usage"><span class='fu'>CompoundIdFilter</span><span class='op'>(</span><span class='va'>value</span>, condition <span class='op'>=</span> <span class='st'>"=="</span><span class='op'>)</span>
 
-<span class='fu'>NameFilter</span>(<span class='kw'>value</span>, condition = <span class='st'>"=="</span>)
+<span class='fu'>SpectrumIdFilter</span><span class='op'>(</span><span class='va'>value</span>, condition <span class='op'>=</span> <span class='st'>"=="</span><span class='op'>)</span>
 
-<span class='fu'>MsmsMzRangeMinFilter</span>(<span class='kw'>value</span>, condition = <span class='st'>"&gt;="</span>)
+<span class='fu'>NameFilter</span><span class='op'>(</span><span class='va'>value</span>, condition <span class='op'>=</span> <span class='st'>"=="</span><span class='op'>)</span>
 
-<span class='fu'>MsmsMzRangeMaxFilter</span>(<span class='kw'>value</span>, condition = <span class='st'>"&lt;="</span>)</pre>
+<span class='fu'>MsmsMzRangeMinFilter</span><span class='op'>(</span><span class='va'>value</span>, condition <span class='op'>=</span> <span class='st'>"&gt;="</span><span class='op'>)</span>
+
+<span class='fu'>MsmsMzRangeMaxFilter</span><span class='op'>(</span><span class='va'>value</span>, condition <span class='op'>=</span> <span class='st'>"&lt;="</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -183,25 +189,25 @@ for a <code>CompDb</code> object.</p></div>
     <p>Johannes Rainer</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/EuracBiomedicalResearch/CompoundDb'>CompoundDb</a></span>)
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/EuracBiomedicalResearch/CompoundDb'>CompoundDb</a></span><span class='op'>)</span>
 
 <span class='co'>## Create a filter for the compound id</span>
-<span class='kw'>cf</span> <span class='op'>&lt;-</span> <span class='fu'>CompoundIdFilter</span>(<span class='st'>"comp_a"</span>)
-<span class='kw'>cf</span>
+<span class='va'>cf</span> <span class='op'>&lt;-</span> <span class='fu'>CompoundIdFilter</span><span class='op'>(</span><span class='st'>"comp_a"</span><span class='op'>)</span>
+<span class='va'>cf</span>
 </div><div class='output co'>#&gt; class: CompoundIdFilter 
 #&gt; condition: == 
 #&gt; value: comp_a </div><div class='input'>
 <span class='co'>## Create a filter using a formula expression</span>
-<span class='fu'>AnnotationFilter</span>(<span class='op'>~</span> <span class='kw'>compound_id</span> <span class='op'>==</span> <span class='st'>"comp_b"</span>)
+<span class='fu'>AnnotationFilter</span><span class='op'>(</span><span class='op'>~</span> <span class='va'>compound_id</span> <span class='op'>==</span> <span class='st'>"comp_b"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; class: CompoundIdFilter 
 #&gt; condition: == 
 #&gt; value: comp_b </div><div class='input'>
 <span class='co'>## Combine filters</span>
-<span class='fu'>AnnotationFilterList</span>(<span class='fu'>CompoundIdFilter</span>(<span class='st'>"a"</span>), <span class='fu'>NameFilter</span>(<span class='st'>"b"</span>))
+<span class='fu'>AnnotationFilterList</span><span class='op'>(</span><span class='fu'>CompoundIdFilter</span><span class='op'>(</span><span class='st'>"a"</span><span class='op'>)</span>, <span class='fu'>NameFilter</span><span class='op'>(</span><span class='st'>"b"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; AnnotationFilterList of length 2 
 #&gt; compound_id == 'a' &amp; name == 'b'</div><div class='input'>
 <span class='co'>## Using a formula expression</span>
-<span class='fu'>AnnotationFilter</span>(<span class='op'>~</span> <span class='kw'>compound_id</span> <span class='op'>==</span> <span class='st'>"a"</span> <span class='op'>|</span> <span class='kw'>name</span> != <span class='st'>"b"</span>)
+<span class='fu'>AnnotationFilter</span><span class='op'>(</span><span class='op'>~</span> <span class='va'>compound_id</span> <span class='op'>==</span> <span class='st'>"a"</span> <span class='op'>|</span> <span class='va'>name</span> <span class='op'>!=</span> <span class='st'>"b"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; AnnotationFilterList of length 2 
 #&gt; compound_id == 'a' | name != 'b'</div></pre>
   </div>
