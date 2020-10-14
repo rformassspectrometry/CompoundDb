@@ -24,6 +24,19 @@ test_that("NameFilter works", {
     expect_equal(.sql_value(fl), "'a'")
 })
 
+test_that("SpectrumIdFilter works", {
+    fl <- SpectrumIdFilter("a")
+    expect_true(is(fl, "SpectrumIdFilter"))
+    expect_true(is(fl, "CharacterFilter"))
+    expect_true(is(fl, "AnnotationFilter"))
+
+    expect_error(SpectrumIdFilter())
+
+    expect_equal(.field(fl), "spectrum_id")
+    expect_equal(.sql_condition(fl), "=")
+    expect_equal(.sql_value(fl), "'a'")
+})
+
 test_that(".field works", {
     library(AnnotationFilter)
     gif <- GeneIdFilter("a")
