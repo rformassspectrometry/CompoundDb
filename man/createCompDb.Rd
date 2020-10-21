@@ -17,7 +17,13 @@ createCompDbPackage(
   license = "Artistic-2.0"
 )
 
-make_metadata(source, url, source_version, source_date, organism)
+make_metadata(
+  source = character(),
+  url = character(),
+  source_version = character(),
+  source_date = character(),
+  organism = NA_character_
+)
 }
 \arguments{
 \item{x}{For \code{createCompDb}: \code{data.frame} or \code{tbl} with the compound
@@ -64,7 +70,7 @@ resource's release.}
 
 \item{organism}{For \code{make_metadata}: \code{character(1)} with the name of the
 organism. This should be in the format \code{"Hsapiens"} for human,
-\code{"Mmusculus"} for mouse etc.}
+\code{"Mmusculus"} for mouse etc. Leave to \code{NA} if not applicable.}
 }
 \value{
 For \code{createCompDb}: a \code{character(1)} with the database name
@@ -139,7 +145,7 @@ redundant information of each spectrum (hence columns \code{"mz"} and
 
 The metadata \code{data.frame} is supposed to have two columns named \code{"name"} and
 \code{"value"} providing the following minimal information as key-value pairs
-(see \code{make_metadata} for a unitlity function to create such a `data.frame):
+(see \code{make_metadata} for a utility function to create such a \code{data.frame}):
 \itemize{
 \item \code{"source"}: the source from which the data was retrieved (e.g. \code{"HMDB"}).
 \item \code{"url"}: the url from which the original data was retrieved.

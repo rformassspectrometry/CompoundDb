@@ -165,8 +165,7 @@ test_that(".valid_metadata works", {
                                      "Hsapiens"),
                            stringsAsFactors = FALSE)
     expect_error(.valid_metadata(metadata[, 1, drop = FALSE]))
-    expect_error(.valid_metadata(metadata[1:4, ]))
-    metadata_fail <- metadata
+    expect_error(.valid_metadata(metadata[1:2, ]))
 
     ## Valid one.
     expect_true(.valid_metadata(metadata))
