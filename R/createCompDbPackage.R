@@ -643,6 +643,7 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
 #'
 #' @author Johannes Rainer
 .insert_msms_spectra <- function(con, x) {
+    x <- .msms_spectrum_add_missing_columns(x)
     x$collision_energy <- as.character(x$collision_energy)
     .valid_msms_spectrum(x, blob = is.list(x$mz))
     x <- .add_mz_range_column(x)
@@ -665,6 +666,18 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
     dbExecute(con, "create index msms_cid_idx on msms_spectrum (compound_id)")
 }
 
+.msms_spectrum_add_missing_columns <- function(x) {
+    cols <- names(.required_msms_spectrum_columns)
+    cols <- cols[!cols %in% c("spectrum_id", "compound_id", "mz", "intensity")]
+    cols <- cols[!cols %in% colnames(x)]
+    n <- nrow(x)
+    for (col in cols) {
+        cn <- colnames(x)
+        x <- cbind(x, rep(as(NA, .required_msms_spectrum_columns[col]), n))
+        colnames(x) <- c(cn, col)
+    }
+    x
+}
 
 .required_metadata_keys <- c("source", "url", "source_version", "source_date")
 .required_compound_db_columns <- c("compound_id", "name", "inchi",

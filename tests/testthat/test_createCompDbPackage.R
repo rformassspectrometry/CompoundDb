@@ -355,3 +355,13 @@ test_that("import_mona_sdf works", {
 
     expect_error(import_mona_sdf(chebi))
 })
+
+test_that(".msms_spectrum_add_missing_columns works", {
+    df <- data.frame(spectrum_id = 1:3, polarity = 1L)
+    res <- .msms_spectrum_add_missing_columns(df)
+    expect_true(all(c("collision_energy", "predicted", "splash") %in%
+                    colnames(res)))
+    expect_true(is.character(res$instrument))
+    expect_equal(res$polarity, df$polarity)
+    expect_equal(res$spectrum_id, df$spectrum_id)
+})
