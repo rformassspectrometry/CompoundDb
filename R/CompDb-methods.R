@@ -1,8 +1,5 @@
 #' @include CompDb.R
 
-#' @description `dbconn` returns the connection (`DBIConnection`) to the
-#'     database.
-#'
 #' @importMethodsFrom BiocGenerics dbconn
 #'
 #' @export
@@ -40,13 +37,14 @@ setMethod("show", "CompDb", function(object) {
 
 #' @importMethodsFrom Spectra Spectra
 #'
-#'
 #' @importClassesFrom Spectra Spectra
 #'
 #' @export
 #'
 #' @rdname CompDb
-setMethod("Spectra", "CompDb", function(object, columns, filter, ...) {
+setMethod("Spectra", "CompDb", function(object,
+                                        columns = spectraVariables(object),
+                                        filter, ...) {
     if (!.has_msms_spectra(object)) {
         warning("No spectrum data available in the provided database",
                 call. = FALSE)
@@ -56,6 +54,7 @@ setMethod("Spectra", "CompDb", function(object, columns, filter, ...) {
         stop("The use of 'Spectra' requires package 'Spectra'. Please ",
              "install with 'Biobase::install(\"RforMassSpectrometry/Spectra\")'")
     sps <- new("Spectra")
+    columns <- columns[!columns %in% c("mz", "intensity")]
     sps@backend <- backendInitialize(MsBackendCompDb(), x = object,
                                      columns = columns, filter = filter, ...)
     sps
@@ -68,4 +67,37 @@ setMethod("Spectra", "CompDb", function(object, columns, filter, ...) {
 #' @rdname CompDb
 setMethod("supportedFilters", "CompDb", function(object) {
     .supported_filters(object)
+})
+
+#' @importMethodsFrom S4Vectors metadata
+#'
+#' @export
+#'
+#' @rdname CompDb
+setMethod("metadata", "CompDb", function(x, ...) {
+    .metadata(x)
+})
+
+#' @importMethodsFrom ProtGenerics spectraVariables
+#'
+#' @export
+#'
+#' @rdname CompDb
+setMethod("spectraVariables", "CompDb", function(object, ...) {
+    if (hasMsMsSpectra(object))
+        .tables(object)$msms_spectrum
+    else character()
+})
+
+#' @export
+#'
+#' @rdname CompDb
+setMethod("compoundVariables", "CompDb", function(object,
+                                                  includeId = FALSE, ...) {
+    if (length(.tables(object))) {
+        cn <- .tables(object)$compound
+        if (includeId)
+            cn
+        else cn[!cn %in% "compound_id"]
+    } else character()
 })

@@ -1,3 +1,7 @@
+Changes in version 0.6.3
+
+- Add `metadata`, `spectraVariables` and `compoundVariables` functions.
+
 Changes in version 0.6.2
 
 - Support creation of databases without specifying the organism.

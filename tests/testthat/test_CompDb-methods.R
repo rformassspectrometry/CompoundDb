@@ -45,3 +45,31 @@ test_that("supportedFilters works", {
     res_2 <- supportedFilters(cmp_spctra_db)
     expect_true(nrow(res) < nrow(res_2))
 })
+
+test_that("metadata works", {
+    res <- metadata(cdb)
+    expect_true(is.data.frame(res))
+    expect_true(all(colnames(res) == c("name", "value")))
+})
+
+test_that("spectraVariables,CompDb works", {
+    db <- new("CompDb")
+    expect_equal(spectraVariables(db), character())
+
+    res <- spectraVariables(cdb)
+    expect_true(is.character(res))
+    expect_true(length(res) > 0)
+    expect_true(all(c("spectrum_id", "ms_level") %in% res))
+})
+
+test_that("compoundVariables,CompDb works", {
+    db <- new("CompDb")
+    expect_equal(compoundVariables(db), character())
+
+    res <- compoundVariables(cdb)
+    expect_true(is.character(res))
+    expect_true(length(res) > 0)
+    expect_true(all(c("formula", "inchi") %in% res))
+
+    expect_true(any(compoundVariables(cdb, TRUE) == "compound_id"))
+})

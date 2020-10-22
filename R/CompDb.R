@@ -4,7 +4,7 @@
 #'
 #' @title Simple compound (metabolite) databases
 #'
-#' @aliases CompDb-class show dbconn,CompDb-method show,CompDb-method
+#' @aliases CompDb-class show dbconn,CompDb-method show,CompDb-method compoundVariables
 #'
 #' @description
 #'
@@ -28,14 +28,37 @@
 #'   to `src_compdb` it returns the actual data as a `data.frame` (if
 #'   `return.type = "data.frame"`) or a [tibble::tibble()] (if
 #'   `return.type = "tibble"`). A `compounds` call will always return all
-#'   elements from the *compound* table (unless a `filter` is used). Also, the
-#'   result `data.frame` will always contain the compound identifier in column
-#'   `"compound_id"`.
+#'   elements from the *compound* table (unless a `filter` is used).
 #'
 #' - `Spectra` extract spectra from the database and returns them as a
 #'   [Spectra()] object from the `Spectra` package. Additional annotations
 #'   requested with the `columns` parameter are added as additional spectra
 #'   variables.
+#'
+#' @section General functions:
+#'
+#' - `CompDb`: connect to a compound database.
+#'
+#' - `compoundVariables`: returns all available columns/database fields for
+#'   compounds.
+#'
+#' - `dbconn`: returns the connection (of type `DBIConnection`) to the database.
+#'
+#' - `metadata`: returns general meta data of the compound database.
+#'
+#' - `spectraVariables`: returns all spectra variables (i.e. columns) available
+#'   in the `CompDb`.
+#'
+#' - `src_compdb` provides access to the `CompDb`'s database *via*
+#'   the functionality from the `dplyr`/`dbplyr` package.
+#'
+#' - `supportedFilters`: provides an overview of the filters that can be
+#'   applied on a `CompDb` object to extract only specific data from the
+#'   database.
+#'
+#' - `tables`: returns a named `list` (names being table names) with
+#'   the fields/columns from each table in the database.
+#'
 #'
 #' @section Filtering the database:
 #'
@@ -46,11 +69,8 @@
 #' retrieved by passing the filter expression
 #' `filter = ~ compound_id == "HMDB0000001"` to the `compounds` function.
 #'
-#' Use the [supportedFilters] passing the [CompDb] object as an argument to
-#' get a list of all supported filters.
-#'
-#' @usage
-#' show(object)
+#' Use the [supportedFilters] function on the [CompDb] object to get a list of
+#' all supported filters.
 #'
 #' @param object For all methods: a `CompDb` object.
 #'
@@ -61,12 +81,13 @@
 #'     For all other methods: a `CompDb` object.
 #'
 #' @param flags flags passed to the SQLite database connection.
-#'     See [SQLite()]. Defaults to read-only, i.e. RSQLite::SQLITE_RO.
+#'     See [SQLite()]. Defaults to read-only, i.e. `RSQLite::SQLITE_RO`.
 #'
+#' @param includeId for `compoundVariables`: `logical(1)` whether the comound
+#'     ID (column `"compound_id"`) should be included in the result. The
+#'     default is `includeIds = FALSE`.
 #'
 #' @author Johannes Rainer
-#'
-#' @md
 #'
 #' @seealso
 #'
@@ -192,10 +213,9 @@ setValidity("CompDb", function(object) {
     if (length(txt)) txt else TRUE
 }
 
-#' @description `CompDb` *constructs* a `CompDb` object by connecting
-#'     to the provided database file.
-#'
 #' @export
+#'
+#' @rdname CompDb
 CompDb <- function(x, flags = RSQLite::SQLITE_RO) {
     if (missing(x))
         stop("Argument 'x' is required")
@@ -254,8 +274,8 @@ hasMsMsSpectra <- function(x) {
 }
 
 #' @param columns For `compounds`, `Spectra`: `character` with the names of the
-#'     database columns that should be retrieved. Use [tables()] for a list of
-#'     available column names.
+#'     database columns that should be retrieved. Use `compoundVariables` and/or
+#'     `spectraVariables` for a list of available column names.
 #'
 #' @param filter For `compounds` and `Spectra`: filter expression or
 #'     [AnnotationFilter()] defining a filter to be used to retrieve specific
@@ -271,27 +291,20 @@ hasMsMsSpectra <- function(x) {
 #' @export
 #'
 #' @rdname CompDb
-compounds <- function(x, columns, filter,
+compounds <- function(x, columns = compoundVariables(x), filter,
                       return.type = c("data.frame", "tibble"), ...) {
     if (!is(x, "CompDb"))
         stop("'x' is supposed to be a 'CompDb' object")
     return.type <- match.arg(return.type)
-    if (missing(columns))
-        columns <- .tables(x, "compound")[[1]]
-    if (!any(columns == "compound_id"))
-        columns <- c("compound_id", columns)
-    res <- .fetch_data(x, columns = columns, filter = filter,
-                       start_from = "compound")
+    if (length(columns))
+        res <- .fetch_data(x, columns = columns, filter = filter,
+                           start_from = "compound")
+    else res <- data.frame()
     if (return.type == "tibble")
         as_tibble(res)
     else res
 }
 
-#' @description
-#'
-#' `src_compdb` provides access to the `CompDb`'s database *via*
-#' the functionality from the `dplyr`/`dbplyr` package.
-#'
 #' @importFrom dbplyr src_dbi
 #'
 #' @export
@@ -312,8 +325,6 @@ src_compdb <- function(x) {
 #'
 #' @param metadata `logical(1)` whether the metadata should be returned too.
 #'
-#' @md
-#'
 #' @noRd
 .tables <- function(x, name, metadata = FALSE) {
     tbls <- .get_property(x, "tables")
@@ -324,9 +335,6 @@ src_compdb <- function(x) {
     tbls
 }
 
-#' @description `tables` returns a named `list` (names being table names) with
-#'     the fields/columns from each table in the database.
-#'
 #' @export
 #'
 #' @rdname CompDb
