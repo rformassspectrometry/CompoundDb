@@ -22,4 +22,6 @@ db_spctra_file <- createCompDb(cmps, metadata = metad2, path = tempdir(),
                                msms_spectra = msms_spctra)
 cmp_spctra_db <- CompDb(db_spctra_file)
 
+cdb <- CompDb(system.file("sql/CompDb.MassBank.sql", package = "CompoundDb"))
+
 test_check("CompoundDb")

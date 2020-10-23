@@ -19,6 +19,10 @@ test_that("backendInitialize,MsBackendCompDb works", {
     expect_true(all(colnames(res@spectraData) == c("compound_id", "polarity",
                                                    "spectrum_id", "dataStorage",
                                                    "dataOrigin")))
+
+    res <- backendInitialize(MsBackendCompDb(), cmp_spctra_db,
+                             filter = ~ compound_id == "bla")
+    expect_true(length(res) == 0)
 })
 
 test_that("peaksData,MsBackendCompDb works", {

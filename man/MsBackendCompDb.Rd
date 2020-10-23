@@ -46,7 +46,10 @@ MsBackendCompDb()
 
 \item{columns}{for \code{spectraData}: \code{character} with names of columns/spectra
 variables that should be returned. Defaults to
-\code{spectraVariables(object)}.}
+\code{spectraVariables(object)}. Database columns \code{"ms_level"},
+\code{"precursor_mz"}, \code{"precursor_intensity"}, \code{"precursor_charge"} are
+mapped to the core \code{Spectra} variables \code{msLevel}, \code{precursorMz},
+\code{precursorIntensity} and \code{precursorCharge}, respectively.}
 
 \item{filter}{for \code{backendInitialize}: optional filter expression to specify
 which elements to retrieve from the database.}
@@ -76,7 +79,8 @@ For higher performance it is suggested to change the backend of the
 
 The methods listed here are implemented for the \code{MsBackendCompDb}. All other
 methods are inherited directly from the parent \code{\link[=MsBackendDataFrame]{MsBackendDataFrame()}} class.
-See that help page for a complete listing of methods.
+See the help of \code{MsBackendDataFrame} in the \code{Spectra} package for a
+complete listing of methods.
 \itemize{
 \item \code{peaksData}: gets the full list of peak matrices. Returns a \code{\link[=list]{list()}},
 length equal to the number of spectra and each element being a \code{matrix}

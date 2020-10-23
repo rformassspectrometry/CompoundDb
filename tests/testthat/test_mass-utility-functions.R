@@ -243,6 +243,15 @@ test_that("annotateMz,ANY,ANY works", {
     ## numeric, CompDb
     res <- annotateMz(mzs, cmp_db, adduct = "[M+H]+")
     expect_true(length(res) == length(mzs))
+    expect_true(all(is.na(res[[3]])))
+    expect_true(all(is.na(res[[4]])))
+    expect_true(all(is.na(res[[5]])))
+    res <- annotateMz(mzs, cmp_db, columns = c("compound_id", "exactmass"),
+                      adduct = "[M+H]+")
+    expect_true(length(res) == length(mzs))
+    expect_true(all(is.na(res[[3]])))
+    expect_true(all(is.na(res[[4]])))
+    expect_true(all(is.na(res[[5]])))
     expect_equal(res[[1]]$compound_id, c("HMDB0000008", "HMDB0000011"))
     expect_equal(res[[2]]$compound_id, c("HMDB0000002"))
 

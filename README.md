@@ -12,8 +12,6 @@ install.packages(c("BiocManager", "remotes"))
 BiocManager::install("EuracBiomedicalResearch/CompoundDb")
 ```
 
-
-
 In case there are missing package dependencies, run the code below first:
 
 ```r

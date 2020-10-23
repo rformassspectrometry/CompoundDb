@@ -326,7 +326,9 @@ setMethod(
     "annotateMz", signature(object = c("numericOrDataFrameOrEquivalent"),
                             compounds = "CompDb"),
     function(object, compounds, adduct = adducts(), ppm = 10, ...) {
-        annotateMz(object, compounds(x = compounds, ...), adduct = adduct,
+        annotateMz(object,
+                   compounds(x = compounds, ...),
+                   adduct = adduct,
                    ppm = ppm, ...)
     }
 )

@@ -28,7 +28,8 @@
 #' identify compounds). Thus, the function returns a highly redundant compound
 #' table. Feedback on how to reduce this redundancy would be highly welcome!
 #'
-#' LIPID MAPS was tested August 2020. Older SDF files might not work as the field names were changed.
+#' LIPID MAPS was tested August 2020. Older SDF files might not work as the
+#' field names were changed.
 #'
 #' @param file `character(1)` with the name of the SDF file.
 #'
@@ -414,7 +415,7 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #'
 #' The metadata `data.frame` is supposed to have two columns named `"name"` and
 #' `"value"` providing the following minimal information as key-value pairs
-#' (see `make_metadata` for a unitlity function to create such a `data.frame):
+#' (see `make_metadata` for a utility function to create such a `data.frame`):
 #' + `"source"`: the source from which the data was retrieved (e.g. `"HMDB"`).
 #' + `"url"`: the url from which the original data was retrieved.
 #' + `"source_version"`: the version from the original data source
@@ -642,6 +643,7 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
 #'
 #' @author Johannes Rainer
 .insert_msms_spectra <- function(con, x) {
+    x <- .msms_spectrum_add_missing_columns(x)
     x$collision_energy <- as.character(x$collision_energy)
     .valid_msms_spectrum(x, blob = is.list(x$mz))
     x <- .add_mz_range_column(x)
@@ -664,9 +666,20 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
     dbExecute(con, "create index msms_cid_idx on msms_spectrum (compound_id)")
 }
 
+.msms_spectrum_add_missing_columns <- function(x) {
+    cols <- names(.required_msms_spectrum_columns)
+    cols <- cols[!cols %in% c("spectrum_id", "compound_id", "mz", "intensity")]
+    cols <- cols[!cols %in% colnames(x)]
+    n <- nrow(x)
+    for (col in cols) {
+        cn <- colnames(x)
+        x <- cbind(x, rep(as(NA, .required_msms_spectrum_columns[col]), n))
+        colnames(x) <- c(cn, col)
+    }
+    x
+}
 
-.required_metadata_keys <- c("source", "url", "source_version", "source_date",
-                             "organism")
+.required_metadata_keys <- c("source", "url", "source_version", "source_date")
 .required_compound_db_columns <- c("compound_id", "name", "inchi",
                                    "inchikey", "formula", "exactmass")
 .required_compound_columns <- c(.required_compound_db_columns, "synonyms")
@@ -730,9 +743,10 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
 #'
 #' @noRd
 .db_file_from_metadata <- function(x) {
-    paste0("CompDb.", x$value[x$name == "organism"], ".",
-           x$value[x$name == "source"], ".",
-           x$value[x$name == "source_version"])
+    vls <- c(x$value[x$name == "organism"], x$value[x$name == "source"],
+             x$value[x$name == "source_version"])
+    vls <- vls[!is.na(vls)]
+    paste0(c("CompDb", vls), collapse = ".")
 }
 
 #' @description Check the metadata `data.frame` for required columns.
@@ -896,20 +910,19 @@ createCompDbPackage <- function(x, version, maintainer, author,
 #'
 #' @param organism For `make_metadata`: `character(1)` with the name of the
 #'     organism. This should be in the format `"Hsapiens"` for human,
-#'     `"Mmusculus"` for mouse etc.
+#'     `"Mmusculus"` for mouse etc. Leave to `NA` if not applicable.
 #'
 #' @export
 #'
 #' @rdname createCompDb
-make_metadata <- function(source, url, source_version, source_date, organism) {
-    if (any(c(missing(source), missing(url), missing(source_version),
-              missing(source_date), missing(organism))))
-        stop("Arguments 'source', 'url', 'source_version', 'source_date', ",
-             "'organism' are required")
-    if (any(c(is.null(source), is.null(url), is.null(source_version),
-              is.null(source_date), is.null(organism))))
-        stop("'NULL' is not allowed for 'source', 'url', 'source_version', ",
-             "'organism'")
+make_metadata <- function(source = character(), url = character(),
+                          source_version = character(),
+                          source_date = character(),
+                          organism = NA_character_) {
+    if (!length(source) || !length(url) || !length(source_version) ||
+        !length(source_date) || !length(organism))
+        stop("Arguments 'source', 'url', 'source_version', 'source_date' ",
+             "and 'organism' are required")
     data.frame(name = c("source", "url", "source_version", "source_date",
                         "organism"),
                value = as.character(c(source, url, source_version,

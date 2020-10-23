@@ -56,7 +56,8 @@ defined (i.e. not all entries have an InChI ID or other means to uniquely
 identify compounds). Thus, the function returns a highly redundant compound
 table. Feedback on how to reduce this redundancy would be highly welcome!
 
-LIPID MAPS was tested August 2020. Older SDF files might not work as the field names were changed.
+LIPID MAPS was tested August 2020. Older SDF files might not work as the
+field names were changed.
 }
 \examples{
 

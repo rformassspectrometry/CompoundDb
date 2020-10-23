@@ -55,6 +55,10 @@ test_that("CompDb constructor and low level functions", {
 })
 
 test_that("compounds works", {
+    res <- compounds(cmp_db, columns = character())
+    expect_true(is.data.frame(res))
+    expect_true(ncol(res) == 0)
+    expect_true(nrow(res) == 0)
     cmps <- compounds(cmp_db)
     expect_true(is(cmps, "data.frame"))
     cmps_tbl <- compounds(cmp_db, columns = c("compound_id", "name"),
@@ -66,9 +70,8 @@ test_that("compounds works", {
 
     expect_true(
         nrow(compounds(cmp_db, filter = ~ compound_id == "HMDB0000005")) == 1)
-    ## compounds should always return all entries from the compound table, even
-    ## if entries from another table are queried.
-    res <- compounds(cmp_spctra_db, columns = c("spectrum_id", "splash"))
+    res <- compounds(cmp_spctra_db,
+                     columns = c("compound_id", "spectrum_id", "splash"))
     cmp_ids <- compounds(cmp_spctra_db, columns = "compound_id")$compound_id
     expect_true(all(cmp_ids %in% res$compound_id))
     expect_true(sum(is.na(res$spectrum_id)) == 6)

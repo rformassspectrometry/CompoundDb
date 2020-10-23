@@ -6,21 +6,29 @@
 \alias{show}
 \alias{dbconn,CompDb-method}
 \alias{show,CompDb-method}
+\alias{compoundVariables}
 \alias{hasMsMsSpectra}
 \alias{compounds}
 \alias{src_compdb}
 \alias{tables}
 \alias{Spectra,CompDb-method}
 \alias{supportedFilters,CompDb-method}
+\alias{metadata,CompDb-method}
+\alias{spectraVariables,CompDb-method}
+\alias{compoundVariables,CompDb-method}
 \title{Simple compound (metabolite) databases}
 \usage{
-show(object)
-
 CompDb(x, flags = RSQLite::SQLITE_RO)
 
 hasMsMsSpectra(x)
 
-compounds(x, columns, filter, return.type = c("data.frame", "tibble"), ...)
+compounds(
+  x,
+  columns = compoundVariables(x),
+  filter,
+  return.type = c("data.frame", "tibble"),
+  ...
+)
 
 src_compdb(x)
 
@@ -28,9 +36,15 @@ tables(x)
 
 \S4method{dbconn}{CompDb}(x)
 
-\S4method{Spectra}{CompDb}(object, columns, filter, ...)
+\S4method{Spectra}{CompDb}(object, columns = spectraVariables(object), filter, ...)
 
 \S4method{supportedFilters}{CompDb}(object)
+
+\S4method{metadata}{CompDb}(x, ...)
+
+\S4method{spectraVariables}{CompDb}(object, ...)
+
+\S4method{compoundVariables}{CompDb}(object, includeId = FALSE, ...)
 }
 \arguments{
 \item{x}{For \code{CompDb}: \code{character(1)} with the file name of the SQLite
@@ -39,11 +53,11 @@ to the database with parameter \code{x}.\preformatted{For all other methods: a `
 }}
 
 \item{flags}{flags passed to the SQLite database connection.
-See \code{\link[=SQLite]{SQLite()}}. Defaults to read-only, i.e. RSQLite::SQLITE_RO.}
+See \code{\link[=SQLite]{SQLite()}}. Defaults to read-only, i.e. \code{RSQLite::SQLITE_RO}.}
 
 \item{columns}{For \code{compounds}, \code{Spectra}: \code{character} with the names of the
-database columns that should be retrieved. Use \code{\link[=tables]{tables()}} for a list of
-available column names.}
+database columns that should be retrieved. Use \code{compoundVariables} and/or
+\code{spectraVariables} for a list of available column names.}
 
 \item{filter}{For \code{compounds} and \code{Spectra}: filter expression or
 \code{\link[=AnnotationFilter]{AnnotationFilter()}} defining a filter to be used to retrieve specific
@@ -55,6 +69,10 @@ return the result as a \code{\link[=data.frame]{data.frame()}} or \code{\link[=t
 \item{...}{additional arguments. Currently not used.}
 
 \item{object}{For all methods: a \code{CompDb} object.}
+
+\item{includeId}{for \code{compoundVariables}: \code{logical(1)} whether the comound
+ID (column \code{"compound_id"}) should be included in the result. The
+default is \code{includeIds = FALSE}.}
 }
 \description{
 \code{CompDb} objects provide access to general (metabolite) compound
@@ -62,20 +80,8 @@ annotations along with \emph{metadata} information such as the annotation's
 source, date and release version. The data is stored internally in a
 database (usually an SQLite database).
 
-\code{CompDb} \emph{constructs} a \code{CompDb} object by connecting
-to the provided database file.
-
 \code{hasMsMsSpectra} returns \code{TRUE} if MS/MS spectrum data is
 available in the database and \code{FALSE} otherwise.
-
-\code{src_compdb} provides access to the \code{CompDb}'s database \emph{via}
-the functionality from the \code{dplyr}/\code{dbplyr} package.
-
-\code{tables} returns a named \code{list} (names being table names) with
-the fields/columns from each table in the database.
-
-\code{dbconn} returns the connection (\code{DBIConnection}) to the
-database.
 }
 \details{
 \code{CompDb} objects should be created using the constructor function
@@ -92,13 +98,31 @@ with the \code{compounds} and \code{Spectra} functions:
 to \code{src_compdb} it returns the actual data as a \code{data.frame} (if
 \code{return.type = "data.frame"}) or a \code{\link[tibble:tibble]{tibble::tibble()}} (if
 \code{return.type = "tibble"}). A \code{compounds} call will always return all
-elements from the \emph{compound} table (unless a \code{filter} is used). Also, the
-result \code{data.frame} will always contain the compound identifier in column
-\code{"compound_id"}.
+elements from the \emph{compound} table (unless a \code{filter} is used).
 \item \code{Spectra} extract spectra from the database and returns them as a
 \code{\link[=Spectra]{Spectra()}} object from the \code{Spectra} package. Additional annotations
 requested with the \code{columns} parameter are added as additional spectra
 variables.
+}
+}
+
+\section{General functions}{
+
+\itemize{
+\item \code{CompDb}: connect to a compound database.
+\item \code{compoundVariables}: returns all available columns/database fields for
+compounds.
+\item \code{dbconn}: returns the connection (of type \code{DBIConnection}) to the database.
+\item \code{metadata}: returns general meta data of the compound database.
+\item \code{spectraVariables}: returns all spectra variables (i.e. columns) available
+in the \code{CompDb}.
+\item \code{src_compdb} provides access to the \code{CompDb}'s database \emph{via}
+the functionality from the \code{dplyr}/\code{dbplyr} package.
+\item \code{supportedFilters}: provides an overview of the filters that can be
+applied on a \code{CompDb} object to extract only specific data from the
+database.
+\item \code{tables}: returns a named \code{list} (names being table names) with
+the fields/columns from each table in the database.
 }
 }
 
@@ -112,54 +136,68 @@ for a certain compound with the ID \code{"HMDB0000001"} can for example be
 retrieved by passing the filter expression
 \code{filter = ~ compound_id == "HMDB0000001"} to the \code{compounds} function.
 
-Use the \link{supportedFilters} passing the \link{CompDb} object as an argument to
-get a list of all supported filters.
+Use the \link{supportedFilters} function on the \link{CompDb} object to get a list of
+all supported filters.
 }
 
 \examples{
 
-## Create a small CompDb from a provided HMDB subset
-cmps <- compound_tbl_sdf(system.file("sdf/HMDB_sub.sdf.gz",
-    package = "CompoundDb"))
-metad <- data.frame(name = c("source", "url", "source_version",
-    "source_date", "organism"),
-    value = c("sub_HMDB", "http://www.hmdb.ca", "4", "2017", "Hsapiens"),
-    stringsAsFactors = FALSE)
+## We load a small compound test database based on MassBank which is
+## distributed with this package.
+cdb <- CompDb(system.file("sql/CompDb.MassBank.sql", package = "CompoundDb"))
+cdb
 
-## Load also MS/MS spectra from HMDB xml files
-xml_path <- system.file("xml", package = "CompoundDb")
-spctra <- msms_spectra_hmdb(xml_path)
+## Get general metadata information from the database, such as originating
+## source and version:
+metadata(cdb)
 
-## Create the SQLite database:
-db_file <- createCompDb(cmps, metadata = metad, msms_spectra = spctra,
-    path = tempdir())
+## List all available compound annotations/fields
+compoundVariables(cdb)
 
-## Create a CompDb object
-cmp_db <- CompDb(db_file)
-cmp_db
-
-## List all tables in the database and their columns
-tables(cmp_db)
-
-## Extract a data.frame with the id, name and inchi of all compounds
-compounds(cmp_db, columns = c("compound_id", "name", "inchi"))
+## Extract a data.frame with these annotations for all compounds
+compounds(cdb)
 
 ## Add also the synonyms (aliases) for the compounds. This will cause the
 ## tables compound and synonym to be joined. The elements of the compound_id
 ## and name are now no longer unique
-res <- compounds(cmp_db, columns = c("compound_id", "name", "synonym"))
+res <- compounds(cdb, columns = c("name", "synonym"))
 head(res)
 
-## Extract spectra for a specific HMDB compound.
-sps <- Spectra(cmp_db, filter = ~ compound_id == "HMDB0000001")
+## List all database tables and their columns
+tables(cdb)
+
+## Any of these columns can be used in the `compounds` call to retrieve
+## the specific annotations. The corresponding database tables will then be
+## joined together
+compounds(cdb, columns = c("formula", "publication"))
+
+## Create a Spectra object with all MS/MS spectra from the database.
+sps <- Spectra(cdb)
 sps
 
+## Extract spectra for a specific compound.
+sps <- Spectra(cdb, filter = ~ name == "Mellein")
+sps
+
+## List all available annotations for MS/MS spectra
+spectraVariables(sps)
+
+## Get access to the m/z values of these
+mz(sps)
+
+library(Spectra)
+## Plot the first spectrum
+plotSpectra(sps[1])
+
+#########
+## Using CompDb with the *tidyverse*
+##
 ## Using return.type = "tibble" the result will be returned as a "tibble"
-compounds(cmp_db, return.type = "tibble")
+compounds(cdb, return.type = "tibble")
 
 ## Use the CompDb in a dplyr setup
 library(dplyr)
-src_cmp <- src_compdb(cmp_db)
+src_cmp <- src_compdb(cdb)
 src_cmp
 
 ## Get a tbl for the compound table

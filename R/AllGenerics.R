@@ -1,7 +1,8 @@
-setGeneric("hasMz", function(object, mz, ...) standardGeneric("hasMz"))
-
 setGeneric("annotateMz", function(object, compounds, ...)
     standardGeneric("annotateMz"))
+
+setGeneric("compoundVariables", function(object, ...)
+    standardGeneric("compoundVariables"))
 
 #' @importClassesFrom tibble tbl_df
 #'

@@ -165,8 +165,7 @@ test_that(".valid_metadata works", {
                                      "Hsapiens"),
                            stringsAsFactors = FALSE)
     expect_error(.valid_metadata(metadata[, 1, drop = FALSE]))
-    expect_error(.valid_metadata(metadata[1:4, ]))
-    metadata_fail <- metadata
+    expect_error(.valid_metadata(metadata[1:2, ]))
 
     ## Valid one.
     expect_true(.valid_metadata(metadata))
@@ -355,4 +354,14 @@ test_that("import_mona_sdf works", {
     expect_equal(nrow(res$msms_spectrum), 7)
 
     expect_error(import_mona_sdf(chebi))
+})
+
+test_that(".msms_spectrum_add_missing_columns works", {
+    df <- data.frame(spectrum_id = 1:3, polarity = 1L)
+    res <- .msms_spectrum_add_missing_columns(df)
+    expect_true(all(c("collision_energy", "predicted", "splash") %in%
+                    colnames(res)))
+    expect_true(is.character(res$instrument))
+    expect_equal(res$polarity, df$polarity)
+    expect_equal(res$spectrum_id, df$spectrum_id)
 })

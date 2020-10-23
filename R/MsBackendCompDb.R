@@ -12,7 +12,10 @@
 #'
 #' @param columns for `spectraData`: `character` with names of columns/spectra
 #'     variables that should be returned. Defaults to
-#'     `spectraVariables(object)`.
+#'     `spectraVariables(object)`. Database columns `"ms_level"`,
+#'     `"precursor_mz"`, `"precursor_intensity"`, `"precursor_charge"` are
+#'     mapped to the core `Spectra` variables `msLevel`, `precursorMz`,
+#'     `precursorIntensity` and `precursorCharge`, respectively.
 #'
 #' @param filter for `backendInitialize`: optional filter expression to specify
 #'     which elements to retrieve from the database.
@@ -37,7 +40,8 @@
 #'
 #' The methods listed here are implemented for the `MsBackendCompDb`. All other
 #' methods are inherited directly from the parent [MsBackendDataFrame()] class.
-#' See that help page for a complete listing of methods.
+#' See the help of `MsBackendDataFrame` in the `Spectra` package for a
+#' complete listing of methods.
 #'
 #' - `peaksData`: gets the full list of peak matrices. Returns a [list()],
 #'   length equal to the number of spectra and each element being a `matrix`
@@ -110,8 +114,25 @@ setMethod("backendInitialize", "MsBackendCompDb", function(object,
         columns <- c("spectrum_id", columns)
     spectraData <- .fetch_data(x, columns = columns, filter = filter,
                                start_from = "msms_spectrum", order = ordr)
+    if (!nrow(spectraData)) {
+        object@spectraData <- DataFrame(spectraData)
+        return(object)
+    }
     spectraData$dataStorage <- "<database>"
     spectraData$dataOrigin <- .metadata_value(x, "source")
+    colnames(spectraData) <- sub("ms_level", "msLevel", colnames(spectraData),
+                                 fixed = TRUE)
+    colnames(spectraData) <- sub("precursor_mz", "precursorMz",
+                                 colnames(spectraData), fixed = TRUE)
+    colnames(spectraData) <- sub("precursor_intensity", "precursorIntensity",
+                                 colnames(spectraData), fixed = TRUE)
+    colnames(spectraData) <- sub("precursor_charge", "precursorCharge",
+                                 colnames(spectraData), fixed = TRUE)
+    if (any(colnames(spectraData) == "collision_energy") &&
+        is.numeric(spectraData$collision_energy))
+        colnames(spectraData) <- sub("collision_energy", "collisionEnergy",
+                                     colnames(spectraData), fixed = TRUE)
+    rownames(spectraData) <- spectraData$spectrum_id
     object@spectraData <- DataFrame(spectraData)
     object@dbcon <- .dbconn(x)
     validObject(object)
