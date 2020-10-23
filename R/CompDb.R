@@ -97,48 +97,62 @@
 #'
 #' @examples
 #'
-#' ## Create a small CompDb from a provided HMDB subset
-#' cmps <- compound_tbl_sdf(system.file("sdf/HMDB_sub.sdf.gz",
-#'     package = "CompoundDb"))
-#' metad <- data.frame(name = c("source", "url", "source_version",
-#'     "source_date", "organism"),
-#'     value = c("sub_HMDB", "http://www.hmdb.ca", "4", "2017", "Hsapiens"),
-#'     stringsAsFactors = FALSE)
+#' ## We load a small compound test database based on MassBank which is
+#' ## distributed with this package.
+#' cdb <- CompDb(system.file("sql/CompDb.MassBank.sql", package = "CompoundDb"))
+#' cdb
 #'
-#' ## Load also MS/MS spectra from HMDB xml files
-#' xml_path <- system.file("xml", package = "CompoundDb")
-#' spctra <- msms_spectra_hmdb(xml_path)
+#' ## Get general metadata information from the database, such as originating
+#' ## source and version:
+#' metadata(cdb)
 #'
-#' ## Create the SQLite database:
-#' db_file <- createCompDb(cmps, metadata = metad, msms_spectra = spctra,
-#'     path = tempdir())
+#' ## List all available compound annotations/fields
+#' compoundVariables(cdb)
 #'
-#' ## Create a CompDb object
-#' cmp_db <- CompDb(db_file)
-#' cmp_db
-#'
-#' ## List all tables in the database and their columns
-#' tables(cmp_db)
-#'
-#' ## Extract a data.frame with the id, name and inchi of all compounds
-#' compounds(cmp_db, columns = c("compound_id", "name", "inchi"))
+#' ## Extract a data.frame with these annotations for all compounds
+#' compounds(cdb)
 #'
 #' ## Add also the synonyms (aliases) for the compounds. This will cause the
 #' ## tables compound and synonym to be joined. The elements of the compound_id
 #' ## and name are now no longer unique
-#' res <- compounds(cmp_db, columns = c("compound_id", "name", "synonym"))
+#' res <- compounds(cdb, columns = c("name", "synonym"))
 #' head(res)
 #'
-#' ## Extract spectra for a specific HMDB compound.
-#' sps <- Spectra(cmp_db, filter = ~ compound_id == "HMDB0000001")
+#' ## List all database tables and their columns
+#' tables(cdb)
+#'
+#' ## Any of these columns can be used in the `compounds` call to retrieve
+#' ## the specific annotations. The corresponding database tables will then be
+#' ## joined together
+#' compounds(cdb, columns = c("formula", "publication"))
+#'
+#' ## Create a Spectra object with all MS/MS spectra from the database.
+#' sps <- Spectra(cdb)
 #' sps
 #'
+#' ## Extract spectra for a specific compound.
+#' sps <- Spectra(cdb, filter = ~ name == "Mellein")
+#' sps
+#'
+#' ## List all available annotations for MS/MS spectra
+#' spectraVariables(sps)
+#'
+#' ## Get access to the m/z values of these
+#' mz(sps)
+#'
+#' library(Spectra)
+#' ## Plot the first spectrum
+#' plotSpectra(sps[1])
+#'
+#' #########
+#' ## Using CompDb with the *tidyverse*
+#' ##
 #' ## Using return.type = "tibble" the result will be returned as a "tibble"
-#' compounds(cmp_db, return.type = "tibble")
+#' compounds(cdb, return.type = "tibble")
 #'
 #' ## Use the CompDb in a dplyr setup
 #' library(dplyr)
-#' src_cmp <- src_compdb(cmp_db)
+#' src_cmp <- src_compdb(cdb)
 #' src_cmp
 #'
 #' ## Get a tbl for the compound table
@@ -189,7 +203,8 @@ setValidity("CompDb", function(object) {
                                  " the database"))
         res <- dbGetQuery(x, "select * from msms_spectrum limit 3")
         if (!any(colnames(res) == "spectrum_id"))
-            stop("Required column 'spectrum_id' not found in table msms_spectrum")
+            stop("Required column 'spectrum_id' not found in table ",
+                 "msms_spectrum")
         res2 <- dbGetQuery(x, "select * from msms_spectrum_peak limit 3")
         if (!all(c("spectrum_id", "mz", "intensity", "peak_id") %in%
                  colnames(res2)))

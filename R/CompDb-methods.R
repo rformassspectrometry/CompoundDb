@@ -23,17 +23,12 @@ setMethod("show", "CompDb", function(object) {
                                          "from compound"))
         cat(" compound count:", cmp_nr[1, 1], "\n")
         if (.has_msms_spectra(object)) {
-            ## spctra <- dbGetQuery(con, paste0("select count(distinct spectrum_",
-            ##                                  "id) from msms_spectrum_metadata"))
             spctra <- dbGetQuery(con, paste0("select count(distinct spectrum_",
                                              "id) from msms_spectrum"))
             cat(" MS/MS spectra count:", spctra[1, 1], "\n")
         }
     } else cat(" no database connection available\n")
 })
-
-# organism
-
 
 #' @importMethodsFrom Spectra Spectra
 #'
@@ -51,8 +46,8 @@ setMethod("Spectra", "CompDb", function(object,
         return(Spectra())
     }
     if (!requireNamespace("Spectra", quietly = TRUE))
-        stop("The use of 'Spectra' requires package 'Spectra'. Please ",
-             "install with 'Biobase::install(\"RforMassSpectrometry/Spectra\")'")
+        stop("The use of 'Spectra' requires package 'Spectra'. Please install ",
+             "with 'Biobase::install(\"RforMassSpectrometry/Spectra\")'")
     sps <- new("Spectra")
     columns <- columns[!columns %in% c("mz", "intensity")]
     sps@backend <- backendInitialize(MsBackendCompDb(), x = object,

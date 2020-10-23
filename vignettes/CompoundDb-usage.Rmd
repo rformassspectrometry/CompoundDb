@@ -1,0 +1,192 @@
+---
+title: "Usage of Annotation Resources with the CompoundDb Package"
+output:
+    BiocStyle::html_document:
+        toc_float: true
+vignette: >
+    %\VignetteIndexEntry{Usage of Annotation Resources with the CompoundDb Package}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
+    %\VignettePackage{CompoundDb}
+    %\VignetteDepends{CompoundDb,RSQLite,Spectra,BiocStyle}
+---
+
+```{r style, echo = FALSE, results = 'asis', message=FALSE}
+BiocStyle::markdown()
+```
+
+**Authors**: `r packageDescription("CompoundDb")[["Author"]] `<br />
+**Last modified:** `r file.info("CompoundDb-usage.Rmd")$mtime`<br />
+**Compiled**: `r date()`
+
+```{r, echo = FALSE, message = FALSE}
+library(CompoundDb)
+library(BiocStyle)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE)
+```
+
+
+# Introduction
+
+The `CompoundDb` package provides the functionality to create *compound*
+databases from a variety of sources and to use such annotation databases
+(`CompDb`). A detailed description on the creation of annotation resources is
+given in the *Creating CompoundDb annotation resources* vignette. This vignette
+focuses on how annotations can be search for and retrieved.
+
+
+# Installation
+
+The package (including dependencies) can be installed with the code below:
+
+```{r, eval = FALSE}
+install.packages(c("BiocManager", "remotes"))
+devtools::install_github("stanstrup/commonMZ")
+BiocManager::install("EuracBiomedicalResearch/CompoundDb")
+```
+
+
+# General usage
+
+In this vignette we use a small `CompDb` database containing annotations for a
+small number of metabolites build using
+[MassBank](https://massbank.eu/MassBank/) release *2020.09*. The respective
+`CompDb` database which is loaded below contains in addition to general compound
+annotations also MS/MS spectra for these compounds.
+
+```{r load}
+library(CompoundDb)
+cdb <- CompDb(system.file("sql/CompDb.MassBank.sql", package = "CompoundDb"))
+cdb
+```
+
+General information about the database can be accessed with the `metadata`
+function.
+
+```{r}
+metadata(cdb)
+```
+
+
+## Querying compound annotations
+
+The `CompoundDb` package is designed to provide annotation resources for small
+molecules, such as metabolites, that are characterized by an exact mass and
+additional information such as their IUPAC International Chemical Identifier
+[InChI](https://en.wikipedia.org/wiki/International_Chemical_Identifier) or
+their chemical formula. The available annotations (*variables*) for compounds
+can differ between databases. The `compoundVariables` function can be used to
+retrieve a list of all available annotations for compounds.
+
+```{r}
+compoundVariables(cdb)
+```
+
+The actual compound annotations can then be extracted with the `compounds`
+function which returns by default all columns listed by
+`compoundVariables`. We can also define specific columns we want to extract with
+the `columns` parameter.
+
+```{r}
+head(compounds(cdb, columns = c("name", "formula", "exactmass")))
+```
+
+As a technical detail, `CompDb` databases follow a very simple database layout
+with only few constraints to allow data import and representation for a variety
+of sources (e.g. MassBank, HMDB, MoNa, ChEBI). For the present database, which
+is based on MassBank, the mapping between entries in the *compound* database
+table and MS/MS spectra is for example 1:1 and the *compound* table contains
+thus highly redundant information. Thus, if we would include the column
+`"compound_id"` in the query we would end up with redundant values instead:
+
+```{r}
+head(compounds(cdb, columns = c("compound_id", "name", "formula")))
+```
+
+By default, `compounds` extracts the data for **all** compounds stored in the
+database. The function supports however also *filters* to get values for
+specific entries only. These can be defined as *filter expressions* which are
+similar to the way how e.g. a `data.frame` would be subsetted in R. In the
+example below we
+
+```{r}
+compounds(cdb, columns = c("compound_id", "name", "formula"),
+          filter = ~ name == "Mellein")
+```
+
+Note that a filter expression always has to start with `~` followed by the
+*variable* on which the data should be subsetted and the condition to select the
+entries of interest. The list of available filters for the `CompDb` can be
+retrieved with the `supportedFilter` function (more filters will be implemented
+in future).
+
+```{r}
+supportedFilters(cdb)
+```
+
+Also, filters can be combined to create more specific filters in the same manner
+this would be done in R, i.e. using `&` for *and*, `|` for *or* and `!` for
+*not*. To illustrate this we extract below all compound entries from the table
+for compounds with the name *Mellein* and that have a `"compound_id"` which is
+either 1 or 5.
+
+```{r}
+compounds(cdb, columns = c("compound_id", "name", "formula"),
+          filter = ~ name == "Mellein" & compound_id %in% c(1, 5))
+```
+
+
+## Extracting with MS/MS data
+
+`CompDb` database can also store and provide MS/MS spectral data. These can be
+interfaced with a `Spectra` object from the `r Biocpkg("Spectra")` Bioconductor
+package which can be initialized with the `Spectra` function as shown below.
+
+```{r}
+sps <- Spectra(cdb)
+sps
+```
+
+With the `spectraVariables` function it is possible to list all available
+annotations specific to a spectrum from the database.
+
+```{r}
+spectraVariables(sps)
+```
+
+Individual variables can then be accessed with `$` and the variable name:
+
+```{r}
+head(sps$adduct)
+```
+
+For more information on how to use `Spectra` objects in your analysis have also
+a look at the package
+[vignette](https://rformassspectrometry.github.io/Spectra/articles/Spectra.html)
+or a [tutorial](https://jorainer.github.io/SpectraTutorials/) on how to perform
+MS/MS spectra matching with `Spectra`.
+
+Similar to the `compounds` function, a call to `Spectra` will give access to
+**all** spectra in the database. Using the same filtering framework it is
+however also possible to *extract* only specific spectra from the
+database. Below we are for example accessing only the MS/MS spectra of the
+compound *Mellein*.
+
+```{r}
+mellein <- Spectra(cdb, filter = ~ name == "Mellein")
+mellein
+```
+
+Instead of all spectra we extracted now only a subset of `r length(mellein)`
+spectra from the database.
+
+As a simple toy example we perform next pairwise spectra comparison between the
+5 spectra from *Mellein* with all the MS/MS spectra in the database.
+
+```{r}
+library(Spectra)
+cormat <- compareSpectra(mellein, sps, ppm = 40)
+```
+
+
+# Session information

@@ -114,6 +114,10 @@ setMethod("backendInitialize", "MsBackendCompDb", function(object,
         columns <- c("spectrum_id", columns)
     spectraData <- .fetch_data(x, columns = columns, filter = filter,
                                start_from = "msms_spectrum", order = ordr)
+    if (!nrow(spectraData)) {
+        object@spectraData <- DataFrame(spectraData)
+        return(object)
+    }
     spectraData$dataStorage <- "<database>"
     spectraData$dataOrigin <- .metadata_value(x, "source")
     colnames(spectraData) <- sub("ms_level", "msLevel", colnames(spectraData),
