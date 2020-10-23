@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CompoundDb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.3</span>
       </span>
     </div>
 
@@ -48,6 +48,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/CompoundDb-usage.html">Usage of Annotation Resources with the CompoundDb Package</a>
+    </li>
+    <li>
       <a href="../articles/create-compounddb.html">Creating CompoundDb annotation resources</a>
     </li>
   </ul>
@@ -94,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2020-10-14 12:16:57<br><strong>Compiled</strong>: Wed Oct 14 12:27:49 2020</p>
+</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2020-10-23 11:04:04<br><strong>Compiled</strong>: Fri Oct 23 11:17:50 2020</p>
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
@@ -209,16 +212,16 @@ document.addEventListener("DOMContentLoaded", function() {
 <p>Below we extract only selected columns from the <em>compounds</em> table.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit">
 <span class="fu"><a href="../reference/CompDb.html">compounds</a></span><span class="op">(</span><span class="va">cmpdb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"formula"</span>, <span class="st">"exactmass"</span><span class="op">)</span><span class="op">)</span></pre></div>
-<pre><code>##   compound_id                      name   formula exactmass
-## 1 HMDB0000001         1-Methylhistidine C7H11N3O2  169.0851
-## 2 HMDB0000002        1,3-Diaminopropane   C3H10N2   74.0844
-## 3 HMDB0000005        2-Ketobutyric acid    C4H6O3  102.0317
-## 4 HMDB0000008     2-Hydroxybutyric acid    C4H8O3  104.0473
-## 5 HMDB0000010          2-Methoxyestrone  C19H24O3  300.1725
-## 6 HMDB0000011 (R)-3-Hydroxybutyric acid    C4H8O3  104.0473
-## 7 HMDB0000012              Deoxyuridine C9H12N2O5  228.0746
-## 8 HMDB0004370        N-Methyltryptamine  C11H14N2  174.1157
-## 9 HMDB0006719      5,6-trans-Vitamin D3   C27H44O  384.3392</code></pre>
+<pre><code>##                        name   formula exactmass
+## 1 (R)-3-Hydroxybutyric acid    C4H8O3  104.0473
+## 2        1,3-Diaminopropane   C3H10N2   74.0844
+## 3         1-Methylhistidine C7H11N3O2  169.0851
+## 4     2-Hydroxybutyric acid    C4H8O3  104.0473
+## 5        2-Ketobutyric acid    C4H6O3  102.0317
+## 6          2-Methoxyestrone  C19H24O3  300.1725
+## 7      5,6-trans-Vitamin D3   C27H44O  384.3392
+## 8              Deoxyuridine C9H12N2O5  228.0746
+## 9        N-Methyltryptamine  C11H14N2  174.1157</code></pre>
 <p>Analogously we can use the <code>Spectra</code> function to extract spectrum data from the database. The function returns by default a <code>Spectra</code> object from the <code>R Biocpkg("Spectra")</code> package with all spectra metadata available as <em>spectra variables</em>.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit">
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/Spectra">Spectra</a></span><span class="op">)</span></pre></div>
@@ -239,7 +242,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ## 2        NA        NA        NA
 ## 3        NA        NA        NA
 ## 4        NA        NA        NA
-##  ... 27 more variables/columns.
+##  ... 26 more variables/columns.
 ##  data source: HMDB 
 ##  version: 4.0 
 ##  organism: Hsapiens</code></pre>
@@ -258,8 +261,8 @@ document.addEventListener("DOMContentLoaded", function() {
 ## [19] "compound_id"             "collision_energy"       
 ## [21] "predicted"               "splash"                 
 ## [23] "instrument_type"         "instrument"             
-## [25] "precursor_mz"            "spectrum_id"            
-## [27] "msms_mz_range_min"       "msms_mz_range_max"</code></pre>
+## [25] "spectrum_id"             "msms_mz_range_min"      
+## [27] "msms_mz_range_max"</code></pre>
 <p>Individual spectra variables can be accessed with the <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code> operator:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit">
 <span class="va">sps</span><span class="op">$</span><span class="va">collision_energy</span></pre></div>
@@ -280,7 +283,7 @@ mz(sps)[[2]]</code></pre>
 ##   &lt;integer&gt; &lt;numeric&gt; &lt;integer&gt;
 ## 1        NA        NA        NA
 ## 2        NA        NA        NA
-##  ... 29 more variables/columns.
+##  ... 28 more variables/columns.
 ##  data source: HMDB 
 ##  version: 4.0 
 ##  organism: Hsapiens</code></pre>
@@ -299,9 +302,9 @@ mz(sps)[[2]]</code></pre>
 ## [19] "compound_id"             "collision_energy"       
 ## [21] "predicted"               "splash"                 
 ## [23] "instrument_type"         "instrument"             
-## [25] "precursor_mz"            "spectrum_id"            
-## [27] "msms_mz_range_min"       "msms_mz_range_max"      
-## [29] "name"                    "inchikey"</code></pre>
+## [25] "spectrum_id"             "msms_mz_range_min"      
+## [27] "msms_mz_range_max"       "name"                   
+## [29] "inchikey"</code></pre>
 <p>The compound’s name and INCHI key have thus also been added as spectra variables:</p>
 <div class="sourceCode" id="cb30"><pre class="downlit">
 <span class="va">sps</span><span class="op">$</span><span class="va">inchikey</span></pre></div>
@@ -311,7 +314,7 @@ mz(sps)[[2]]</code></pre>
 <span class="fu"><a href="../reference/createCompDb.html">createCompDbPackage</a></span><span class="op">(</span>
     <span class="va">db_file</span>, version <span class="op">=</span> <span class="st">"0.0.1"</span>, author <span class="op">=</span> <span class="st">"J Rainer"</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>,
     maintainer <span class="op">=</span> <span class="st">"Johannes Rainer &lt;johannes.rainer@eurac.edu&gt;"</span><span class="op">)</span></pre></div>
-<pre><code>## Creating package in /tmp/RtmpsodBJR/CompDb.Hsapiens.HMDB.4.0</code></pre>
+<pre><code>## Creating package in /tmp/Rtmp8IHsNr/CompDb.Hsapiens.HMDB.4.0</code></pre>
 <p>The function creates a folder (in our case in a temporary directory) that can be build and installed with <code>R CMD build</code> and <code>R CMD INSTALL</code>.</p>
 <p>Special care should also be put on the license of the package that can be passed with the <code>license</code> parameter. The license of the package and how and if the package can be distributed will depend also on the license of the originating resource.</p>
 </div>
@@ -339,36 +342,30 @@ mz(sps)[[2]]</code></pre>
 <div class="sourceCode" id="cb37"><pre class="downlit">
 <span class="va">mona</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/CompDb.html">CompDb</a></span><span class="op">(</span><span class="va">mona_db_file</span><span class="op">)</span>
 <span class="fu"><a href="../reference/CompDb.html">compounds</a></span><span class="op">(</span><span class="va">mona</span><span class="op">)</span></pre></div>
-<pre><code>##   compound_id                 name
-## 1        CMP1         Sulfaclozine
-## 2        CMP2 Sulfachlorpyridazine
-## 3        CMP3        Sulfadimidine
-## 4        CMP4       Sulfamethazine
-## 5        CMP5       Sulfamethazine
-## 6        CMP6       Sulfamethazine
-## 7        CMP7       Sulfamethazine
+<pre><code>##                   name
+## 1 Sulfachlorpyridazine
+## 2         Sulfaclozine
+## 3        Sulfadimidine
+## 4       Sulfamethazine
+## 5       Sulfamethazine
 ##                                                                                                      inchi
-## 1             InChI=1S/C10H9ClN4O2S/c11-9-5-13-6-10(14-9)15-18(16,17)8-3-1-7(12)2-4-8/h1-6H,12H2,(H,14,15)
-## 2             InChI=1S/C10H9ClN4O2S/c11-9-5-6-10(14-13-9)15-18(16,17)8-3-1-7(12)2-4-8/h1-6H,12H2,(H,14,15)
+## 1             InChI=1S/C10H9ClN4O2S/c11-9-5-6-10(14-13-9)15-18(16,17)8-3-1-7(12)2-4-8/h1-6H,12H2,(H,14,15)
+## 2             InChI=1S/C10H9ClN4O2S/c11-9-5-13-6-10(14-9)15-18(16,17)8-3-1-7(12)2-4-8/h1-6H,12H2,(H,14,15)
 ## 3 InChI=1S/C12H14N4O2S/c1-8-7-9(2)15-12(14-8)16-19(17,18)11-5-3-10(13)4-6-11/h3-7H,13H2,1-2H3,(H,14,15,16)
 ## 4 InChI=1S/C12H14N4O2S/c1-8-7-9(2)15-12(14-8)16-19(17,18)11-5-3-10(13)4-6-11/h3-7H,13H2,1-2H3,(H,14,15,16)
 ## 5 InChI=1S/C12H14N4O2S/c1-8-7-9(2)15-12(14-8)16-19(17,18)11-5-3-10(13)4-6-11/h3-7H,13H2,1-2H3,(H,14,15,16)
-## 6 InChI=1S/C12H14N4O2S/c1-8-7-9(2)15-12(14-8)16-19(17,18)11-5-3-10(13)4-6-11/h3-7H,13H2,1-2H3,(H,14,15,16)
-## 7 InChI=1S/C12H14N4O2S/c1-8-7-9(2)15-12(14-8)16-19(17,18)11-5-3-10(13)4-6-11/h3-7H,13H2,1-2H3,(H,14,15,16)
 ##                      inchikey      formula exactmass smiles
-## 1 QKLPUVXBJHRFQZ-UHFFFAOYSA-N C10H9ClN4O2S  284.0135   &lt;NA&gt;
-## 2 XOXHILFPRYWFOD-UHFFFAOYSA-N C10H9ClN4O2S  284.0135   &lt;NA&gt;
+## 1 XOXHILFPRYWFOD-UHFFFAOYSA-N C10H9ClN4O2S  284.0135   &lt;NA&gt;
+## 2 QKLPUVXBJHRFQZ-UHFFFAOYSA-N C10H9ClN4O2S  284.0135   &lt;NA&gt;
 ## 3 ASWVTGNCAZCNNR-UHFFFAOYSA-N  C12H14N4O2S  278.0837   &lt;NA&gt;
 ## 4 ASWVTGNCAZCNNR-UHFFFAOYSA-N  C12H14N4O2S  278.0837   &lt;NA&gt;
-## 5 ASWVTGNCAZCNNR-UHFFFAOYSA-N  C12H14N4O2S  278.0837   &lt;NA&gt;
-## 6 ASWVTGNCAZCNNR-UHFFFAOYSA-N  C12H14N4O2S  278.0837   &lt;NA&gt;
-## 7 ASWVTGNCAZCNNR-UHFFFAOYSA-N  C12H14N4O2S  278.0837   &lt;NA&gt;</code></pre>
+## 5 ASWVTGNCAZCNNR-UHFFFAOYSA-N  C12H14N4O2S  278.0837   &lt;NA&gt;</code></pre>
 <p>As stated in the introduction of this section the <code>compound</code> information contains redundant information and the table has essentially one row per spectrum. Feedback on how to reduce the redundancy in the compound table is highly appreciated.</p>
 </div>
 <div id="session-information" class="section level1">
 <h1 class="hasAnchor">
 <a href="#session-information" class="anchor"></a>Session information</h1>
-<pre><code>## R version 4.0.2 (2020-06-22)
+<pre><code>## R version 4.0.3 Patched (2020-10-13 r79342)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 20.04.1 LTS
 ## 
@@ -388,8 +385,8 @@ mz(sps)[[2]]</code></pre>
 ## [8] methods   base     
 ## 
 ## other attached packages:
-## [1] Spectra_0.99.8          ProtGenerics_1.21.0     BiocParallel_1.23.2    
-## [4] CompoundDb_0.6.1        S4Vectors_0.27.14       BiocGenerics_0.35.4    
+## [1] Spectra_0.99.11         ProtGenerics_1.21.0     BiocParallel_1.23.3    
+## [4] CompoundDb_0.6.3        S4Vectors_0.27.14       BiocGenerics_0.35.4    
 ## [7] AnnotationFilter_1.13.0 BiocStyle_2.17.1       
 ## 
 ## loaded via a namespace (and not attached):
@@ -406,11 +403,11 @@ mz(sps)[[2]]</code></pre>
 ## [31] lazyeval_0.2.2         cli_2.1.0              commonMZ_0.0.2        
 ## [34] magrittr_1.5           crayon_1.3.4           readxl_1.3.1          
 ## [37] memoise_1.1.0          evaluate_0.14          fansi_0.4.1           
-## [40] fs_1.5.0               MASS_7.3-51.6          xml2_1.3.2            
-## [43] textshaping_0.1.2      tools_4.0.2            hms_0.5.3             
+## [40] fs_1.5.0               MASS_7.3-53            xml2_1.3.2            
+## [43] textshaping_0.1.2      tools_4.0.3            hms_0.5.3             
 ## [46] lifecycle_0.2.0        stringr_1.4.0          munsell_0.5.0         
-## [49] compiler_4.0.2         pkgdown_1.6.1.9000     GenomeInfoDb_1.25.11  
-## [52] systemfonts_0.3.2      rlang_0.4.8            grid_4.0.2            
+## [49] compiler_4.0.3         pkgdown_1.6.1.9000     GenomeInfoDb_1.25.11  
+## [52] systemfonts_0.3.2      rlang_0.4.8            grid_4.0.3            
 ## [55] RCurl_1.98-1.2         rsvg_2.1               rjson_0.2.20          
 ## [58] MsCoreUtils_1.1.7      htmlwidgets_1.5.2      bitops_1.0-6          
 ## [61] base64enc_0.1-3        rmarkdown_2.4          gtable_0.3.0          
@@ -420,7 +417,7 @@ mz(sps)[[2]]</code></pre>
 ## [73] readr_1.4.0            desc_1.2.0             stringi_1.5.3         
 ## [76] Rcpp_1.0.5             vctrs_0.3.4            png_0.1-7             
 ## [79] dbplyr_1.4.4           tidyselect_1.1.0       xfun_0.18             
-## [82] ChemmineR_3.41.0</code></pre>
+## [82] ChemmineR_3.41.2</code></pre>
 </div>
   </div>
 

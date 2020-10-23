@@ -77,7 +77,7 @@ this backend." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CompoundDb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.3</span>
       </span>
     </div>
 
@@ -93,6 +93,9 @@ this backend." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/CompoundDb-usage.html">Usage of Annotation Resources with the CompoundDb Package</a>
+    </li>
     <li>
       <a href="../articles/create-compounddb.html">Creating CompoundDb annotation resources</a>
     </li>
@@ -129,7 +132,7 @@ this backend." />
 object/database. The object keeps only a limited amount of data in memory
 and retrieves the m/z and intensity values from the database <em>on-demand</em>.</p>
 <p>It is not intended that users create or use instances of this class directly,
-the <code>Spectra()</code> call on <code><a href='CompDb.html'>CompDb()</a></code> will return a <code>Spectra</code> object that uses
+the <code><a href='https://rdrr.io/pkg/Spectra/man/Spectra.html'>Spectra()</a></code> call on <code><a href='CompDb.html'>CompDb()</a></code> will return a <code>Spectra</code> object that uses
 this backend.</p>
     </div>
 
@@ -180,7 +183,10 @@ $(x, name) &lt;- value</pre>
       <th>columns</th>
       <td><p>for <code>spectraData</code>: <code>character</code> with names of columns/spectra
 variables that should be returned. Defaults to
-<code>spectraVariables(object)</code>.</p></td>
+<code>spectraVariables(object)</code>. Database columns <code>"ms_level"</code>,
+<code>"precursor_mz"</code>, <code>"precursor_intensity"</code>, <code>"precursor_charge"</code> are
+mapped to the core <code>Spectra</code> variables <code>msLevel</code>, <code>precursorMz</code>,
+<code>precursorIntensity</code> and <code>precursorCharge</code>, respectively.</p></td>
     </tr>
     <tr>
       <th>filter</th>
@@ -204,16 +210,17 @@ which elements to retrieve from the database.</p></td>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>For higher performance it is suggested to change the backend of the
-<code>Spectra()</code> object to an <code>MsBackendDataFrame()</code> backend with the
-<code>setBackend()</code> method of <code>Spectra</code> objects.</p>
+<code><a href='https://rdrr.io/pkg/Spectra/man/Spectra.html'>Spectra()</a></code> object to an <code><a href='https://rdrr.io/pkg/Spectra/man/MsBackend.html'>MsBackendDataFrame()</a></code> backend with the
+<code><a href='https://rdrr.io/pkg/Spectra/man/hidden_aliases.html'>setBackend()</a></code> method of <code>Spectra</code> objects.</p>
     <h2 class="hasAnchor" id="methods-implemented-for-msbackendcompdb"><a class="anchor" href="#methods-implemented-for-msbackendcompdb"></a>Methods implemented for <code>MsBackendCompDb</code></h2>
 
     
 
 
 <p>The methods listed here are implemented for the <code>MsBackendCompDb</code>. All other
-methods are inherited directly from the parent <code>MsBackendDataFrame()</code> class.
-See that help page for a complete listing of methods.</p><ul>
+methods are inherited directly from the parent <code><a href='https://rdrr.io/pkg/Spectra/man/MsBackend.html'>MsBackendDataFrame()</a></code> class.
+See the help of <code>MsBackendDataFrame</code> in the <code>Spectra</code> package for a
+complete listing of methods.</p><ul>
 <li><p><code>peaksData</code>: gets the full list of peak matrices. Returns a <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>,
 length equal to the number of spectra and each element being a <code>matrix</code>
 with columns <code>"mz"</code> and <code>"intensity"</code> with the spectra's m/z and intensity

@@ -100,7 +100,7 @@ redundant information of each spectrum (hence columns &quot;mz&quot; and
 &quot;intensity&quot; being of type numeric).
 The metadata data.frame is supposed to have two columns named &quot;name&quot; and
 &quot;value&quot; providing the following minimal information as key-value pairs
-(see make_metadata for a unitlity function to create such a `data.frame):
+(see make_metadata for a utility function to create such a data.frame):
 &quot;source&quot;: the source from which the data was retrieved (e.g. &quot;HMDB&quot;).
 &quot;url&quot;: the url from which the original data was retrieved.
 &quot;source_version&quot;: the version from the original data source
@@ -146,7 +146,7 @@ returns a data.frame." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CompoundDb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.3</span>
       </span>
     </div>
 
@@ -162,6 +162,9 @@ returns a data.frame." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/CompoundDb-usage.html">Usage of Annotation Resources with the CompoundDb Package</a>
+    </li>
     <li>
       <a href="../articles/create-compounddb.html">Creating CompoundDb annotation resources</a>
     </li>
@@ -254,7 +257,7 @@ redundant information of each spectrum (hence columns <code>"mz"</code> and
 <code>"intensity"</code> being of type <code>numeric</code>).</p>
 <p>The metadata <code>data.frame</code> is supposed to have two columns named <code>"name"</code> and
 <code>"value"</code> providing the following minimal information as key-value pairs
-(see <code>make_metadata</code> for a unitlity function to create such a `data.frame):</p><ul>
+(see <code>make_metadata</code> for a utility function to create such a <code>data.frame</code>):</p><ul>
 <li><p><code>"source"</code>: the source from which the data was retrieved (e.g. <code>"HMDB"</code>).</p></li>
 <li><p><code>"url"</code>: the url from which the original data was retrieved.</p></li>
 <li><p><code>"source_version"</code>: the version from the original data source
@@ -282,7 +285,13 @@ returns a <code>data.frame</code>.</p>
   license <span class='op'>=</span> <span class='st'>"Artistic-2.0"</span>
 <span class='op'>)</span>
 
-<span class='fu'>make_metadata</span><span class='op'>(</span><span class='va'>source</span>, <span class='va'>url</span>, <span class='va'>source_version</span>, <span class='va'>source_date</span>, <span class='va'>organism</span><span class='op'>)</span></pre>
+<span class='fu'>make_metadata</span><span class='op'>(</span>
+  source <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='op'>)</span>,
+  url <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='op'>)</span>,
+  source_version <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='op'>)</span>,
+  source_date <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='op'>)</span>,
+  organism <span class='op'>=</span> <span class='cn'>NA_character_</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -357,7 +366,7 @@ resource's release.</p></td>
       <th>organism</th>
       <td><p>For <code>make_metadata</code>: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> with the name of the
 organism. This should be in the format <code>"Hsapiens"</code> for human,
-<code>"Mmusculus"</code> for mouse etc.</p></td>
+<code>"Mmusculus"</code> for mouse etc. Leave to <code>NA</code> if not applicable.</p></td>
     </tr>
     </table>
 
@@ -455,34 +464,34 @@ MS/MS spectrum data from xml files from HMDB or an SDF file from MoNa.</p>
 #&gt;  organism: Hsapiens 
 #&gt;  compound count: 6 </div><div class='input'>
 <span class='fu'><a href='CompDb.html'>compounds</a></span><span class='op'>(</span><span class='va'>db</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   compound_id                     name
-#&gt; 1  CHEBI:1148    2-hydroxybutyric acid
-#&gt; 2   CHEBI:165         (1S,4R)-fenchone
-#&gt; 3   CHEBI:598   1-alkyl-2-acylglycerol
-#&gt; 4   CHEBI:776   16alpha-hydroxyestrone
-#&gt; 5    CHEBI:90          (-)-epicatechin
-#&gt; 6   CHEBI:943 2,6-dichlorobenzonitrile
+</div><div class='output co'>#&gt;                       name
+#&gt; 1          (-)-epicatechin
+#&gt; 2         (1S,4R)-fenchone
+#&gt; 3   1-alkyl-2-acylglycerol
+#&gt; 4   16alpha-hydroxyestrone
+#&gt; 5 2,6-dichlorobenzonitrile
+#&gt; 6    2-hydroxybutyric acid
 #&gt;                                                                                                                                                 inchi
-#&gt; 1                                                                                                InChI=1S/C4H8O3/c1-2-3(5)4(6)7/h3,5H,2H2,1H3,(H,6,7)
+#&gt; 1                                    InChI=1S/C15H14O6/c16-8-4-11(18)9-6-13(20)15(21-14(9)5-8)7-1-2-10(17)12(19)3-7/h1-5,13,15-20H,6H2/t13-,15-/m1/s1
 #&gt; 2                                                                         InChI=1S/C10H16O/c1-9(2)7-4-5-10(3,6-7)8(9)11/h7H,4-6H2,1-3H3/t7-,10+/m1/s1
 #&gt; 3                                                                                                                                                &lt;NA&gt;
 #&gt; 4 InChI=1S/C18H22O3/c1-18-7-6-13-12-5-3-11(19)8-10(12)2-4-14(13)15(18)9-16(20)17(18)21/h3,5,8,13-16,19-20H,2,4,6-7,9H2,1H3/t13-,14-,15+,16-,18+/m1/s1
-#&gt; 5                                    InChI=1S/C15H14O6/c16-8-4-11(18)9-6-13(20)15(21-14(9)5-8)7-1-2-10(17)12(19)3-7/h1-5,13,15-20H,6H2/t13-,15-/m1/s1
-#&gt; 6                                                                                                     InChI=1S/C7H3Cl2N/c8-6-2-1-3-7(9)5(6)4-10/h1-3H
+#&gt; 5                                                                                                     InChI=1S/C7H3Cl2N/c8-6-2-1-3-7(9)5(6)4-10/h1-3H
+#&gt; 6                                                                                                InChI=1S/C4H8O3/c1-2-3(5)4(6)7/h3,5H,2H2,1H3,(H,6,7)
 #&gt;                      inchikey  formula exactmass
-#&gt; 1 AFENDNXGAFYKQO-UHFFFAOYSA-N   C4H8O3   104.047
+#&gt; 1 PFTAWBLQPZVEMU-UKRRQHHQSA-N C15H14O6   290.079
 #&gt; 2 LHXDLQBQYFFVNW-XCBNKYQSSA-N  C10H16O   152.120
 #&gt; 3                        &lt;NA&gt; C4H6O4R2   118.027
 #&gt; 4 WPOCIZJTELRQMF-QFXBJFAPSA-N C18H22O3   286.157
-#&gt; 5 PFTAWBLQPZVEMU-UKRRQHHQSA-N C15H14O6   290.079
-#&gt; 6 YOYAIZYFCNQIRF-UHFFFAOYSA-N C7H3Cl2N   170.964
+#&gt; 5 YOYAIZYFCNQIRF-UHFFFAOYSA-N C7H3Cl2N   170.964
+#&gt; 6 AFENDNXGAFYKQO-UHFFFAOYSA-N   C4H8O3   104.047
 #&gt;                                                                 smiles
-#&gt; 1                                                         CCC(O)C(O)=O
+#&gt; 1                     [H][C@@]1(Oc2cc(O)cc(O)c2C[C@H]1O)c1ccc(O)c(O)c1
 #&gt; 2                                      CC1(C)[C@@H]2CC[C@@](C)(C2)C1=O
 #&gt; 3                                                  OCC(CO[*])OC([*])=O
 #&gt; 4 [H][C@]12CC[C@]3(C)C(=O)[C@H](O)C[C@@]3([H])[C@]1([H])CCc1cc(O)ccc21
-#&gt; 5                     [H][C@@]1(Oc2cc(O)cc(O)c2C[C@H]1O)c1ccc(O)c(O)c1
-#&gt; 6                                                    Clc1cccc(Cl)c1C#N</div><div class='input'>
+#&gt; 5                                                    Clc1cccc(Cl)c1C#N
+#&gt; 6                                                         CCC(O)C(O)=O</div><div class='input'>
 <span class='co'>## connect to the database and query it's tables using RSQlite</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://rsqlite.r-dbi.org'>RSQLite</a></span><span class='op'>)</span>
 <span class='va'>con</span> <span class='op'>&lt;-</span> <span class='fu'>dbConnect</span><span class='op'>(</span><span class='fu'>dbDriver</span><span class='op'>(</span><span class='st'>"SQLite"</span><span class='op'>)</span>, <span class='va'>db_f</span><span class='op'>)</span>
@@ -494,7 +503,7 @@ MS/MS spectrum data from xml files from HMDB or an SDF file from MoNa.</p>
 #&gt; 3     source_version                        2
 #&gt; 4        source_date                     &lt;NA&gt;
 #&gt; 5           organism                 Hsapiens
-#&gt; 6   db_creation_date Wed Oct 14 12:27:47 2020
+#&gt; 6   db_creation_date Fri Oct 23 11:17:40 2020
 #&gt; 7 supporting_package               CompoundDb
 #&gt; 8  supporting_object                   CompDb</div><div class='input'><span class='fu'>dbGetQuery</span><span class='op'>(</span><span class='va'>con</span>, <span class='st'>"select * from compound"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;   compound_id                     name
