@@ -13,6 +13,14 @@
 \alias{MsmsMzRangeMinFilter}
 \alias{MsmsMzRangeMaxFilter-class}
 \alias{MsmsMzRangeMaxFilter}
+\alias{ExactmassFilter-class}
+\alias{ExactmassFilter}
+\alias{FormulaFilter-class}
+\alias{FormulaFilter}
+\alias{InchiFilter-class}
+\alias{InchiFilter}
+\alias{InchikeyFilter-class}
+\alias{InchikeyFilter}
 \title{Filters supported by CompDb}
 \usage{
 CompoundIdFilter(value, condition = "==")
@@ -24,6 +32,14 @@ NameFilter(value, condition = "==")
 MsmsMzRangeMinFilter(value, condition = ">=")
 
 MsmsMzRangeMaxFilter(value, condition = "<=")
+
+ExactmassFilter(value, condition = "==")
+
+FormulaFilter(value, condition = "==")
+
+InchiFilter(value, condition = "==")
+
+InchikeyFilter(value, condition = "==")
 }
 \arguments{
 \item{value}{The value for the filter. For details see
@@ -41,6 +57,10 @@ introduced by Bioconductor's \code{AnnotationFilter} package.
 The supported filters are:
 \itemize{
 \item \code{CompoundIdFilter}: filter based on the compound ID.
+\item \code{FormulaFilter}: filter based on the compound's formula.
+\item \code{InchiFilter}: filter based on the compound's InChI.
+\item \code{InchikeyFilter}: filter based on the compound's InChI key.
+\item \code{ExactmassFilter}: filter based on the compound's (exact) mass.
 \item \code{NameFilter}: filter based on the compound name.
 \item \code{MsmsMzRangeMinFilter}: retrieve entries based on the smallest m/z of all
 peaks of their MS/MS spectra. Requires that MS/MS spectra data are present

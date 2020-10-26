@@ -1,3 +1,8 @@
+Changes in version 0.6.4
+
+- Add additional filters: `MassFilter`, `FormulaFilter`, `InchiFilter` and
+  `InchikeyFilter`.
+
 Changes in version 0.6.3
 
 - Add `metadata`, `spectraVariables` and `compoundVariables` functions.

@@ -75,6 +75,15 @@ test_that("compounds works", {
     cmp_ids <- compounds(cmp_spctra_db, columns = "compound_id")$compound_id
     expect_true(all(cmp_ids %in% res$compound_id))
     expect_true(sum(is.na(res$spectrum_id)) == 6)
+
+    ## compounds with filters
+    res <- compounds(cdb, filter = ~ exactmass > 300)
+    expect_true(all(res$exactmass > 300))
+    res_2 <- compounds(cdb, filter = ~ exactmass > 300 & exactmass < 340)
+    expect_true(nrow(res_2) < nrow(res))
+
+    res <- compounds(cdb, filter = FormulaFilter("C17", "startsWith"))
+    expect_true(nrow(res) > 0)
 })
 
 test_that("src_compound works", {

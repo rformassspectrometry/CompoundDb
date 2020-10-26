@@ -37,6 +37,58 @@ test_that("SpectrumIdFilter works", {
     expect_equal(.sql_value(fl), "'a'")
 })
 
+test_that("FormulaFilter works", {
+    fl <- FormulaFilter("a")
+    expect_true(is(fl, "FormulaFilter"))
+    expect_true(is(fl, "CharacterFilter"))
+    expect_true(is(fl, "AnnotationFilter"))
+
+    expect_error(FormulaFilter())
+
+    expect_equal(.field(fl), "formula")
+    expect_equal(.sql_condition(fl), "=")
+    expect_equal(.sql_value(fl), "'a'")
+})
+
+test_that("InchiFilter works", {
+    fl <- InchiFilter("a")
+    expect_true(is(fl, "InchiFilter"))
+    expect_true(is(fl, "CharacterFilter"))
+    expect_true(is(fl, "AnnotationFilter"))
+
+    expect_error(InchiFilter())
+
+    expect_equal(.field(fl), "inchi")
+    expect_equal(.sql_condition(fl), "=")
+    expect_equal(.sql_value(fl), "'a'")
+})
+
+test_that("InchikeyFilter works", {
+    fl <- InchikeyFilter("a")
+    expect_true(is(fl, "InchikeyFilter"))
+    expect_true(is(fl, "CharacterFilter"))
+    expect_true(is(fl, "AnnotationFilter"))
+
+    expect_error(InchikeyFilter())
+
+    expect_equal(.field(fl), "inchikey")
+    expect_equal(.sql_condition(fl), "=")
+    expect_equal(.sql_value(fl), "'a'")
+})
+
+test_that("ExactmassFilter works", {
+    fl <- ExactmassFilter(12.2)
+    expect_true(is(fl, "ExactmassFilter"))
+    expect_true(is(fl, "DoubleFilter"))
+    expect_true(is(fl, "AnnotationFilter"))
+
+    expect_error(ExactmassFilter())
+
+    expect_equal(.field(fl), "exactmass")
+    expect_equal(.sql_condition(fl), "=")
+    expect_equal(.sql_value(fl), 12.2)
+})
+
 test_that(".field works", {
     library(AnnotationFilter)
     gif <- GeneIdFilter("a")
