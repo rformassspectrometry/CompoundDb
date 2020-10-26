@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CompoundDb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.4</span>
       </span>
     </div>
 
@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><p><strong>Authors</strong>: Johannes Rainer and Jan Stanstrup<br><strong>Last modified:</strong> 2020-10-23 11:04:04<br><strong>Compiled</strong>: Fri Oct 23 11:17:42 2020</p>
+</script><p><strong>Authors</strong>: Johannes Rainer and Jan Stanstrup<br><strong>Last modified:</strong> 2020-10-26 13:30:42<br><strong>Compiled</strong>: Mon Oct 26 13:36:13 2020</p>
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
@@ -181,10 +181,14 @@ document.addEventListener("DOMContentLoaded", function() {
 <span class="fu">supportedFilters</span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></pre></div>
 <pre><code>##                 filter             field
 ## 1     CompoundIdFilter       compound_id
-## 4 MsmsMzRangeMaxFilter msms_mz_range_max
-## 3 MsmsMzRangeMinFilter msms_mz_range_min
-## 2           NameFilter              name
-## 5     SpectrumIdFilter       spectrum_id</code></pre>
+## 2      ExactmassFilter         exactmass
+## 3        FormulaFilter           formula
+## 4          InchiFilter             inchi
+## 5       InchikeyFilter          inchikey
+## 8 MsmsMzRangeMaxFilter msms_mz_range_max
+## 7 MsmsMzRangeMinFilter msms_mz_range_min
+## 6           NameFilter              name
+## 9     SpectrumIdFilter       spectrum_id</code></pre>
 <p>Also, filters can be combined to create more specific filters in the same manner this would be done in R, i.e. using <code><a href="https://rdrr.io/r/base/Logic.html">&amp;</a></code> for <em>and</em>, <code><a href="https://rdrr.io/r/base/Logic.html">|</a></code> for <em>or</em> and <code><a href="https://rdrr.io/r/base/Logic.html">!</a></code> for <em>not</em>. To illustrate this we extract below all compound entries from the table for compounds with the name <em>Mellein</em> and that have a <code>"compound_id"</code> which is either 1 or 5.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit">
 <span class="fu"><a href="../reference/CompDb.html">compounds</a></span><span class="op">(</span><span class="va">cdb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"compound_id"</span>, <span class="st">"name"</span>, <span class="st">"formula"</span><span class="op">)</span>,
@@ -192,12 +196,37 @@ document.addEventListener("DOMContentLoaded", function() {
 <pre><code>##   compound_id  formula    name
 ## 1           1 C10H10O3 Mellein
 ## 2           5 C10H10O3 Mellein</code></pre>
+<p>Similarly, we can define a filter expression to retrieve compounds with an exact mass between 310 and 320.</p>
+<div class="sourceCode" id="cb18"><pre class="downlit">
+<span class="fu"><a href="../reference/CompDb.html">compounds</a></span><span class="op">(</span><span class="va">cdb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"exactmass"</span><span class="op">)</span>,
+          filter <span class="op">=</span> <span class="op">~</span> <span class="va">exactmass</span> <span class="op">&gt;</span> <span class="fl">310</span> <span class="op">&amp;</span> <span class="va">exactmass</span> <span class="op">&lt;</span> <span class="fl">320</span><span class="op">)</span></pre></div>
+<pre><code>##   exactmass         name
+## 1  312.0634 Aflatoxin B1
+## 2  314.0790 Aflatoxin B2</code></pre>
+<p>In addition to <em>filter expressions</em>, we can also define and combine filters using the actual filter classes. This provides additional conditions that would not be possible with regular filter expressions. Below we fetch for examples only compounds from the database that contain a <em>H14</em> in their formula. To this end we use a <code>FormulaFilter</code> with the condition <code>"contains"</code>. Note that all filters that base on character matching (i.e. <code>FormulaFilter</code>, <code>InchiFilter</code>, <code>InchikeyFilter</code>, <code>NameFilter</code>) support as conditions also <code>"contains"</code>, <code>"startsWith"</code> and <code>"endsWith"</code> in addition to <code>"="</code> and <code>"!="</code>.</p>
+<div class="sourceCode" id="cb20"><pre class="downlit">
+<span class="fu"><a href="../reference/CompDb.html">compounds</a></span><span class="op">(</span><span class="va">cdb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"formula"</span>, <span class="st">"exactmass"</span><span class="op">)</span>,
+          filter <span class="op">=</span> <span class="fu"><a href="../reference/Filter-classes.html">FormulaFilter</a></span><span class="op">(</span><span class="st">"H14"</span>, <span class="st">"contains"</span><span class="op">)</span><span class="op">)</span></pre></div>
+<pre><code>##    formula exactmass         name
+## 1 C17H14O6  314.0790 Aflatoxin B2
+## 2 C17H14O7  330.0739 Aflatoxin G2</code></pre>
+<p>It is also possible to combine filters if they are defined that way, even if it is a little less straight forward than with the filter expressions. Below we combine the <code>FormulaFilter</code> with the <code>ExactmassFilter</code> to retrieve only compounds with an <code>"H14"</code> in their formula and an exact mass between 310 and 320.</p>
+<div class="sourceCode" id="cb22"><pre class="downlit">
+<span class="va">filters</span> <span class="op">&lt;-</span> <span class="fu">AnnotationFilterList</span><span class="op">(</span>
+    <span class="fu"><a href="../reference/Filter-classes.html">FormulaFilter</a></span><span class="op">(</span><span class="st">"H14"</span>, <span class="st">"contains"</span><span class="op">)</span>,
+    <span class="fu"><a href="../reference/Filter-classes.html">ExactmassFilter</a></span><span class="op">(</span><span class="fl">310</span>, <span class="st">"&gt;"</span><span class="op">)</span>,
+    <span class="fu"><a href="../reference/Filter-classes.html">ExactmassFilter</a></span><span class="op">(</span><span class="fl">320</span>, <span class="st">"&lt;"</span><span class="op">)</span>,
+    logicOp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"&amp;"</span>, <span class="st">"&amp;"</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/CompDb.html">compounds</a></span><span class="op">(</span><span class="va">cdb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"formula"</span>, <span class="st">"exactmass"</span><span class="op">)</span>,
+          filter <span class="op">=</span> <span class="va">filters</span><span class="op">)</span></pre></div>
+<pre><code>##    formula exactmass         name
+## 1 C17H14O6   314.079 Aflatoxin B2</code></pre>
 </div>
 <div id="extracting-with-msms-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#extracting-with-msms-data" class="anchor"></a>Extracting with MS/MS data</h2>
 <p><code>CompDb</code> database can also store and provide MS/MS spectral data. These can be interfaced with a <code>Spectra</code> object from the <em><a href="https://bioconductor.org/packages/3.12/Spectra">Spectra</a></em> Bioconductor package which can be initialized with the <code>Spectra</code> function as shown below.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit">
+<div class="sourceCode" id="cb24"><pre class="downlit">
 <span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html">Spectra</a></span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span>
 <span class="va">sps</span></pre></div>
 <pre><code>## MSn data (Spectra) with 70 spectra in a MsBackendCompDb backend:
@@ -219,7 +248,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ##  version: 2020.09 
 ##  organism: NA</code></pre>
 <p>With the <code>spectraVariables</code> function it is possible to list all available annotations specific to a spectrum from the database.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit">
+<div class="sourceCode" id="cb26"><pre class="downlit">
 <span class="fu">spectraVariables</span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></pre></div>
 <pre><code>##  [1] "msLevel"                 "rtime"                  
 ##  [3] "acquisitionNum"          "scanIndex"              
@@ -242,12 +271,12 @@ document.addEventListener("DOMContentLoaded", function() {
 ## [37] "predicted"               "msms_mz_range_min"      
 ## [39] "msms_mz_range_max"</code></pre>
 <p>Individual variables can then be accessed with <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code> and the variable name:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit">
+<div class="sourceCode" id="cb28"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">sps</span><span class="op">$</span><span class="va">adduct</span><span class="op">)</span></pre></div>
 <pre><code>## [1] "[M+H]+" "[M+H]+" "[M+H]+" "[M+H]+" "[M+H]+" "[M+H]+"</code></pre>
 <p>For more information on how to use <code>Spectra</code> objects in your analysis have also a look at the package <a href="https://rformassspectrometry.github.io/Spectra/articles/Spectra.html">vignette</a> or a <a href="https://jorainer.github.io/SpectraTutorials/">tutorial</a> on how to perform MS/MS spectra matching with <code>Spectra</code>.</p>
 <p>Similar to the <code>compounds</code> function, a call to <code>Spectra</code> will give access to <strong>all</strong> spectra in the database. Using the same filtering framework it is however also possible to <em>extract</em> only specific spectra from the database. Below we are for example accessing only the MS/MS spectra of the compound <em>Mellein</em>.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit">
+<div class="sourceCode" id="cb30"><pre class="downlit">
 <span class="va">mellein</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html">Spectra</a></span><span class="op">(</span><span class="va">cdb</span>, filter <span class="op">=</span> <span class="op">~</span> <span class="va">name</span> <span class="op">==</span> <span class="st">"Mellein"</span><span class="op">)</span>
 <span class="va">mellein</span></pre></div>
 <pre><code>## MSn data (Spectra) with 5 spectra in a MsBackendCompDb backend:
@@ -264,7 +293,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ##  organism: NA</code></pre>
 <p>Instead of all spectra we extracted now only a subset of 5 spectra from the database.</p>
 <p>As a simple toy example we perform next pairwise spectra comparison between the 5 spectra from <em>Mellein</em> with all the MS/MS spectra in the database.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit">
+<div class="sourceCode" id="cb32"><pre class="downlit">
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/Spectra">Spectra</a></span><span class="op">)</span>
 <span class="va">cormat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html">compareSpectra</a></span><span class="op">(</span><span class="va">mellein</span>, <span class="va">sps</span>, ppm <span class="op">=</span> <span class="fl">40</span><span class="op">)</span></pre></div>
 </div>

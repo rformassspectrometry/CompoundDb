@@ -46,6 +46,10 @@ AnnotationFilter::AnnotationFilter class and support the filtering concepts
 introduced by Bioconductor's AnnotationFilter package.
 The supported filters are:
 CompoundIdFilter: filter based on the compound ID.
+FormulaFilter: filter based on the compound's formula.
+InchiFilter: filter based on the compound's InChI.
+InchikeyFilter: filter based on the compound's InChI key.
+ExactmassFilter: filter based on the compound's (exact) mass.
 NameFilter: filter based on the compound name.
 MsmsMzRangeMinFilter: retrieve entries based on the smallest m/z of all
 peaks of their MS/MS spectra. Requires that MS/MS spectra data are present
@@ -88,7 +92,7 @@ MS/MS spectra.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CompoundDb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.4</span>
       </span>
     </div>
 
@@ -145,6 +149,10 @@ retrieve only subsets of the data. These filters extend the
 introduced by Bioconductor's <code>AnnotationFilter</code> package.</p>
 <p>The supported filters are:</p><ul>
 <li><p><code>CompoundIdFilter</code>: filter based on the compound ID.</p></li>
+<li><p><code>FormulaFilter</code>: filter based on the compound's formula.</p></li>
+<li><p><code>InchiFilter</code>: filter based on the compound's InChI.</p></li>
+<li><p><code>InchikeyFilter</code>: filter based on the compound's InChI key.</p></li>
+<li><p><code>ExactmassFilter</code>: filter based on the compound's (exact) mass.</p></li>
 <li><p><code>NameFilter</code>: filter based on the compound name.</p></li>
 <li><p><code>MsmsMzRangeMinFilter</code>: retrieve entries based on the smallest m/z of all
 peaks of their MS/MS spectra. Requires that MS/MS spectra data are present
@@ -166,7 +174,15 @@ MS/MS spectra.</p></li>
 
 <span class='fu'>MsmsMzRangeMinFilter</span><span class='op'>(</span><span class='va'>value</span>, condition <span class='op'>=</span> <span class='st'>"&gt;="</span><span class='op'>)</span>
 
-<span class='fu'>MsmsMzRangeMaxFilter</span><span class='op'>(</span><span class='va'>value</span>, condition <span class='op'>=</span> <span class='st'>"&lt;="</span><span class='op'>)</span></pre>
+<span class='fu'>MsmsMzRangeMaxFilter</span><span class='op'>(</span><span class='va'>value</span>, condition <span class='op'>=</span> <span class='st'>"&lt;="</span><span class='op'>)</span>
+
+<span class='fu'>ExactmassFilter</span><span class='op'>(</span><span class='va'>value</span>, condition <span class='op'>=</span> <span class='st'>"=="</span><span class='op'>)</span>
+
+<span class='fu'>FormulaFilter</span><span class='op'>(</span><span class='va'>value</span>, condition <span class='op'>=</span> <span class='st'>"=="</span><span class='op'>)</span>
+
+<span class='fu'>InchiFilter</span><span class='op'>(</span><span class='va'>value</span>, condition <span class='op'>=</span> <span class='st'>"=="</span><span class='op'>)</span>
+
+<span class='fu'>InchikeyFilter</span><span class='op'>(</span><span class='va'>value</span>, condition <span class='op'>=</span> <span class='st'>"=="</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
