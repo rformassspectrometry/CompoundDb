@@ -9,6 +9,10 @@
 #'
 #' The supported filters are:
 #' - `CompoundIdFilter`: filter based on the compound ID.
+#' - `FormulaFilter`: filter based on the compound's formula.
+#' - `InchiFilter`: filter based on the compound's InChI.
+#' - `InchikeyFilter`: filter based on the compound's InChI key.
+#' - `ExactmassFilter`: filter based on the compound's (exact) mass.
 #' - `NameFilter`: filter based on the compound name.
 #' - `MsmsMzRangeMinFilter`: retrieve entries based on the smallest m/z of all
 #'   peaks of their MS/MS spectra. Requires that MS/MS spectra data are present
@@ -26,8 +30,6 @@
 #'     [AnnotationFilter::AnnotationFilter()].
 #'
 #' @author Johannes Rainer
-#'
-#' @md
 #'
 #' @name Filter-classes
 #'
@@ -137,6 +139,75 @@ MsmsMzRangeMaxFilter <- function(value, condition = "<=") {
     new("MsmsMzRangeMaxFilter", value = as.numeric(value),
         condition = condition)
 }
+
+#' @exportClass ExactmassFilter
+#'
+#' @rdname Filter-classes
+setClass("ExactmassFilter", contains = "DoubleFilter",
+         prototype = list(
+             condition = "==",
+             value = 0,
+             field = "exactmass"
+         ))
+#' @export ExactmassFilter
+#'
+#' @rdname Filter-classes
+ExactmassFilter <- function(value, condition = "==") {
+    new("ExactmassFilter", value = as.numeric(value),
+        condition = condition)
+}
+
+#' @exportClass FormulaFilter
+#'
+#' @rdname Filter-classes
+setClass("FormulaFilter", contains = "CharacterFilter",
+         prototype = list(
+             condition = "==",
+             value = "",
+             field = "formula"
+         ))
+#' @export FormulaFilter
+#'
+#' @rdname Filter-classes
+FormulaFilter <- function(value, condition = "==") {
+    new("FormulaFilter", value = as.character(value),
+        condition = condition)
+}
+
+#' @exportClass InchiFilter
+#'
+#' @rdname Filter-classes
+setClass("InchiFilter", contains = "CharacterFilter",
+         prototype = list(
+             condition = "==",
+             value = "",
+             field = "inchi"
+         ))
+#' @export InchiFilter
+#'
+#' @rdname Filter-classes
+InchiFilter <- function(value, condition = "==") {
+    new("InchiFilter", value = as.character(value),
+        condition = condition)
+}
+
+#' @exportClass InchikeyFilter
+#'
+#' @rdname Filter-classes
+setClass("InchikeyFilter", contains = "CharacterFilter",
+         prototype = list(
+             condition = "==",
+             value = "",
+             field = "inchikey"
+         ))
+#' @export InchikeyFilter
+#'
+#' @rdname Filter-classes
+InchikeyFilter <- function(value, condition = "==") {
+    new("InchikeyFilter", value = as.character(value),
+        condition = condition)
+}
+
 
 #' @description Returns the field (database column name) for the provided
 #'     `AnnotationFilter`. Returns by default the value from `@field` but can
@@ -317,10 +388,22 @@ MsmsMzRangeMaxFilter <- function(value, condition = "<=") {
 #'
 #' @noRd
 .supported_filters <- function(x) {
-    df <- data.frame(filter = c("CompoundIdFilter",
-                                "NameFilter"),
-                     field = c("compound_id",
-                               "name"),
+    df <- data.frame(filter = c(
+                         "CompoundIdFilter",
+                         "ExactmassFilter",
+                         "FormulaFilter",
+                         "InchiFilter",
+                         "InchikeyFilter",
+                         "NameFilter"
+                     ),
+                     field = c(
+                         "compound_id",
+                         "exactmass",
+                         "formula",
+                         "inchi",
+                         "inchikey",
+                         "name"
+                     ),
                      stringsAsFactors = FALSE)
     if (!missing(x) && .has_msms_spectra(x)) {
         df <- rbind(df,

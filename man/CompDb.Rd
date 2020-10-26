@@ -137,7 +137,8 @@ retrieved by passing the filter expression
 \code{filter = ~ compound_id == "HMDB0000001"} to the \code{compounds} function.
 
 Use the \link{supportedFilters} function on the \link{CompDb} object to get a list of
-all supported filters.
+all supported filters. See also examples below or the usage vignette for
+details.
 }
 
 \examples{
@@ -188,6 +189,18 @@ mz(sps)
 library(Spectra)
 ## Plot the first spectrum
 plotSpectra(sps[1])
+
+
+#########
+## Filtering the database
+##
+## Get all compounds with an exact mass between 310 and 320
+res <- compounds(cdb, filter = ~ exactmass > 310 & exactmass < 320)
+res
+
+## Get all compounds that have an H14 in their formula.
+res <- compounds(cdb, filter = FormulaFilter("H14", "contains"))
+res
 
 #########
 ## Using CompDb with the *tidyverse*

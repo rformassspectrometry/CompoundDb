@@ -135,6 +135,44 @@ compounds(cdb, columns = c("compound_id", "name", "formula"),
           filter = ~ name == "Mellein" & compound_id %in% c(1, 5))
 ```
 
+Similarly, we can define a filter expression to retrieve compounds with an exact
+mass between 310 and 320.
+
+```{r}
+compounds(cdb, columns = c("name", "exactmass"),
+          filter = ~ exactmass > 310 & exactmass < 320)
+```
+
+In addition to *filter expressions*, we can also define and combine filters
+using the actual filter classes. This provides additional conditions that would
+not be possible with regular filter expressions. Below we fetch for examples
+only compounds from the database that contain a *H14* in their formula. To this
+end we use a `FormulaFilter` with the condition `"contains"`. Note that all
+filters that base on character matching (i.e. `FormulaFilter`, `InchiFilter`,
+`InchikeyFilter`, `NameFilter`) support as conditions also `"contains"`,
+`"startsWith"` and `"endsWith"` in addition to `"="` and `"!="`.
+
+```{r}
+compounds(cdb, columns = c("name", "formula", "exactmass"),
+          filter = FormulaFilter("H14", "contains"))
+```
+
+It is also possible to combine filters if they are defined that way, even if it
+is a little less straight forward than with the filter expressions. Below we
+combine the `FormulaFilter` with the `ExactmassFilter` to retrieve only
+compounds with an `"H14"` in their formula and an exact mass between 310 and
+320.
+
+```{r}
+filters <- AnnotationFilterList(
+    FormulaFilter("H14", "contains"),
+    ExactmassFilter(310, ">"),
+    ExactmassFilter(320, "<"),
+    logicOp = c("&", "&"))
+compounds(cdb, columns = c("name", "formula", "exactmass"),
+          filter = filters)
+```
+
 
 ## Extracting with MS/MS data
 
