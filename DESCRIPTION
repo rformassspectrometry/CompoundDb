@@ -39,6 +39,7 @@ Imports:
     Spectra (>= 0.99.3)
 Suggests:
     knitr,
+    rmarkdown,
     testthat,
     BiocStyle (>= 2.5.19)
 Remotes:
