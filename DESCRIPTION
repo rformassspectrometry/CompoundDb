@@ -42,9 +42,7 @@ Suggests:
     testthat,
     BiocStyle (>= 2.5.19)
 Remotes:
-    stanstrup/commonMZ,
-    rformassspectrometry/Spectra,
-    rformassspectrometry/MsCoreUtils
+    stanstrup/commonMZ
 License: GPL (>= 2)
 URL: https://github.com/EuracBiomedicalResearch/CompoundDb
 biocViews: MassSpectrometry, Metabolomics
