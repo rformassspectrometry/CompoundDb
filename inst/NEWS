@@ -1,3 +1,9 @@
+Changes in version 0.6.5
+
+- Add parameter `onlyValid` to `compound_tbl_sdf` to allow importing of only
+  valid elements
+  [issue #69](https://github.com/EuracBiomedicalResearch/CompoundDb/issues/69).
+
 Changes in version 0.6.4
 
 - Add additional filters: `MassFilter`, `FormulaFilter`, `InchiFilter` and

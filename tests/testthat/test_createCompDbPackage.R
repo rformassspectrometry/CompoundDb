@@ -58,6 +58,8 @@ test_that("compound_tbl_sdf works", {
 
     hmdb <- system.file("sdf/HMDB_sub.sdf.gz", package = "CompoundDb")
     cmps <- compound_tbl_sdf(hmdb)
+    cmps2 <- compound_tbl_sdf(hmdb, onlyValid = FALSE)
+    expect_equal(cmps, cmps2)
     expect_true(is(cmps, "data.frame"))
     expect_true(is(cmps, "tbl"))
     expect_equal(colnames(cmps), c("compound_id", "name", "inchi",

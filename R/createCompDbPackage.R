@@ -36,6 +36,9 @@
 #' @param collapse optional `character(1)` to be used to collapse multiple
 #'     values in the columns `"synonyms"`. See examples for details.
 #'
+#' @param onlyValid `logical(1)` to import only valid or all elements (defaults
+#'     to `onlyValid = TRUE`)
+#'
 #' @return A [tibble::tibble] with general compound information (one row per
 #' compound):
 #' + `compound_id`: the ID of the compound.
@@ -59,7 +62,7 @@
 #' @seealso [createCompDb()] for a function to create a SQLite-based compound
 #'     database.
 #'
-#' @importFrom ChemmineR read.SDFset datablock datablock2ma
+#' @importFrom ChemmineR read.SDFset datablock datablock2ma validSDF
 #'
 #' @examples
 #'
@@ -76,11 +79,20 @@
 #' cmps <- compound_tbl_sdf(fl, collapse = "|")
 #' cmps
 #' cmps$synonyms
-compound_tbl_sdf <- function(file, collapse) {
+compound_tbl_sdf <- function(file, collapse, onlyValid = TRUE) {
     if (missing(file))
         stop("Please provide the file name using 'file'")
     if (!file.exists(file))
         stop("Can not fine file ", file)
+    suppressWarnings(
+        sdf <- read.SDFset(file))
+    nsdf <- length(sdf)
+    if (onlyValid) {
+        sdf <- sdf[validSDF(sdf)]
+        if (length(sdf) != nsdf)
+            message("Skipped import of ", nsdf - length(sdf),
+                    " invalid elements")
+    }
     res <- .simple_extract_compounds_sdf(
         datablock2ma(datablock(read.SDFset(file))))
     if (!missing(collapse)) {
