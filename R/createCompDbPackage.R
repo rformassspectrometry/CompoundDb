@@ -167,7 +167,7 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' @note
 #' LIPID MAPS was tested August 2020. Older SDF files might not work as the field names were changed.
 #'
-#' @importFrom tibble data_frame
+#' @importFrom tibble tibble
 #'
 #' @md
 #'
@@ -192,7 +192,7 @@ compound_tbl_lipidblast <- function(file, collapse) {
         if (any(nas))
             nms[nas] <- x[nas, "SYSTEMATIC_NAME"]
     }
-    res <- data_frame(compound_id = x[, colmap["id"]],
+    res <- tibble(compound_id = x[, colmap["id"]],
                       name = nms,
                       inchi = x[, colmap["inchi"]],
                       inchikey = x[, colmap["inchikey"]],
