@@ -1,7 +1,7 @@
 Package: CompoundDb
 Type: Package
 Title: Creating and Using (Chemical) Compound Annotation Databases
-Version: 0.6.5
+Version: 0.6.6
 Authors@R: c(person(given = "Jan", family = "Stanstrup",
                     email = "stanstrup@gmail.com",
 		    role = c("aut"),
@@ -31,7 +31,7 @@ Imports:
     RSQLite,
     Biobase,
     BiocGenerics,
-    ProtGenerics,
+    ProtGenerics (>= 1.23.5),
     xml2,
     commonMZ,
     MsCoreUtils,

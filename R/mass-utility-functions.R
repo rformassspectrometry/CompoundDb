@@ -327,7 +327,7 @@ setMethod(
                             compounds = "CompDb"),
     function(object, compounds, adduct = adducts(), ppm = 10, ...) {
         annotateMz(object,
-                   compounds(x = compounds, ...),
+                   compounds(object = compounds, ...),
                    adduct = adduct,
                    ppm = ppm, ...)
     }

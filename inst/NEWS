@@ -1,3 +1,7 @@
+Changes in version 0.6.6
+
+- Import `compounds` method from `ProtGenerics`.
+
 Changes in version 0.6.5
 
 - Add parameter `onlyValid` to `compound_tbl_sdf` to allow importing of only

@@ -96,3 +96,25 @@ setMethod("compoundVariables", "CompDb", function(object,
         else cn[!cn %in% "compound_id"]
     } else character()
 })
+
+#' @importFrom tibble as_tibble
+#'
+#' @importMethodsFrom ProtGenerics compounds
+#'
+#' @export
+#'
+#' @rdname CompDb
+setMethod("compounds", "CompDb", function(object,
+                                          columns = compoundVariables(object),
+                                          filter,
+                                          return.type = c("data.frame",
+                                                          "tibble"), ...) {
+    return.type <- match.arg(return.type)
+    if (length(columns))
+        res <- .fetch_data(object, columns = columns, filter = filter,
+                           start_from = "compound")
+    else res <- data.frame()
+    if (return.type == "tibble")
+        as_tibble(res)
+    else res
+})
