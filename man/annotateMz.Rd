@@ -7,11 +7,11 @@
 \alias{annotateMz,numericOrDataFrameOrEquivalent,CompDb-method}
 \title{Annotate m/z values for ion adducts}
 \usage{
-\S4method{annotateMz}{numeric,DataFrameOrEquivalent}(object, compounds, adduct = adducts(), ppm = 10, ...)
+\S4method{annotateMz}{numeric,DataFrameOrEquivalent}(object, compounds, adduct = "[M+H]+", ppm = 10, ...)
 
-\S4method{annotateMz}{DataFrameOrEquivalent,DataFrameOrEquivalent}(object, compounds, adduct = adducts(), ppm = 10, mzcol = "mz", ...)
+\S4method{annotateMz}{DataFrameOrEquivalent,DataFrameOrEquivalent}(object, compounds, adduct = "[M+H]+", ppm = 10, mzcol = "mz", ...)
 
-\S4method{annotateMz}{numericOrDataFrameOrEquivalent,CompDb}(object, compounds, adduct = adducts(), ppm = 10, ...)
+\S4method{annotateMz}{numericOrDataFrameOrEquivalent,CompDb}(object, compounds, adduct = "[M+H]+", ppm = 10, ...)
 }
 \arguments{
 \item{object}{either a \code{numeric} of m/z values or a \code{data.frame} (or
@@ -21,9 +21,9 @@ equivalent) with a column containing the m/z values.}
 the reference annotations. A column named \code{"exactmass"} is mandatory if
 \code{compounds} is a \code{data.frame}.}
 
-\item{adduct}{adduct definition. Either a \code{data.frame} as returned by
-\code{\link[=adducts]{adducts()}} or a \code{character} with the names of the adduct(s) in that
-\code{data.frame}.}
+\item{adduct}{adduct definition. A \code{character} defining the adduct(s) to
+look for or a \code{data.frame} with adduct definition. See help on
+\code{\link[=mz2mass]{mz2mass()}} from the \code{MetaboCoreUtils} package.}
 
 \item{ppm}{\code{numeric(1)} defining the allowed mass difference in ppm.}
 
@@ -47,8 +47,7 @@ if the mass difference is smaller than \code{ppm}.
 For \code{object} being a \code{numeric} and \code{compounds} a \code{data.frame} or equivalend
 class, the function returns a \code{list} of subsets of \code{compounds} with rows
 matching the adducts' mass. If no match is found for the mass of any
-adducts, a row of \code{compounds} with all values set to \code{NA} is returned. Note
-that if \code{compounds} is \verb{[CompDb()], a}list\code{of}data.frame`s is returned.s
+adducts, a 0-rows \code{data.frame} (same columns than \code{compounds} is returned).
 }
 \examples{
 
@@ -68,9 +67,8 @@ res <- annotateMz(mzs, cmps, adduct = "[M+H]+")
 ## adduct. If no match was found the result contains only `NA` values.
 res
 
-## Annotating using all adducts defined by `adducts()` and accepting a
-## 20ppm difference between the masses
-annotateMz(mzs, cmps, ppm = 20)
+## Using all adducts supported by the `mz2mass` function.
+annotateMz(mzs, cmps, ppm = 10, adduct = MetaboCoreUtils::adductNames())
 
 ## It is also possible to annotate an input data.frame, in which case each
 ## input will be duplicated depending on the number of hits for each m/z

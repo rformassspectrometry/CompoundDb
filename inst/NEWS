@@ -1,3 +1,8 @@
+Changes in version 0.7.0
+
+- Remove `mass2mz` and `mz2mass` function in favour of the functions
+  implemented in `MetaboCoreUtils`.
+
 Changes in version 0.6.6
 
 - Import `compounds` method from `ProtGenerics`.
