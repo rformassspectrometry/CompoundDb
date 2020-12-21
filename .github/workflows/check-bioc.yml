@@ -181,6 +181,8 @@ jobs:
           message(paste('****', Sys.time(), 'installing rcmdcheck and BiocCheck ****'))
           remotes::install_cran("rcmdcheck")
           BiocManager::install("BiocCheck")
+
+          BiocManager::install("rsvg")
         shell: Rscript {0}
 
       - name: Install BiocGenerics
