@@ -49,8 +49,9 @@ if the mass difference is smaller than ppm.
 For object being a numeric and compounds a data.frame or equivalend
 class, the function returns a list of subsets of compounds with rows
 matching the adducts' mass. If no match is found for the mass of any
-adducts, a row of compounds with all values set to NA is returned. Note
-that if compounds is [CompDb()], alistofdata.frame`s is returned.s" />
+adducts, a 0-rows data.frame (same columns than compounds is returned)." />
+
+
 
 
 
@@ -82,7 +83,7 @@ that if compounds is [CompDb()], alistofdata.frame`s is returned.s" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CompoundDb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
       </span>
     </div>
 
@@ -106,11 +107,14 @@ that if compounds is [CompDb()], alistofdata.frame`s is returned.s" />
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/EuracBiomedicalResearch/CompoundDb/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -142,18 +146,17 @@ if the mass difference is smaller than <code>ppm</code>.</p>
 <p>For <code>object</code> being a <code>numeric</code> and <code>compounds</code> a <code>data.frame</code> or equivalend
 class, the function returns a <code>list</code> of subsets of <code>compounds</code> with rows
 matching the adducts' mass. If no match is found for the mass of any
-adducts, a row of <code>compounds</code> with all values set to <code>NA</code> is returned. Note
-that if <code>compounds</code> is <code>[CompDb()], a</code>list<code>of</code>data.frame`s is returned.s</p>
+adducts, a 0-rows <code>data.frame</code> (same columns than <code>compounds</code> is returned).</p>
     </div>
 
     <pre class="usage"><span class='co'># S4 method for numeric,DataFrameOrEquivalent</span>
-<span class='fu'>annotateMz</span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>compounds</span>, adduct <span class='op'>=</span> <span class='fu'><a href='mass2mz.html'>adducts</a></span><span class='op'>(</span><span class='op'>)</span>, ppm <span class='op'>=</span> <span class='fl'>10</span>, <span class='va'>...</span><span class='op'>)</span>
+<span class='fu'>annotateMz</span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>compounds</span>, adduct <span class='op'>=</span> <span class='st'>"[M+H]+"</span>, ppm <span class='op'>=</span> <span class='fl'>10</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S4 method for DataFrameOrEquivalent,DataFrameOrEquivalent</span>
-<span class='fu'>annotateMz</span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>compounds</span>, adduct <span class='op'>=</span> <span class='fu'><a href='mass2mz.html'>adducts</a></span><span class='op'>(</span><span class='op'>)</span>, ppm <span class='op'>=</span> <span class='fl'>10</span>, mzcol <span class='op'>=</span> <span class='st'>"mz"</span>, <span class='va'>...</span><span class='op'>)</span>
+<span class='fu'>annotateMz</span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>compounds</span>, adduct <span class='op'>=</span> <span class='st'>"[M+H]+"</span>, ppm <span class='op'>=</span> <span class='fl'>10</span>, mzcol <span class='op'>=</span> <span class='st'>"mz"</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S4 method for numericOrDataFrameOrEquivalent,CompDb</span>
-<span class='fu'>annotateMz</span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>compounds</span>, adduct <span class='op'>=</span> <span class='fu'><a href='mass2mz.html'>adducts</a></span><span class='op'>(</span><span class='op'>)</span>, ppm <span class='op'>=</span> <span class='fl'>10</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'>annotateMz</span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>compounds</span>, adduct <span class='op'>=</span> <span class='st'>"[M+H]+"</span>, ppm <span class='op'>=</span> <span class='fl'>10</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -171,9 +174,9 @@ the reference annotations. A column named <code>"exactmass"</code> is mandatory 
     </tr>
     <tr>
       <th>adduct</th>
-      <td><p>adduct definition. Either a <code>data.frame</code> as returned by
-<code><a href='mass2mz.html'>adducts()</a></code> or a <code>character</code> with the names of the adduct(s) in that
-<code>data.frame</code>.</p></td>
+      <td><p>adduct definition. A <code>character</code> defining the adduct(s) to
+look for or a <code>data.frame</code> with adduct definition. See help on
+<code>mz2mass()</code> from the <code>MetaboCoreUtils</code> package.</p></td>
     </tr>
     <tr>
       <th>ppm</th>
@@ -204,11 +207,8 @@ column name in <code>object</code> containing the m/z values. Defaults to <code>
 <span class='co'>## a small subset of HMDB annotations</span>
 <span class='va'>fl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"sdf/HMDB_sub.sdf.gz"</span>, package <span class='op'>=</span> <span class='st'>"CompoundDb"</span><span class='op'>)</span>
 <span class='va'>cmps</span> <span class='op'>&lt;-</span> <span class='fu'><a href='compound_tbl_sdf.html'>compound_tbl_sdf</a></span><span class='op'>(</span><span class='va'>fl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: `data_frame()` is deprecated as of tibble 1.1.0.</span>
-#&gt; <span class='warning'>Please use `tibble()` instead.</span>
-#&gt; <span class='warning'><span style='color: #555555;'>This warning is displayed once every 8 hours.</span><span></span>
-#&gt; <span class='warning'></span><span style='color: #555555;'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span><span></span></div><div class='input'><span class='va'>cmps</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 9 x 8</span><span>
+<span class='va'>cmps</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 9 x 8</span><span>
 #&gt;   compound_id name    inchi      inchikey  formula exactmass synonyms smiles    
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     
 #&gt; </span><span style='color: #555555;'>1</span><span> HMDB0000001 1-Meth… InChI=1S/… BRMWTNUJ… C7H11N…     169.  </span><span style='color: #555555;'>&lt;chr [9</span><span>… </span><span style='color: #555555;'>"</span><span>CN1C=NC(…
@@ -225,137 +225,122 @@ column name in <code>object</code> containing the m/z values. Defaults to <code>
 <span class='va'>mzs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>105.0546</span>, <span class='fl'>75.09168</span>, <span class='fl'>127.0365</span>, <span class='fl'>113.04756</span>, <span class='fl'>113.1210</span><span class='op'>)</span>
 
 <span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>annotateMz</span><span class='op'>(</span><span class='va'>mzs</span>, <span class='va'>cmps</span>, adduct <span class='op'>=</span> <span class='st'>"[M+H]+"</span><span class='op'>)</span>
-
+</div><div class='output co'>#&gt; <span class='warning'>Warning: cannot xtfrm data frames</span></div><div class='input'>
 <span class='co'>## res is a `list` with the matching hits for each m/z and the specified</span>
 <span class='co'>## adduct. If no match was found the result contains only `NA` values.</span>
 <span class='va'>res</span>
-</div><div class='output co'>#&gt; [[1]]
+</div><div class='output co'>#&gt; $`1`
 #&gt; </span><span style='color: #555555;'># A tibble: 2 x 10</span><span>
-#&gt;   compound_id name  inchi inchikey formula exactmass synonyms smiles adduct
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #555555;'>1</span><span> HMDB0000008 2-Hy… InCh… AFENDNX… C4H8O3       104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… CCC(O… [M+H]+
-#&gt; </span><span style='color: #555555;'>2</span><span> HMDB0000011 (R)-… InCh… WHBMMWS… C4H8O3       104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… C[C@@… [M+H]+
-#&gt; </span><span style='color: #555555;'># … with 1 more variable: ppm </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt;   compound_id name  inchi inchikey formula exactmass synonyms smiles .adduct
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'>1</span><span> HMDB0000008 2-Hy… InCh… AFENDNX… C4H8O3       104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… CCC(O… [M+H]+ 
+#&gt; </span><span style='color: #555555;'>2</span><span> HMDB0000011 (R)-… InCh… WHBMMWS… C4H8O3       104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… C[C@@… [M+H]+ 
+#&gt; </span><span style='color: #555555;'># … with 1 more variable: .difference </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; 
-#&gt; [[2]]
+#&gt; $`2`
 #&gt; </span><span style='color: #555555;'># A tibble: 1 x 10</span><span>
-#&gt;   compound_id name  inchi inchikey formula exactmass synonyms smiles adduct
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #555555;'>1</span><span> HMDB0000002 1,3-… InCh… XFNJVJP… C3H10N2      74.1 </span><span style='color: #555555;'>&lt;chr [8</span><span>… NCCCN  [M+H]+
-#&gt; </span><span style='color: #555555;'># … with 1 more variable: ppm </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt;   compound_id name  inchi inchikey formula exactmass synonyms smiles .adduct
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'>1</span><span> HMDB0000002 1,3-… InCh… XFNJVJP… C3H10N2      74.1 </span><span style='color: #555555;'>&lt;chr [8</span><span>… NCCCN  [M+H]+ 
+#&gt; </span><span style='color: #555555;'># … with 1 more variable: .difference </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; 
-#&gt; [[3]]
-#&gt; </span><span style='color: #555555;'># A tibble: 1 x 10</span><span>
-#&gt;   compound_id name  inchi inchikey formula exactmass synonyms smiles adduct
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='color: #BB0000;'>NA</span><span>          </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>       </span><span style='color: #BB0000;'>NA</span><span>             </span><span style='color: #BB0000;'>NA</span><span> </span><span style='color: #555555;'>&lt;lgl [1</span><span>… </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>    
-#&gt; </span><span style='color: #555555;'># … with 1 more variable: ppm </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; $`3`
+#&gt; </span><span style='color: #555555;'># A tibble: 0 x 10</span><span>
+#&gt; </span><span style='color: #555555;'># … with 10 variables: compound_id </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, name </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, inchi </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   inchikey </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, formula </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, exactmass </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, synonyms </span><span style='color: #555555;font-style: italic;'>&lt;named list&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   smiles </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, .adduct </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, .difference </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; 
-#&gt; [[4]]
-#&gt; </span><span style='color: #555555;'># A tibble: 1 x 10</span><span>
-#&gt;   compound_id name  inchi inchikey formula exactmass synonyms smiles adduct
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='color: #BB0000;'>NA</span><span>          </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>       </span><span style='color: #BB0000;'>NA</span><span>             </span><span style='color: #BB0000;'>NA</span><span> </span><span style='color: #555555;'>&lt;lgl [1</span><span>… </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>    
-#&gt; </span><span style='color: #555555;'># … with 1 more variable: ppm </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; $`4`
+#&gt; </span><span style='color: #555555;'># A tibble: 0 x 10</span><span>
+#&gt; </span><span style='color: #555555;'># … with 10 variables: compound_id </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, name </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, inchi </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   inchikey </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, formula </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, exactmass </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, synonyms </span><span style='color: #555555;font-style: italic;'>&lt;named list&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   smiles </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, .adduct </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, .difference </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; 
-#&gt; [[5]]
-#&gt; </span><span style='color: #555555;'># A tibble: 1 x 10</span><span>
-#&gt;   compound_id name  inchi inchikey formula exactmass synonyms smiles adduct
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #555555;'>1</span><span> </span><span style='color: #BB0000;'>NA</span><span>          </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>       </span><span style='color: #BB0000;'>NA</span><span>             </span><span style='color: #BB0000;'>NA</span><span> </span><span style='color: #555555;'>&lt;lgl [1</span><span>… </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>    
-#&gt; </span><span style='color: #555555;'># … with 1 more variable: ppm </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; $`5`
+#&gt; </span><span style='color: #555555;'># A tibble: 0 x 10</span><span>
+#&gt; </span><span style='color: #555555;'># … with 10 variables: compound_id </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, name </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, inchi </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   inchikey </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, formula </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, exactmass </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, synonyms </span><span style='color: #555555;font-style: italic;'>&lt;named list&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   smiles </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, .adduct </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, .difference </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </div><div class='input'>
-<span class='co'>## Annotating using all adducts defined by `adducts()` and accepting a</span>
-<span class='co'>## 20ppm difference between the masses</span>
-<span class='fu'>annotateMz</span><span class='op'>(</span><span class='va'>mzs</span>, <span class='va'>cmps</span>, ppm <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [[1]]
-#&gt; </span><span style='color: #555555;'># A tibble: 6 x 10</span><span>
-#&gt;   compound_id name  inchi inchikey formula exactmass synonyms smiles adduct
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #555555;'>1</span><span> HMDB0000008 2-Hy… InCh… AFENDNX… C4H8O3       104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… CCC(O… [2M+2…
-#&gt; </span><span style='color: #555555;'>2</span><span> HMDB0000011 (R)-… InCh… WHBMMWS… C4H8O3       104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… C[C@@… [2M+2…
-#&gt; </span><span style='color: #555555;'>3</span><span> HMDB0000008 2-Hy… InCh… AFENDNX… C4H8O3       104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… CCC(O… [3M+3…
-#&gt; </span><span style='color: #555555;'>4</span><span> HMDB0000011 (R)-… InCh… WHBMMWS… C4H8O3       104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… C[C@@… [3M+3…
-#&gt; </span><span style='color: #555555;'>5</span><span> HMDB0000008 2-Hy… InCh… AFENDNX… C4H8O3       104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… CCC(O… [M+H]+
-#&gt; </span><span style='color: #555555;'>6</span><span> HMDB0000011 (R)-… InCh… WHBMMWS… C4H8O3       104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… C[C@@… [M+H]+
-#&gt; </span><span style='color: #555555;'># … with 1 more variable: ppm </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; 
-#&gt; [[2]]
-#&gt; </span><span style='color: #555555;'># A tibble: 4 x 10</span><span>
-#&gt;   compound_id name  inchi inchikey formula exactmass synonyms smiles adduct
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #555555;'>1</span><span> HMDB0000002 1,3-… InCh… XFNJVJP… C3H10N2      74.1 </span><span style='color: #555555;'>&lt;chr [8</span><span>… NCCCN  [M+H]+
-#&gt; </span><span style='color: #555555;'>2</span><span> HMDB0000002 1,3-… InCh… XFNJVJP… C3H10N2      74.1 </span><span style='color: #555555;'>&lt;chr [8</span><span>… NCCCN  [2M+2…
-#&gt; </span><span style='color: #555555;'>3</span><span> HMDB0000002 1,3-… InCh… XFNJVJP… C3H10N2      74.1 </span><span style='color: #555555;'>&lt;chr [8</span><span>… NCCCN  [3M+3…
-#&gt; </span><span style='color: #555555;'>4</span><span> HMDB0000001 1-Me… InCh… BRMWTNU… C7H11N…     169.  </span><span style='color: #555555;'>&lt;chr [9</span><span>… CN1C=… [M+H-…
-#&gt; </span><span style='color: #555555;'># … with 1 more variable: ppm </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; 
-#&gt; [[3]]
-#&gt; </span><span style='color: #555555;'># A tibble: 4 x 10</span><span>
-#&gt;   compound_id name  inchi inchikey formula exactmass synonyms smiles adduct
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #555555;'>1</span><span> HMDB0000008 2-Hy… InCh… AFENDNX… C4H8O3       104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… CCC(O… [M+Na…
-#&gt; </span><span style='color: #555555;'>2</span><span> HMDB0000011 (R)-… InCh… WHBMMWS… C4H8O3       104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… C[C@@… [M+Na…
-#&gt; </span><span style='color: #555555;'>3</span><span> HMDB0000008 2-Hy… InCh… AFENDNX… C4H8O3       104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… CCC(O… [2M+2…
-#&gt; </span><span style='color: #555555;'>4</span><span> HMDB0000011 (R)-… InCh… WHBMMWS… C4H8O3       104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… C[C@@… [2M+2…
-#&gt; </span><span style='color: #555555;'># … with 1 more variable: ppm </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; 
-#&gt; [[4]]
+<span class='co'>## Using all adducts supported by the `mz2mass` function.</span>
+<span class='fu'>annotateMz</span><span class='op'>(</span><span class='va'>mzs</span>, <span class='va'>cmps</span>, ppm <span class='op'>=</span> <span class='fl'>10</span>, adduct <span class='op'>=</span> <span class='fu'>MetaboCoreUtils</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/MetaboCoreUtils/man/adductNames.html'>adductNames</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: cannot xtfrm data frames</span></div><div class='output co'>#&gt; $`1`
 #&gt; </span><span style='color: #555555;'># A tibble: 2 x 10</span><span>
-#&gt;   compound_id name  inchi inchikey formula exactmass synonyms smiles adduct
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #555555;'>1</span><span> HMDB0000002 1,3-… InCh… XFNJVJP… C3H10N2      74.1 </span><span style='color: #555555;'>&lt;chr [8</span><span>… NCCCN  [M+K]+
-#&gt; </span><span style='color: #555555;'>2</span><span> HMDB0000002 1,3-… InCh… XFNJVJP… C3H10N2      74.1 </span><span style='color: #555555;'>&lt;chr [8</span><span>… NCCCN  [2M+2…
-#&gt; </span><span style='color: #555555;'># … with 1 more variable: ppm </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt;   compound_id name  inchi inchikey formula exactmass synonyms smiles .adduct
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'>1</span><span> HMDB0000008 2-Hy… InCh… AFENDNX… C4H8O3       104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… CCC(O… [M+H]+ 
+#&gt; </span><span style='color: #555555;'>2</span><span> HMDB0000011 (R)-… InCh… WHBMMWS… C4H8O3       104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… C[C@@… [M+H]+ 
+#&gt; </span><span style='color: #555555;'># … with 1 more variable: .difference </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; 
-#&gt; [[5]]
+#&gt; $`2`
 #&gt; </span><span style='color: #555555;'># A tibble: 1 x 10</span><span>
-#&gt;   compound_id name  inchi inchikey formula exactmass synonyms smiles adduct
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #555555;'>1</span><span> HMDB0004370 N-Me… InCh… NCIKQJB… C11H14…      174. </span><span style='color: #555555;'>&lt;chr [9</span><span>… CNCCC… [M+H-…
-#&gt; </span><span style='color: #555555;'># … with 1 more variable: ppm </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt;   compound_id name  inchi inchikey formula exactmass synonyms smiles .adduct
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'>1</span><span> HMDB0000002 1,3-… InCh… XFNJVJP… C3H10N2      74.1 </span><span style='color: #555555;'>&lt;chr [8</span><span>… NCCCN  [M+H]+ 
+#&gt; </span><span style='color: #555555;'># … with 1 more variable: .difference </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; 
+#&gt; $`3`
+#&gt; </span><span style='color: #555555;'># A tibble: 2 x 10</span><span>
+#&gt;   compound_id name  inchi inchikey formula exactmass synonyms smiles .adduct
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'>1</span><span> HMDB0000008 2-Hy… InCh… AFENDNX… C4H8O3       104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… CCC(O… [M+Na]+
+#&gt; </span><span style='color: #555555;'>2</span><span> HMDB0000011 (R)-… InCh… WHBMMWS… C4H8O3       104. </span><span style='color: #555555;'>&lt;chr [2</span><span>… C[C@@… [M+Na]+
+#&gt; </span><span style='color: #555555;'># … with 1 more variable: .difference </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; 
+#&gt; $`4`
+#&gt; </span><span style='color: #555555;'># A tibble: 1 x 10</span><span>
+#&gt;   compound_id name  inchi inchikey formula exactmass synonyms smiles .adduct
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'>1</span><span> HMDB0000002 1,3-… InCh… XFNJVJP… C3H10N2      74.1 </span><span style='color: #555555;'>&lt;chr [8</span><span>… NCCCN  [M+K]+ 
+#&gt; </span><span style='color: #555555;'># … with 1 more variable: .difference </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; 
+#&gt; $`5`
+#&gt; </span><span style='color: #555555;'># A tibble: 0 x 10</span><span>
+#&gt; </span><span style='color: #555555;'># … with 10 variables: compound_id </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, name </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, inchi </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   inchikey </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, formula </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, exactmass </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, synonyms </span><span style='color: #555555;font-style: italic;'>&lt;named list&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   smiles </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, .adduct </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, .difference </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </div><div class='input'>
 <span class='co'>## It is also possible to annotate an input data.frame, in which case each</span>
 <span class='co'>## input will be duplicated depending on the number of hits for each m/z</span>
 <span class='va'>mzs_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>id <span class='op'>=</span> <span class='va'>letters</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>]</span>, mzmed <span class='op'>=</span> <span class='va'>mzs</span><span class='op'>)</span>
 
 <span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>annotateMz</span><span class='op'>(</span><span class='va'>mzs_df</span>, <span class='va'>cmps</span>, mzcol <span class='op'>=</span> <span class='st'>"mzmed"</span>, adduct <span class='op'>=</span> <span class='st'>"[M+H]+"</span><span class='op'>)</span>
-<span class='va'>res</span>
-</div><div class='output co'>#&gt;   id     mzmed compound_id                      name
-#&gt; 1  a 105.05460 HMDB0000008     2-Hydroxybutyric acid
-#&gt; 2  a 105.05460 HMDB0000011 (R)-3-Hydroxybutyric acid
-#&gt; 3  b  75.09168 HMDB0000002        1,3-Diaminopropane
-#&gt; 4  c 127.03650        &lt;NA&gt;                      &lt;NA&gt;
-#&gt; 5  d 113.04756        &lt;NA&gt;                      &lt;NA&gt;
-#&gt; 6  e 113.12100        &lt;NA&gt;                      &lt;NA&gt;
-#&gt;                                                            inchi
-#&gt; 1           InChI=1S/C4H8O3/c1-2-3(5)4(6)7/h3,5H,2H2,1H3,(H,6,7)
-#&gt; 2 InChI=1S/C4H8O3/c1-3(5)2-4(6)7/h3,5H,2H2,1H3,(H,6,7)/t3-/m1/s1
-#&gt; 3                             InChI=1S/C3H10N2/c4-2-1-3-5/h1-5H2
-#&gt; 4                                                           &lt;NA&gt;
-#&gt; 5                                                           &lt;NA&gt;
-#&gt; 6                                                           &lt;NA&gt;
-#&gt;                      inchikey formula exactmass
-#&gt; 1 AFENDNXGAFYKQO-UHFFFAOYSA-N  C4H8O3  104.0473
-#&gt; 2 WHBMMWSBFZVSSR-GSVOUGTGSA-N  C4H8O3  104.0473
-#&gt; 3 XFNJVJPLKCPIBV-UHFFFAOYSA-N C3H10N2   74.0844
-#&gt; 4                        &lt;NA&gt;    &lt;NA&gt;        NA
-#&gt; 5                        &lt;NA&gt;    &lt;NA&gt;        NA
-#&gt; 6                        &lt;NA&gt;    &lt;NA&gt;        NA
-#&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          synonyms
-#&gt; 1 (RS)-2-Hydroxybutyrate, (RS)-2-Hydroxybutyric acid, 2-Hydroxy-Butanoate, 2-Hydroxy-Butanoic acid, 2-Hydroxy-DL-Butyrate, 2-Hydroxy-DL-Butyric acid, 2-Hydroxy-N-butyrate, 2-Hydroxy-N-butyric acid, 2-Hydroxybutanoate, 2-Hydroxybutanoic acid, 2-Hydroxybutyrate, a-Hydroxy-N-butyrate, a-Hydroxy-N-butyric acid, a-Hydroxybutanoate, a-Hydroxybutanoic acid, a-Hydroxybutyrate, a-Hydroxybutyric acid, alpha-Hydroxy-N-butyrate, alpha-Hydroxy-N-butyric acid, alpha-Hydroxybutanoate, alpha-Hydroxybutanoic acid, alpha-Hydroxybutyrate, alpha-Hydroxybutyric acid, DL-2-Hydroxybutanoate, DL-2-Hydroxybutanoic acid, DL-a-Hydroxybutyrate, DL-a-Hydroxybutyric acid, DL-alpha-Hydroxybutyrate, DL-alpha-Hydroxybutyric acid
-#&gt; 2                                                                                                                                                                                                     (R)-(-)-b-Hydroxybutyrate, (R)-(-)-b-Hydroxybutyric acid, (R)-(-)-beta-Hydroxybutyrate, (R)-(-)-beta-Hydroxybutyric acid, (R)-3-Hydroxybutanoate, (R)-3-Hydroxybutanoic acid, (R)-3-Hydroxybutyrate, 3-D-Hydroxybutyrate, 3-D-Hydroxybutyric acid, 3-delta-Hydroxybutyrate, 3-delta-Hydroxybutyric acid, BHIB, D-(-)-3-Hydroxybutyrate, D-3-Hydroxybutyrate, D-3-Hydroxybutyric acid, D-beta-Hydroxybutyrate, delta-(-)-3-Hydroxybutyrate, delta-3-Hydroxybutyrate, delta-3-Hydroxybutyric acid, delta-beta-Hydroxybutyrate
-#&gt; 3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      1,3-Diamino-N-propane, 1,3-Propanediamine, 1,3-Propylenediamine, 1,3-Trimethylenediamine, 3-Aminopropylamine, a,w-Propanediamine, Propane-1,3-diamine, Trimethylenediamine
-#&gt; 4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              NA
-#&gt; 5                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              NA
-#&gt; 6                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              NA
-#&gt;              smiles adduct        ppm
-#&gt; 1      CCC(O)C(O)=O [M+H]+ 0.19776574
-#&gt; 2 C[C@@H](O)CC(O)=O [M+H]+ 0.19776574
-#&gt; 3             NCCCN [M+H]+ 0.07039269
-#&gt; 4              &lt;NA&gt;   &lt;NA&gt;         NA
-#&gt; 5              &lt;NA&gt;   &lt;NA&gt;         NA
-#&gt; 6              &lt;NA&gt;   &lt;NA&gt;         NA</div><div class='input'>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: cannot xtfrm data frames</span></div><div class='input'><span class='va'>res</span>
+</div><div class='output co'>#&gt;     id     mzmed compound_id                      name
+#&gt; 1.1  a 105.05460 HMDB0000008     2-Hydroxybutyric acid
+#&gt; 1.2  a 105.05460 HMDB0000011 (R)-3-Hydroxybutyric acid
+#&gt; 2    b  75.09168 HMDB0000002        1,3-Diaminopropane
+#&gt; 3    c 127.03650        &lt;NA&gt;                      &lt;NA&gt;
+#&gt; 4    d 113.04756        &lt;NA&gt;                      &lt;NA&gt;
+#&gt; 5    e 113.12100        &lt;NA&gt;                      &lt;NA&gt;
+#&gt;                                                              inchi
+#&gt; 1.1           InChI=1S/C4H8O3/c1-2-3(5)4(6)7/h3,5H,2H2,1H3,(H,6,7)
+#&gt; 1.2 InChI=1S/C4H8O3/c1-3(5)2-4(6)7/h3,5H,2H2,1H3,(H,6,7)/t3-/m1/s1
+#&gt; 2                               InChI=1S/C3H10N2/c4-2-1-3-5/h1-5H2
+#&gt; 3                                                             &lt;NA&gt;
+#&gt; 4                                                             &lt;NA&gt;
+#&gt; 5                                                             &lt;NA&gt;
+#&gt;                        inchikey formula exactmass
+#&gt; 1.1 AFENDNXGAFYKQO-UHFFFAOYSA-N  C4H8O3  104.0473
+#&gt; 1.2 WHBMMWSBFZVSSR-GSVOUGTGSA-N  C4H8O3  104.0473
+#&gt; 2   XFNJVJPLKCPIBV-UHFFFAOYSA-N C3H10N2   74.0844
+#&gt; 3                          &lt;NA&gt;    &lt;NA&gt;        NA
+#&gt; 4                          &lt;NA&gt;    &lt;NA&gt;        NA
+#&gt; 5                          &lt;NA&gt;    &lt;NA&gt;        NA
+#&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            synonyms
+#&gt; 1.1 (RS)-2-Hydroxybutyrate, (RS)-2-Hydroxybutyric acid, 2-Hydroxy-Butanoate, 2-Hydroxy-Butanoic acid, 2-Hydroxy-DL-Butyrate, 2-Hydroxy-DL-Butyric acid, 2-Hydroxy-N-butyrate, 2-Hydroxy-N-butyric acid, 2-Hydroxybutanoate, 2-Hydroxybutanoic acid, 2-Hydroxybutyrate, a-Hydroxy-N-butyrate, a-Hydroxy-N-butyric acid, a-Hydroxybutanoate, a-Hydroxybutanoic acid, a-Hydroxybutyrate, a-Hydroxybutyric acid, alpha-Hydroxy-N-butyrate, alpha-Hydroxy-N-butyric acid, alpha-Hydroxybutanoate, alpha-Hydroxybutanoic acid, alpha-Hydroxybutyrate, alpha-Hydroxybutyric acid, DL-2-Hydroxybutanoate, DL-2-Hydroxybutanoic acid, DL-a-Hydroxybutyrate, DL-a-Hydroxybutyric acid, DL-alpha-Hydroxybutyrate, DL-alpha-Hydroxybutyric acid
+#&gt; 1.2                                                                                                                                                                                                     (R)-(-)-b-Hydroxybutyrate, (R)-(-)-b-Hydroxybutyric acid, (R)-(-)-beta-Hydroxybutyrate, (R)-(-)-beta-Hydroxybutyric acid, (R)-3-Hydroxybutanoate, (R)-3-Hydroxybutanoic acid, (R)-3-Hydroxybutyrate, 3-D-Hydroxybutyrate, 3-D-Hydroxybutyric acid, 3-delta-Hydroxybutyrate, 3-delta-Hydroxybutyric acid, BHIB, D-(-)-3-Hydroxybutyrate, D-3-Hydroxybutyrate, D-3-Hydroxybutyric acid, D-beta-Hydroxybutyrate, delta-(-)-3-Hydroxybutyrate, delta-3-Hydroxybutyrate, delta-3-Hydroxybutyric acid, delta-beta-Hydroxybutyrate
+#&gt; 2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        1,3-Diamino-N-propane, 1,3-Propanediamine, 1,3-Propylenediamine, 1,3-Trimethylenediamine, 3-Aminopropylamine, a,w-Propanediamine, Propane-1,3-diamine, Trimethylenediamine
+#&gt; 3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                NA
+#&gt; 4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                NA
+#&gt; 5                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                NA
+#&gt;                smiles .adduct .difference
+#&gt; 1.1      CCC(O)C(O)=O  [M+H]+  2.0122e-05
+#&gt; 1.2 C[C@@H](O)CC(O)=O  [M+H]+  2.0122e-05
+#&gt; 2               NCCCN  [M+H]+  5.6700e-06
+#&gt; 3                &lt;NA&gt;    &lt;NA&gt;          NA
+#&gt; 4                &lt;NA&gt;    &lt;NA&gt;          NA
+#&gt; 5                &lt;NA&gt;    &lt;NA&gt;          NA</div><div class='input'>
 <span class='co'>## Note that `compounds` could also be `CompDb` database, in which a search</span>
 <span class='co'>## against the annotations provided in that database would be performed.</span>
 </div></span></pre>
