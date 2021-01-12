@@ -90,11 +90,11 @@
 #' @noRd
 .join_tables <- function(x){
     .JOINS <- rbind(
-        c("compound", "synonym",
-          "on (compound.compound_id=synonym.compound_id)",
+        c("ms_compound", "synonym",
+          "on (ms_compound.compound_id=synonym.compound_id)",
           "left outer join"),
-        c("compound", "msms_spectrum",
-          "on (compound.compound_id=msms_spectrum.compound_id)",
+        c("ms_compound", "msms_spectrum",
+          "on (ms_compound.compound_id=msms_spectrum.compound_id)",
           "left outer join"),
         c("msms_spectrum", "synonym",
           "on (msms_spectrum.compound_id=synonym.compound_id)",

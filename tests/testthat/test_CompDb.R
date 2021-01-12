@@ -30,10 +30,10 @@ test_that("CompDb constructor and low level functions", {
     ## .tables
     tbls <- .tables(cmp)
     expect_equal(length(tbls), 2)
-    expect_equal(names(tbls), c("compound", "synonym"))
+    expect_equal(names(tbls), c("ms_compound", "synonym"))
     tbls <- .tables(cmp, metadata = TRUE)
     expect_equal(length(tbls), 3)
-    expect_equal(names(tbls), c("compound", "metadata", "synonym"))
+    expect_equal(names(tbls), c("metadata", "ms_compound", "synonym"))
     tbls <- .tables(cmp, name = "not_there")
     expect_equal(length(tbls), 1)
     tbls <- tables(cmp)
@@ -42,7 +42,7 @@ test_that("CompDb constructor and low level functions", {
     ## tables with spectra
     tbls <- tables(cmp_spctra_db)
     expect_equal(length(tbls), 4)
-    expect_equal(names(tbls), c("compound",
+    expect_equal(names(tbls), c("ms_compound",
                                 "msms_spectrum",
                                 "msms_spectrum_peak",
                                 "synonym"))

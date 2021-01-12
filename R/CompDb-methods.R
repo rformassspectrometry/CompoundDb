@@ -20,7 +20,7 @@ setMethod("show", "CompDb", function(object) {
         cat(" version:", .metadata_value(con, "source_version"), "\n")
         cat(" organism:", .metadata_value(con, "organism"), "\n")
         cmp_nr <- dbGetQuery(con, paste0("select count(distinct compound_id) ",
-                                         "from compound"))
+                                         "from ms_compound"))
         cat(" compound count:", cmp_nr[1, 1], "\n")
         if (.has_msms_spectra(object)) {
             spctra <- dbGetQuery(con, paste0("select count(distinct spectrum_",
@@ -90,7 +90,7 @@ setMethod("spectraVariables", "CompDb", function(object, ...) {
 setMethod("compoundVariables", "CompDb", function(object,
                                                   includeId = FALSE, ...) {
     if (length(.tables(object))) {
-        cn <- .tables(object)$compound
+        cn <- .tables(object)$ms_compound
         if (includeId)
             cn
         else cn[!cn %in% "compound_id"]
@@ -112,7 +112,7 @@ setMethod("compounds", "CompDb", function(object,
     return.type <- match.arg(return.type)
     if (length(columns))
         res <- .fetch_data(object, columns = columns, filter = filter,
-                           start_from = "compound")
+                           start_from = "ms_compound")
     else res <- data.frame()
     if (return.type == "tibble")
         as_tibble(res)

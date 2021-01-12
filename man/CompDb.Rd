@@ -98,7 +98,7 @@ with the \code{compounds} and \code{Spectra} functions:
 to \code{src_compdb} it returns the actual data as a \code{data.frame} (if
 \code{return.type = "data.frame"}) or a \code{\link[tibble:tibble]{tibble::tibble()}} (if
 \code{return.type = "tibble"}). A \code{compounds} call will always return all
-elements from the \emph{compound} table (unless a \code{filter} is used).
+elements from the \emph{ms_compound} table (unless a \code{filter} is used).
 \item \code{Spectra} extract spectra from the database and returns them as a
 \code{\link[=Spectra]{Spectra()}} object from the \code{Spectra} package. Additional annotations
 requested with the \code{columns} parameter are added as additional spectra
@@ -213,8 +213,8 @@ library(dplyr)
 src_cmp <- src_compdb(cdb)
 src_cmp
 
-## Get a tbl for the compound table
-cmp_tbl <- tbl(src_cmp, "compound")
+## Get a tbl for the ms_compound table
+cmp_tbl <- tbl(src_cmp, "ms_compound")
 
 ## Extract the id, name and inchi
 cmp_tbl \%>\% select(compound_id, name, inchi) \%>\% collect()

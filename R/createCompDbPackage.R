@@ -550,7 +550,7 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' con <- dbConnect(dbDriver("SQLite"), db_f)
 #'
 #' dbGetQuery(con, "select * from metadata")
-#' dbGetQuery(con, "select * from compound")
+#' dbGetQuery(con, "select * from ms_compound")
 #'
 #' ## To create a CompDb R-package we could simply use the
 #' ## createCompDbPackage function on the SQLite database file name.
@@ -568,7 +568,7 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
     metadata <- bind_rows(metadata, c(name = "supporting_object",
                                       value = "CompDb"))
     dbWriteTable(con, name = "metadata", metadata, row.names = FALSE)
-    ## compound table
+    ## ms_compound table
     if (is.character(x)) {
         lapply(x, function(z) {
             message("Import data from ", basename(z), " ...", appendLF = FALSE)
@@ -586,7 +586,7 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
             tbl <- tbl[, colnames(tbl) != "synonyms"]
             dbWriteTable(con, name = "synonym", tbl_syn, row.names = FALSE,
                          append = TRUE)
-            dbWriteTable(con, name = "compound", row.names = FALSE,
+            dbWriteTable(con, name = "ms_compound", row.names = FALSE,
                          tbl[, colnames(tbl) != "synonyms"], append = TRUE)
         })
     } else {
@@ -595,12 +595,12 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
                                                  lengths(x$synonyms)),
                                synonym = unlist(x$synonyms))
         dbWriteTable(con, name = "synonym", x_synonym, row.names = FALSE)
-        dbWriteTable(con, name = "compound", x[, colnames(x) != "synonyms"],
+        dbWriteTable(con, name = "ms_compound", x[, colnames(x) != "synonyms"],
                      row.names = FALSE)
     }
     ## Creating indices
-    dbExecute(con, "create index compound_id_idx on compound (compound_id)")
-    dbExecute(con, "create index compound_name_idx on compound (name)")
+    dbExecute(con, "create index compound_id_idx on ms_compound (compound_id)")
+    dbExecute(con, "create index compound_name_idx on ms_compound (name)")
     ## Process spectra.
     if (!missing(msms_spectra) && is.data.frame(msms_spectra)) {
         comp_ids <- unique(x$compound_id)

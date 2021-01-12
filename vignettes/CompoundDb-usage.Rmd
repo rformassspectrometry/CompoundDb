@@ -94,8 +94,8 @@ head(compounds(cdb, columns = c("name", "formula", "exactmass")))
 As a technical detail, `CompDb` databases follow a very simple database layout
 with only few constraints to allow data import and representation for a variety
 of sources (e.g. MassBank, HMDB, MoNa, ChEBI). For the present database, which
-is based on MassBank, the mapping between entries in the *compound* database
-table and MS/MS spectra is for example 1:1 and the *compound* table contains
+is based on MassBank, the mapping between entries in the *ms_compound* database
+table and MS/MS spectra is for example 1:1 and the *ms_compound* table contains
 thus highly redundant information. Thus, if we would include the column
 `"compound_id"` in the query we would end up with redundant values instead:
 
