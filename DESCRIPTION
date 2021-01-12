@@ -1,7 +1,7 @@
 Package: CompoundDb
 Type: Package
 Title: Creating and Using (Chemical) Compound Annotation Databases
-Version: 0.6.5
+Version: 0.8.0
 Authors@R: c(person(given = "Jan", family = "Stanstrup",
                     email = "stanstrup@gmail.com",
 		    role = c("aut"),
@@ -31,10 +31,10 @@ Imports:
     RSQLite,
     Biobase,
     BiocGenerics,
-    ProtGenerics,
+    ProtGenerics (>= 1.23.5),
     xml2,
-    commonMZ,
     MsCoreUtils,
+    MetaboCoreUtils,
     IRanges,
     Spectra (>= 0.99.3)
 Suggests:
@@ -43,7 +43,7 @@ Suggests:
     testthat,
     BiocStyle (>= 2.5.19)
 Remotes:
-    stanstrup/commonMZ
+    RforMassSpectrometry/MetaboCoreUtils
 License: GPL (>= 2)
 URL: https://github.com/EuracBiomedicalResearch/CompoundDb
 biocViews: MassSpectrometry, Metabolomics
@@ -63,4 +63,3 @@ Collate:
     'query-engine.R'
     'spectrum-import-functions.R'
     'utility-functions.R'
-    'zzz.R'

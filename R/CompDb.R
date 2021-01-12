@@ -28,7 +28,7 @@
 #'   to `src_compdb` it returns the actual data as a `data.frame` (if
 #'   `return.type = "data.frame"`) or a [tibble::tibble()] (if
 #'   `return.type = "tibble"`). A `compounds` call will always return all
-#'   elements from the *compound* table (unless a `filter` is used).
+#'   elements from the *ms_compound* table (unless a `filter` is used).
 #'
 #' - `Spectra` extract spectra from the database and returns them as a
 #'   [Spectra()] object from the `Spectra` package. Additional annotations
@@ -73,13 +73,13 @@
 #' all supported filters. See also examples below or the usage vignette for
 #' details.
 #'
-#' @param object For all methods: a `CompDb` object.
+#' @param columns For `compounds`, `Spectra`: `character` with the names of the
+#'     database columns that should be retrieved. Use `compoundVariables` and/or
+#'     `spectraVariables` for a list of available column names.
 #'
-#' @param x For `CompDb`: `character(1)` with the file name of the SQLite
-#'     compound database. Alternatively it is possible to provide the connection
-#'     to the database with parameter `x`.
-#'
-#'     For all other methods: a `CompDb` object.
+#' @param filter For `compounds` and `Spectra`: filter expression or
+#'     [AnnotationFilter()] defining a filter to be used to retrieve specific
+#'     elements from the database.
 #'
 #' @param flags flags passed to the SQLite database connection.
 #'     See [SQLite()]. Defaults to read-only, i.e. `RSQLite::SQLITE_RO`.
@@ -87,6 +87,19 @@
 #' @param includeId for `compoundVariables`: `logical(1)` whether the comound
 #'     ID (column `"compound_id"`) should be included in the result. The
 #'     default is `includeIds = FALSE`.
+#'
+#' @param object For all methods: a `CompDb` object.
+#'
+#' @param return.type For `compounds`: either `"data.frame"` or `"tibble"` to
+#'     return the result as a [data.frame()] or [tibble()], respectively.
+#'
+#' @param x For `CompDb`: `character(1)` with the file name of the SQLite
+#'     compound database. Alternatively it is possible to provide the connection
+#'     to the database with parameter `x`.
+#'
+#'     For all other methods: a `CompDb` object.
+#'
+#' @param ... additional arguments. Currently not used.
 #'
 #' @author Johannes Rainer
 #'
@@ -168,8 +181,8 @@
 #' src_cmp <- src_compdb(cdb)
 #' src_cmp
 #'
-#' ## Get a tbl for the compound table
-#' cmp_tbl <- tbl(src_cmp, "compound")
+#' ## Get a tbl for the ms_compound table
+#' cmp_tbl <- tbl(src_cmp, "ms_compound")
 #'
 #' ## Extract the id, name and inchi
 #' cmp_tbl %>% select(compound_id, name, inchi) %>% collect()
@@ -195,13 +208,13 @@ setValidity("CompDb", function(object) {
 .validCompDb <- function(x) {
     txt <- character()
     tables <- dbListTables(x)
-    required_tables <- c("compound", "metadata")
+    required_tables <- c("ms_compound", "metadata")
     got <- required_tables %in% tables
     if (!all(got))
         txt <- c(txt, paste0("Required tables ", paste0(required_tables[!got]),
                              "not found in the database"))
     ## Check table columns.
-    comps <- dbGetQuery(x, "select * from compound limit 3")
+    comps <- dbGetQuery(x, "select * from ms_compound limit 3")
     res <- .valid_compound(comps, error = FALSE)
     if (is.character(res))
         txt <- c(txt, res)
@@ -231,7 +244,8 @@ setValidity("CompDb", function(object) {
         res <- .valid_msms_spectrum(res, error = FALSE)
         if (is.character(res))
             txt <- c(txt, res)
-        compound_cmp_id <- dbGetQuery(x, "select compound_id from compound")[,1]
+        compound_cmp_id <- dbGetQuery(
+            x, "select compound_id from ms_compound")[,1]
         spectrum_cmp_id <- dbGetQuery(x, paste0("select compound_id from ",
                                                 "msms_spectrum"))[, 1]
         if (!all(spectrum_cmp_id %in% compound_cmp_id))
@@ -299,38 +313,6 @@ CompDb <- function(x, flags = RSQLite::SQLITE_RO) {
 #' @rdname CompDb
 hasMsMsSpectra <- function(x) {
     .has_msms_spectra(x)
-}
-
-#' @param columns For `compounds`, `Spectra`: `character` with the names of the
-#'     database columns that should be retrieved. Use `compoundVariables` and/or
-#'     `spectraVariables` for a list of available column names.
-#'
-#' @param filter For `compounds` and `Spectra`: filter expression or
-#'     [AnnotationFilter()] defining a filter to be used to retrieve specific
-#'     elements from the database.
-#'
-#' @param return.type For `compounds`: either `"data.frame"` or `"tibble"` to
-#'     return the result as a [data.frame()] or [tibble()], respectively.
-#'
-#' @param ... additional arguments. Currently not used.
-#'
-#' @importFrom tibble as_tibble
-#'
-#' @export
-#'
-#' @rdname CompDb
-compounds <- function(x, columns = compoundVariables(x), filter,
-                      return.type = c("data.frame", "tibble"), ...) {
-    if (!is(x, "CompDb"))
-        stop("'x' is supposed to be a 'CompDb' object")
-    return.type <- match.arg(return.type)
-    if (length(columns))
-        res <- .fetch_data(x, columns = columns, filter = filter,
-                           start_from = "compound")
-    else res <- data.frame()
-    if (return.type == "tibble")
-        as_tibble(res)
-    else res
 }
 
 #' @importFrom dbplyr src_dbi

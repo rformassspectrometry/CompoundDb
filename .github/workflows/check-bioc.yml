@@ -134,8 +134,11 @@ jobs:
           ## For textshaping, required by ragg, and required by pkgdown
           brew install harfbuzz fribidi
 
+          ## For rsvg
+          brew install librsvg
+
           ## Helps compile RCurl from source
-          brew uninstall curl
+          brew uninstall --ignore-dependencies curl
 
       - name: Install Windows system dependencies
         if: runner.os == 'Windows'
@@ -181,6 +184,8 @@ jobs:
           message(paste('****', Sys.time(), 'installing rcmdcheck and BiocCheck ****'))
           remotes::install_cran("rcmdcheck")
           BiocManager::install("BiocCheck")
+
+          BiocManager::install("rsvg")
         shell: Rscript {0}
 
       - name: Install BiocGenerics

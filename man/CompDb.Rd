@@ -8,7 +8,6 @@
 \alias{show,CompDb-method}
 \alias{compoundVariables}
 \alias{hasMsMsSpectra}
-\alias{compounds}
 \alias{src_compdb}
 \alias{tables}
 \alias{Spectra,CompDb-method}
@@ -16,19 +15,12 @@
 \alias{metadata,CompDb-method}
 \alias{spectraVariables,CompDb-method}
 \alias{compoundVariables,CompDb-method}
+\alias{compounds,CompDb-method}
 \title{Simple compound (metabolite) databases}
 \usage{
 CompDb(x, flags = RSQLite::SQLITE_RO)
 
 hasMsMsSpectra(x)
-
-compounds(
-  x,
-  columns = compoundVariables(x),
-  filter,
-  return.type = c("data.frame", "tibble"),
-  ...
-)
 
 src_compdb(x)
 
@@ -45,6 +37,14 @@ tables(x)
 \S4method{spectraVariables}{CompDb}(object, ...)
 
 \S4method{compoundVariables}{CompDb}(object, includeId = FALSE, ...)
+
+\S4method{compounds}{CompDb}(
+  object,
+  columns = compoundVariables(object),
+  filter,
+  return.type = c("data.frame", "tibble"),
+  ...
+)
 }
 \arguments{
 \item{x}{For \code{CompDb}: \code{character(1)} with the file name of the SQLite
@@ -55,6 +55,8 @@ to the database with parameter \code{x}.\preformatted{For all other methods: a `
 \item{flags}{flags passed to the SQLite database connection.
 See \code{\link[=SQLite]{SQLite()}}. Defaults to read-only, i.e. \code{RSQLite::SQLITE_RO}.}
 
+\item{object}{For all methods: a \code{CompDb} object.}
+
 \item{columns}{For \code{compounds}, \code{Spectra}: \code{character} with the names of the
 database columns that should be retrieved. Use \code{compoundVariables} and/or
 \code{spectraVariables} for a list of available column names.}
@@ -63,16 +65,14 @@ database columns that should be retrieved. Use \code{compoundVariables} and/or
 \code{\link[=AnnotationFilter]{AnnotationFilter()}} defining a filter to be used to retrieve specific
 elements from the database.}
 
-\item{return.type}{For \code{compounds}: either \code{"data.frame"} or \code{"tibble"} to
-return the result as a \code{\link[=data.frame]{data.frame()}} or \code{\link[=tibble]{tibble()}}, respectively.}
-
 \item{...}{additional arguments. Currently not used.}
-
-\item{object}{For all methods: a \code{CompDb} object.}
 
 \item{includeId}{for \code{compoundVariables}: \code{logical(1)} whether the comound
 ID (column \code{"compound_id"}) should be included in the result. The
 default is \code{includeIds = FALSE}.}
+
+\item{return.type}{For \code{compounds}: either \code{"data.frame"} or \code{"tibble"} to
+return the result as a \code{\link[=data.frame]{data.frame()}} or \code{\link[=tibble]{tibble()}}, respectively.}
 }
 \description{
 \code{CompDb} objects provide access to general (metabolite) compound
@@ -98,7 +98,7 @@ with the \code{compounds} and \code{Spectra} functions:
 to \code{src_compdb} it returns the actual data as a \code{data.frame} (if
 \code{return.type = "data.frame"}) or a \code{\link[tibble:tibble]{tibble::tibble()}} (if
 \code{return.type = "tibble"}). A \code{compounds} call will always return all
-elements from the \emph{compound} table (unless a \code{filter} is used).
+elements from the \emph{ms_compound} table (unless a \code{filter} is used).
 \item \code{Spectra} extract spectra from the database and returns them as a
 \code{\link[=Spectra]{Spectra()}} object from the \code{Spectra} package. Additional annotations
 requested with the \code{columns} parameter are added as additional spectra
@@ -213,8 +213,8 @@ library(dplyr)
 src_cmp <- src_compdb(cdb)
 src_cmp
 
-## Get a tbl for the compound table
-cmp_tbl <- tbl(src_cmp, "compound")
+## Get a tbl for the ms_compound table
+cmp_tbl <- tbl(src_cmp, "ms_compound")
 
 ## Extract the id, name and inchi
 cmp_tbl \%>\% select(compound_id, name, inchi) \%>\% collect()

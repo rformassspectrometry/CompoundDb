@@ -287,7 +287,7 @@ compounds(mona)
 
 As stated in the introduction of this section the `compound` information
 contains redundant information and the table has essentially one row per
-spectrum. Feedback on how to reduce the redundancy in the compound table is
+spectrum. Feedback on how to reduce the redundancy in the ms_compound table is
 highly appreciated.
 
 

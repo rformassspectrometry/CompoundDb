@@ -1,81 +1,107 @@
-Changes in version 0.6.5
+# Version 0.8
+
+## Changes in version 0.8.0
+
+- Rename database table name *compound* into *ms_compound* [issue
+  #74](https://github.com/EuracBiomedicalResearch/CompoundDb/issues/74).
+
+# Version 0.7
+
+## Changes in version 0.7.0
+
+- Remove `mass2mz` and `mz2mass` function in favour of the functions
+  implemented in `MetaboCoreUtils`.
+
+# Version 0.6
+
+## Changes in version 0.6.6
+
+- Import `compounds` method from `ProtGenerics`.
+
+## Changes in version 0.6.5
 
 - Add parameter `onlyValid` to `compound_tbl_sdf` to allow importing of only
   valid elements
   [issue #69](https://github.com/EuracBiomedicalResearch/CompoundDb/issues/69).
 
-Changes in version 0.6.4
+## Changes in version 0.6.4
 
 - Add additional filters: `MassFilter`, `FormulaFilter`, `InchiFilter` and
   `InchikeyFilter`.
 
-Changes in version 0.6.3
+## Changes in version 0.6.3
 
 - Add `metadata`, `spectraVariables` and `compoundVariables` functions.
 
-Changes in version 0.6.2
+## Changes in version 0.6.2
 
 - Support creation of databases without specifying the organism.
 - Ensure database columns are mapped correctly to Spectra variable names.
 
 
-Changes in version 0.6.1
+## Changes in version 0.6.1
 
 - Add `SpectrumIdFilter` to support filtering by spectrum IDs.
 
-
-Changes in version 0.6.0
+## Changes in version 0.6.0
 
 - Rename column names: compound_name -> name, mass -> exactmass, inchi_key ->
   inchikey.
 
 
-Changes in version 0.5.0
+# Version 0.5
+
+## Changes in version 0.5.0
 
 - Replace `as.list` with `peaksData`.
 - Replace `asDataFrame` with `spectraData`.
 
 
-Changes in version 0.4.3
+# Version 0.4
+
+## Changes in version 0.4.3
 
 - Updated to match new LIPID MAPS field names.
 
 
-Changes in version 0.4.2
+## Changes in version 0.4.2
 
 - Fix bug in `as.list,MsBackendCompDb` which returned a `SimpleList` instead of
   a `list`.
 
 
-Changes in version 0.4.0
+## Changes in version 0.4.0
 
 - Rename method `spectraData` for `MsBackendCompDb` into `asDataFrame`
   (adapting to the changes in `Spectra`).
 
+# Version 0.3
 
-Changes in version 0.3.2
+## Changes in version 0.3.2
 
 - Import also smiles from SDF files.
 
 
-Changes in version 0.3.0
+## Changes in version 0.3.1
 
 - Move package Spectra from Depends to Imports
 
 
-Changes in version 0.3.0
+## Changes in version 0.3.0
 
 - Change from MSnbase to RforMassSpectrometry packages (Spectra and
   MsCoreUtils).
 - Store MS/MS spectra in two tables, msms_spectrum and msms_spectrum_peak.
 
 
-Changes in version 0.2.3
+# Version 0.2
+
+## Changes in version 0.2.3
 
 - Add instrument and precursor_mz spectra data columns (issue #32).
 
 
-Changes in version 0.2.2
+## Changes in version 0.2.2
 
 - Add adduct information from Jan Stanstrup's commonMZ package.
 - Add matchWithPpm function to match numeric values allowing for a small
@@ -85,7 +111,7 @@ Changes in version 0.2.2
 - Add annotateMz method to annotate m/z values.
 
 
-Changes in version 0.2.1
+## Changes in version 0.2.1
 
 - Change field collision_energy to character to support values from
   MoNa (issue #31).
@@ -94,7 +120,7 @@ Changes in version 0.2.1
 - Add support for MoNa SDF files (issue #30).
 
 
-Changes in version 0.2.0
+## Changes in version 0.2.0
 
 - Add hasMz,Spectrum and hasMz,Spectra methods to look for m/z values within
   spectra (issue #28).
@@ -103,7 +129,9 @@ Changes in version 0.2.0
 - Add supportedFilters,CompDb method.
 
 
-Changes in version 0.1.1
+# Version 0.1
+
+## Changes in version 0.1.1
 
 - Add precursorMz, precursorCharge, precursorIntensity, acquisitionNum,
   scanIndex, peaksCount, msLevel, tic, ionCount, collisionEnergy, fromFile,
@@ -111,7 +139,7 @@ Changes in version 0.1.1
   Spectrum2List.
 
 
-Changes in version 0.1.0
+## Changes in version 0.1.0
 
 - Add expandMzIntensity function.
 - Add spectra method to extract spectra from the CompDb database.
@@ -120,12 +148,14 @@ Changes in version 0.1.0
 - Add functionality to load MS/MS spectra from HMDB xml files.
 
 
-Changes in version 0.0.3
+# Version 0.0
+
+## Changes in version 0.0.3
 
 - Add CompoundIdFilter and CompoundNameFilter classes and filtering framework.
 
 
-Changes in version 0.0.2
+## Changes in version 0.0.2
 
 - Define CompDb class and all functionality to create CompDb databases.
 - createCompDb supports file names as input and create a database including

@@ -233,7 +233,7 @@ library(RSQLite)
 con <- dbConnect(dbDriver("SQLite"), db_f)
 
 dbGetQuery(con, "select * from metadata")
-dbGetQuery(con, "select * from compound")
+dbGetQuery(con, "select * from ms_compound")
 
 ## To create a CompDb R-package we could simply use the
 ## createCompDbPackage function on the SQLite database file name.
