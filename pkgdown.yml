@@ -1,8 +1,8 @@
-pandoc: 2.7.3
+pandoc: 2.11.4
 pkgdown: 1.6.1.9000
-pkgdown_sha: 84f234cf19153ce99bf1bcf875dc56248ddf0cbe
+pkgdown_sha: 39071eea1bc3e40e88e5f4e474e5441e3add2b0b
 articles:
   CompoundDb-usage: CompoundDb-usage.html
   create-compounddb: create-compounddb.html
-last_built: 2021-01-12T15:00Z
+last_built: 2021-03-22T17:14Z
 

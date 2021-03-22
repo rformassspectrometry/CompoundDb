@@ -66,9 +66,15 @@ MoNa: http://mona.fiehnlab.ucdavis.edu/ (see notes below!)
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -218,18 +224,18 @@ database.</p>
 <span class='va'>fl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"sdf/HMDB_sub.sdf.gz"</span>, package <span class='op'>=</span> <span class='st'>"CompoundDb"</span><span class='op'>)</span>
 <span class='va'>cmps</span> <span class='op'>&lt;-</span> <span class='fu'>compound_tbl_sdf</span><span class='op'>(</span><span class='va'>fl</span><span class='op'>)</span>
 <span class='va'>cmps</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 9 x 8</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 9 x 8</span><span>
 #&gt;   compound_id name    inchi      inchikey  formula exactmass synonyms smiles    
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     
-#&gt; </span><span style='color: #555555;'>1</span><span> HMDB0000001 1-Meth… InChI=1S/… BRMWTNUJ… C7H11N…     169.  </span><span style='color: #555555;'>&lt;chr [9</span><span>… </span><span style='color: #555555;'>"</span><span>CN1C=NC(…
-#&gt; </span><span style='color: #555555;'>2</span><span> HMDB0000002 1,3-Di… InChI=1S/… XFNJVJPL… C3H10N2      74.1 </span><span style='color: #555555;'>&lt;chr [8</span><span>… </span><span style='color: #555555;'>"</span><span>NCCCN</span><span style='color: #555555;'>"</span><span>   
-#&gt; </span><span style='color: #555555;'>3</span><span> HMDB0000005 2-Keto… InChI=1S/… TYEYBOSB… C4H6O3      102.  </span><span style='color: #555555;'>&lt;chr [3</span><span>… </span><span style='color: #555555;'>"</span><span>CCC(=O)C…
-#&gt; </span><span style='color: #555555;'>4</span><span> HMDB0000008 2-Hydr… InChI=1S/… AFENDNXG… C4H8O3      104.  </span><span style='color: #555555;'>&lt;chr [2</span><span>… </span><span style='color: #555555;'>"</span><span>CCC(O)C(…
-#&gt; </span><span style='color: #555555;'>5</span><span> HMDB0000010 2-Meth… InChI=1S/… WHEUWNKS… C19H24…     300.  </span><span style='color: #555555;'>&lt;chr [7</span><span>… </span><span style='color: #555555;'>"</span><span>[H][C@@]…
-#&gt; </span><span style='color: #555555;'>6</span><span> HMDB0000011 (R)-3-… InChI=1S/… WHBMMWSB… C4H8O3      104.  </span><span style='color: #555555;'>&lt;chr [2</span><span>… </span><span style='color: #555555;'>"</span><span>C[C@@H](…
-#&gt; </span><span style='color: #555555;'>7</span><span> HMDB0000012 Deoxyu… InChI=1S/… MXHRCPNR… C9H12N…     228.  </span><span style='color: #555555;'>&lt;chr [1</span><span>… </span><span style='color: #555555;'>"</span><span>OC[C@H]1…
-#&gt; </span><span style='color: #555555;'>8</span><span> HMDB0004370 N-Meth… InChI=1S/… NCIKQJBV… C11H14…     174.  </span><span style='color: #555555;'>&lt;chr [9</span><span>… </span><span style='color: #555555;'>"</span><span>CNCCC1=C…
-#&gt; </span><span style='color: #555555;'>9</span><span> HMDB0006719 5,6-tr… InChI=1S/… QYSXJUFS… C27H44O     384.  </span><span style='color: #555555;'>&lt;chr [4</span><span>… </span><span style='color: #555555;'>"</span><span>CC(C)CCC…</div><div class='input'>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;named &gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> HMDB0000001 1-Meth… InChI=1S/… BRMWTNUJ… C7H11N…     169.  </span><span style='color: #949494;'>&lt;chr [9</span><span>… </span><span style='color: #949494;'>"</span><span>CN1C=NC(…
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> HMDB0000002 1,3-Di… InChI=1S/… XFNJVJPL… C3H10N2      74.1 </span><span style='color: #949494;'>&lt;chr [8</span><span>… </span><span style='color: #949494;'>"</span><span>NCCCN</span><span style='color: #949494;'>"</span><span>   
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> HMDB0000005 2-Keto… InChI=1S/… TYEYBOSB… C4H6O3      102.  </span><span style='color: #949494;'>&lt;chr [3</span><span>… </span><span style='color: #949494;'>"</span><span>CCC(=O)C…
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> HMDB0000008 2-Hydr… InChI=1S/… AFENDNXG… C4H8O3      104.  </span><span style='color: #949494;'>&lt;chr [2</span><span>… </span><span style='color: #949494;'>"</span><span>CCC(O)C(…
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> HMDB0000010 2-Meth… InChI=1S/… WHEUWNKS… C19H24…     300.  </span><span style='color: #949494;'>&lt;chr [7</span><span>… </span><span style='color: #949494;'>"</span><span>[H][C@@]…
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span> HMDB0000011 (R)-3-… InChI=1S/… WHBMMWSB… C4H8O3      104.  </span><span style='color: #949494;'>&lt;chr [2</span><span>… </span><span style='color: #949494;'>"</span><span>C[C@@H](…
+#&gt; </span><span style='color: #BCBCBC;'>7</span><span> HMDB0000012 Deoxyu… InChI=1S/… MXHRCPNR… C9H12N…     228.  </span><span style='color: #949494;'>&lt;chr [1</span><span>… </span><span style='color: #949494;'>"</span><span>OC[C@H]1…
+#&gt; </span><span style='color: #BCBCBC;'>8</span><span> HMDB0004370 N-Meth… InChI=1S/… NCIKQJBV… C11H14…     174.  </span><span style='color: #949494;'>&lt;chr [9</span><span>… </span><span style='color: #949494;'>"</span><span>CNCCC1=C…
+#&gt; </span><span style='color: #BCBCBC;'>9</span><span> HMDB0006719 5,6-tr… InChI=1S/… QYSXJUFS… C27H44O     384.  </span><span style='color: #949494;'>&lt;chr [4</span><span>… </span><span style='color: #949494;'>"</span><span>CC(C)CCC…</div><div class='input'>
 <span class='co'>## Column synonyms contains a list</span>
 <span class='va'>cmps</span><span class='op'>$</span><span class='va'>synonyms</span>
 </div><div class='output co'>#&gt; $CMP1
@@ -336,18 +342,18 @@ database.</p>
 <span class='co'>## collapsed.</span>
 <span class='va'>cmps</span> <span class='op'>&lt;-</span> <span class='fu'>compound_tbl_sdf</span><span class='op'>(</span><span class='va'>fl</span>, collapse <span class='op'>=</span> <span class='st'>"|"</span><span class='op'>)</span>
 <span class='va'>cmps</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 9 x 8</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 9 x 8</span><span>
 #&gt;   compound_id name   inchi     inchikey  formula exactmass synonyms    smiles   
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    
-#&gt; </span><span style='color: #555555;'>1</span><span> HMDB0000001 1-Met… InChI=1S… BRMWTNUJ… C7H11N…     169.  1 Methylhi… </span><span style='color: #555555;'>"</span><span>CN1C=NC…
-#&gt; </span><span style='color: #555555;'>2</span><span> HMDB0000002 1,3-D… InChI=1S… XFNJVJPL… C3H10N2      74.1 1,3-Diamin… </span><span style='color: #555555;'>"</span><span>NCCCN</span><span style='color: #555555;'>"</span><span>  
-#&gt; </span><span style='color: #555555;'>3</span><span> HMDB0000005 2-Ket… InChI=1S… TYEYBOSB… C4H6O3      102.  2-Ketobuta… </span><span style='color: #555555;'>"</span><span>CCC(=O)…
-#&gt; </span><span style='color: #555555;'>4</span><span> HMDB0000008 2-Hyd… InChI=1S… AFENDNXG… C4H8O3      104.  (RS)-2-Hyd… </span><span style='color: #555555;'>"</span><span>CCC(O)C…
-#&gt; </span><span style='color: #555555;'>5</span><span> HMDB0000010 2-Met… InChI=1S… WHEUWNKS… C19H24…     300.  2-(8S,9S,1… </span><span style='color: #555555;'>"</span><span>[H][C@@…
-#&gt; </span><span style='color: #555555;'>6</span><span> HMDB0000011 (R)-3… InChI=1S… WHBMMWSB… C4H8O3      104.  (R)-(-)-b-… </span><span style='color: #555555;'>"</span><span>C[C@@H]…
-#&gt; </span><span style='color: #555555;'>7</span><span> HMDB0000012 Deoxy… InChI=1S… MXHRCPNR… C9H12N…     228.  1-(2-Deoxy… </span><span style='color: #555555;'>"</span><span>OC[C@H]…
-#&gt; </span><span style='color: #555555;'>8</span><span> HMDB0004370 N-Met… InChI=1S… NCIKQJBV… C11H14…     174.  1-Methyl-2… </span><span style='color: #555555;'>"</span><span>CNCCC1=…
-#&gt; </span><span style='color: #555555;'>9</span><span> HMDB0006719 5,6-t… InChI=1S… QYSXJUFS… C27H44O     384.  3-[(2E)-2-… </span><span style='color: #555555;'>"</span><span>CC(C)CC…</div><div class='input'><span class='va'>cmps</span><span class='op'>$</span><span class='va'>synonyms</span>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> HMDB0000001 1-Met… InChI=1S… BRMWTNUJ… C7H11N…     169.  1 Methylhi… </span><span style='color: #949494;'>"</span><span>CN1C=NC…
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> HMDB0000002 1,3-D… InChI=1S… XFNJVJPL… C3H10N2      74.1 1,3-Diamin… </span><span style='color: #949494;'>"</span><span>NCCCN</span><span style='color: #949494;'>"</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> HMDB0000005 2-Ket… InChI=1S… TYEYBOSB… C4H6O3      102.  2-Ketobuta… </span><span style='color: #949494;'>"</span><span>CCC(=O)…
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> HMDB0000008 2-Hyd… InChI=1S… AFENDNXG… C4H8O3      104.  (RS)-2-Hyd… </span><span style='color: #949494;'>"</span><span>CCC(O)C…
+#&gt; </span><span style='color: #BCBCBC;'>5</span><span> HMDB0000010 2-Met… InChI=1S… WHEUWNKS… C19H24…     300.  2-(8S,9S,1… </span><span style='color: #949494;'>"</span><span>[H][C@@…
+#&gt; </span><span style='color: #BCBCBC;'>6</span><span> HMDB0000011 (R)-3… InChI=1S… WHBMMWSB… C4H8O3      104.  (R)-(-)-b-… </span><span style='color: #949494;'>"</span><span>C[C@@H]…
+#&gt; </span><span style='color: #BCBCBC;'>7</span><span> HMDB0000012 Deoxy… InChI=1S… MXHRCPNR… C9H12N…     228.  1-(2-Deoxy… </span><span style='color: #949494;'>"</span><span>OC[C@H]…
+#&gt; </span><span style='color: #BCBCBC;'>8</span><span> HMDB0004370 N-Met… InChI=1S… NCIKQJBV… C11H14…     174.  1-Methyl-2… </span><span style='color: #949494;'>"</span><span>CNCCC1=…
+#&gt; </span><span style='color: #BCBCBC;'>9</span><span> HMDB0006719 5,6-t… InChI=1S… QYSXJUFS… C27H44O     384.  3-[(2E)-2-… </span><span style='color: #949494;'>"</span><span>CC(C)CC…</div><div class='input'><span class='va'>cmps</span><span class='op'>$</span><span class='va'>synonyms</span>
 </div><div class='output co'>#&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       CMP1 
 #&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  "1 Methylhistidine|1-Methyl histidine|1-Methyl-Histidine|1-Methyl-L-histidine|1-MHis|1-N-Methyl-L-histidine|L-1-Methylhistidine|N1-Methyl-L-histidine|Pi-methylhistidine" 
 #&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       CMP2 
@@ -377,11 +383,11 @@ database.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jan Stanstrup, Johannes Rainer.</p>
+  <p><p>Developed by Jan Stanstrup, Johannes Rainer.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
       </footer>
@@ -389,6 +395,8 @@ database.</p>
 
   
 
+
+  
 
   </body>
 </html>
