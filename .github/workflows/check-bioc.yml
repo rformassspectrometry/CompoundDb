@@ -38,7 +38,7 @@ env:
   run_covr: 'true'
   run_pkgdown: 'true'
   has_RUnit: 'false'
-  has_bioccheck: 'false'
+  has_BiocCheck: 'false'
   cache-version: 'cache-v1'
 
 jobs:
@@ -134,11 +134,8 @@ jobs:
           ## For textshaping, required by ragg, and required by pkgdown
           brew install harfbuzz fribidi
 
-          ## For rsvg
-          brew install librsvg
-
-          ## Helps compile RCurl from source
-          brew uninstall --ignore-dependencies curl
+          ## For installing usethis's dependency gert
+          brew install libgit2
 
       - name: Install Windows system dependencies
         if: runner.os == 'Windows'
@@ -157,7 +154,7 @@ jobs:
           BiocManager::install(version = "${{ matrix.config.bioc }}", ask = FALSE)
         shell: Rscript {0}
 
-      - name: Install dependencies
+      - name: Install dependencies pass 1
         run: |
           ## Try installing the package dependencies in steps. First the local
           ## dependencies, then any remaining dependencies to avoid the
@@ -166,26 +163,25 @@ jobs:
           ## https://github.com/r-lib/remotes/issues/296
           ## Ideally, all dependencies should get installed in the first pass.
 
-          ## Temporary for now due to https://github.com/ropensci/RefManageR/issues/79
-          remotes::install_github("ropensci/bibtex")
-          remotes::install_github("ropensci/RefManageR")
-          remotes::install_github("cboettig/knitcitations")
-          BiocManager::install(c("knitr", "rmarkdown"))
-
           ## Pass #1 at installing dependencies
           message(paste('****', Sys.time(), 'pass number 1 at installing dependencies: local dependencies ****'))
-          remotes::install_local(dependencies = TRUE, repos = BiocManager::repositories(), build_vignettes = TRUE, upgrade = TRUE)
+          remotes::install_local(dependencies = TRUE, repos = BiocManager::repositories(), build_vignettes = FALSE, upgrade = TRUE)
+        continue-on-error: true
+        shell: Rscript {0}
 
+      - name: Install dependencies pass 2
+        run: |
           ## Pass #2 at installing dependencies
           message(paste('****', Sys.time(), 'pass number 2 at installing dependencies: any remaining dependencies ****'))
-          remotes::install_local(dependencies = TRUE, repos = BiocManager::repositories(), build_vignettes = TRUE, upgrade = TRUE)
+          remotes::install_local(dependencies = TRUE, repos = BiocManager::repositories(), build_vignettes = FALSE, upgrade = TRUE)
+
+          message(paste('****', Sys.time(), 'force installation of selected packages ****'))
+          BiocManager::install(c("BiocStyle", "rmarkdown", "magick", "Spectra"))
 
           ## For running the checks
           message(paste('****', Sys.time(), 'installing rcmdcheck and BiocCheck ****'))
           remotes::install_cran("rcmdcheck")
           BiocManager::install("BiocCheck")
-
-          BiocManager::install("rsvg")
         shell: Rscript {0}
 
       - name: Install BiocGenerics
@@ -238,7 +234,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Run BiocCheck
-        if:  env.has_bioccheck == 'true'
+        if:  env.has_BiocCheck == 'true'
         run: |
           BiocCheck::BiocCheck(
               dir('check', 'tar.gz$', full.names = TRUE),
