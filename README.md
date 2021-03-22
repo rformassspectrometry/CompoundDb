@@ -12,15 +12,6 @@ install.packages(c("BiocManager", "remotes"))
 BiocManager::install("EuracBiomedicalResearch/CompoundDb")
 ```
 
-In case there are missing package dependencies, run the code below first:
-
-```r
-
-#' Install also Jan Stanstrup's commonMZ package
-devtools::install_github("stanstrup/commonMZ")
-```
-
-
 # Creating and using (chemical) compound databases
 
 This package provides functionality to create and use compound databases
