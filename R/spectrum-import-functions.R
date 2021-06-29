@@ -254,6 +254,8 @@ msms_spectra_hmdb <- function(x, collapsed = TRUE) {
 #'   spectrum was measured.
 #' - instrument (`character`): the MS instrument.
 #' - precursor_mz (`numeric`): precursor m/z.
+#' - adduct (`character`): ion formed from the precursor ion.
+#' - ms_level (`integer`): stage of the sequential mass spectrometry (MSn).
 #' - mz (`numeric` or `list` of `numeric`): m/z values of the spectrum.
 #' - intensity (`numeric` or `list` of `numeric`): intensity of the spectrum.
 #'
@@ -286,6 +288,14 @@ msms_spectra_mona <- function(x, collapsed = TRUE) {
     message("Extracting ", nrow(sdf), " spectra ... ", appendLF = FALSE)
     spctra <- .extract_spectra_mona_sdf(sdf)
     message("OK")
+    colnames(spctra)[colnames(spctra) == "precursor_type"] <- "adduct"
+    spec_trim <- gsub(" ", "", spctra$spectrum_type, fixed = TRUE)
+    is_mslevel <- grepl("^ms\\d+$", spec_trim, ignore.case = T)
+    if(any(is_mslevel)){
+        spctra$ms_level <- rep(NA_integer_, length(spec_trim))
+        spctra$ms_level[is_mslevel] <- as.integer(
+            sub("ms", "", spec_trim[is_mslevel], ignore.case = T))
+    }
     if (collapsed) spctra
     else .expand_spectrum_df(spctra)
 }
@@ -311,6 +321,8 @@ msms_spectra_mona <- function(x, collapsed = TRUE) {
                instrument_type = x[, "INSTRUMENT TYPE"],
                instrument = x[, "INSTRUMENT"],
                precursor_mz = as.numeric(x[, "PRECURSOR M/Z"]),
+               precursor_type = x[, "PRECURSOR TYPE"],
+               spectrum_type = x[, "SPECTRUM TYPE"],
                spectrum_id = 1:nrow(x),
                stringsAsFactors = FALSE)
     res$mz <- lapply(mzint, function(z) z[, 1])
