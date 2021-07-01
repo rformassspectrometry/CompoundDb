@@ -9,7 +9,11 @@ Authors@R: c(person(given = "Jan", family = "Stanstrup",
              person(given = "Johannes", family = "Rainer",
 	            email = "johannes.rainer@eurac.edu",
 		    role = c("aut", "cre"),
-		    comment = c(ORCID = "0000-0002-6977-7147"))
+		    comment = c(ORCID = "0000-0002-6977-7147")),
+		     person(given = "Josep M.", family = "Badia",
+		        email = "josepmaria.badia@urv.cat",
+		    role = c("ctb"),
+		    comment = c(ORCID = "0000-0002-5704-1124"))
 		    )
 Author: Johannes Rainer and Jan Stanstrup
 Maintainer: Johannes Rainer <johannes.rainer@eurac.edu>

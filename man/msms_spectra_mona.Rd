@@ -30,6 +30,8 @@ provided.
 spectrum was measured.
 \item instrument (\code{character}): the MS instrument.
 \item precursor_mz (\code{numeric}): precursor m/z.
+\item adduct (\code{character}): ion formed from the precursor ion.
+\item ms_level (\code{integer}): stage of the sequential mass spectrometry (MSn).
 \item mz (\code{numeric} or \code{list} of \code{numeric}): m/z values of the spectrum.
 \item intensity (\code{numeric} or \code{list} of \code{numeric}): intensity of the spectrum.
 }
