@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CompoundDb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.1</span>
       </span>
     </div>
 
@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2021-07-01 12:29:34<br><strong>Compiled</strong>: Thu Jul 1 12:43:32 2021</p>
+</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2021-07-01 14:27:54<br><strong>Compiled</strong>: Thu Jul 1 14:32:10 2021</p>
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor" aria-hidden="true"></a>Introduction</h1>
@@ -315,7 +315,7 @@ mz(sps)[[2]]</code></pre>
 <code class="sourceCode R"><span class="fu"><a href="../reference/createCompDb.html">createCompDbPackage</a></span><span class="op">(</span>
     <span class="va">db_file</span>, version <span class="op">=</span> <span class="st">"0.0.1"</span>, author <span class="op">=</span> <span class="st">"J Rainer"</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,
     maintainer <span class="op">=</span> <span class="st">"Johannes Rainer &lt;johannes.rainer@eurac.edu&gt;"</span><span class="op">)</span></code></pre></div>
-<pre><code>## Creating package in /tmp/RtmpRp15aX/CompDb.Hsapiens.HMDB.4.0</code></pre>
+<pre><code>## Creating package in /tmp/RtmpPA7Thl/CompDb.Hsapiens.HMDB.4.0</code></pre>
 <p>The function creates a folder (in our case in a temporary directory) that can be build and installed with <code>R CMD build</code> and <code>R CMD INSTALL</code>.</p>
 <p>Special care should also be put on the license of the package that can be passed with the <code>license</code> parameter. The license of the package and how and if the package can be distributed will depend also on the license of the originating resource.</p>
 </div>
@@ -387,7 +387,7 @@ mz(sps)[[2]]</code></pre>
 ## 
 ## other attached packages:
 ## [1] Spectra_1.3.1           ProtGenerics_1.25.0     BiocParallel_1.27.0    
-## [4] CompoundDb_0.8.0        S4Vectors_0.31.0        BiocGenerics_0.39.1    
+## [4] CompoundDb_0.8.1        S4Vectors_0.31.0        BiocGenerics_0.39.1    
 ## [7] AnnotationFilter_1.17.0 BiocStyle_2.21.3       
 ## 
 ## loaded via a namespace (and not attached):
