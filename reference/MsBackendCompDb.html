@@ -147,7 +147,7 @@ the <code><a href='https://rdrr.io/pkg/Spectra/man/Spectra.html'>Spectra()</a></
 this backend.</p>
     </div>
 
-    <pre class="usage">MsBackendCompDb()
+    <div class="ref-usage sourceCode"><pre><code>MsBackendCompDb()
 
 # S4 method for MsBackendCompDb
 backendInitialize(object, x, columns, filter, ...)
@@ -177,7 +177,7 @@ spectraData(object, columns = spectraVariables(object))
 spectraData(object) &lt;- value
 
 # S4 method for MsBackendCompDb
-$(x, name) &lt;- value</pre>
+$(x, name) &lt;- value</code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -245,7 +245,7 @@ each element being a <code>numeric</code> with the m/z values of one spectrum. T
 values are retrieved from the database.</p></li>
 <li><p><code>mz&lt;-</code>: not supported.</p></li>
 <li><p><code>spectraData</code>: returns the complete spectrum data including m/z and
-intensity values as a <code>DataFrame()</code>.</p></li>
+intensity values as a <code><a href='https://rdrr.io/pkg/S4Vectors/man/DataFrame-class.html'>DataFrame()</a></code>.</p></li>
 <li><p><code>spectraData&lt;-</code>: replace the spectrum metadata. Note that columns <code>"mz"</code>
 and <code>"intensity"</code> are ignored.</p></li>
 <li><p><code>$&lt;-</code>: replace or add a spectrum variable. Note that <code>mz</code>, <code>intensity</code> and
@@ -271,7 +271,7 @@ and <code>"intensity"</code> are ignored.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>

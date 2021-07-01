@@ -285,7 +285,7 @@ correct format expected by the <code>createCompDb</code> function. The function
 returns a <code>data.frame</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>createCompDb</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>metadata</span>, <span class='va'>msms_spectra</span>, path <span class='op'>=</span> <span class='st'>"."</span><span class='op'>)</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>createCompDb</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>metadata</span>, <span class='va'>msms_spectra</span>, path <span class='op'>=</span> <span class='st'>"."</span><span class='op'>)</span>
 
 <span class='fu'>createCompDbPackage</span><span class='op'>(</span>
   <span class='va'>x</span>,
@@ -302,7 +302,7 @@ returns a <code>data.frame</code>.</p>
   source_version <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='op'>)</span>,
   source_date <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span><span class='op'>(</span><span class='op'>)</span>,
   organism <span class='op'>=</span> <span class='cn'>NA_character_</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -311,9 +311,9 @@ returns a <code>data.frame</code>.</p>
       <th>x</th>
       <td><p>For <code>createCompDb</code>: <code>data.frame</code> or <code>tbl</code> with the compound
 annotations or <code>character</code> with the file name(s) from which the compound
-annotations should be retrieved. See description for details.</p><pre>For `createCompDbPackage`: `character(1)` with the file name of the
+annotations should be retrieved. See description for details.</p><pre><code>For `createCompDbPackage`: `character(1)` with the file name of the
 `CompDb` SQLite file (created by `createCompDb`).
-</pre></td>
+</code></pre></td>
     </tr>
     <tr>
       <th>metadata</th>
@@ -328,54 +328,54 @@ to import such data from spectrum xml files from HMDB.</p></td>
     </tr>
     <tr>
       <th>path</th>
-      <td><p><code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> with the path to the directory where the database
+      <td><p><code>character(1)</code> with the path to the directory where the database
 file or package folder should be written. Defaults to the current
 directory.</p></td>
     </tr>
     <tr>
       <th>version</th>
-      <td><p>For <code>createCompDbPackage</code>: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> with the version
+      <td><p>For <code>createCompDbPackage</code>: <code>character(1)</code> with the version
 of the package (ideally in the format <code>"x.y.z"</code>).</p></td>
     </tr>
     <tr>
       <th>maintainer</th>
-      <td><p>For <code>createCompDbPackage</code>: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> with the
+      <td><p>For <code>createCompDbPackage</code>: <code>character(1)</code> with the
 name and email address of the package maintainer (in the form
 <code>"First Last &lt;first.last@provider.com&gt;"</code>.</p></td>
     </tr>
     <tr>
       <th>author</th>
-      <td><p>For <code>createCompDbPackage</code>: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> with the name
+      <td><p>For <code>createCompDbPackage</code>: <code>character(1)</code> with the name
 of the package author.</p></td>
     </tr>
     <tr>
       <th>license</th>
-      <td><p>For <code>createCompDbPackage</code>: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> with the
+      <td><p>For <code>createCompDbPackage</code>: <code>character(1)</code> with the
 license of the package respectively the originating provider.</p></td>
     </tr>
     <tr>
       <th>source</th>
-      <td><p>For <code>make_metadata</code>: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> with the name of the
+      <td><p>For <code>make_metadata</code>: <code>character(1)</code> with the name of the
 resource that provided the compound annotation.</p></td>
     </tr>
     <tr>
       <th>url</th>
-      <td><p>For <code>make_metadata</code>: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> with the url to the original
+      <td><p>For <code>make_metadata</code>: <code>character(1)</code> with the url to the original
 resource.</p></td>
     </tr>
     <tr>
       <th>source_version</th>
-      <td><p>For <code>make_metadata</code>: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> with the version
+      <td><p>For <code>make_metadata</code>: <code>character(1)</code> with the version
 of the original resource providing the annotation.</p></td>
     </tr>
     <tr>
       <th>source_date</th>
-      <td><p>For <code>make_metadata</code>: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> with the date of the
+      <td><p>For <code>make_metadata</code>: <code>character(1)</code> with the date of the
 resource's release.</p></td>
     </tr>
     <tr>
       <th>organism</th>
-      <td><p>For <code>make_metadata</code>: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> with the name of the
+      <td><p>For <code>make_metadata</code>: <code>character(1)</code> with the name of the
 organism. This should be in the format <code>"Hsapiens"</code> for human,
 <code>"Mmusculus"</code> for mouse etc. Leave to <code>NA</code> if not applicable.</p></td>
     </tr>
@@ -383,7 +383,7 @@ organism. This should be in the format <code>"Hsapiens"</code> for human,
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>For <code>createCompDb</code>: a <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> with the database name
+    <p>For <code>createCompDb</code>: a <code>character(1)</code> with the database name
 (invisibly).</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -410,144 +410,156 @@ MS/MS spectrum data from xml files from HMDB or an SDF file from MoNa.</p>
     <p>Johannes Rainer</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'>## Read compounds for a HMDB subset</span>
-<span class='va'>fl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"sdf/HMDB_sub.sdf.gz"</span>, package <span class='op'>=</span> <span class='st'>"CompoundDb"</span><span class='op'>)</span>
-<span class='va'>cmps</span> <span class='op'>&lt;-</span> <span class='fu'><a href='compound_tbl_sdf.html'>compound_tbl_sdf</a></span><span class='op'>(</span><span class='va'>fl</span><span class='op'>)</span>
-
-<span class='co'>## Create a metadata data.frame for the compounds.</span>
-<span class='va'>metad</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>name <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"source"</span>, <span class='st'>"url"</span>, <span class='st'>"source_version"</span>,
-    <span class='st'>"source_date"</span>, <span class='st'>"organism"</span><span class='op'>)</span>, value <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"HMDB"</span>, <span class='st'>"http://www.hmdb.ca"</span>,
-    <span class='st'>"v4"</span>, <span class='st'>"2017-08-27"</span>, <span class='st'>"Hsapiens"</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'>## Alternatively use the make_metadata helper function</span>
-<span class='va'>metad</span> <span class='op'>&lt;-</span> <span class='fu'>make_metadata</span><span class='op'>(</span>source <span class='op'>=</span> <span class='st'>"HMDB"</span>, source_version <span class='op'>=</span> <span class='st'>"v4"</span>,
-    source_date <span class='op'>=</span> <span class='st'>"2017-08"</span>, organism <span class='op'>=</span> <span class='st'>"Hsapiens"</span>,
-    url <span class='op'>=</span> <span class='st'>"http://www.hmdb.ca"</span><span class='op'>)</span>
-<span class='co'>## Create a SQLite database in the temporary folder</span>
-<span class='va'>db_f</span> <span class='op'>&lt;-</span> <span class='fu'>createCompDb</span><span class='op'>(</span><span class='va'>cmps</span>, metadata <span class='op'>=</span> <span class='va'>metad</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'>## The database can be loaded and accessed with a CompDb object</span>
-<span class='va'>db</span> <span class='op'>&lt;-</span> <span class='fu'><a href='CompDb.html'>CompDb</a></span><span class='op'>(</span><span class='va'>db_f</span><span class='op'>)</span>
-<span class='va'>db</span>
-</div><div class='output co'>#&gt; class: CompDb 
-#&gt;  data source: HMDB 
-#&gt;  version: v4 
-#&gt;  organism: Hsapiens 
-#&gt;  compound count: 9 </div><div class='input'>
-<span class='co'>## Create a database for HMDB that includes also MS/MS spectrum data</span>
-<span class='va'>metad2</span> <span class='op'>&lt;-</span> <span class='fu'>make_metadata</span><span class='op'>(</span>source <span class='op'>=</span> <span class='st'>"HMDB_with_spectra"</span>, source_version <span class='op'>=</span> <span class='st'>"v4"</span>,
-    source_date <span class='op'>=</span> <span class='st'>"2017-08"</span>, organism <span class='op'>=</span> <span class='st'>"Hsapiens"</span>,
-    url <span class='op'>=</span> <span class='st'>"http://www.hmdb.ca"</span><span class='op'>)</span>
-
-<span class='co'>## Import spectrum information from selected MS/MS xml files from HMDB</span>
-<span class='co'>## that are provided in the package</span>
-<span class='va'>xml_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"xml"</span>, package <span class='op'>=</span> <span class='st'>"CompoundDb"</span><span class='op'>)</span>
-<span class='va'>spctra</span> <span class='op'>&lt;-</span> <span class='fu'><a href='msms_spectra_hmdb.html'>msms_spectra_hmdb</a></span><span class='op'>(</span><span class='va'>xml_path</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Going to process 4 xml files.</span></div><div class='output co'>#&gt; <span class='message'>Postprocessing data ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='input'>
-<span class='co'>## Create a SQLite database in the temporary folder</span>
-<span class='va'>db_f2</span> <span class='op'>&lt;-</span> <span class='fu'>createCompDb</span><span class='op'>(</span><span class='va'>cmps</span>, metadata <span class='op'>=</span> <span class='va'>metad2</span>, msms_spectra <span class='op'>=</span> <span class='va'>spctra</span>,
-    path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'>## The database can be loaded and accessed with a CompDb object</span>
-<span class='va'>db2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='CompDb.html'>CompDb</a></span><span class='op'>(</span><span class='va'>db_f2</span><span class='op'>)</span>
-<span class='va'>db2</span>
-</div><div class='output co'>#&gt; class: CompDb 
-#&gt;  data source: HMDB_with_spectra 
-#&gt;  version: v4 
-#&gt;  organism: Hsapiens 
-#&gt;  compound count: 9 
-#&gt;  MS/MS spectra count: 4 </div><div class='input'>
-<span class='co'>## Does the database contain MS/MS spectrum data?</span>
-<span class='fu'><a href='CompDb.html'>hasMsMsSpectra</a></span><span class='op'>(</span><span class='va'>db2</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
-<span class='co'>## Create a database for a ChEBI subset providing the file name of the</span>
-<span class='co'>## corresponding SDF file</span>
-<span class='va'>metad</span> <span class='op'>&lt;-</span> <span class='fu'>make_metadata</span><span class='op'>(</span>source <span class='op'>=</span> <span class='st'>"ChEBI_sub"</span>, source_version <span class='op'>=</span> <span class='st'>"2"</span>,
-    source_date <span class='op'>=</span> <span class='cn'>NA</span>, organism <span class='op'>=</span> <span class='st'>"Hsapiens"</span>, url <span class='op'>=</span> <span class='st'>"www.ebi.ac.uk/chebi"</span><span class='op'>)</span>
-<span class='va'>db_f</span> <span class='op'>&lt;-</span> <span class='fu'>createCompDb</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"sdf/ChEBI_sub.sdf.gz"</span>,
-    package <span class='op'>=</span> <span class='st'>"CompoundDb"</span><span class='op'>)</span>, metadata <span class='op'>=</span> <span class='va'>metad</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Import data from ChEBI_sub.sdf.gz ...</span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='input'><span class='va'>db</span> <span class='op'>&lt;-</span> <span class='fu'><a href='CompDb.html'>CompDb</a></span><span class='op'>(</span><span class='va'>db_f</span><span class='op'>)</span>
-<span class='va'>db</span>
-</div><div class='output co'>#&gt; class: CompDb 
-#&gt;  data source: ChEBI_sub 
-#&gt;  version: 2 
-#&gt;  organism: Hsapiens 
-#&gt;  compound count: 6 </div><div class='input'>
-<span class='fu'>compounds</span><span class='op'>(</span><span class='va'>db</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                       name
-#&gt; 1          (-)-epicatechin
-#&gt; 2         (1S,4R)-fenchone
-#&gt; 3   1-alkyl-2-acylglycerol
-#&gt; 4   16alpha-hydroxyestrone
-#&gt; 5 2,6-dichlorobenzonitrile
-#&gt; 6    2-hydroxybutyric acid
-#&gt;                                                                                                                                                 inchi
-#&gt; 1                                    InChI=1S/C15H14O6/c16-8-4-11(18)9-6-13(20)15(21-14(9)5-8)7-1-2-10(17)12(19)3-7/h1-5,13,15-20H,6H2/t13-,15-/m1/s1
-#&gt; 2                                                                         InChI=1S/C10H16O/c1-9(2)7-4-5-10(3,6-7)8(9)11/h7H,4-6H2,1-3H3/t7-,10+/m1/s1
-#&gt; 3                                                                                                                                                &lt;NA&gt;
-#&gt; 4 InChI=1S/C18H22O3/c1-18-7-6-13-12-5-3-11(19)8-10(12)2-4-14(13)15(18)9-16(20)17(18)21/h3,5,8,13-16,19-20H,2,4,6-7,9H2,1H3/t13-,14-,15+,16-,18+/m1/s1
-#&gt; 5                                                                                                     InChI=1S/C7H3Cl2N/c8-6-2-1-3-7(9)5(6)4-10/h1-3H
-#&gt; 6                                                                                                InChI=1S/C4H8O3/c1-2-3(5)4(6)7/h3,5H,2H2,1H3,(H,6,7)
-#&gt;                      inchikey  formula exactmass
-#&gt; 1 PFTAWBLQPZVEMU-UKRRQHHQSA-N C15H14O6   290.079
-#&gt; 2 LHXDLQBQYFFVNW-XCBNKYQSSA-N  C10H16O   152.120
-#&gt; 3                        &lt;NA&gt; C4H6O4R2   118.027
-#&gt; 4 WPOCIZJTELRQMF-QFXBJFAPSA-N C18H22O3   286.157
-#&gt; 5 YOYAIZYFCNQIRF-UHFFFAOYSA-N C7H3Cl2N   170.964
-#&gt; 6 AFENDNXGAFYKQO-UHFFFAOYSA-N   C4H8O3   104.047
-#&gt;                                                                 smiles
-#&gt; 1                     [H][C@@]1(Oc2cc(O)cc(O)c2C[C@H]1O)c1ccc(O)c(O)c1
-#&gt; 2                                      CC1(C)[C@@H]2CC[C@@](C)(C2)C1=O
-#&gt; 3                                                  OCC(CO[*])OC([*])=O
-#&gt; 4 [H][C@]12CC[C@]3(C)C(=O)[C@H](O)C[C@@]3([H])[C@]1([H])CCc1cc(O)ccc21
-#&gt; 5                                                    Clc1cccc(Cl)c1C#N
-#&gt; 6                                                         CCC(O)C(O)=O</div><div class='input'>
-<span class='co'>## connect to the database and query it's tables using RSQlite</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://rsqlite.r-dbi.org'>RSQLite</a></span><span class='op'>)</span>
-<span class='va'>con</span> <span class='op'>&lt;-</span> <span class='fu'>dbConnect</span><span class='op'>(</span><span class='fu'>dbDriver</span><span class='op'>(</span><span class='st'>"SQLite"</span><span class='op'>)</span>, <span class='va'>db_f</span><span class='op'>)</span>
-
-<span class='fu'>dbGetQuery</span><span class='op'>(</span><span class='va'>con</span>, <span class='st'>"select * from metadata"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                 name                    value
-#&gt; 1             source                ChEBI_sub
-#&gt; 2                url      www.ebi.ac.uk/chebi
-#&gt; 3     source_version                        2
-#&gt; 4        source_date                     &lt;NA&gt;
-#&gt; 5           organism                 Hsapiens
-#&gt; 6   db_creation_date Mon Mar 22 17:14:15 2021
-#&gt; 7 supporting_package               CompoundDb
-#&gt; 8  supporting_object                   CompDb</div><div class='input'><span class='fu'>dbGetQuery</span><span class='op'>(</span><span class='va'>con</span>, <span class='st'>"select * from ms_compound"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   compound_id                     name
-#&gt; 1    CHEBI:90          (-)-epicatechin
-#&gt; 2   CHEBI:165         (1S,4R)-fenchone
-#&gt; 3   CHEBI:598   1-alkyl-2-acylglycerol
-#&gt; 4   CHEBI:776   16alpha-hydroxyestrone
-#&gt; 5   CHEBI:943 2,6-dichlorobenzonitrile
-#&gt; 6  CHEBI:1148    2-hydroxybutyric acid
-#&gt;                                                                                                                                                 inchi
-#&gt; 1                                    InChI=1S/C15H14O6/c16-8-4-11(18)9-6-13(20)15(21-14(9)5-8)7-1-2-10(17)12(19)3-7/h1-5,13,15-20H,6H2/t13-,15-/m1/s1
-#&gt; 2                                                                         InChI=1S/C10H16O/c1-9(2)7-4-5-10(3,6-7)8(9)11/h7H,4-6H2,1-3H3/t7-,10+/m1/s1
-#&gt; 3                                                                                                                                                &lt;NA&gt;
-#&gt; 4 InChI=1S/C18H22O3/c1-18-7-6-13-12-5-3-11(19)8-10(12)2-4-14(13)15(18)9-16(20)17(18)21/h3,5,8,13-16,19-20H,2,4,6-7,9H2,1H3/t13-,14-,15+,16-,18+/m1/s1
-#&gt; 5                                                                                                     InChI=1S/C7H3Cl2N/c8-6-2-1-3-7(9)5(6)4-10/h1-3H
-#&gt; 6                                                                                                InChI=1S/C4H8O3/c1-2-3(5)4(6)7/h3,5H,2H2,1H3,(H,6,7)
-#&gt;                      inchikey  formula exactmass
-#&gt; 1 PFTAWBLQPZVEMU-UKRRQHHQSA-N C15H14O6   290.079
-#&gt; 2 LHXDLQBQYFFVNW-XCBNKYQSSA-N  C10H16O   152.120
-#&gt; 3                        &lt;NA&gt; C4H6O4R2   118.027
-#&gt; 4 WPOCIZJTELRQMF-QFXBJFAPSA-N C18H22O3   286.157
-#&gt; 5 YOYAIZYFCNQIRF-UHFFFAOYSA-N C7H3Cl2N   170.964
-#&gt; 6 AFENDNXGAFYKQO-UHFFFAOYSA-N   C4H8O3   104.047
-#&gt;                                                                 smiles
-#&gt; 1                     [H][C@@]1(Oc2cc(O)cc(O)c2C[C@H]1O)c1ccc(O)c(O)c1
-#&gt; 2                                      CC1(C)[C@@H]2CC[C@@](C)(C2)C1=O
-#&gt; 3                                                  OCC(CO[*])OC([*])=O
-#&gt; 4 [H][C@]12CC[C@]3(C)C(=O)[C@H](O)C[C@@]3([H])[C@]1([H])CCc1cc(O)ccc21
-#&gt; 5                                                    Clc1cccc(Cl)c1C#N
-#&gt; 6                                                         CCC(O)C(O)=O</div><div class='input'>
-<span class='co'>## To create a CompDb R-package we could simply use the</span>
-<span class='co'>## createCompDbPackage function on the SQLite database file name.</span>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'></span>
+<span class='r-in'><span class='co'>## Read compounds for a HMDB subset</span></span>
+<span class='r-in'><span class='va'>fl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"sdf/HMDB_sub.sdf.gz"</span>, package <span class='op'>=</span> <span class='st'>"CompoundDb"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>cmps</span> <span class='op'>&lt;-</span> <span class='fu'><a href='compound_tbl_sdf.html'>compound_tbl_sdf</a></span><span class='op'>(</span><span class='va'>fl</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Create a metadata data.frame for the compounds.</span></span>
+<span class='r-in'><span class='va'>metad</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>name <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>c</a></span><span class='op'>(</span><span class='st'>"source"</span>, <span class='st'>"url"</span>, <span class='st'>"source_version"</span>,</span>
+<span class='r-in'>    <span class='st'>"source_date"</span>, <span class='st'>"organism"</span><span class='op'>)</span>, value <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>c</a></span><span class='op'>(</span><span class='st'>"HMDB"</span>, <span class='st'>"http://www.hmdb.ca"</span>,</span>
+<span class='r-in'>    <span class='st'>"v4"</span>, <span class='st'>"2017-08-27"</span>, <span class='st'>"Hsapiens"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Alternatively use the make_metadata helper function</span></span>
+<span class='r-in'><span class='va'>metad</span> <span class='op'>&lt;-</span> <span class='fu'>make_metadata</span><span class='op'>(</span>source <span class='op'>=</span> <span class='st'>"HMDB"</span>, source_version <span class='op'>=</span> <span class='st'>"v4"</span>,</span>
+<span class='r-in'>    source_date <span class='op'>=</span> <span class='st'>"2017-08"</span>, organism <span class='op'>=</span> <span class='st'>"Hsapiens"</span>,</span>
+<span class='r-in'>    url <span class='op'>=</span> <span class='st'>"http://www.hmdb.ca"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'>## Create a SQLite database in the temporary folder</span></span>
+<span class='r-in'><span class='va'>db_f</span> <span class='op'>&lt;-</span> <span class='fu'>createCompDb</span><span class='op'>(</span><span class='va'>cmps</span>, metadata <span class='op'>=</span> <span class='va'>metad</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## The database can be loaded and accessed with a CompDb object</span></span>
+<span class='r-in'><span class='va'>db</span> <span class='op'>&lt;-</span> <span class='fu'><a href='CompDb.html'>CompDb</a></span><span class='op'>(</span><span class='va'>db_f</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>db</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> class: CompDb </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  data source: HMDB </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  version: v4 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  organism: Hsapiens </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  compound count: 9 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Create a database for HMDB that includes also MS/MS spectrum data</span></span>
+<span class='r-in'><span class='va'>metad2</span> <span class='op'>&lt;-</span> <span class='fu'>make_metadata</span><span class='op'>(</span>source <span class='op'>=</span> <span class='st'>"HMDB_with_spectra"</span>, source_version <span class='op'>=</span> <span class='st'>"v4"</span>,</span>
+<span class='r-in'>    source_date <span class='op'>=</span> <span class='st'>"2017-08"</span>, organism <span class='op'>=</span> <span class='st'>"Hsapiens"</span>,</span>
+<span class='r-in'>    url <span class='op'>=</span> <span class='st'>"http://www.hmdb.ca"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Import spectrum information from selected MS/MS xml files from HMDB</span></span>
+<span class='r-in'><span class='co'>## that are provided in the package</span></span>
+<span class='r-in'><span class='va'>xml_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"xml"</span>, package <span class='op'>=</span> <span class='st'>"CompoundDb"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>spctra</span> <span class='op'>&lt;-</span> <span class='fu'><a href='msms_spectra_hmdb.html'>msms_spectra_hmdb</a></span><span class='op'>(</span><span class='va'>xml_path</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Going to process 4 xml files.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Postprocessing data ... </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> OK</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Create a SQLite database in the temporary folder</span></span>
+<span class='r-in'><span class='va'>db_f2</span> <span class='op'>&lt;-</span> <span class='fu'>createCompDb</span><span class='op'>(</span><span class='va'>cmps</span>, metadata <span class='op'>=</span> <span class='va'>metad2</span>, msms_spectra <span class='op'>=</span> <span class='va'>spctra</span>,</span>
+<span class='r-in'>    path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## The database can be loaded and accessed with a CompDb object</span></span>
+<span class='r-in'><span class='va'>db2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='CompDb.html'>CompDb</a></span><span class='op'>(</span><span class='va'>db_f2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>db2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> class: CompDb </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  data source: HMDB_with_spectra </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  version: v4 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  organism: Hsapiens </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  compound count: 9 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MS/MS spectra count: 4 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Does the database contain MS/MS spectrum data?</span></span>
+<span class='r-in'><span class='fu'><a href='CompDb.html'>hasMsMsSpectra</a></span><span class='op'>(</span><span class='va'>db2</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Create a database for a ChEBI subset providing the file name of the</span></span>
+<span class='r-in'><span class='co'>## corresponding SDF file</span></span>
+<span class='r-in'><span class='va'>metad</span> <span class='op'>&lt;-</span> <span class='fu'>make_metadata</span><span class='op'>(</span>source <span class='op'>=</span> <span class='st'>"ChEBI_sub"</span>, source_version <span class='op'>=</span> <span class='st'>"2"</span>,</span>
+<span class='r-in'>    source_date <span class='op'>=</span> <span class='cn'>NA</span>, organism <span class='op'>=</span> <span class='st'>"Hsapiens"</span>, url <span class='op'>=</span> <span class='st'>"www.ebi.ac.uk/chebi"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>db_f</span> <span class='op'>&lt;-</span> <span class='fu'>createCompDb</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"sdf/ChEBI_sub.sdf.gz"</span>,</span>
+<span class='r-in'>    package <span class='op'>=</span> <span class='st'>"CompoundDb"</span><span class='op'>)</span>, metadata <span class='op'>=</span> <span class='va'>metad</span>, path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Import data from ChEBI_sub.sdf.gz ...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> OK</span>
+<span class='r-in'><span class='va'>db</span> <span class='op'>&lt;-</span> <span class='fu'><a href='CompDb.html'>CompDb</a></span><span class='op'>(</span><span class='va'>db_f</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>db</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> class: CompDb </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  data source: ChEBI_sub </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  version: 2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  organism: Hsapiens </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  compound count: 6 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html'>compounds</a></span><span class='op'>(</span><span class='va'>db</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                       name</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1          (-)-epicatechin</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2         (1S,4R)-fenchone</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3   1-alkyl-2-acylglycerol</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4   16alpha-hydroxyestrone</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5 2,6-dichlorobenzonitrile</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6    2-hydroxybutyric acid</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                                                                                                                 inchi</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1                                    InChI=1S/C15H14O6/c16-8-4-11(18)9-6-13(20)15(21-14(9)5-8)7-1-2-10(17)12(19)3-7/h1-5,13,15-20H,6H2/t13-,15-/m1/s1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2                                                                         InChI=1S/C10H16O/c1-9(2)7-4-5-10(3,6-7)8(9)11/h7H,4-6H2,1-3H3/t7-,10+/m1/s1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3                                                                                                                                                &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 InChI=1S/C18H22O3/c1-18-7-6-13-12-5-3-11(19)8-10(12)2-4-14(13)15(18)9-16(20)17(18)21/h3,5,8,13-16,19-20H,2,4,6-7,9H2,1H3/t13-,14-,15+,16-,18+/m1/s1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5                                                                                                     InChI=1S/C7H3Cl2N/c8-6-2-1-3-7(9)5(6)4-10/h1-3H</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6                                                                                                InChI=1S/C4H8O3/c1-2-3(5)4(6)7/h3,5H,2H2,1H3,(H,6,7)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                      inchikey  formula exactmass</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 PFTAWBLQPZVEMU-UKRRQHHQSA-N C15H14O6   290.079</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 LHXDLQBQYFFVNW-XCBNKYQSSA-N  C10H16O   152.120</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3                        &lt;NA&gt; C4H6O4R2   118.027</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 WPOCIZJTELRQMF-QFXBJFAPSA-N C18H22O3   286.157</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5 YOYAIZYFCNQIRF-UHFFFAOYSA-N C7H3Cl2N   170.964</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6 AFENDNXGAFYKQO-UHFFFAOYSA-N   C4H8O3   104.047</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                                 smiles</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1                     [H][C@@]1(Oc2cc(O)cc(O)c2C[C@H]1O)c1ccc(O)c(O)c1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2                                      CC1(C)[C@@H]2CC[C@@](C)(C2)C1=O</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3                                                  OCC(CO[*])OC([*])=O</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 [H][C@]12CC[C@]3(C)C(=O)[C@H](O)C[C@@]3([H])[C@]1([H])CCc1cc(O)ccc21</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5                                                    Clc1cccc(Cl)c1C#N</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6                                                         CCC(O)C(O)=O</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## connect to the database and query it's tables using RSQlite</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://rsqlite.r-dbi.org'>RSQLite</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>con</span> <span class='op'>&lt;-</span> <span class='fu'>dbConnect</span><span class='op'>(</span><span class='fu'>dbDriver</span><span class='op'>(</span><span class='st'>"SQLite"</span><span class='op'>)</span>, <span class='va'>db_f</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>dbGetQuery</span><span class='op'>(</span><span class='va'>con</span>, <span class='st'>"select * from metadata"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                 name                    value</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1             source                ChEBI_sub</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2                url      www.ebi.ac.uk/chebi</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3     source_version                        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4        source_date                     &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5           organism                 Hsapiens</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6   db_creation_date Thu Jul  1 12:43:20 2021</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7 supporting_package               CompoundDb</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8  supporting_object                   CompDb</span>
+<span class='r-in'><span class='fu'>dbGetQuery</span><span class='op'>(</span><span class='va'>con</span>, <span class='st'>"select * from ms_compound"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   compound_id                     name</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1    CHEBI:90          (-)-epicatechin</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2   CHEBI:165         (1S,4R)-fenchone</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3   CHEBI:598   1-alkyl-2-acylglycerol</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4   CHEBI:776   16alpha-hydroxyestrone</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5   CHEBI:943 2,6-dichlorobenzonitrile</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6  CHEBI:1148    2-hydroxybutyric acid</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                                                                                                                 inchi</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1                                    InChI=1S/C15H14O6/c16-8-4-11(18)9-6-13(20)15(21-14(9)5-8)7-1-2-10(17)12(19)3-7/h1-5,13,15-20H,6H2/t13-,15-/m1/s1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2                                                                         InChI=1S/C10H16O/c1-9(2)7-4-5-10(3,6-7)8(9)11/h7H,4-6H2,1-3H3/t7-,10+/m1/s1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3                                                                                                                                                &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 InChI=1S/C18H22O3/c1-18-7-6-13-12-5-3-11(19)8-10(12)2-4-14(13)15(18)9-16(20)17(18)21/h3,5,8,13-16,19-20H,2,4,6-7,9H2,1H3/t13-,14-,15+,16-,18+/m1/s1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5                                                                                                     InChI=1S/C7H3Cl2N/c8-6-2-1-3-7(9)5(6)4-10/h1-3H</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6                                                                                                InChI=1S/C4H8O3/c1-2-3(5)4(6)7/h3,5H,2H2,1H3,(H,6,7)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                      inchikey  formula exactmass</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 PFTAWBLQPZVEMU-UKRRQHHQSA-N C15H14O6   290.079</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 LHXDLQBQYFFVNW-XCBNKYQSSA-N  C10H16O   152.120</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3                        &lt;NA&gt; C4H6O4R2   118.027</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 WPOCIZJTELRQMF-QFXBJFAPSA-N C18H22O3   286.157</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5 YOYAIZYFCNQIRF-UHFFFAOYSA-N C7H3Cl2N   170.964</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6 AFENDNXGAFYKQO-UHFFFAOYSA-N   C4H8O3   104.047</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                                 smiles</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1                     [H][C@@]1(Oc2cc(O)cc(O)c2C[C@H]1O)c1ccc(O)c(O)c1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2                                      CC1(C)[C@@H]2CC[C@@](C)(C2)C1=O</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3                                                  OCC(CO[*])OC([*])=O</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 [H][C@]12CC[C@]3(C)C(=O)[C@H](O)C[C@@]3([H])[C@]1([H])CCc1cc(O)ccc21</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5                                                    Clc1cccc(Cl)c1C#N</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6                                                         CCC(O)C(O)=O</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## To create a CompDb R-package we could simply use the</span></span>
+<span class='r-in'><span class='co'>## createCompDbPackage function on the SQLite database file name.</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -563,7 +575,7 @@ MS/MS spectrum data from xml files from HMDB or an SDF file from MoNa.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>

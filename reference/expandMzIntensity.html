@@ -145,7 +145,7 @@ stored as a <code>list</code> in columns <code>"mz"</code> and <code>"intensity"
 columns repeated as many times as there are m/z and intensity values.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>expandMzIntensity</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>expandMzIntensity</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -154,7 +154,7 @@ columns repeated as many times as there are m/z and intensity values.</p>
       <th>x</th>
       <td><p><code>data.frame</code> with <em>collapsed</em> m/z and intensity values in columns
 <code>"mz"</code> and <code>"intensity"</code>, such as returned by <code><a href='msms_spectra_hmdb.html'>msms_spectra_hmdb()</a></code> with
-parameter <code>collapsed = TRUE</code>, or by <code>spectra()</code> or <code>compounds()</code> calls.</p></td>
+parameter <code>collapsed = TRUE</code>, or by <code><a href='https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html'>spectra()</a></code> or <code><a href='https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html'>compounds()</a></code> calls.</p></td>
     </tr>
     </table>
 
@@ -167,230 +167,236 @@ description for details.</p>
     <p>Johannes Rainer</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'>## Read a data.frame with collapsed columns mz and intensity columns</span>
-<span class='va'>dr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"xml/"</span>, package <span class='op'>=</span> <span class='st'>"CompoundDb"</span><span class='op'>)</span>
-<span class='va'>msms_spctra</span> <span class='op'>&lt;-</span> <span class='fu'><a href='msms_spectra_hmdb.html'>msms_spectra_hmdb</a></span><span class='op'>(</span><span class='va'>dr</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Going to process 4 xml files.</span></div><div class='output co'>#&gt; <span class='message'>Postprocessing data ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='input'>
-<span class='va'>msms_spctra</span>
-</div><div class='output co'>#&gt;   original_spectrum_id compound_id polarity collision_energy predicted
-#&gt; 1                    1 HMDB0000001        1               10     FALSE
-#&gt; 2                    2 HMDB0000001        1               25     FALSE
-#&gt; 3               446575 HMDB0004370        1               NA     FALSE
-#&gt; 4               370739 HMDB0006719        0               20      TRUE
-#&gt;                                          splash instrument_type
-#&gt; 1 splash10-00di-0900000000-037d24a7d65676b7e356     Quattro_QQQ
-#&gt; 2 splash10-00di-0900000000-03e99316bd6c098f5d11     Quattro_QQQ
-#&gt; 3 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 4 splash10-001i-0009000000-c16445787a057993951a            &lt;NA&gt;
-#&gt;                    instrument precursor_mz
-#&gt; 1                        &lt;NA&gt;           NA
-#&gt; 2                        &lt;NA&gt;           NA
-#&gt; 3 API3000, Applied Biosystems           NA
-#&gt; 4                        &lt;NA&gt;           NA
-#&gt;                                                                                                                                                                                                                            mz
-#&gt; 1                                                                                                                                                                                      109.20, 124.20, 124.50, 170.16, 170.52
-#&gt; 2                                                                                                                                                                         83.10, 96.12, 97.14, 109.14, 124.08, 125.10, 170.16
-#&gt; 3 44.1, 57.9, 61.4, 71.2, 73.8, 78.3, 78.8, 83.1, 88.2, 98.8, 101.7, 102.8, 106.8, 111.6, 115.1, 116.9, 118.1, 121.0, 124.9, 126.7, 127.2, 128.9, 129.9, 131.9, 139.0, 140.4, 141.2, 142.9, 144.1, 157.6, 158.0, 175.2, 193.2
-#&gt; 4                                                                                                                          111.0815, 249.2588, 273.2588, 341.2850, 353.3214, 355.3006, 355.3370, 365.3214, 367.3006, 383.3319
-#&gt;                                                                                                                                                                                                                                                                                                                                     intensity
-#&gt; 1                                                                                                                                                                                                                                                                                        3.407000, 47.494573, 3.094366, 100.000000, 13.239693
-#&gt; 2                                                                                                                                                                                                                                                                    6.685028, 4.381299, 3.022144, 16.708257, 100.000000, 4.565141, 40.643413
-#&gt; 3 0.051124, 0.006597, 0.012094, 0.001649, 0.003298, 0.006047, 0.004948, 0.015392, 0.003848, 0.008796, 0.003848, 0.002199, 0.010994, 0.003848, 0.101699, 0.055522, 0.425485, 0.008246, 0.008796, 0.003298, 0.011544, 0.003848, 0.016492, 8.952779, 0.024188, 0.011544, 0.058820, 0.057171, 36.381727, 0.035732, 0.384806, 100.000000, 0.008796
-#&gt; 4                                                                                                                                                                                                                              0.5509733, 0.7330056, 0.5171464, 0.6527944, 0.8764642, 0.7582467, 0.4985064, 21.2824831, 2.4354476, 52.1357554
-#&gt;   spectrum_id
-#&gt; 1           1
-#&gt; 2           2
-#&gt; 3           3
-#&gt; 4           4</div><div class='input'>
-<span class='co'>## Columns mz and intensity are "collased"</span>
-<span class='va'>msms_spctra</span><span class='op'>$</span><span class='va'>mz</span>
-</div><div class='output co'>#&gt; [[1]]
-#&gt; [1] 109.20 124.20 124.50 170.16 170.52
-#&gt; 
-#&gt; [[2]]
-#&gt; [1]  83.10  96.12  97.14 109.14 124.08 125.10 170.16
-#&gt; 
-#&gt; [[3]]
-#&gt;  [1]  44.1  57.9  61.4  71.2  73.8  78.3  78.8  83.1  88.2  98.8 101.7 102.8
-#&gt; [13] 106.8 111.6 115.1 116.9 118.1 121.0 124.9 126.7 127.2 128.9 129.9 131.9
-#&gt; [25] 139.0 140.4 141.2 142.9 144.1 157.6 158.0 175.2 193.2
-#&gt; 
-#&gt; [[4]]
-#&gt;  [1] 111.0815 249.2588 273.2588 341.2850 353.3214 355.3006 355.3370 365.3214
-#&gt;  [9] 367.3006 383.3319
-#&gt; </div><div class='input'>
-<span class='co'>## Expand the data.frame to get one row per m/z and intensity value</span>
-<span class='va'>spctra_exp</span> <span class='op'>&lt;-</span> <span class='fu'>expandMzIntensity</span><span class='op'>(</span><span class='va'>msms_spctra</span><span class='op'>)</span>
-<span class='va'>spctra_exp</span>
-</div><div class='output co'>#&gt;    original_spectrum_id compound_id polarity collision_energy predicted
-#&gt; 1                     1 HMDB0000001        1               10     FALSE
-#&gt; 2                     1 HMDB0000001        1               10     FALSE
-#&gt; 3                     1 HMDB0000001        1               10     FALSE
-#&gt; 4                     1 HMDB0000001        1               10     FALSE
-#&gt; 5                     1 HMDB0000001        1               10     FALSE
-#&gt; 6                     2 HMDB0000001        1               25     FALSE
-#&gt; 7                     2 HMDB0000001        1               25     FALSE
-#&gt; 8                     2 HMDB0000001        1               25     FALSE
-#&gt; 9                     2 HMDB0000001        1               25     FALSE
-#&gt; 10                    2 HMDB0000001        1               25     FALSE
-#&gt; 11                    2 HMDB0000001        1               25     FALSE
-#&gt; 12                    2 HMDB0000001        1               25     FALSE
-#&gt; 13               446575 HMDB0004370        1               NA     FALSE
-#&gt; 14               446575 HMDB0004370        1               NA     FALSE
-#&gt; 15               446575 HMDB0004370        1               NA     FALSE
-#&gt; 16               446575 HMDB0004370        1               NA     FALSE
-#&gt; 17               446575 HMDB0004370        1               NA     FALSE
-#&gt; 18               446575 HMDB0004370        1               NA     FALSE
-#&gt; 19               446575 HMDB0004370        1               NA     FALSE
-#&gt; 20               446575 HMDB0004370        1               NA     FALSE
-#&gt; 21               446575 HMDB0004370        1               NA     FALSE
-#&gt; 22               446575 HMDB0004370        1               NA     FALSE
-#&gt; 23               446575 HMDB0004370        1               NA     FALSE
-#&gt; 24               446575 HMDB0004370        1               NA     FALSE
-#&gt; 25               446575 HMDB0004370        1               NA     FALSE
-#&gt; 26               446575 HMDB0004370        1               NA     FALSE
-#&gt; 27               446575 HMDB0004370        1               NA     FALSE
-#&gt; 28               446575 HMDB0004370        1               NA     FALSE
-#&gt; 29               446575 HMDB0004370        1               NA     FALSE
-#&gt; 30               446575 HMDB0004370        1               NA     FALSE
-#&gt; 31               446575 HMDB0004370        1               NA     FALSE
-#&gt; 32               446575 HMDB0004370        1               NA     FALSE
-#&gt; 33               446575 HMDB0004370        1               NA     FALSE
-#&gt; 34               446575 HMDB0004370        1               NA     FALSE
-#&gt; 35               446575 HMDB0004370        1               NA     FALSE
-#&gt; 36               446575 HMDB0004370        1               NA     FALSE
-#&gt; 37               446575 HMDB0004370        1               NA     FALSE
-#&gt; 38               446575 HMDB0004370        1               NA     FALSE
-#&gt; 39               446575 HMDB0004370        1               NA     FALSE
-#&gt; 40               446575 HMDB0004370        1               NA     FALSE
-#&gt; 41               446575 HMDB0004370        1               NA     FALSE
-#&gt; 42               446575 HMDB0004370        1               NA     FALSE
-#&gt; 43               446575 HMDB0004370        1               NA     FALSE
-#&gt; 44               446575 HMDB0004370        1               NA     FALSE
-#&gt; 45               446575 HMDB0004370        1               NA     FALSE
-#&gt; 46               370739 HMDB0006719        0               20      TRUE
-#&gt; 47               370739 HMDB0006719        0               20      TRUE
-#&gt; 48               370739 HMDB0006719        0               20      TRUE
-#&gt; 49               370739 HMDB0006719        0               20      TRUE
-#&gt; 50               370739 HMDB0006719        0               20      TRUE
-#&gt; 51               370739 HMDB0006719        0               20      TRUE
-#&gt; 52               370739 HMDB0006719        0               20      TRUE
-#&gt; 53               370739 HMDB0006719        0               20      TRUE
-#&gt; 54               370739 HMDB0006719        0               20      TRUE
-#&gt; 55               370739 HMDB0006719        0               20      TRUE
-#&gt;                                           splash instrument_type
-#&gt; 1  splash10-00di-0900000000-037d24a7d65676b7e356     Quattro_QQQ
-#&gt; 2  splash10-00di-0900000000-037d24a7d65676b7e356     Quattro_QQQ
-#&gt; 3  splash10-00di-0900000000-037d24a7d65676b7e356     Quattro_QQQ
-#&gt; 4  splash10-00di-0900000000-037d24a7d65676b7e356     Quattro_QQQ
-#&gt; 5  splash10-00di-0900000000-037d24a7d65676b7e356     Quattro_QQQ
-#&gt; 6  splash10-00di-0900000000-03e99316bd6c098f5d11     Quattro_QQQ
-#&gt; 7  splash10-00di-0900000000-03e99316bd6c098f5d11     Quattro_QQQ
-#&gt; 8  splash10-00di-0900000000-03e99316bd6c098f5d11     Quattro_QQQ
-#&gt; 9  splash10-00di-0900000000-03e99316bd6c098f5d11     Quattro_QQQ
-#&gt; 10 splash10-00di-0900000000-03e99316bd6c098f5d11     Quattro_QQQ
-#&gt; 11 splash10-00di-0900000000-03e99316bd6c098f5d11     Quattro_QQQ
-#&gt; 12 splash10-00di-0900000000-03e99316bd6c098f5d11     Quattro_QQQ
-#&gt; 13 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 14 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 15 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 16 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 17 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 18 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 19 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 20 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 21 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 22 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 23 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 24 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 25 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 26 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 27 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 28 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 29 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 30 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 31 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 32 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 33 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 34 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 35 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 36 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 37 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 38 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 39 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 40 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 41 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 42 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 43 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 44 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 45 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ
-#&gt; 46 splash10-001i-0009000000-c16445787a057993951a            &lt;NA&gt;
-#&gt; 47 splash10-001i-0009000000-c16445787a057993951a            &lt;NA&gt;
-#&gt; 48 splash10-001i-0009000000-c16445787a057993951a            &lt;NA&gt;
-#&gt; 49 splash10-001i-0009000000-c16445787a057993951a            &lt;NA&gt;
-#&gt; 50 splash10-001i-0009000000-c16445787a057993951a            &lt;NA&gt;
-#&gt; 51 splash10-001i-0009000000-c16445787a057993951a            &lt;NA&gt;
-#&gt; 52 splash10-001i-0009000000-c16445787a057993951a            &lt;NA&gt;
-#&gt; 53 splash10-001i-0009000000-c16445787a057993951a            &lt;NA&gt;
-#&gt; 54 splash10-001i-0009000000-c16445787a057993951a            &lt;NA&gt;
-#&gt; 55 splash10-001i-0009000000-c16445787a057993951a            &lt;NA&gt;
-#&gt;                     instrument precursor_mz       mz   intensity spectrum_id
-#&gt; 1                         &lt;NA&gt;           NA 109.2000   3.4069998           1
-#&gt; 2                         &lt;NA&gt;           NA 124.2000  47.4945731           1
-#&gt; 3                         &lt;NA&gt;           NA 124.5000   3.0943658           1
-#&gt; 4                         &lt;NA&gt;           NA 170.1600 100.0000000           1
-#&gt; 5                         &lt;NA&gt;           NA 170.5200  13.2396932           1
-#&gt; 6                         &lt;NA&gt;           NA  83.1000   6.6850283           2
-#&gt; 7                         &lt;NA&gt;           NA  96.1200   4.3812987           2
-#&gt; 8                         &lt;NA&gt;           NA  97.1400   3.0221439           2
-#&gt; 9                         &lt;NA&gt;           NA 109.1400  16.7082568           2
-#&gt; 10                        &lt;NA&gt;           NA 124.0800 100.0000000           2
-#&gt; 11                        &lt;NA&gt;           NA 125.1000   4.5651409           2
-#&gt; 12                        &lt;NA&gt;           NA 170.1600  40.6434125           2
-#&gt; 13 API3000, Applied Biosystems           NA  44.1000   0.0511240           3
-#&gt; 14 API3000, Applied Biosystems           NA  57.9000   0.0065970           3
-#&gt; 15 API3000, Applied Biosystems           NA  61.4000   0.0120940           3
-#&gt; 16 API3000, Applied Biosystems           NA  71.2000   0.0016490           3
-#&gt; 17 API3000, Applied Biosystems           NA  73.8000   0.0032980           3
-#&gt; 18 API3000, Applied Biosystems           NA  78.3000   0.0060470           3
-#&gt; 19 API3000, Applied Biosystems           NA  78.8000   0.0049480           3
-#&gt; 20 API3000, Applied Biosystems           NA  83.1000   0.0153920           3
-#&gt; 21 API3000, Applied Biosystems           NA  88.2000   0.0038480           3
-#&gt; 22 API3000, Applied Biosystems           NA  98.8000   0.0087960           3
-#&gt; 23 API3000, Applied Biosystems           NA 101.7000   0.0038480           3
-#&gt; 24 API3000, Applied Biosystems           NA 102.8000   0.0021990           3
-#&gt; 25 API3000, Applied Biosystems           NA 106.8000   0.0109940           3
-#&gt; 26 API3000, Applied Biosystems           NA 111.6000   0.0038480           3
-#&gt; 27 API3000, Applied Biosystems           NA 115.1000   0.1016990           3
-#&gt; 28 API3000, Applied Biosystems           NA 116.9000   0.0555220           3
-#&gt; 29 API3000, Applied Biosystems           NA 118.1000   0.4254850           3
-#&gt; 30 API3000, Applied Biosystems           NA 121.0000   0.0082460           3
-#&gt; 31 API3000, Applied Biosystems           NA 124.9000   0.0087960           3
-#&gt; 32 API3000, Applied Biosystems           NA 126.7000   0.0032980           3
-#&gt; 33 API3000, Applied Biosystems           NA 127.2000   0.0115440           3
-#&gt; 34 API3000, Applied Biosystems           NA 128.9000   0.0038480           3
-#&gt; 35 API3000, Applied Biosystems           NA 129.9000   0.0164920           3
-#&gt; 36 API3000, Applied Biosystems           NA 131.9000   8.9527790           3
-#&gt; 37 API3000, Applied Biosystems           NA 139.0000   0.0241880           3
-#&gt; 38 API3000, Applied Biosystems           NA 140.4000   0.0115440           3
-#&gt; 39 API3000, Applied Biosystems           NA 141.2000   0.0588200           3
-#&gt; 40 API3000, Applied Biosystems           NA 142.9000   0.0571710           3
-#&gt; 41 API3000, Applied Biosystems           NA 144.1000  36.3817270           3
-#&gt; 42 API3000, Applied Biosystems           NA 157.6000   0.0357320           3
-#&gt; 43 API3000, Applied Biosystems           NA 158.0000   0.3848060           3
-#&gt; 44 API3000, Applied Biosystems           NA 175.2000 100.0000000           3
-#&gt; 45 API3000, Applied Biosystems           NA 193.2000   0.0087960           3
-#&gt; 46                        &lt;NA&gt;           NA 111.0815   0.5509733           4
-#&gt; 47                        &lt;NA&gt;           NA 249.2588   0.7330056           4
-#&gt; 48                        &lt;NA&gt;           NA 273.2588   0.5171464           4
-#&gt; 49                        &lt;NA&gt;           NA 341.2850   0.6527944           4
-#&gt; 50                        &lt;NA&gt;           NA 353.3214   0.8764642           4
-#&gt; 51                        &lt;NA&gt;           NA 355.3006   0.7582467           4
-#&gt; 52                        &lt;NA&gt;           NA 355.3370   0.4985064           4
-#&gt; 53                        &lt;NA&gt;           NA 365.3214  21.2824831           4
-#&gt; 54                        &lt;NA&gt;           NA 367.3006   2.4354476           4
-#&gt; 55                        &lt;NA&gt;           NA 383.3319  52.1357554           4</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'></span>
+<span class='r-in'><span class='co'>## Read a data.frame with collapsed columns mz and intensity columns</span></span>
+<span class='r-in'><span class='va'>dr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"xml/"</span>, package <span class='op'>=</span> <span class='st'>"CompoundDb"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>msms_spctra</span> <span class='op'>&lt;-</span> <span class='fu'><a href='msms_spectra_hmdb.html'>msms_spectra_hmdb</a></span><span class='op'>(</span><span class='va'>dr</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Going to process 4 xml files.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Postprocessing data ... </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> OK</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>msms_spctra</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   original_spectrum_id compound_id polarity collision_energy predicted</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1                    1 HMDB0000001        1               10     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2                    2 HMDB0000001        1               25     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4               370739 HMDB0006719        0               20      TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                          splash instrument_type</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 splash10-00di-0900000000-037d24a7d65676b7e356     Quattro_QQQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 splash10-00di-0900000000-03e99316bd6c098f5d11     Quattro_QQQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 splash10-001i-0009000000-c16445787a057993951a            &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                    instrument precursor_mz</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1                        &lt;NA&gt;           NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2                        &lt;NA&gt;           NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 API3000, Applied Biosystems           NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4                        &lt;NA&gt;           NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                                                                                                                                                                                            mz</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1                                                                                                                                                                                      109.20, 124.20, 124.50, 170.16, 170.52</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2                                                                                                                                                                         83.10, 96.12, 97.14, 109.14, 124.08, 125.10, 170.16</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 44.1, 57.9, 61.4, 71.2, 73.8, 78.3, 78.8, 83.1, 88.2, 98.8, 101.7, 102.8, 106.8, 111.6, 115.1, 116.9, 118.1, 121.0, 124.9, 126.7, 127.2, 128.9, 129.9, 131.9, 139.0, 140.4, 141.2, 142.9, 144.1, 157.6, 158.0, 175.2, 193.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4                                                                                                                          111.0815, 249.2588, 273.2588, 341.2850, 353.3214, 355.3006, 355.3370, 365.3214, 367.3006, 383.3319</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                                                                                                                                                                                                                                                                                                     intensity</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1                                                                                                                                                                                                                                                                                        3.407000, 47.494573, 3.094366, 100.000000, 13.239693</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2                                                                                                                                                                                                                                                                    6.685028, 4.381299, 3.022144, 16.708257, 100.000000, 4.565141, 40.643413</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 0.051124, 0.006597, 0.012094, 0.001649, 0.003298, 0.006047, 0.004948, 0.015392, 0.003848, 0.008796, 0.003848, 0.002199, 0.010994, 0.003848, 0.101699, 0.055522, 0.425485, 0.008246, 0.008796, 0.003298, 0.011544, 0.003848, 0.016492, 8.952779, 0.024188, 0.011544, 0.058820, 0.057171, 36.381727, 0.035732, 0.384806, 100.000000, 0.008796</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4                                                                                                                                                                                                                              0.5509733, 0.7330056, 0.5171464, 0.6527944, 0.8764642, 0.7582467, 0.4985064, 21.2824831, 2.4354476, 52.1357554</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   spectrum_id</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1           1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2           2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4           4</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Columns mz and intensity are "collased"</span></span>
+<span class='r-in'><span class='va'>msms_spctra</span><span class='op'>$</span><span class='va'>mz</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 109.20 124.20 124.50 170.16 170.52</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [[2]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1]  83.10  96.12  97.14 109.14 124.08 125.10 170.16</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [[3]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1]  44.1  57.9  61.4  71.2  73.8  78.3  78.8  83.1  88.2  98.8 101.7 102.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] 106.8 111.6 115.1 116.9 118.1 121.0 124.9 126.7 127.2 128.9 129.9 131.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [25] 139.0 140.4 141.2 142.9 144.1 157.6 158.0 175.2 193.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [[4]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 111.0815 249.2588 273.2588 341.2850 353.3214 355.3006 355.3370 365.3214</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] 367.3006 383.3319</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Expand the data.frame to get one row per m/z and intensity value</span></span>
+<span class='r-in'><span class='va'>spctra_exp</span> <span class='op'>&lt;-</span> <span class='fu'>expandMzIntensity</span><span class='op'>(</span><span class='va'>msms_spctra</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>spctra_exp</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    original_spectrum_id compound_id polarity collision_energy predicted</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1                     1 HMDB0000001        1               10     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2                     1 HMDB0000001        1               10     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3                     1 HMDB0000001        1               10     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4                     1 HMDB0000001        1               10     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5                     1 HMDB0000001        1               10     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6                     2 HMDB0000001        1               25     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7                     2 HMDB0000001        1               25     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8                     2 HMDB0000001        1               25     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9                     2 HMDB0000001        1               25     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10                    2 HMDB0000001        1               25     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11                    2 HMDB0000001        1               25     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 12                    2 HMDB0000001        1               25     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 13               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 14               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 15               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 16               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 17               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 18               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 19               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 20               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 21               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 22               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 23               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 24               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 25               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 26               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 27               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 28               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 29               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 30               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 31               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 32               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 33               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 34               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 35               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 36               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 37               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 38               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 39               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 40               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 41               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 42               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 43               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 44               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 45               446575 HMDB0004370        1               NA     FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 46               370739 HMDB0006719        0               20      TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 47               370739 HMDB0006719        0               20      TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 48               370739 HMDB0006719        0               20      TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 49               370739 HMDB0006719        0               20      TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 50               370739 HMDB0006719        0               20      TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 51               370739 HMDB0006719        0               20      TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 52               370739 HMDB0006719        0               20      TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 53               370739 HMDB0006719        0               20      TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 54               370739 HMDB0006719        0               20      TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 55               370739 HMDB0006719        0               20      TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                           splash instrument_type</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1  splash10-00di-0900000000-037d24a7d65676b7e356     Quattro_QQQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2  splash10-00di-0900000000-037d24a7d65676b7e356     Quattro_QQQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3  splash10-00di-0900000000-037d24a7d65676b7e356     Quattro_QQQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4  splash10-00di-0900000000-037d24a7d65676b7e356     Quattro_QQQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5  splash10-00di-0900000000-037d24a7d65676b7e356     Quattro_QQQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6  splash10-00di-0900000000-03e99316bd6c098f5d11     Quattro_QQQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7  splash10-00di-0900000000-03e99316bd6c098f5d11     Quattro_QQQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8  splash10-00di-0900000000-03e99316bd6c098f5d11     Quattro_QQQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9  splash10-00di-0900000000-03e99316bd6c098f5d11     Quattro_QQQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10 splash10-00di-0900000000-03e99316bd6c098f5d11     Quattro_QQQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11 splash10-00di-0900000000-03e99316bd6c098f5d11     Quattro_QQQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 12 splash10-00di-0900000000-03e99316bd6c098f5d11     Quattro_QQQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 13 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 14 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 15 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 16 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 17 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 18 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 19 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 20 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 21 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 22 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 23 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 24 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 25 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 26 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 27 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 28 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 29 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 30 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 31 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 32 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 33 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 34 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 35 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 36 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 37 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 38 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 39 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 40 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 41 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 42 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 43 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 44 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 45 splash10-004i-0900000000-9f3d3580f44ff890d948       LC-ESI-QQ</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 46 splash10-001i-0009000000-c16445787a057993951a            &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 47 splash10-001i-0009000000-c16445787a057993951a            &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 48 splash10-001i-0009000000-c16445787a057993951a            &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 49 splash10-001i-0009000000-c16445787a057993951a            &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 50 splash10-001i-0009000000-c16445787a057993951a            &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 51 splash10-001i-0009000000-c16445787a057993951a            &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 52 splash10-001i-0009000000-c16445787a057993951a            &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 53 splash10-001i-0009000000-c16445787a057993951a            &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 54 splash10-001i-0009000000-c16445787a057993951a            &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 55 splash10-001i-0009000000-c16445787a057993951a            &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                     instrument precursor_mz       mz   intensity spectrum_id</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1                         &lt;NA&gt;           NA 109.2000   3.4069998           1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2                         &lt;NA&gt;           NA 124.2000  47.4945731           1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3                         &lt;NA&gt;           NA 124.5000   3.0943658           1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4                         &lt;NA&gt;           NA 170.1600 100.0000000           1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5                         &lt;NA&gt;           NA 170.5200  13.2396932           1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6                         &lt;NA&gt;           NA  83.1000   6.6850283           2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7                         &lt;NA&gt;           NA  96.1200   4.3812987           2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8                         &lt;NA&gt;           NA  97.1400   3.0221439           2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9                         &lt;NA&gt;           NA 109.1400  16.7082568           2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10                        &lt;NA&gt;           NA 124.0800 100.0000000           2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11                        &lt;NA&gt;           NA 125.1000   4.5651409           2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 12                        &lt;NA&gt;           NA 170.1600  40.6434125           2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 13 API3000, Applied Biosystems           NA  44.1000   0.0511240           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 14 API3000, Applied Biosystems           NA  57.9000   0.0065970           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 15 API3000, Applied Biosystems           NA  61.4000   0.0120940           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 16 API3000, Applied Biosystems           NA  71.2000   0.0016490           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 17 API3000, Applied Biosystems           NA  73.8000   0.0032980           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 18 API3000, Applied Biosystems           NA  78.3000   0.0060470           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 19 API3000, Applied Biosystems           NA  78.8000   0.0049480           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 20 API3000, Applied Biosystems           NA  83.1000   0.0153920           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 21 API3000, Applied Biosystems           NA  88.2000   0.0038480           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 22 API3000, Applied Biosystems           NA  98.8000   0.0087960           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 23 API3000, Applied Biosystems           NA 101.7000   0.0038480           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 24 API3000, Applied Biosystems           NA 102.8000   0.0021990           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 25 API3000, Applied Biosystems           NA 106.8000   0.0109940           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 26 API3000, Applied Biosystems           NA 111.6000   0.0038480           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 27 API3000, Applied Biosystems           NA 115.1000   0.1016990           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 28 API3000, Applied Biosystems           NA 116.9000   0.0555220           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 29 API3000, Applied Biosystems           NA 118.1000   0.4254850           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 30 API3000, Applied Biosystems           NA 121.0000   0.0082460           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 31 API3000, Applied Biosystems           NA 124.9000   0.0087960           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 32 API3000, Applied Biosystems           NA 126.7000   0.0032980           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 33 API3000, Applied Biosystems           NA 127.2000   0.0115440           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 34 API3000, Applied Biosystems           NA 128.9000   0.0038480           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 35 API3000, Applied Biosystems           NA 129.9000   0.0164920           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 36 API3000, Applied Biosystems           NA 131.9000   8.9527790           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 37 API3000, Applied Biosystems           NA 139.0000   0.0241880           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 38 API3000, Applied Biosystems           NA 140.4000   0.0115440           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 39 API3000, Applied Biosystems           NA 141.2000   0.0588200           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 40 API3000, Applied Biosystems           NA 142.9000   0.0571710           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 41 API3000, Applied Biosystems           NA 144.1000  36.3817270           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 42 API3000, Applied Biosystems           NA 157.6000   0.0357320           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 43 API3000, Applied Biosystems           NA 158.0000   0.3848060           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 44 API3000, Applied Biosystems           NA 175.2000 100.0000000           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 45 API3000, Applied Biosystems           NA 193.2000   0.0087960           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 46                        &lt;NA&gt;           NA 111.0815   0.5509733           4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 47                        &lt;NA&gt;           NA 249.2588   0.7330056           4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 48                        &lt;NA&gt;           NA 273.2588   0.5171464           4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 49                        &lt;NA&gt;           NA 341.2850   0.6527944           4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 50                        &lt;NA&gt;           NA 353.3214   0.8764642           4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 51                        &lt;NA&gt;           NA 355.3006   0.7582467           4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 52                        &lt;NA&gt;           NA 355.3370   0.4985064           4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 53                        &lt;NA&gt;           NA 365.3214  21.2824831           4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 54                        &lt;NA&gt;           NA 367.3006   2.4354476           4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 55                        &lt;NA&gt;           NA 383.3319  52.1357554           4</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -406,7 +412,7 @@ description for details.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>

@@ -78,7 +78,7 @@
 
       
 
-      </header><script src="create-compounddb_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
+      </header><script src="create-compounddb_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Creating CompoundDb annotation resources</h1>
@@ -102,16 +102,16 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2021-03-22 16:48:50<br><strong>Compiled</strong>: Mon Mar 22 17:14:27 2021</p>
+</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2021-07-01 12:29:34<br><strong>Compiled</strong>: Thu Jul 1 12:43:32 2021</p>
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h1>
+<a href="#introduction" class="anchor" aria-hidden="true"></a>Introduction</h1>
 <p>Chemical compound annotation and information can be retrieved from a variety of sources including <a href="http://www.hmdb.ca" class="external-link">HMDB</a>, <a href="http://www.lipidmaps.org" class="external-link">LipidMaps</a> or <a href="https://www.ebi.ac.uk/chebi" class="external-link">ChEBI</a>. The <code>CompoundDb</code> package provides functionality to extract data relevant for (chromatographic) peak annotations in metabolomics/lipidomics experiments from these sources and to store it into a common format (i.e. an <code>CompDb</code> object/database). This vignette describes how such <code>CompDb</code> objects can be created exemplified with package-internal test files that represent data subsets from some annotation resources.</p>
 <p>The R object to represent the compound annotation is the <code>CompDb</code> object. Each object (respectively its database) is supposed to contain and provide annotations from a single source (e.g. HMDB or LipidMaps) but it is also possible to create cross-source databases too.</p>
 </div>
 <div id="create-a-compdb-object-for-hmdb" class="section level1">
 <h1 class="hasAnchor">
-<a href="#create-a-compdb-object-for-hmdb" class="anchor"></a>Create a <code>CompDb</code> object for HMDB</h1>
+<a href="#create-a-compdb-object-for-hmdb" class="anchor" aria-hidden="true"></a>Create a <code>CompDb</code> object for HMDB</h1>
 <p>The <code>CompDb</code> package provides the <code>compound_tbl_sdf</code> and the <code>compound_tbl_lipidblast</code> functions to extract relevant compound annotation from files in SDF (structure-data file) format or in the json files from LipidBlast (<a href="http://mona.fiehnlab.ucdavis.edu/downloads" class="external-link uri">http://mona.fiehnlab.ucdavis.edu/downloads</a>). <code>CompoundDb</code> allows to process SDF files from:</p>
 <ul>
 <li>Human Metabolome Database (HMDB), <a href="http://www.hmdb.ca" class="external-link uri">http://www.hmdb.ca</a>
@@ -212,7 +212,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ## [1] "compound_id" "synonym"</code></pre>
 <p>Below we extract only selected columns from the <em>compounds</em> table.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">compounds</span><span class="op">(</span><span class="va">cmpdb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"formula"</span>, <span class="st">"exactmass"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cmpdb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"formula"</span>, <span class="st">"exactmass"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>##                        name   formula exactmass
 ## 1 (R)-3-Hydroxybutyric acid    C4H8O3  104.0473
 ## 2        1,3-Diaminopropane   C3H10N2   74.0844
@@ -249,7 +249,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ##  organism: Hsapiens</code></pre>
 <p>The available <em>spectra variables</em> for the <code>Spectra</code> object can be retrieved with <code>spectraVariables</code>:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">spectraVariables</span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">spectraVariables</a></span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1] "msLevel"                 "rtime"                  
 ##  [3] "acquisitionNum"          "scanIndex"              
 ##  [5] "dataStorage"             "dataOrigin"             
@@ -264,7 +264,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ## [23] "instrument_type"         "instrument"             
 ## [25] "spectrum_id"             "msms_mz_range_min"      
 ## [27] "msms_mz_range_max"</code></pre>
-<p>Individual spectra variables can be accessed with the <code><a href="https://rdrr.io/r/base/Extract.html" class="external-link">$</a></code> operator:</p>
+<p>Individual spectra variables can be accessed with the <code>$</code> operator:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sps</span><span class="op">$</span><span class="va">collision_energy</span></code></pre></div>
 <pre><code>## [1] "10" "25" NA   "20"</code></pre>
@@ -276,7 +276,7 @@ mz(sps)[[2]]</code></pre>
 <p>Note that it is also possible to retrieve specific spectra, e.g. for a provided compound, or add compound annotations to the <code>Spectra</code> object. Below we use the filter expression <code>~ compound_id == "HMDB0000001"</code>to get only MS/MS spectra for the specified compound. In addition we ask for the <code>"name"</code> and <code>"inchikey"</code> of the compound.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">cmpdb</span>, filter <span class="op">=</span> <span class="op">~</span> <span class="va">compound_id</span> <span class="op">==</span> <span class="st">"HMDB0000001"</span>,
-               columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="../reference/CompDb.html">tables</a></span><span class="op">(</span><span class="va">cmpdb</span><span class="op">)</span><span class="op">$</span><span class="va">msms_spectrum</span>, <span class="st">"name"</span>,
+               columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="../reference/CompDb.html">tables</a></span><span class="op">(</span><span class="va">cmpdb</span><span class="op">)</span><span class="op">$</span><span class="va">msms_spectrum</span>, <span class="st">"name"</span>,
                            <span class="st">"inchikey"</span><span class="op">)</span><span class="op">)</span>
 <span class="va">sps</span></code></pre></div>
 <pre><code>## MSn data (Spectra) with 2 spectra in a MsBackendCompDb backend:
@@ -290,7 +290,7 @@ mz(sps)[[2]]</code></pre>
 ##  organism: Hsapiens</code></pre>
 <p>The available spectra variables:</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">spectraVariables</span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">spectraVariables</a></span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1] "msLevel"                 "rtime"                  
 ##  [3] "acquisitionNum"          "scanIndex"              
 ##  [5] "dataStorage"             "dataOrigin"             
@@ -315,13 +315,13 @@ mz(sps)[[2]]</code></pre>
 <code class="sourceCode R"><span class="fu"><a href="../reference/createCompDb.html">createCompDbPackage</a></span><span class="op">(</span>
     <span class="va">db_file</span>, version <span class="op">=</span> <span class="st">"0.0.1"</span>, author <span class="op">=</span> <span class="st">"J Rainer"</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,
     maintainer <span class="op">=</span> <span class="st">"Johannes Rainer &lt;johannes.rainer@eurac.edu&gt;"</span><span class="op">)</span></code></pre></div>
-<pre><code>## Creating package in /tmp/Rtmp0z81qX/CompDb.Hsapiens.HMDB.4.0</code></pre>
+<pre><code>## Creating package in /tmp/RtmpRp15aX/CompDb.Hsapiens.HMDB.4.0</code></pre>
 <p>The function creates a folder (in our case in a temporary directory) that can be build and installed with <code>R CMD build</code> and <code>R CMD INSTALL</code>.</p>
 <p>Special care should also be put on the license of the package that can be passed with the <code>license</code> parameter. The license of the package and how and if the package can be distributed will depend also on the license of the originating resource.</p>
 </div>
 <div id="create-a-compdb-object-for-mona" class="section level1">
 <h1 class="hasAnchor">
-<a href="#create-a-compdb-object-for-mona" class="anchor"></a>Create a <code>CompDb</code> object for MoNa</h1>
+<a href="#create-a-compdb-object-for-mona" class="anchor" aria-hidden="true"></a>Create a <code>CompDb</code> object for MoNa</h1>
 <p>MoNa (Massbank of North America) provides a large SDF file with all spectra which can be used to create a <code>CompDb</code> object with compound information and MS/MS spectra. Note however that MoNa is organized by spectra and the annotation of the compounds is not consistent and normalized. Spectra from the same compound can have their own compound identified and data that e.g. can differ in their chemical formula, precision of their exact mass or other fields.</p>
 <p>Similar to the example above, compound annotations can be imported with the <code>compound_tbl_sdf</code> function while spectrum data can be imported with <code>msms_spectra_mona</code>. In the example below we use however the <code>import_mona_sdf</code> that wraps both functions to reads both compound and spectrum data from a SDF file without having to import the file twice. As an example we use a small subset from a MoNa SDF file that contains only 7 spectra.</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
@@ -342,7 +342,7 @@ mz(sps)[[2]]</code></pre>
 <p>We can now load and use this database, e.g. by extracting all compounds as shown below.</p>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mona</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/CompDb.html">CompDb</a></span><span class="op">(</span><span class="va">mona_db_file</span><span class="op">)</span>
-<span class="fu">compounds</span><span class="op">(</span><span class="va">mona</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">mona</span><span class="op">)</span></code></pre></div>
 <pre><code>##                   name
 ## 1 Sulfachlorpyridazine
 ## 2         Sulfaclozine
@@ -365,8 +365,8 @@ mz(sps)[[2]]</code></pre>
 </div>
 <div id="session-information" class="section level1">
 <h1 class="hasAnchor">
-<a href="#session-information" class="anchor"></a>Session information</h1>
-<pre><code>## R Under development (unstable) (2021-03-18 r80099)
+<a href="#session-information" class="anchor" aria-hidden="true"></a>Session information</h1>
+<pre><code>## R version 4.1.0 (2021-05-18)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 20.04.2 LTS
 ## 
@@ -382,44 +382,44 @@ mz(sps)[[2]]</code></pre>
 ## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
 ## 
 ## attached base packages:
-## [1] parallel  stats4    stats     graphics  grDevices utils     datasets 
-## [8] methods   base     
+## [1] stats4    stats     graphics  grDevices utils     datasets  methods  
+## [8] base     
 ## 
 ## other attached packages:
-## [1] Spectra_1.1.15          ProtGenerics_1.23.7     BiocParallel_1.25.5    
-## [4] CompoundDb_0.8.0        S4Vectors_0.29.9        BiocGenerics_0.37.1    
-## [7] AnnotationFilter_1.15.0 BiocStyle_2.19.1       
+## [1] Spectra_1.3.1           ProtGenerics_1.25.0     BiocParallel_1.27.0    
+## [4] CompoundDb_0.8.0        S4Vectors_0.31.0        BiocGenerics_0.39.1    
+## [7] AnnotationFilter_1.17.0 BiocStyle_2.21.3       
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] bitops_1.0-6           fs_1.5.0               bit64_4.0.5           
-##  [4] rprojroot_2.0.2        GenomeInfoDb_1.27.8    tools_4.1.0           
-##  [7] bslib_0.2.4            utf8_1.2.1             R6_2.5.0              
-## [10] DT_0.17                DBI_1.1.1              lazyeval_0.2.2        
-## [13] colorspace_2.0-0       tidyselect_1.1.0       gridExtra_2.3         
-## [16] bit_4.0.4              compiler_4.1.0         textshaping_0.3.3     
-## [19] cli_2.3.1              Biobase_2.51.0         xml2_1.3.2            
-## [22] desc_1.3.0             bookdown_0.21          sass_0.3.1            
-## [25] scales_1.1.1           pkgdown_1.6.1.9000     systemfonts_1.0.1     
-## [28] stringr_1.4.0          digest_0.6.27          rmarkdown_2.7         
-## [31] XVector_0.31.1         base64enc_0.1-3        pkgconfig_2.0.3       
-## [34] htmltools_0.5.1.1      MetaboCoreUtils_0.99.1 dbplyr_2.1.0          
-## [37] fastmap_1.1.0          htmlwidgets_1.5.3      rlang_0.4.10          
-## [40] rstudioapi_0.13        RSQLite_2.2.4          jquerylib_0.1.3       
-## [43] generics_0.1.0         jsonlite_1.7.2         dplyr_1.0.5           
-## [46] RCurl_1.98-1.3         magrittr_2.0.1         GenomeInfoDbData_1.2.4
-## [49] Rcpp_1.0.6             munsell_0.5.0          fansi_0.4.2           
-## [52] MsCoreUtils_1.3.3      lifecycle_1.0.0        stringi_1.5.3         
-## [55] yaml_2.2.1             MASS_7.3-53.1          zlibbioc_1.37.0       
-## [58] grid_4.1.0             blob_1.2.1             crayon_1.4.1          
-## [61] knitr_1.31             ps_1.6.0               pillar_1.5.1          
-## [64] GenomicRanges_1.43.3   rjson_0.2.20           ChemmineR_3.43.3      
-## [67] glue_1.4.2             evaluate_0.14          BiocManager_1.30.10   
-## [70] png_0.1-7              vctrs_0.3.6            gtable_0.3.0          
-## [73] purrr_0.3.4            clue_0.3-58            assertthat_0.2.1      
-## [76] cachem_1.0.4           ggplot2_3.3.3          xfun_0.22             
-## [79] rsvg_2.1               ragg_1.1.2             tibble_3.1.0          
-## [82] memoise_2.0.0          IRanges_2.25.6         cluster_2.1.1         
-## [85] ellipsis_0.3.1</code></pre>
+##  [1] bitops_1.0-7           fs_1.5.0               bit64_4.0.5           
+##  [4] rprojroot_2.0.2        GenomeInfoDb_1.29.2    tools_4.1.0           
+##  [7] bslib_0.2.5.1          utf8_1.2.1             R6_2.5.0              
+## [10] DT_0.18                DBI_1.1.1              lazyeval_0.2.2        
+## [13] colorspace_2.0-2       tidyselect_1.1.1       gridExtra_2.3         
+## [16] bit_4.0.4              compiler_4.1.0         textshaping_0.3.5     
+## [19] cli_2.5.0              Biobase_2.53.0         xml2_1.3.2            
+## [22] desc_1.3.0             bookdown_0.22          sass_0.4.0            
+## [25] scales_1.1.1           pkgdown_1.6.1.9001     systemfonts_1.0.2     
+## [28] stringr_1.4.0          digest_0.6.27          rmarkdown_2.9         
+## [31] XVector_0.33.0         base64enc_0.1-3        pkgconfig_2.0.3       
+## [34] htmltools_0.5.1.1      MetaboCoreUtils_1.1.0  dbplyr_2.1.1          
+## [37] fastmap_1.1.0          htmlwidgets_1.5.3      rlang_0.4.11          
+## [40] rstudioapi_0.13        RSQLite_2.2.7          jquerylib_0.1.4       
+## [43] generics_0.1.0         jsonlite_1.7.2         dplyr_1.0.7           
+## [46] RCurl_1.98-1.3         magrittr_2.0.1         GenomeInfoDbData_1.2.6
+## [49] Rcpp_1.0.6             munsell_0.5.0          fansi_0.5.0           
+## [52] MsCoreUtils_1.5.0      lifecycle_1.0.0        stringi_1.6.2         
+## [55] yaml_2.2.1             MASS_7.3-54            zlibbioc_1.39.0       
+## [58] grid_4.1.0             blob_1.2.1             parallel_4.1.0        
+## [61] crayon_1.4.1           knitr_1.33             ps_1.6.0              
+## [64] pillar_1.6.1           GenomicRanges_1.45.0   rjson_0.2.20          
+## [67] ChemmineR_3.45.0       glue_1.4.2             evaluate_0.14         
+## [70] BiocManager_1.30.16    png_0.1-7              vctrs_0.3.8           
+## [73] gtable_0.3.0           purrr_0.3.4            clue_0.3-59           
+## [76] assertthat_0.2.1       cachem_1.0.5           ggplot2_3.3.5         
+## [79] xfun_0.24              rsvg_2.1.2             ragg_1.1.3            
+## [82] tibble_3.1.2           memoise_2.0.0          IRanges_2.27.0        
+## [85] cluster_2.1.2          ellipsis_0.3.2</code></pre>
 </div>
   </div>
 
@@ -440,7 +440,7 @@ mz(sps)[[2]]</code></pre>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
 </div>
 
       </footer>

@@ -151,18 +151,18 @@ spectrum. Columns <code>"mz"</code> and <code>"intensity"</code> are of type <co
 <code>collapsed = TRUE</code> and <code>numeric</code> for <code>collapsed = FALSE</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>msms_spectra_mona</span><span class='op'>(</span><span class='va'>x</span>, collapsed <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>msms_spectra_mona</span><span class='op'>(</span><span class='va'>x</span>, collapsed <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p><code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>: with the path to directory containing the xml files.</p></td>
+      <td><p><code>character(1)</code>: with the path to directory containing the xml files.</p></td>
     </tr>
     <tr>
       <th>collapsed</th>
-      <td><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> whether the returned <code>data.frame</code> should be
+      <td><p><code>logical(1)</code> whether the returned <code>data.frame</code> should be
 <em>collapsed</em> or <em>expanded</em>. See description for more details.</p></td>
     </tr>
     </table>
@@ -185,6 +185,8 @@ provided.</p></li>
 spectrum was measured.</p></li>
 <li><p>instrument (<code>character</code>): the MS instrument.</p></li>
 <li><p>precursor_mz (<code>numeric</code>): precursor m/z.</p></li>
+<li><p>adduct (<code>character</code>): ion formed from the precursor ion.</p></li>
+<li><p>ms_level (<code>integer</code>): stage of the sequential mass spectrometry (MSn).</p></li>
 <li><p>mz (<code>numeric</code> or <code>list</code> of <code>numeric</code>): m/z values of the spectrum.</p></li>
 <li><p>intensity (<code>numeric</code> or <code>list</code> of <code>numeric</code>): intensity of the spectrum.</p></li>
 </ul>
@@ -207,587 +209,613 @@ compound annotation and spectrum data.</p>
     <p>Johannes Rainer</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'>## Define the test file containing the data</span>
-<span class='va'>fl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"sdf/MoNa_export-All_Spectra_sub.sdf.gz"</span>,
-    package <span class='op'>=</span> <span class='st'>"CompoundDb"</span><span class='op'>)</span>
-<span class='co'>## Import spectrum data from the SDF file with a subset of the MoNa data</span>
-<span class='fu'>msms_spectra_mona</span><span class='op'>(</span><span class='va'>fl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Reading SDF file ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Extracting 7 spectra ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt;      original_spectrum_id compound_id polarity  collision_energy predicted
-#&gt; CMP1             AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA
-#&gt; CMP2             AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA
-#&gt; CMP3             AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; CMP4             AU100802        CMP4        1             20 eV        NA
-#&gt; CMP5             AU100803        CMP5        1             30 eV        NA
-#&gt; CMP6             AU100804        CMP6        1             40 eV        NA
-#&gt; CMP7             AU100805        CMP7        1             50 eV        NA
-#&gt;      splash instrument_type          instrument precursor_mz spectrum_id
-#&gt; CMP1   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           1
-#&gt; CMP2   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           2
-#&gt; CMP3   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; CMP4   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           4
-#&gt; CMP5   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           5
-#&gt; CMP6   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           6
-#&gt; CMP7   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           7
-#&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                              mz
-#&gt; CMP1                                                                                                                                                                                           53.0389, 54.0333, 55.0178, 60.0552, 65.0382, 66.0423, 68.0490, 78.0333, 79.0177, 92.0498, 93.0532, 96.0443, 108.0457, 109.0483, 110.0609, 120.0562, 130.0172, 132.0138, 156.0118, 157.0150, 158.0080, 174.0228, 184.0757, 191.9647, 219.0438, 285.0221, 287.0184
-#&gt; CMP2                                                                                                                                                                                           53.0389, 54.0333, 55.0178, 60.0552, 65.0382, 66.0423, 68.0490, 78.0333, 79.0177, 92.0498, 93.0532, 96.0443, 108.0457, 109.0483, 110.0609, 120.0562, 130.0172, 132.0138, 156.0118, 157.0150, 158.0080, 174.0228, 184.0757, 191.9647, 219.0438, 285.0221, 287.0184
-#&gt; CMP3 53.0379, 54.0335, 55.0176, 65.0379, 68.0491, 69.0329, 78.0334, 79.0178, 80.0489, 81.0444, 82.0284, 92.0499, 93.0558, 94.0647, 95.0608, 96.0443, 108.0461, 109.0497, 110.0616, 111.0651, 120.0565, 122.0716, 123.0794, 124.0872, 125.0905, 126.0663, 127.0697, 156.0117, 157.0148, 158.0072, 174.0224, 186.0334, 187.0368, 188.0128, 188.0291, 204.0445, 205.0473, 206.0406, 213.1141, 214.1167, 215.0927, 215.1291, 279.0925, 280.0953, 281.0725, 282.0742
-#&gt; CMP4                                                                                                                                                                                                                                                                                             122.0703, 124.0861, 125.0892, 149.0227, 156.0104, 157.0129, 158.0061, 174.0209, 186.0321, 187.0346, 188.0285, 204.0431, 213.1128, 214.1159, 215.1281, 279.0909
-#&gt; CMP5                                                                                                                                                                                                                                                                                   108.0441, 122.0704, 123.0781, 124.0861, 125.0889, 149.0221, 156.0106, 158.0064, 186.0323, 187.0355, 196.0858, 204.0429, 205.0455, 213.1123, 214.1155, 215.1283, 279.0903
-#&gt; CMP6                                                                                                                                                                                                                                 108.0445, 122.0702, 123.0772, 124.0862, 125.0890, 134.0701, 149.0224, 154.0624, 155.0685, 156.0104, 157.0126, 172.0852, 186.0324, 196.0852, 197.0903, 198.0888, 204.0427, 205.0463, 206.0375, 212.1036, 213.1121, 214.1152
-#&gt; CMP7                                                                                                                                                                                                             108.0453, 122.0703, 123.0780, 124.0859, 125.0891, 149.0231, 154.0639, 155.0605, 155.0714, 156.0100, 169.0745, 171.0781, 172.0869, 181.0634, 186.1022, 195.0786, 196.0859, 197.0856, 198.0886, 199.0904, 204.0438, 212.1048, 213.1122, 214.1153
-#&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  intensity
-#&gt; CMP1                                                                                                                                                                                                       0.594951, 0.566811, 0.522592, 0.542692, 3.822962, 0.506512, 7.963499, 0.727609, 1.057244, 7.702203, 0.731629, 0.623091, 12.172375, 1.181862, 4.904325, 3.095353, 5.656054, 1.515517, 100.000000, 8.884065, 3.891301, 0.751729, 0.619071, 0.590931, 0.723589, 3.694324, 0.840167
-#&gt; CMP2                                                                                                                                                                                                       0.594951, 0.566811, 0.522592, 0.542692, 3.822962, 0.506512, 7.963499, 0.727609, 1.057244, 7.702203, 0.731629, 0.623091, 12.172375, 1.181862, 4.904325, 3.095353, 5.656054, 1.515517, 100.000000, 8.884065, 3.891301, 0.751729, 0.619071, 0.590931, 0.723589, 3.694324, 0.840167
-#&gt; CMP3 0.894101, 0.661867, 0.598003, 8.717487, 13.013818, 1.640153, 1.477589, 2.261379, 1.431143, 1.950766, 0.606712, 30.585230, 2.844868, 1.686600, 3.027752, 1.300511, 33.946818, 2.360079, 6.107757, 0.519624, 1.962378, 6.078727, 2.246865, 71.211681, 6.398049, 17.911054, 0.595100, 82.855318, 5.739085, 1.544357, 1.106015, 11.263353, 0.775081, 1.637250, 0.534138, 100.000000, 6.972829, 3.358686, 18.259405, 2.241059, 3.071296, 1.320831, 61.483976, 8.438806, 7.837901, 1.222132
-#&gt; CMP4                                                                                                                                                                                                                                                                                                                  0.766124, 36.693459, 1.930893, 0.828453, 53.249536, 2.999571, 1.778967, 0.627183, 22.621444, 1.719235, 0.646661, 100.000000, 8.749399, 1.407591, 0.658348, 80.894937
-#&gt; CMP5                                                                                                                                                                                                                                                                                                        1.285794, 6.630847, 2.170942, 100.000000, 6.093546, 1.388285, 50.043481, 1.615007, 15.118951, 1.323064, 1.220573, 70.964035, 4.931983, 22.610100, 3.003292, 0.804398, 3.580968
-#&gt; CMP6                                                                                                                                                                                                                                                       1.153673, 5.323878, 2.202467, 100.000000, 6.847126, 0.714179, 1.747990, 0.644259, 0.624282, 10.373071, 0.933926, 0.564351, 3.845578, 5.209010, 1.378415, 2.362283, 15.422264, 0.869001, 0.759127, 0.659242, 18.109174, 2.577036
-#&gt; CMP7                                                                                                                                                                                                                                      1.770916, 2.803951, 2.792598, 100.000000, 7.901010, 1.623340, 2.111477, 2.463390, 2.690430, 2.713134, 1.475763, 1.555228, 1.271427, 0.930866, 1.033034, 1.555228, 7.628562, 3.871041, 5.903054, 0.998978, 2.622318, 2.327165, 9.342718, 1.725508</div><div class='input'>
-<span class='co'>## Import the data as an *expanded* data frame, i.e. with a row for each</span>
-<span class='co'>## single m/z (intensity) value.</span>
-<span class='fu'>msms_spectra_mona</span><span class='op'>(</span><span class='va'>fl</span>, collapsed <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Reading SDF file ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt; <span class='message'>Extracting 7 spectra ... </span></div><div class='output co'>#&gt; <span class='message'>OK</span></div><div class='output co'>#&gt;     original_spectrum_id compound_id polarity  collision_energy predicted
-#&gt; 1               AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA
-#&gt; 2               AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA
-#&gt; 3               AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA
-#&gt; 4               AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA
-#&gt; 5               AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA
-#&gt; 6               AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA
-#&gt; 7               AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA
-#&gt; 8               AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA
-#&gt; 9               AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA
-#&gt; 10              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA
-#&gt; 11              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA
-#&gt; 12              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA
-#&gt; 13              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA
-#&gt; 14              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA
-#&gt; 15              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA
-#&gt; 16              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA
-#&gt; 17              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA
-#&gt; 18              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA
-#&gt; 19              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA
-#&gt; 20              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA
-#&gt; 21              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA
-#&gt; 22              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA
-#&gt; 23              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA
-#&gt; 24              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA
-#&gt; 25              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA
-#&gt; 26              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA
-#&gt; 27              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA
-#&gt; 28              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA
-#&gt; 29              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA
-#&gt; 30              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA
-#&gt; 31              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA
-#&gt; 32              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA
-#&gt; 33              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA
-#&gt; 34              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA
-#&gt; 35              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA
-#&gt; 36              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA
-#&gt; 37              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA
-#&gt; 38              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA
-#&gt; 39              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA
-#&gt; 40              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA
-#&gt; 41              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA
-#&gt; 42              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA
-#&gt; 43              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA
-#&gt; 44              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA
-#&gt; 45              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA
-#&gt; 46              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA
-#&gt; 47              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA
-#&gt; 48              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA
-#&gt; 49              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA
-#&gt; 50              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA
-#&gt; 51              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA
-#&gt; 52              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA
-#&gt; 53              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA
-#&gt; 54              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA
-#&gt; 55              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 56              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 57              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 58              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 59              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 60              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 61              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 62              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 63              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 64              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 65              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 66              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 67              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 68              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 69              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 70              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 71              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 72              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 73              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 74              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 75              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 76              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 77              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 78              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 79              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 80              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 81              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 82              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 83              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 84              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 85              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 86              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 87              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 88              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 89              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 90              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 91              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 92              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 93              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 94              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 95              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 96              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 97              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 98              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 99              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 100             AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA
-#&gt; 101             AU100802        CMP4        1             20 eV        NA
-#&gt; 102             AU100802        CMP4        1             20 eV        NA
-#&gt; 103             AU100802        CMP4        1             20 eV        NA
-#&gt; 104             AU100802        CMP4        1             20 eV        NA
-#&gt; 105             AU100802        CMP4        1             20 eV        NA
-#&gt; 106             AU100802        CMP4        1             20 eV        NA
-#&gt; 107             AU100802        CMP4        1             20 eV        NA
-#&gt; 108             AU100802        CMP4        1             20 eV        NA
-#&gt; 109             AU100802        CMP4        1             20 eV        NA
-#&gt; 110             AU100802        CMP4        1             20 eV        NA
-#&gt; 111             AU100802        CMP4        1             20 eV        NA
-#&gt; 112             AU100802        CMP4        1             20 eV        NA
-#&gt; 113             AU100802        CMP4        1             20 eV        NA
-#&gt; 114             AU100802        CMP4        1             20 eV        NA
-#&gt; 115             AU100802        CMP4        1             20 eV        NA
-#&gt; 116             AU100802        CMP4        1             20 eV        NA
-#&gt; 117             AU100803        CMP5        1             30 eV        NA
-#&gt; 118             AU100803        CMP5        1             30 eV        NA
-#&gt; 119             AU100803        CMP5        1             30 eV        NA
-#&gt; 120             AU100803        CMP5        1             30 eV        NA
-#&gt; 121             AU100803        CMP5        1             30 eV        NA
-#&gt; 122             AU100803        CMP5        1             30 eV        NA
-#&gt; 123             AU100803        CMP5        1             30 eV        NA
-#&gt; 124             AU100803        CMP5        1             30 eV        NA
-#&gt; 125             AU100803        CMP5        1             30 eV        NA
-#&gt; 126             AU100803        CMP5        1             30 eV        NA
-#&gt; 127             AU100803        CMP5        1             30 eV        NA
-#&gt; 128             AU100803        CMP5        1             30 eV        NA
-#&gt; 129             AU100803        CMP5        1             30 eV        NA
-#&gt; 130             AU100803        CMP5        1             30 eV        NA
-#&gt; 131             AU100803        CMP5        1             30 eV        NA
-#&gt; 132             AU100803        CMP5        1             30 eV        NA
-#&gt; 133             AU100803        CMP5        1             30 eV        NA
-#&gt; 134             AU100804        CMP6        1             40 eV        NA
-#&gt; 135             AU100804        CMP6        1             40 eV        NA
-#&gt; 136             AU100804        CMP6        1             40 eV        NA
-#&gt; 137             AU100804        CMP6        1             40 eV        NA
-#&gt; 138             AU100804        CMP6        1             40 eV        NA
-#&gt; 139             AU100804        CMP6        1             40 eV        NA
-#&gt; 140             AU100804        CMP6        1             40 eV        NA
-#&gt; 141             AU100804        CMP6        1             40 eV        NA
-#&gt; 142             AU100804        CMP6        1             40 eV        NA
-#&gt; 143             AU100804        CMP6        1             40 eV        NA
-#&gt; 144             AU100804        CMP6        1             40 eV        NA
-#&gt; 145             AU100804        CMP6        1             40 eV        NA
-#&gt; 146             AU100804        CMP6        1             40 eV        NA
-#&gt; 147             AU100804        CMP6        1             40 eV        NA
-#&gt; 148             AU100804        CMP6        1             40 eV        NA
-#&gt; 149             AU100804        CMP6        1             40 eV        NA
-#&gt; 150             AU100804        CMP6        1             40 eV        NA
-#&gt; 151             AU100804        CMP6        1             40 eV        NA
-#&gt; 152             AU100804        CMP6        1             40 eV        NA
-#&gt; 153             AU100804        CMP6        1             40 eV        NA
-#&gt; 154             AU100804        CMP6        1             40 eV        NA
-#&gt; 155             AU100804        CMP6        1             40 eV        NA
-#&gt; 156             AU100805        CMP7        1             50 eV        NA
-#&gt; 157             AU100805        CMP7        1             50 eV        NA
-#&gt; 158             AU100805        CMP7        1             50 eV        NA
-#&gt; 159             AU100805        CMP7        1             50 eV        NA
-#&gt; 160             AU100805        CMP7        1             50 eV        NA
-#&gt; 161             AU100805        CMP7        1             50 eV        NA
-#&gt; 162             AU100805        CMP7        1             50 eV        NA
-#&gt; 163             AU100805        CMP7        1             50 eV        NA
-#&gt; 164             AU100805        CMP7        1             50 eV        NA
-#&gt; 165             AU100805        CMP7        1             50 eV        NA
-#&gt; 166             AU100805        CMP7        1             50 eV        NA
-#&gt; 167             AU100805        CMP7        1             50 eV        NA
-#&gt; 168             AU100805        CMP7        1             50 eV        NA
-#&gt; 169             AU100805        CMP7        1             50 eV        NA
-#&gt; 170             AU100805        CMP7        1             50 eV        NA
-#&gt; 171             AU100805        CMP7        1             50 eV        NA
-#&gt; 172             AU100805        CMP7        1             50 eV        NA
-#&gt; 173             AU100805        CMP7        1             50 eV        NA
-#&gt; 174             AU100805        CMP7        1             50 eV        NA
-#&gt; 175             AU100805        CMP7        1             50 eV        NA
-#&gt; 176             AU100805        CMP7        1             50 eV        NA
-#&gt; 177             AU100805        CMP7        1             50 eV        NA
-#&gt; 178             AU100805        CMP7        1             50 eV        NA
-#&gt; 179             AU100805        CMP7        1             50 eV        NA
-#&gt;     splash instrument_type          instrument precursor_mz spectrum_id
-#&gt; 1     &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           1
-#&gt; 2     &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           1
-#&gt; 3     &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           1
-#&gt; 4     &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           1
-#&gt; 5     &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           1
-#&gt; 6     &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           1
-#&gt; 7     &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           1
-#&gt; 8     &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           1
-#&gt; 9     &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           1
-#&gt; 10    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           1
-#&gt; 11    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           1
-#&gt; 12    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           1
-#&gt; 13    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           1
-#&gt; 14    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           1
-#&gt; 15    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           1
-#&gt; 16    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           1
-#&gt; 17    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           1
-#&gt; 18    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           1
-#&gt; 19    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           1
-#&gt; 20    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           1
-#&gt; 21    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           1
-#&gt; 22    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           1
-#&gt; 23    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           1
-#&gt; 24    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           1
-#&gt; 25    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           1
-#&gt; 26    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           1
-#&gt; 27    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           1
-#&gt; 28    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           2
-#&gt; 29    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           2
-#&gt; 30    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           2
-#&gt; 31    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           2
-#&gt; 32    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           2
-#&gt; 33    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           2
-#&gt; 34    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           2
-#&gt; 35    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           2
-#&gt; 36    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           2
-#&gt; 37    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           2
-#&gt; 38    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           2
-#&gt; 39    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           2
-#&gt; 40    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           2
-#&gt; 41    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           2
-#&gt; 42    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           2
-#&gt; 43    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           2
-#&gt; 44    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           2
-#&gt; 45    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           2
-#&gt; 46    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           2
-#&gt; 47    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           2
-#&gt; 48    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           2
-#&gt; 49    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           2
-#&gt; 50    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           2
-#&gt; 51    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           2
-#&gt; 52    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           2
-#&gt; 53    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           2
-#&gt; 54    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208           2
-#&gt; 55    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 56    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 57    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 58    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 59    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 60    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 61    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 62    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 63    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 64    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 65    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 66    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 67    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 68    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 69    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 70    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 71    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 72    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 73    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 74    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 75    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 76    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 77    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 78    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 79    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 80    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 81    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 82    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 83    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 84    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 85    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 86    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 87    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 88    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 89    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 90    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 91    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 92    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 93    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 94    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 95    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 96    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 97    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 98    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 99    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 100   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           3
-#&gt; 101   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           4
-#&gt; 102   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           4
-#&gt; 103   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           4
-#&gt; 104   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           4
-#&gt; 105   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           4
-#&gt; 106   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           4
-#&gt; 107   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           4
-#&gt; 108   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           4
-#&gt; 109   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           4
-#&gt; 110   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           4
-#&gt; 111   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           4
-#&gt; 112   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           4
-#&gt; 113   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           4
-#&gt; 114   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           4
-#&gt; 115   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           4
-#&gt; 116   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           4
-#&gt; 117   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           5
-#&gt; 118   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           5
-#&gt; 119   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           5
-#&gt; 120   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           5
-#&gt; 121   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           5
-#&gt; 122   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           5
-#&gt; 123   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           5
-#&gt; 124   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           5
-#&gt; 125   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           5
-#&gt; 126   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           5
-#&gt; 127   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           5
-#&gt; 128   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           5
-#&gt; 129   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           5
-#&gt; 130   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           5
-#&gt; 131   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           5
-#&gt; 132   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           5
-#&gt; 133   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           5
-#&gt; 134   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           6
-#&gt; 135   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           6
-#&gt; 136   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           6
-#&gt; 137   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           6
-#&gt; 138   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           6
-#&gt; 139   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           6
-#&gt; 140   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           6
-#&gt; 141   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           6
-#&gt; 142   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           6
-#&gt; 143   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           6
-#&gt; 144   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           6
-#&gt; 145   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           6
-#&gt; 146   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           6
-#&gt; 147   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           6
-#&gt; 148   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           6
-#&gt; 149   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           6
-#&gt; 150   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           6
-#&gt; 151   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           6
-#&gt; 152   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           6
-#&gt; 153   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           6
-#&gt; 154   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           6
-#&gt; 155   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           6
-#&gt; 156   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           7
-#&gt; 157   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           7
-#&gt; 158   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           7
-#&gt; 159   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           7
-#&gt; 160   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           7
-#&gt; 161   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           7
-#&gt; 162   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           7
-#&gt; 163   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           7
-#&gt; 164   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           7
-#&gt; 165   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           7
-#&gt; 166   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           7
-#&gt; 167   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           7
-#&gt; 168   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           7
-#&gt; 169   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           7
-#&gt; 170   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           7
-#&gt; 171   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           7
-#&gt; 172   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           7
-#&gt; 173   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           7
-#&gt; 174   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           7
-#&gt; 175   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           7
-#&gt; 176   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           7
-#&gt; 177   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           7
-#&gt; 178   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           7
-#&gt; 179   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910           7
-#&gt;           mz  intensity
-#&gt; 1    53.0389   0.594951
-#&gt; 2    54.0333   0.566811
-#&gt; 3    55.0178   0.522592
-#&gt; 4    60.0552   0.542692
-#&gt; 5    65.0382   3.822962
-#&gt; 6    66.0423   0.506512
-#&gt; 7    68.0490   7.963499
-#&gt; 8    78.0333   0.727609
-#&gt; 9    79.0177   1.057244
-#&gt; 10   92.0498   7.702203
-#&gt; 11   93.0532   0.731629
-#&gt; 12   96.0443   0.623091
-#&gt; 13  108.0457  12.172375
-#&gt; 14  109.0483   1.181862
-#&gt; 15  110.0609   4.904325
-#&gt; 16  120.0562   3.095353
-#&gt; 17  130.0172   5.656054
-#&gt; 18  132.0138   1.515517
-#&gt; 19  156.0118 100.000000
-#&gt; 20  157.0150   8.884065
-#&gt; 21  158.0080   3.891301
-#&gt; 22  174.0228   0.751729
-#&gt; 23  184.0757   0.619071
-#&gt; 24  191.9647   0.590931
-#&gt; 25  219.0438   0.723589
-#&gt; 26  285.0221   3.694324
-#&gt; 27  287.0184   0.840167
-#&gt; 28   53.0389   0.594951
-#&gt; 29   54.0333   0.566811
-#&gt; 30   55.0178   0.522592
-#&gt; 31   60.0552   0.542692
-#&gt; 32   65.0382   3.822962
-#&gt; 33   66.0423   0.506512
-#&gt; 34   68.0490   7.963499
-#&gt; 35   78.0333   0.727609
-#&gt; 36   79.0177   1.057244
-#&gt; 37   92.0498   7.702203
-#&gt; 38   93.0532   0.731629
-#&gt; 39   96.0443   0.623091
-#&gt; 40  108.0457  12.172375
-#&gt; 41  109.0483   1.181862
-#&gt; 42  110.0609   4.904325
-#&gt; 43  120.0562   3.095353
-#&gt; 44  130.0172   5.656054
-#&gt; 45  132.0138   1.515517
-#&gt; 46  156.0118 100.000000
-#&gt; 47  157.0150   8.884065
-#&gt; 48  158.0080   3.891301
-#&gt; 49  174.0228   0.751729
-#&gt; 50  184.0757   0.619071
-#&gt; 51  191.9647   0.590931
-#&gt; 52  219.0438   0.723589
-#&gt; 53  285.0221   3.694324
-#&gt; 54  287.0184   0.840167
-#&gt; 55   53.0379   0.894101
-#&gt; 56   54.0335   0.661867
-#&gt; 57   55.0176   0.598003
-#&gt; 58   65.0379   8.717487
-#&gt; 59   68.0491  13.013818
-#&gt; 60   69.0329   1.640153
-#&gt; 61   78.0334   1.477589
-#&gt; 62   79.0178   2.261379
-#&gt; 63   80.0489   1.431143
-#&gt; 64   81.0444   1.950766
-#&gt; 65   82.0284   0.606712
-#&gt; 66   92.0499  30.585230
-#&gt; 67   93.0558   2.844868
-#&gt; 68   94.0647   1.686600
-#&gt; 69   95.0608   3.027752
-#&gt; 70   96.0443   1.300511
-#&gt; 71  108.0461  33.946818
-#&gt; 72  109.0497   2.360079
-#&gt; 73  110.0616   6.107757
-#&gt; 74  111.0651   0.519624
-#&gt; 75  120.0565   1.962378
-#&gt; 76  122.0716   6.078727
-#&gt; 77  123.0794   2.246865
-#&gt; 78  124.0872  71.211681
-#&gt; 79  125.0905   6.398049
-#&gt; 80  126.0663  17.911054
-#&gt; 81  127.0697   0.595100
-#&gt; 82  156.0117  82.855318
-#&gt; 83  157.0148   5.739085
-#&gt; 84  158.0072   1.544357
-#&gt; 85  174.0224   1.106015
-#&gt; 86  186.0334  11.263353
-#&gt; 87  187.0368   0.775081
-#&gt; 88  188.0128   1.637250
-#&gt; 89  188.0291   0.534138
-#&gt; 90  204.0445 100.000000
-#&gt; 91  205.0473   6.972829
-#&gt; 92  206.0406   3.358686
-#&gt; 93  213.1141  18.259405
-#&gt; 94  214.1167   2.241059
-#&gt; 95  215.0927   3.071296
-#&gt; 96  215.1291   1.320831
-#&gt; 97  279.0925  61.483976
-#&gt; 98  280.0953   8.438806
-#&gt; 99  281.0725   7.837901
-#&gt; 100 282.0742   1.222132
-#&gt; 101 122.0703   0.766124
-#&gt; 102 124.0861  36.693459
-#&gt; 103 125.0892   1.930893
-#&gt; 104 149.0227   0.828453
-#&gt; 105 156.0104  53.249536
-#&gt; 106 157.0129   2.999571
-#&gt; 107 158.0061   1.778967
-#&gt; 108 174.0209   0.627183
-#&gt; 109 186.0321  22.621444
-#&gt; 110 187.0346   1.719235
-#&gt; 111 188.0285   0.646661
-#&gt; 112 204.0431 100.000000
-#&gt; 113 213.1128   8.749399
-#&gt; 114 214.1159   1.407591
-#&gt; 115 215.1281   0.658348
-#&gt; 116 279.0909  80.894937
-#&gt; 117 108.0441   1.285794
-#&gt; 118 122.0704   6.630847
-#&gt; 119 123.0781   2.170942
-#&gt; 120 124.0861 100.000000
-#&gt; 121 125.0889   6.093546
-#&gt; 122 149.0221   1.388285
-#&gt; 123 156.0106  50.043481
-#&gt; 124 158.0064   1.615007
-#&gt; 125 186.0323  15.118951
-#&gt; 126 187.0355   1.323064
-#&gt; 127 196.0858   1.220573
-#&gt; 128 204.0429  70.964035
-#&gt; 129 205.0455   4.931983
-#&gt; 130 213.1123  22.610100
-#&gt; 131 214.1155   3.003292
-#&gt; 132 215.1283   0.804398
-#&gt; 133 279.0903   3.580968
-#&gt; 134 108.0445   1.153673
-#&gt; 135 122.0702   5.323878
-#&gt; 136 123.0772   2.202467
-#&gt; 137 124.0862 100.000000
-#&gt; 138 125.0890   6.847126
-#&gt; 139 134.0701   0.714179
-#&gt; 140 149.0224   1.747990
-#&gt; 141 154.0624   0.644259
-#&gt; 142 155.0685   0.624282
-#&gt; 143 156.0104  10.373071
-#&gt; 144 157.0126   0.933926
-#&gt; 145 172.0852   0.564351
-#&gt; 146 186.0324   3.845578
-#&gt; 147 196.0852   5.209010
-#&gt; 148 197.0903   1.378415
-#&gt; 149 198.0888   2.362283
-#&gt; 150 204.0427  15.422264
-#&gt; 151 205.0463   0.869001
-#&gt; 152 206.0375   0.759127
-#&gt; 153 212.1036   0.659242
-#&gt; 154 213.1121  18.109174
-#&gt; 155 214.1152   2.577036
-#&gt; 156 108.0453   1.770916
-#&gt; 157 122.0703   2.803951
-#&gt; 158 123.0780   2.792598
-#&gt; 159 124.0859 100.000000
-#&gt; 160 125.0891   7.901010
-#&gt; 161 149.0231   1.623340
-#&gt; 162 154.0639   2.111477
-#&gt; 163 155.0605   2.463390
-#&gt; 164 155.0714   2.690430
-#&gt; 165 156.0100   2.713134
-#&gt; 166 169.0745   1.475763
-#&gt; 167 171.0781   1.555228
-#&gt; 168 172.0869   1.271427
-#&gt; 169 181.0634   0.930866
-#&gt; 170 186.1022   1.033034
-#&gt; 171 195.0786   1.555228
-#&gt; 172 196.0859   7.628562
-#&gt; 173 197.0856   3.871041
-#&gt; 174 198.0886   5.903054
-#&gt; 175 199.0904   0.998978
-#&gt; 176 204.0438   2.622318
-#&gt; 177 212.1048   2.327165
-#&gt; 178 213.1122   9.342718
-#&gt; 179 214.1153   1.725508</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'></span>
+<span class='r-in'><span class='co'>## Define the test file containing the data</span></span>
+<span class='r-in'><span class='va'>fl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"sdf/MoNa_export-All_Spectra_sub.sdf.gz"</span>,</span>
+<span class='r-in'>    package <span class='op'>=</span> <span class='st'>"CompoundDb"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'>## Import spectrum data from the SDF file with a subset of the MoNa data</span></span>
+<span class='r-in'><span class='fu'>msms_spectra_mona</span><span class='op'>(</span><span class='va'>fl</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Reading SDF file ... </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> OK</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Extracting 7 spectra ... </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> OK</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      original_spectrum_id compound_id polarity  collision_energy predicted</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP1             AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP2             AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP3             AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP4             AU100802        CMP4        1             20 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP5             AU100803        CMP5        1             30 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP6             AU100804        CMP6        1             40 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP7             AU100805        CMP7        1             50 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      splash instrument_type          instrument precursor_mz adduct</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP1   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP2   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP3   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP4   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP5   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP6   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP7   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      spectrum_type spectrum_id</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP1           MS2           1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP2           MS2           2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP3           MS2           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP4           MS2           4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP5           MS2           5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP6           MS2           6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP7           MS2           7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                                                                                                                                                                                                                                                                                                                                                                                                                              mz</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP1                                                                                                                                                                                           53.0389, 54.0333, 55.0178, 60.0552, 65.0382, 66.0423, 68.0490, 78.0333, 79.0177, 92.0498, 93.0532, 96.0443, 108.0457, 109.0483, 110.0609, 120.0562, 130.0172, 132.0138, 156.0118, 157.0150, 158.0080, 174.0228, 184.0757, 191.9647, 219.0438, 285.0221, 287.0184</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP2                                                                                                                                                                                           53.0389, 54.0333, 55.0178, 60.0552, 65.0382, 66.0423, 68.0490, 78.0333, 79.0177, 92.0498, 93.0532, 96.0443, 108.0457, 109.0483, 110.0609, 120.0562, 130.0172, 132.0138, 156.0118, 157.0150, 158.0080, 174.0228, 184.0757, 191.9647, 219.0438, 285.0221, 287.0184</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP3 53.0379, 54.0335, 55.0176, 65.0379, 68.0491, 69.0329, 78.0334, 79.0178, 80.0489, 81.0444, 82.0284, 92.0499, 93.0558, 94.0647, 95.0608, 96.0443, 108.0461, 109.0497, 110.0616, 111.0651, 120.0565, 122.0716, 123.0794, 124.0872, 125.0905, 126.0663, 127.0697, 156.0117, 157.0148, 158.0072, 174.0224, 186.0334, 187.0368, 188.0128, 188.0291, 204.0445, 205.0473, 206.0406, 213.1141, 214.1167, 215.0927, 215.1291, 279.0925, 280.0953, 281.0725, 282.0742</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP4                                                                                                                                                                                                                                                                                             122.0703, 124.0861, 125.0892, 149.0227, 156.0104, 157.0129, 158.0061, 174.0209, 186.0321, 187.0346, 188.0285, 204.0431, 213.1128, 214.1159, 215.1281, 279.0909</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP5                                                                                                                                                                                                                                                                                   108.0441, 122.0704, 123.0781, 124.0861, 125.0889, 149.0221, 156.0106, 158.0064, 186.0323, 187.0355, 196.0858, 204.0429, 205.0455, 213.1123, 214.1155, 215.1283, 279.0903</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP6                                                                                                                                                                                                                                 108.0445, 122.0702, 123.0772, 124.0862, 125.0890, 134.0701, 149.0224, 154.0624, 155.0685, 156.0104, 157.0126, 172.0852, 186.0324, 196.0852, 197.0903, 198.0888, 204.0427, 205.0463, 206.0375, 212.1036, 213.1121, 214.1152</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP7                                                                                                                                                                                                             108.0453, 122.0703, 123.0780, 124.0859, 125.0891, 149.0231, 154.0639, 155.0605, 155.0714, 156.0100, 169.0745, 171.0781, 172.0869, 181.0634, 186.1022, 195.0786, 196.0859, 197.0856, 198.0886, 199.0904, 204.0438, 212.1048, 213.1122, 214.1153</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  intensity</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP1                                                                                                                                                                                                       0.594951, 0.566811, 0.522592, 0.542692, 3.822962, 0.506512, 7.963499, 0.727609, 1.057244, 7.702203, 0.731629, 0.623091, 12.172375, 1.181862, 4.904325, 3.095353, 5.656054, 1.515517, 100.000000, 8.884065, 3.891301, 0.751729, 0.619071, 0.590931, 0.723589, 3.694324, 0.840167</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP2                                                                                                                                                                                                       0.594951, 0.566811, 0.522592, 0.542692, 3.822962, 0.506512, 7.963499, 0.727609, 1.057244, 7.702203, 0.731629, 0.623091, 12.172375, 1.181862, 4.904325, 3.095353, 5.656054, 1.515517, 100.000000, 8.884065, 3.891301, 0.751729, 0.619071, 0.590931, 0.723589, 3.694324, 0.840167</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP3 0.894101, 0.661867, 0.598003, 8.717487, 13.013818, 1.640153, 1.477589, 2.261379, 1.431143, 1.950766, 0.606712, 30.585230, 2.844868, 1.686600, 3.027752, 1.300511, 33.946818, 2.360079, 6.107757, 0.519624, 1.962378, 6.078727, 2.246865, 71.211681, 6.398049, 17.911054, 0.595100, 82.855318, 5.739085, 1.544357, 1.106015, 11.263353, 0.775081, 1.637250, 0.534138, 100.000000, 6.972829, 3.358686, 18.259405, 2.241059, 3.071296, 1.320831, 61.483976, 8.438806, 7.837901, 1.222132</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP4                                                                                                                                                                                                                                                                                                                  0.766124, 36.693459, 1.930893, 0.828453, 53.249536, 2.999571, 1.778967, 0.627183, 22.621444, 1.719235, 0.646661, 100.000000, 8.749399, 1.407591, 0.658348, 80.894937</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP5                                                                                                                                                                                                                                                                                                        1.285794, 6.630847, 2.170942, 100.000000, 6.093546, 1.388285, 50.043481, 1.615007, 15.118951, 1.323064, 1.220573, 70.964035, 4.931983, 22.610100, 3.003292, 0.804398, 3.580968</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP6                                                                                                                                                                                                                                                       1.153673, 5.323878, 2.202467, 100.000000, 6.847126, 0.714179, 1.747990, 0.644259, 0.624282, 10.373071, 0.933926, 0.564351, 3.845578, 5.209010, 1.378415, 2.362283, 15.422264, 0.869001, 0.759127, 0.659242, 18.109174, 2.577036</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP7                                                                                                                                                                                                                                      1.770916, 2.803951, 2.792598, 100.000000, 7.901010, 1.623340, 2.111477, 2.463390, 2.690430, 2.713134, 1.475763, 1.555228, 1.271427, 0.930866, 1.033034, 1.555228, 7.628562, 3.871041, 5.903054, 0.998978, 2.622318, 2.327165, 9.342718, 1.725508</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      ms_level</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP1        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP2        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP3        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP4        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP5        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP6        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> CMP7        2</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Import the data as an *expanded* data frame, i.e. with a row for each</span></span>
+<span class='r-in'><span class='co'>## single m/z (intensity) value.</span></span>
+<span class='r-in'><span class='fu'>msms_spectra_mona</span><span class='op'>(</span><span class='va'>fl</span>, collapsed <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Reading SDF file ... </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> OK</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Extracting 7 spectra ... </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> OK</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     original_spectrum_id compound_id polarity  collision_energy predicted</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1               AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2               AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3               AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4               AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5               AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6               AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7               AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8               AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9               AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 12              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 13              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 14              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 15              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 16              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 17              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 18              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 19              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 20              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 21              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 22              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 23              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 24              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 25              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 26              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 27              AU100601        CMP1        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 28              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 29              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 30              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 31              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 32              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 33              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 34              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 35              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 36              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 37              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 38              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 39              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 40              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 41              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 42              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 43              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 44              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 45              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 46              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 47              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 48              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 49              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 50              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 51              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 52              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 53              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 54              AU100701        CMP2        1 Ramp 21.1-31.6 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 55              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 56              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 57              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 58              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 59              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 60              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 61              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 62              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 63              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 64              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 65              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 66              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 67              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 68              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 69              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 70              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 71              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 72              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 73              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 74              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 75              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 76              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 77              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 78              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 79              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 80              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 81              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 82              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 83              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 84              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 85              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 86              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 87              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 88              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 89              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 90              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 91              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 92              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 93              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 94              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 95              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 96              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 97              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 98              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 99              AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 100             AU100801        CMP3        1 Ramp 20.8-31.3 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 101             AU100802        CMP4        1             20 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 102             AU100802        CMP4        1             20 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 103             AU100802        CMP4        1             20 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 104             AU100802        CMP4        1             20 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 105             AU100802        CMP4        1             20 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 106             AU100802        CMP4        1             20 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 107             AU100802        CMP4        1             20 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 108             AU100802        CMP4        1             20 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 109             AU100802        CMP4        1             20 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 110             AU100802        CMP4        1             20 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 111             AU100802        CMP4        1             20 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 112             AU100802        CMP4        1             20 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 113             AU100802        CMP4        1             20 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 114             AU100802        CMP4        1             20 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 115             AU100802        CMP4        1             20 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 116             AU100802        CMP4        1             20 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 117             AU100803        CMP5        1             30 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 118             AU100803        CMP5        1             30 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 119             AU100803        CMP5        1             30 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 120             AU100803        CMP5        1             30 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 121             AU100803        CMP5        1             30 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 122             AU100803        CMP5        1             30 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 123             AU100803        CMP5        1             30 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 124             AU100803        CMP5        1             30 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 125             AU100803        CMP5        1             30 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 126             AU100803        CMP5        1             30 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 127             AU100803        CMP5        1             30 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 128             AU100803        CMP5        1             30 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 129             AU100803        CMP5        1             30 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 130             AU100803        CMP5        1             30 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 131             AU100803        CMP5        1             30 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 132             AU100803        CMP5        1             30 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 133             AU100803        CMP5        1             30 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 134             AU100804        CMP6        1             40 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 135             AU100804        CMP6        1             40 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 136             AU100804        CMP6        1             40 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 137             AU100804        CMP6        1             40 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 138             AU100804        CMP6        1             40 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 139             AU100804        CMP6        1             40 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 140             AU100804        CMP6        1             40 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 141             AU100804        CMP6        1             40 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 142             AU100804        CMP6        1             40 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 143             AU100804        CMP6        1             40 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 144             AU100804        CMP6        1             40 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 145             AU100804        CMP6        1             40 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 146             AU100804        CMP6        1             40 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 147             AU100804        CMP6        1             40 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 148             AU100804        CMP6        1             40 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 149             AU100804        CMP6        1             40 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 150             AU100804        CMP6        1             40 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 151             AU100804        CMP6        1             40 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 152             AU100804        CMP6        1             40 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 153             AU100804        CMP6        1             40 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 154             AU100804        CMP6        1             40 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 155             AU100804        CMP6        1             40 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 156             AU100805        CMP7        1             50 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 157             AU100805        CMP7        1             50 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 158             AU100805        CMP7        1             50 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 159             AU100805        CMP7        1             50 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 160             AU100805        CMP7        1             50 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 161             AU100805        CMP7        1             50 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 162             AU100805        CMP7        1             50 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 163             AU100805        CMP7        1             50 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 164             AU100805        CMP7        1             50 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 165             AU100805        CMP7        1             50 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 166             AU100805        CMP7        1             50 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 167             AU100805        CMP7        1             50 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 168             AU100805        CMP7        1             50 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 169             AU100805        CMP7        1             50 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 170             AU100805        CMP7        1             50 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 171             AU100805        CMP7        1             50 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 172             AU100805        CMP7        1             50 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 173             AU100805        CMP7        1             50 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 174             AU100805        CMP7        1             50 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 175             AU100805        CMP7        1             50 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 176             AU100805        CMP7        1             50 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 177             AU100805        CMP7        1             50 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 178             AU100805        CMP7        1             50 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 179             AU100805        CMP7        1             50 eV        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     splash instrument_type          instrument precursor_mz adduct</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1     &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2     &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3     &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4     &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5     &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6     &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7     &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8     &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9     &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 12    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 13    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 14    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 15    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 16    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 17    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 18    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 19    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 20    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 21    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 22    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 23    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 24    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 25    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 26    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 27    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 28    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 29    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 30    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 31    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 32    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 33    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 34    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 35    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 36    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 37    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 38    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 39    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 40    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 41    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 42    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 43    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 44    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 45    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 46    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 47    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 48    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 49    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 50    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 51    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 52    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 53    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 54    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     285.0208 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 55    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 56    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 57    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 58    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 59    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 60    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 61    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 62    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 63    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 64    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 65    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 66    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 67    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 68    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 69    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 70    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 71    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 72    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 73    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 74    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 75    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 76    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 77    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 78    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 79    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 80    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 81    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 82    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 83    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 84    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 85    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 86    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 87    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 88    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 89    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 90    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 91    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 92    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 93    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 94    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 95    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 96    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 97    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 98    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 99    &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 100   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 101   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 102   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 103   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 104   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 105   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 106   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 107   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 108   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 109   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 110   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 111   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 112   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 113   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 114   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 115   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 116   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 117   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 118   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 119   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 120   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 121   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 122   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 123   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 124   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 125   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 126   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 127   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 128   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 129   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 130   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 131   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 132   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 133   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 134   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 135   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 136   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 137   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 138   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 139   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 140   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 141   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 142   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 143   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 144   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 145   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 146   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 147   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 148   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 149   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 150   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 151   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 152   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 153   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 154   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 155   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 156   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 157   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 158   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 159   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 160   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 161   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 162   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 163   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 164   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 165   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 166   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 167   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 168   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 169   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 170   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 171   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 172   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 173   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 174   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 175   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 176   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 177   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 178   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 179   &lt;NA&gt;     LC-ESI-QTOF Bruker maXis Impact     279.0910 [M+H]+</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     spectrum_type spectrum_id       mz  intensity ms_level</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1             MS2           1  53.0389   0.594951        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2             MS2           1  54.0333   0.566811        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3             MS2           1  55.0178   0.522592        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4             MS2           1  60.0552   0.542692        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5             MS2           1  65.0382   3.822962        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6             MS2           1  66.0423   0.506512        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7             MS2           1  68.0490   7.963499        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8             MS2           1  78.0333   0.727609        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9             MS2           1  79.0177   1.057244        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10            MS2           1  92.0498   7.702203        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11            MS2           1  93.0532   0.731629        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 12            MS2           1  96.0443   0.623091        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 13            MS2           1 108.0457  12.172375        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 14            MS2           1 109.0483   1.181862        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 15            MS2           1 110.0609   4.904325        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 16            MS2           1 120.0562   3.095353        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 17            MS2           1 130.0172   5.656054        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 18            MS2           1 132.0138   1.515517        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 19            MS2           1 156.0118 100.000000        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 20            MS2           1 157.0150   8.884065        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 21            MS2           1 158.0080   3.891301        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 22            MS2           1 174.0228   0.751729        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 23            MS2           1 184.0757   0.619071        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 24            MS2           1 191.9647   0.590931        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 25            MS2           1 219.0438   0.723589        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 26            MS2           1 285.0221   3.694324        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 27            MS2           1 287.0184   0.840167        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 28            MS2           2  53.0389   0.594951        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 29            MS2           2  54.0333   0.566811        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 30            MS2           2  55.0178   0.522592        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 31            MS2           2  60.0552   0.542692        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 32            MS2           2  65.0382   3.822962        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 33            MS2           2  66.0423   0.506512        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 34            MS2           2  68.0490   7.963499        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 35            MS2           2  78.0333   0.727609        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 36            MS2           2  79.0177   1.057244        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 37            MS2           2  92.0498   7.702203        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 38            MS2           2  93.0532   0.731629        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 39            MS2           2  96.0443   0.623091        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 40            MS2           2 108.0457  12.172375        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 41            MS2           2 109.0483   1.181862        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 42            MS2           2 110.0609   4.904325        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 43            MS2           2 120.0562   3.095353        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 44            MS2           2 130.0172   5.656054        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 45            MS2           2 132.0138   1.515517        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 46            MS2           2 156.0118 100.000000        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 47            MS2           2 157.0150   8.884065        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 48            MS2           2 158.0080   3.891301        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 49            MS2           2 174.0228   0.751729        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 50            MS2           2 184.0757   0.619071        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 51            MS2           2 191.9647   0.590931        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 52            MS2           2 219.0438   0.723589        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 53            MS2           2 285.0221   3.694324        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 54            MS2           2 287.0184   0.840167        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 55            MS2           3  53.0379   0.894101        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 56            MS2           3  54.0335   0.661867        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 57            MS2           3  55.0176   0.598003        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 58            MS2           3  65.0379   8.717487        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 59            MS2           3  68.0491  13.013818        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 60            MS2           3  69.0329   1.640153        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 61            MS2           3  78.0334   1.477589        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 62            MS2           3  79.0178   2.261379        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 63            MS2           3  80.0489   1.431143        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 64            MS2           3  81.0444   1.950766        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 65            MS2           3  82.0284   0.606712        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 66            MS2           3  92.0499  30.585230        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 67            MS2           3  93.0558   2.844868        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 68            MS2           3  94.0647   1.686600        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 69            MS2           3  95.0608   3.027752        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 70            MS2           3  96.0443   1.300511        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 71            MS2           3 108.0461  33.946818        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 72            MS2           3 109.0497   2.360079        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 73            MS2           3 110.0616   6.107757        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 74            MS2           3 111.0651   0.519624        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 75            MS2           3 120.0565   1.962378        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 76            MS2           3 122.0716   6.078727        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 77            MS2           3 123.0794   2.246865        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 78            MS2           3 124.0872  71.211681        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 79            MS2           3 125.0905   6.398049        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 80            MS2           3 126.0663  17.911054        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 81            MS2           3 127.0697   0.595100        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 82            MS2           3 156.0117  82.855318        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 83            MS2           3 157.0148   5.739085        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 84            MS2           3 158.0072   1.544357        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 85            MS2           3 174.0224   1.106015        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 86            MS2           3 186.0334  11.263353        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 87            MS2           3 187.0368   0.775081        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 88            MS2           3 188.0128   1.637250        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 89            MS2           3 188.0291   0.534138        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 90            MS2           3 204.0445 100.000000        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 91            MS2           3 205.0473   6.972829        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 92            MS2           3 206.0406   3.358686        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 93            MS2           3 213.1141  18.259405        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 94            MS2           3 214.1167   2.241059        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 95            MS2           3 215.0927   3.071296        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 96            MS2           3 215.1291   1.320831        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 97            MS2           3 279.0925  61.483976        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 98            MS2           3 280.0953   8.438806        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 99            MS2           3 281.0725   7.837901        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 100           MS2           3 282.0742   1.222132        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 101           MS2           4 122.0703   0.766124        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 102           MS2           4 124.0861  36.693459        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 103           MS2           4 125.0892   1.930893        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 104           MS2           4 149.0227   0.828453        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 105           MS2           4 156.0104  53.249536        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 106           MS2           4 157.0129   2.999571        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 107           MS2           4 158.0061   1.778967        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 108           MS2           4 174.0209   0.627183        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 109           MS2           4 186.0321  22.621444        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 110           MS2           4 187.0346   1.719235        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 111           MS2           4 188.0285   0.646661        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 112           MS2           4 204.0431 100.000000        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 113           MS2           4 213.1128   8.749399        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 114           MS2           4 214.1159   1.407591        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 115           MS2           4 215.1281   0.658348        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 116           MS2           4 279.0909  80.894937        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 117           MS2           5 108.0441   1.285794        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 118           MS2           5 122.0704   6.630847        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 119           MS2           5 123.0781   2.170942        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 120           MS2           5 124.0861 100.000000        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 121           MS2           5 125.0889   6.093546        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 122           MS2           5 149.0221   1.388285        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 123           MS2           5 156.0106  50.043481        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 124           MS2           5 158.0064   1.615007        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 125           MS2           5 186.0323  15.118951        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 126           MS2           5 187.0355   1.323064        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 127           MS2           5 196.0858   1.220573        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 128           MS2           5 204.0429  70.964035        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 129           MS2           5 205.0455   4.931983        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 130           MS2           5 213.1123  22.610100        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 131           MS2           5 214.1155   3.003292        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 132           MS2           5 215.1283   0.804398        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 133           MS2           5 279.0903   3.580968        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 134           MS2           6 108.0445   1.153673        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 135           MS2           6 122.0702   5.323878        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 136           MS2           6 123.0772   2.202467        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 137           MS2           6 124.0862 100.000000        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 138           MS2           6 125.0890   6.847126        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 139           MS2           6 134.0701   0.714179        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 140           MS2           6 149.0224   1.747990        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 141           MS2           6 154.0624   0.644259        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 142           MS2           6 155.0685   0.624282        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 143           MS2           6 156.0104  10.373071        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 144           MS2           6 157.0126   0.933926        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 145           MS2           6 172.0852   0.564351        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 146           MS2           6 186.0324   3.845578        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 147           MS2           6 196.0852   5.209010        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 148           MS2           6 197.0903   1.378415        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 149           MS2           6 198.0888   2.362283        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 150           MS2           6 204.0427  15.422264        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 151           MS2           6 205.0463   0.869001        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 152           MS2           6 206.0375   0.759127        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 153           MS2           6 212.1036   0.659242        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 154           MS2           6 213.1121  18.109174        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 155           MS2           6 214.1152   2.577036        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 156           MS2           7 108.0453   1.770916        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 157           MS2           7 122.0703   2.803951        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 158           MS2           7 123.0780   2.792598        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 159           MS2           7 124.0859 100.000000        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 160           MS2           7 125.0891   7.901010        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 161           MS2           7 149.0231   1.623340        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 162           MS2           7 154.0639   2.111477        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 163           MS2           7 155.0605   2.463390        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 164           MS2           7 155.0714   2.690430        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 165           MS2           7 156.0100   2.713134        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 166           MS2           7 169.0745   1.475763        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 167           MS2           7 171.0781   1.555228        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 168           MS2           7 172.0869   1.271427        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 169           MS2           7 181.0634   0.930866        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 170           MS2           7 186.1022   1.033034        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 171           MS2           7 195.0786   1.555228        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 172           MS2           7 196.0859   7.628562        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 173           MS2           7 197.0856   3.871041        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 174           MS2           7 198.0886   5.903054        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 175           MS2           7 199.0904   0.998978        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 176           MS2           7 204.0438   2.622318        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 177           MS2           7 212.1048   2.327165        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 178           MS2           7 213.1122   9.342718        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 179           MS2           7 214.1153   1.725508        2</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -803,7 +831,7 @@ compound annotation and spectrum data.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
