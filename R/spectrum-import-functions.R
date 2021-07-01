@@ -290,11 +290,11 @@ msms_spectra_mona <- function(x, collapsed = TRUE) {
     message("OK")
     colnames(spctra)[colnames(spctra) == "precursor_type"] <- "adduct"
     spec_trim <- gsub(" ", "", spctra$spectrum_type, fixed = TRUE)
-    is_mslevel <- grepl("^ms\\d+$", spec_trim, ignore.case = T)
+    is_mslevel <- grepl("^ms\\d+$", spec_trim, ignore.case = TRUE)
     if(any(is_mslevel)){
         spctra$ms_level <- rep(NA_integer_, length(spec_trim))
         spctra$ms_level[is_mslevel] <- as.integer(
-            sub("ms", "", spec_trim[is_mslevel], ignore.case = T))
+            sub("ms", "", spec_trim[is_mslevel], ignore.case = TRUE))
     }
     if (collapsed) spctra
     else .expand_spectrum_df(spctra)
