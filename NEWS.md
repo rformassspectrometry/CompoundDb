@@ -1,5 +1,9 @@
 # Version 0.8
 
+## Changes in version 0.8.1
+
+- Import spectra type (MS level) and precursor type from MoNa.
+
 ## Changes in version 0.8.0
 
 - Rename database table name *compound* into *ms_compound* [issue
