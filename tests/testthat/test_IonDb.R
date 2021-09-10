@@ -6,8 +6,8 @@ test_that("CompDb constructor and low level functions", {
 
     ions = data.frame(compound_id = c(1, 1, 2, 3, 6, 35),
                       ion_adduct = c("A", "B", "B", "B", "F", "S"),
-                      ion_mz = rep(1, 6),
-                      ion_rt = rep(1, 6))
+                      ion_mz = 1:6,
+                      ion_rt = 1:6)
     icon <- dbConnect(RSQLite::SQLite(), paste0(tempdir(), "/idb.sqlite"))
     idb <- IonDb(x = icon, cdb = cdb, ions)
     

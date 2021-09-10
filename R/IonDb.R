@@ -87,7 +87,47 @@
 #'
 #' @examples
 #'
-# # To be added.
+# # I have to improve/complete this
+# We load a small compound test database based on MassBank which is
+# distributed with this package.
+# cdb <- CompDb(system.file("sql/CompDb.MassBank.sql", package = "CompoundDb"))
+# cdb
+# 
+# # The previous database is read only. We can create a new IonDb object from
+# # cdb and add a ions table to it.
+# 
+# ions = data.frame(compound_id = c(1, 1, 2, 3, 6, 35),
+#                   ion_adduct = c("A", "B", "B", "B", "F", "S"),
+#                   ion_mz = 1:6,
+#                   ion_rt = 1:6) # maybe change this with something more realistic or we should include an example ion table in the package?
+# library(DBI)
+# idb <- IonDb(dbConnect(RSQLite::SQLite(), paste0(tempdir(), "/idb_ex.sqlite")),
+#              cdb, ions)
+# 
+# # It is also possible to load a previously created IonDb passing only the 
+# # connection to the database.
+# idb2 <- IonDb(paste0(tempdir(), "/idb_ex.sqlite"))
+# 
+# # We can also add new ions to the IonDb object through the method insertIon
+# 
+# ## List all available ion variables
+# ionVariables(idb)
+# 
+# ## Extract a data.frame with ion variables for all ions
+# ions(idb)
+# 
+# ## List all database tables and their columns
+# tables(idb)
+# 
+# ## Filtering the database
+# ##
+# ## Get all ions with an exact mass between 310 and 320
+# res <- ions(idb, filter = ~ ion_rt > 3 & ion_mz < 5)
+# res
+# 
+# ## Get all ions that have an H14 in their formula.
+# res <- ions(idb, filter = IonAdductFilter("B", "contains"))
+# res
 NULL
 
 #' @importFrom methods new

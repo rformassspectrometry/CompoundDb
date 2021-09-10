@@ -12,82 +12,81 @@ test_that("show,IonDb works", {
 
 # test_that("Spectra,IonDb works", {
 # 
-#     res <- Spectra(ion_db)
+#     res <- Spectra(ion_spctra_db)
 #     expect_true(is(res, "Spectra"))
 #     expect_true(length(res) == 4)
 #     expect_true(all(c("instrument", "predicted") %in% spectraVariables(res)))
 # 
 #     ## columns
-#     res <- Spectra(cmp_spctra_db, columns = "compound_id")
+#     res <- Spectra(ion_spctra_db, columns = "compound_id")
 #     expect_false(all(c("instrument", "predicted") %in% spectraVariables(res)))
 # 
 #     ## filter
-#     res <- Spectra(cmp_spctra_db, filter = ~ compound_id == "HMDB0000001")
+#     res <- Spectra(ion_spctra_db, filter = ~ compound_id == "HMDB0000001")
 #     expect_true(length(res) == 2)
 # 
 #     ## filter and columns
-#     res <- Spectra(cmp_spctra_db, filter = ~ compound_id == "HMDB0000001",
+#     res <- Spectra(ion_spctra_db, filter = ~ compound_id == "HMDB0000001",
 #                    columns = c("inchi", "name"))
 #     expect_true(all(c("spectrum_id", "name", "inchi") %in%
 #                     spectraVariables(res)))
 #     expect_true(length(res) == 2)
 # 
-#     expect_error(Spectra(cmp_spctra_db, filter = "ad"), "'filter' has to")
-#     expect_error(Spectra(cmp_spctra_db, filter = ~ gene_name == "b"),
+#     expect_error(Spectra(ion_spctra_db, filter = "ad"), "'filter' has to")
+#     expect_error(Spectra(ion_spctra_db, filter = ~ gene_name == "b"),
 #                  "not supported")
 # })
 # 
 # test_that("supportedFilters works", {
-#     res <- supportedFilters(cmp_db)
+#     res <- supportedFilters(ion_db)
 #     expect_equal(colnames(res), c("filter", "field"))
-#     res_2 <- supportedFilters(cmp_spctra_db)
+#     res_2 <- supportedFilters(ion_spctra_db)
 #     expect_true(nrow(res) < nrow(res_2))
 # })
 # 
 # test_that("metadata works", {
-#     res <- metadata(cdb)
+#     res <- metadata(ion_db)
 #     expect_true(is.data.frame(res))
 #     expect_true(all(colnames(res) == c("name", "value")))
 # })
 # 
-# test_that("spectraVariables,CompDb works", {
-#     db <- new("CompDb")
+# test_that("spectraVariables,IonDb works", {
+#     db <- new("IonDb")
 #     expect_equal(spectraVariables(db), character())
 # 
-#     res <- spectraVariables(cdb)
+#     res <- spectraVariables(ion_spctra_db)
 #     expect_true(is.character(res))
 #     expect_true(length(res) > 0)
-#     expect_true(all(c("spectrum_id", "ms_level") %in% res))
 # })
 # 
-# test_that("compoundVariables,CompDb works", {
+# test_that("compoundVariables,IonDb works", {
 #     db <- new("CompDb")
 #     expect_equal(compoundVariables(db), character())
 # 
-#     res <- compoundVariables(cdb)
+#     res <- compoundVariables(ion_db)
 #     expect_true(is.character(res))
 #     expect_true(length(res) > 0)
 #     expect_true(all(c("formula", "inchi") %in% res))
 # 
-#     expect_true(any(compoundVariables(cdb, TRUE) == "compound_id"))
+#     expect_true(any(compoundVariables(ion_db, TRUE) == "compound_id"))
 # })
 # 
 # test_that("compounds works", {
-#     res <- compounds(cmp_db, columns = character())
+#     res <- compounds(ion_db, columns = character())
 #     expect_true(is.data.frame(res))
 #     expect_true(ncol(res) == 0)
 #     expect_true(nrow(res) == 0)
-#     cmps <- compounds(cmp_db)
+#     cmps <- compounds(ion_db)
 #     expect_true(is(cmps, "data.frame"))
-#     cmps_tbl <- compounds(cmp_db, columns = c("compound_id", "name"),
+#     cmps_tbl <- compounds(ion_db, columns = c("compound_id", "name"),
 #                           return.type = "tibble")
 #     expect_true(is(cmps_tbl, "tbl"))
 #     expect_equal(colnames(cmps_tbl), c("compound_id", "name"))
 # 
-#     expect_error(compounds(cmp_db, filter = "something"))
+#     expect_error(compounds(ion_db, filter = "something"))
 # 
 #     expect_true(
-#         nrow(compounds(cmp_db, filter = ~ compound_id == "HMDB0000005")) == 1)
+#         nrow(compounds(ion_db, filter = ~ compound_id == "HMDB0000005")) == 1)
 #     res <- compounds(cmp_spctra_db,
 #                      columns = c("compound_id", "spectrum_id", "splash"))
 #     cmp_ids <- compounds(cmp_spctra_db, columns = "compound_id")$compound_id
@@ -139,6 +138,9 @@ test_that("ions,ionDb works", {
     res <- ions(ion_db, filter = CompoundIdFilter("01", "endsWith"))
     expect_true(nrow(res) > 0)
 })
+
+# This test is succesful when I run it directly but an error is thrown when I
+# do rcmdcheck() and I still have to understand why 
 
 # test_that("insertIon,ionDb works", {
 #     more_ions <- data.frame(compound_id = c("HMDB0000005", "HMDB0000008"),
