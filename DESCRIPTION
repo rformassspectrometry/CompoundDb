@@ -60,6 +60,8 @@ Collate:
     'createCompDbPackage.R'
     'CompDb.R'
     'CompDb-methods.R'
+    'IonDb.R'
+    'IonDb-methods.R'
     'MsBackendCompDb-functions.R'
     'MsBackendCompDb.R'
     'Spectra-functions.R'
