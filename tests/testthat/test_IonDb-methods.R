@@ -111,7 +111,7 @@ test_that("ionVariables,ionDb works", {
     res <- ionVariables(ion_db)
     expect_true(is.character(res))
     expect_true(length(res) > 0)
-    expect_true(all(c("compound_id", "ion_adduct", "ion_mz", "ion_rt") 
+    expect_true(all(c("compound_id", "ion_adduct", "ion_mz", "ion_rt")
                     %in% res))
     expect_true(any(ionVariables(ion_db, TRUE) == "ion_id"))
 })

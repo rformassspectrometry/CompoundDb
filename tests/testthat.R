@@ -22,7 +22,6 @@ db_spctra_file <- createCompDb(cmps, metadata = metad2, path = tempdir(),
                                msms_spectra = msms_spctra)
 cmp_spctra_db <- CompDb(db_spctra_file)
 
-# why are there duplicated rows in the ms_compound table with the same compound_id?
 cdb <- CompDb(system.file("sql/CompDb.MassBank.sql", package = "CompoundDb"))
 
 ions <- data.frame(compound_id = paste0("HMDB000000", c("1", "1", "2", "2", "5")),
@@ -32,7 +31,7 @@ ions <- data.frame(compound_id = paste0("HMDB000000", c("1", "1", "2", "2", "5")
 con <- DBI::dbConnect(RSQLite::SQLite(), paste0(tempdir(), "/ion_db.sqlite"))
 ion_db <- IonDb(x = con, cdb = cmp_db, ions)
 
-con_spctra <- DBI::dbConnect(RSQLite::SQLite(), 
+con_spctra <- DBI::dbConnect(RSQLite::SQLite(),
                              paste0(tempdir(), "/ion_spctra_db.sqlite"))
 ion_spctra_db <- IonDb(x = con_spctra, cdb = cmp_spctra_db, ions)
 

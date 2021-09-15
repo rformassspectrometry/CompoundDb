@@ -1,3 +1,13 @@
+# Version 0.9
+
+## Changes in version 0.9.0
+
+- Add `IonDb` class as extension of `CompDb` (to allow adding ion information
+  to the database) and the functionalities to create such object.
+- Add `insertIon` to allow adding new ions to an `IonDb` object
+- Add `ionVariables`, `ions` functions to access the ions data in the database.
+- Add filters: `IonIdFilter`, `IonAdductFilter`, `IonMzFilter`, `IonRtFilter`.
+
 # Version 0.8
 
 ## Changes in version 0.8.1

@@ -84,7 +84,9 @@ return all elements from the \emph{ms_ion} table (unless a \code{filter} is used
 \itemize{
 \item \code{IonDb}: connect to a compound/ion database.
 \item \code{ionVariables}: returns all available columns/database fields for ions.
-\item \code{insertIon}: allows to add further ions to the \code{IonDb} object.
+\item \code{insertIon}: allows to add further ions to the \code{IonDb} object. Note that
+\code{insertIon} always adds all the ions specified through the \code{ions} parameter
+and does not check if they are already in the database.
 }
 }
 
@@ -105,6 +107,49 @@ details.
 
 \examples{
 
+# I have to improve/complete this
+# We load a small compound test database based on MassBank which is
+# distributed with this package.
+cdb <- CompDb(system.file("sql/CompDb.MassBank.sql", package = "CompoundDb"))
+cdb
+
+# The previous database is read only. We can create a new IonDb object from
+# cdb and add a ions table to it.
+
+ions = data.frame(compound_id = c(1, 1, 2, 3, 6, 35),
+                  ion_adduct = c("[M+H]+", "[M+Na]+", "[M+Na]+",
+                                 "[M+Na]+", "[M+2H]2+", "[M+H-NH3]+"),
+                  ion_mz = c(179.0703, 201.0522, 201.0522,
+                             201.0522, 253.66982, 312.0390),
+                  ion_rt = 1:6)
+library(DBI)
+idb <- IonDb(dbConnect(RSQLite::SQLite(), paste0(tempdir(), "/idb_ex.sqlite")),
+             cdb, ions)
+
+# It is also possible to load a previously created IonDb passing only the
+# connection to the database.
+idb2 <- IonDb(paste0(tempdir(), "/idb_ex.sqlite"))
+
+# We can also add new ions to the IonDb object through the method insertIon
+
+## List all available ion variables
+ionVariables(idb)
+
+## Extract a data.frame with ion variables for all ions
+ions(idb)
+
+## List all database tables and their columns
+tables(idb)
+
+## Filtering the database
+##
+## Get all ions with an exact mass between 310 and 320
+res <- ions(idb, filter = ~ ion_rt > 3 & ion_mz < 5)
+res
+
+## Get all ions that have an H14 in their formula.
+res <- ions(idb, filter = IonAdductFilter("B", "contains"))
+res
 }
 \author{
 Andrea Vicini, Johannes Rainer

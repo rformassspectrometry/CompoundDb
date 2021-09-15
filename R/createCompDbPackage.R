@@ -856,10 +856,6 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
         if (!is.numeric(ions$ion_rt))
             txt <- c(txt, "Column 'ion_rt' should be numeric")
     }
-    # not sure about the following condition
-    if (length(paste(ions$compound_id, ions$ion_adduct, sep = "")) != nrow(ions))
-        txt <- c(txt, paste0("Each row of 'ions[, c(\"compound_id\", ",
-                             "\"ion_adduct\")]' must be unique"))
     if (length(txt)){
         if (error)
             stop(paste(txt, collapse = "\n"))

@@ -4,24 +4,13 @@
 #'
 #' @export
 setMethod("show", "IonDb", function(object) {
-    cat("class:", class(object), "\n")
+    callNextMethod()
     con <- .dbconn(object)
     if (!is.null(con)) {
-        cat(" data source:", .metadata_value(con, "source"), "\n")
-        cat(" version:", .metadata_value(con, "source_version"), "\n")
-        cat(" organism:", .metadata_value(con, "organism"), "\n")
-        cmp_nr <- dbGetQuery(con, paste0("select count(distinct compound_id) ",
-                                         "from ms_compound"))
-        cat(" compound count:", cmp_nr[1, 1], "\n")
         ion_nr <- dbGetQuery(con, paste0("select count(distinct ion_id) ",
                                          "from ms_ion"))
         cat(" ion count:", ion_nr[1, 1], "\n")
-        if (.has_msms_spectra(object)) {
-            spctra <- dbGetQuery(con, paste0("select count(distinct spectrum_",
-                                             "id) from msms_spectrum"))
-            cat(" MS/MS spectra count:", spctra[1, 1], "\n")
-        }
-    } else cat(" no database connection available\n")
+    }
 })
 
 #' @export
@@ -37,6 +26,8 @@ setMethod("ionVariables", "IonDb", function(object, includeId = FALSE, ...) {
 })
 
 #' @importFrom tibble as_tibble
+#' 
+#' @importMethodsFrom ProtGenerics ions
 #'
 #' @export
 #'
@@ -70,8 +61,6 @@ setMethod("insertIon", "IonDb", function(object, ions)
              dbGetQuery(dbcon, "select compound_id from ms_compound")[, 1]))
         stop(paste0("All values of 'compound_id' column of 'ions' must be",
                     " in 'compound_id' column of 'ms_compound' table of 'cdb'"))
-    # should I check here that the newly inserted ions are not already in the 
-    # object, right? or we can add two different ions with the same id?
     ions$ion_id <- seq_len(nrow(ions)) +
         dbGetQuery(dbcon, "select count(distinct ion_id) from ms_ion")[1, 1]
     dbAppendTable(dbcon, "ms_ion", ions)

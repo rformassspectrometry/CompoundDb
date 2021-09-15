@@ -10,9 +10,6 @@ setGeneric("ionVariables", function(object, ...)
 setGeneric("insertIon", function(object, ions, ...)
   standardGeneric("insertIon"))
 
-setGeneric("ions", function(object, ...)
-  standardGeneric("ions")) ## is creating this generic right?
-
 #' @importClassesFrom tibble tbl_df
 #'
 #' @noRd
