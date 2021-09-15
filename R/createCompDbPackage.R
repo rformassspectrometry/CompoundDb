@@ -695,6 +695,9 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
 .required_compound_db_columns <- c("compound_id", "name", "inchi",
                                    "inchikey", "formula", "exactmass")
 .required_compound_columns <- c(.required_compound_db_columns, "synonyms")
+.required_ion_columns <- c("compound_id", "ion_adduct", "ion_mz", "ion_rt")
+
+
 
 .required_msms_spectrum_columns <- c(spectrum_id = "integer",
                                      compound_id = "character",
@@ -825,6 +828,39 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
             stop(paste(txt, collapse = "\n"))
         else txt
     else TRUE
+}
+
+#' @description Check that the ions table contains all required data.
+#'
+#' @param db `logical(1)` whether validity should be checked on the internal
+#'     database table instead of the input file.
+#' @md
+#'
+#' @noRd
+.valid_ion <- function (ions, error = TRUE){
+    txt <- character()
+    if (!is.data.frame(ions))
+        txt <- c(txt, "'ions' is supposed to be a data.frame")
+    got_it <- .required_ion_columns %in% colnames(ions)
+    if (!all(got_it)) {
+        txt <- c(txt, paste0("Miss required columns: ",
+                             paste0(.required_ion_columns[!got_it],
+                                    collapse = ", ")))
+    } else {
+        # if (!is.character(ions$compound_id)) # can also be numeric?
+        #   txt <- c(txt, "Column 'compound_id' should be character")
+        if (!is.character(ions$ion_adduct))
+            txt <- c(txt, "Column 'ion_adduct' should be chararcter")
+        if (!is.numeric(ions$ion_mz))
+            txt <- c(txt, "Column 'ion_mz' should be numeric")
+        if (!is.numeric(ions$ion_rt))
+            txt <- c(txt, "Column 'ion_rt' should be numeric")
+    }
+    if (length(txt)){
+        if (error)
+            stop(paste(txt, collapse = "\n"))
+        else txt
+    } else TRUE
 }
 
 #' @description

@@ -1,4 +1,4 @@
-#' @title Filters supported by CompDb
+#' @title Filters supported by CompDb and IonDb
 #'
 #' @description
 #'
@@ -22,6 +22,15 @@
 #'   (i.e. `hasMsMsSpectra(cmp_db)` returns `TRUE`).
 #' - `SpectrumIdFilter`: retrieve entries associated with the provided IDs of
 #'   MS/MS spectra.
+#'   
+#' In addition to the filters listed above, the following ones are supported by 
+#' a IonDb (but not by a CompDb):
+#' 
+#' - `IonIdFilter`: filter based on the ion ID.
+#' - `IonAdductFilter`: filter based on the adduct.
+#' - `IonMzFilter`: filter based on the mz of the ion.
+#' - `IonRtFilter`: filter based on the rt of the ion.
+#' 
 #'
 #' @param value The value for the filter. For details see
 #'     [AnnotationFilter::AnnotationFilter()].
@@ -34,7 +43,7 @@
 #' @name Filter-classes
 #'
 #' @seealso [supportedFilters()] for the method to list all supported filters
-#'     for a `CompDb` object.
+#'     for a `CompDb` (or a IonDb) object.
 #'
 #' @examples
 #' library(CompoundDb)
@@ -208,6 +217,72 @@ InchikeyFilter <- function(value, condition = "==") {
         condition = condition)
 }
 
+#' @exportClass IonIdFilter
+#'
+#' @rdname Filter-classes
+setClass("IonIdFilter", contains = "CharacterFilter",
+         prototype = list(
+             condition = "==",
+             value = "",
+             field = "ion_id"
+         ))
+#' @export IonIdFilter
+#'
+#' @rdname Filter-classes
+IonIdFilter <- function(value, condition = "==") {
+    new("IonIdFilter", value = value, condition = condition)
+}
+
+
+#' @exportClass IonAdductFilter
+#'
+#' @rdname Filter-classes
+setClass("IonAdductFilter", contains = "CharacterFilter",
+         prototype = list(
+             condition = "==",
+             value = "",
+             field = "ion_adduct"
+         ))
+#' @export IonAdductFilter
+#'
+#' @rdname Filter-classes
+IonAdductFilter <- function(value, condition = "==") {
+    new("IonAdductFilter", value = value, condition = condition)
+}
+
+#' @exportClass IonMzFilter
+#'
+#' @rdname Filter-classes
+setClass("IonMzFilter", contains = "DoubleFilter",
+         prototype = list(
+             condition = "==",
+             value = 0,
+             field = "ion_mz"
+         ))
+#' @export IonMzFilter
+#'
+#' @rdname Filter-classes
+IonMzFilter <- function(value, condition = "==") {
+    new("IonMzFilter", value = as.numeric(value),
+        condition = condition)
+}
+
+#' @exportClass IonRtFilter
+#'
+#' @rdname Filter-classes
+setClass("IonRtFilter", contains = "DoubleFilter",
+         prototype = list(
+             condition = "==",
+             value = 0,
+             field = "ion_rt"
+         ))
+#' @export IonRtFilter
+#'
+#' @rdname Filter-classes
+IonRtFilter <- function(value, condition = "==") {
+    new("IonRtFilter", value = as.numeric(value),
+        condition = condition)
+}
 
 #' @description Returns the field (database column name) for the provided
 #'     `AnnotationFilter`. Returns by default the value from `@field` but can
@@ -413,6 +488,18 @@ InchikeyFilter <- function(value, condition = "==") {
                                field = c("msms_mz_range_min",
                                          "msms_mz_range_max",
                                          "spectrum_id"),
+                               stringsAsFactors = FALSE))
+    }
+    if(!missing(x) && is(x, "IonDb")) {
+        df <- rbind(df,
+                    data.frame(filter = c("IonIdFilter",
+                                          "IonAdductFilter",
+                                          "IonMzFilter",
+                                          "IonRtFilter"),
+                               field = c("ion_id",
+                                         "ion_adduct",
+                                         "ion_mz",
+                                         "ion_rt"),
                                stringsAsFactors = FALSE))
     }
     df[order(df$filter), ]

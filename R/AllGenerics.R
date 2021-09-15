@@ -4,6 +4,12 @@ setGeneric("annotateMz", function(object, compounds, ...)
 setGeneric("compoundVariables", function(object, ...)
     standardGeneric("compoundVariables"))
 
+setGeneric("ionVariables", function(object, ...)
+  standardGeneric("ionVariables"))
+
+setGeneric("insertIon", function(object, ions, ...)
+  standardGeneric("insertIon"))
+
 #' @importClassesFrom tibble tbl_df
 #'
 #' @noRd

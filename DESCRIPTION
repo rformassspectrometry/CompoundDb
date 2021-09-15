@@ -1,7 +1,7 @@
 Package: CompoundDb
 Type: Package
 Title: Creating and Using (Chemical) Compound Annotation Databases
-Version: 0.8.1
+Version: 0.9.0
 Authors@R: c(person(given = "Jan", family = "Stanstrup",
                     email = "stanstrup@gmail.com",
 		    role = c("aut"),
@@ -60,6 +60,8 @@ Collate:
     'createCompDbPackage.R'
     'CompDb.R'
     'CompDb-methods.R'
+    'IonDb.R'
+    'IonDb-methods.R'
     'MsBackendCompDb-functions.R'
     'MsBackendCompDb.R'
     'Spectra-functions.R'

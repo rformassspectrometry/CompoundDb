@@ -21,7 +21,15 @@
 \alias{InchiFilter}
 \alias{InchikeyFilter-class}
 \alias{InchikeyFilter}
-\title{Filters supported by CompDb}
+\alias{IonIdFilter-class}
+\alias{IonIdFilter}
+\alias{IonAdductFilter-class}
+\alias{IonAdductFilter}
+\alias{IonMzFilter-class}
+\alias{IonMzFilter}
+\alias{IonRtFilter-class}
+\alias{IonRtFilter}
+\title{Filters supported by CompDb and IonDb}
 \usage{
 CompoundIdFilter(value, condition = "==")
 
@@ -40,6 +48,14 @@ FormulaFilter(value, condition = "==")
 InchiFilter(value, condition = "==")
 
 InchikeyFilter(value, condition = "==")
+
+IonIdFilter(value, condition = "==")
+
+IonAdductFilter(value, condition = "==")
+
+IonMzFilter(value, condition = "==")
+
+IonRtFilter(value, condition = "==")
 }
 \arguments{
 \item{value}{The value for the filter. For details see
@@ -71,6 +87,15 @@ peaks of their MS/MS spectra. Requires that MS/MS spectra data are present
 \item \code{SpectrumIdFilter}: retrieve entries associated with the provided IDs of
 MS/MS spectra.
 }
+
+In addition to the filters listed above, the following ones are supported by
+a IonDb (but not by a CompDb):
+\itemize{
+\item \code{IonIdFilter}: filter based on the ion ID.
+\item \code{IonAdductFilter}: filter based on the adduct.
+\item \code{IonMzFilter}: filter based on the mz of the ion.
+\item \code{IonRtFilter}: filter based on the rt of the ion.
+}
 }
 \examples{
 library(CompoundDb)
@@ -90,7 +115,7 @@ AnnotationFilter(~ compound_id == "a" | name != "b")
 }
 \seealso{
 \code{\link[=supportedFilters]{supportedFilters()}} for the method to list all supported filters
-for a \code{CompDb} object.
+for a \code{CompDb} (or a IonDb) object.
 }
 \author{
 Johannes Rainer
