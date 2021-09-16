@@ -26,7 +26,7 @@ setMethod("ionVariables", "IonDb", function(object, includeId = FALSE, ...) {
 })
 
 #' @importFrom tibble as_tibble
-#' 
+#'
 #' @importMethodsFrom ProtGenerics ions
 #'
 #' @export
@@ -48,21 +48,77 @@ setMethod("ions", "IonDb", function(object,
 })
 
 #' @importFrom DBI dbAppendTable dbGetQuery
-#' 
+#'
 #' @export
-#' 
+#'
 #' @rdname IonDb
-setMethod("insertIon", "IonDb", function(object, ions)
-{
+setMethod("insertIon", "IonDb", function(object, ions) {
+    if (is.data.frame(ions))
+        ions$compound_id <- as.character(ions$compound_id)
     .valid_ion(ions, error = TRUE)
-    dbcon <- dbConnect(dbDriver("SQLite"), dbname = dbconn(object)@dbname)
-    #dbcon <- dbconn(object)
-    if (!all(ions$compound_id %in%
-             dbGetQuery(dbcon, "select compound_id from ms_compound")[, 1]))
-        stop(paste0("All values of 'compound_id' column of 'ions' must be",
-                    " in 'compound_id' column of 'ms_compound' table of 'cdb'"))
-    ions$ion_id <- seq_len(nrow(ions)) +
-        dbGetQuery(dbcon, "select count(distinct ion_id) from ms_ion")[1, 1]
-    dbAppendTable(dbcon, "ms_ion", ions)
-    dbDisconnect(dbcon)
+    dbcon <- .dbconn(object)
+    if (!is.null(dbcon) && nrow(ions)) {
+        if (!all(ions$compound_id %in%
+                 dbGetQuery(dbcon, "select compound_id from ms_compound")[, 1]))
+            stop("All values of 'compound_id' column of 'ions' must be",
+                 " in 'compound_id' column of 'ms_compound' table of 'cdb'")
+        ions$ion_id <- as.character(
+            seq_len(nrow(ions)) +
+            dbGetQuery(dbcon, "select count(distinct ion_id) from ms_ion")[1,1])
+        dbAppendTable(dbcon, "ms_ion", ions)
+        invisible(object)
+    } else stop("Database not initialized")
 })
+
+#' @rdname IonDb
+#'
+#' @exportMethod IonDb
+setMethod("IonDb", signature(x = "missing", cdb = "missing"),
+          function(x, cdb, ...) {
+              .IonDb()
+          })
+
+#' @rdname IonDb
+setMethod("IonDb", signature(x = "character", cdb = "missing"),
+          function(x, cdb, ...) {
+              con <- dbConnect(dbDriver("SQLite"), x)
+              IonDb(con, ...)
+          })
+
+#' @rdname IonDb
+setMethod("IonDb", signature(x = "CompDb",
+                             cdb = "missing"),
+          function(x, cdb, ions = data.frame(), ...) {
+              con <- .dbconn(x)
+              .create_ion_table(con)
+              IonDb(con, ions = ions, ...)
+          })
+
+#' @rdname IonDb
+setMethod("IonDb", signature(x = "DBIConnection", cdb = "missing"),
+          function(x, cdb, ions = data.frame(), ...) {
+              res <- .validCompDb(x)
+              if (is.character(res)) stop(res)
+              res <- .validIonDb(x)
+              if (is.character(res)) stop(res)
+              idb <- .IonDb(dbcon = x)
+              idb <- .initialize_compdb(idb)
+              if (nrow(ions))
+                  insertIon(idb, ions)
+              idb
+          })
+
+#' @rdname IonDb
+setMethod("IonDb", signature(x = "character", cdb = "CompDb"),
+          function(x, cdb, ions = data.frame(), ...) {
+              con <- dbConnect(dbDriver("SQLite"), x)
+              IonDb(con, cdb = cdb, ions = ions, ...)
+          })
+
+#' @rdname IonDb
+setMethod("IonDb", signature(x = "DBIConnection", cdb = "CompDb"),
+          function(x, cdb, ions = data.frame(), ...) {
+              .copy_compdb(.dbconn(cdb), x)
+              .create_ion_table(x)
+              IonDb(x, ions = ions, ...)
+          })
