@@ -10,6 +10,9 @@ setGeneric("ionVariables", function(object, ...)
 setGeneric("insertIon", function(object, ions, ...)
   standardGeneric("insertIon"))
 
+setGeneric("IonDb", function(x, cdb, ...)
+    standardGeneric("IonDb"))
+
 #' @importClassesFrom tibble tbl_df
 #'
 #' @noRd

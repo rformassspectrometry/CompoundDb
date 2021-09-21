@@ -271,16 +271,22 @@ CompDb <- function(x, flags = RSQLite::SQLITE_RO) {
         if (is.character(res))
             stop(res)
         cdb <- .CompDb(dbcon = x)
-        ## fetch all tables and all columns for all tables.
-        tbl_nms <- dbListTables(x)
-        tbls <- lapply(tbl_nms, function(z) {
-            colnames(dbGetQuery(x, paste0("select * from ", z, " limit 1")))
-        })
-        names(tbls) <- tbl_nms
-        cdb@.properties$tables <- tbls
+        cdb <- .initialize_compdb(cdb)
         return(cdb)
     }
     stop("Can not create a 'CompDb' from 'x' of type '", class(x), "'.")
+}
+
+.initialize_compdb <- function(x) {
+    ## fetch all tables and all columns for all tables.
+    tbl_nms <- dbListTables(.dbconn(x))
+    tbls <- lapply(tbl_nms, function(z) {
+        colnames(dbGetQuery(.dbconn(x),
+                            paste0("select * from ", z, " limit 1")))
+    })
+    names(tbls) <- tbl_nms
+    x@.properties$tables <- tbls
+    x
 }
 
 #' @importFrom methods is

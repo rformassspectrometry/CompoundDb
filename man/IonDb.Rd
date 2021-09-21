@@ -2,16 +2,22 @@
 % Please edit documentation in R/IonDb.R, R/IonDb-methods.R
 \name{IonDb}
 \alias{IonDb}
-\alias{IonDb-method}
+\alias{IonDb-class}
 \alias{show,IonDb-method}
 \alias{ionVariables}
+\alias{ions}
+\alias{insertIon}
 \alias{ionVariables,IonDb-method}
 \alias{ions,IonDb-method}
 \alias{insertIon,IonDb-method}
-\title{Simple database containing compound (metabolite) and ion information}
+\alias{IonDb,missing,missing-method}
+\alias{IonDb,character,missing-method}
+\alias{IonDb,CompDb,missing-method}
+\alias{IonDb,DBIConnection,missing-method}
+\alias{IonDb,character,CompDb-method}
+\alias{IonDb,DBIConnection,CompDb-method}
+\title{IonDb: compound database with additional ion information}
 \usage{
-IonDb(x, cdb, ions)
-
 \S4method{ionVariables}{IonDb}(object, includeId = FALSE, ...)
 
 \S4method{ions}{IonDb}(
@@ -23,23 +29,23 @@ IonDb(x, cdb, ions)
 )
 
 \S4method{insertIon}{IonDb}(object, ions)
+
+\S4method{IonDb}{missing,missing}(x, cdb, ...)
+
+\S4method{IonDb}{character,missing}(x, cdb, ...)
+
+\S4method{IonDb}{CompDb,missing}(x, cdb, ions = data.frame(), ...)
+
+\S4method{IonDb}{DBIConnection,missing}(x, cdb, ions = data.frame(), ...)
+
+\S4method{IonDb}{character,CompDb}(x, cdb, ions = data.frame(), ...)
+
+\S4method{IonDb}{DBIConnection,CompDb}(x, cdb, ions = data.frame(), ...)
 }
 \arguments{
-\item{x}{For \code{IonDb}: database connection (should be to empty database?) or
-\code{character(1)} with the file name of the SQLite database where the
-\code{IonDb} data will be stored.\preformatted{For all other methods: a `IonDb` object.
-}}
-
-\item{cdb}{for \code{IonDb}: \code{CompDb} object used to construct a \code{IonDb} object
-(the content of \code{cdb} is copied to the \code{IonDb} object).}
-
-\item{ions}{for \code{IonDb}: table to be added to the \code{IonDb} object (if missing
-an empty table is added). \code{ions} is required to have the columns
-"compound_id", "ion_adduct", "ion_mz" and "ion_rt".}
-
 \item{object}{For all methods: a \code{IonDb} object.}
 
-\item{includeId}{for \code{ionVariables}: \code{logical(1)} whether the ion
+\item{includeId}{For \code{ionVariables}: \code{logical(1)} whether the ion
 ID (column \code{"ms_ion_id"}) should be included in the result. The
 default is \code{includeId = FALSE}.}
 
@@ -54,35 +60,77 @@ a filter to be used to retrieve specific elements from the database.}
 
 \item{return.type}{For \code{ions}: either \code{"data.frame"} or \code{"tibble"} to
 return the result as a \code{\link[=data.frame]{data.frame()}} or \code{\link[=tibble]{tibble()}}, respectively.}
+
+\item{ions}{for \code{insertIon} and \code{IonDb}: \code{data.frame} with ion definitions
+to be added to the \code{IonDb} database. Columns \code{"compound_id"}
+(\code{character()}), \code{"ion_adduct"} (\code{character()}), \code{"ion_mz"}
+(\code{numeric()}) and \code{"ion_rt"} (\code{numeric()}) are mandatory.}
+
+\item{x}{For \code{IonDb}: database connection or \code{character(1)} with the file
+name of the SQLite database where the \code{IonDb} data will be stored or a
+\code{\link[=CompDb]{CompDb()}} object that should be converted into an \code{IonDb} object.\preformatted{For all other methods: an `IonDb` object.
+}}
+
+\item{cdb}{for \code{IonDb}: \code{CompDb} object from which data should be
+transferred to the \code{IonDb} database.}
 }
 \description{
-\code{IonDb} objects extends \code{CompDb} by adding ions measured on a certain LC-MS
-setup. The data is stored internally in a database (usually an SQLite
-database).
+\code{IonDb} objects extends \code{CompDb} by allowing to store also information about
+measured ions to a \code{\link[=CompDb]{CompDb()}} database. This information includes the type
+(adduct) of the ion, it's measured (or expected) retention time for a certain
+LC-MS setup and its mass-to-charge ratio.
+
+As suggested use case, users might create (or download) a \code{CompDb} (SQLite)
+database e.g. containing compound (and eventually MS/MS spectra) annotations
+from public databases such as the Human Metabolome Database (HMDB) or
+MassBank. To store now measured ions (e.g. of lab-internal standards) for a
+certain LC-MS setup, such a \code{CompDb} can then be converted to an \code{IonDb}
+using the \code{IonDb} constructor function. Ions can be subsequently added using
+the \code{insertIon} function. In general, it is suggested to create one \code{IonDb}
+database for one specific LC-MS setup. Such an \code{IonDb} database can then be
+used to match experimental m/z and retention times against ions defined in
+the database (using the functionality of the
+\href{https://rformassspectrometry.github.io/MetaboAnnotation}{MetaboAnnotation}
+package).
 }
-\details{
-\code{IonDb} objects should be created using the constructor function
-\code{IonDb} providing a database connection, a \code{CompDb} object and a table with
-ions (the content of the \code{CompDb} object and ion table is copied to
-the database pointed by the connection). Alternatively it is possible to
-directly pass just the database connection to an already existing database
-(with all the required tables) and load it as a \code{IonDb}.
+\section{Creation of \code{IonDb} objects/databases}{
+
+\itemize{
+\item A new \code{IonDb} database can be created and initialized with data from an
+existing \code{CompDb} database by passing either the database connection
+(e.g. an \code{SQLiteConnection}) or the file path of a (to be created) SQLite
+database with parameter \code{x} to the \code{IonDb} function and the \code{CompDb}
+object with parameter \code{cdb}. Optional parameter \code{ions} allows insert in
+addition ion definitions (which can also be added later using
+\code{insertIon} function calls).
+\item An existing \code{CompDb} can be converted to an \code{IonDb} by passing the
+\code{\link[=CompDb]{CompDb()}} object with parameter \code{x} to the \code{IonDb} function. Optional
+parameter \code{ions} allows to provide a \code{data.frame} with ion definitions to
+be inserted in to the database (which can also be added later using
+\code{insertIon} function calls). Note that this fails if the database
+connection for the \code{CompDb} is read-only.
+\item Previously created \code{IonDb} databases can be loaded by passing either the
+database connection (e.g. an \code{SQLiteConnection}) or the file path of the
+(SQLite) database with parameter \code{x} to the \code{IonDb} function.
 }
+}
+
 \section{Retrieve annotations and ion information from the database}{
 
 
 Annotations/compound informations can be retrieved from a \code{IonDb} in the same
-way as thay are extracted from a \code{CompDb}. In addition to that the function
-\code{ions} allows to retrieve ion information from the \code{IonDb} object. It returns
-the actual data as a \code{data.frame} (if \code{return.type = "data.frame"}) or a
-\code{\link[tibble:tibble]{tibble::tibble()}} (if \code{return.type = "tibble"}). A \code{ions} call will always
+way as thay are extracted from a \code{CompDb}. In addition, the function
+\code{ions} allows to retrieve the specific ion information from the database.
+It returns the actual data as a \code{data.frame} (if
+\code{return.type = "data.frame"}) or a \code{\link[tibble:tibble]{tibble::tibble()}}
+(if \code{return.type = "tibble"}). An \code{ions} call will always
 return all elements from the \emph{ms_ion} table (unless a \code{filter} is used).
 }
 
 \section{General functions (beside those inherited from \code{CompDb})}{
 
 \itemize{
-\item \code{IonDb}: connect to a compound/ion database.
+\item \code{IonDb}: connect to or create a compound/ion database.
 \item \code{ionVariables}: returns all available columns/database fields for ions.
 \item \code{insertIon}: allows to add further ions to the \code{IonDb} object. Note that
 \code{insertIon} always adds all the ions specified through the \code{ions} parameter
@@ -100,37 +148,47 @@ for a certain compound with the ID \code{"1"} can for example be
 retrieved by passing the filter expression \code{filter = ~ ion_id == "1"} to
 the \code{ions} function.
 
-Use the \link{supportedFilters} function on the \link{IonDb} object to get a list of
+Use the \code{\link[=supportedFilters]{supportedFilters()}} function on the \code{IonDb} object to get a list of
 all supported filters. See also examples below or the usage vignette for
 details.
 }
 
 \examples{
 
-# I have to improve/complete this
 # We load a small compound test database based on MassBank which is
 # distributed with this package.
 cdb <- CompDb(system.file("sql/CompDb.MassBank.sql", package = "CompoundDb"))
 cdb
 
-# The previous database is read only. We can create a new IonDb object from
-# cdb and add a ions table to it.
+# We next want to convert this CompDb into an IonDb, but the original CompDb
+# database is read only, thus we have to provide the name (or connection) of
+# an other database to transfer all the data from the CompDb to that.
+idb <- IonDb(paste0(tempdir(), "/idb_ex.db"), cdb)
+idb
 
-ions = data.frame(compound_id = c(1, 1, 2, 3, 6, 35),
+# It is also possible to load a previously created IonDb passing only the
+# connection to the database.
+idb2 <- IonDb(paste0(tempdir(), "/idb_ex.db"))
+
+# Ion definitions can be added to the database with the `insertIon` function
+# providing a `data.frame` with ion definition. This `data.frame` is expected
+# to provide the IDs of the compounds, an adduct name/definition and the
+# (experimentally determined) m/z and retention time of the ion. To list
+# compound IDs from the CompDb database:
+head(compounds(cdb, c("compound_id", "name")))
+
+ions = data.frame(compound_id = c("1", "1", "2", "3", "6", "35"),
                   ion_adduct = c("[M+H]+", "[M+Na]+", "[M+Na]+",
                                  "[M+Na]+", "[M+2H]2+", "[M+H-NH3]+"),
                   ion_mz = c(179.0703, 201.0522, 201.0522,
                              201.0522, 253.66982, 312.0390),
                   ion_rt = 1:6)
-library(DBI)
-idb <- IonDb(dbConnect(RSQLite::SQLite(), paste0(tempdir(), "/idb_ex.sqlite")),
-             cdb, ions)
 
-# It is also possible to load a previously created IonDb passing only the
-# connection to the database.
-idb2 <- IonDb(paste0(tempdir(), "/idb_ex.sqlite"))
+# Inserting ion definitions.
+idb <- insertIon(idb, ions)
+idb
 
-# We can also add new ions to the IonDb object through the method insertIon
+ions(idb, columns = c("name", "formula", "ion_adduct", "ion_mz", "ion_rt"))
 
 ## List all available ion variables
 ionVariables(idb)
@@ -143,12 +201,12 @@ tables(idb)
 
 ## Filtering the database
 ##
-## Get all ions with an exact mass between 310 and 320
-res <- ions(idb, filter = ~ ion_rt > 3 & ion_mz < 5)
+## Get all ions with an m/z between 200 and 300
+res <- ions(idb, filter = ~ ion_mz > 200 & ion_mz < 300)
 res
 
-## Get all ions that have an H14 in their formula.
-res <- ions(idb, filter = IonAdductFilter("B", "contains"))
+## Get all ions that have a H in their adduct definition.
+res <- ions(idb, filter = IonAdductFilter("H", "contains"))
 res
 }
 \author{

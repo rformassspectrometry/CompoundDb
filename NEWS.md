@@ -1,5 +1,11 @@
 # Version 0.9
 
+## Changes in version 0.9.1
+
+- Add `IonDb` constructor methods.
+- Expand documentation and examples.
+- Add and fix unit tests.
+
 ## Changes in version 0.9.0
 
 - Add `IonDb` class as extension of `CompDb` (to allow adding ion information
