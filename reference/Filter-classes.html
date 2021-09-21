@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Filters supported by CompDb — Filter-classes • CompoundDb</title>
+<title>Filters supported by CompDb and IonDb — Filter-classes • CompoundDb</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Filters supported by CompDb — Filter-classes" />
+<meta property="og:title" content="Filters supported by CompDb and IonDb — Filter-classes" />
 <meta property="og:description" content="A variety of different filters can be applied to the CompDb object to
 retrieve only subsets of the data. These filters extend the
 AnnotationFilter::AnnotationFilter class and support the filtering concepts
@@ -59,6 +59,14 @@ peaks of their MS/MS spectra. Requires that MS/MS spectra data are present
 (i.e. hasMsMsSpectra(cmp_db) returns TRUE).
 SpectrumIdFilter: retrieve entries associated with the provided IDs of
 MS/MS spectra.
+
+
+In addition to the filters listed above, the following ones are supported by
+a IonDb (but not by a CompDb):
+IonIdFilter: filter based on the ion ID.
+IonAdductFilter: filter based on the adduct.
+IonMzFilter: filter based on the mz of the ion.
+IonRtFilter: filter based on the rt of the ion.
 
 " />
 
@@ -100,7 +108,7 @@ MS/MS spectra.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CompoundDb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.1</span>
       </span>
     </div>
 
@@ -148,7 +156,7 @@ MS/MS spectra.
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Filters supported by CompDb</h1>
+    <h1>Filters supported by CompDb and IonDb</h1>
     <small class="dont-index">Source: <a href='https://github.com/EuracBiomedicalResearch/CompoundDb/blob/master/R/AnnotationFilters.R'><code>R/AnnotationFilters.R</code></a></small>
     <div class="hidden name"><code>Filter-classes.Rd</code></div>
     </div>
@@ -175,6 +183,14 @@ peaks of their MS/MS spectra. Requires that MS/MS spectra data are present
 MS/MS spectra.</p></li>
 </ul>
 
+<p>In addition to the filters listed above, the following ones are supported by
+a IonDb (but not by a CompDb):</p><ul>
+<li><p><code>IonIdFilter</code>: filter based on the ion ID.</p></li>
+<li><p><code>IonAdductFilter</code>: filter based on the adduct.</p></li>
+<li><p><code>IonMzFilter</code>: filter based on the mz of the ion.</p></li>
+<li><p><code>IonRtFilter</code>: filter based on the rt of the ion.</p></li>
+</ul>
+
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>CompoundIdFilter</span><span class='op'>(</span><span class='va'>value</span>, condition <span class='op'>=</span> <span class='st'>"=="</span><span class='op'>)</span>
@@ -193,7 +209,15 @@ MS/MS spectra.</p></li>
 
 <span class='fu'>InchiFilter</span><span class='op'>(</span><span class='va'>value</span>, condition <span class='op'>=</span> <span class='st'>"=="</span><span class='op'>)</span>
 
-<span class='fu'>InchikeyFilter</span><span class='op'>(</span><span class='va'>value</span>, condition <span class='op'>=</span> <span class='st'>"=="</span><span class='op'>)</span></code></pre></div>
+<span class='fu'>InchikeyFilter</span><span class='op'>(</span><span class='va'>value</span>, condition <span class='op'>=</span> <span class='st'>"=="</span><span class='op'>)</span>
+
+<span class='fu'>IonIdFilter</span><span class='op'>(</span><span class='va'>value</span>, condition <span class='op'>=</span> <span class='st'>"=="</span><span class='op'>)</span>
+
+<span class='fu'>IonAdductFilter</span><span class='op'>(</span><span class='va'>value</span>, condition <span class='op'>=</span> <span class='st'>"=="</span><span class='op'>)</span>
+
+<span class='fu'>IonMzFilter</span><span class='op'>(</span><span class='va'>value</span>, condition <span class='op'>=</span> <span class='st'>"=="</span><span class='op'>)</span>
+
+<span class='fu'>IonRtFilter</span><span class='op'>(</span><span class='va'>value</span>, condition <span class='op'>=</span> <span class='st'>"=="</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -213,7 +237,7 @@ MS/MS spectra.</p></li>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/AnnotationFilter/man/AnnotationFilter.html'>supportedFilters()</a></code> for the method to list all supported filters
-for a <code>CompDb</code> object.</p></div>
+for a <code>CompDb</code> (or a IonDb) object.</p></div>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Johannes Rainer</p>
@@ -255,7 +279,7 @@ for a <code>CompDb</code> object.</p></div>
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Jan Stanstrup, Johannes Rainer.</p></p>
+  <p><p>Developed by Jan Stanstrup, Johannes Rainer, Andrea Vicini.</p></p>
 </div>
 
 <div class="pkgdown">

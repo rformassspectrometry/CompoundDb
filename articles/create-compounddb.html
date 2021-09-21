@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CompoundDb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.1</span>
       </span>
     </div>
 
@@ -78,7 +78,7 @@
 
       
 
-      </header><script src="create-compounddb_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
+      </header><script src="create-compounddb_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Creating CompoundDb annotation resources</h1>
@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2021-07-01 14:27:54<br><strong>Compiled</strong>: Thu Jul 1 14:32:10 2021</p>
+</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2021-09-21 07:57:34<br><strong>Compiled</strong>: Tue Sep 21 08:08:57 2021</p>
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor" aria-hidden="true"></a>Introduction</h1>
@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <p>The function returns by default a (<code>data.frame</code>-equivalent) <code>tibble</code> (from the <em>tidyverse</em>’s <code>tibble</code> package).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cmps</span></code></pre></div>
-<pre><code>## # A tibble: 9 x 8
+<pre><code>## # A tibble: 9 × 8
 ##   compound_id name    inchi      inchikey  formula exactmass synonyms smiles    
 ##   &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;       &lt;dbl&gt; &lt;named &gt; &lt;chr&gt;     
 ## 1 HMDB0000001 1-Meth… InChI=1S/… BRMWTNUJ… C7H11N…     169.  &lt;chr [9… "CN1C=NC(…
@@ -315,7 +315,7 @@ mz(sps)[[2]]</code></pre>
 <code class="sourceCode R"><span class="fu"><a href="../reference/createCompDb.html">createCompDbPackage</a></span><span class="op">(</span>
     <span class="va">db_file</span>, version <span class="op">=</span> <span class="st">"0.0.1"</span>, author <span class="op">=</span> <span class="st">"J Rainer"</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,
     maintainer <span class="op">=</span> <span class="st">"Johannes Rainer &lt;johannes.rainer@eurac.edu&gt;"</span><span class="op">)</span></code></pre></div>
-<pre><code>## Creating package in /tmp/RtmpPA7Thl/CompDb.Hsapiens.HMDB.4.0</code></pre>
+<pre><code>## Creating package in /tmp/RtmpIo45jK/CompDb.Hsapiens.HMDB.4.0</code></pre>
 <p>The function creates a folder (in our case in a temporary directory) that can be build and installed with <code>R CMD build</code> and <code>R CMD INSTALL</code>.</p>
 <p>Special care should also be put on the license of the package that can be passed with the <code>license</code> parameter. The license of the package and how and if the package can be distributed will depend also on the license of the originating resource.</p>
 </div>
@@ -366,9 +366,9 @@ mz(sps)[[2]]</code></pre>
 <div id="session-information" class="section level1">
 <h1 class="hasAnchor">
 <a href="#session-information" class="anchor" aria-hidden="true"></a>Session information</h1>
-<pre><code>## R version 4.1.0 (2021-05-18)
+<pre><code>## R version 4.1.1 (2021-08-10)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 20.04.2 LTS
+## Running under: Ubuntu 20.04.3 LTS
 ## 
 ## Matrix products: default
 ## BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.8.so
@@ -386,40 +386,39 @@ mz(sps)[[2]]</code></pre>
 ## [8] base     
 ## 
 ## other attached packages:
-## [1] Spectra_1.3.1           ProtGenerics_1.25.0     BiocParallel_1.27.0    
-## [4] CompoundDb_0.8.1        S4Vectors_0.31.0        BiocGenerics_0.39.1    
-## [7] AnnotationFilter_1.17.0 BiocStyle_2.21.3       
+## [1] Spectra_1.3.9           ProtGenerics_1.25.1     BiocParallel_1.27.9    
+## [4] CompoundDb_0.9.1        S4Vectors_0.31.3        BiocGenerics_0.39.2    
+## [7] AnnotationFilter_1.17.1 BiocStyle_2.21.3       
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] bitops_1.0-7           fs_1.5.0               bit64_4.0.5           
-##  [4] rprojroot_2.0.2        GenomeInfoDb_1.29.2    tools_4.1.0           
-##  [7] bslib_0.2.5.1          utf8_1.2.1             R6_2.5.0              
-## [10] DT_0.18                DBI_1.1.1              lazyeval_0.2.2        
-## [13] colorspace_2.0-2       tidyselect_1.1.1       gridExtra_2.3         
-## [16] bit_4.0.4              compiler_4.1.0         textshaping_0.3.5     
-## [19] cli_2.5.0              Biobase_2.53.0         xml2_1.3.2            
-## [22] desc_1.3.0             bookdown_0.22          sass_0.4.0            
-## [25] scales_1.1.1           pkgdown_1.6.1.9001     systemfonts_1.0.2     
-## [28] stringr_1.4.0          digest_0.6.27          rmarkdown_2.9         
-## [31] XVector_0.33.0         base64enc_0.1-3        pkgconfig_2.0.3       
-## [34] htmltools_0.5.1.1      MetaboCoreUtils_1.1.0  dbplyr_2.1.1          
-## [37] fastmap_1.1.0          htmlwidgets_1.5.3      rlang_0.4.11          
-## [40] rstudioapi_0.13        RSQLite_2.2.7          jquerylib_0.1.4       
-## [43] generics_0.1.0         jsonlite_1.7.2         dplyr_1.0.7           
-## [46] RCurl_1.98-1.3         magrittr_2.0.1         GenomeInfoDbData_1.2.6
-## [49] Rcpp_1.0.6             munsell_0.5.0          fansi_0.5.0           
-## [52] MsCoreUtils_1.5.0      lifecycle_1.0.0        stringi_1.6.2         
-## [55] yaml_2.2.1             MASS_7.3-54            zlibbioc_1.39.0       
-## [58] grid_4.1.0             blob_1.2.1             parallel_4.1.0        
-## [61] crayon_1.4.1           knitr_1.33             ps_1.6.0              
-## [64] pillar_1.6.1           GenomicRanges_1.45.0   rjson_0.2.20          
-## [67] ChemmineR_3.45.0       glue_1.4.2             evaluate_0.14         
-## [70] BiocManager_1.30.16    png_0.1-7              vctrs_0.3.8           
-## [73] gtable_0.3.0           purrr_0.3.4            clue_0.3-59           
-## [76] assertthat_0.2.1       cachem_1.0.5           ggplot2_3.3.5         
-## [79] xfun_0.24              rsvg_2.1.2             ragg_1.1.3            
-## [82] tibble_3.1.2           memoise_2.0.0          IRanges_2.27.0        
-## [85] cluster_2.1.2          ellipsis_0.3.2</code></pre>
+##  [1] Biobase_2.53.0         sass_0.4.0             bit64_4.0.5           
+##  [4] jsonlite_1.7.2         bslib_0.3.0            assertthat_0.2.1      
+##  [7] MetaboCoreUtils_1.1.1  BiocManager_1.30.16    blob_1.2.2            
+## [10] GenomeInfoDbData_1.2.6 yaml_2.2.1             pillar_1.6.2          
+## [13] RSQLite_2.2.8          glue_1.4.2             digest_0.6.27         
+## [16] GenomicRanges_1.45.0   XVector_0.33.0         colorspace_2.0-2      
+## [19] htmltools_0.5.2        pkgconfig_2.0.3        bookdown_0.24         
+## [22] zlibbioc_1.39.0        purrr_0.3.4            scales_1.1.1          
+## [25] tibble_3.1.4           generics_0.1.0         IRanges_2.27.2        
+## [28] ggplot2_3.3.5          ellipsis_0.3.2         DT_0.19               
+## [31] cachem_1.0.6           lazyeval_0.2.2         cli_3.0.1             
+## [34] magrittr_2.0.1         crayon_1.4.1           memoise_2.0.0         
+## [37] evaluate_0.14          fs_1.5.0               fansi_0.5.0           
+## [40] MASS_7.3-54            xml2_1.3.2             textshaping_0.3.5     
+## [43] tools_4.1.1            lifecycle_1.0.0        stringr_1.4.0         
+## [46] munsell_0.5.0          cluster_2.1.2          compiler_4.1.1        
+## [49] pkgdown_1.6.1.9001     jquerylib_0.1.4        GenomeInfoDb_1.29.8   
+## [52] systemfonts_1.0.2      rlang_0.4.11           grid_4.1.1            
+## [55] RCurl_1.98-1.5         rsvg_2.1.2             rjson_0.2.20          
+## [58] MsCoreUtils_1.5.0      htmlwidgets_1.5.4      bitops_1.0-7          
+## [61] base64enc_0.1-3        rmarkdown_2.11         gtable_0.3.0          
+## [64] DBI_1.1.1              R6_2.5.1               gridExtra_2.3         
+## [67] knitr_1.34             dplyr_1.0.7            fastmap_1.1.0         
+## [70] bit_4.0.4              utf8_1.2.2             clue_0.3-59           
+## [73] rprojroot_2.0.2        ragg_1.1.3             desc_1.3.0            
+## [76] stringi_1.7.4          parallel_4.1.1         Rcpp_1.0.7            
+## [79] vctrs_0.3.8            png_0.1-7              dbplyr_2.1.1          
+## [82] tidyselect_1.1.1       xfun_0.26              ChemmineR_3.45.0</code></pre>
 </div>
   </div>
 
@@ -435,7 +434,7 @@ mz(sps)[[2]]</code></pre>
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Jan Stanstrup, Johannes Rainer.</p>
+<p>Developed by Jan Stanstrup, Johannes Rainer, Andrea Vicini.</p>
 </div>
 
 <div class="pkgdown">

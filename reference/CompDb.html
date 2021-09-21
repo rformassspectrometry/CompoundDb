@@ -85,7 +85,7 @@ available in the database and FALSE otherwise." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CompoundDb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.1</span>
       </span>
     </div>
 
@@ -585,21 +585,21 @@ details.</p>
 <span class='r-in'><span class='co'>##</span></span>
 <span class='r-in'><span class='co'>## Using return.type = "tibble" the result will be returned as a "tibble"</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html'>compounds</a></span><span class='op'>(</span><span class='va'>cdb</span>, return.type <span class='op'>=</span> <span class='st'>"tibble"</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 12 x 8</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    formula  exactmass smiles        inchi        inchikey   cas   pubchem name  </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> C10H10O3      178. CC1CC2=C(C(=… InChI=1S/C1… KWILGNNWG… 1739… CID:28… Melle…</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> C25H47N…      505. CC[C@@H](C)[… InChI=1S/C2… CTXQVLLVF… 1498… CID:10… AAL t…</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> C17H12O6      312. COC1=C2C3=C(… InChI=1S/C1… OQIQSTLJS… 1162… CID:18… Aflat…</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> C17H14O6      314. COC1=C2C3=C(… InChI=1S/C1… WWSYXEZEX… 7220… CID:27… Aflat…</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> C17H12O7      328. COC1=C2C3=C(… InChI=1S/C1… XWIYFDMXX… 1165… CID:27… Aflat…</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> C17H14O7      330. COC1=C2C3=C(… InChI=1S/C1… WPCVRWVBB… 7241… CID:27… Aflat…</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> C17H12O7      328. COC1=C2C3=C(… InChI=1S/C1… MJBWDEQAU… 6795… CID:15… Aflat…</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> C20H20N…      336. CC(=O)C1=C([… InChI=1S/C2… SZINUGQCT… 1817… CID:54… alpha…</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> C15H16O6      292. C[C@]12C[C@@… InChI=1S/C1… MMHTXEATD… 2975… CID:34… Alten…</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> C14H10O5      258. CC1=CC(=CC2=… InChI=1S/C1… CEBXXEKPI… 641-… CID:53… Alter…</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>11</span> C15H12O5      272. CC1=CC(=CC2=… InChI=1S/C1… LCSDQFNUY… 2345… CID:53… Alter…</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>12</span> C16H16O8      336. C[C@]1([C@@H… InChI=1S/C1… VSMBLBOUQ… 2226… CID:89… Alter…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 12 × 8</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    formula    exactmass smiles       inchi       inchikey   cas   pubchem name  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> C10H10O3        178. CC1CC2=C(C(… InChI=1S/C… KWILGNNWG… 1739… CID:28… Melle…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> C25H47NO9       505. CC[C@@H](C)… InChI=1S/C… CTXQVLLVF… 1498… CID:10… AAL t…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> C17H12O6        312. COC1=C2C3=C… InChI=1S/C… OQIQSTLJS… 1162… CID:18… Aflat…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> C17H14O6        314. COC1=C2C3=C… InChI=1S/C… WWSYXEZEX… 7220… CID:27… Aflat…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> C17H12O7        328. COC1=C2C3=C… InChI=1S/C… XWIYFDMXX… 1165… CID:27… Aflat…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> C17H14O7        330. COC1=C2C3=C… InChI=1S/C… WPCVRWVBB… 7241… CID:27… Aflat…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> C17H12O7        328. COC1=C2C3=C… InChI=1S/C… MJBWDEQAU… 6795… CID:15… Aflat…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> C20H20N2O3      336. CC(=O)C1=C(… InChI=1S/C… SZINUGQCT… 1817… CID:54… alpha…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> C15H16O6        292. C[C@]12C[C@… InChI=1S/C… MMHTXEATD… 2975… CID:34… Alten…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> C14H10O5        258. CC1=CC(=CC2… InChI=1S/C… CEBXXEKPI… 641-… CID:53… Alter…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>11</span> C15H12O5        272. CC1=CC(=CC2… InChI=1S/C… LCSDQFNUY… 2345… CID:53… Alter…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>12</span> C16H16O8        336. C[C@]1([C@@… InChI=1S/C… VSMBLBOUQ… 2226… CID:89… Alter…</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'>## Use the CompDb in a dplyr setup</span></span>
 <span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span></span>
@@ -619,7 +619,7 @@ details.</p>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span>     intersect, setdiff, setequal, union</span>
 <span class='r-in'><span class='va'>src_cmp</span> <span class='op'>&lt;-</span> <span class='fu'>src_compdb</span><span class='op'>(</span><span class='va'>cdb</span><span class='op'>)</span></span>
 <span class='r-in'><span class='va'>src_cmp</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> src:  sqlite 3.35.5 [/__w/_temp/Library/CompoundDb/sql/CompDb.MassBank.sql]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> src:  sqlite 3.36.0 [/__w/_temp/Library/CompoundDb/sql/CompDb.MassBank.sql]</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> tbls: metadata, ms_compound, msms_spectrum, msms_spectrum_peak, synonym</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'>## Get a tbl for the ms_compound table</span></span>
@@ -627,19 +627,19 @@ details.</p>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'>## Extract the id, name and inchi</span></span>
 <span class='r-in'><span class='va'>cmp_tbl</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>compound_id</span>, <span class='va'>name</span>, <span class='va'>inchi</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/compute.html'>collect</a></span><span class='op'>(</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 70 x 3</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    compound_id name       inchi                                                 </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                                 </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> 1           Mellein    InChI=1S/C10H10O3/c1-6-5-7-3-2-4-8(11)9(7)10(12)13-6/…</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> 2           Mellein    InChI=1S/C10H10O3/c1-6-5-7-3-2-4-8(11)9(7)10(12)13-6/…</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> 3           Mellein    InChI=1S/C10H10O3/c1-6-5-7-3-2-4-8(11)9(7)10(12)13-6/…</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> 4           Mellein    InChI=1S/C10H10O3/c1-6-5-7-3-2-4-8(11)9(7)10(12)13-6/…</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> 5           Mellein    InChI=1S/C10H10O3/c1-6-5-7-3-2-4-8(11)9(7)10(12)13-6/…</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> 6           AAL toxin… InChI=1S/C25H47NO9/c1-4-17(3)24(32)21(35-23(31)13-18(…</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> 7           AAL toxin… InChI=1S/C25H47NO9/c1-4-17(3)24(32)21(35-23(31)13-18(…</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> 8           AAL toxin… InChI=1S/C25H47NO9/c1-4-17(3)24(32)21(35-23(31)13-18(…</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> 9           AAL toxin… InChI=1S/C25H47NO9/c1-4-17(3)24(32)21(35-23(31)13-18(…</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> 10          AAL toxin… InChI=1S/C25H47NO9/c1-4-17(3)24(32)21(35-23(31)13-18(…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 70 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    compound_id name         inchi                                               </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                                               </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> 1           Mellein      InChI=1S/C10H10O3/c1-6-5-7-3-2-4-8(11)9(7)10(12)13-…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> 2           Mellein      InChI=1S/C10H10O3/c1-6-5-7-3-2-4-8(11)9(7)10(12)13-…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> 3           Mellein      InChI=1S/C10H10O3/c1-6-5-7-3-2-4-8(11)9(7)10(12)13-…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> 4           Mellein      InChI=1S/C10H10O3/c1-6-5-7-3-2-4-8(11)9(7)10(12)13-…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> 5           Mellein      InChI=1S/C10H10O3/c1-6-5-7-3-2-4-8(11)9(7)10(12)13-…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> 6           AAL toxin TB InChI=1S/C25H47NO9/c1-4-17(3)24(32)21(35-23(31)13-1…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> 7           AAL toxin TB InChI=1S/C25H47NO9/c1-4-17(3)24(32)21(35-23(31)13-1…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> 8           AAL toxin TB InChI=1S/C25H47NO9/c1-4-17(3)24(32)21(35-23(31)13-1…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> 9           AAL toxin TB InChI=1S/C25H47NO9/c1-4-17(3)24(32)21(35-23(31)13-1…</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> 10          AAL toxin TB InChI=1S/C25H47NO9/c1-4-17(3)24(32)21(35-23(31)13-1…</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 60 more rows</span></span>
 </code></pre></div>
   </div>
@@ -653,7 +653,7 @@ details.</p>
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Jan Stanstrup, Johannes Rainer.</p></p>
+  <p><p>Developed by Jan Stanstrup, Johannes Rainer, Andrea Vicini.</p></p>
 </div>
 
 <div class="pkgdown">
