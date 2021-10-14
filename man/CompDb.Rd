@@ -7,6 +7,7 @@
 \alias{dbconn,CompDb-method}
 \alias{show,CompDb-method}
 \alias{compoundVariables}
+\alias{insertSpectra}
 \alias{hasMsMsSpectra}
 \alias{src_compdb}
 \alias{tables}
@@ -16,6 +17,7 @@
 \alias{spectraVariables,CompDb-method}
 \alias{compoundVariables,CompDb-method}
 \alias{compounds,CompDb-method}
+\alias{insertSpectra,CompDb,Spectra-method}
 \title{Simple compound (metabolite) databases}
 \usage{
 CompDb(x, flags = RSQLite::SQLITE_RO)
@@ -45,6 +47,8 @@ tables(x)
   return.type = c("data.frame", "tibble"),
   ...
 )
+
+\S4method{insertSpectra}{CompDb,Spectra}(object, spectra, ...)
 }
 \arguments{
 \item{x}{For \code{CompDb}: \code{character(1)} with the file name of the SQLite
@@ -73,6 +77,9 @@ default is \code{includeIds = FALSE}.}
 
 \item{return.type}{For \code{compounds}: either \code{"data.frame"} or \code{"tibble"} to
 return the result as a \code{\link[=data.frame]{data.frame()}} or \code{\link[=tibble]{tibble()}}, respectively.}
+
+\item{spectra}{For \code{insertSpectra}: \code{Spectra} object containing the spectra
+to be added to the \code{IonDb} database.}
 }
 \description{
 \code{CompDb} objects provide access to general (metabolite) compound
@@ -123,6 +130,14 @@ applied on a \code{CompDb} object to extract only specific data from the
 database.
 \item \code{tables}: returns a named \code{list} (names being table names) with
 the fields/columns from each table in the database.
+\item \code{insertSpectra}: allows to add further spectra to the database object. Note
+that \code{insertSpectra} doesn't work on \code{CompDb} objects because such objects
+are read only but it does for \code{IonDb} objects which inherit from \code{CompDb}.
+The method always adds all the spectra specified through the \code{spectra}
+parameter and does not check if they are already in the database. Note that
+only the input spectra must have the variable \code{compound_id} and only
+\code{Spectra} whose \code{compound_id} values are also in
+\code{compounds(object, "compound_id")} can be added.
 }
 }
 

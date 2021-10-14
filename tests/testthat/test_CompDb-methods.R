@@ -105,3 +105,19 @@ test_that("compounds works", {
     res <- compounds(cdb, filter = FormulaFilter("C17", "startsWith"))
     expect_true(nrow(res) > 0)
 })
+
+test_that("insertSpectra,CompDb works", {
+    spd <- DataFrame(
+        msLevel = c(2L, 2L),
+        polarity = c(1L, 1L),
+        compound_id = c("HMDB0000001", "HMDB0000001"))
+    spd$mz <- list(
+        c(109.2, 124.2, 124.5, 170.16, 170.52),
+        c(83.1, 96.12, 97.14, 109.14, 124.08, 125.1, 170.16))
+    spd$intensity <- list(
+        c(3.407, 47.494, 3.094, 100.0, 13.240),
+        c(6.685, 4.381, 3.022, 16.708, 100.0, 4.565, 40.643))
+    sps <- Spectra(spd)
+    expect_error(insertSpectra(cmp_spctra_db, sps), 
+                 "attempt to write a readonly database")
+})

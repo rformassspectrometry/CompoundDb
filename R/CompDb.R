@@ -4,7 +4,7 @@
 #'
 #' @title Simple compound (metabolite) databases
 #'
-#' @aliases CompDb-class show dbconn,CompDb-method show,CompDb-method compoundVariables
+#' @aliases CompDb-class show dbconn,CompDb-method show,CompDb-method compoundVariables insertSpectra
 #'
 #' @description
 #'
@@ -58,7 +58,15 @@
 #'
 #' - `tables`: returns a named `list` (names being table names) with
 #'   the fields/columns from each table in the database.
-#'
+#'   
+#' - `insertSpectra`: allows to add further spectra to the database object. Note 
+#'   that `insertSpectra` doesn't work on `CompDb` objects because such objects
+#'   are read only but it does for `IonDb` objects which inherit from `CompDb`.
+#'   The method always adds all the spectra specified through the `spectra` 
+#'   parameter and does not check if they are already in the database. Note that
+#'   only the input spectra must have the variable `compound_id` and only 
+#'   `Spectra` whose `compound_id` values are also in 
+#'   `compounds(object, "compound_id")` can be added.
 #'
 #' @section Filtering the database:
 #'
@@ -98,6 +106,8 @@
 #'     to the database with parameter `x`.
 #'
 #'     For all other methods: a `CompDb` object.
+#' @param spectra For `insertSpectra`: `Spectra` object containing the spectra 
+#'     to be added to the `IonDb` database.
 #'
 #' @param ... additional arguments. Currently not used.
 #'

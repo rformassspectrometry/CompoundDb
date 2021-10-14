@@ -221,3 +221,41 @@ test_that("insertIon,ionDb works", {
     expect_error(insertIon(idb, more_ions), "compound_id")
     dbDisconnect(con)
 })
+
+test_that("insertSpectra,IonDb works", {
+    spd <- DataFrame(
+        msLevel = c(2L, 2L),
+        polarity = c(1L, 1L),
+        compound_id = c("HMDB0000001", "HMDB0000001"))
+    spd$mz <- list(
+        c(109.2, 124.2, 124.5, 170.16, 170.52),
+        c(83.1, 96.12, 97.14, 109.14, 124.08, 125.1, 170.16))
+    spd$intensity <- list(
+        c(3.407, 47.494, 3.094, 100.0, 13.240),
+        c(6.685, 4.381, 3.022, 16.708, 100.0, 4.565, 40.643))
+    sps <- Spectra(spd)
+    sps$collisionEnergy <- c(20, 30)
+    dbf <- tempfile()
+    con <- dbConnect(dbDriver("SQLite"), dbf)
+    CompoundDb:::.copy_compdb(dbconn(ion_spctra_db), con)
+    idb <- IonDb(con)
+    msms_sp <- dbReadTable(dbconn(idb), "msms_spectrum")
+    msms_sp_peak <- dbReadTable(dbconn(idb), "msms_spectrum_peak")
+    insertSpectra(idb, sps)
+    msms_sp2 <- dbReadTable(dbconn(idb), "msms_spectrum")
+    msms_sp_peak2 <- dbReadTable(dbconn(idb), "msms_spectrum_peak")
+    ns <- nrow(msms_sp)
+    ns2 <- nrow(msms_sp2)
+    expect_equal(ns2, ns + length(sps))
+    expect_equal(msms_sp, msms_sp2[1:ns, ])
+    np <- nrow(msms_sp_peak)
+    np2 <- nrow(msms_sp_peak2)
+    expect_equal(np2, np + sum(lengths(peaksData(sps))))
+    expect_equal(msms_sp_peak2$peak_id, 1:np2)
+    expect_equal(msms_sp_peak2[, c("mz", "intensity")],
+                 rbind(msms_sp_peak[, c("mz", "intensity")],
+                       do.call(rbind, Spectra:::.peaksapply(sps))))
+    expect_equal(msms_sp_peak2$spectrum_id,
+                 c(msms_sp_peak$spectrum_id,
+                   ns + rep(1:length(sps), lengths(peaksData(sps)))))
+})
