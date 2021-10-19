@@ -125,8 +125,8 @@ setMethod("compounds", "CompDb", function(object,
 #'
 #' @rdname CompDb
 setMethod("insertSpectra", signature(object = "CompDb", spectra = "Spectra"), 
-          function(object, spectra, ...) {
-              new_sD <- spectraData(spectra)
+          function(object, spectra, columns = character(0), ...) {
+              new_sD <- as.data.frame(spectraData(spectra))
               if (!"compound_id" %in% colnames(new_sD))
                   stop("'spectra' must contain the variable 'compound_id'")
               dbcon <- object@dbcon
@@ -148,19 +148,31 @@ setMethod("insertSpectra", signature(object = "CompDb", spectra = "Spectra"),
                                           colnames(new_sD), fixed = TRUE)
                   colnames(new_sD) <- sub("collisionEnergy", "collision_energy",
                                           colnames(new_sD), fixed = TRUE)
-                  col_msms_spectrum <- spectraVariables(object)
-                  n <- nrow(new_sD)
-                  new_msms_spectrum <- matrix(NA, n, length(col_msms_spectrum))
-                  colnames(new_msms_spectrum) <- col_msms_spectrum
-                
-                  cols <- intersect(col_msms_spectrum, colnames(new_sD))
-                  new_msms_spectrum[, cols] <- as.matrix(new_sD[, cols])
                   nsp <- dbGetQuery(dbcon,
-                                    paste0("select count(distinct spectrum_id)",
+                                    paste0("select max(spectrum_id)",
                                            " from msms_spectrum"))[1, 1]
-                  new_msms_spectrum[, "spectrum_id"] <- nsp + seq_len(n)
-                  dbAppendTable(dbcon, "msms_spectrum",
-                                as.data.frame(new_msms_spectrum))
+                  if("spectrum_id" %in% colnames(new_sD))
+                      warning("'spectrum_id' variable in 'spectra' will be 
+                              with internal indexes")
+                  new_sD$spectrum_id <- nsp + seq_len(nrow(new_sD))
+                  if (length(columns)){
+                      if (any(!columns %in% colnames(new_sD)))
+                          stop("Some variables in 'column' are not in spectra")
+                      columns <- columns[!columns %in% spectraVariables(object)]
+                      if(length(columns)){
+                          dtype <- dbDataType(dbcon,
+                                              new_sD[, columns, drop = FALSE])
+                          dtype <- paste(names(dtype), dtype)
+                          for (dt in dtype) {
+                              dbExecute(dbcon, paste("alter table msms_spectrum",
+                                                   "add", dt))
+                          }
+                          object@.properties$tables$msms_spectrum <- 
+                              c(object@.properties$tables$msms_spectrum, columns)
+                      }
+                  }
+                  cols <- intersect(spectraVariables(object), colnames(new_sD))
+                  dbAppendTable(dbcon, "msms_spectrum", new_sD[, cols])
                   
                   new_pD <- Spectra:::.peaksapply(spectra)
                   np <- dbGetQuery(dbcon,

@@ -48,7 +48,7 @@ tables(x)
   ...
 )
 
-\S4method{insertSpectra}{CompDb,Spectra}(object, spectra, ...)
+\S4method{insertSpectra}{CompDb,Spectra}(object, spectra, columns = character(0), ...)
 }
 \arguments{
 \item{x}{For \code{CompDb}: \code{character(1)} with the file name of the SQLite
@@ -135,9 +135,11 @@ that \code{insertSpectra} doesn't work on \code{CompDb} objects because such obj
 are read only but it does for \code{IonDb} objects which inherit from \code{CompDb}.
 The method always adds all the spectra specified through the \code{spectra}
 parameter and does not check if they are already in the database. Note that
-only the input spectra must have the variable \code{compound_id} and only
-\code{Spectra} whose \code{compound_id} values are also in
-\code{compounds(object, "compound_id")} can be added.
+the input spectra must have the variable \code{compound_id} and only \code{Spectra}
+whose \code{compound_id} values are also in \code{compounds(object, "compound_id")}
+can be added. It is also possible to add additional variables to the
+database table \code{msms_spectrum} that are present in the input \code{Spectra} by
+providing their names through the parameter \code{columns}.
 }
 }
 

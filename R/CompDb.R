@@ -64,9 +64,11 @@
 #'   are read only but it does for `IonDb` objects which inherit from `CompDb`.
 #'   The method always adds all the spectra specified through the `spectra` 
 #'   parameter and does not check if they are already in the database. Note that
-#'   only the input spectra must have the variable `compound_id` and only 
-#'   `Spectra` whose `compound_id` values are also in 
-#'   `compounds(object, "compound_id")` can be added.
+#'   the input spectra must have the variable `compound_id` and only `Spectra` 
+#'   whose `compound_id` values are also in `compounds(object, "compound_id")` 
+#'   can be added. It is also possible to add additional variables to the 
+#'   database table `msms_spectrum` that are present in the input `Spectra` by 
+#'   providing their names through the parameter `columns`. 
 #'
 #' @section Filtering the database:
 #'

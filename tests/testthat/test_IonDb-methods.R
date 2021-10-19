@@ -258,4 +258,19 @@ test_that("insertSpectra,IonDb works", {
     expect_equal(msms_sp_peak2$spectrum_id,
                  c(msms_sp_peak$spectrum_id,
                    ns + rep(1:length(sps), lengths(peaksData(sps)))))
+    
+    # Add additional column in spectra object to the database object
+    sps$newvariable <- c("value1", "value2")
+    dbf <- tempfile()
+    con <- dbConnect(dbDriver("SQLite"), dbf)
+    CompoundDb:::.copy_compdb(dbconn(ion_spctra_db), con)
+    idb <- IonDb(con)
+    msms_sp <- dbReadTable(dbconn(idb), "msms_spectrum")
+    insertSpectra(idb, sps, columns = c("newvariable"))
+    msms_sp2 <- dbReadTable(dbconn(idb), "msms_spectrum")
+    ns <- nrow(msms_sp)
+    ns2 <- nrow(msms_sp2)
+    expect_equal(ns2, ns + length(sps))
+    expect_true("newvariable" %in% colnames(msms_sp2))
+    expect_equal(c(rep(NA, ns), sps$newvariable), msms_sp2$newvariable)
 })
