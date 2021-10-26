@@ -224,23 +224,28 @@ test_that("insertIon,ionDb works", {
 
 test_that("insertSpectra,IonDb works", {
     spd <- DataFrame(
-        msLevel = c(2L, 2L),
-        polarity = c(1L, 1L),
-        compound_id = c("HMDB0000001", "HMDB0000001"))
+        msLevel = c(2L, 2L, 2L),
+        polarity = c(1L, 1L, 1L),
+        collisionEnergy = c(20, 30, 30))
     spd$mz <- list(
         c(109.2, 124.2, 124.5, 170.16, 170.52),
-        c(83.1, 96.12, 97.14, 109.14, 124.08, 125.1, 170.16))
+        c(83.1, 96.12, 97.14, 109.14, 124.08, 125.1, 170.16), c(50, 100))
     spd$intensity <- list(
         c(3.407, 47.494, 3.094, 100.0, 13.240),
-        c(6.685, 4.381, 3.022, 16.708, 100.0, 4.565, 40.643))
+        c(6.685, 4.381, 3.022, 16.708, 100.0, 4.565, 40.643), c(50, 100))
     sps <- Spectra(spd)
-    sps$collisionEnergy <- c(20, 30)
     dbf <- tempfile()
     con <- dbConnect(dbDriver("SQLite"), dbf)
     CompoundDb:::.copy_compdb(dbconn(ion_spctra_db), con)
     idb <- IonDb(con)
     msms_sp <- dbReadTable(dbconn(idb), "msms_spectrum")
     msms_sp_peak <- dbReadTable(dbconn(idb), "msms_spectrum_peak")
+    expect_error(insertSpectra(idb, sps), paste("'spectra' must contain the",
+                                                "variable 'compound_id'"))
+    sps$compound_id <- c("HMDB0000001", "HMDB0000001", "HMDB1000000")
+    expect_error(insertSpectra(idb, sps), paste("All values of spectra variable", 
+                                                "'compound_id' must be in"))
+    sps <- sps[1:2]
     insertSpectra(idb, sps)
     msms_sp2 <- dbReadTable(dbconn(idb), "msms_spectrum")
     msms_sp_peak2 <- dbReadTable(dbconn(idb), "msms_spectrum_peak")
@@ -266,6 +271,7 @@ test_that("insertSpectra,IonDb works", {
     CompoundDb:::.copy_compdb(dbconn(ion_spctra_db), con)
     idb <- IonDb(con)
     msms_sp <- dbReadTable(dbconn(idb), "msms_spectrum")
+    expect_error(insertSpectra(idb, sps, columns = c("newvariable2")), "Some variables in 'column' are not in spectra")
     insertSpectra(idb, sps, columns = c("newvariable"))
     msms_sp2 <- dbReadTable(dbconn(idb), "msms_spectrum")
     ns <- nrow(msms_sp)
