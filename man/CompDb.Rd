@@ -28,7 +28,7 @@ tables(x)
 
 \S4method{dbconn}{CompDb}(x)
 
-\S4method{Spectra}{CompDb}(object, columns = spectraVariables(object), filter, ...)
+\S4method{Spectra}{CompDb}(object, filter, ...)
 
 \S4method{supportedFilters}{CompDb}(object)
 
@@ -57,10 +57,6 @@ See \code{\link[=SQLite]{SQLite()}}. Defaults to read-only, i.e. \code{RSQLite::
 
 \item{object}{For all methods: a \code{CompDb} object.}
 
-\item{columns}{For \code{compounds}, \code{Spectra}: \code{character} with the names of the
-database columns that should be retrieved. Use \code{compoundVariables} and/or
-\code{spectraVariables} for a list of available column names.}
-
 \item{filter}{For \code{compounds} and \code{Spectra}: filter expression or
 \code{\link[=AnnotationFilter]{AnnotationFilter()}} defining a filter to be used to retrieve specific
 elements from the database.}
@@ -70,6 +66,10 @@ elements from the database.}
 \item{includeId}{for \code{compoundVariables}: \code{logical(1)} whether the comound
 ID (column \code{"compound_id"}) should be included in the result. The
 default is \code{includeIds = FALSE}.}
+
+\item{columns}{For \code{compounds}, \code{Spectra}: \code{character} with the names of the
+database columns that should be retrieved. Use \code{compoundVariables} and/or
+\code{spectraVariables} for a list of available column names.}
 
 \item{return.type}{For \code{compounds}: either \code{"data.frame"} or \code{"tibble"} to
 return the result as a \code{\link[=data.frame]{data.frame()}} or \code{\link[=tibble]{tibble()}}, respectively.}
@@ -173,6 +173,7 @@ tables(cdb)
 compounds(cdb, columns = c("formula", "publication"))
 
 ## Create a Spectra object with all MS/MS spectra from the database.
+library(Spectra)
 sps <- Spectra(cdb)
 sps
 

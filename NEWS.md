@@ -1,5 +1,9 @@
 # Version 0.9
 
+## Changes in version 0.9.2
+
+- New `Spectra` `MsBackend` extending `Spectra`'s `MsBackendCached` class.
+
 ## Changes in version 0.9.1
 
 - Add `IonDb` constructor methods.

@@ -10,7 +10,7 @@ test_that(".has_mz and hasMz work", {
 
     ## On a full spectra...
     sps <- Spectra(cmp_spctra_db)
-    mzs <- mz(sps)
+    mzs <- sps$mz
     res <- vapply(mzs, .has_mz, logical(1), mz = 10)
     expect_true(all(res == FALSE))
     res <- vapply(mzs, .has_mz, logical(1), mz = 71.2)

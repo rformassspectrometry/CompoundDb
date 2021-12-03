@@ -38,7 +38,6 @@ setMethod("show", "CompDb", function(object) {
 #'
 #' @rdname CompDb
 setMethod("Spectra", "CompDb", function(object,
-                                        columns = spectraVariables(object),
                                         filter, ...) {
     if (!.has_msms_spectra(object)) {
         warning("No spectrum data available in the provided database",
@@ -49,9 +48,8 @@ setMethod("Spectra", "CompDb", function(object,
         stop("The use of 'Spectra' requires package 'Spectra'. Please install ",
              "with 'Biobase::install(\"RforMassSpectrometry/Spectra\")'")
     sps <- new("Spectra")
-    columns <- columns[!columns %in% c("mz", "intensity")]
-    sps@backend <- backendInitialize(MsBackendCompDb(), x = object,
-                                     columns = columns, filter = filter, ...)
+    sps@backend <- backendInitialize(
+        MsBackendCompDb(), x = object, filter = filter, ...)
     sps
 })
 
