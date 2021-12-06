@@ -4,21 +4,18 @@ test_that("backendInitialize,MsBackendCompDb works", {
     expect_true(length(res) == 4)
     expect_true(!is.null(res@dbcon))
 
+    expect_error(backendInitialize(MsBackendCompDb(), 4), "'CompDb'")
+    expect_error(backendInitialize(MsBackendCompDb(), cmp_db), "no MS/MS")
+
     res <- backendInitialize(MsBackendCompDb(), cmp_spctra_db,
-                             columns = c("instrument", "compound_id"))
-    expect_true(all(colnames(res@spectraData) == c("compound_id", "instrument",
-                                                   "spectrum_id", "dataStorage",
-                                                   "dataOrigin")))
+                             filter = ~ compound_id == "HMDB0000008")
+    expect_true(length(res) == 0)
+    expect_equal(res@spectraIds, character())
+
     res <- backendInitialize(MsBackendCompDb(), cmp_spctra_db,
                              filter = ~ compound_id == "HMDB0000001")
+    expect_true(length(res) == 2)
     expect_true(all(res$compound_id == "HMDB0000001"))
-    res <- backendInitialize(MsBackendCompDb(), cmp_spctra_db,
-                             filter = ~ compound_id == "HMDB0000001",
-                             columns = "polarity")
-    expect_true(all(res$compound_id == "HMDB0000001"))
-    expect_true(all(colnames(res@spectraData) == c("compound_id", "polarity",
-                                                   "spectrum_id", "dataStorage",
-                                                   "dataOrigin")))
 
     res <- backendInitialize(MsBackendCompDb(), cmp_spctra_db,
                              filter = ~ compound_id == "bla")
@@ -37,34 +34,48 @@ test_that("peaksData,MsBackendCompDb works", {
     expect_true(length(res) == length(be))
     expect_true(is.matrix(res[[1]]))
     expect_true(all(colnames(res[[2]]) %in% c("mz", "intensity")))
+
+    be <- be[c(2, 4, 2)]
+    res_2 <- peaksData(be)
+    expect_equal(res_2, res[c(2, 4, 2)])
+})
+
+test_that("dataStorage,MsBackendCompDb works", {
+    be <- MsBackendCompDb()
+    res <- dataStorage(be)
+    expect_equal(res, character())
+
+    be <- backendInitialize(MsBackendCompDb(), cdb)
+    res <- dataStorage(be)
+    expect_equal(res, rep("<db>", length(be)))
 })
 
 test_that("intensity,intensity<-,MsBackendCompDb works", {
     be <- MsBackendCompDb()
-    res <- intensity(be)
+    res <- be$intensity
     expect_true(is(res, "NumericList"))
     expect_true(length(res) == length(be))
 
     be <- Spectra(cmp_spctra_db)@backend
-    res <- intensity(be)
+    res <- be$intensity
     expect_true(is(res, "NumericList"))
     expect_true(length(res) == length(be))
 
-    expect_error(intensity(be) <- res, "not support replacing")
+    expect_error(intensity(be) <- res, "not")
 })
 
 test_that("mz,mz<-,MsBackendCompDb works", {
     be <- MsBackendCompDb()
-    res <- mz(be)
+    res <- be$mz
     expect_true(is(res, "NumericList"))
     expect_true(length(res) == length(be))
 
     be <- Spectra(cmp_spctra_db)@backend
-    res <- mz(be)
+    res <- be$mz
     expect_true(is(res, "NumericList"))
     expect_true(length(res) == length(be))
 
-    expect_error(mz(be) <- res, "not support replacing")
+    expect_error(mz(be) <- res, "not replace")
 })
 
 test_that("spectraData,spectraData<-,MsBackendCompDb works", {
@@ -73,34 +84,67 @@ test_that("spectraData,spectraData<-,MsBackendCompDb works", {
     expect_true(is(res, "DataFrame"))
     expect_true(nrow(res) == 0)
 
-    be <- Spectra(cmp_spctra_db)@backend
+    be <- backendInitialize(MsBackendCompDb(), cmp_spctra_db)
     res <- spectraData(be)
     expect_true(is(res, "DataFrame"))
     expect_true(nrow(res) == 4)
-    expect_equal(res$mz, mz(be))
-    expect_equal(res$intensity, intensity(be))
+    expect_equal(res$mz, be$mz)
+    expect_equal(res$intensity, be$intensity)
 
     be <- be[c(3, 4, 2, 1)]
-    res <- spectraData(be, c("compound_id", "mz", "polarity"))
-    expect_true(all(c("compound_id", "mz", "polarity") == colnames(res)))
-    expect_equal(res$mz, mz(be))
+    res_2 <- spectraData(be, c("compound_id", "mz", "polarity"))
+    expect_true(all(c("compound_id", "mz", "polarity") == colnames(res_2)))
+    expect_equal(res_2$mz, be$mz)
+    expect_equal(res_2$mz, res$mz[c(3, 4, 2, 1)])
 
-    expect_error(spectraData(be, "sorry"), "column 'sorry' not available")
+    expect_error(spectraData(be, "sorry"), "not available")
 
-    ## spectraData<-
+    be <- backendInitialize(MsBackendCompDb(), cmp_spctra_db)
     res <- spectraData(be)
-    res$compound_id <- c("A", "B", "C", "D")
-    res$polarity <- rep(0L, 4)
-    expect_warning(spectraData(be) <- res, "Ignoring columns")
+    be <- be[c(3, 1, 2, 2, 2)]
+    expect_equal(be@spectraIds, as.character(c(3, 1, 2, 2, 2)))
+    res_2 <- spectraData(be)
+    expect_equal(res_2$spectrum_id, res$spectrum_id[c(3, 1, 2, 2, 2)])
+    expect_equal(res_2$intensity, res$intensity[c(3, 1, 2, 2, 2)])
+})
+
+test_that("spectraNames,MsBackendCompDb works", {
+    be <- backendInitialize(MsBackendCompDb(), cdb)
+    res <- spectraNames(be)
+    expect_equal(res, be@spectraIds)
 })
 
 test_that("$<-,MsBackendCompDb works", {
-    be <- Spectra(cmp_spctra_db)@backend
-    be$polarity <- rep(1L, 4)
-    expect_equal(be$polarity, rep(1L, 4))
+    be <- backendInitialize(MsBackendCompDb(), cdb)
+    be$polarity <- 0L
+    expect_true(any(colnames(be@localData) == "polarity"))
+    expect_equal(be$polarity, rep(0L, length(be)))
 
-    expect_error(be$spectrum_id <- rep("a", 4), "does not support")
-    expect_error(be$mz <- be$mz, "does not support")
+    be$new_col <- "a"
+    expect_equal(be$new_col, rep("a", length(be)))
+
+    expect_error(be$spectrum_id <- "a", "not")
+    expect_error(be$mz <- be$mz, "not supported")
+})
+
+test_that("[,MsBackendCompDb works", {
+    be <- backendInitialize(MsBackendCompDb(), cmp_spctra_db)
+    res <- be[c(2, 4)]
+    expect_true(length(res) == 2)
+    expect_equal(res$polarity, be$polarity[c(2, 4)])
+    expect_equal(res@spectraIds, be@spectraIds[c(2, 4)])
+    expect_equal(res$mz, be$mz[c(2, 4)])
+
+    ## Arbitrary order and duplicates
+    be$my_index <- seq_along(be)
+    idx <- c(3, 1, 2, 1, 1, 1, 2)
+    res <- be[idx]
+    expect_equal(res$polarity, be$polarity[idx])
+    expect_equal(res@spectraIds, be@spectraIds[idx])
+    expect_equal(res$my_index, be$my_index[idx])
+    expect_equal(res$intensity, be$intensity[idx])
+    expect_equal(res$mz, be$mz[idx])
+    expect_equal(res$compound_id, be$compound_id[idx])
 })
 
 test_that("show,MsBackendCompDb doesn't break", {
