@@ -10,6 +10,9 @@ setGeneric("ionVariables", function(object, ...)
 setGeneric("insertIon", function(object, ions, ...)
   standardGeneric("insertIon"))
 
+setGeneric("insertSpectra", function(object, spectra, ...)
+  standardGeneric("insertSpectra"))
+
 setGeneric("IonDb", function(x, cdb, ...)
     standardGeneric("IonDb"))
 

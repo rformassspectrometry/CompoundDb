@@ -118,3 +118,75 @@ setMethod("compounds", "CompDb", function(object,
         as_tibble(res)
     else res
 })
+
+#' @importFrom DBI dbAppendTable dbGetQuery
+#'
+#' @export
+#'
+#' @rdname CompDb
+setMethod("insertSpectra", signature(object = "CompDb", spectra = "Spectra"), 
+          function(object, spectra, columns = character(0), ...) {
+              new_sD <- as.data.frame(spectraData(spectra))
+              if (!"compound_id" %in% colnames(new_sD))
+                  stop("'spectra' must contain the variable 'compound_id'")
+              columns_idx <- match(columns, colnames(new_sD))
+              if (length(columns_idx) && any(is.na(columns_idx)))
+                  stop("Some variables in 'column' are not in spectra")
+              dbcon <- object@dbcon
+              if (!all(new_sD$compound_id %in%
+                       dbGetQuery(dbcon, 
+                                  "select compound_id from ms_compound")[, 1]))
+                  stop("All values of spectra variable 'compound_id' must be",
+                       " in 'compound_id' column of the database 'ms_compound'",
+                       " table")
+              if (!is.null(dbcon)) {
+                  colnames(new_sD) <- sub("msLevel", "ms_level",
+                                          colnames(new_sD), fixed = TRUE)
+                  colnames(new_sD) <- sub("precursorMz", "precursor_mz",
+                                          colnames(new_sD), fixed = TRUE)
+                  colnames(new_sD) <- sub("precursorIntensity", 
+                                          "precursor_intensity",
+                                          colnames(new_sD), fixed = TRUE)
+                  colnames(new_sD) <- sub("precursorCharge", "precursor_charge",
+                                          colnames(new_sD), fixed = TRUE)
+                  colnames(new_sD) <- sub("collisionEnergy", "collision_energy",
+                                          colnames(new_sD), fixed = TRUE)
+                  nsp <- dbGetQuery(dbcon,
+                                    paste0("select max(spectrum_id)",
+                                           " from msms_spectrum"))[1, 1]
+                  if("spectrum_id" %in% colnames(new_sD))
+                      warning("'spectrum_id' variable in 'spectra' will be 
+                              replaced with internal indexes")
+                  new_sD$spectrum_id <- nsp + seq_len(nrow(new_sD))
+                  if (length(columns_idx)){
+                      columns <- colnames(new_sD)[columns_idx]
+                      dtype <- dbDataType(dbcon,
+                                          new_sD[, columns, drop = FALSE])
+                      dtype <- paste(names(dtype), dtype)
+                      for (dt in dtype) {
+                          dbExecute(dbcon, paste("alter table msms_spectrum",
+                                                 "add", dt))
+                      }
+                      object@.properties$tables$msms_spectrum <- 
+                          c(object@.properties$tables$msms_spectrum, columns)
+                      
+                  }
+                  cols <- intersect(object@.properties$tables$msms_spectrum, 
+                                    colnames(new_sD))
+                  dbAppendTable(dbcon, "msms_spectrum", new_sD[, cols])
+                  
+                  new_pD <- Spectra:::.peaksapply(spectra)
+                  np <- dbGetQuery(dbcon,
+                                   paste0("select max(peak_id) ",
+                                          "from msms_spectrum_peak"))[1, 1]
+                  nrows <- sapply(new_pD, nrow)
+                  new_msms_spectrum_peak <-
+                      cbind(spectrum_id = nsp + rep(seq_len(length(new_pD)),
+                                                    nrows),
+                            do.call(rbind, new_pD),
+                            peak_id = np + seq_len(sum(nrows)))
+                  dbAppendTable(dbcon, "msms_spectrum_peak",
+                                as.data.frame(new_msms_spectrum_peak))
+                  invisible(object)
+              } else stop("Database not initialized")
+          })
