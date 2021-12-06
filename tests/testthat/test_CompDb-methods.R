@@ -110,7 +110,7 @@ test_that("insertSpectra,CompDb works", {
     spd <- DataFrame(
         msLevel = c(2L, 2L),
         polarity = c(1L, 1L),
-        compound_id = c("HMDB0000001", "HMDB0000001"))
+        other_column = "b")
     spd$mz <- list(
         c(109.2, 124.2, 124.5, 170.16, 170.52),
         c(83.1, 96.12, 97.14, 109.14, 124.08, 125.1, 170.16))
@@ -118,6 +118,58 @@ test_that("insertSpectra,CompDb works", {
         c(3.407, 47.494, 3.094, 100.0, 13.240),
         c(6.685, 4.381, 3.022, 16.708, 100.0, 4.565, 40.643))
     sps <- Spectra(spd)
-    expect_error(insertSpectra(cmp_spctra_db, sps), 
-                 "attempt to write a readonly database")
+    expect_error(insertSpectra(
+        cmp_spctra_db, sps, c("msLevel", "polarity", "other_column")),
+                 "Column 'compound_id'")
+
+    sps$compound_id <- c("HMDB0000008", "b")
+    expect_error(insertSpectra(
+        cmp_spctra_db, sps, c("msLevel", "polarity", "other_column",
+                              "compound_id")),
+        "variable 'compound_id'")
+    sps$compound_id <- c("HMDB0000008", "HMDB0000008")
+    expect_error(insertSpectra(
+        cmp_spctra_db, sps, c("msLevel", "polarity", "other_column",
+                              "compound_id")), "readonly")
+
+    ## Insert to database without spectra data.
+    tmp_con <- dbConnect(SQLite(), tempfile())
+    CompoundDb:::.copy_compdb(cmp_db@dbcon, tmp_con)
+
+    tmp_db <- CompDb(tmp_con)
+    expect_false(CompoundDb:::.has_msms_spectra(tmp_db))
+    tmp_db <- insertSpectra(
+        tmp_db, sps, c("msLevel", "polarity", "other_column", "compound_id"))
+    expect_true(CompoundDb:::.has_msms_spectra(tmp_db))
+    res <- dbGetQuery(tmp_con, "select * from msms_spectrum")
+    expect_true(all(c("ms_level", "polarity", "other_column", "compound_id")
+                    %in% colnames(res)))
+    expect_equal(tmp_db@.properties$tables$msms_spectrum, colnames(res))
+    expect_true(sum(res$compound_id == "HMDB0000008") == 2)
+    expect_true(all(res$other_column[res$compound_id == "HMDB0000008"] == "b"))
+    expect_true(length(unique(res$spectrum_id)) == nrow(res))
+
+    res <- dbGetQuery(tmp_con, "select * from msms_spectrum_peak")
+    expect_true(sum(res$spectrum_id %in% 1:2) == 12)
+    expect_true(length(unique(res$peak_id)) == nrow(res))
+
+    ## Apped to existing database.
+    tmp_con <- dbConnect(SQLite(), tempfile())
+    CompoundDb:::.copy_compdb(cmp_spctra_db@dbcon, tmp_con)
+
+    tmp_db <- CompDb(tmp_con)
+    tmp_db <- insertSpectra(
+        tmp_db, sps, c("msLevel", "polarity", "other_column", "compound_id"))
+    expect_true(CompoundDb:::.has_msms_spectra(tmp_db))
+    res <- dbGetQuery(tmp_con, "select * from msms_spectrum")
+    expect_true(all(c("ms_level", "polarity", "other_column", "compound_id")
+                    %in% colnames(res)))
+    expect_equal(tmp_db@.properties$tables$msms_spectrum, colnames(res))
+    expect_true(sum(res$compound_id == "HMDB0000008") == 2)
+    expect_true(all(res$other_column[res$compound_id == "HMDB0000008"] == "b"))
+    expect_true(length(unique(res$spectrum_id)) == nrow(res))
+
+    res <- dbGetQuery(tmp_con, "select * from msms_spectrum_peak")
+    expect_true(sum(res$spectrum_id %in% 5:6) == 12)
+    expect_true(length(unique(res$peak_id)) == nrow(res))
 })

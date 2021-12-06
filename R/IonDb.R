@@ -98,7 +98,8 @@
 #' @param ions for `insertIon` and `IonDb`: `data.frame` with ion definitions
 #'     to be added to the `IonDb` database. Columns `"compound_id"`
 #'     (`character()`), `"ion_adduct"` (`character()`), `"ion_mz"`
-#'     (`numeric()`) and `"ion_rt"` (`numeric()`) are mandatory.
+#'     (`numeric()`) and `"ion_rt"` (`numeric()`) are mandatory (but, with the
+#'     exception of `"compound_id"`, can contain `NA`).
 #'
 #' @param object For all methods: a `IonDb` object.
 #'

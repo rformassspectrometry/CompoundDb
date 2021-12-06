@@ -64,7 +64,8 @@ return the result as a \code{\link[=data.frame]{data.frame()}} or \code{\link[=t
 \item{ions}{for \code{insertIon} and \code{IonDb}: \code{data.frame} with ion definitions
 to be added to the \code{IonDb} database. Columns \code{"compound_id"}
 (\code{character()}), \code{"ion_adduct"} (\code{character()}), \code{"ion_mz"}
-(\code{numeric()}) and \code{"ion_rt"} (\code{numeric()}) are mandatory.}
+(\code{numeric()}) and \code{"ion_rt"} (\code{numeric()}) are mandatory (but, with the
+exception of \code{"compound_id"}, can contain \code{NA}).}
 
 \item{x}{For \code{IonDb}: database connection or \code{character(1)} with the file
 name of the SQLite database where the \code{IonDb} data will be stored or a

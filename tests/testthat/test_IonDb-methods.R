@@ -240,19 +240,19 @@ test_that("insertSpectra,IonDb works", {
     idb <- IonDb(con)
     msms_sp <- dbReadTable(dbconn(idb), "msms_spectrum")
     msms_sp_peak <- dbReadTable(dbconn(idb), "msms_spectrum_peak")
-    expect_error(insertSpectra(idb, sps), paste("'spectra' must contain the",
-                                                "variable 'compound_id'"))
+    expect_error(insertSpectra(idb, sps), "'compound_id' needs")
     sps$compound_id <- c("HMDB0000001", "HMDB0000001", "HMDB1000000")
-    expect_error(insertSpectra(idb, sps), paste("All values of spectra variable", 
+    expect_error(insertSpectra(idb, sps), paste("All values of spectra variable",
                                                 "'compound_id' must be in"))
     sps <- sps[1:2]
-    insertSpectra(idb, sps)
+    insertSpectra(idb, sps, columns = c("msLevel", "polarity",
+                                        "collisionEnergy", "compound_id"))
     msms_sp2 <- dbReadTable(dbconn(idb), "msms_spectrum")
     msms_sp_peak2 <- dbReadTable(dbconn(idb), "msms_spectrum_peak")
     ns <- nrow(msms_sp)
     ns2 <- nrow(msms_sp2)
     expect_equal(ns2, ns + length(sps))
-    expect_equal(msms_sp, msms_sp2[1:ns, ])
+    expect_equal(msms_sp, msms_sp2[1:ns, colnames(msms_sp)])
     np <- nrow(msms_sp_peak)
     np2 <- nrow(msms_sp_peak2)
     expect_equal(np2, np + sum(lengths(peaksData(sps))))
@@ -263,7 +263,7 @@ test_that("insertSpectra,IonDb works", {
     expect_equal(msms_sp_peak2$spectrum_id,
                  c(msms_sp_peak$spectrum_id,
                    ns + rep(1:length(sps), lengths(peaksData(sps)))))
-    
+
     # Add additional column in spectra object to the database object
     sps$newvariable <- c("value1", "value2")
     dbf <- tempfile()
@@ -271,8 +271,10 @@ test_that("insertSpectra,IonDb works", {
     CompoundDb:::.copy_compdb(dbconn(ion_spctra_db), con)
     idb <- IonDb(con)
     msms_sp <- dbReadTable(dbconn(idb), "msms_spectrum")
-    expect_error(insertSpectra(idb, sps, columns = c("newvariable2")), "Some variables in 'column' are not in spectra")
-    insertSpectra(idb, sps, columns = c("newvariable"))
+    expect_error(insertSpectra(idb, sps, columns = c("newvariable2",
+                                                     "compound_id")),
+                 "not available")
+    insertSpectra(idb, sps, columns = c("newvariable", "compound_id"))
     msms_sp2 <- dbReadTable(dbconn(idb), "msms_spectrum")
     ns <- nrow(msms_sp)
     ns2 <- nrow(msms_sp2)

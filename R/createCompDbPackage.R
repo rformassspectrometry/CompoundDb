@@ -678,6 +678,46 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
     dbExecute(con, "create index msms_cid_idx on msms_spectrum (compound_id)")
 }
 
+.append_msms_spectra <- function(con, x) {
+    x <- .msms_spectrum_add_missing_columns(x)
+    x$collision_energy <- as.character(x$collision_energy)
+    ## Update spectrum_id
+    nsp <- dbGetQuery(con, paste0("select max(spectrum_id)",
+                                  " from msms_spectrum"))[1, 1]
+    if("spectrum_id" %in% colnames(x))
+        warning("'spectrum_id' variable in 'spectra' will be
+                              replaced with internal indexes")
+    x$spectrum_id <- nsp + seq_len(nrow(x))
+    .valid_msms_spectrum(x, blob = is.list(x$mz))
+    x <- .add_mz_range_column(x)
+    msms_spectrum_peak <- x[, c("spectrum_id", "mz", "intensity")]
+    if (is.list(msms_spectrum_peak$mz))
+        msms_spectrum_peak <- .expand_spectrum_df(msms_spectrum_peak)
+    if (!is.numeric(msms_spectrum_peak$mz) ||
+        !is.numeric(msms_spectrum_peak$intensity))
+        stop("Columns 'mz' and 'intensity' should only contain numeric values")
+    msms_spectrum_peak <- msms_spectrum_peak[
+        order(msms_spectrum_peak$spectrum_id, msms_spectrum_peak$mz), ]
+    x <- unique(x[, !(colnames(x) %in% c("mz", "intensity"))])
+    ## Create eventual additional columns in database.
+    cols <- colnames(dbGetQuery(con, "select * from msms_spectrum limit 1"))
+    new_cols <- colnames(x)[!colnames(x) %in% cols]
+    dtype <- dbDataType(con, x[, new_cols, drop = FALSE])
+    dtype <- paste(names(dtype), dtype)
+    for (dt in dtype)
+        dbExecute(con, paste("alter table msms_spectrum add", dt))
+    cols <- colnames(dbGetQuery(con, "select * from msms_spectrum limit 1"))
+    dbAppendTable(con, "msms_spectrum", x)
+
+    ## Update peak_id
+    nsp <- dbGetQuery(con, paste0("select max(peak_id)",
+                                  " from msms_spectrum_peak"))[1, 1]
+    msms_spectrum_peak$peak_id <- nsp + seq_len(nrow(msms_spectrum_peak))
+    dbAppendTable(
+        con, "msms_spectrum_peak",
+        msms_spectrum_peak[, c("spectrum_id", "mz", "intensity", "peak_id")])
+}
+
 .msms_spectrum_add_missing_columns <- function(x) {
     cols <- names(.required_msms_spectrum_columns)
     cols <- cols[!cols %in% c("spectrum_id", "compound_id", "mz", "intensity")]
