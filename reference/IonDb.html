@@ -145,7 +145,7 @@ default is <code>includeId = FALSE</code>.</p></dd>
 columns that should be retrieved. Use <code>ionVariables</code> for a list
 of available column names.</p></dd>
 <dt>filter</dt>
-<dd><p>For <code>ions</code>: filter expression or <code><a href="https://rdrr.io/pkg/AnnotationFilter/man/AnnotationFilter.html" class="external-link">AnnotationFilter()</a></code> defining
+<dd><p>For <code>ions</code>: filter expression or <code>AnnotationFilter()</code> defining
 a filter to be used to retrieve specific elements from the database.</p></dd>
 <dt>return.type</dt>
 <dd><p>For <code>ions</code>: either <code>"data.frame"</code> or <code>"tibble"</code> to
@@ -165,6 +165,10 @@ name of the SQLite database where the <code>IonDb</code> data will be stored or 
 <dd><p>for <code>IonDb</code>: <code>CompDb</code> object from which data should be
 transferred to the <code>IonDb</code> database.</p></dd>
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    <p>See description of the respective function.</p>
+    </div>
     <div id="creation-of-iondb-objects-databases">
     <h2>Creation of <code>IonDb</code> objects/databases</h2>
     
@@ -220,7 +224,7 @@ concepts from Bioconductor's <code>AnnotationFilter</code> package. All informat
 for a certain compound with the ID <code>"1"</code> can for example be
 retrieved by passing the filter expression <code>filter = ~ ion_id == "1"</code> to
 the <code>ions</code> function.</p>
-<p>Use the <code><a href="https://rdrr.io/pkg/AnnotationFilter/man/AnnotationFilter.html" class="external-link">supportedFilters()</a></code> function on the <code>IonDb</code> object to get a list of
+<p>Use the <code>supportedFilters()</code> function on the <code>IonDb</code> object to get a list of
 all supported filters. See also examples below or the usage vignette for
 details.</p>
     </div>

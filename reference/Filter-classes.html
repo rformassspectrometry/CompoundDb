@@ -152,9 +152,13 @@ a IonDb (but not by a CompDb):</p><ul><li><p><code>IonIdFilter</code>: filter ba
 <dd><p>The condition for the filter. For details see
 <code><a href="https://rdrr.io/pkg/AnnotationFilter/man/AnnotationFilter.html" class="external-link">AnnotationFilter::AnnotationFilter()</a></code>.</p></dd>
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    <p>Constructor functions return an instance of the respective class.</p>
+    </div>
     <div id="see-also">
     <h2>See also</h2>
-    <div class="dont-index"><p><code><a href="https://rdrr.io/pkg/AnnotationFilter/man/AnnotationFilter.html" class="external-link">supportedFilters()</a></code> for the method to list all supported filters
+    <div class="dont-index"><p><code>supportedFilters()</code> for the method to list all supported filters
 for a <code>CompDb</code> (or a IonDb) object.</p></div>
     </div>
     <div id="author">
@@ -164,9 +168,7 @@ for a <code>CompDb</code> (or a IonDb) object.</p></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/EuracBiomedicalResearch/CompoundDb" class="external-link">CompoundDb</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Create a filter for the compound id</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">## Create a filter for the compound id</span></span>
 <span class="r-in"><span class="va">cf</span> <span class="op">&lt;-</span> <span class="fu">CompoundIdFilter</span><span class="op">(</span><span class="st">"comp_a"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">cf</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> class: CompoundIdFilter </span>
@@ -174,18 +176,18 @@ for a <code>CompDb</code> (or a IonDb) object.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> value: comp_a </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">## Create a filter using a formula expression</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/AnnotationFilter/man/AnnotationFilter.html" class="external-link">AnnotationFilter</a></span><span class="op">(</span><span class="op">~</span> <span class="va">compound_id</span> <span class="op">==</span> <span class="st">"comp_b"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">AnnotationFilter</span><span class="op">(</span><span class="op">~</span> <span class="va">compound_id</span> <span class="op">==</span> <span class="st">"comp_b"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> class: CompoundIdFilter </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> condition: == </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> value: comp_b </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">## Combine filters</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/AnnotationFilter/man/AnnotationFilterList.html" class="external-link">AnnotationFilterList</a></span><span class="op">(</span><span class="fu">CompoundIdFilter</span><span class="op">(</span><span class="st">"a"</span><span class="op">)</span>, <span class="fu">NameFilter</span><span class="op">(</span><span class="st">"b"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">AnnotationFilterList</span><span class="op">(</span><span class="fu">CompoundIdFilter</span><span class="op">(</span><span class="st">"a"</span><span class="op">)</span>, <span class="fu">NameFilter</span><span class="op">(</span><span class="st">"b"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> AnnotationFilterList of length 2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> compound_id == 'a' &amp; name == 'b'</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">## Using a formula expression</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/AnnotationFilter/man/AnnotationFilter.html" class="external-link">AnnotationFilter</a></span><span class="op">(</span><span class="op">~</span> <span class="va">compound_id</span> <span class="op">==</span> <span class="st">"a"</span> <span class="op">|</span> <span class="va">name</span> <span class="op">!=</span> <span class="st">"b"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">AnnotationFilter</span><span class="op">(</span><span class="op">~</span> <span class="va">compound_id</span> <span class="op">==</span> <span class="st">"a"</span> <span class="op">|</span> <span class="va">name</span> <span class="op">!=</span> <span class="st">"b"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> AnnotationFilterList of length 2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> compound_id == 'a' | name != 'b'</span>
 </code></pre></div>
