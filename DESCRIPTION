@@ -42,7 +42,6 @@ Imports:
     BiocGenerics,
     ProtGenerics (>= 1.23.5),
     xml2,
-    MsCoreUtils,
     IRanges,
     Spectra (>= 0.99.3)
 Suggests:
@@ -66,7 +65,6 @@ Collate:
     'IonDb-methods.R'
     'MsBackendCompDb-functions.R'
     'MsBackendCompDb.R'
-    'Spectra-functions.R'
     'query-engine.R'
     'spectrum-import-functions.R'
     'utility-functions.R'
