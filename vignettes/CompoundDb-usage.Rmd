@@ -40,9 +40,8 @@ focuses on how annotations can be search for and retrieved.
 The package (including dependencies) can be installed with the code below:
 
 ```{r, eval = FALSE}
-install.packages(c("BiocManager", "remotes"))
-devtools::install_github("stanstrup/commonMZ")
-BiocManager::install("EuracBiomedicalResearch/CompoundDb")
+install.packages("BiocManager")
+BiocManager::install("CompoundDb")
 ```
 
 
@@ -228,3 +227,7 @@ cormat <- compareSpectra(mellein, sps, ppm = 40)
 
 
 # Session information
+
+```{r}
+sessionInfo()
+```

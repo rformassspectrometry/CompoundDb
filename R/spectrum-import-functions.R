@@ -323,7 +323,7 @@ msms_spectra_mona <- function(x, collapsed = TRUE) {
                precursor_mz = as.numeric(x[, "PRECURSOR M/Z"]),
                precursor_type = x[, "PRECURSOR TYPE"],
                spectrum_type = x[, "SPECTRUM TYPE"],
-               spectrum_id = 1:nrow(x),
+               spectrum_id = seq_len(nrow(x)),
                stringsAsFactors = FALSE)
     res$mz <- lapply(mzint, function(z) z[, 1])
     res$intensity <- lapply(mzint, function(z) z[, 2])
@@ -339,5 +339,5 @@ msms_spectra_mona <- function(x, collapsed = TRUE) {
 #' @author Johannes Rainer
 .compound_id_from_mona_sdf <- function(x, prefix = "CMP") {
     n <- nrow(x)
-    sprintf(paste0(prefix, "%0", ceiling(log10(n + 1)), "d"), 1:n)
+    sprintf(paste0(prefix, "%0", ceiling(log10(n + 1)), "d"), seq_len(n))
 }

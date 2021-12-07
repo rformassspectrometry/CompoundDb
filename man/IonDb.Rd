@@ -75,6 +75,9 @@ name of the SQLite database where the \code{IonDb} data will be stored or a
 \item{cdb}{for \code{IonDb}: \code{CompDb} object from which data should be
 transferred to the \code{IonDb} database.}
 }
+\value{
+See description of the respective function.
+}
 \description{
 \code{IonDb} objects extends \code{CompDb} by allowing to store also information about
 measured ions to a \code{\link[=CompDb]{CompDb()}} database. This information includes the type

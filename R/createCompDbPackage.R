@@ -165,7 +165,9 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #'     `"inchi"`, `"formula"`, `"exactmass"`.
 #'
 #' @note
-#' LIPID MAPS was tested August 2020. Older SDF files might not work as the field names were changed.
+#'
+#' LIPID MAPS was tested August 2020. Older SDF files might not work as the
+#' field names were changed.
 #'
 #' @importFrom tibble tibble
 #'
@@ -229,7 +231,9 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' @return `character(1)` with the name of the resource or `NULL`.
 #'
 #' @note
-#' LIPID MAPS was tested August 2020. Older SDF files might not work as the field names were changed.
+#'
+#' LIPID MAPS was tested August 2020. Older SDF files might not work as the
+#' field names were changed.
 #'
 #' @md
 #'
@@ -672,7 +676,8 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
     dbWriteTable(con, name = "msms_spectrum_peak", msms_spectrum_peak,
                  row.names = FALSE)
     dbWriteTable(con, name = "msms_spectrum", x, row.names = FALSE)
-    dbExecute(con, "create index msms_id_idx on msms_spectrum_peak (spectrum_id)")
+    dbExecute(
+        con, "create index msms_id_idx on msms_spectrum_peak (spectrum_id)")
     dbExecute(con, "create index msms_pid_idx on msms_spectrum_peak (peak_id)")
     dbExecute(con, "create index msms_mid_idx on msms_spectrum (spectrum_id)")
     dbExecute(con, "create index msms_cid_idx on msms_spectrum (compound_id)")

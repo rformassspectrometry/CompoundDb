@@ -143,7 +143,8 @@ expandMzIntensity <- function(x) {
 ##                    formula = z$formula[1],
 ##                    mass = .aggregate_nums(z$mass),
 ##                    synonyms = unique(c(z$compound_name,
-##                                        unlist(z$synonyms, use.names = FALSE))))
+##                                        unlist(z$synonyms,
+## use.names = FALSE))))
 ##     })
 ## }
 

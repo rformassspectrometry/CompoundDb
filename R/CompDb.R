@@ -4,7 +4,9 @@
 #'
 #' @title Simple compound (metabolite) databases
 #'
-#' @aliases CompDb-class show dbconn,CompDb-method show,CompDb-method compoundVariables insertSpectra
+#' @aliases CompDb-class show dbconn,CompDb-method show,CompDb-method
+#'
+#' @aliases compoundVariables insertSpectra
 #'
 #' @description
 #'
@@ -120,6 +122,8 @@
 #'     to be added to the `IonDb` database.
 #'
 #' @param ... additional arguments. Currently not used.
+#'
+#' @return See description of the respective function.
 #'
 #' @author Johannes Rainer
 #'

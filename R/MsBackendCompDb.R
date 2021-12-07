@@ -30,6 +30,8 @@
 #'
 #' @param ... ignored.
 #'
+#' @return See the description of the respective function.
+#'
 #' @note
 #'
 #' For higher performance it is suggested to change the backend of the
@@ -255,8 +257,8 @@ setReplaceMethod("spectraData", "MsBackendCompDb", function(object, value) {
 #' @export
 setReplaceMethod("$", "MsBackendCompDb", function(x, name, value) {
     if (name == "mz" || name == "intensity" || name == "spectrum_id")
-        stop(paste0("'MsBackendCompDb' does not support replacing mz, ",
-                    "intensity or spectrum_id values"))
+        stop("'MsBackendCompDb' does not support replacing mz, ",
+             "intensity or spectrum_id values")
     value_len <- length(value)
     if (value_len == 1L || value_len == length(x))
         x@spectraData[[name]] <- value

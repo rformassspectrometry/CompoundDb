@@ -5,7 +5,8 @@
 #' @noRd
 #'
 #' @param x spectraData `DataFrame`
-.valid_spectra_data_required_columns <- function(x, columns = c("dataStorage")) {
+.valid_spectra_data_required_columns <- function(x,
+                                                 columns = c("dataStorage")) {
     if (nrow(x)) {
         missing_cn <- setdiff(columns, colnames(x))
         if (length(missing_cn))

@@ -113,12 +113,13 @@
     q <- x[1]
     tbls_used <- x[1]
     tbls <- x[-1]
+    idxs <- c(1, 2)
     while(length(tbls)) {
         got_it <- which((.JOINS[, 1] %in% tbls_used & .JOINS[, 2] %in% tbls) |
                         (.JOINS[, 2] %in% tbls_used & .JOINS[, 1] %in% tbls))
         join <- .JOINS[got_it[1], ]
         if (length(got_it)) {
-            new_tbl <- join[1:2][!(join[1:2] %in% tbls_used)]
+            new_tbl <- join[idxs][!(join[idxs] %in% tbls_used)]
             q <- paste(q, join[4], new_tbl, join[3])
             tbls_used <- c(tbls_used, new_tbl)
             tbls <- tbls[tbls != new_tbl]
@@ -146,7 +147,7 @@
 #'
 #' @noRd
 .add_join_tables <- function(x) {
-    ## ## msms_spectrum_peak with any other table: need also msms_spectrum_metadata
+    ## msms_spectrum_peak with any other table: need also msms_spectrum_metadata
     ## if (any(x == "msms_spectrum_peak") & length(x) > 1)
     ##     x <- c(x, "msms_spectrum_metadata")
     unique(x)
@@ -241,7 +242,7 @@
     ## If we have redundancy, i.e. the same-named column in multiple tables,
     ## remove it from the table with fewer columns.
     tmp_columns <- columns
-    for (i in 1:length(columns_tbl)) {
+    for (i in seq_along(columns_tbl)) {
         got_them <- tmp_columns %in% columns_tbl[[i]]
         columns_tbl[[i]] <- tmp_columns[got_them]
         tmp_columns <- tmp_columns[!got_them]

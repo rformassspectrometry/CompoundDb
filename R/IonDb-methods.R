@@ -64,7 +64,7 @@ setMethod("insertIon", "IonDb", function(object, ions) {
                  " in 'compound_id' column of 'ms_compound' table of 'cdb'")
         ions$ion_id <- as.character(
             seq_len(nrow(ions)) +
-            dbGetQuery(dbcon, "select count(distinct ion_id) from ms_ion")[1, 1])
+            dbGetQuery(dbcon, "select count(distinct ion_id) from ms_ion")[1,1])
         dbAppendTable(dbcon, "ms_ion", ions)
         invisible(object)
     } else stop("Database not initialized")

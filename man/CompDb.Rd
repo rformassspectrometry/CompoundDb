@@ -83,6 +83,9 @@ return the result as a \code{\link[=data.frame]{data.frame()}} or \code{\link[=t
 \item{spectra}{For \code{insertSpectra}: \code{Spectra} object containing the spectra
 to be added to the \code{IonDb} database.}
 }
+\value{
+See description of the respective function.
+}
 \description{
 \code{CompDb} objects provide access to general (metabolite) compound
 annotations along with \emph{metadata} information such as the annotation's
