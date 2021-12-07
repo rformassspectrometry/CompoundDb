@@ -1,5 +1,10 @@
 # Version 0.9
 
+## Changes in version 0.9.2
+
+- Add `instertSpectra` method to add MS/MS spectra from a `Spectra` object to
+  the database.
+
 ## Changes in version 0.9.1
 
 - Add `IonDb` constructor methods.

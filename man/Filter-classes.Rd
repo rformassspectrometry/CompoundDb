@@ -64,6 +64,9 @@ IonRtFilter(value, condition = "==")
 \item{condition}{The condition for the filter. For details see
 \code{\link[AnnotationFilter:AnnotationFilter]{AnnotationFilter::AnnotationFilter()}}.}
 }
+\value{
+Constructor functions return an instance of the respective class.
+}
 \description{
 A variety of different filters can be applied to the \code{CompDb} object to
 retrieve only subsets of the data. These filters extend the
@@ -98,8 +101,6 @@ a IonDb (but not by a CompDb):
 }
 }
 \examples{
-library(CompoundDb)
-
 ## Create a filter for the compound id
 cf <- CompoundIdFilter("comp_a")
 cf

@@ -4,7 +4,9 @@
 #'
 #' @title Simple compound (metabolite) databases
 #'
-#' @aliases CompDb-class show dbconn,CompDb-method show,CompDb-method compoundVariables insertSpectra
+#' @aliases CompDb-class show dbconn,CompDb-method show,CompDb-method
+#'
+#' @aliases compoundVariables insertSpectra
 #'
 #' @description
 #'
@@ -58,17 +60,23 @@
 #'
 #' - `tables`: returns a named `list` (names being table names) with
 #'   the fields/columns from each table in the database.
-#'   
-#' - `insertSpectra`: allows to add further spectra to the database object. Note 
-#'   that `insertSpectra` doesn't work on `CompDb` objects because such objects
-#'   are read only but it does for `IonDb` objects which inherit from `CompDb`.
-#'   The method always adds all the spectra specified through the `spectra` 
+#'
+#' - `insertSpectra`: allows to add further spectra to the database object. Note
+#'   that `insertSpectra` doesn't work on default *read-only* `CompDb` objects
+#'   (dropping the default parameter `flags = RSQLite::SQLITE_RO` in the
+#'   `CompDb` call to connect to a database would return a `CompDb` object
+#'   which is also writeable).
+#'   The method always adds all the spectra specified through the `spectra`
 #'   parameter and does not check if they are already in the database. Note that
-#'   the input spectra must have the variable `compound_id` and only `Spectra` 
-#'   whose `compound_id` values are also in `compounds(object, "compound_id")` 
-#'   can be added. It is also possible to add additional variables to the 
-#'   database table `msms_spectrum` that are present in the input `Spectra` by 
-#'   providing their names through the parameter `columns`. 
+#'   the input spectra must have the variable `compound_id` and only `Spectra`
+#'   whose `compound_id` values are also in `compounds(object, "compound_id")`
+#'   can be added. Parameter `columns` defines which spectra variables from the
+#'   `spectra` should be inserted into the database. By default, all spectra
+#'   variables are added but it is strongly suggested to specifically select
+#'   (meaningful) spectra variables that should be stored in the database.
+#'   Note that a spectra variable `"compound_id"` is mandatory.
+#'   If needed, the function adds additional columns to the `msms_spectrum`
+#'   database table. The function returns the updated `CompDb` object.
 #'
 #' @section Filtering the database:
 #'
@@ -86,6 +94,8 @@
 #' @param columns For `compounds`, `Spectra`: `character` with the names of the
 #'     database columns that should be retrieved. Use `compoundVariables` and/or
 #'     `spectraVariables` for a list of available column names.
+#'     For `insertSpectra`: columns (spectra variables) that should be inserted
+#'     into the database (to avoid inserting all variables).
 #'
 #' @param filter For `compounds` and `Spectra`: filter expression or
 #'     [AnnotationFilter()] defining a filter to be used to retrieve specific
@@ -108,10 +118,12 @@
 #'     to the database with parameter `x`.
 #'
 #'     For all other methods: a `CompDb` object.
-#' @param spectra For `insertSpectra`: `Spectra` object containing the spectra 
+#' @param spectra For `insertSpectra`: `Spectra` object containing the spectra
 #'     to be added to the `IonDb` database.
 #'
 #' @param ... additional arguments. Currently not used.
+#'
+#' @return See description of the respective function.
 #'
 #' @author Johannes Rainer
 #'

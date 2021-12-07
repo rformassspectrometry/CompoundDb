@@ -48,7 +48,7 @@ tables(x)
   ...
 )
 
-\S4method{insertSpectra}{CompDb,Spectra}(object, spectra, columns = character(0), ...)
+\S4method{insertSpectra}{CompDb,Spectra}(object, spectra, columns = spectraVariables(spectra), ...)
 }
 \arguments{
 \item{x}{For \code{CompDb}: \code{character(1)} with the file name of the SQLite
@@ -63,7 +63,9 @@ See \code{\link[=SQLite]{SQLite()}}. Defaults to read-only, i.e. \code{RSQLite::
 
 \item{columns}{For \code{compounds}, \code{Spectra}: \code{character} with the names of the
 database columns that should be retrieved. Use \code{compoundVariables} and/or
-\code{spectraVariables} for a list of available column names.}
+\code{spectraVariables} for a list of available column names.
+For \code{insertSpectra}: columns (spectra variables) that should be inserted
+into the database (to avoid inserting all variables).}
 
 \item{filter}{For \code{compounds} and \code{Spectra}: filter expression or
 \code{\link[=AnnotationFilter]{AnnotationFilter()}} defining a filter to be used to retrieve specific
@@ -80,6 +82,9 @@ return the result as a \code{\link[=data.frame]{data.frame()}} or \code{\link[=t
 
 \item{spectra}{For \code{insertSpectra}: \code{Spectra} object containing the spectra
 to be added to the \code{IonDb} database.}
+}
+\value{
+See description of the respective function.
 }
 \description{
 \code{CompDb} objects provide access to general (metabolite) compound
@@ -131,15 +136,21 @@ database.
 \item \code{tables}: returns a named \code{list} (names being table names) with
 the fields/columns from each table in the database.
 \item \code{insertSpectra}: allows to add further spectra to the database object. Note
-that \code{insertSpectra} doesn't work on \code{CompDb} objects because such objects
-are read only but it does for \code{IonDb} objects which inherit from \code{CompDb}.
+that \code{insertSpectra} doesn't work on default \emph{read-only} \code{CompDb} objects
+(dropping the default parameter \code{flags = RSQLite::SQLITE_RO} in the
+\code{CompDb} call to connect to a database would return a \code{CompDb} object
+which is also writeable).
 The method always adds all the spectra specified through the \code{spectra}
 parameter and does not check if they are already in the database. Note that
 the input spectra must have the variable \code{compound_id} and only \code{Spectra}
 whose \code{compound_id} values are also in \code{compounds(object, "compound_id")}
-can be added. It is also possible to add additional variables to the
-database table \code{msms_spectrum} that are present in the input \code{Spectra} by
-providing their names through the parameter \code{columns}.
+can be added. Parameter \code{columns} defines which spectra variables from the
+\code{spectra} should be inserted into the database. By default, all spectra
+variables are added but it is strongly suggested to specifically select
+(meaningful) spectra variables that should be stored in the database.
+Note that a spectra variable \code{"compound_id"} is mandatory.
+If needed, the function adds additional columns to the \code{msms_spectrum}
+database table. The function returns the updated \code{CompDb} object.
 }
 }
 

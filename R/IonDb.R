@@ -98,7 +98,8 @@
 #' @param ions for `insertIon` and `IonDb`: `data.frame` with ion definitions
 #'     to be added to the `IonDb` database. Columns `"compound_id"`
 #'     (`character()`), `"ion_adduct"` (`character()`), `"ion_mz"`
-#'     (`numeric()`) and `"ion_rt"` (`numeric()`) are mandatory.
+#'     (`numeric()`) and `"ion_rt"` (`numeric()`) are mandatory (but, with the
+#'     exception of `"compound_id"`, can contain `NA`).
 #'
 #' @param object For all methods: a `IonDb` object.
 #'
@@ -112,6 +113,8 @@
 #'     For all other methods: an `IonDb` object.
 #'
 #' @param ... additional arguments. Currently not used.
+#'
+#' @return See description of the respective function.
 #'
 #' @author Andrea Vicini, Johannes Rainer
 #'
@@ -256,7 +259,7 @@ setValidity("IonDb", function(object) {
 #' @noRd
 .copy_compdb <- function(x, y) {
     tbls <- dbListTables(x)
-    sapply(tbls, function(tbl)
+    lapply(tbls, function(tbl)
         dbWriteTable(y, tbl, dbGetQuery(x, paste0("select * from ", tbl))))
     dbExecute(y, "create index compound_id_idx on ms_compound (compound_id)")
     dbExecute(y, "create index compound_name_idx on ms_compound (name)")

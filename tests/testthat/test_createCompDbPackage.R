@@ -367,3 +367,36 @@ test_that(".msms_spectrum_add_missing_columns works", {
     expect_equal(res$polarity, df$polarity)
     expect_equal(res$spectrum_id, df$spectrum_id)
 })
+
+test_that(".append_msms_spectra works", {
+    tmp_con <- dbConnect(SQLite(), tempfile())
+    tmp_db <- .copy_compdb(cmp_spctra_db@dbcon, tmp_con)
+    tmp_db <- CompDb(tmp_con)
+
+    spd <- DataFrame(
+        msLevel = c(2L, 2L),
+        polarity = c(1L, 1L),
+        compound_id = c("HMDB0000008", "HMDB0000008"))
+    spd$mz <- list(
+        c(109.2, 124.2, 124.5, 170.16, 170.52),
+        c(83.1, 96.12, 97.14, 109.14, 124.08, 125.1, 170.16))
+    spd$intensity <- list(
+        c(3.407, 47.494, 3.094, 100.0, 13.240),
+        c(6.685, 4.381, 3.022, 16.708, 100.0, 4.565, 40.643))
+    sps <- Spectra(spd)
+
+    x <- as.data.frame(spectraData(sps, c("msLevel", "polarity", "precursorMz",
+                                          "rtime", "compound_id")))
+    x$mz <- as.list(sps$mz)
+    x$intensity <- as.list(sps$intensity)
+
+    .append_msms_spectra(tmp_con, x)
+    res <- dbGetQuery(tmp_con, "select * from msms_spectrum")
+    expect_true(all(c("msLevel", "polarity", "precursorMz", "rtime") %in%
+                    colnames(res)))
+    expect_true(all(res$compound_id == c("HMDB0000001", "HMDB0000001",
+                                         "HMDB0004370", "HMDB0006719",
+                                         "HMDB0000008", "HMDB0000008")))
+    res <- dbGetQuery(tmp_con, "select * from msms_spectrum_peak")
+    expect_true(sum(res$spectrum_id %in% c(5, 6)) == 12)
+})

@@ -124,69 +124,47 @@ setMethod("compounds", "CompDb", function(object,
 #' @export
 #'
 #' @rdname CompDb
-setMethod("insertSpectra", signature(object = "CompDb", spectra = "Spectra"), 
-          function(object, spectra, columns = character(0), ...) {
-              new_sD <- as.data.frame(spectraData(spectra))
-              if (!"compound_id" %in% colnames(new_sD))
-                  stop("'spectra' must contain the variable 'compound_id'")
-              columns_idx <- match(columns, colnames(new_sD))
-              if (length(columns_idx) && any(is.na(columns_idx)))
-                  stop("Some variables in 'column' are not in spectra")
-              dbcon <- object@dbcon
+setMethod("insertSpectra", signature(object = "CompDb", spectra = "Spectra"),
+          function(object, spectra, columns = spectraVariables(spectra), ...) {
+              if (is.null(.dbconn(object)))
+                  stop("Database not initialized")
+              new_sD <- as.data.frame(spectraData(spectra, columns))
+              if (!any(colnames(new_sD) == "compound_id"))
+                  stop("Column 'compound_id' needs to be provided (as a ",
+                       "spectra variable to insert to the database).")
               if (!all(new_sD$compound_id %in%
-                       dbGetQuery(dbcon, 
+                       dbGetQuery(.dbconn(object),
                                   "select compound_id from ms_compound")[, 1]))
                   stop("All values of spectra variable 'compound_id' must be",
                        " in 'compound_id' column of the database 'ms_compound'",
                        " table")
-              if (!is.null(dbcon)) {
-                  colnames(new_sD) <- sub("msLevel", "ms_level",
-                                          colnames(new_sD), fixed = TRUE)
-                  colnames(new_sD) <- sub("precursorMz", "precursor_mz",
-                                          colnames(new_sD), fixed = TRUE)
-                  colnames(new_sD) <- sub("precursorIntensity", 
-                                          "precursor_intensity",
-                                          colnames(new_sD), fixed = TRUE)
-                  colnames(new_sD) <- sub("precursorCharge", "precursor_charge",
-                                          colnames(new_sD), fixed = TRUE)
-                  colnames(new_sD) <- sub("collisionEnergy", "collision_energy",
-                                          colnames(new_sD), fixed = TRUE)
-                  nsp <- dbGetQuery(dbcon,
-                                    paste0("select max(spectrum_id)",
-                                           " from msms_spectrum"))[1, 1]
+              colnames(new_sD) <- sub("msLevel", "ms_level",
+                                      colnames(new_sD), fixed = TRUE)
+              colnames(new_sD) <- sub("precursorMz", "precursor_mz",
+                                      colnames(new_sD), fixed = TRUE)
+              colnames(new_sD) <- sub("precursorIntensity",
+                                      "precursor_intensity",
+                                      colnames(new_sD), fixed = TRUE)
+              colnames(new_sD) <- sub("precursorCharge", "precursor_charge",
+                                      colnames(new_sD), fixed = TRUE)
+              colnames(new_sD) <- sub("collisionEnergy", "collision_energy",
+                                      colnames(new_sD), fixed = TRUE)
+              new_sD$mz <- as.list(spectra$mz)
+              new_sD$intensity <- as.list(spectra$intensity)
+              if (hasMsMsSpectra(object))
+                  .append_msms_spectra(.dbconn(object), new_sD)
+              else {
                   if("spectrum_id" %in% colnames(new_sD))
-                      warning("'spectrum_id' variable in 'spectra' will be 
+                      warning("'spectrum_id' variable in 'spectra' will be
                               replaced with internal indexes")
-                  new_sD$spectrum_id <- nsp + seq_len(nrow(new_sD))
-                  if (length(columns_idx)){
-                      columns <- colnames(new_sD)[columns_idx]
-                      dtype <- dbDataType(dbcon,
-                                          new_sD[, columns, drop = FALSE])
-                      dtype <- paste(names(dtype), dtype)
-                      for (dt in dtype) {
-                          dbExecute(dbcon, paste("alter table msms_spectrum",
-                                                 "add", dt))
-                      }
-                      object@.properties$tables$msms_spectrum <- 
-                          c(object@.properties$tables$msms_spectrum, columns)
-                      
-                  }
-                  cols <- intersect(object@.properties$tables$msms_spectrum, 
-                                    colnames(new_sD))
-                  dbAppendTable(dbcon, "msms_spectrum", new_sD[, cols])
-                  
-                  new_pD <- Spectra:::.peaksapply(spectra)
-                  np <- dbGetQuery(dbcon,
-                                   paste0("select max(peak_id) ",
-                                          "from msms_spectrum_peak"))[1, 1]
-                  nrows <- sapply(new_pD, nrow)
-                  new_msms_spectrum_peak <-
-                      cbind(spectrum_id = nsp + rep(seq_len(length(new_pD)),
-                                                    nrows),
-                            do.call(rbind, new_pD),
-                            peak_id = np + seq_len(sum(nrows)))
-                  dbAppendTable(dbcon, "msms_spectrum_peak",
-                                as.data.frame(new_msms_spectrum_peak))
-                  invisible(object)
-              } else stop("Database not initialized")
+                  new_sD$spectrum_id <- seq_len(nrow(new_sD))
+                  .insert_msms_spectra(.dbconn(object), new_sD)
+              }
+              object@.properties$tables$msms_spectrum <- colnames(
+                  dbGetQuery(.dbconn(object),
+                             "select * from msms_spectrum limit 1"))
+              object@.properties$tables$msms_spectrum_peak <- colnames(
+                  dbGetQuery(.dbconn(object),
+                             "select * from msms_spectrum_peak limit 1"))
+              object
           })
