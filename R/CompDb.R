@@ -44,6 +44,11 @@
 #' - `compoundVariables`: returns all available columns/database fields for
 #'   compounds.
 #'
+#' - `copyCompDb`: allows to copy the content from a CompDb to another database.
+#'   Parameter `x` is supposed to be either a `CompDb` or a database connection
+#'   from which the data should be copied and `y` a connection to a database
+#'   to which it should be copied.
+#'
 #' - `dbconn`: returns the connection (of type `DBIConnection`) to the database.
 #'
 #' - `metadata`: returns general meta data of the compound database.
@@ -115,9 +120,14 @@
 #'
 #' @param x For `CompDb`: `character(1)` with the file name of the SQLite
 #'     compound database. Alternatively it is possible to provide the connection
-#'     to the database with parameter `x`.
+#'     to the database with parameter `x`. For `copyCompDb`: either a `CompDb`
+#'     or a database connection.
 #'
 #'     For all other methods: a `CompDb` object.
+#'
+#' @param y For `copyCompDb`: connection to a database to which the content
+#'     should be copied.
+#'
 #' @param spectra For `insertSpectra`: `Spectra` object containing the spectra
 #'     to be added to the `IonDb` database.
 #'
@@ -384,4 +394,14 @@ tables <- function(x) {
 
 .get_property <- function(x, name) {
     x@.properties[[name]]
+}
+
+
+#' @export
+#'
+#' @rdname CompDb
+copyCompDb <- function(x, y) {
+    if (inherits(x, "CompDb"))
+        x <- .dbconn(x)
+    .copy_compdb(x, y)
 }
