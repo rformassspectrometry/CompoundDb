@@ -84,6 +84,8 @@ available in the database and <code>FALSE</code> otherwise.</p>
 
 <span class="fu">tables</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
 
+<span class="fu">copyCompDb</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span>
+
 <span class="co"># S4 method for CompDb</span>
 <span class="fu">dbconn</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
 
@@ -120,11 +122,15 @@ available in the database and <code>FALSE</code> otherwise.</p>
     <dl><dt>x</dt>
 <dd><p>For <code>CompDb</code>: <code>character(1)</code> with the file name of the SQLite
 compound database. Alternatively it is possible to provide the connection
-to the database with parameter <code>x</code>.</p><div class="sourceCode"><pre><code>For all other methods: a `CompDb` object.
+to the database with parameter <code>x</code>. For <code>copyCompDb</code>: either a <code>CompDb</code>
+or a database connection.</p><div class="sourceCode"><pre><code>For all other methods: a `CompDb` object.
 </code></pre></div></dd>
 <dt>flags</dt>
 <dd><p>flags passed to the SQLite database connection.
 See <code>SQLite()</code>. Defaults to read-only, i.e. <code><a href="https://rsqlite.r-dbi.org/reference/SQLite.html" class="external-link">RSQLite::SQLITE_RO</a></code>.</p></dd>
+<dt>y</dt>
+<dd><p>For <code>copyCompDb</code>: connection to a database to which the content
+should be copied.</p></dd>
 <dt>object</dt>
 <dd><p>For all methods: a <code>CompDb</code> object.</p></dd>
 <dt>columns</dt>
@@ -183,6 +189,10 @@ variables.</p></li>
 <ul><li><p><code>CompDb</code>: connect to a compound database.</p></li>
 <li><p><code>compoundVariables</code>: returns all available columns/database fields for
 compounds.</p></li>
+<li><p><code>copyCompDb</code>: allows to copy the content from a CompDb to another database.
+Parameter <code>x</code> is supposed to be either a <code>CompDb</code> or a database connection
+from which the data should be copied and <code>y</code> a connection to a database
+to which it should be copied.</p></li>
 <li><p><code>dbconn</code>: returns the connection (of type <code>DBIConnection</code>) to the database.</p></li>
 <li><p><code>metadata</code>: returns general meta data of the compound database.</p></li>
 <li><p><code>spectraVariables</code>: returns all spectra variables (i.e. columns) available
