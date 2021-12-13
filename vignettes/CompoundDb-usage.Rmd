@@ -97,7 +97,7 @@ of sources (e.g. MassBank, HMDB, MoNa, ChEBI). For the present database, which
 is based on MassBank, the mapping between entries in the *ms_compound* database
 table and MS/MS spectra is for example 1:1 and the *ms_compound* table contains
 thus highly redundant information. Thus, if we would include the column
-`"compound_id"` in the query we would end up with redundant values instead:
+`"compound_id"` in the query we would end up with redundant values:
 
 ```{r}
 head(compounds(cdb, columns = c("compound_id", "name", "formula")))
@@ -107,7 +107,8 @@ By default, `compounds` extracts the data for **all** compounds stored in the
 database. The function supports however also *filters* to get values for
 specific entries only. These can be defined as *filter expressions* which are
 similar to the way how e.g. a `data.frame` would be subsetted in R. In the
-example below we
+example below we extract the compound ID, name and chemical formula for a
+compound *Mellein*.
 
 ```{r}
 compounds(cdb, columns = c("compound_id", "name", "formula"),
@@ -116,9 +117,9 @@ compounds(cdb, columns = c("compound_id", "name", "formula"),
 
 Note that a filter expression always has to start with `~` followed by the
 *variable* on which the data should be subsetted and the condition to select the
-entries of interest. The list of available filters for the `CompDb` can be
-retrieved with the `supportedFilter` function (more filters will be implemented
-in future).
+entries of interest. An overview of available filters for a `CompDb` can be
+retrieved with the `supportedFilter` function which returns the name of the
+filter and the database column on which the filter selects the values:
 
 ```{r}
 supportedFilters(cdb)
@@ -278,7 +279,7 @@ ion <- data.frame(compound_id = c(1, 1),
                   ion_adduct = c("[M+H]+", "[M+Na]+"),
                   ion_mz = c(123.34, 125.34),
                   ion_rt = c(196, 196))
-insertIon(idb, ion)
+idb <- insertIon(idb, ion)
 ```
 
 These ions have now be addded to the database.
