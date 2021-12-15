@@ -711,7 +711,6 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
     dtype <- paste(names(dtype), dtype)
     for (dt in dtype)
         dbExecute(con, paste("alter table msms_spectrum add", dt))
-    cols <- colnames(dbGetQuery(con, "select * from msms_spectrum limit 1"))
     dbAppendTable(con, "msms_spectrum", x)
 
     ## Update peak_id

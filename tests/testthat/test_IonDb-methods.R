@@ -206,14 +206,26 @@ test_that("insertIon,ionDb works", {
                             ion_adduct = c("C", "D"),
                             ion_mz = c(220, 300),
                             ion_rt = c(90, 140))
-    insertIon(idb, more_ions)
+    idb <- insertIon(idb, more_ions)
     expect_true(nrow(ions(idb)) == 7)
     expect_equal(ions(idb), rbind(ions(ion_spctra_db), more_ions))
 
     ## Different ordering of columns
     more_ions <- more_ions[, c(3, 1, 2, 4)]
-    insertIon(idb, more_ions)
+    idb <- insertIon(idb, more_ions)
     expect_true(nrow(ions(idb, c("ion_id"))) == 9)
+    res <- ions(idb, c("ion_id", "compound_id", "ion_adduct"))
+    expect_equal(res$ion_adduct, c("A", "B", "B", "C", "D", "C", "D", "C", "D"))
+
+    ## Additional columns
+    more_ions$add_column <- "Z"
+    expect_error(insertIon(idb, more_ions), "no column")
+
+    idb <- insertIon(idb, more_ions, addColumns = TRUE)
+    expect_true(any(ionVariables(idb) == "add_column"))
+    res <- ions(idb)
+    expect_identical(res$add_column, c(rep(NA_character_, 7), "Z", "Z"))
+    expect_true(any(idb@.properties$tables$ms_ion == "add_column"))
 
     ## Errors
     expect_error(insertIon(idb, more_ions[, 1:3]), "required")

@@ -28,7 +28,7 @@
   ...
 )
 
-\S4method{insertIon}{IonDb}(object, ions)
+\S4method{insertIon}{IonDb}(object, ions, addColumns = FALSE)
 
 \S4method{IonDb}{missing,missing}(x, cdb, ...)
 
@@ -67,12 +67,16 @@ to be added to the \code{IonDb} database. Columns \code{"compound_id"}
 (\code{numeric()}) and \code{"ion_rt"} (\code{numeric()}) are mandatory (but, with the
 exception of \code{"compound_id"}, can contain \code{NA}).}
 
+\item{addColumns}{For \code{insertIons}: \code{logical(1)} whether columns being
+present in the submitted \code{data.frame} but not in the database table
+should be added to the database's ion table.}
+
 \item{x}{For \code{IonDb}: database connection or \code{character(1)} with the file
 name of the SQLite database where the \code{IonDb} data will be stored or a
 \code{\link[=CompDb]{CompDb()}} object that should be converted into an \code{IonDb} object.\preformatted{For all other methods: an `IonDb` object.
 }}
 
-\item{cdb}{for \code{IonDb}: \code{CompDb} object from which data should be
+\item{cdb}{For \code{IonDb}: \code{CompDb} object from which data should be
 transferred to the \code{IonDb} database.}
 }
 \value{
@@ -138,7 +142,9 @@ return all elements from the \emph{ms_ion} table (unless a \code{filter} is used
 \item \code{ionVariables}: returns all available columns/database fields for ions.
 \item \code{insertIon}: allows to add further ions to the \code{IonDb} object. Note that
 \code{insertIon} always adds all the ions specified through the \code{ions} parameter
-and does not check if they are already in the database.
+and does not check if they are already in the database. To add columns
+present in the submitted \code{data.frame} to the database table set
+\code{addColumns = TRUE} (default is \code{addColumns = FALSE}).
 }
 }
 

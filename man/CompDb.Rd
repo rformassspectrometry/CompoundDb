@@ -11,6 +11,7 @@
 \alias{hasMsMsSpectra}
 \alias{src_compdb}
 \alias{tables}
+\alias{copyCompDb}
 \alias{Spectra,CompDb-method}
 \alias{supportedFilters,CompDb-method}
 \alias{metadata,CompDb-method}
@@ -27,6 +28,8 @@ hasMsMsSpectra(x)
 src_compdb(x)
 
 tables(x)
+
+copyCompDb(x, y)
 
 \S4method{dbconn}{CompDb}(x)
 
@@ -53,11 +56,15 @@ tables(x)
 \arguments{
 \item{x}{For \code{CompDb}: \code{character(1)} with the file name of the SQLite
 compound database. Alternatively it is possible to provide the connection
-to the database with parameter \code{x}.\preformatted{For all other methods: a `CompDb` object.
+to the database with parameter \code{x}. For \code{copyCompDb}: either a \code{CompDb}
+or a database connection.\preformatted{For all other methods: a `CompDb` object.
 }}
 
 \item{flags}{flags passed to the SQLite database connection.
 See \code{\link[=SQLite]{SQLite()}}. Defaults to read-only, i.e. \code{RSQLite::SQLITE_RO}.}
+
+\item{y}{For \code{copyCompDb}: connection to a database to which the content
+should be copied.}
 
 \item{object}{For all methods: a \code{CompDb} object.}
 
@@ -124,6 +131,10 @@ variables.
 \item \code{CompDb}: connect to a compound database.
 \item \code{compoundVariables}: returns all available columns/database fields for
 compounds.
+\item \code{copyCompDb}: allows to copy the content from a CompDb to another database.
+Parameter \code{x} is supposed to be either a \code{CompDb} or a database connection
+from which the data should be copied and \code{y} a connection to a database
+to which it should be copied.
 \item \code{dbconn}: returns the connection (of type \code{DBIConnection}) to the database.
 \item \code{metadata}: returns general meta data of the compound database.
 \item \code{spectraVariables}: returns all spectra variables (i.e. columns) available

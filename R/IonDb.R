@@ -65,7 +65,9 @@
 #'
 #' - `insertIon`: allows to add further ions to the `IonDb` object. Note that
 #'   `insertIon` always adds all the ions specified through the `ions` parameter
-#'   and does not check if they are already in the database.
+#'   and does not check if they are already in the database. To add columns
+#'   present in the submitted `data.frame` to the database table set
+#'   `addColumns = TRUE` (default is `addColumns = FALSE`).
 #'
 #'
 #' @section Filtering the database:
@@ -81,7 +83,11 @@
 #' all supported filters. See also examples below or the usage vignette for
 #' details.
 #'
-#' @param cdb for `IonDb`: `CompDb` object from which data should be
+#' @param addColumns For `insertIons`: `logical(1)` whether columns being
+#'     present in the submitted `data.frame` but not in the database table
+#'     should be added to the database's ion table.
+#'
+#' @param cdb For `IonDb`: `CompDb` object from which data should be
 #'     transferred to the `IonDb` database.
 #'
 #' @param columns For `ions`: `character` with the names of the database
