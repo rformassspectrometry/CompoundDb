@@ -168,3 +168,31 @@ setMethod("insertSpectra", signature(object = "CompDb", spectra = "Spectra"),
                              "select * from msms_spectrum_peak limit 1"))
               object
           })
+
+
+#' @importFrom DBI dbGetQuery dbExecute
+#'
+#' @export
+#'
+#' @rdname CompDb
+setMethod("deleteSpectra", signature(object = "CompDb"),
+          function(object, ids = character(0), ...) {
+              dbcon <- .dbconn(object)
+              if (is.null(dbcon))
+                  stop("Database not initialized")
+              if (hasMsMsSpectra(object)) {
+                  if(any(!ids %in%
+                         dbGetQuery(dbcon, paste0("select spectrum_id ",
+                                                  "from msms_spectrum"))[, 1]))
+                      warning("Some IDs in 'ids' not valid and will be ignored")
+                  dbExecute(dbcon, paste0("delete from msms_spectrum ",
+                                          "where spectrum_id in (", 
+                                          toString(ids), ")"))
+                  dbExecute(dbcon, paste0("delete from msms_spectrum_peak ",
+                                          "where spectrum_id in (", 
+                                          toString(ids), ")"))
+              } else {
+                  stop("'object' does not contain msms spectra")
+              }
+              object
+          }) 

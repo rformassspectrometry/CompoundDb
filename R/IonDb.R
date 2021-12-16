@@ -4,7 +4,7 @@
 #'
 #' @title IonDb: compound database with additional ion information
 #'
-#' @aliases IonDb-class show,IonDb-method ionVariables ions insertIon
+#' @aliases IonDb-class show,IonDb-method ionVariables ions insertIon deleteIon
 #'
 #' @description
 #'
@@ -68,6 +68,9 @@
 #'   and does not check if they are already in the database. To add columns
 #'   present in the submitted `data.frame` to the database table set
 #'   `addColumns = TRUE` (default is `addColumns = FALSE`).
+#'   
+#' - `deleteIon`: allows to delete ions from the `IonDb` object by specifying 
+#'    their IDs.
 #'
 #'
 #' @section Filtering the database:
@@ -97,6 +100,10 @@
 #' @param filter For `ions`: filter expression or [AnnotationFilter()] defining
 #'     a filter to be used to retrieve specific elements from the database.
 #'
+#' @param ids For `deleteIon`: `character()` or (alternatively `integer()`) 
+#'     specifying the IDs of the ions to delete. IDs in `ids` that are 
+#'     not associated to any ion in the `IonDb` object are ignored.
+#'     
 #' @param includeId For `ionVariables`: `logical(1)` whether the ion
 #'     ID (column `"ms_ion_id"`) should be included in the result. The
 #'     default is `includeId = FALSE`.

@@ -6,7 +6,7 @@
 #'
 #' @aliases CompDb-class show dbconn,CompDb-method show,CompDb-method
 #'
-#' @aliases compoundVariables insertSpectra
+#' @aliases compoundVariables insertSpectra deleteSpectra
 #'
 #' @description
 #'
@@ -82,6 +82,13 @@
 #'   Note that a spectra variable `"compound_id"` is mandatory.
 #'   If needed, the function adds additional columns to the `msms_spectrum`
 #'   database table. The function returns the updated `CompDb` object.
+#'   
+#' - `deleteSpectra`: allows to delete spectra from the database object by 
+#'   specifying their IDs through parameter `ids`.  Note
+#'   that `deleteSpectra` doesn't work on default *read-only* `CompDb` objects
+#'   (dropping the default parameter `flags = RSQLite::SQLITE_RO` in the
+#'   `CompDb` call to connect to a database would return a `CompDb` object
+#'   which is also writeable). 
 #'
 #' @section Filtering the database:
 #'
@@ -109,9 +116,16 @@
 #' @param flags flags passed to the SQLite database connection.
 #'     See [SQLite()]. Defaults to read-only, i.e. `RSQLite::SQLITE_RO`.
 #'
+#' @param ids For `deleteSpectra`: `character()` or (alternatively `integer()`) 
+#'     specifying the IDs of the spectra to delete. IDs in `ids` that are 
+#'     not associated to any spectra in the `CompDb` object are ignored. For 
+#'     `deleteIon`: `character()` or (alternatively `integer()`) 
+#'     specifying the IDs of the ions to delete.
+#'     
 #' @param includeId for `compoundVariables`: `logical(1)` whether the comound
 #'     ID (column `"compound_id"`) should be included in the result. The
 #'     default is `includeIds = FALSE`.
+#'     
 #'
 #' @param object For all methods: a `CompDb` object.
 #'

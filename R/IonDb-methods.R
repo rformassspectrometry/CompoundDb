@@ -88,6 +88,27 @@ setMethod("insertIon", "IonDb", function(object, ions, addColumns = FALSE) {
     object
 })
 
+#' @importFrom DBI dbGetQuery dbExecute
+#'
+#' @export
+#'
+#' @rdname IonDb
+setMethod("deleteIon", signature(object = "IonDb"),
+          function(object, ids = character(0), ...) {
+              dbcon <- .dbconn(object)
+              if (is.null(dbcon))
+                  stop("Database not initialized")
+              # maybe this check can be removed? 
+              if(any(!ids %in% dbGetQuery(dbcon,
+                                          paste0("select spectrum_id ",
+                                                 "from msms_spectrum"))[, 1]))
+                  warning("Some IDs in 'ids' are not valid and will be ignored")
+              dbExecute(dbcon, paste0("delete from ms_ion where ion_id in (", 
+                                      toString(ids), ")"))
+              object
+          })
+
+
 #' @rdname IonDb
 #'
 #' @exportMethod IonDb
