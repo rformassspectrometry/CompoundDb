@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2021-12-13 10:10:33<br><strong>Compiled</strong>: Mon Dec 13 10:15:43 2021</p>
+</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2021-12-21 06:39:31<br><strong>Compiled</strong>: Tue Dec 21 06:45:18 2021</p>
 <div class="section level1">
 <h1 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h1>
@@ -315,7 +315,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <code class="sourceCode R"><span class="fu"><a href="../reference/createCompDb.html">createCompDbPackage</a></span><span class="op">(</span>
     <span class="va">db_file</span>, version <span class="op">=</span> <span class="st">"0.0.1"</span>, author <span class="op">=</span> <span class="st">"J Rainer"</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,
     maintainer <span class="op">=</span> <span class="st">"Johannes Rainer &lt;johannes.rainer@eurac.edu&gt;"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Creating package in /tmp/RtmpxjEQNd/CompDb.Hsapiens.HMDB.4.0</span></code></pre>
+<pre><code><span class="co">## Creating package in /tmp/RtmpFdFPgH/CompDb.Hsapiens.HMDB.4.0</span></code></pre>
 <p>The function creates a folder (in our case in a temporary directory) that can be build and installed with <code>R CMD build</code> and <code>R CMD INSTALL</code>.</p>
 <p>Special care should also be put on the license of the package that can be passed with the <code>license</code> parameter. The license of the package and how and if the package can be distributed will depend also on the license of the originating resource.</p>
 </div>
@@ -366,7 +366,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <div class="section level1">
 <h1 id="session-information">Session information<a class="anchor" aria-label="anchor" href="#session-information"></a>
 </h1>
-<pre><code><span class="co">## R Under development (unstable) (2021-12-10 r81318)</span>
+<pre><code><span class="co">## R Under development (unstable) (2021-12-16 r81386)</span>
 <span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span>
 <span class="co">## Running under: Ubuntu 20.04.3 LTS</span>
 <span class="co">## </span>
@@ -386,16 +386,16 @@ document.addEventListener("DOMContentLoaded", function() {
 <span class="co">## [8] base     </span>
 <span class="co">## </span>
 <span class="co">## other attached packages:</span>
-<span class="co">## [1] Spectra_1.5.2           ProtGenerics_1.27.0     BiocParallel_1.29.5    </span>
+<span class="co">## [1] Spectra_1.5.2           ProtGenerics_1.27.1     BiocParallel_1.29.6    </span>
 <span class="co">## [4] CompoundDb_0.9.3        S4Vectors_0.33.8        BiocGenerics_0.41.2    </span>
-<span class="co">## [7] AnnotationFilter_1.19.0 BiocStyle_2.23.0       </span>
+<span class="co">## [7] AnnotationFilter_1.19.0 BiocStyle_2.23.1       </span>
 <span class="co">## </span>
 <span class="co">## loaded via a namespace (and not attached):</span>
 <span class="co">##  [1] Biobase_2.55.0         sass_0.4.0             bit64_4.0.5           </span>
 <span class="co">##  [4] jsonlite_1.7.2         bslib_0.3.1            assertthat_0.2.1      </span>
 <span class="co">##  [7] BiocManager_1.30.16    blob_1.2.2             GenomeInfoDbData_1.2.7</span>
 <span class="co">## [10] yaml_2.2.1             pillar_1.6.4           RSQLite_2.2.9         </span>
-<span class="co">## [13] glue_1.5.1             digest_0.6.29          GenomicRanges_1.47.5  </span>
+<span class="co">## [13] glue_1.6.0             digest_0.6.29          GenomicRanges_1.47.5  </span>
 <span class="co">## [16] XVector_0.35.0         colorspace_2.0-2       htmltools_0.5.2       </span>
 <span class="co">## [19] pkgconfig_2.0.3        bookdown_0.24          zlibbioc_1.41.0       </span>
 <span class="co">## [22] purrr_0.3.4            scales_1.1.1           tibble_3.1.6          </span>
@@ -411,14 +411,14 @@ document.addEventListener("DOMContentLoaded", function() {
 <span class="co">## [52] rlang_0.4.12           grid_4.2.0             RCurl_1.98-1.5        </span>
 <span class="co">## [55] rsvg_2.1.2             MsCoreUtils_1.7.1      rjson_0.2.20          </span>
 <span class="co">## [58] htmlwidgets_1.5.4      bitops_1.0-7           base64enc_0.1-3       </span>
-<span class="co">## [61] rmarkdown_2.11         gtable_0.3.0           DBI_1.1.1             </span>
-<span class="co">## [64] R6_2.5.1               gridExtra_2.3          knitr_1.36            </span>
+<span class="co">## [61] rmarkdown_2.11         gtable_0.3.0           DBI_1.1.2             </span>
+<span class="co">## [64] R6_2.5.1               gridExtra_2.3          knitr_1.37            </span>
 <span class="co">## [67] dplyr_1.0.7            fastmap_1.1.0          bit_4.0.4             </span>
 <span class="co">## [70] utf8_1.2.2             clue_0.3-60            rprojroot_2.0.2       </span>
 <span class="co">## [73] ragg_1.2.1             desc_1.4.0             stringi_1.7.6         </span>
 <span class="co">## [76] parallel_4.2.0         Rcpp_1.0.7             vctrs_0.3.8           </span>
 <span class="co">## [79] png_0.1-7              dbplyr_2.1.1           tidyselect_1.1.1      </span>
-<span class="co">## [82] xfun_0.28              ChemmineR_3.47.0</span></code></pre>
+<span class="co">## [82] xfun_0.29              ChemmineR_3.47.0</span></code></pre>
 </div>
   </div>
 

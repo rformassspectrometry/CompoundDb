@@ -111,6 +111,9 @@ package).</p>
 <span class="co"># S4 method for IonDb</span>
 <span class="fu">insertIon</span><span class="op">(</span><span class="va">object</span>, <span class="va">ions</span>, addColumns <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
+<span class="co"># S4 method for IonDb</span>
+<span class="fu">deleteIon</span><span class="op">(</span><span class="va">object</span>, ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span>
+
 <span class="co"># S4 method for missing,missing</span>
 <span class="fu">IonDb</span><span class="op">(</span><span class="va">x</span>, <span class="va">cdb</span>, <span class="va">...</span><span class="op">)</span>
 
@@ -160,6 +163,10 @@ exception of <code>"compound_id"</code>, can contain <code>NA</code>).</p></dd>
 <dd><p>For <code>insertIons</code>: <code>logical(1)</code> whether columns being
 present in the submitted <code>data.frame</code> but not in the database table
 should be added to the database's ion table.</p></dd>
+<dt>ids</dt>
+<dd><p>For <code>deleteIon</code>: <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> or (alternatively <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)
+specifying the IDs of the ions to delete. IDs in <code>ids</code> that are
+not associated to any ion in the <code>IonDb</code> object are ignored.</p></dd>
 <dt>x</dt>
 <dd><p>For <code>IonDb</code>: database connection or <code>character(1)</code> with the file
 name of the SQLite database where the <code>IonDb</code> data will be stored or a
@@ -218,6 +225,8 @@ return all elements from the <em>ms_ion</em> table (unless a <code>filter</code>
 and does not check if they are already in the database. To add columns
 present in the submitted <code>data.frame</code> to the database table set
 <code>addColumns = TRUE</code> (default is <code>addColumns = FALSE</code>).</p></li>
+<li><p><code>deleteIon</code>: allows to delete ions from the <code>IonDb</code> object by specifying
+their IDs.</p></li>
 </ul></div>
     <div id="filtering-the-database">
     <h2>Filtering the database</h2>

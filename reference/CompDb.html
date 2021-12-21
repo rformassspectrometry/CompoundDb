@@ -114,7 +114,10 @@ available in the database and <code>FALSE</code> otherwise.</p>
 <span class="op">)</span>
 
 <span class="co"># S4 method for CompDb,Spectra</span>
-<span class="fu">insertSpectra</span><span class="op">(</span><span class="va">object</span>, <span class="va">spectra</span>, columns <span class="op">=</span> <span class="fu">spectraVariables</span><span class="op">(</span><span class="va">spectra</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+<span class="fu">insertSpectra</span><span class="op">(</span><span class="va">object</span>, <span class="va">spectra</span>, columns <span class="op">=</span> <span class="fu">spectraVariables</span><span class="op">(</span><span class="va">spectra</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span>
+
+<span class="co"># S4 method for CompDb</span>
+<span class="fu">deleteSpectra</span><span class="op">(</span><span class="va">object</span>, ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -155,6 +158,12 @@ return the result as a <code><a href="https://rdrr.io/r/base/data.frame.html" cl
 <dt>spectra</dt>
 <dd><p>For <code>insertSpectra</code>: <code>Spectra</code> object containing the spectra
 to be added to the <code>IonDb</code> database.</p></dd>
+<dt>ids</dt>
+<dd><p>For <code>deleteSpectra</code>: <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> or (alternatively <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)
+specifying the IDs of the spectra to delete. IDs in <code>ids</code> that are
+not associated to any spectra in the <code>CompDb</code> object are ignored. For
+<code>deleteIon</code>: <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> or (alternatively <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)
+specifying the IDs of the ions to delete.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -220,6 +229,12 @@ variables are added but it is strongly suggested to specifically select
 Note that a spectra variable <code>"compound_id"</code> is mandatory.
 If needed, the function adds additional columns to the <code>msms_spectrum</code>
 database table. The function returns the updated <code>CompDb</code> object.</p></li>
+<li><p><code>deleteSpectra</code>: allows to delete spectra from the database object by
+specifying their IDs through parameter <code>ids</code>.  Note
+that <code>deleteSpectra</code> doesn't work on default <em>read-only</em> <code>CompDb</code> objects
+(dropping the default parameter <code>flags = RSQLite::SQLITE_RO</code> in the
+<code>CompDb</code> call to connect to a database would return a <code>CompDb</code> object
+which is also writeable).</p></li>
 </ul></div>
     <div id="filtering-the-database">
     <h2>Filtering the database</h2>
