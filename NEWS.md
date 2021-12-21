@@ -1,5 +1,9 @@
 # Version 0.9
 
+## Changes in version 0.9.4
+
+- Add `deleteIon` and `deleteSpectra` allowing to delete ions or spectra.
+
 ## Changes in version 0.9.3
 
 - `insertIons` supports adding additional database columns.
