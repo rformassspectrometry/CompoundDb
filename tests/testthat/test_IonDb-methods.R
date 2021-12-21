@@ -294,3 +294,17 @@ test_that("insertSpectra,IonDb works", {
     expect_true("newvariable" %in% colnames(msms_sp2))
     expect_equal(c(rep(NA, ns), sps$newvariable), msms_sp2$newvariable)
 })
+
+test_that("deleteIon,IonDb works", {
+    dbf <- tempfile()
+    con <- dbConnect(dbDriver("SQLite"), dbf)
+    CompoundDb:::.copy_compdb(dbconn(ion_spctra_db), con)
+    idb <- IonDb(con)
+    ids <- c(1, 2)
+    deleteIon(idb, ids)
+    tmp <- ions(ion_spctra_db, ionVariables(ion_spctra_db, includeId = TRUE))
+    expected_ions <- tmp[-match(ids, tmp$ion_id), ]
+    rownames(expected_ions) <- NULL
+    expect_equal(ions(idb, ionVariables(idb, includeId = TRUE)), expected_ions)
+})
+

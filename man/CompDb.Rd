@@ -8,6 +8,7 @@
 \alias{show,CompDb-method}
 \alias{compoundVariables}
 \alias{insertSpectra}
+\alias{deleteSpectra}
 \alias{hasMsMsSpectra}
 \alias{src_compdb}
 \alias{tables}
@@ -19,6 +20,7 @@
 \alias{compoundVariables,CompDb-method}
 \alias{compounds,CompDb-method}
 \alias{insertSpectra,CompDb,Spectra-method}
+\alias{deleteSpectra,CompDb-method}
 \title{Simple compound (metabolite) databases}
 \usage{
 CompDb(x, flags = RSQLite::SQLITE_RO)
@@ -52,6 +54,8 @@ copyCompDb(x, y)
 )
 
 \S4method{insertSpectra}{CompDb,Spectra}(object, spectra, columns = spectraVariables(spectra), ...)
+
+\S4method{deleteSpectra}{CompDb}(object, ids = character(0), ...)
 }
 \arguments{
 \item{x}{For \code{CompDb}: \code{character(1)} with the file name of the SQLite
@@ -89,6 +93,12 @@ return the result as a \code{\link[=data.frame]{data.frame()}} or \code{\link[=t
 
 \item{spectra}{For \code{insertSpectra}: \code{Spectra} object containing the spectra
 to be added to the \code{IonDb} database.}
+
+\item{ids}{For \code{deleteSpectra}: \code{character()} or (alternatively \code{integer()})
+specifying the IDs of the spectra to delete. IDs in \code{ids} that are
+not associated to any spectra in the \code{CompDb} object are ignored. For
+\code{deleteIon}: \code{character()} or (alternatively \code{integer()})
+specifying the IDs of the ions to delete.}
 }
 \value{
 See description of the respective function.
@@ -162,6 +172,12 @@ variables are added but it is strongly suggested to specifically select
 Note that a spectra variable \code{"compound_id"} is mandatory.
 If needed, the function adds additional columns to the \code{msms_spectrum}
 database table. The function returns the updated \code{CompDb} object.
+\item \code{deleteSpectra}: allows to delete spectra from the database object by
+specifying their IDs through parameter \code{ids}.  Note
+that \code{deleteSpectra} doesn't work on default \emph{read-only} \code{CompDb} objects
+(dropping the default parameter \code{flags = RSQLite::SQLITE_RO} in the
+\code{CompDb} call to connect to a database would return a \code{CompDb} object
+which is also writeable).
 }
 }
 
