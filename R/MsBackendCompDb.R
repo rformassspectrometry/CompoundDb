@@ -249,6 +249,6 @@ setMethod("[", "MsBackendCompDb", function(x, i, j, ..., drop = FALSE) {
 #' @export
 setReplaceMethod("$", "MsBackendCompDb", function(x, name, value) {
     if (name %in% c("spectrum_id"))
-        stop("Spectra IDs can not be changes.", call. = FALSE)
+        stop("Spectra IDs can not be changed.", call. = FALSE)
     callNextMethod()
 })

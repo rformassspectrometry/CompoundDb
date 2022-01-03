@@ -83,6 +83,11 @@ It is not intended that users create or use instances of this class directly,
 the \code{\link[=Spectra]{Spectra()}} call on \code{\link[=CompDb]{CompDb()}} will return a \code{Spectra} object that uses
 this backend.
 }
+\note{
+For higher performance it is suggested to change the backend of the
+\code{\link[=Spectra]{Spectra()}} object to an \code{\link[=MsBackendDataFrame]{MsBackendDataFrame()}} backend with the
+\code{\link[=setBackend]{setBackend()}} method of \code{Spectra} objects.
+}
 \section{Methods implemented for \code{MsBackendCompDb}}{
 
 

@@ -43,13 +43,14 @@ Imports:
     ProtGenerics (>= 1.23.5),
     xml2,
     IRanges,
-    Spectra (>= 0.99.3)
+    Spectra (>= 0.99.3),
+    MsCoreUtils
 Suggests:
     knitr,
     rmarkdown,
     testthat,
     BiocStyle (>= 2.5.19)
-URL: https://github.com/EuracBiomedicalResearch/CompoundDb
+URL: https://github.com/RforMassSpectrometry/CompoundDb
 biocViews: MassSpectrometry, Metabolomics, Annotation
 VignetteBuilder: knitr
 License: Artistic-2.0

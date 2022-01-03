@@ -72,12 +72,6 @@ should be copied.}
 
 \item{object}{For all methods: a \code{CompDb} object.}
 
-\item{columns}{For \code{compounds}, \code{Spectra}: \code{character} with the names of the
-database columns that should be retrieved. Use \code{compoundVariables} and/or
-\code{spectraVariables} for a list of available column names.
-For \code{insertSpectra}: columns (spectra variables) that should be inserted
-into the database (to avoid inserting all variables).}
-
 \item{filter}{For \code{compounds} and \code{Spectra}: filter expression or
 \code{\link[=AnnotationFilter]{AnnotationFilter()}} defining a filter to be used to retrieve specific
 elements from the database.}
@@ -90,7 +84,9 @@ default is \code{includeIds = FALSE}.}
 
 \item{columns}{For \code{compounds}, \code{Spectra}: \code{character} with the names of the
 database columns that should be retrieved. Use \code{compoundVariables} and/or
-\code{spectraVariables} for a list of available column names.}
+\code{spectraVariables} for a list of available column names.
+For \code{insertSpectra}: columns (spectra variables) that should be inserted
+into the database (to avoid inserting all variables).}
 
 \item{return.type}{For \code{compounds}: either \code{"data.frame"} or \code{"tibble"} to
 return the result as a \code{\link[=data.frame]{data.frame()}} or \code{\link[=tibble]{tibble()}}, respectively.}
