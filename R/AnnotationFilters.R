@@ -22,21 +22,23 @@
 #'   (i.e. `hasMsMsSpectra(cmp_db)` returns `TRUE`).
 #' - `SpectrumIdFilter`: retrieve entries associated with the provided IDs of
 #'   MS/MS spectra.
-#'   
-#' In addition to the filters listed above, the following ones are supported by 
+#'
+#' In addition to the filters listed above, the following ones are supported by
 #' a IonDb (but not by a CompDb):
-#' 
+#'
 #' - `IonIdFilter`: filter based on the ion ID.
 #' - `IonAdductFilter`: filter based on the adduct.
 #' - `IonMzFilter`: filter based on the mz of the ion.
 #' - `IonRtFilter`: filter based on the rt of the ion.
-#' 
+#'
 #'
 #' @param value The value for the filter. For details see
 #'     [AnnotationFilter::AnnotationFilter()].
 #'
 #' @param condition The condition for the filter. For details see
 #'     [AnnotationFilter::AnnotationFilter()].
+#'
+#' @return Constructor functions return an instance of the respective class.
 #'
 #' @author Johannes Rainer
 #'
@@ -46,8 +48,6 @@
 #'     for a `CompDb` (or a IonDb) object.
 #'
 #' @examples
-#' library(CompoundDb)
-#'
 #' ## Create a filter for the compound id
 #' cf <- CompoundIdFilter("comp_a")
 #' cf
@@ -448,7 +448,8 @@ IonRtFilter <- function(value, condition = "==") {
     have_flts <- .filter_class(x)
     got_it <- have_flts %in% supp_flts$filter
     if (any(!got_it))
-        stop("Filter(s) ", paste(have_flts[!got_it]), " are not supported")
+        stop("Filter(s) ", paste(have_flts[!got_it], collapse = ","),
+             " are not supported")
     x
 }
 

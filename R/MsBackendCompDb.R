@@ -41,6 +41,14 @@
 #'
 #' @param ... ignored.
 #'
+#' @return See the description of the respective function.
+#'
+#' @note
+#'
+#' For higher performance it is suggested to change the backend of the
+#' [Spectra()] object to an [MsBackendDataFrame()] backend with the
+#' [setBackend()] method of `Spectra` objects.
+#'
 #' @section Methods implemented for `MsBackendCompDb`:
 #'
 #' The methods listed here are implemented for the `MsBackendCompDb`. All other

@@ -206,14 +206,26 @@ test_that("insertIon,ionDb works", {
                             ion_adduct = c("C", "D"),
                             ion_mz = c(220, 300),
                             ion_rt = c(90, 140))
-    insertIon(idb, more_ions)
+    idb <- insertIon(idb, more_ions)
     expect_true(nrow(ions(idb)) == 7)
     expect_equal(ions(idb), rbind(ions(ion_spctra_db), more_ions))
 
     ## Different ordering of columns
     more_ions <- more_ions[, c(3, 1, 2, 4)]
-    insertIon(idb, more_ions)
+    idb <- insertIon(idb, more_ions)
     expect_true(nrow(ions(idb, c("ion_id"))) == 9)
+    res <- ions(idb, c("ion_id", "compound_id", "ion_adduct"))
+    expect_equal(res$ion_adduct, c("A", "B", "B", "C", "D", "C", "D", "C", "D"))
+
+    ## Additional columns
+    more_ions$add_column <- "Z"
+    expect_error(insertIon(idb, more_ions), "no column")
+
+    idb <- insertIon(idb, more_ions, addColumns = TRUE)
+    expect_true(any(ionVariables(idb) == "add_column"))
+    res <- ions(idb)
+    expect_identical(res$add_column, c(rep(NA_character_, 7), "Z", "Z"))
+    expect_true(any(idb@.properties$tables$ms_ion == "add_column"))
 
     ## Errors
     expect_error(insertIon(idb, more_ions[, 1:3]), "required")
@@ -221,3 +233,78 @@ test_that("insertIon,ionDb works", {
     expect_error(insertIon(idb, more_ions), "compound_id")
     dbDisconnect(con)
 })
+
+test_that("insertSpectra,IonDb works", {
+    spd <- DataFrame(
+        msLevel = c(2L, 2L, 2L),
+        polarity = c(1L, 1L, 1L),
+        collisionEnergy = c(20, 30, 30))
+    spd$mz <- list(
+        c(109.2, 124.2, 124.5, 170.16, 170.52),
+        c(83.1, 96.12, 97.14, 109.14, 124.08, 125.1, 170.16), c(50, 100))
+    spd$intensity <- list(
+        c(3.407, 47.494, 3.094, 100.0, 13.240),
+        c(6.685, 4.381, 3.022, 16.708, 100.0, 4.565, 40.643), c(50, 100))
+    sps <- Spectra(spd)
+    dbf <- tempfile()
+    con <- dbConnect(dbDriver("SQLite"), dbf)
+    CompoundDb:::.copy_compdb(dbconn(ion_spctra_db), con)
+    idb <- IonDb(con)
+    msms_sp <- dbReadTable(dbconn(idb), "msms_spectrum")
+    msms_sp_peak <- dbReadTable(dbconn(idb), "msms_spectrum_peak")
+    expect_error(insertSpectra(idb, sps), "'compound_id' needs")
+    sps$compound_id <- c("HMDB0000001", "HMDB0000001", "HMDB1000000")
+    expect_error(insertSpectra(idb, sps), paste("All values of spectra variable",
+                                                "'compound_id' must be in"))
+    sps <- sps[1:2]
+    insertSpectra(idb, sps, columns = c("msLevel", "polarity",
+                                        "collisionEnergy", "compound_id"))
+    msms_sp2 <- dbReadTable(dbconn(idb), "msms_spectrum")
+    msms_sp_peak2 <- dbReadTable(dbconn(idb), "msms_spectrum_peak")
+    ns <- nrow(msms_sp)
+    ns2 <- nrow(msms_sp2)
+    expect_equal(ns2, ns + length(sps))
+    expect_equal(msms_sp, msms_sp2[1:ns, colnames(msms_sp)])
+    np <- nrow(msms_sp_peak)
+    np2 <- nrow(msms_sp_peak2)
+    expect_equal(np2, np + sum(lengths(peaksData(sps))))
+    expect_equal(msms_sp_peak2$peak_id, 1:np2)
+    expect_equal(msms_sp_peak2[, c("mz", "intensity")],
+                 rbind(msms_sp_peak[, c("mz", "intensity")],
+                       do.call(rbind, Spectra:::.peaksapply(sps))))
+    expect_equal(msms_sp_peak2$spectrum_id,
+                 c(msms_sp_peak$spectrum_id,
+                   ns + rep(1:length(sps), lengths(peaksData(sps)))))
+
+    # Add additional column in spectra object to the database object
+    sps$newvariable <- c("value1", "value2")
+    dbf <- tempfile()
+    con <- dbConnect(dbDriver("SQLite"), dbf)
+    CompoundDb:::.copy_compdb(dbconn(ion_spctra_db), con)
+    idb <- IonDb(con)
+    msms_sp <- dbReadTable(dbconn(idb), "msms_spectrum")
+    expect_error(insertSpectra(idb, sps, columns = c("newvariable2",
+                                                     "compound_id")),
+                 "not available")
+    insertSpectra(idb, sps, columns = c("newvariable", "compound_id"))
+    msms_sp2 <- dbReadTable(dbconn(idb), "msms_spectrum")
+    ns <- nrow(msms_sp)
+    ns2 <- nrow(msms_sp2)
+    expect_equal(ns2, ns + length(sps))
+    expect_true("newvariable" %in% colnames(msms_sp2))
+    expect_equal(c(rep(NA, ns), sps$newvariable), msms_sp2$newvariable)
+})
+
+test_that("deleteIon,IonDb works", {
+    dbf <- tempfile()
+    con <- dbConnect(dbDriver("SQLite"), dbf)
+    CompoundDb:::.copy_compdb(dbconn(ion_spctra_db), con)
+    idb <- IonDb(con)
+    ids <- c(1, 2)
+    deleteIon(idb, ids)
+    tmp <- ions(ion_spctra_db, ionVariables(ion_spctra_db, includeId = TRUE))
+    expected_ions <- tmp[-match(ids, tmp$ion_id), ]
+    rownames(expected_ions) <- NULL
+    expect_equal(ions(idb, ionVariables(idb, includeId = TRUE)), expected_ions)
+})
+

@@ -68,6 +68,9 @@ mapped to the core \code{Spectra} variables \code{msLevel}, \code{precursorMz},
 
 \item{name}{for \verb{$<-}: the name of the spectra variable to replace.}
 }
+\value{
+See the description of the respective function.
+}
 \description{
 The \code{MsBackendCompDb} allows to retrieve MS2 spectra from an \code{\link[=CompDb]{CompDb()}}
 object/database. The object keeps only a limited amount of data in memory

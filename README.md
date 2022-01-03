@@ -1,7 +1,11 @@
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![R-CMD-check-bioc](https://github.com/EuracBiomedicalResearch/CompoundDb/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/EuracBiomedicalResearch/CompoundDb/actions?query=workflow%3AR-CMD-check-bioc)
-[![codecov.io](https://codecov.io/github/EuracBiomedicalResearch/CompoundDb/coverage.svg?branch=master)](https://codecov.io/github/EuracBiomedicalResearch/CompoundDb?branch=master)
+[![R-CMD-check-bioc](https://github.com/RforMassSpectrometry/CompoundDb/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/RforMassSpectrometry/CompoundDb/actions?query=workflow%3AR-CMD-check-bioc)
+[![codecov.io](https://codecov.io/github/RforMassSpectrometry/CompoundDb/coverage.svg?branch=master)](https://codecov.io/github/RforMassSpectrometry/CompoundDb?branch=master)
 [![license](https://img.shields.io/badge/license-Artistic--2.0-brightgreen.svg)](https://opensource.org/licenses/Artistic-2.0)
+
+<img
+src="https://raw.githubusercontent.com/rformassspectrometry/stickers/master/CompoundDb/CompoundDb.png"
+height="150">
 
 # Installation and requirements
 
@@ -9,7 +13,7 @@ The package can be installed with
 
 ```r
 install.packages(c("BiocManager", "remotes"))
-BiocManager::install("EuracBiomedicalResearch/CompoundDb")
+BiocManager::install("RforMassSpectrometry/CompoundDb")
 ```
 
 # Creating and using (chemical) compound databases

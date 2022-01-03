@@ -1,8 +1,23 @@
+# Version 0.99
+
+## Changes in version 0.99.0
+
+- Preparing for Bioconductor submission.
+
 # Version 0.9
+
+## Changes in version 0.9.4
+
+- Add `deleteIon` and `deleteSpectra` allowing to delete ions or spectra.
+
+## Changes in version 0.9.3
+
+- `insertIons` supports adding additional database columns.
 
 ## Changes in version 0.9.2
 
-- New `Spectra` `MsBackend` extending `Spectra`'s `MsBackendCached` class.
+- Add `instertSpectra` method to add MS/MS spectra from a `Spectra` object to
+  the database.
 
 ## Changes in version 0.9.1
 

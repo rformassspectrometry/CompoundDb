@@ -4,7 +4,9 @@
 #'
 #' @title Simple compound (metabolite) databases
 #'
-#' @aliases CompDb-class show dbconn,CompDb-method show,CompDb-method compoundVariables
+#' @aliases CompDb-class show dbconn,CompDb-method show,CompDb-method
+#'
+#' @aliases compoundVariables insertSpectra deleteSpectra
 #'
 #' @description
 #'
@@ -42,6 +44,11 @@
 #' - `compoundVariables`: returns all available columns/database fields for
 #'   compounds.
 #'
+#' - `copyCompDb`: allows to copy the content from a CompDb to another database.
+#'   Parameter `x` is supposed to be either a `CompDb` or a database connection
+#'   from which the data should be copied and `y` a connection to a database
+#'   to which it should be copied.
+#'
 #' - `dbconn`: returns the connection (of type `DBIConnection`) to the database.
 #'
 #' - `metadata`: returns general meta data of the compound database.
@@ -59,6 +66,29 @@
 #' - `tables`: returns a named `list` (names being table names) with
 #'   the fields/columns from each table in the database.
 #'
+#' - `insertSpectra`: allows to add further spectra to the database object. Note
+#'   that `insertSpectra` doesn't work on default *read-only* `CompDb` objects
+#'   (dropping the default parameter `flags = RSQLite::SQLITE_RO` in the
+#'   `CompDb` call to connect to a database would return a `CompDb` object
+#'   which is also writeable).
+#'   The method always adds all the spectra specified through the `spectra`
+#'   parameter and does not check if they are already in the database. Note that
+#'   the input spectra must have the variable `compound_id` and only `Spectra`
+#'   whose `compound_id` values are also in `compounds(object, "compound_id")`
+#'   can be added. Parameter `columns` defines which spectra variables from the
+#'   `spectra` should be inserted into the database. By default, all spectra
+#'   variables are added but it is strongly suggested to specifically select
+#'   (meaningful) spectra variables that should be stored in the database.
+#'   Note that a spectra variable `"compound_id"` is mandatory.
+#'   If needed, the function adds additional columns to the `msms_spectrum`
+#'   database table. The function returns the updated `CompDb` object.
+#'   
+#' - `deleteSpectra`: allows to delete spectra from the database object by 
+#'   specifying their IDs through parameter `ids`.  Note
+#'   that `deleteSpectra` doesn't work on default *read-only* `CompDb` objects
+#'   (dropping the default parameter `flags = RSQLite::SQLITE_RO` in the
+#'   `CompDb` call to connect to a database would return a `CompDb` object
+#'   which is also writeable). 
 #'
 #' @section Filtering the database:
 #'
@@ -76,6 +106,8 @@
 #' @param columns For `compounds`, `Spectra`: `character` with the names of the
 #'     database columns that should be retrieved. Use `compoundVariables` and/or
 #'     `spectraVariables` for a list of available column names.
+#'     For `insertSpectra`: columns (spectra variables) that should be inserted
+#'     into the database (to avoid inserting all variables).
 #'
 #' @param filter For `compounds` and `Spectra`: filter expression or
 #'     [AnnotationFilter()] defining a filter to be used to retrieve specific
@@ -84,9 +116,16 @@
 #' @param flags flags passed to the SQLite database connection.
 #'     See [SQLite()]. Defaults to read-only, i.e. `RSQLite::SQLITE_RO`.
 #'
+#' @param ids For `deleteSpectra`: `character()` or (alternatively `integer()`) 
+#'     specifying the IDs of the spectra to delete. IDs in `ids` that are 
+#'     not associated to any spectra in the `CompDb` object are ignored. For 
+#'     `deleteIon`: `character()` or (alternatively `integer()`) 
+#'     specifying the IDs of the ions to delete.
+#'     
 #' @param includeId for `compoundVariables`: `logical(1)` whether the comound
 #'     ID (column `"compound_id"`) should be included in the result. The
 #'     default is `includeIds = FALSE`.
+#'     
 #'
 #' @param object For all methods: a `CompDb` object.
 #'
@@ -95,11 +134,20 @@
 #'
 #' @param x For `CompDb`: `character(1)` with the file name of the SQLite
 #'     compound database. Alternatively it is possible to provide the connection
-#'     to the database with parameter `x`.
+#'     to the database with parameter `x`. For `copyCompDb`: either a `CompDb`
+#'     or a database connection.
 #'
 #'     For all other methods: a `CompDb` object.
 #'
+#' @param y For `copyCompDb`: connection to a database to which the content
+#'     should be copied.
+#'
+#' @param spectra For `insertSpectra`: `Spectra` object containing the spectra
+#'     to be added to the `IonDb` database.
+#'
 #' @param ... additional arguments. Currently not used.
+#'
+#' @return See description of the respective function.
 #'
 #' @author Johannes Rainer
 #'
@@ -361,4 +409,14 @@ tables <- function(x) {
 
 .get_property <- function(x, name) {
     x@.properties[[name]]
+}
+
+
+#' @export
+#'
+#' @rdname CompDb
+copyCompDb <- function(x, y) {
+    if (inherits(x, "CompDb"))
+        x <- .dbconn(x)
+    .copy_compdb(x, y)
 }

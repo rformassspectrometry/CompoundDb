@@ -116,3 +116,81 @@ setMethod("compounds", "CompDb", function(object,
         as_tibble(res)
     else res
 })
+
+#' @importFrom DBI dbAppendTable dbGetQuery
+#'
+#' @export
+#'
+#' @rdname CompDb
+setMethod("insertSpectra", signature(object = "CompDb", spectra = "Spectra"),
+          function(object, spectra, columns = spectraVariables(spectra), ...) {
+              if (is.null(.dbconn(object)))
+                  stop("Database not initialized")
+              new_sD <- as.data.frame(spectraData(spectra, columns))
+              if (!any(colnames(new_sD) == "compound_id"))
+                  stop("Column 'compound_id' needs to be provided (as a ",
+                       "spectra variable to insert to the database).")
+              if (!all(new_sD$compound_id %in%
+                       dbGetQuery(.dbconn(object),
+                                  "select compound_id from ms_compound")[, 1]))
+                  stop("All values of spectra variable 'compound_id' must be",
+                       " in 'compound_id' column of the database 'ms_compound'",
+                       " table")
+              colnames(new_sD) <- sub("msLevel", "ms_level",
+                                      colnames(new_sD), fixed = TRUE)
+              colnames(new_sD) <- sub("precursorMz", "precursor_mz",
+                                      colnames(new_sD), fixed = TRUE)
+              colnames(new_sD) <- sub("precursorIntensity",
+                                      "precursor_intensity",
+                                      colnames(new_sD), fixed = TRUE)
+              colnames(new_sD) <- sub("precursorCharge", "precursor_charge",
+                                      colnames(new_sD), fixed = TRUE)
+              colnames(new_sD) <- sub("collisionEnergy", "collision_energy",
+                                      colnames(new_sD), fixed = TRUE)
+              new_sD$mz <- as.list(spectra$mz)
+              new_sD$intensity <- as.list(spectra$intensity)
+              if (hasMsMsSpectra(object))
+                  .append_msms_spectra(.dbconn(object), new_sD)
+              else {
+                  if("spectrum_id" %in% colnames(new_sD))
+                      warning("'spectrum_id' variable in 'spectra' will be
+                              replaced with internal indexes")
+                  new_sD$spectrum_id <- seq_len(nrow(new_sD))
+                  .insert_msms_spectra(.dbconn(object), new_sD)
+              }
+              object@.properties$tables$msms_spectrum <- colnames(
+                  dbGetQuery(.dbconn(object),
+                             "select * from msms_spectrum limit 1"))
+              object@.properties$tables$msms_spectrum_peak <- colnames(
+                  dbGetQuery(.dbconn(object),
+                             "select * from msms_spectrum_peak limit 1"))
+              object
+          })
+
+
+#' @importFrom DBI dbGetQuery dbExecute
+#'
+#' @export
+#'
+#' @rdname CompDb
+setMethod("deleteSpectra", signature(object = "CompDb"),
+          function(object, ids = character(0), ...) {
+              dbcon <- .dbconn(object)
+              if (is.null(dbcon))
+                  stop("Database not initialized")
+              if (hasMsMsSpectra(object)) {
+                  if(any(!ids %in%
+                         dbGetQuery(dbcon, paste0("select spectrum_id ",
+                                                  "from msms_spectrum"))[, 1]))
+                      warning("Some IDs in 'ids' not valid and will be ignored")
+                  dbExecute(dbcon, paste0("delete from msms_spectrum ",
+                                          "where spectrum_id in (", 
+                                          toString(ids), ")"))
+                  dbExecute(dbcon, paste0("delete from msms_spectrum_peak ",
+                                          "where spectrum_id in (", 
+                                          toString(ids), ")"))
+              } else {
+                  stop("'object' does not contain msms spectra")
+              }
+              object
+          }) 

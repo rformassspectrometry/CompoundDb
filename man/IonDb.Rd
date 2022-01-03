@@ -7,9 +7,11 @@
 \alias{ionVariables}
 \alias{ions}
 \alias{insertIon}
+\alias{deleteIon}
 \alias{ionVariables,IonDb-method}
 \alias{ions,IonDb-method}
 \alias{insertIon,IonDb-method}
+\alias{deleteIon,IonDb-method}
 \alias{IonDb,missing,missing-method}
 \alias{IonDb,character,missing-method}
 \alias{IonDb,CompDb,missing-method}
@@ -28,7 +30,9 @@
   ...
 )
 
-\S4method{insertIon}{IonDb}(object, ions)
+\S4method{insertIon}{IonDb}(object, ions, addColumns = FALSE)
+
+\S4method{deleteIon}{IonDb}(object, ids = character(0), ...)
 
 \S4method{IonDb}{missing,missing}(x, cdb, ...)
 
@@ -64,15 +68,27 @@ return the result as a \code{\link[=data.frame]{data.frame()}} or \code{\link[=t
 \item{ions}{for \code{insertIon} and \code{IonDb}: \code{data.frame} with ion definitions
 to be added to the \code{IonDb} database. Columns \code{"compound_id"}
 (\code{character()}), \code{"ion_adduct"} (\code{character()}), \code{"ion_mz"}
-(\code{numeric()}) and \code{"ion_rt"} (\code{numeric()}) are mandatory.}
+(\code{numeric()}) and \code{"ion_rt"} (\code{numeric()}) are mandatory (but, with the
+exception of \code{"compound_id"}, can contain \code{NA}).}
+
+\item{addColumns}{For \code{insertIons}: \code{logical(1)} whether columns being
+present in the submitted \code{data.frame} but not in the database table
+should be added to the database's ion table.}
+
+\item{ids}{For \code{deleteIon}: \code{character()} or (alternatively \code{integer()})
+specifying the IDs of the ions to delete. IDs in \code{ids} that are
+not associated to any ion in the \code{IonDb} object are ignored.}
 
 \item{x}{For \code{IonDb}: database connection or \code{character(1)} with the file
 name of the SQLite database where the \code{IonDb} data will be stored or a
 \code{\link[=CompDb]{CompDb()}} object that should be converted into an \code{IonDb} object.\preformatted{For all other methods: an `IonDb` object.
 }}
 
-\item{cdb}{for \code{IonDb}: \code{CompDb} object from which data should be
+\item{cdb}{For \code{IonDb}: \code{CompDb} object from which data should be
 transferred to the \code{IonDb} database.}
+}
+\value{
+See description of the respective function.
 }
 \description{
 \code{IonDb} objects extends \code{CompDb} by allowing to store also information about
@@ -134,7 +150,11 @@ return all elements from the \emph{ms_ion} table (unless a \code{filter} is used
 \item \code{ionVariables}: returns all available columns/database fields for ions.
 \item \code{insertIon}: allows to add further ions to the \code{IonDb} object. Note that
 \code{insertIon} always adds all the ions specified through the \code{ions} parameter
-and does not check if they are already in the database.
+and does not check if they are already in the database. To add columns
+present in the submitted \code{data.frame} to the database table set
+\code{addColumns = TRUE} (default is \code{addColumns = FALSE}).
+\item \code{deleteIon}: allows to delete ions from the \code{IonDb} object by specifying
+their IDs.
 }
 }
 

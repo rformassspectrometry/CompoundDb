@@ -94,3 +94,103 @@ test_that("compounds works", {
     res <- compounds(cdb, filter = FormulaFilter("C17", "startsWith"))
     expect_true(nrow(res) > 0)
 })
+
+test_that("insertSpectra,CompDb works", {
+    spd <- DataFrame(
+        msLevel = c(2L, 2L),
+        polarity = c(1L, 1L),
+        other_column = "b")
+    spd$mz <- list(
+        c(109.2, 124.2, 124.5, 170.16, 170.52),
+        c(83.1, 96.12, 97.14, 109.14, 124.08, 125.1, 170.16))
+    spd$intensity <- list(
+        c(3.407, 47.494, 3.094, 100.0, 13.240),
+        c(6.685, 4.381, 3.022, 16.708, 100.0, 4.565, 40.643))
+    sps <- Spectra(spd)
+    expect_error(insertSpectra(
+        cmp_spctra_db, sps, c("msLevel", "polarity", "other_column")),
+                 "Column 'compound_id'")
+
+    sps$compound_id <- c("HMDB0000008", "b")
+    expect_error(insertSpectra(
+        cmp_spctra_db, sps, c("msLevel", "polarity", "other_column",
+                              "compound_id")),
+        "variable 'compound_id'")
+    sps$compound_id <- c("HMDB0000008", "HMDB0000008")
+    expect_error(insertSpectra(
+        cmp_spctra_db, sps, c("msLevel", "polarity", "other_column",
+                              "compound_id")), "readonly")
+
+    ## Insert to database without spectra data.
+    tmp_con <- dbConnect(SQLite(), tempfile())
+    CompoundDb:::.copy_compdb(cmp_db@dbcon, tmp_con)
+
+    tmp_db <- CompDb(tmp_con)
+    expect_false(CompoundDb:::.has_msms_spectra(tmp_db))
+    tmp_db <- insertSpectra(
+        tmp_db, sps, c("msLevel", "polarity", "other_column", "compound_id"))
+    expect_true(CompoundDb:::.has_msms_spectra(tmp_db))
+    res <- dbGetQuery(tmp_con, "select * from msms_spectrum")
+    expect_true(all(c("ms_level", "polarity", "other_column", "compound_id")
+                    %in% colnames(res)))
+    expect_equal(tmp_db@.properties$tables$msms_spectrum, colnames(res))
+    expect_true(sum(res$compound_id == "HMDB0000008") == 2)
+    expect_true(all(res$other_column[res$compound_id == "HMDB0000008"] == "b"))
+    expect_true(length(unique(res$spectrum_id)) == nrow(res))
+
+    res <- dbGetQuery(tmp_con, "select * from msms_spectrum_peak")
+    expect_true(sum(res$spectrum_id %in% 1:2) == 12)
+    expect_true(length(unique(res$peak_id)) == nrow(res))
+
+    ## Append to existing database.
+    tmp_con <- dbConnect(SQLite(), tempfile())
+    CompoundDb:::.copy_compdb(cmp_spctra_db@dbcon, tmp_con)
+
+    tmp_db <- CompDb(tmp_con)
+    tmp_db <- insertSpectra(
+        tmp_db, sps, c("msLevel", "polarity", "other_column", "compound_id"))
+    expect_true(CompoundDb:::.has_msms_spectra(tmp_db))
+    res <- dbGetQuery(tmp_con, "select * from msms_spectrum")
+    expect_true(all(c("ms_level", "polarity", "other_column", "compound_id")
+                    %in% colnames(res)))
+    expect_equal(tmp_db@.properties$tables$msms_spectrum, colnames(res))
+    expect_true(sum(res$compound_id == "HMDB0000008") == 2)
+    expect_true(all(res$other_column[res$compound_id == "HMDB0000008"] == "b"))
+    expect_true(length(unique(res$spectrum_id)) == nrow(res))
+
+    res <- dbGetQuery(tmp_con, "select * from msms_spectrum_peak")
+    expect_true(sum(res$spectrum_id %in% 5:6) == 12)
+    expect_true(length(unique(res$peak_id)) == nrow(res))
+})
+
+test_that("deleteSpectra,CompDb works", {
+    expect_error(deleteSpectra(cmp_spctra_db, ids = c("1", "2")), "readonly")
+    
+    tmp_con <- dbConnect(SQLite(), tempfile())
+    CompoundDb:::.copy_compdb(cmp_db@dbcon, tmp_con)
+    tmp_db <- CompDb(tmp_con)
+    expect_false(CompoundDb:::.has_msms_spectra(tmp_db))
+    expect_error(deleteSpectra(tmp_db, ids = c("1", "2")), "not contain msms")
+    
+    
+    
+    tmp_con <- dbConnect(SQLite(), tempfile())
+    CompoundDb:::.copy_compdb(cmp_spctra_db@dbcon, tmp_con)
+    tmp_db <- CompDb(tmp_con)
+    tmp_db <- deleteSpectra(tmp_db) #should instead the default be delete evrything?
+    expect_equal(dbReadTable(dbconn(tmp_db), "msms_spectrum"),
+                 dbReadTable(dbconn(cmp_spctra_db), "msms_spectrum"))
+    expect_equal(dbReadTable(dbconn(tmp_db), "msms_spectrum_peak"),
+                 dbReadTable(dbconn(cmp_spctra_db), "msms_spectrum_peak"))
+    
+    
+    tmp_db <- deleteSpectra(tmp_db, ids = c("1", "2"))
+    tmp_msms_sp <- dbReadTable(dbconn(cmp_spctra_db), "msms_spectrum")
+    exp_msms_sp <- tmp_msms_sp[!tmp_msms_sp$spectrum_id %in% c("1", "2"), ]
+    rownames(exp_msms_sp) <- NULL
+    expect_equal(dbReadTable(dbconn(tmp_db), "msms_spectrum"), exp_msms_sp)
+    tmp_msms_p <- dbReadTable(dbconn(cmp_spctra_db), "msms_spectrum_peak")
+    exp_msms_p <- tmp_msms_p[!tmp_msms_p$spectrum_id %in% c("1", "2"), ]
+    rownames(exp_msms_p) <- NULL
+    expect_equal(dbReadTable(dbconn(tmp_db), "msms_spectrum_peak"), exp_msms_p)
+})
