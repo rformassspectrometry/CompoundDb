@@ -1,5 +1,9 @@
 # Version 0.99
 
+## Changes in version 0.99.3
+
+- Fix `BiocCheck` warnings.
+
 ## Changes in version 0.99.2
 
 - Fix `BiocCheck` warnings.

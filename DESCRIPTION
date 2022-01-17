@@ -1,7 +1,7 @@
 Package: CompoundDb
 Type: Package
 Title: Creating and Using (Chemical) Compound Annotation Databases
-Version: 0.99.2
+Version: 0.99.3
 Authors@R: c(person(given = "Jan", family = "Stanstrup",
                     email = "stanstrup@gmail.com",
 		    role = c("aut"),
@@ -40,10 +40,10 @@ Imports:
     dbplyr,
     RSQLite,
     Biobase,
-    ProtGenerics (>= 1.23.5),
+    ProtGenerics,
     xml2,
     IRanges,
-    Spectra (>= 0.99.3)
+    Spectra
 Suggests:
     knitr,
     rmarkdown,
