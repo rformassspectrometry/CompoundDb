@@ -1,5 +1,9 @@
 # Version 0.99
 
+## Changes in version 0.99.1
+
+- Address comments/change requests from @jianhong.
+
 ## Changes in version 0.99.0
 
 - Preparing for Bioconductor submission.

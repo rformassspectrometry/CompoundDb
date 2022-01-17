@@ -350,10 +350,15 @@ test_that("import_mona_sdf works", {
                         package = "CompoundDb")
     chebi <- system.file("sdf/ChEBI_sub.sdf.gz", package = "CompoundDb")
 
-    res <- import_mona_sdf(mona)
+    res <- .import_mona_sdf(mona)
     expect_equal(names(res), c("compound", "msms_spectrum"))
     expect_equal(nrow(res$compound), 7)
     expect_equal(nrow(res$msms_spectrum), 7)
+
+    expect_equal(import_mona_sdf(mona), res)
+
+    res <- .import_mona_sdf(mona, TRUE, FALSE)
+    expect_true(nrow(res$compound) == 0)
 
     expect_error(import_mona_sdf(chebi))
 })
@@ -399,4 +404,31 @@ test_that(".append_msms_spectra works", {
                                          "HMDB0000008", "HMDB0000008")))
     res <- dbGetQuery(tmp_con, "select * from msms_spectrum_peak")
     expect_true(sum(res$spectrum_id %in% c(5, 6)) == 12)
+})
+
+test_that(".prepare_msms_spectra_table works", {
+    tbl <- data.frame(spectrum_id = 1:6, collision_energy = 5, rtime = 1:6,
+                      compound_id = "a", polarity = 1L, predicted = FALSE,
+                      precursor_mz = as.numeric(1:6))
+    tbl$mz <- list(1:2, 4, 1:6, 4, 40:50, 12:15)
+    tbl$intensity <- list(1:2, 4, 1:6, 4, 40:50, 12:15)
+    res <- .prepare_msms_spectra_table(tbl)
+    expect_equal(names(res), c("x", "msms_spectrum_peak"))
+    expect_true(is.character(res$x$splash))
+})
+
+test_that(".valid_data_frame_columns works", {
+    tbl <- data.frame(a = 1:4, b = "B")
+    expect_match(.valid_data_frame_columns("b"), "data.frame")
+
+    expect_equal(.valid_data_frame_columns(tbl, req_cols = c("a", "b")),
+                 character())
+    expect_match(.valid_data_frame_columns(tbl, req_cols = c("a", "b", "c")),
+                 "required")
+})
+
+test_that(".throw_error works", {
+    expect_true(.throw_error())
+    expect_error(.throw_error("abc"), "abc")
+    expect_match(.throw_error("abc", error = FALSE), "abc")
 })

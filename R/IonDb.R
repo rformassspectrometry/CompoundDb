@@ -68,8 +68,8 @@
 #'   and does not check if they are already in the database. To add columns
 #'   present in the submitted `data.frame` to the database table set
 #'   `addColumns = TRUE` (default is `addColumns = FALSE`).
-#'   
-#' - `deleteIon`: allows to delete ions from the `IonDb` object by specifying 
+#'
+#' - `deleteIon`: allows to delete ions from the `IonDb` object by specifying
 #'    their IDs.
 #'
 #'
@@ -100,10 +100,10 @@
 #' @param filter For `ions`: filter expression or [AnnotationFilter()] defining
 #'     a filter to be used to retrieve specific elements from the database.
 #'
-#' @param ids For `deleteIon`: `character()` or (alternatively `integer()`) 
-#'     specifying the IDs of the ions to delete. IDs in `ids` that are 
+#' @param ids For `deleteIon`: `character()` or (alternatively `integer()`)
+#'     specifying the IDs of the ions to delete. IDs in `ids` that are
 #'     not associated to any ion in the `IonDb` object are ignored.
-#'     
+#'
 #' @param includeId For `ionVariables`: `logical(1)` whether the ion
 #'     ID (column `"ms_ion_id"`) should be included in the result. The
 #'     default is `includeId = FALSE`.
@@ -223,15 +223,8 @@ setValidity("IonDb", function(object) {
 #'
 #' @noRd
 .valid_ion <- function (ions, error = TRUE){
-    txt <- character()
-    if (!is.data.frame(ions))
-        txt <- c(txt, "'ions' is supposed to be a data.frame")
-    got_it <- .required_ion_columns %in% colnames(ions)
-    if (!all(got_it)) {
-        txt <- c(txt, paste0("Miss required columns: ",
-                             paste0(.required_ion_columns[!got_it],
-                                    collapse = ", ")))
-    } else {
+    txt <- .valid_data_frame_columns(ions, "ions", .required_ion_columns)
+    if (!length(txt)) {
         if (!is.character(ions$compound_id))
           txt <- c(txt, "Column 'compound_id' should be character")
         if (!is.character(ions$ion_adduct))
@@ -244,11 +237,7 @@ setValidity("IonDb", function(object) {
                            any(ions$compound_id == "")))
             txt <- c(txt, "No missing values in column 'compound_id' allowed")
     }
-    if (length(txt)){
-        if (error)
-            stop(paste(txt, collapse = "\n"))
-        else txt
-    } else TRUE
+    .throw_error(txt, error = error)
 }
 
 #' @importMethodsFrom DBI dbDataType

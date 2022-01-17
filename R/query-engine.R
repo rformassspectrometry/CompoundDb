@@ -148,8 +148,6 @@
 #' @noRd
 .add_join_tables <- function(x) {
     ## msms_spectrum_peak with any other table: need also msms_spectrum_metadata
-    ## if (any(x == "msms_spectrum_peak") & length(x) > 1)
-    ##     x <- c(x, "msms_spectrum_metadata")
     unique(x)
 }
 

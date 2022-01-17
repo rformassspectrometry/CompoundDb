@@ -1,7 +1,7 @@
 Package: CompoundDb
 Type: Package
 Title: Creating and Using (Chemical) Compound Annotation Databases
-Version: 0.99.0
+Version: 0.99.1
 Authors@R: c(person(given = "Jan", family = "Stanstrup",
                     email = "stanstrup@gmail.com",
 		    role = c("aut"),
@@ -26,7 +26,7 @@ Description: CompoundDb provides functionality to create and use (chemical)
     experimetal MS/MS spectra against MS/MS spectra in the database. Databases
     can be stored in SQLite format and are thus portable.
 Depends:
-    R (>= 3.4),
+    R (>= 4.2),
     methods,
     AnnotationFilter,
     S4Vectors

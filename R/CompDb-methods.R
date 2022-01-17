@@ -47,7 +47,7 @@ setMethod("Spectra", "CompDb", function(object,
     }
     if (!requireNamespace("Spectra", quietly = TRUE))
         stop("The use of 'Spectra' requires package 'Spectra'. Please install ",
-             "with 'Biobase::install(\"RforMassSpectrometry/Spectra\")'")
+             "with 'BiocManager::install(\"Spectra\")'")
     sps <- new("Spectra")
     columns <- columns[!columns %in% c("mz", "intensity")]
     sps@backend <- backendInitialize(MsBackendCompDb(), x = object,
@@ -186,13 +186,13 @@ setMethod("deleteSpectra", signature(object = "CompDb"),
                                                   "from msms_spectrum"))[, 1]))
                       warning("Some IDs in 'ids' not valid and will be ignored")
                   dbExecute(dbcon, paste0("delete from msms_spectrum ",
-                                          "where spectrum_id in (", 
+                                          "where spectrum_id in (",
                                           toString(ids), ")"))
                   dbExecute(dbcon, paste0("delete from msms_spectrum_peak ",
-                                          "where spectrum_id in (", 
+                                          "where spectrum_id in (",
                                           toString(ids), ")"))
               } else {
                   stop("'object' does not contain msms spectra")
               }
               object
-          }) 
+          })

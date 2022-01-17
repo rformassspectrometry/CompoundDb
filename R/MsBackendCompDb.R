@@ -78,6 +78,28 @@
 #' @exportClass MsBackendCompDb
 #'
 #' @importMethodsFrom Spectra peaksData
+#'
+#' @examples
+#'
+#' ## MsBackendCompDb are not expected to be created/instanciated by users
+#' ## directly. Users also almost never directly interact with this type of
+#' ## object, as it is intented as a pure data backend for the `Spectra` object.
+#' ## Users will thus access MS data through such `Spectra` object, which can
+#' ## be created for `CompDb` objects using the `Spectra` method (see help
+#' ## of the `CompDb` object for more information. This examples shows how
+#' ## a `MsBackendCompDb` could be created purely from an SQLite database
+#' ## with data from a CompoundDb database.
+#'
+#' ## Connect to the SQLite database of a `CompDb` distributed via this package
+#' library(RSQLite)
+#' library(Spectra)
+#' cdb <- CompDb(system.file("sql/CompDb.MassBank.sql", package = "CompoundDb"))
+#'
+#' be <- backendInitialize(MsBackendCompDb(), cdb)
+#' be
+#'
+#' ## Accessing m/z values
+#' mz(be)
 setClass("MsBackendCompDb",
          contains = "MsBackendDataFrame",
          slots = c("dbcon", "DBIConnection"),
