@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CompoundDb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.1</span>
       </span>
     </div>
 
@@ -102,23 +102,23 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><p><strong>Authors</strong>: Jan Stanstrup [aut] (<a href="https://orcid.org/0000-0003-0541-7369" class="external-link uri">https://orcid.org/0000-0003-0541-7369</a>), Johannes Rainer [aut, cre] (<a href="https://orcid.org/0000-0002-6977-7147" class="external-link uri">https://orcid.org/0000-0002-6977-7147</a>), Josep M. Badia [ctb] (<a href="https://orcid.org/0000-0002-5704-1124" class="external-link uri">https://orcid.org/0000-0002-5704-1124</a>), Andrea Vicini [aut]<br><strong>Last modified:</strong> 2021-12-23 14:52:43<br><strong>Compiled</strong>: Thu Dec 23 14:57:23 2021</p>
-<div class="section level1">
-<h1 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
-</h1>
+</script><p><strong>Authors</strong>: Jan Stanstrup [aut] (<a href="https://orcid.org/0000-0003-0541-7369" class="external-link uri">https://orcid.org/0000-0003-0541-7369</a>), Johannes Rainer [aut, cre] (<a href="https://orcid.org/0000-0002-6977-7147" class="external-link uri">https://orcid.org/0000-0002-6977-7147</a>), Josep M. Badia [ctb] (<a href="https://orcid.org/0000-0002-5704-1124" class="external-link uri">https://orcid.org/0000-0002-5704-1124</a>), Andrea Vicini [aut]<br><strong>Last modified:</strong> 2022-01-17 14:42:22<br><strong>Compiled</strong>: Mon Jan 17 15:04:05 2022</p>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
 <p>The <code>CompoundDb</code> package provides the functionality to create <em>compound</em> databases from a variety of sources and to use such annotation databases (<code>CompDb</code>). A detailed description on the creation of annotation resources is given in the <em>Creating CompoundDb annotation resources</em> vignette. This vignette focuses on how annotations can be search for and retrieved.</p>
 </div>
-<div class="section level1">
-<h1 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h1>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>The package (including dependencies) can be installed with the code below:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
 <span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"CompoundDb"</span><span class="op">)</span></code></pre></div>
 </div>
-<div class="section level1">
-<h1 id="general-usage">General usage<a class="anchor" aria-label="anchor" href="#general-usage"></a>
-</h1>
+<div class="section level2">
+<h2 id="general-usage">General usage<a class="anchor" aria-label="anchor" href="#general-usage"></a>
+</h2>
 <p>In this vignette we use a small <code>CompDb</code> database containing annotations for a small number of metabolites build using <a href="https://massbank.eu/MassBank/" class="external-link">MassBank</a> release <em>2020.09</em>. The respective <code>CompDb</code> database which is loaded below contains in addition to general compound annotations also MS/MS spectra for these compounds.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/EuracBiomedicalResearch/CompoundDb" class="external-link">CompoundDb</a></span><span class="op">)</span>
@@ -142,9 +142,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <span class="co">## 6   db_creation_date      Thu Oct 22 08:45:31 2020</span>
 <span class="co">## 7 supporting_package                    CompoundDb</span>
 <span class="co">## 8  supporting_object                        CompDb</span></code></pre>
-<div class="section level2">
-<h2 id="querying-compound-annotations">Querying compound annotations<a class="anchor" aria-label="anchor" href="#querying-compound-annotations"></a>
-</h2>
+<div class="section level3">
+<h3 id="querying-compound-annotations">Querying compound annotations<a class="anchor" aria-label="anchor" href="#querying-compound-annotations"></a>
+</h3>
 <p>The <code>CompoundDb</code> package is designed to provide annotation resources for small molecules, such as metabolites, that are characterized by an exact mass and additional information such as their IUPAC International Chemical Identifier <a href="https://en.wikipedia.org/wiki/International_Chemical_Identifier" class="external-link">InChI</a> or their chemical formula. The available annotations (<em>variables</em>) for compounds can differ between databases. The <code>compoundVariables</code> function can be used to retrieve a list of all available compound annotations for a specific <code>CompDb</code> database.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/CompDb.html">compoundVariables</a></span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></code></pre></div>
@@ -226,9 +226,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <pre><code><span class="co">##    formula exactmass         name</span>
 <span class="co">## 1 C17H14O6   314.079 Aflatoxin B2</span></code></pre>
 </div>
-<div class="section level2">
-<h2 id="extracting-with-msms-data">Extracting with MS/MS data<a class="anchor" aria-label="anchor" href="#extracting-with-msms-data"></a>
-</h2>
+<div class="section level3">
+<h3 id="extracting-with-msms-data">Extracting with MS/MS data<a class="anchor" aria-label="anchor" href="#extracting-with-msms-data"></a>
+</h3>
 <p><code>CompDb</code> database can also store and provide MS/MS spectral data. These can be interfaced with a <code>Spectra</code> object from the <em><a href="https://bioconductor.org/packages/3.15/Spectra" class="external-link">Spectra</a></em> Bioconductor package which can be initialized with the <code>Spectra</code> function as shown below.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span>
@@ -302,9 +302,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <span class="va">cormat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compareSpectra</a></span><span class="op">(</span><span class="va">mellein</span>, <span class="va">sps</span>, ppm <span class="op">=</span> <span class="fl">40</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
-<div class="section level1">
-<h1 id="ion-databases">Ion databases<a class="anchor" aria-label="anchor" href="#ion-databases"></a>
-</h1>
+<div class="section level2">
+<h2 id="ion-databases">Ion databases<a class="anchor" aria-label="anchor" href="#ion-databases"></a>
+</h2>
 <p>The <code>CompDb</code> database layout is designed to provide compound annotations, but in mass spectrometry (MS) ions are measured. These ions are generated e.g. by electro spray ionization (ESI) from the original compounds in a sample. They are characterized by their specific mass-to-charge ratio (m/z) which is measured by the MS instrument. Eventually, also a retention time is available. Also, for the same compound several different ions (adducts) can be formed and measured, all with a different m/z. This type of data can be represented by an <code>IonDb</code> database, which extends the <code>CompDb</code> and hence inherits all of its properties but adds additional database tables to support also ion annotations. Also, <code>IonDb</code> objects provide functionality to add new ion annotations to an existing database. Thus, this type of database can be used to build lab-internal annotation resources containing ions, m/z and retention times for pure standards measured on a specific e.g. LC-MS setup.</p>
 <p><code>CompDb</code> databases, such as the <code>cdb</code> from this example, are however by default <em>read-only</em>, thus, we below create a new database connection, copy the content of the <code>cdb</code> to that database and convert the <code>CompDb</code> to an <code>IonDb</code>.</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
@@ -346,12 +346,12 @@ document.addEventListener("DOMContentLoaded", function() {
 <span class="co">## 1     [M+H]+ Mellein   178.063</span>
 <span class="co">## 2    [M+Na]+ Mellein   178.063</span></code></pre>
 </div>
-<div class="section level1">
-<h1 id="session-information">Session information<a class="anchor" aria-label="anchor" href="#session-information"></a>
-</h1>
+<div class="section level2">
+<h2 id="session-information">Session information<a class="anchor" aria-label="anchor" href="#session-information"></a>
+</h2>
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## R Under development (unstable) (2021-12-16 r81386)</span>
+<pre><code><span class="co">## R Under development (unstable) (2022-01-14 r81484)</span>
 <span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span>
 <span class="co">## Running under: Ubuntu 20.04.3 LTS</span>
 <span class="co">## </span>
@@ -361,7 +361,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <span class="co">## locale:</span>
 <span class="co">##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span>
 <span class="co">##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    </span>
-<span class="co">##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=C             </span>
+<span class="co">##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   </span>
 <span class="co">##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 </span>
 <span class="co">##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span>
 <span class="co">## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span>
@@ -371,36 +371,36 @@ document.addEventListener("DOMContentLoaded", function() {
 <span class="co">## [8] base     </span>
 <span class="co">## </span>
 <span class="co">## other attached packages:</span>
-<span class="co">## [1] RSQLite_2.2.9           Spectra_1.5.3           ProtGenerics_1.27.1    </span>
-<span class="co">## [4] BiocParallel_1.29.6     CompoundDb_0.99.0       S4Vectors_0.33.8       </span>
+<span class="co">## [1] RSQLite_2.2.9           Spectra_1.5.5           ProtGenerics_1.27.2    </span>
+<span class="co">## [4] BiocParallel_1.29.11    CompoundDb_0.99.1       S4Vectors_0.33.10      </span>
 <span class="co">## [7] BiocGenerics_0.41.2     AnnotationFilter_1.19.0 BiocStyle_2.23.1       </span>
 <span class="co">## </span>
 <span class="co">## loaded via a namespace (and not attached):</span>
 <span class="co">##  [1] Biobase_2.55.0         sass_0.4.0             bit64_4.0.5           </span>
-<span class="co">##  [4] jsonlite_1.7.2         bslib_0.3.1            assertthat_0.2.1      </span>
+<span class="co">##  [4] jsonlite_1.7.3         bslib_0.3.1            assertthat_0.2.1      </span>
 <span class="co">##  [7] BiocManager_1.30.16    blob_1.2.2             GenomeInfoDbData_1.2.7</span>
 <span class="co">## [10] yaml_2.2.1             pillar_1.6.4           glue_1.6.0            </span>
-<span class="co">## [13] digest_0.6.29          GenomicRanges_1.47.5   XVector_0.35.0        </span>
+<span class="co">## [13] digest_0.6.29          GenomicRanges_1.47.6   XVector_0.35.0        </span>
 <span class="co">## [16] colorspace_2.0-2       htmltools_0.5.2        pkgconfig_2.0.3       </span>
 <span class="co">## [19] bookdown_0.24          zlibbioc_1.41.0        purrr_0.3.4           </span>
 <span class="co">## [22] scales_1.1.1           tibble_3.1.6           generics_0.1.1        </span>
 <span class="co">## [25] IRanges_2.29.1         ggplot2_3.3.5          ellipsis_0.3.2        </span>
 <span class="co">## [28] DT_0.20                cachem_1.0.6           lazyeval_0.2.2        </span>
 <span class="co">## [31] magrittr_2.0.1         crayon_1.4.2           memoise_2.0.1         </span>
-<span class="co">## [34] evaluate_0.14          fs_1.5.2               fansi_0.5.0           </span>
-<span class="co">## [37] MASS_7.3-54            xml2_1.3.3             textshaping_0.3.6     </span>
+<span class="co">## [34] evaluate_0.14          fs_1.5.2               fansi_1.0.2           </span>
+<span class="co">## [37] MASS_7.3-55            xml2_1.3.3             textshaping_0.3.6     </span>
 <span class="co">## [40] tools_4.2.0            lifecycle_1.0.1        stringr_1.4.0         </span>
 <span class="co">## [43] munsell_0.5.0          cluster_2.1.2          compiler_4.2.0        </span>
 <span class="co">## [46] pkgdown_2.0.1.9000     jquerylib_0.1.4        GenomeInfoDb_1.31.1   </span>
 <span class="co">## [49] systemfonts_1.0.3      rlang_0.4.12           grid_4.2.0            </span>
 <span class="co">## [52] RCurl_1.98-1.5         rsvg_2.1.2             MsCoreUtils_1.7.1     </span>
-<span class="co">## [55] rjson_0.2.20           htmlwidgets_1.5.4      bitops_1.0-7          </span>
+<span class="co">## [55] rjson_0.2.21           htmlwidgets_1.5.4      bitops_1.0-7          </span>
 <span class="co">## [58] base64enc_0.1-3        rmarkdown_2.11         gtable_0.3.0          </span>
 <span class="co">## [61] DBI_1.1.2              R6_2.5.1               gridExtra_2.3         </span>
 <span class="co">## [64] knitr_1.37             dplyr_1.0.7            fastmap_1.1.0         </span>
 <span class="co">## [67] bit_4.0.4              utf8_1.2.2             clue_0.3-60           </span>
 <span class="co">## [70] rprojroot_2.0.2        ragg_1.2.1             desc_1.4.0            </span>
-<span class="co">## [73] stringi_1.7.6          parallel_4.2.0         Rcpp_1.0.7            </span>
+<span class="co">## [73] stringi_1.7.6          parallel_4.2.0         Rcpp_1.0.8            </span>
 <span class="co">## [76] vctrs_0.3.8            png_0.1-7              dbplyr_2.1.1          </span>
 <span class="co">## [79] tidyselect_1.1.1       xfun_0.29              ChemmineR_3.47.0</span></code></pre>
 </div>

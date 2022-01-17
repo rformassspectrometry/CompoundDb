@@ -22,7 +22,7 @@ available in the database and FALSE otherwise."><!-- mathjax --><script src="htt
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CompoundDb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.1</span>
       </span>
     </div>
 
@@ -76,7 +76,7 @@ available in the database and <code>FALSE</code> otherwise.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">CompDb</span><span class="op">(</span><span class="va">x</span>, flags <span class="op">=</span> <span class="fu">RSQLite</span><span class="fu">::</span><span class="va"><a href="https://rsqlite.r-dbi.org/reference/SQLite.html" class="external-link">SQLITE_RO</a></span><span class="op">)</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">CompDb</span><span class="op">(</span><span class="va">x</span>, flags <span class="op">=</span> <span class="va">SQLITE_RO</span><span class="op">)</span>
 
 <span class="fu">hasMsMsSpectra</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
 
@@ -512,6 +512,11 @@ details.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The following object is masked from ‘package:stats’:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     smooth</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘Spectra’</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following object is masked from ‘package:ProtGenerics’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     addProcessing</span>
 <span class="r-in"><span class="co">## Plot the first spectrum</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html" class="external-link">plotSpectra</a></span><span class="op">(</span><span class="va">sps</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="CompDb-1.png" alt="" width="700" height="433"></span>

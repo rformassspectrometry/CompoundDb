@@ -22,7 +22,7 @@ this backend."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/li
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CompoundDb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.1</span>
       </span>
     </div>
 
@@ -174,6 +174,61 @@ and <code>"intensity"</code> are ignored.</p></li>
     <p>Johannes Rainer</p>
     </div>
 
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
+<span class="r-in"><span class="co">## MsBackendCompDb are not expected to be created/instanciated by users</span></span>
+<span class="r-in"><span class="co">## directly. Users also almost never directly interact with this type of</span></span>
+<span class="r-in"><span class="co">## object, as it is intented as a pure data backend for the `Spectra` object.</span></span>
+<span class="r-in"><span class="co">## Users will thus access MS data through such `Spectra` object, which can</span></span>
+<span class="r-in"><span class="co">## be created for `CompDb` objects using the `Spectra` method (see help</span></span>
+<span class="r-in"><span class="co">## of the `CompDb` object for more information. This examples shows how</span></span>
+<span class="r-in"><span class="co">## a `MsBackendCompDb` could be created purely from an SQLite database</span></span>
+<span class="r-in"><span class="co">## with data from a CompoundDb database.</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co">## Connect to the SQLite database of a `CompDb` distributed via this package</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rsqlite.r-dbi.org" class="external-link">RSQLite</a></span><span class="op">)</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/Spectra" class="external-link">Spectra</a></span><span class="op">)</span></span>
+<span class="r-in"><span class="va">cdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="CompDb.html">CompDb</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"sql/CompDb.MassBank.sql"</span>, package <span class="op">=</span> <span class="st">"CompoundDb"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="va">be</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html" class="external-link">backendInitialize</a></span><span class="op">(</span><span class="fu">MsBackendCompDb</span><span class="op">(</span><span class="op">)</span>, <span class="va">cdb</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">be</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> MsBackendCompDb with 70 spectra</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       msLevel     rtime scanIndex</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;integer&gt; &lt;numeric&gt; &lt;integer&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1           2        NA        NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2           2        NA        NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3           2        NA        NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4           2        NA        NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5           2        NA        NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ...       ...       ...       ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 66          2        NA        NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 67          2        NA        NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 68          2        NA        NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 69          2        NA        NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 70          2        NA        NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  ... 38 more variables/columns.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  data source: MassBank </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  version: 2020.09 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  organism: NA </span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co">## Accessing m/z values</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">mz</a></span><span class="op">(</span><span class="va">be</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NumericList of length 70</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [["1"]] 133.0648 151.0754 155.9743 161.0597 179.0703</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [["2"]] 133.0648 151.0754 155.9745 161.0597 179.0703</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [["3"]] 105.0699 133.0648 151.0754 161.0597 179.0703</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [["4"]] 105.0699 133.0648 151.0754 161.0597 179.0703</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [["5"]] 105.0699 115.0542 133.0648 151.0754 161.0597 179.0703</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [["6"]] 506.3324</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [["7"]] 276.2686 294.2792 312.287 330.2976 470.3112 488.3218 506.3324</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [["8"]] 56.0502 57.0706 60.045 69.0699 ... 312.287 330.2976 488.3218 506.3324</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [["9"]] 56.0502 57.0706 60.045 67.0542 ... 242.2115 276.2686 294.2792 312.287</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [["10"]] 56.0502 57.0706 60.045 67.0542 ... 159.0288 224.2009 276.2686 294.2792</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;60 more elements&gt;</span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
