@@ -2,6 +2,8 @@
 
 #' @name CompDb
 #'
+#' @import BiocGenerics
+#'
 #' @title Simple compound (metabolite) databases
 #'
 #' @aliases CompDb-class show dbconn,CompDb-method show,CompDb-method

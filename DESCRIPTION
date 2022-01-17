@@ -1,7 +1,7 @@
 Package: CompoundDb
 Type: Package
 Title: Creating and Using (Chemical) Compound Annotation Databases
-Version: 0.99.1
+Version: 0.99.2
 Authors@R: c(person(given = "Jan", family = "Stanstrup",
                     email = "stanstrup@gmail.com",
 		    role = c("aut"),
@@ -31,6 +31,7 @@ Depends:
     AnnotationFilter,
     S4Vectors
 Imports:
+    BiocGenerics,
     ChemmineR,
     tibble,
     jsonlite,
@@ -39,7 +40,6 @@ Imports:
     dbplyr,
     RSQLite,
     Biobase,
-    BiocGenerics,
     ProtGenerics (>= 1.23.5),
     xml2,
     IRanges,
