@@ -23,7 +23,7 @@
 \alias{deleteSpectra,CompDb-method}
 \title{Simple compound (metabolite) databases}
 \usage{
-CompDb(x, flags = RSQLite::SQLITE_RO)
+CompDb(x, flags = SQLITE_RO)
 
 hasMsMsSpectra(x)
 

@@ -282,12 +282,7 @@ msms_spectra_hmdb <- function(x, collapsed = TRUE) {
 #' ## single m/z (intensity) value.
 #' msms_spectra_mona(fl, collapsed = FALSE)
 msms_spectra_mona <- function(x, collapsed = TRUE) {
-    message("Reading SDF file ... ", appendLF = FALSE)
-    sdf <- datablock2ma(datablock(read.SDFset(x, skipErrors = TRUE)))
-    message("OK")
-    message("Extracting ", nrow(sdf), " spectra ... ", appendLF = FALSE)
-    spctra <- .extract_spectra_mona_sdf(sdf)
-    message("OK")
+    spctra <- .import_mona_sdf(x, TRUE, FALSE)$msms_spectrum
     colnames(spctra)[colnames(spctra) == "precursor_type"] <- "adduct"
     spec_trim <- gsub(" ", "", spctra$spectrum_type, fixed = TRUE)
     is_mslevel <- grepl("^ms\\d+$", spec_trim, ignore.case = TRUE)

@@ -80,10 +80,7 @@
 #' cmps
 #' cmps$synonyms
 compound_tbl_sdf <- function(file, collapse, onlyValid = TRUE) {
-    if (missing(file))
-        stop("Please provide the file name using 'file'")
-    if (!file.exists(file))
-        stop("Can not fine file ", file)
+    .check_parameter_file(file)
     suppressWarnings(
         sdf <- read.SDFset(file))
     nsdf <- length(sdf)
@@ -142,10 +139,7 @@ compound_tbl_sdf <- function(file, collapse, onlyValid = TRUE) {
 #' cmps <- compound_tbl_lipidblast(fl)
 #' cmps
 compound_tbl_lipidblast <- function(file, collapse) {
-    if (missing(file))
-        stop("Please provide the file name using 'file'")
-    if (!file.exists(file))
-        stop("Can not fine file ", file)
+    .check_parameter_file(file)
     res <- .import_lipidblast(file)
     if (!missing(collapse)) {
         ## collapse elements from lists.
@@ -153,6 +147,13 @@ compound_tbl_lipidblast <- function(file, collapse) {
                                FUN.VALUE = "character")
     }
     res
+}
+
+.check_parameter_file <- function(file) {
+    if (missing(file))
+        stop("Please provide the file name using 'file'")
+    if (!file.exists(file))
+        stop("Can not find file ", file)
 }
 
 #' @description
@@ -560,7 +561,8 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' ## createCompDbPackage function on the SQLite database file name.
 createCompDb <- function(x, metadata, msms_spectra, path = ".") {
     .valid_metadata(metadata)
-    db_file <- paste0(path, "/", .db_file_from_metadata(metadata), ".sqlite")
+    db_file <- file.path(path, paste0(.db_file_from_metadata(metadata),
+                                      ".sqlite"))
     con <- dbConnect(dbDriver("SQLite"), dbname = db_file)
     ## Add additional metadata info
     metadata$name <- as.character(metadata$name)
@@ -659,6 +661,20 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
 #'
 #' @author Johannes Rainer
 .insert_msms_spectra <- function(con, x) {
+    x <- .prepare_msms_spectra_table(x)
+    msms_spectrum_peak <- x$msms_spectrum_peak
+    x <- x$x
+    dbWriteTable(con, name = "msms_spectrum_peak", msms_spectrum_peak,
+                 row.names = FALSE)
+    dbWriteTable(con, name = "msms_spectrum", x, row.names = FALSE)
+    dbExecute(
+        con, "create index msms_id_idx on msms_spectrum_peak (spectrum_id)")
+    dbExecute(con, "create index msms_pid_idx on msms_spectrum_peak (peak_id)")
+    dbExecute(con, "create index msms_mid_idx on msms_spectrum (spectrum_id)")
+    dbExecute(con, "create index msms_cid_idx on msms_spectrum (compound_id)")
+}
+
+.prepare_msms_spectra_table <- function(x) {
     x <- .msms_spectrum_add_missing_columns(x)
     x$collision_energy <- as.character(x$collision_energy)
     .valid_msms_spectrum(x, blob = is.list(x$mz))
@@ -673,19 +689,11 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
         order(msms_spectrum_peak$spectrum_id, msms_spectrum_peak$mz), ]
     msms_spectrum_peak$peak_id <- seq_len(nrow(msms_spectrum_peak))
     x <- unique(x[, !(colnames(x) %in% c("mz", "intensity"))])
-    dbWriteTable(con, name = "msms_spectrum_peak", msms_spectrum_peak,
-                 row.names = FALSE)
-    dbWriteTable(con, name = "msms_spectrum", x, row.names = FALSE)
-    dbExecute(
-        con, "create index msms_id_idx on msms_spectrum_peak (spectrum_id)")
-    dbExecute(con, "create index msms_pid_idx on msms_spectrum_peak (peak_id)")
-    dbExecute(con, "create index msms_mid_idx on msms_spectrum (spectrum_id)")
-    dbExecute(con, "create index msms_cid_idx on msms_spectrum (compound_id)")
+    list(x = x, msms_spectrum_peak = msms_spectrum_peak)
 }
 
+
 .append_msms_spectra <- function(con, x) {
-    x <- .msms_spectrum_add_missing_columns(x)
-    x$collision_energy <- as.character(x$collision_energy)
     ## Update spectrum_id
     nsp <- dbGetQuery(con, paste0("select max(spectrum_id)",
                                   " from msms_spectrum"))[1, 1]
@@ -693,17 +701,9 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
         warning("'spectrum_id' variable in 'spectra' will be
                               replaced with internal indexes")
     x$spectrum_id <- nsp + seq_len(nrow(x))
-    .valid_msms_spectrum(x, blob = is.list(x$mz))
-    x <- .add_mz_range_column(x)
-    msms_spectrum_peak <- x[, c("spectrum_id", "mz", "intensity")]
-    if (is.list(msms_spectrum_peak$mz))
-        msms_spectrum_peak <- .expand_spectrum_df(msms_spectrum_peak)
-    if (!is.numeric(msms_spectrum_peak$mz) ||
-        !is.numeric(msms_spectrum_peak$intensity))
-        stop("Columns 'mz' and 'intensity' should only contain numeric values")
-    msms_spectrum_peak <- msms_spectrum_peak[
-        order(msms_spectrum_peak$spectrum_id, msms_spectrum_peak$mz), ]
-    x <- unique(x[, !(colnames(x) %in% c("mz", "intensity"))])
+    x <- .prepare_msms_spectra_table(x)
+    msms_spectrum_peak <- x$msms_spectrum_peak
+    x <- x$x
     ## Create eventual additional columns in database.
     cols <- colnames(dbGetQuery(con, "select * from msms_spectrum limit 1"))
     new_cols <- colnames(x)[!colnames(x) %in% cols]
@@ -727,10 +727,11 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
     cols <- cols[!cols %in% c("spectrum_id", "compound_id", "mz", "intensity")]
     cols <- cols[!cols %in% colnames(x)]
     n <- nrow(x)
-    for (col in cols) {
-        cn <- colnames(x)
-        x <- cbind(x, rep(as(NA, .required_msms_spectrum_columns[col]), n))
-        colnames(x) <- c(cn, col)
+    if (length(cols)) {
+        x_new <- as.data.frame(
+            lapply(.required_msms_spectrum_columns[cols],
+                   as, object = rep(NA, n)))
+        x <- cbind(x, x_new)
     }
     x
 }
@@ -812,10 +813,8 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
 #'
 #' @noRd
 .valid_metadata <- function(metadata, error = TRUE) {
-    txt <- character()
-    if (!is.data.frame(metadata))
-        txt <- c(txt, "'metadata' is expected to be a data.frame")
-    if (all(c("name", "value") %in% colnames(metadata))) {
+    txt <- .valid_data_frame_columns(metadata, "metadata", c("name", "value"))
+    if (!length(txt)) {
         keys <- metadata$name
         vals <- metadata$value
         got_it <- .required_metadata_keys %in% keys
@@ -824,16 +823,29 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
                                  paste0(.required_metadata_keys[!got_it],
                                         collapse = ", "),
                                  " not found in metadata data.frame"))
-        vals <- vals[keys %in% .required_metadata_keys]
-    } else {
-        txt <- c(txt, paste0("metadata data.frame needs to have columns ",
-                             "named 'name' and 'value'"))
     }
-    if (length(txt))
+    .throw_error(txt, error = error)
+}
+
+.throw_error <- function(txt = character(), error = TRUE) {
+    if (length(txt)) {
         if (error)
             stop(paste(txt, collapse = "\n"))
         else txt
-    else TRUE
+    } else
+        TRUE
+}
+
+.valid_data_frame_columns <- function(x, varName = "x",
+                                      req_cols = .required_compound_columns) {
+    txt <- character()
+    if (!is.data.frame(x))
+        return(paste0("'", varName, "' is supposed to be a data.frame"))
+    got_it <- req_cols %in% colnames(x)
+    if (!all(got_it))
+        txt <- c(txt, paste0("Miss required columns: ",
+                             paste0(req_cols[!got_it], collapse = ", ")))
+    txt
 }
 
 #' @description Check that the compounds table contains all required data.
@@ -844,34 +856,14 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
 #'
 #' @noRd
 .valid_compound <- function(x, error = TRUE, db = TRUE) {
-    txt <- character()
-    if (!is.data.frame(x))
-        txt <- c(txt, "'x' is supposed to be a data.frame")
-    .req_cols <- .required_compound_db_columns
-    if (!db)
-        .req_cols <- .required_compound_columns
-    got_it <- .req_cols %in% colnames(x)
-    if (!all(got_it)) {
-        txt <- c(txt, paste0("Miss required columns: ",
-                             paste0(.required_compound_columns[!got_it],
-                                    collapse = ", ")))
-    } else {
+    if (db)
+        txt <- .valid_data_frame_columns(x, "x", .required_compound_db_columns)
+    else
+        txt <- .valid_data_frame_columns(x, "x", .required_compound_columns)
+    if (!length(txt))
         if (!is.numeric(x$exactmass))
             txt <- c(txt, "Column 'exactmass' should be numeric")
-    }
-    ## if (db) {
-    ##     ## Do not allow more columns than expected!
-    ##     is_ok <- colnames(x) %in% .req_cols
-    ##     if (any(!is_ok)) {
-    ##         txt <- c(txt, paste0("Column(s) ", paste(colnames(x)[!is_ok]),
-    ##                              " are not expected"))
-    ##     }
-    ## }
-    if (length(txt))
-        if (error)
-            stop(paste(txt, collapse = "\n"))
-        else txt
-    else TRUE
+    .throw_error(txt, error = error)
 }
 
 #' @description
@@ -1032,15 +1024,21 @@ make_metadata <- function(source = character(), url = character(),
 #' ## Import the data
 #' res <- import_mona_sdf(fl)
 import_mona_sdf <- function(x, nonStop = TRUE) {
+    .import_mona_sdf(x, nonStop, TRUE)
+}
+
+.import_mona_sdf <- function(x, nonStop = TRUE, compounds = TRUE) {
     message("Reading SDF file ... ", appendLF = FALSE)
     sdfs <- datablock2ma(datablock(read.SDFset(x, skipErrors = nonStop)))
     if (!any(colnames(sdfs) == "MASS SPECTRAL PEAKS"))
         stop("The provided file does not contain \"MASS SPECTRAL PEAKS\" ",
              "elements. Is this an SDF file from MoNa?")
     message("OK")
-    message("Extracting compound information ... ", appendLF = FALSE)
-    suppressMessages(cmps <- .simple_extract_compounds_sdf(sdfs))
-    message("OK")
+    if (compounds) {
+        message("Extracting compound information ... ", appendLF = FALSE)
+        suppressMessages(cmps <- .simple_extract_compounds_sdf(sdfs))
+        message("OK")
+    } else cmps <- data.frame()
     message("Extracting spectrum information ... ", appendLF = FALSE)
     spctra <- .extract_spectra_mona_sdf(sdfs)
     message("OK")
