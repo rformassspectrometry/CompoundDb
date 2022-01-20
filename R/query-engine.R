@@ -29,9 +29,9 @@
     if (missing(columns))
         stop("'columns' is required")
     tbls <- .tables(x)
-    col_ok <- columns %in% unique(unlist(tbls, use.names = FALSE))
-    if (!all(col_ok))
-        stop("Columns ", paste0(columns[!col_ok], collapse = ", "),
+    col_miss <- columns[!columns %in% unique(unlist(tbls, use.names = FALSE))]
+    if (nchar(msg <- paste(col_miss, collapse = ", ")))
+        stop("Columns ", msg,
              " are not present in the database. Use 'tables' to list ",
              "all tables and their columns.")
     ## Depending on 'filter' we might have to add some more tables/columns!

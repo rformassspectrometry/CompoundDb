@@ -829,9 +829,10 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".") {
 
 .throw_error <- function(txt = character(), error = TRUE) {
     if (length(txt)) {
-        if (error)
-            stop(paste(txt, collapse = "\n"))
-        else txt
+        if (error) {
+            txt <- paste(txt, collapse = "\n")
+            stop(txt)
+        } else txt
     } else
         TRUE
 }

@@ -446,10 +446,9 @@ IonRtFilter <- function(value, condition = "==") {
              "'AnnotationFilterList' or a valid filter expression")
     supp_flts <- .supported_filters(db)
     have_flts <- .filter_class(x)
-    got_it <- have_flts %in% supp_flts$filter
-    if (any(!got_it))
-        stop("Filter(s) ", paste(have_flts[!got_it], collapse = ","),
-             " are not supported")
+    if (nchar(msg <- paste(have_flts[!have_flts %in% supp_flts$filter],
+                           collapse = ", ")))
+        stop("Filter(s) ", msg, " are not supported")
     x
 }
 

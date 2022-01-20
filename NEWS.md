@@ -1,5 +1,9 @@
 # Version 0.99
 
+## Changes in version 0.99.4
+
+- Address more comments from @jianhong.
+
 ## Changes in version 0.99.3
 
 - Fix `BiocCheck` warnings.
