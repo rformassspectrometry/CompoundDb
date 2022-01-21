@@ -63,7 +63,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/EuracBiomedicalResearch/CompoundDb/" class="external-link">
+  <a href="https://github.com/RforMassSpectrometry/CompoundDb/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -84,7 +84,7 @@
       <h1 data-toc-skip>Creating CompoundDb annotation resources</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/EuracBiomedicalResearch/CompoundDb/blob/HEAD/vignettes/create-compounddb.Rmd" class="external-link"><code>vignettes/create-compounddb.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/RforMassSpectrometry/CompoundDb/blob/HEAD/vignettes/create-compounddb.Rmd" class="external-link"><code>vignettes/create-compounddb.Rmd</code></a></small>
       <div class="hidden name"><code>create-compounddb.Rmd</code></div>
 
     </div>
@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2022-01-21 18:00:07<br><strong>Compiled</strong>: Fri Jan 21 18:05:16 2022</p>
+</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2022-01-21 18:02:03<br><strong>Compiled</strong>: Fri Jan 21 18:07:40 2022</p>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <p>Note however that it is also possible to define such a table manually and use that to create the database. See the help page of <code>createCompDb</code> for more details on that.</p>
 <p>Below we use the <code>compound_tbl_sdf</code> to extract compound annotations from a SDF file representing a very small subset of the HMDB database. To generate a database for the full HMDB we would have to download the <em>structures.sdf</em> file containing all metabolites and load that file instead.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/EuracBiomedicalResearch/CompoundDb" class="external-link">CompoundDb</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/CompoundDb" class="external-link">CompoundDb</a></span><span class="op">)</span>
 
 <span class="co">## Locate the file</span>
 <span class="va">hmdb_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"sdf/HMDB_sub.sdf.gz"</span>, package <span class="op">=</span> <span class="st">"CompoundDb"</span><span class="op">)</span>
@@ -320,7 +320,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <code class="sourceCode R"><span class="fu"><a href="../reference/createCompDb.html">createCompDbPackage</a></span><span class="op">(</span>
     <span class="va">db_file</span>, version <span class="op">=</span> <span class="st">"0.0.1"</span>, author <span class="op">=</span> <span class="st">"J Rainer"</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,
     maintainer <span class="op">=</span> <span class="st">"Johannes Rainer &lt;johannes.rainer@eurac.edu&gt;"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Creating package in /tmp/RtmpTD9ttp/CompDb.Hsapiens.HMDB.4.0</span></code></pre>
+<pre><code><span class="co">## Creating package in /tmp/RtmpGXxF8k/CompDb.Hsapiens.HMDB.4.0</span></code></pre>
 <p>The function creates a folder (in our case in a temporary directory) that can be build and installed with <code>R CMD build</code> and <code>R CMD INSTALL</code>.</p>
 <p>Special care should also be put on the license of the package that can be passed with the <code>license</code> parameter. The license of the package and how and if the package can be distributed will depend also on the license of the originating resource.</p>
 </div>
