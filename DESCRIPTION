@@ -26,7 +26,7 @@ Description: CompoundDb provides functionality to create and use (chemical)
     experimetal MS/MS spectra against MS/MS spectra in the database. Databases
     can be stored in SQLite format and are thus portable.
 Depends:
-    R (>= 4.2),
+    R (>= 4.1),
     methods,
     AnnotationFilter,
     S4Vectors
