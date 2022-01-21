@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2022-01-20 15:23:03<br><strong>Compiled</strong>: Thu Jan 20 15:28:51 2022</p>
+</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2022-01-21 18:00:07<br><strong>Compiled</strong>: Fri Jan 21 18:05:16 2022</p>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
@@ -320,7 +320,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <code class="sourceCode R"><span class="fu"><a href="../reference/createCompDb.html">createCompDbPackage</a></span><span class="op">(</span>
     <span class="va">db_file</span>, version <span class="op">=</span> <span class="st">"0.0.1"</span>, author <span class="op">=</span> <span class="st">"J Rainer"</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,
     maintainer <span class="op">=</span> <span class="st">"Johannes Rainer &lt;johannes.rainer@eurac.edu&gt;"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Creating package in /tmp/Rtmp96kyjD/CompDb.Hsapiens.HMDB.4.0</span></code></pre>
+<pre><code><span class="co">## Creating package in /tmp/RtmpTD9ttp/CompDb.Hsapiens.HMDB.4.0</span></code></pre>
 <p>The function creates a folder (in our case in a temporary directory) that can be build and installed with <code>R CMD build</code> and <code>R CMD INSTALL</code>.</p>
 <p>Special care should also be put on the license of the package that can be passed with the <code>license</code> parameter. The license of the package and how and if the package can be distributed will depend also on the license of the originating resource.</p>
 </div>
@@ -391,7 +391,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <span class="co">## [8] base     </span>
 <span class="co">## </span>
 <span class="co">## other attached packages:</span>
-<span class="co">## [1] Spectra_1.5.5           ProtGenerics_1.27.2     BiocParallel_1.29.12   </span>
+<span class="co">## [1] Spectra_1.5.6           ProtGenerics_1.27.2     BiocParallel_1.29.12   </span>
 <span class="co">## [4] CompoundDb_0.99.4       S4Vectors_0.33.10       BiocGenerics_0.41.2    </span>
 <span class="co">## [7] AnnotationFilter_1.19.0 BiocStyle_2.23.1       </span>
 <span class="co">## </span>
@@ -406,13 +406,13 @@ document.addEventListener("DOMContentLoaded", function() {
 <span class="co">## [22] purrr_0.3.4            scales_1.1.1           tibble_3.1.6          </span>
 <span class="co">## [25] generics_0.1.1         IRanges_2.29.1         ggplot2_3.3.5         </span>
 <span class="co">## [28] ellipsis_0.3.2         DT_0.20                cachem_1.0.6          </span>
-<span class="co">## [31] lazyeval_0.2.2         cli_3.1.0              magrittr_2.0.1        </span>
+<span class="co">## [31] lazyeval_0.2.2         cli_3.1.1              magrittr_2.0.1        </span>
 <span class="co">## [34] crayon_1.4.2           memoise_2.0.1          evaluate_0.14         </span>
 <span class="co">## [37] fs_1.5.2               fansi_1.0.2            MASS_7.3-55           </span>
 <span class="co">## [40] xml2_1.3.3             textshaping_0.3.6      tools_4.2.0           </span>
 <span class="co">## [43] lifecycle_1.0.1        stringr_1.4.0          munsell_0.5.0         </span>
 <span class="co">## [46] cluster_2.1.2          compiler_4.2.0         pkgdown_2.0.2.9000    </span>
-<span class="co">## [49] jquerylib_0.1.4        GenomeInfoDb_1.31.1    systemfonts_1.0.3     </span>
+<span class="co">## [49] jquerylib_0.1.4        GenomeInfoDb_1.31.2    systemfonts_1.0.3     </span>
 <span class="co">## [52] rlang_0.4.12           grid_4.2.0             RCurl_1.98-1.5        </span>
 <span class="co">## [55] rsvg_2.1.2             MsCoreUtils_1.7.1      rjson_0.2.21          </span>
 <span class="co">## [58] htmlwidgets_1.5.4      bitops_1.0-7           base64enc_0.1-3       </span>
