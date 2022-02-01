@@ -178,6 +178,8 @@ jobs:
           message(paste('****', Sys.time(), 'force installation of selected packages ****'))
           BiocManager::install(c("BiocStyle", "rmarkdown", "magick", "Spectra"))
 
+          BiocManager::install("RforMassSpectrometry/ProtGenerics")
+          BiocManager::install("RforMassSpectrometry/Spectra")
           ## For running the checks
           message(paste('****', Sys.time(), 'installing rcmdcheck and BiocCheck ****'))
           remotes::install_cran("rcmdcheck")
