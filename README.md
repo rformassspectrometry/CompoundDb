@@ -7,7 +7,7 @@
 src="https://raw.githubusercontent.com/rformassspectrometry/stickers/master/CompoundDb/CompoundDb.png"
 height="150">
 
-Preserve compound annotations.
+... preserve compound annotations.
 
 # Installation and requirements
 
