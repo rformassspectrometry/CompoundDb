@@ -191,6 +191,7 @@
 #' compounds(cdb, columns = c("formula", "publication"))
 #'
 #' ## Create a Spectra object with all MS/MS spectra from the database.
+#' library(Spectra)
 #' sps <- Spectra(cdb)
 #' sps
 #'

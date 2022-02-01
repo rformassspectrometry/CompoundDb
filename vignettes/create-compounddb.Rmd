@@ -181,12 +181,12 @@ spectraVariables(sps)
 Individual spectra variables can be accessed with the `$` operator:
 
 ```{r}
-sps$collision_energy
+sps$collisionEnergy
 ```
 
 And the actual m/z and intensity values with `mz` and `intensity`:
 
-```{r
+```{r}
 mz(sps)
 
 ## m/z of the 2nd spectrum

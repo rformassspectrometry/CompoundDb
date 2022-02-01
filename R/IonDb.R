@@ -1,4 +1,4 @@
-#' @include createCompDbPackage.R
+#' @include CompDb.R
 
 #' @name IonDb
 #'

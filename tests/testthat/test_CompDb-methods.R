@@ -19,19 +19,8 @@ test_that("Spectra,CompDb works", {
     expect_true(length(res) == 4)
     expect_true(all(c("instrument", "predicted") %in% spectraVariables(res)))
 
-    ## columns
-    res <- Spectra(cmp_spctra_db, columns = "compound_id")
-    expect_false(all(c("instrument", "predicted") %in% spectraVariables(res)))
-
     ## filter
     res <- Spectra(cmp_spctra_db, filter = ~ compound_id == "HMDB0000001")
-    expect_true(length(res) == 2)
-
-    ## filter and columns
-    res <- Spectra(cmp_spctra_db, filter = ~ compound_id == "HMDB0000001",
-                   columns = c("inchi", "name"))
-    expect_true(all(c("spectrum_id", "name", "inchi") %in%
-                    spectraVariables(res)))
     expect_true(length(res) == 2)
 
     expect_error(Spectra(cmp_spctra_db, filter = "ad"), "'filter' has to")

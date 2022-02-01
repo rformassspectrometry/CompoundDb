@@ -1,5 +1,10 @@
 # Version 0.99
 
+## Changes in version 0.99.6
+
+- `MsBackendCompDb` extends `Spectra::MsBackendCached` instead of
+  `Spectra::MsBackendDataFrame`.
+
 ## Changes in version 0.99.5
 
 - No updates, just version bump to cause a new build.

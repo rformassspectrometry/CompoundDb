@@ -1,10 +1,15 @@
 #' @title CompDb-based MS spectrum backend
 #'
+#' @aliases MsBackendCompDb-class
+#'
 #' @description
 #'
 #' The `MsBackendCompDb` allows to retrieve MS2 spectra from an [CompDb()]
 #' object/database. The object keeps only a limited amount of data in memory
-#' and retrieves the m/z and intensity values from the database *on-demand*.
+#' and retrieves the m/z and intensity values from the database *on-demand*. By
+#' extending the [MsBackendCached()] class directly, `MsBackendCompDb` supports
+#' adding/replacing spectra variables. These values are however only cached
+#' within the object and not propagated (written) to the database.
 #'
 #' It is not intended that users create or use instances of this class directly,
 #' the [Spectra()] call on [CompDb()] will return a `Spectra` object that uses
@@ -17,8 +22,14 @@
 #'     mapped to the core `Spectra` variables `msLevel`, `precursorMz`,
 #'     `precursorIntensity` and `precursorCharge`, respectively.
 #'
+#' @param drop For `[`: not considered.
+#'
 #' @param filter for `backendInitialize`: optional filter expression to specify
 #'     which elements to retrieve from the database.
+#'
+#' @param i For `[`: `integer`, `logical` or `character` to subset the object.
+#'
+#' @param j For `[`: not supported.
 #'
 #' @param name for `$<-`: the name of the spectra variable to replace.
 #'
@@ -41,8 +52,8 @@
 #' @section Methods implemented for `MsBackendCompDb`:
 #'
 #' The methods listed here are implemented for the `MsBackendCompDb`. All other
-#' methods are inherited directly from the parent [MsBackendDataFrame()] class.
-#' See the help of `MsBackendDataFrame` in the `Spectra` package for a
+#' methods are inherited directly from the parent [MsBackendCached()] class.
+#' See the help of [MsBackend()] in the `Spectra` package for a
 #' complete listing of methods.
 #'
 #' - `peaksData`: gets the full list of peak matrices. Returns a [list()],
@@ -50,32 +61,25 @@
 #'   with columns `"mz"` and `"intensity"` with the spectra's m/z and intensity
 #'   values.
 #'
-#' - `intensity`: retrieves the intensity values for all spectra. Returns a
-#'   [NumericList()], each element being the intensity values of one spectrum.
-#'   The actual intensity values are retrieved from the database.
-#'
 #' - `intensity<-`: not supported.
-#'
-#' - `mz`: retrieves the m/z values for all spectra. Returns a [NumericList()],
-#'   each element being a `numeric` with the m/z values of one spectrum. These
-#'   values are retrieved from the database.
 #'
 #' - `mz<-`: not supported.
 #'
 #' - `spectraData`: returns the complete spectrum data including m/z and
 #'   intensity values as a [DataFrame()].
 #'
-#' - `spectraData<-`: replace the spectrum metadata. Note that columns `"mz"`
-#'   and `"intensity"` are ignored.
-#'
 #' - `$<-`: replace or add a spectrum variable. Note that `mz`, `intensity` and
 #'   `spectrum_id` variables can not be replaced.
 #'
-#' @rdname MsBackendCompDb
+#' @name MsBackendCompDb
 #'
 #' @author Johannes Rainer
 #'
 #' @exportClass MsBackendCompDb
+#'
+#' @importClassesFrom Spectra MsBackendCached
+#'
+#' @importClassesFrom DBI DBIConnection
 #'
 #' @importMethodsFrom Spectra peaksData
 #'
@@ -100,15 +104,24 @@
 #'
 #' ## Accessing m/z values
 #' mz(be)
+NULL
+
+setClassUnion("DBIConnectionOrNULL", c("DBIConnection", "NULL"))
+
 setClass("MsBackendCompDb",
-         contains = "MsBackendDataFrame",
-         slots = c("dbcon", "DBIConnection"),
-         prototype = prototype(version = "0.1", readonly = TRUE))
+         contains = "MsBackendCached",
+         slots = c(dbcon = "DBIConnectionOrNULL",
+                   spectraIds = "character",
+                   .properties = "list"),
+         prototype = prototype(
+             dbcon = NULL,
+             spectraIds = character(),
+             .properties = list(),
+             version = "0.1",
+             readonly = TRUE))
 
 setValidity("MsBackendCompDb", function(object) {
-    msg <- .valid_spectra_data_required_columns(object@spectraData,
-                                                c("spectrum_id"))
-    msg <- c(msg, .valid_ms_backend_dbcon(object@dbcon))
+    msg <- .valid_dbcon(object@dbcon)
     if (length(msg)) msg
     else TRUE
 })
@@ -120,52 +133,45 @@ setValidity("MsBackendCompDb", function(object) {
 #' @importFrom S4Vectors DataFrame
 #'
 #' @importMethodsFrom Spectra backendInitialize
+#'
+#' @exportMethod backendInitialize
 setMethod("backendInitialize", "MsBackendCompDb", function(object,
-                                                           x, columns,
+                                                           x,
                                                            filter, ...) {
     if (missing(x))
         stop("Parameter 'x' is mandatory for 'MsBackendCompDb'")
     if (!is(x, "CompDb"))
         stop("Parameter 'x' has to be a 'CompDb' object")
-    if (missing(columns))
-        columns <- .tables(x, "msms_spectrum")[[1]]
-    columns <- columns[!(columns %in% c("mz", "intensity"))]
-    msg <- .valid_ms_backend_dbcon(.dbconn(x))
+    msg <- .valid_dbcon(.dbconn(x))
     if (length(msg))
         stop(msg)
-    ordr <- "msms_spectrum.spectrum_id"
-    if (!any(columns == "spectrum_id"))
-        columns <- c("spectrum_id", columns)
-    spectraData <- .fetch_data(x, columns = columns, filter = filter,
-                               start_from = "msms_spectrum", order = ordr)
-    if (!nrow(spectraData)) {
-        object@spectraData <- DataFrame(spectraData)
-        return(object)
-    }
-    spectraData$dataStorage <- "<database>"
-    spectraData$dataOrigin <- .metadata_value(x, "source")
-    colnames(spectraData) <- sub("ms_level", "msLevel", colnames(spectraData),
-                                 fixed = TRUE)
-    colnames(spectraData) <- sub("precursor_mz", "precursorMz",
-                                 colnames(spectraData), fixed = TRUE)
-    colnames(spectraData) <- sub("precursor_intensity", "precursorIntensity",
-                                 colnames(spectraData), fixed = TRUE)
-    colnames(spectraData) <- sub("precursor_charge", "precursorCharge",
-                                 colnames(spectraData), fixed = TRUE)
-    if (any(colnames(spectraData) == "collision_energy") &&
-        is.numeric(spectraData$collision_energy))
-        colnames(spectraData) <- sub("collision_energy", "collisionEnergy",
-                                     colnames(spectraData), fixed = TRUE)
-    rownames(spectraData) <- spectraData$spectrum_id
-    object@spectraData <- DataFrame(spectraData)
     object@dbcon <- .dbconn(x)
+    ## Get spectrum ID, precursor_mz and compound_id from db (msms_spectrum).
+    ## Put that into localData.
+    local_data <- .fetch_data(
+        x, columns = c("spectrum_id", "precursor_mz", "compound_id"),
+        filter = filter, start_from = "msms_spectrum")
+    rownames(local_data) <- NULL
+    colnames(local_data)[colnames(local_data) == "precursor_mz"] <-
+        "precursorMz"
+
+    object@spectraIds <- as.character(local_data$spectrum_id)
+    ## Get info on tables and column names. Put them into spectraVariables.
+    object@.properties$tables <- .tables(x)
+    spectra_variables <- unique(unlist(.tables(object)))
+    spectra_variables <- spectra_variables[!spectra_variables %in% c("peak_id")]
+    object <- callNextMethod(
+        object,
+        data = local_data[, !colnames(local_data) == "spectrum_id"],
+        nspectra = nrow(local_data),
+        spectraVariables = .map_sql_to_spectraVariables(spectra_variables))
     validObject(object)
     object
 })
 
 #' @rdname MsBackendCompDb
 #'
-#' @export
+#' @exportMethod show
 setMethod("show", "MsBackendCompDb", function(object) {
     callNextMethod()
     if (length(object)) {
@@ -175,117 +181,96 @@ setMethod("show", "MsBackendCompDb", function(object) {
     }
 })
 
-#' @importFrom S4Vectors SimpleList
-#'
 #' @importMethodsFrom Spectra peaksData
 #'
-#' @rdname MsBackendCompDb
+#' @exportMethod peaksData
 #'
-#' @export
+#' @rdname MsBackendCompDb
 setMethod("peaksData", "MsBackendCompDb", function(object) {
-    if (!length(object))
-        return(list())
-    .peaks(object)
+    .peaks_data(object)
 })
 
-#' @importFrom IRanges NumericList
+#' @importMethodsFrom ProtGenerics dataStorage
 #'
-#' @importMethodsFrom ProtGenerics intensity
+#' @exportMethod dataStorage
 #'
 #' @rdname MsBackendCompDb
-#'
-#' @export
-setMethod("intensity", "MsBackendCompDb", function(object) {
-    if (!length(object))
-        return(NumericList())
-    NumericList(.peaks(object, column = "intensity"), compress = FALSE)
+setMethod("dataStorage", "MsBackendCompDb", function(object) {
+    rep("<db>", length(object))
 })
 
+#' @exportMethod intensity<-
+#'
 #' @importMethodsFrom ProtGenerics intensity<-
 #'
 #' @rdname MsBackendCompDb
-#'
-#' @export
 setReplaceMethod("intensity", "MsBackendCompDb", function(object, value) {
-    stop(class(object), " does not support replacing intensity values")
+    stop("Can not replace original intensity values in the database.")
 })
 
-#' @importMethodsFrom ProtGenerics mz
+#' @exportMethod mz<-
 #'
-#' @rdname MsBackendCompDb
-#'
-#' @export
-setMethod("mz", "MsBackendCompDb", function(object) {
-    if (!length(object))
-        return(NumericList())
-    NumericList(.peaks(object, column = "mz"), compress = FALSE)
-})
-
 #' @importMethodsFrom ProtGenerics mz<-
 #'
 #' @rdname MsBackendCompDb
-#'
-#' @export
 setReplaceMethod("mz", "MsBackendCompDb", function(object, value) {
-    stop(class(object), " does not support replacing m/z values")
+    stop("Can not replace original data in the database.")
 })
 
-#' @importMethodsFrom Spectra spectraData spectraVariables
+#' @importMethodsFrom ProtGenerics spectraData
+#'
+#' @exportMethod spectraData
 #'
 #' @rdname MsBackendCompDb
-#'
-#' @importFrom methods as
-#'
-#' @export
-setMethod("spectraData", "MsBackendCompDb",
-          function(object, columns = spectraVariables(object)) {
-              have_cols <- intersect(columns, colnames(object@spectraData))
-              res <- object@spectraData[, have_cols, drop = FALSE]
-              miss_cols <- setdiff(columns, colnames(object@spectraData))
-              if (any(miss_cols == "mz"))
-                  res$mz <- mz(object)
-              if (any(miss_cols == "intensity"))
-                  res$intensity <- intensity(object)
-              miss_cols <- miss_cols[!(miss_cols %in% c("mz", "intensity"))]
-              if (length(miss_cols)) {
-                  miss_res <- lapply(miss_cols, Spectra:::.get_column,
-                                     x = object@spectraData)
-                  names(miss_res) <- miss_cols
-                  res <- cbind(res, as(miss_res, "DataFrame"))
-              }
-              res[, columns, drop = FALSE]
-          })
+setMethod(
+    "spectraData", "MsBackendCompDb",
+    function(object, columns = spectraVariables(object)) {
+        .spectra_data(object, columns = columns)
+    })
 
+#' @exportMethod spectraNames
+#'
+#' @importMethodsFrom ProtGenerics spectraNames
+#'
 #' @rdname MsBackendCompDb
+setMethod("spectraNames", "MsBackendCompDb", function(object) {
+    object@spectraIds
+})
+
+#' @exportMethod spectraNames<-
 #'
-#' @importMethodsFrom Spectra spectraData<-
+#' @importMethodsFrom ProtGenerics spectraNames<-
 #'
-#' @export
-setReplaceMethod("spectraData", "MsBackendCompDb", function(object, value) {
-    if (inherits(value, "DataFrame") &&
-        any(colnames(value) %in% c("mz", "intensity"))) {
-        warning("Ignoring columns \"mz\" and \"intensity\" ",
-                "since 'MsBackendCompDb' does not support replacing them.")
-        value <- value[, !(colnames(value) %in% c("mz", "intensity")),
-                       drop = FALSE]
-    }
-    object@spectraData <- value
-    validObject(object)
-    object
+#' @rdname MsBackendCompDb
+setReplaceMethod("spectraNames", "MsBackendCompDb",
+                 function(object, value) {
+                     stop(class(object)[1],
+                          " does not support replacing spectra names (IDs).")
+                 })
+
+#' @exportMethod [
+#'
+#' @importFrom MsCoreUtils i2index
+#'
+#' @importFrom methods slot<-
+#'
+#' @importFrom S4Vectors extractROWS
+#'
+#' @rdname MsBackendCompDb
+setMethod("[", "MsBackendCompDb", function(x, i, j, ..., drop = FALSE) {
+    if (missing(i))
+        return(x)
+    i <- i2index(i, length(x), x@spectraIds)
+    slot(x, "spectraIds", check = FALSE) <- x@spectraIds[i]
+    x <- callNextMethod(x, i = i)
+    x
 })
 
 #' @rdname MsBackendCompDb
 #'
 #' @export
 setReplaceMethod("$", "MsBackendCompDb", function(x, name, value) {
-    if (name == "mz" || name == "intensity" || name == "spectrum_id")
-        stop("'MsBackendCompDb' does not support replacing mz, ",
-             "intensity or spectrum_id values")
-    value_len <- length(value)
-    if (value_len == 1L || value_len == length(x))
-        x@spectraData[[name]] <- value
-    else
-        stop("Length of 'value' has to be either 1 or ", length(x))
-    validObject(x)
-    x
+    if (name %in% c("spectrum_id"))
+        stop("Spectra IDs can not be changed.", call. = FALSE)
+    callNextMethod()
 })
