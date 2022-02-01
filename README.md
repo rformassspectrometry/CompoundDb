@@ -7,6 +7,8 @@
 src="https://raw.githubusercontent.com/rformassspectrometry/stickers/master/CompoundDb/CompoundDb.png"
 height="150">
 
+Preserve compound annotations.
+
 # Installation and requirements
 
 The package can be installed with
@@ -20,7 +22,9 @@ BiocManager::install("RforMassSpectrometry/CompoundDb")
 
 This package provides functionality to create and use compound databases
 generated from (mostly publicly) available resources such as
-[HMDB](http://www.hmdb.ca), [ChEBI](https://www.ebi.ac.uk/chebi/) and [PubChem](https://pubchem.ncbi.nlm.nih.gov).
+[HMDB](http://www.hmdb.ca), [ChEBI](https://www.ebi.ac.uk/chebi/) and
+[PubChem](https://pubchem.ncbi.nlm.nih.gov).
+
 
 # How to contribute
 

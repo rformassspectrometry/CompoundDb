@@ -12,18 +12,6 @@
     NULL
 }
 
-## .valid_spectra_data_required_columns <- function(x,
-##                                                  columns = c("dataStorage")) {
-##     if (nrow(x)) {
-##         missing_cn <- setdiff(columns, colnames(x))
-##         if (length(missing_cn))
-##             return(paste0("Required column(s): ",
-##                           paste(missing_cn, collapse = ", "),
-##                           " is/are missing"))
-##     }
-##     NULL
-## }
-
 #' @rdname MsBackendCompDb
 #'
 #' @export

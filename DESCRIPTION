@@ -43,7 +43,8 @@ Imports:
     ProtGenerics,
     xml2,
     IRanges,
-    Spectra
+    Spectra,
+    MsCoreUtils
 Suggests:
     knitr,
     rmarkdown,
