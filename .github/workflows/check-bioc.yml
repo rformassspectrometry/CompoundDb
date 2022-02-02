@@ -176,7 +176,7 @@ jobs:
           remotes::install_local(dependencies = TRUE, repos = BiocManager::repositories(), build_vignettes = FALSE, upgrade = TRUE)
 
           message(paste('****', Sys.time(), 'force installation of selected packages ****'))
-          BiocManager::install(c("BiocStyle", "rmarkdown", "magick", "Spectra"))
+          BiocManager::install(c("BiocStyle", "rmarkdown", "magick"))
 
           BiocManager::install("RforMassSpectrometry/ProtGenerics")
           BiocManager::install("RforMassSpectrometry/Spectra")
