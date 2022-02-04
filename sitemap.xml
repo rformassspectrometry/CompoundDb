@@ -1,60 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>/404.html</loc>
+    <loc>https://rformassspectrometry.github.io/Spectra/404.html</loc>
   </url>
   <url>
-    <loc>/articles/CompoundDb-usage.html</loc>
+    <loc>https://rformassspectrometry.github.io/Spectra/articles/CompoundDb-usage.html</loc>
   </url>
   <url>
-    <loc>/articles/create-compounddb.html</loc>
+    <loc>https://rformassspectrometry.github.io/Spectra/articles/create-compounddb.html</loc>
   </url>
   <url>
-    <loc>/articles/index.html</loc>
+    <loc>https://rformassspectrometry.github.io/Spectra/articles/index.html</loc>
   </url>
   <url>
-    <loc>/authors.html</loc>
+    <loc>https://rformassspectrometry.github.io/Spectra/authors.html</loc>
   </url>
   <url>
-    <loc>/index.html</loc>
+    <loc>https://rformassspectrometry.github.io/Spectra/index.html</loc>
   </url>
   <url>
-    <loc>/news/index.html</loc>
+    <loc>https://rformassspectrometry.github.io/Spectra/news/index.html</loc>
   </url>
   <url>
-    <loc>/reference/CompDb.html</loc>
+    <loc>https://rformassspectrometry.github.io/Spectra/reference/CompDb.html</loc>
   </url>
   <url>
-    <loc>/reference/Filter-classes.html</loc>
+    <loc>https://rformassspectrometry.github.io/Spectra/reference/Filter-classes.html</loc>
   </url>
   <url>
-    <loc>/reference/IonDb.html</loc>
+    <loc>https://rformassspectrometry.github.io/Spectra/reference/IonDb.html</loc>
   </url>
   <url>
-    <loc>/reference/MsBackendCompDb.html</loc>
+    <loc>https://rformassspectrometry.github.io/Spectra/reference/MsBackendCompDb.html</loc>
   </url>
   <url>
-    <loc>/reference/compound_tbl_lipidblast.html</loc>
+    <loc>https://rformassspectrometry.github.io/Spectra/reference/compound_tbl_lipidblast.html</loc>
   </url>
   <url>
-    <loc>/reference/compound_tbl_sdf.html</loc>
+    <loc>https://rformassspectrometry.github.io/Spectra/reference/compound_tbl_sdf.html</loc>
   </url>
   <url>
-    <loc>/reference/createCompDb.html</loc>
+    <loc>https://rformassspectrometry.github.io/Spectra/reference/createCompDb.html</loc>
   </url>
   <url>
-    <loc>/reference/expandMzIntensity.html</loc>
+    <loc>https://rformassspectrometry.github.io/Spectra/reference/expandMzIntensity.html</loc>
   </url>
   <url>
-    <loc>/reference/import_mona_sdf.html</loc>
+    <loc>https://rformassspectrometry.github.io/Spectra/reference/import_mona_sdf.html</loc>
   </url>
   <url>
-    <loc>/reference/index.html</loc>
+    <loc>https://rformassspectrometry.github.io/Spectra/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/msms_spectra_hmdb.html</loc>
+    <loc>https://rformassspectrometry.github.io/Spectra/reference/msms_spectra_hmdb.html</loc>
   </url>
   <url>
-    <loc>/reference/msms_spectra_mona.html</loc>
+    <loc>https://rformassspectrometry.github.io/Spectra/reference/msms_spectra_mona.html</loc>
   </url>
 </urlset>
