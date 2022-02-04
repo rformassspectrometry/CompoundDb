@@ -1,5 +1,9 @@
 # Version 0.99
 
+## Changes in version 0.99.7
+
+- Add bug reports link to DESCRIPTION
+
 ## Changes in version 0.99.6
 
 - `MsBackendCompDb` extends `Spectra::MsBackendCached` instead of

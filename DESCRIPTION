@@ -1,7 +1,7 @@
 Package: CompoundDb
 Type: Package
 Title: Creating and Using (Chemical) Compound Annotation Databases
-Version: 0.99.6
+Version: 0.99.7
 Authors@R: c(person(given = "Jan", family = "Stanstrup",
                     email = "stanstrup@gmail.com",
 		    role = c("aut"),
@@ -51,6 +51,7 @@ Suggests:
     testthat,
     BiocStyle (>= 2.5.19)
 URL: https://github.com/RforMassSpectrometry/CompoundDb
+BugReports: https://github.com/RforMassSpectrometry/CompoundDb/issues
 biocViews: MassSpectrometry, Metabolomics, Annotation
 VignetteBuilder: knitr
 License: Artistic-2.0
