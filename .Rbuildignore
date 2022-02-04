@@ -6,3 +6,4 @@ local_data/*
 ^\.Rproj\.user$
 .travis.yml
 ^\.github$
+_pkgdown.yml
