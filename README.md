@@ -2,6 +2,10 @@
 [![R-CMD-check-bioc](https://github.com/RforMassSpectrometry/CompoundDb/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/RforMassSpectrometry/CompoundDb/actions?query=workflow%3AR-CMD-check-bioc)
 [![codecov.io](https://codecov.io/github/RforMassSpectrometry/CompoundDb/coverage.svg?branch=master)](https://codecov.io/github/RforMassSpectrometry/CompoundDb?branch=master)
 [![license](https://img.shields.io/badge/license-Artistic--2.0-brightgreen.svg)](https://opensource.org/licenses/Artistic-2.0)
+[![years in bioc](http://bioconductor.org/shields/years-in-bioc/CompoundDb.svg)](https://bioconductor.org/packages/release/bioc/html/CompoundDb.html)
+[![Ranking by downloads](http://bioconductor.org/shields/downloads/release/CompoundDb.svg)](https://bioconductor.org/packages/stats/bioc/CompoundDb/)
+Release: [![build release](http://bioconductor.org/shields/build/release/bioc/CompoundDb.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/CompoundDb/)
+Devel: [![build devel](http://bioconductor.org/shields/build/devel/bioc/CompoundDb.svg)](https://bioconductor.org/checkResults/devel/bioc-LATEST/CompoundDb/)
 
 `CompoundDb` ... preserve compound annotations.
 
