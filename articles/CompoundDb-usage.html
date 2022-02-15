@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">CompoundDb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.8</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,11 +99,11 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><p><strong>Authors</strong>: Jan Stanstrup [aut] (<a href="https://orcid.org/0000-0003-0541-7369" class="external-link uri">https://orcid.org/0000-0003-0541-7369</a>), Johannes Rainer [aut, cre] (<a href="https://orcid.org/0000-0002-6977-7147" class="external-link uri">https://orcid.org/0000-0002-6977-7147</a>), Josep M. Badia [ctb] (<a href="https://orcid.org/0000-0002-5704-1124" class="external-link uri">https://orcid.org/0000-0002-5704-1124</a>), Andrea Vicini [aut]<br><strong>Last modified:</strong> 2022-02-04 12:35:43<br><strong>Compiled</strong>: Fri Feb 4 12:41:38 2022</p>
+</script><p><strong>Authors</strong>: Jan Stanstrup [aut] (<a href="https://orcid.org/0000-0003-0541-7369" class="external-link uri">https://orcid.org/0000-0003-0541-7369</a>), Johannes Rainer [aut, cre] (<a href="https://orcid.org/0000-0002-6977-7147" class="external-link uri">https://orcid.org/0000-0002-6977-7147</a>), Josep M. Badia [ctb] (<a href="https://orcid.org/0000-0002-5704-1124" class="external-link uri">https://orcid.org/0000-0002-5704-1124</a>), Andrea Vicini [aut]<br><strong>Last modified:</strong> 2022-02-15 12:32:03<br><strong>Compiled</strong>: Tue Feb 15 12:52:48 2022</p>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>The <code>CompoundDb</code> package provides the functionality to create <em>compound</em> databases from a variety of sources and to use such annotation databases (<code>CompDb</code>). A detailed description on the creation of annotation resources is given in the <em>Creating CompoundDb annotation resources</em> vignette. This vignette focuses on how annotations can be search for and retrieved.</p>
+<p>The <code>CompoundDb</code> package provides the functionality to create <em>compound</em> databases from a variety of sources and to use such annotation databases (<code>CompDb</code>) <span class="citation">(Rainer et al. 2022)</span>. A detailed description on the creation of annotation resources is given in the <em>Creating CompoundDb annotation resources</em> vignette. This vignette focuses on how annotations can be search for and retrieved.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -354,7 +354,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </h2>
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## R Under development (unstable) (2022-01-29 r81593)</span>
+<pre><code><span class="co">## R Under development (unstable) (2022-02-10 r81713)</span>
 <span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span>
 <span class="co">## Running under: Ubuntu 20.04.3 LTS</span>
 <span class="co">## </span>
@@ -375,7 +375,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <span class="co">## </span>
 <span class="co">## other attached packages:</span>
 <span class="co">## [1] RSQLite_2.2.9           Spectra_1.5.8           ProtGenerics_1.27.2    </span>
-<span class="co">## [4] BiocParallel_1.29.12    CompoundDb_0.99.7       S4Vectors_0.33.10      </span>
+<span class="co">## [4] BiocParallel_1.29.12    CompoundDb_0.99.8       S4Vectors_0.33.10      </span>
 <span class="co">## [7] BiocGenerics_0.41.2     AnnotationFilter_1.19.0 BiocStyle_2.23.1       </span>
 <span class="co">## </span>
 <span class="co">## loaded via a namespace (and not attached):</span>
@@ -389,24 +389,33 @@ document.addEventListener("DOMContentLoaded", function() {
 <span class="co">## [22] scales_1.1.1           tibble_3.1.6           generics_0.1.2        </span>
 <span class="co">## [25] IRanges_2.29.1         ggplot2_3.3.5          ellipsis_0.3.2        </span>
 <span class="co">## [28] DT_0.20                cachem_1.0.6           lazyeval_0.2.2        </span>
-<span class="co">## [31] cli_3.1.1              magrittr_2.0.2         crayon_1.4.2          </span>
+<span class="co">## [31] cli_3.2.0              magrittr_2.0.2         crayon_1.5.0          </span>
 <span class="co">## [34] memoise_2.0.1          evaluate_0.14          fs_1.5.2              </span>
 <span class="co">## [37] fansi_1.0.2            MASS_7.3-55            xml2_1.3.3            </span>
 <span class="co">## [40] textshaping_0.3.6      tools_4.2.0            lifecycle_1.0.1       </span>
 <span class="co">## [43] stringr_1.4.0          munsell_0.5.0          cluster_2.1.2         </span>
 <span class="co">## [46] compiler_4.2.0         pkgdown_2.0.2.9000     jquerylib_0.1.4       </span>
-<span class="co">## [49] GenomeInfoDb_1.31.4    systemfonts_1.0.3      rlang_1.0.1           </span>
-<span class="co">## [52] grid_4.2.0             RCurl_1.98-1.5         rsvg_2.1.2            </span>
+<span class="co">## [49] GenomeInfoDb_1.31.4    systemfonts_1.0.4      rlang_1.0.1           </span>
+<span class="co">## [52] grid_4.2.0             RCurl_1.98-1.6         rsvg_2.2.0            </span>
 <span class="co">## [55] rjson_0.2.21           MsCoreUtils_1.7.1      htmlwidgets_1.5.4     </span>
 <span class="co">## [58] bitops_1.0-7           base64enc_0.1-3        rmarkdown_2.11        </span>
 <span class="co">## [61] gtable_0.3.0           DBI_1.1.2              R6_2.5.1              </span>
-<span class="co">## [64] gridExtra_2.3          knitr_1.37             dplyr_1.0.7           </span>
+<span class="co">## [64] gridExtra_2.3          knitr_1.37             dplyr_1.0.8           </span>
 <span class="co">## [67] bit_4.0.4              fastmap_1.1.0          utf8_1.2.2            </span>
 <span class="co">## [70] clue_0.3-60            rprojroot_2.0.2        ragg_1.2.1            </span>
 <span class="co">## [73] desc_1.4.0             stringi_1.7.6          parallel_4.2.0        </span>
 <span class="co">## [76] Rcpp_1.0.8             vctrs_0.3.8            png_0.1-7             </span>
 <span class="co">## [79] dbplyr_2.1.1           tidyselect_1.1.1       xfun_0.29             </span>
 <span class="co">## [82] ChemmineR_3.47.0</span></code></pre>
+</div>
+<div class="section level2">
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-rainer_modular_2022" class="csl-entry">
+Rainer, Johannes, Andrea Vicini, Liesa Salzer, Jan Stanstrup, Josep M. Badia, Steffen Neumann, Michael A. Stravs, et al. 2022. <span>“A <span>Modular</span> and <span>Expandable</span> <span>Ecosystem</span> for <span>Metabolomics</span> <span>Data</span> <span>Annotation</span> in <span>R</span>.”</span> <em>Metabolites</em> 12 (2): 173. <a href="https://doi.org/10.3390/metabo12020173" class="external-link">https://doi.org/10.3390/metabo12020173</a>.
+</div>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

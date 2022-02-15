@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">CompoundDb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.8</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2022-02-04 12:35:43<br><strong>Compiled</strong>: Fri Feb 4 12:41:47 2022</p>
+</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2022-02-15 12:32:03<br><strong>Compiled</strong>: Tue Feb 15 12:52:57 2022</p>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
@@ -331,7 +331,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <code class="sourceCode R"><span class="fu"><a href="../reference/createCompDb.html">createCompDbPackage</a></span><span class="op">(</span>
     <span class="va">db_file</span>, version <span class="op">=</span> <span class="st">"0.0.1"</span>, author <span class="op">=</span> <span class="st">"J Rainer"</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,
     maintainer <span class="op">=</span> <span class="st">"Johannes Rainer &lt;johannes.rainer@eurac.edu&gt;"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Creating package in /tmp/Rtmpj3wccL/CompDb.Hsapiens.HMDB.4.0</span></code></pre>
+<pre><code><span class="co">## Creating package in /tmp/RtmpIu4ST5/CompDb.Hsapiens.HMDB.4.0</span></code></pre>
 <p>The function creates a folder (in our case in a temporary directory) that can be build and installed with <code>R CMD build</code> and <code>R CMD INSTALL</code>.</p>
 <p>Special care should also be put on the license of the package that can be passed with the <code>license</code> parameter. The license of the package and how and if the package can be distributed will depend also on the license of the originating resource.</p>
 </div>
@@ -382,7 +382,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <div class="section level2">
 <h2 id="session-information">Session information<a class="anchor" aria-label="anchor" href="#session-information"></a>
 </h2>
-<pre><code><span class="co">## R Under development (unstable) (2022-01-29 r81593)</span>
+<pre><code><span class="co">## R Under development (unstable) (2022-02-10 r81713)</span>
 <span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span>
 <span class="co">## Running under: Ubuntu 20.04.3 LTS</span>
 <span class="co">## </span>
@@ -403,7 +403,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <span class="co">## </span>
 <span class="co">## other attached packages:</span>
 <span class="co">## [1] Spectra_1.5.8           ProtGenerics_1.27.2     BiocParallel_1.29.12   </span>
-<span class="co">## [4] CompoundDb_0.99.7       S4Vectors_0.33.10       BiocGenerics_0.41.2    </span>
+<span class="co">## [4] CompoundDb_0.99.8       S4Vectors_0.33.10       BiocGenerics_0.41.2    </span>
 <span class="co">## [7] AnnotationFilter_1.19.0 BiocStyle_2.23.1       </span>
 <span class="co">## </span>
 <span class="co">## loaded via a namespace (and not attached):</span>
@@ -417,19 +417,19 @@ document.addEventListener("DOMContentLoaded", function() {
 <span class="co">## [22] purrr_0.3.4            scales_1.1.1           tibble_3.1.6          </span>
 <span class="co">## [25] generics_0.1.2         IRanges_2.29.1         ggplot2_3.3.5         </span>
 <span class="co">## [28] ellipsis_0.3.2         DT_0.20                cachem_1.0.6          </span>
-<span class="co">## [31] lazyeval_0.2.2         cli_3.1.1              magrittr_2.0.2        </span>
-<span class="co">## [34] crayon_1.4.2           memoise_2.0.1          evaluate_0.14         </span>
+<span class="co">## [31] lazyeval_0.2.2         cli_3.2.0              magrittr_2.0.2        </span>
+<span class="co">## [34] crayon_1.5.0           memoise_2.0.1          evaluate_0.14         </span>
 <span class="co">## [37] fs_1.5.2               fansi_1.0.2            MASS_7.3-55           </span>
 <span class="co">## [40] xml2_1.3.3             textshaping_0.3.6      tools_4.2.0           </span>
 <span class="co">## [43] lifecycle_1.0.1        stringr_1.4.0          munsell_0.5.0         </span>
 <span class="co">## [46] cluster_2.1.2          compiler_4.2.0         pkgdown_2.0.2.9000    </span>
-<span class="co">## [49] jquerylib_0.1.4        GenomeInfoDb_1.31.4    systemfonts_1.0.3     </span>
-<span class="co">## [52] rlang_1.0.1            grid_4.2.0             RCurl_1.98-1.5        </span>
-<span class="co">## [55] rsvg_2.1.2             rjson_0.2.21           MsCoreUtils_1.7.1     </span>
+<span class="co">## [49] jquerylib_0.1.4        GenomeInfoDb_1.31.4    systemfonts_1.0.4     </span>
+<span class="co">## [52] rlang_1.0.1            grid_4.2.0             RCurl_1.98-1.6        </span>
+<span class="co">## [55] rsvg_2.2.0             rjson_0.2.21           MsCoreUtils_1.7.1     </span>
 <span class="co">## [58] htmlwidgets_1.5.4      bitops_1.0-7           base64enc_0.1-3       </span>
 <span class="co">## [61] rmarkdown_2.11         gtable_0.3.0           DBI_1.1.2             </span>
 <span class="co">## [64] R6_2.5.1               gridExtra_2.3          knitr_1.37            </span>
-<span class="co">## [67] dplyr_1.0.7            bit_4.0.4              fastmap_1.1.0         </span>
+<span class="co">## [67] dplyr_1.0.8            bit_4.0.4              fastmap_1.1.0         </span>
 <span class="co">## [70] utf8_1.2.2             clue_0.3-60            rprojroot_2.0.2       </span>
 <span class="co">## [73] ragg_1.2.1             desc_1.4.0             stringi_1.7.6         </span>
 <span class="co">## [76] parallel_4.2.0         Rcpp_1.0.8             vctrs_0.3.8           </span>
