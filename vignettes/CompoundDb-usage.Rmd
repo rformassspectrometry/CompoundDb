@@ -9,6 +9,7 @@ vignette: >
     %\VignetteEncoding{UTF-8}
     %\VignettePackage{CompoundDb}
     %\VignetteDepends{CompoundDb,RSQLite,Spectra,BiocStyle}
+bibliography: references.bib
 ---
 
 ```{r style, echo = FALSE, results = 'asis', message=FALSE}
@@ -30,9 +31,10 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE)
 
 The `CompoundDb` package provides the functionality to create *compound*
 databases from a variety of sources and to use such annotation databases
-(`CompDb`). A detailed description on the creation of annotation resources is
-given in the *Creating CompoundDb annotation resources* vignette. This vignette
-focuses on how annotations can be search for and retrieved.
+(`CompDb`) [@rainer_modular_2022]. A detailed description on the creation of
+annotation resources is given in the *Creating CompoundDb annotation resources*
+vignette. This vignette focuses on how annotations can be search for and
+retrieved.
 
 
 # Installation
@@ -301,3 +303,5 @@ ions(idb, columns = c("ion_adduct", "name", "exactmass"))
 ```{r}
 sessionInfo()
 ```
+
+# References
