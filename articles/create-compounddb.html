@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2022-03-01 14:14:56<br><strong>Compiled</strong>: Tue Mar 1 14:36:27 2022</p>
+</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2022-03-01 14:52:22<br><strong>Compiled</strong>: Tue Mar 1 14:57:39 2022</p>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
@@ -298,21 +298,8 @@ spectrum data from the database. The function returns by default a
 package with all spectra metadata available as <em>spectra
 variables</em>.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/Spectra" class="external-link">Spectra</a></span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Loading required package: BiocParallel</span></code></pre>
-<pre><code><span class="co">## Loading required package: ProtGenerics</span></code></pre>
-<pre><code><span class="co">## </span>
-<span class="co">## Attaching package: 'ProtGenerics'</span></code></pre>
-<pre><code><span class="co">## The following object is masked from 'package:stats':</span>
-<span class="co">## </span>
-<span class="co">##     smooth</span></code></pre>
-<pre><code><span class="co">## </span>
-<span class="co">## Attaching package: 'Spectra'</span></code></pre>
-<pre><code><span class="co">## The following object is masked from 'package:ProtGenerics':</span>
-<span class="co">## </span>
-<span class="co">##     addProcessing</span></code></pre>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">cmpdb</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/Spectra" class="external-link">Spectra</a></span><span class="op">)</span>
+<span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">cmpdb</span><span class="op">)</span>
 <span class="va">sps</span></code></pre></div>
 <pre><code><span class="co">## MSn data (Spectra) with 4 spectra in a MsBackendCompDb backend:</span>
 <span class="co">##     msLevel precursorMz  polarity</span>
@@ -328,7 +315,7 @@ variables</em>.</p>
 <span class="co">##  organism: Hsapiens</span></code></pre>
 <p>The available <em>spectra variables</em> for the <code>Spectra</code>
 object can be retrieved with <code>spectraVariables</code>:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">spectraVariables</a></span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">##  [1] "msLevel"                 "rtime"                  </span>
 <span class="co">##  [3] "acquisitionNum"          "scanIndex"              </span>
@@ -349,19 +336,19 @@ object can be retrieved with <code>spectraVariables</code>:</p>
 <span class="co">## [33] "synonym"</span></code></pre>
 <p>Individual spectra variables can be accessed with the <code>$</code>
 operator:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sps</span><span class="op">$</span><span class="va">collisionEnergy</span></code></pre></div>
 <pre><code><span class="co">## [1] "10" "25" NA   "20"</span></code></pre>
 <p>And the actual m/z and intensity values with <code>mz</code> and
 <code>intensity</code>:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">mz</a></span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## NumericList of length 4</span>
 <span class="co">## [[1]] 109.2 124.2 124.5 170.16 170.52</span>
 <span class="co">## [[2]] 83.1 96.12 97.14 109.14 124.08 125.1 170.16</span>
 <span class="co">## [[3]] 44.1 57.9 61.4 71.2 73.8 78.3 78.8 ... 142.9 144.1 157.6 158 175.2 193.2</span>
 <span class="co">## [[4]] 111.0815386 249.2587746 273.2587746 ... 367.3006394 383.3319396</span></code></pre>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## m/z of the 2nd spectrum</span>
 <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">mz</a></span><span class="op">(</span><span class="va">sps</span><span class="op">)</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></code></pre></div>
 <pre><code><span class="co">## [1]  83.10  96.12  97.14 109.14 124.08 125.10 170.16</span></code></pre>
@@ -371,7 +358,7 @@ a provided compound, or add compound annotations to the
 <code>~ compound_id == "HMDB0000001"</code>to get only MS/MS spectra for
 the specified compound. In addition we ask for the <code>"name"</code>
 and <code>"inchikey"</code> of the compound.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">cmpdb</span>, filter <span class="op">=</span> <span class="op">~</span> <span class="va">compound_id</span> <span class="op">==</span> <span class="st">"HMDB0000001"</span>,
                columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="../reference/CompDb.html">tables</a></span><span class="op">(</span><span class="va">cmpdb</span><span class="op">)</span><span class="op">$</span><span class="va">msms_spectrum</span>, <span class="st">"name"</span>,
                            <span class="st">"inchikey"</span><span class="op">)</span><span class="op">)</span>
@@ -387,7 +374,7 @@ and <code>"inchikey"</code> of the compound.</p>
 <span class="co">##  version: 4.0 </span>
 <span class="co">##  organism: Hsapiens</span></code></pre>
 <p>The available spectra variables:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">spectraVariables</a></span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">##  [1] "msLevel"                 "rtime"                  </span>
 <span class="co">##  [3] "acquisitionNum"          "scanIndex"              </span>
@@ -408,7 +395,7 @@ and <code>"inchikey"</code> of the compound.</p>
 <span class="co">## [33] "synonym"</span></code></pre>
 <p>The compound’s name and INCHI key have thus also been added as
 spectra variables:</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sps</span><span class="op">$</span><span class="va">inchikey</span></code></pre></div>
 <pre><code><span class="co">## [1] "BRMWTNUJHUMWMS-LURJTMIESA-N" "BRMWTNUJHUMWMS-LURJTMIESA-N"</span></code></pre>
 <p>To share or archive the such created <code>CompDb</code> database, we
@@ -419,11 +406,11 @@ contain the version of the originating data source in its file name
 we create a <code>CompDb</code> package from the generated database
 file. Required additional information we have to provide to the function
 are the package creator/maintainer and its version.</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/createCompDb.html">createCompDbPackage</a></span><span class="op">(</span>
     <span class="va">db_file</span>, version <span class="op">=</span> <span class="st">"0.0.1"</span>, author <span class="op">=</span> <span class="st">"J Rainer"</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,
     maintainer <span class="op">=</span> <span class="st">"Johannes Rainer &lt;johannes.rainer@eurac.edu&gt;"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Creating package in /tmp/RtmpqoIawE/CompDb.Hsapiens.HMDB.4.0</span></code></pre>
+<pre><code><span class="co">## Creating package in /tmp/Rtmpy08LGK/CompDb.Hsapiens.HMDB.4.0</span></code></pre>
 <p>The function creates a folder (in our case in a temporary directory)
 that can be build and installed with <code>R CMD build</code> and
 <code>R CMD INSTALL</code>.</p>
@@ -451,7 +438,7 @@ for illustration purposes only and are by no means <em>real</em>. Also,
 we don’t provide any information for columns <code>"inchi"</code>,
 <code>"inchikey"</code> and <code>"formula"</code> setting all values
 for these to <code>NA</code>.</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cmps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>
     compound_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CP_0001"</span>, <span class="st">"CP_0002"</span>, <span class="st">"CP_0003"</span>, <span class="st">"CP_0004"</span><span class="op">)</span>,
     name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span><span class="op">)</span>,
@@ -463,7 +450,7 @@ for these to <code>NA</code>.</p>
 <span class="op">)</span></code></pre></div>
 <p>Next we add also <em>synonyms</em> for each compound. This columns
 supports multiple values for each row.</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cmps</span><span class="op">$</span><span class="va">synonyms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
     <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"AA"</span>, <span class="st">"aaa"</span><span class="op">)</span>,
     <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,
@@ -481,7 +468,7 @@ database will be constructed based on information from the
 <code>metadata</code> parameter. In a real-case scenario,
 <code>path</code> and <code>dbFile</code> should be changed to something
 more meaningful.</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">metad</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/createCompDb.html">make_metadata</a></span><span class="op">(</span>source <span class="op">=</span> <span class="st">"manually defined"</span>, url <span class="op">=</span> <span class="st">""</span>,
                        source_version <span class="op">=</span> <span class="st">"1.0.0"</span>, source_date <span class="op">=</span> <span class="st">"2022-03-01"</span>,
                        organism <span class="op">=</span> <span class="cn">NA_character_</span><span class="op">)</span>
@@ -496,7 +483,7 @@ will load databases in read-only mode hence ensuring that the data
 within the database can not be compromised. In our case we would however
 like to add more information to this database later and hence we load it
 in read-write mode.</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/CompDb.html">CompDb</a></span><span class="op">(</span><span class="va">db_file</span>, flags <span class="op">=</span> <span class="fu">RSQLite</span><span class="fu">::</span><span class="va"><a href="https://rsqlite.r-dbi.org/reference/SQLite.html" class="external-link">SQLITE_RW</a></span><span class="op">)</span>
 <span class="va">cdb</span></code></pre></div>
 <pre><code><span class="co">## class: CompDb </span>
@@ -506,7 +493,7 @@ in read-write mode.</p>
 <span class="co">##  compound count: 4</span></code></pre>
 <p>We can now retrieve annotations from the database with the
 <code>compound</code> function.</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">##   name inchi inchikey formula exactmass compound_group</span>
 <span class="co">## 1    A  &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;     123.4            G01</span>
@@ -514,7 +501,7 @@ in read-write mode.</p>
 <span class="co">## 3    C  &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;     345.6            G01</span>
 <span class="co">## 4    D  &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;     456.7            G03</span></code></pre>
 <p>Or also search and filter the annotations.</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span>, filter <span class="op">=</span> <span class="op">~</span> <span class="va">name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"A"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">##   name inchi inchikey formula exactmass compound_group</span>
 <span class="co">## 1    A  &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;     123.4            G01</span>
@@ -530,7 +517,7 @@ alternatively, <code>Spectra</code> can be imported from a variety of
 input sources, including MGF or MSP files using e.g. the <em><a href="https://bioconductor.org/packages/3.15/MsBackendMgf" class="external-link">MsBackendMgf</a></em>
 or <em><a href="https://bioconductor.org/packages/3.15/MsBackendMsp" class="external-link">MsBackendMsp</a></em>
 packages.</p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Define basic spectra variables</span>
 <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/DataFrame-class.html" class="external-link">DataFrame</a></span><span class="op">(</span>msLevel <span class="op">=</span> <span class="fl">2L</span>, precursorMz <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">124.4</span>, <span class="fl">124.4</span>, <span class="fl">235.5</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#' Add m/z and intensity information for each spectrum</span>
@@ -548,24 +535,24 @@ packages.</p>
 (column) called <code>"compound_id"</code> which provides the
 information with which existing compound in the database the spectrum is
 associated.</p>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span>, <span class="st">"compound_id"</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">##   compound_id</span>
 <span class="co">## 1     CP_0001</span>
 <span class="co">## 2     CP_0002</span>
 <span class="co">## 3     CP_0003</span>
 <span class="co">## 4     CP_0004</span></code></pre>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sps</span><span class="op">$</span><span class="va">compound_id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CP_0001"</span>, <span class="st">"CP_0001"</span>, <span class="st">"CP_0002"</span><span class="op">)</span></code></pre></div>
 <p>We can also add additional information to the spectra, such as the
 instrument.</p>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sps</span><span class="op">$</span><span class="va">instrument</span> <span class="op">&lt;-</span> <span class="st">"AB Sciex TripleTOF 5600+"</span></code></pre></div>
 <p>And we can now add these spectra to our existing toy
 <code>CompDb</code>. Parameter <code>columns</code> allows to specify
 which of the <em>spectra variables</em> should be stored into the
 database.</p>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/CompDb.html">insertSpectra</a></span><span class="op">(</span><span class="va">cdb</span>, spectra <span class="op">=</span> <span class="va">sps</span>,
                      columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"compound_id"</span>, <span class="st">"msLevel"</span>,
                                  <span class="st">"precursorMz"</span>, <span class="st">"instrument"</span><span class="op">)</span><span class="op">)</span>
@@ -580,7 +567,7 @@ database.</p>
 annotations and 3 MS2 spectra. We could for example also retrieve the
 MS2 spectra for the compound with the name <em>A</em> from the database
 with:</p>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">cdb</span>, filter <span class="op">=</span> <span class="op">~</span> <span class="va">name</span> <span class="op">==</span> <span class="st">"A"</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## MSn data (Spectra) with 2 spectra in a MsBackendCompDb backend:</span>
 <span class="co">##     msLevel precursorMz  polarity</span>
@@ -611,7 +598,7 @@ use however the <code>import_mona_sdf</code> that wraps both functions
 to reads both compound and spectrum data from a SDF file without having
 to import the file twice. As an example we use a small subset from a
 MoNa SDF file that contains only 7 spectra.</p>
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mona_sub</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"sdf/MoNa_export-All_Spectra_sub.sdf.gz"</span>,
                         package <span class="op">=</span> <span class="st">"CompoundDb"</span><span class="op">)</span>
 <span class="va">mona_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/import_mona_sdf.html">import_mona_sdf</a></span><span class="op">(</span><span class="va">mona_sub</span><span class="op">)</span></code></pre></div>
@@ -621,7 +608,7 @@ MoNa SDF file that contains only 7 spectra.</p>
 compound and spectrum information. These can be passed along to the
 <code>createCompDb</code> function to create the database (see
 below).</p>
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">metad</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/createCompDb.html">make_metadata</a></span><span class="op">(</span>source <span class="op">=</span> <span class="st">"MoNa"</span>,
                        url <span class="op">=</span> <span class="st">"http://mona.fiehnlab.ucdavis.edu/"</span>,
                        source_version <span class="op">=</span> <span class="st">"2018.11"</span>, source_date <span class="op">=</span> <span class="st">"2018-11"</span>,
@@ -631,7 +618,7 @@ below).</p>
                              path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>We can now load and use this database, e.g. by extracting all
 compounds as shown below.</p>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mona</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/CompDb.html">CompDb</a></span><span class="op">(</span><span class="va">mona_db_file</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">mona</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">##                   name</span>
