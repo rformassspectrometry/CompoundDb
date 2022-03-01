@@ -1,5 +1,10 @@
 # Version 0.99
 
+## Changes in version 0.99.9
+
+- Add parameter `dbFile` to `createCompDb` and add an example on how to create
+  a `CompDb` database from custom input.
+
 ## Changes in version 0.99.8
 
 - Add citation.

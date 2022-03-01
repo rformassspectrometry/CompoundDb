@@ -6,7 +6,7 @@
 \alias{make_metadata}
 \title{Create a CompDb database}
 \usage{
-createCompDb(x, metadata, msms_spectra, path = ".")
+createCompDb(x, metadata, msms_spectra, path = ".", dbFile = character())
 
 createCompDbPackage(
   x,
@@ -42,6 +42,10 @@ to import such data from spectrum xml files from HMDB.}
 \item{path}{\code{character(1)} with the path to the directory where the database
 file or package folder should be written. Defaults to the current
 directory.}
+
+\item{dbFile}{\code{character(1)} to optionally provide the name of the SQLite
+database file. If not provided (the default) the database name is defined
+using information from the provided \code{metadata}.}
 
 \item{version}{For \code{createCompDbPackage}: \code{character(1)} with the version
 of the package (ideally in the format \code{"x.y.z"}).}
@@ -85,7 +89,9 @@ be provided. Supported are SDF files (such as those from the
 \code{\link[=compound_tbl_sdf]{compound_tbl_sdf()}} or LipidBlast files (see \code{\link[=compound_tbl_lipidblast]{compound_tbl_lipidblast()}}.
 
 An additional \code{data.frame} providing metadata information including the data
-source, date, version and organism is mandatory.
+source, date, version and organism is mandatory. By default, the function
+will define the name of the database based on the provided metadata, but it
+is also possible to define this manually with the \code{dbFile} parameter.
 
 Optionally MS/MS (MS2) spectra for compounds can be also stored in the
 database. Currently only MS/MS spectra from HMDB are supported. These can
