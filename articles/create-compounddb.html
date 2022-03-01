@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">CompoundDb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.9</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,17 +99,34 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2022-02-15 12:32:03<br><strong>Compiled</strong>: Tue Feb 15 12:52:57 2022</p>
+</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2022-03-01 14:14:56<br><strong>Compiled</strong>: Tue Mar 1 14:36:27 2022</p>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>Chemical compound annotation and information can be retrieved from a variety of sources including <a href="http://www.hmdb.ca" class="external-link">HMDB</a>, <a href="http://www.lipidmaps.org" class="external-link">LipidMaps</a> or <a href="https://www.ebi.ac.uk/chebi" class="external-link">ChEBI</a>. The <code>CompoundDb</code> package provides functionality to extract data relevant for (chromatographic) peak annotations in metabolomics/lipidomics experiments from these sources and to store it into a common format (i.e. an <code>CompDb</code> object/database). This vignette describes how such <code>CompDb</code> objects can be created exemplified with package-internal test files that represent data subsets from some annotation resources.</p>
-<p>The R object to represent the compound annotation is the <code>CompDb</code> object. Each object (respectively its database) is supposed to contain and provide annotations from a single source (e.g. HMDB or LipidMaps) but it is also possible to create cross-source databases too.</p>
+<p>Chemical compound annotation and information can be retrieved from a
+variety of sources including <a href="http://www.hmdb.ca" class="external-link">HMDB</a>, <a href="http://www.lipidmaps.org" class="external-link">LipidMaps</a> or <a href="https://www.ebi.ac.uk/chebi" class="external-link">ChEBI</a>. The
+<code>CompoundDb</code> package provides functionality to extract data
+relevant for (chromatographic) peak annotations in
+metabolomics/lipidomics experiments from these sources and to store it
+into a common format (i.e. an <code>CompDb</code> object/database). This
+vignette describes how such <code>CompDb</code> objects can be created
+exemplified with package-internal test files that represent data subsets
+from some annotation resources.</p>
+<p>The R object to represent the compound annotation is the
+<code>CompDb</code> object. Each object (respectively its database) is
+supposed to contain and provide annotations from a single source
+(e.g. HMDB or LipidMaps) but it is also possible to create cross-source
+databases too.</p>
 </div>
 <div class="section level2">
-<h2 id="create-a-compdb-object-for-hmdb">Create a <code>CompDb</code> object for HMDB<a class="anchor" aria-label="anchor" href="#create-a-compdb-object-for-hmdb"></a>
+<h2 id="creating-compdb-databases">Creating <code>CompDb</code> databases<a class="anchor" aria-label="anchor" href="#creating-compdb-databases"></a>
 </h2>
-<p>The <code>CompDb</code> package provides the <code>compound_tbl_sdf</code> and the <code>compound_tbl_lipidblast</code> functions to extract relevant compound annotation from files in SDF (structure-data file) format or in the json files from LipidBlast (<a href="http://mona.fiehnlab.ucdavis.edu/downloads" class="external-link uri">http://mona.fiehnlab.ucdavis.edu/downloads</a>). <code>CompoundDb</code> allows to process SDF files from:</p>
+<p>The <code>CompDb</code> package provides the
+<code>compound_tbl_sdf</code> and the
+<code>compound_tbl_lipidblast</code> functions to extract relevant
+compound annotation from files in SDF (structure-data file) format or in
+the json files from LipidBlast (<a href="http://mona.fiehnlab.ucdavis.edu/downloads" class="external-link uri">http://mona.fiehnlab.ucdavis.edu/downloads</a>).
+<code>CompoundDb</code> allows to process SDF files from:</p>
 <ul>
 <li>Human Metabolome Database (HMDB), <a href="http://www.hmdb.ca" class="external-link uri">http://www.hmdb.ca</a>
 </li>
@@ -119,10 +136,23 @@ document.addEventListener("DOMContentLoaded", function() {
 </li>
 <li>PubChem: <a href="https://pubchem.ncbi.nlm.nih.gov" class="external-link uri">https://pubchem.ncbi.nlm.nih.gov</a>
 </li>
-<li>MoNa (Massbank of North America): <a href="http://mona.fiehnlab.ucdavis.edu" class="external-link uri">http://mona.fiehnlab.ucdavis.edu</a> (for MoNa import see the next section).</li>
+<li>MoNa (Massbank of North America): <a href="http://mona.fiehnlab.ucdavis.edu" class="external-link uri">http://mona.fiehnlab.ucdavis.edu</a> (for MoNa import see
+the next section).</li>
 </ul>
-<p>Note however that it is also possible to define such a table manually and use that to create the database. See the help page of <code>createCompDb</code> for more details on that.</p>
-<p>Below we use the <code>compound_tbl_sdf</code> to extract compound annotations from a SDF file representing a very small subset of the HMDB database. To generate a database for the full HMDB we would have to download the <em>structures.sdf</em> file containing all metabolites and load that file instead.</p>
+<p>Note however that it is also possible to define such a table manually
+and use that to create the database. As simple example for this is
+provided in the section <em><code>CompDb</code> from custom input</em>
+below or the help page of <code>createCompDb</code> for more details on
+that.</p>
+<div class="section level3">
+<h3 id="compdb-from-hmdb-data">
+<code>CompDb</code> from HMDB data<a class="anchor" aria-label="anchor" href="#compdb-from-hmdb-data"></a>
+</h3>
+<p>Below we use the <code>compound_tbl_sdf</code> to extract compound
+annotations from a SDF file representing a very small subset of the HMDB
+database. To generate a database for the full HMDB we would have to
+download the <em>structures.sdf</em> file containing all metabolites and
+load that file instead.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/CompoundDb" class="external-link">CompoundDb</a></span><span class="op">)</span>
 
@@ -130,7 +160,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <span class="va">hmdb_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"sdf/HMDB_sub.sdf.gz"</span>, package <span class="op">=</span> <span class="st">"CompoundDb"</span><span class="op">)</span>
 <span class="co">## Extract the data</span>
 <span class="va">cmps</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compound_tbl_sdf.html">compound_tbl_sdf</a></span><span class="op">(</span><span class="va">hmdb_file</span><span class="op">)</span></code></pre></div>
-<p>The function returns by default a (<code>data.frame</code>-equivalent) <code>tibble</code> (from the <em>tidyverse</em>’s <code>tibble</code> package).</p>
+<p>The function returns by default a
+(<code>data.frame</code>-equivalent) <code>tibble</code> (from the
+<em>tidyverse</em>’s <code>tibble</code> package).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cmps</span></code></pre></div>
 <pre><code><span class="co">## <span style="color: #949494;"># A tibble: 9 × 8</span></span>
@@ -148,9 +180,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <p>The <code>tibble</code> contains columns</p>
 <ul>
 <li>
-<code>compound_id</code>: the resource-specific ID of the compound.</li>
+<code>compound_id</code>: the resource-specific ID of the
+compound.</li>
 <li>
-<code>name</code>: the name of the compound, mostly a generic or common name.</li>
+<code>name</code>: the name of the compound, mostly a generic or
+common name.</li>
 <li>
 <code>inchi</code>: the compound’s inchi.</li>
 <li>
@@ -160,26 +194,58 @@ document.addEventListener("DOMContentLoaded", function() {
 <li>
 <code>exactmass</code>: the compounds (monoisotopic) mass.</li>
 <li>
-<code>synonyms</code>: a <code>list</code> of aliases/synonyms for the compound.</li>
+<code>synonyms</code>: a <code>list</code> of aliases/synonyms for
+the compound.</li>
 <li>
 <code>smiles</code>: the SMILES of the compound.</li>
 </ul>
-<p>To create a simple compound database, we could pass this <code>tibble</code> along with additional required metadata information to the <code>createCompDb</code> function. In the present example we want to add however also MS/MS spectrum data to the database. We thus load below the MS/MS spectra for some of the compounds from the respective xml files downloaded from HMDB. To this end we pass the path to the folder in which the files are located to the <code>msms_spectra_hmdb</code> function. The function identifies the xml files containing MS/MS spectra based on their their file name and loads the respective spectrum data. The folder can therefore also contain other files, but the xml files from HMDB should not be renamed or the function will not recognice them. Note also that at present only MS/MS spectrum xml files from HMDB are supported (one xml file per spectrum); these could be downloaded from HMDB with the <em>hmdb_all_spectra.zip</em> file.</p>
+<p>To create a simple compound database, we could pass this
+<code>tibble</code> along with additional required metadata information
+to the <code>createCompDb</code> function. In the present example we
+want to add however also MS/MS spectrum data to the database. We thus
+load below the MS/MS spectra for some of the compounds from the
+respective xml files downloaded from HMDB. To this end we pass the path
+to the folder in which the files are located to the
+<code>msms_spectra_hmdb</code> function. The function identifies the xml
+files containing MS/MS spectra based on their their file name and loads
+the respective spectrum data. The folder can therefore also contain
+other files, but the xml files from HMDB should not be renamed or the
+function will not recognice them. Note also that at present only MS/MS
+spectrum xml files from HMDB are supported (one xml file per spectrum);
+these could be downloaded from HMDB with the
+<em>hmdb_all_spectra.zip</em> file.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Locate the folder with the xml files</span>
 <span class="va">xml_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"xml"</span>, package <span class="op">=</span> <span class="st">"CompoundDb"</span><span class="op">)</span>
 <span class="va">spctra</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/msms_spectra_hmdb.html">msms_spectra_hmdb</a></span><span class="op">(</span><span class="va">xml_path</span><span class="op">)</span></code></pre></div>
-<p>Also here, spectra information can be manually provided by adhering to the expected structure of the <code>data.frame</code> (see <code><a href="../reference/createCompDb.html">?createCompDb</a></code> for details).</p>
-<p>At last we have to create the metadata for the resource. The metadata information for a <code>CompDb</code> resource is crucial as it defines the origin of the annotations and its version. This information should thus be carefully defined by the user. Below we use the <code>make_metadata</code> helper function to create a <code>data.frame</code> in the expected format. The organism should be provided in the format e.g. <code>"Hsapiens"</code> for human or <code>"Mmusculus"</code> for mouse, i.e. capital first letter followed by lower case characters without whitespaces.</p>
+<p>Also here, spectra information can be manually provided by adhering
+to the expected structure of the <code>data.frame</code> (see
+<code><a href="../reference/createCompDb.html">?createCompDb</a></code> for details).</p>
+<p>At last we have to create the metadata for the resource. The metadata
+information for a <code>CompDb</code> resource is crucial as it defines
+the origin of the annotations and its version. This information should
+thus be carefully defined by the user. Below we use the
+<code>make_metadata</code> helper function to create a
+<code>data.frame</code> in the expected format. The organism should be
+provided in the format e.g. <code>"Hsapiens"</code> for human or
+<code>"Mmusculus"</code> for mouse, i.e. capital first letter followed
+by lower case characters without whitespaces.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">metad</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/createCompDb.html">make_metadata</a></span><span class="op">(</span>source <span class="op">=</span> <span class="st">"HMDB"</span>, url <span class="op">=</span> <span class="st">"http://www.hmdb.ca"</span>,
                        source_version <span class="op">=</span> <span class="st">"4.0"</span>, source_date <span class="op">=</span> <span class="st">"2017-09"</span>,
                        organism <span class="op">=</span> <span class="st">"Hsapiens"</span><span class="op">)</span></code></pre></div>
-<p>With all the required data ready we create the SQLite database for the HMDB subset. With <code>path</code> we specify the path to the directory in which we want to save the database. This defaults to the current working directory, but for this example we save the database into a temporary folder.</p>
+<p>With all the required data ready we create the SQLite database for
+the HMDB subset. With <code>path</code> we specify the path to the
+directory in which we want to save the database. This defaults to the
+current working directory, but for this example we save the database
+into a temporary folder.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">db_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/createCompDb.html">createCompDb</a></span><span class="op">(</span><span class="va">cmps</span>, metadata <span class="op">=</span> <span class="va">metad</span>, msms_spectra <span class="op">=</span> <span class="va">spctra</span>,
                         path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>The variable <code>db_file</code> is now the file name of the SQLite database. We can pass this file name to the <code>CompDb</code> function to get the <code>CompDb</code> objects acting as the interface to the database.</p>
+<p>The variable <code>db_file</code> is now the file name of the SQLite
+database. We can pass this file name to the <code>CompDb</code> function
+to get the <code>CompDb</code> objects acting as the interface to the
+database.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cmpdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/CompDb.html">CompDb</a></span><span class="op">(</span><span class="va">db_file</span><span class="op">)</span>
 <span class="va">cmpdb</span></code></pre></div>
@@ -189,7 +255,12 @@ document.addEventListener("DOMContentLoaded", function() {
 <span class="co">##  organism: Hsapiens </span>
 <span class="co">##  compound count: 9 </span>
 <span class="co">##  MS/MS spectra count: 4</span></code></pre>
-<p>To extract all compounds from the database we can use the <code>compounds</code> function. The parameter <code>columns</code> allows to choose the database columns to return. Any columns for any of the database tables are supported. To get an overview of available database tables and their columns, the <code>tables</code> function can be used:</p>
+<p>To extract all compounds from the database we can use the
+<code>compounds</code> function. The parameter <code>columns</code>
+allows to choose the database columns to return. Any columns for any of
+the database tables are supported. To get an overview of available
+database tables and their columns, the <code>tables</code> function can
+be used:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/CompDb.html">tables</a></span><span class="op">(</span><span class="va">cmpdb</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## $ms_compound</span>
@@ -207,7 +278,8 @@ document.addEventListener("DOMContentLoaded", function() {
 <span class="co">## </span>
 <span class="co">## $synonym</span>
 <span class="co">## [1] "compound_id" "synonym"</span></code></pre>
-<p>Below we extract only selected columns from the <em>compounds</em> table.</p>
+<p>Below we extract only selected columns from the <em>compounds</em>
+table.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cmpdb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"formula"</span>, <span class="st">"exactmass"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">##                        name   formula exactmass</span>
@@ -220,7 +292,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <span class="co">## 7      5,6-trans-Vitamin D3   C27H44O  384.3392</span>
 <span class="co">## 8              Deoxyuridine C9H12N2O5  228.0746</span>
 <span class="co">## 9        N-Methyltryptamine  C11H14N2  174.1157</span></code></pre>
-<p>Analogously we can use the <code>Spectra</code> function to extract spectrum data from the database. The function returns by default a <code>Spectra</code> object from the <code>R Biocpkg("Spectra")</code> package with all spectra metadata available as <em>spectra variables</em>.</p>
+<p>Analogously we can use the <code>Spectra</code> function to extract
+spectrum data from the database. The function returns by default a
+<code>Spectra</code> object from the <em><a href="https://bioconductor.org/packages/3.15/Spectra" class="external-link">Spectra</a></em>
+package with all spectra metadata available as <em>spectra
+variables</em>.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/Spectra" class="external-link">Spectra</a></span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## Loading required package: BiocParallel</span></code></pre>
@@ -250,7 +326,8 @@ document.addEventListener("DOMContentLoaded", function() {
 <span class="co">##  data source: HMDB </span>
 <span class="co">##  version: 4.0 </span>
 <span class="co">##  organism: Hsapiens</span></code></pre>
-<p>The available <em>spectra variables</em> for the <code>Spectra</code> object can be retrieved with <code>spectraVariables</code>:</p>
+<p>The available <em>spectra variables</em> for the <code>Spectra</code>
+object can be retrieved with <code>spectraVariables</code>:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">spectraVariables</a></span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">##  [1] "msLevel"                 "rtime"                  </span>
@@ -270,11 +347,13 @@ document.addEventListener("DOMContentLoaded", function() {
 <span class="co">## [29] "instrument"              "spectrum_id"            </span>
 <span class="co">## [31] "msms_mz_range_min"       "msms_mz_range_max"      </span>
 <span class="co">## [33] "synonym"</span></code></pre>
-<p>Individual spectra variables can be accessed with the <code>$</code> operator:</p>
+<p>Individual spectra variables can be accessed with the <code>$</code>
+operator:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sps</span><span class="op">$</span><span class="va">collisionEnergy</span></code></pre></div>
 <pre><code><span class="co">## [1] "10" "25" NA   "20"</span></code></pre>
-<p>And the actual m/z and intensity values with <code>mz</code> and <code>intensity</code>:</p>
+<p>And the actual m/z and intensity values with <code>mz</code> and
+<code>intensity</code>:</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">mz</a></span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## NumericList of length 4</span>
@@ -286,7 +365,12 @@ document.addEventListener("DOMContentLoaded", function() {
 <code class="sourceCode R"><span class="co">## m/z of the 2nd spectrum</span>
 <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">mz</a></span><span class="op">(</span><span class="va">sps</span><span class="op">)</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></code></pre></div>
 <pre><code><span class="co">## [1]  83.10  96.12  97.14 109.14 124.08 125.10 170.16</span></code></pre>
-<p>Note that it is also possible to retrieve specific spectra, e.g. for a provided compound, or add compound annotations to the <code>Spectra</code> object. Below we use the filter expression <code>~ compound_id == "HMDB0000001"</code>to get only MS/MS spectra for the specified compound. In addition we ask for the <code>"name"</code> and <code>"inchikey"</code> of the compound.</p>
+<p>Note that it is also possible to retrieve specific spectra, e.g. for
+a provided compound, or add compound annotations to the
+<code>Spectra</code> object. Below we use the filter expression
+<code>~ compound_id == "HMDB0000001"</code>to get only MS/MS spectra for
+the specified compound. In addition we ask for the <code>"name"</code>
+and <code>"inchikey"</code> of the compound.</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">cmpdb</span>, filter <span class="op">=</span> <span class="op">~</span> <span class="va">compound_id</span> <span class="op">==</span> <span class="st">"HMDB0000001"</span>,
                columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="../reference/CompDb.html">tables</a></span><span class="op">(</span><span class="va">cmpdb</span><span class="op">)</span><span class="op">$</span><span class="va">msms_spectrum</span>, <span class="st">"name"</span>,
@@ -322,32 +406,222 @@ document.addEventListener("DOMContentLoaded", function() {
 <span class="co">## [29] "instrument"              "spectrum_id"            </span>
 <span class="co">## [31] "msms_mz_range_min"       "msms_mz_range_max"      </span>
 <span class="co">## [33] "synonym"</span></code></pre>
-<p>The compound’s name and INCHI key have thus also been added as spectra variables:</p>
+<p>The compound’s name and INCHI key have thus also been added as
+spectra variables:</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sps</span><span class="op">$</span><span class="va">inchikey</span></code></pre></div>
 <pre><code><span class="co">## [1] "BRMWTNUJHUMWMS-LURJTMIESA-N" "BRMWTNUJHUMWMS-LURJTMIESA-N"</span></code></pre>
-<p>To share or archive the such created <code>CompDb</code> database, we can also create a dedicated R package containing the annotation. To enable reproducible research, each <code>CompDb</code> package should contain the version of the originating data source in its file name (which is by default extracted from the metadata of the resource). Below we create a <code>CompDb</code> package from the generated database file. Required additional information we have to provide to the function are the package creator/maintainer and its version.</p>
+<p>To share or archive the such created <code>CompDb</code> database, we
+can also create a dedicated R package containing the annotation. To
+enable reproducible research, each <code>CompDb</code> package should
+contain the version of the originating data source in its file name
+(which is by default extracted from the metadata of the resource). Below
+we create a <code>CompDb</code> package from the generated database
+file. Required additional information we have to provide to the function
+are the package creator/maintainer and its version.</p>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/createCompDb.html">createCompDbPackage</a></span><span class="op">(</span>
     <span class="va">db_file</span>, version <span class="op">=</span> <span class="st">"0.0.1"</span>, author <span class="op">=</span> <span class="st">"J Rainer"</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,
     maintainer <span class="op">=</span> <span class="st">"Johannes Rainer &lt;johannes.rainer@eurac.edu&gt;"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Creating package in /tmp/RtmpIu4ST5/CompDb.Hsapiens.HMDB.4.0</span></code></pre>
-<p>The function creates a folder (in our case in a temporary directory) that can be build and installed with <code>R CMD build</code> and <code>R CMD INSTALL</code>.</p>
-<p>Special care should also be put on the license of the package that can be passed with the <code>license</code> parameter. The license of the package and how and if the package can be distributed will depend also on the license of the originating resource.</p>
+<pre><code><span class="co">## Creating package in /tmp/RtmpqoIawE/CompDb.Hsapiens.HMDB.4.0</span></code></pre>
+<p>The function creates a folder (in our case in a temporary directory)
+that can be build and installed with <code>R CMD build</code> and
+<code>R CMD INSTALL</code>.</p>
+<p>Special care should also be put on the license of the package that
+can be passed with the <code>license</code> parameter. The license of
+the package and how and if the package can be distributed will depend
+also on the license of the originating resource.</p>
 </div>
-<div class="section level2">
-<h2 id="create-a-compdb-object-for-mona">Create a <code>CompDb</code> object for MoNa<a class="anchor" aria-label="anchor" href="#create-a-compdb-object-for-mona"></a>
-</h2>
-<p>MoNa (Massbank of North America) provides a large SDF file with all spectra which can be used to create a <code>CompDb</code> object with compound information and MS/MS spectra. Note however that MoNa is organized by spectra and the annotation of the compounds is not consistent and normalized. Spectra from the same compound can have their own compound identified and data that e.g. can differ in their chemical formula, precision of their exact mass or other fields.</p>
-<p>Similar to the example above, compound annotations can be imported with the <code>compound_tbl_sdf</code> function while spectrum data can be imported with <code>msms_spectra_mona</code>. In the example below we use however the <code>import_mona_sdf</code> that wraps both functions to reads both compound and spectrum data from a SDF file without having to import the file twice. As an example we use a small subset from a MoNa SDF file that contains only 7 spectra.</p>
+<div class="section level3">
+<h3 id="compdb-from-custom-data">
+<code>CompDb</code> from custom data<a class="anchor" aria-label="anchor" href="#compdb-from-custom-data"></a>
+</h3>
+<p>A <code>CompDb</code> database can also be created from custom,
+manually defined annotations. To illustrate this we create below first a
+<code>data.frame</code> with some arbitrary compound annotations.
+According to the <code><a href="../reference/createCompDb.html">?createCompDb</a></code> help page, the data frame
+needs to have columns <code>"compound_id"</code>, <code>"name"</code>,
+<code>"inchi"</code>, <code>"inchikey"</code>, <code>"formula"</code>,
+<code>"exactmass"</code>, <code>"synonyms"</code>. All columns except
+<code>"compound_id"</code> can also contain missing values. It is also
+possible to define additional columns. Below we thus create a
+<code>data.frame</code> with some compound annotations as well as
+additional columns. Note that all these annotations in this example are
+for illustration purposes only and are by no means <em>real</em>. Also,
+we don’t provide any information for columns <code>"inchi"</code>,
+<code>"inchikey"</code> and <code>"formula"</code> setting all values
+for these to <code>NA</code>.</p>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">cmps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>
+    compound_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CP_0001"</span>, <span class="st">"CP_0002"</span>, <span class="st">"CP_0003"</span>, <span class="st">"CP_0004"</span><span class="op">)</span>,
+    name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span><span class="op">)</span>,
+    inchi <span class="op">=</span> <span class="cn">NA_character_</span>,
+    inchikey <span class="op">=</span> <span class="cn">NA_character_</span>,
+    formula <span class="op">=</span> <span class="cn">NA_character_</span>,
+    exactmass <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">123.4</span>, <span class="fl">234.5</span>, <span class="fl">345.6</span>, <span class="fl">456.7</span><span class="op">)</span>,
+    compound_group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"G01"</span>, <span class="st">"G02"</span>, <span class="st">"G01"</span>, <span class="st">"G03"</span><span class="op">)</span>
+<span class="op">)</span></code></pre></div>
+<p>Next we add also <em>synonyms</em> for each compound. This columns
+supports multiple values for each row.</p>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">cmps</span><span class="op">$</span><span class="va">synonyms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"AA"</span>, <span class="st">"aaa"</span><span class="op">)</span>,
+    <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,
+    <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"C"</span>, <span class="st">"c"</span><span class="op">)</span>,
+    <span class="op">(</span><span class="st">"d"</span><span class="op">)</span>
+<span class="op">)</span></code></pre></div>
+<p>We also need to define the <em>metadata</em> for our database, which
+we do with the <code>make_metadata</code> function. With this
+information we can already create a first rudimentary
+<code>CompDb</code> database that contains only compound annotations. We
+thus create below our custom <code>CompDb</code> database in a temporary
+directory. We also manually specify the name of our database with the
+<code>dbFile</code> parameter - if not provided, the name of the
+database will be constructed based on information from the
+<code>metadata</code> parameter. In a real-case scenario,
+<code>path</code> and <code>dbFile</code> should be changed to something
+more meaningful.</p>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">metad</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/createCompDb.html">make_metadata</a></span><span class="op">(</span>source <span class="op">=</span> <span class="st">"manually defined"</span>, url <span class="op">=</span> <span class="st">""</span>,
+                       source_version <span class="op">=</span> <span class="st">"1.0.0"</span>, source_date <span class="op">=</span> <span class="st">"2022-03-01"</span>,
+                       organism <span class="op">=</span> <span class="cn">NA_character_</span><span class="op">)</span>
+
+<span class="va">db_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/createCompDb.html">createCompDb</a></span><span class="op">(</span><span class="va">cmps</span>, metadata <span class="op">=</span> <span class="va">metad</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,
+                        dbFile <span class="op">=</span> <span class="st">"CompDb.test.sqlite"</span><span class="op">)</span></code></pre></div>
+<p>We can now load this toy database using the <code>CompDb</code>
+function providing the full path to the database file. Note that we load
+the database in read-write mode by specifying
+<code>flags = RSQLite::SQLITE_RW</code> - by default <code>CompDb</code>
+will load databases in read-only mode hence ensuring that the data
+within the database can not be compromised. In our case we would however
+like to add more information to this database later and hence we load it
+in read-write mode.</p>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">cdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/CompDb.html">CompDb</a></span><span class="op">(</span><span class="va">db_file</span>, flags <span class="op">=</span> <span class="fu">RSQLite</span><span class="fu">::</span><span class="va"><a href="https://rsqlite.r-dbi.org/reference/SQLite.html" class="external-link">SQLITE_RW</a></span><span class="op">)</span>
+<span class="va">cdb</span></code></pre></div>
+<pre><code><span class="co">## class: CompDb </span>
+<span class="co">##  data source: manually defined </span>
+<span class="co">##  version: 1.0.0 </span>
+<span class="co">##  organism: NA </span>
+<span class="co">##  compound count: 4</span></code></pre>
+<p>We can now retrieve annotations from the database with the
+<code>compound</code> function.</p>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">##   name inchi inchikey formula exactmass compound_group</span>
+<span class="co">## 1    A  &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;     123.4            G01</span>
+<span class="co">## 2    B  &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;     234.5            G02</span>
+<span class="co">## 3    C  &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;     345.6            G01</span>
+<span class="co">## 4    D  &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;     456.7            G03</span></code></pre>
+<p>Or also search and filter the annotations.</p>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span>, filter <span class="op">=</span> <span class="op">~</span> <span class="va">name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"A"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">##   name inchi inchikey formula exactmass compound_group</span>
+<span class="co">## 1    A  &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;     123.4            G01</span>
+<span class="co">## 2    B  &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;     234.5            G02</span></code></pre>
+<p>Next we would like to add also MS2 spectra data to the database. This
+could be either done directly in the <code>createCompDb</code> call with
+parameter <code>msms_spectra</code>, or with the
+<code>insertSpectra</code> function that allows to add MS2 spectra data
+to an existing <code>CompDb</code> which can be provided as a
+<code>Spectra</code> object. We thus below manually create a
+<code>Spectra</code> object with some arbitrary MS2 spectra -
+alternatively, <code>Spectra</code> can be imported from a variety of
+input sources, including MGF or MSP files using e.g. the <em><a href="https://bioconductor.org/packages/3.15/MsBackendMgf" class="external-link">MsBackendMgf</a></em>
+or <em><a href="https://bioconductor.org/packages/3.15/MsBackendMsp" class="external-link">MsBackendMsp</a></em>
+packages.</p>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#' Define basic spectra variables</span>
+<span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/DataFrame-class.html" class="external-link">DataFrame</a></span><span class="op">(</span>msLevel <span class="op">=</span> <span class="fl">2L</span>, precursorMz <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">124.4</span>, <span class="fl">124.4</span>, <span class="fl">235.5</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#' Add m/z and intensity information for each spectrum</span>
+<span class="va">df</span><span class="op">$</span><span class="va">mz</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">20</span>, <span class="fl">59.1</span><span class="op">)</span>,
+    <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">10</span>, <span class="fl">30</span>, <span class="fl">59.1</span><span class="op">)</span>,
+    <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">206</span>, <span class="fl">321.1</span><span class="op">)</span><span class="op">)</span>
+<span class="va">df</span><span class="op">$</span><span class="va">intensity</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">13</span>, <span class="fl">45</span><span class="op">)</span>,
+    <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">8</span>, <span class="fl">9</span>, <span class="fl">43</span><span class="op">)</span>,
+    <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">400</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#' Create the Spectra object</span>
+<span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></code></pre></div>
+<p>The <code>Spectra</code> object needs also to have a variable
+(column) called <code>"compound_id"</code> which provides the
+information with which existing compound in the database the spectrum is
+associated.</p>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span>, <span class="st">"compound_id"</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">##   compound_id</span>
+<span class="co">## 1     CP_0001</span>
+<span class="co">## 2     CP_0002</span>
+<span class="co">## 3     CP_0003</span>
+<span class="co">## 4     CP_0004</span></code></pre>
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">sps</span><span class="op">$</span><span class="va">compound_id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CP_0001"</span>, <span class="st">"CP_0001"</span>, <span class="st">"CP_0002"</span><span class="op">)</span></code></pre></div>
+<p>We can also add additional information to the spectra, such as the
+instrument.</p>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">sps</span><span class="op">$</span><span class="va">instrument</span> <span class="op">&lt;-</span> <span class="st">"AB Sciex TripleTOF 5600+"</span></code></pre></div>
+<p>And we can now add these spectra to our existing toy
+<code>CompDb</code>. Parameter <code>columns</code> allows to specify
+which of the <em>spectra variables</em> should be stored into the
+database.</p>
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">cdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/CompDb.html">insertSpectra</a></span><span class="op">(</span><span class="va">cdb</span>, spectra <span class="op">=</span> <span class="va">sps</span>,
+                     columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"compound_id"</span>, <span class="st">"msLevel"</span>,
+                                 <span class="st">"precursorMz"</span>, <span class="st">"instrument"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">cdb</span></code></pre></div>
+<pre><code><span class="co">## class: CompDb </span>
+<span class="co">##  data source: manually defined </span>
+<span class="co">##  version: 1.0.0 </span>
+<span class="co">##  organism: NA </span>
+<span class="co">##  compound count: 4 </span>
+<span class="co">##  MS/MS spectra count: 3</span></code></pre>
+<p>We have thus now a <code>CompDb</code> database with compound
+annotations and 3 MS2 spectra. We could for example also retrieve the
+MS2 spectra for the compound with the name <em>A</em> from the database
+with:</p>
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">cdb</span>, filter <span class="op">=</span> <span class="op">~</span> <span class="va">name</span> <span class="op">==</span> <span class="st">"A"</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## MSn data (Spectra) with 2 spectra in a MsBackendCompDb backend:</span>
+<span class="co">##     msLevel precursorMz  polarity</span>
+<span class="co">##   &lt;integer&gt;   &lt;numeric&gt; &lt;integer&gt;</span>
+<span class="co">## 1         2       124.4        NA</span>
+<span class="co">## 2         2       124.4        NA</span>
+<span class="co">##  ... 31 more variables/columns.</span>
+<span class="co">##  Use  'spectraVariables' to list all of them.</span>
+<span class="co">##  data source: manually defined </span>
+<span class="co">##  version: 1.0.0 </span>
+<span class="co">##  organism: NA</span></code></pre>
+</div>
+<div class="section level3">
+<h3 id="compdb-from-mona-data">
+<code>CompDb</code> from MoNA data<a class="anchor" aria-label="anchor" href="#compdb-from-mona-data"></a>
+</h3>
+<p>MoNa (Massbank of North America) provides a large SDF file with all
+spectra which can be used to create a <code>CompDb</code> object with
+compound information and MS/MS spectra. Note however that MoNa is
+organized by spectra and the annotation of the compounds is not
+consistent and normalized. Spectra from the same compound can have their
+own compound identified and data that e.g. can differ in their chemical
+formula, precision of their exact mass or other fields.</p>
+<p>Similar to the example above, compound annotations can be imported
+with the <code>compound_tbl_sdf</code> function while spectrum data can
+be imported with <code>msms_spectra_mona</code>. In the example below we
+use however the <code>import_mona_sdf</code> that wraps both functions
+to reads both compound and spectrum data from a SDF file without having
+to import the file twice. As an example we use a small subset from a
+MoNa SDF file that contains only 7 spectra.</p>
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mona_sub</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"sdf/MoNa_export-All_Spectra_sub.sdf.gz"</span>,
                         package <span class="op">=</span> <span class="st">"CompoundDb"</span><span class="op">)</span>
 <span class="va">mona_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/import_mona_sdf.html">import_mona_sdf</a></span><span class="op">(</span><span class="va">mona_sub</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## Warning: MoNa data can currently not be normalized and the compound table</span>
 <span class="co">## contains thus highly redundant data.</span></code></pre>
-<p>As a result we get a <code>list</code> with a data.frame each for compound and spectrum information. These can be passed along to the <code>createCompDb</code> function to create the database (see below).</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<p>As a result we get a <code>list</code> with a data.frame each for
+compound and spectrum information. These can be passed along to the
+<code>createCompDb</code> function to create the database (see
+below).</p>
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">metad</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/createCompDb.html">make_metadata</a></span><span class="op">(</span>source <span class="op">=</span> <span class="st">"MoNa"</span>,
                        url <span class="op">=</span> <span class="st">"http://mona.fiehnlab.ucdavis.edu/"</span>,
                        source_version <span class="op">=</span> <span class="st">"2018.11"</span>, source_date <span class="op">=</span> <span class="st">"2018-11"</span>,
@@ -355,8 +629,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <span class="va">mona_db_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/createCompDb.html">createCompDb</a></span><span class="op">(</span><span class="va">mona_data</span><span class="op">$</span><span class="va">compound</span>, metadata <span class="op">=</span> <span class="va">metad</span>,
                              msms_spectra <span class="op">=</span> <span class="va">mona_data</span><span class="op">$</span><span class="va">msms_spectrum</span>,
                              path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>We can now load and use this database, e.g. by extracting all compounds as shown below.</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<p>We can now load and use this database, e.g. by extracting all
+compounds as shown below.</p>
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mona</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/CompDb.html">CompDb</a></span><span class="op">(</span><span class="va">mona_db_file</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">mona</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">##                   name</span>
@@ -377,12 +652,16 @@ document.addEventListener("DOMContentLoaded", function() {
 <span class="co">## 3 ASWVTGNCAZCNNR-UHFFFAOYSA-N  C12H14N4O2S  278.0837   &lt;NA&gt;</span>
 <span class="co">## 4 ASWVTGNCAZCNNR-UHFFFAOYSA-N  C12H14N4O2S  278.0837   &lt;NA&gt;</span>
 <span class="co">## 5 ASWVTGNCAZCNNR-UHFFFAOYSA-N  C12H14N4O2S  278.0837   &lt;NA&gt;</span></code></pre>
-<p>As stated in the introduction of this section the <code>compound</code> information contains redundant information and the table has essentially one row per spectrum. Feedback on how to reduce the redundancy in the ms_compound table is highly appreciated.</p>
+<p>As stated in the introduction of this section the
+<code>compound</code> information contains redundant information and the
+table has essentially one row per spectrum. Feedback on how to reduce
+the redundancy in the ms_compound table is highly appreciated.</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="session-information">Session information<a class="anchor" aria-label="anchor" href="#session-information"></a>
 </h2>
-<pre><code><span class="co">## R Under development (unstable) (2022-02-10 r81713)</span>
+<pre><code><span class="co">## R Under development (unstable) (2022-02-25 r81808)</span>
 <span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span>
 <span class="co">## Running under: Ubuntu 20.04.3 LTS</span>
 <span class="co">## </span>
@@ -402,38 +681,38 @@ document.addEventListener("DOMContentLoaded", function() {
 <span class="co">## [8] base     </span>
 <span class="co">## </span>
 <span class="co">## other attached packages:</span>
-<span class="co">## [1] Spectra_1.5.8           ProtGenerics_1.27.2     BiocParallel_1.29.12   </span>
-<span class="co">## [4] CompoundDb_0.99.8       S4Vectors_0.33.10       BiocGenerics_0.41.2    </span>
+<span class="co">## [1] Spectra_1.5.12          ProtGenerics_1.27.2     BiocParallel_1.29.15   </span>
+<span class="co">## [4] CompoundDb_0.99.9       S4Vectors_0.33.10       BiocGenerics_0.41.2    </span>
 <span class="co">## [7] AnnotationFilter_1.19.0 BiocStyle_2.23.1       </span>
 <span class="co">## </span>
 <span class="co">## loaded via a namespace (and not attached):</span>
 <span class="co">##  [1] Biobase_2.55.0         sass_0.4.0             bit64_4.0.5           </span>
-<span class="co">##  [4] jsonlite_1.7.3         bslib_0.3.1            assertthat_0.2.1      </span>
+<span class="co">##  [4] jsonlite_1.8.0         bslib_0.3.1            assertthat_0.2.1      </span>
 <span class="co">##  [7] BiocManager_1.30.16    blob_1.2.2             GenomeInfoDbData_1.2.7</span>
-<span class="co">## [10] yaml_2.2.2             pillar_1.7.0           RSQLite_2.2.9         </span>
-<span class="co">## [13] glue_1.6.1             digest_0.6.29          GenomicRanges_1.47.6  </span>
-<span class="co">## [16] XVector_0.35.0         colorspace_2.0-2       htmltools_0.5.2       </span>
+<span class="co">## [10] yaml_2.3.5             pillar_1.7.0           RSQLite_2.2.10        </span>
+<span class="co">## [13] glue_1.6.2             digest_0.6.29          GenomicRanges_1.47.6  </span>
+<span class="co">## [16] XVector_0.35.0         colorspace_2.0-3       htmltools_0.5.2       </span>
 <span class="co">## [19] pkgconfig_2.0.3        bookdown_0.24          zlibbioc_1.41.0       </span>
 <span class="co">## [22] purrr_0.3.4            scales_1.1.1           tibble_3.1.6          </span>
 <span class="co">## [25] generics_0.1.2         IRanges_2.29.1         ggplot2_3.3.5         </span>
-<span class="co">## [28] ellipsis_0.3.2         DT_0.20                cachem_1.0.6          </span>
+<span class="co">## [28] ellipsis_0.3.2         DT_0.21                cachem_1.0.6          </span>
 <span class="co">## [31] lazyeval_0.2.2         cli_3.2.0              magrittr_2.0.2        </span>
-<span class="co">## [34] crayon_1.5.0           memoise_2.0.1          evaluate_0.14         </span>
+<span class="co">## [34] crayon_1.5.0           memoise_2.0.1          evaluate_0.15         </span>
 <span class="co">## [37] fs_1.5.2               fansi_1.0.2            MASS_7.3-55           </span>
 <span class="co">## [40] xml2_1.3.3             textshaping_0.3.6      tools_4.2.0           </span>
 <span class="co">## [43] lifecycle_1.0.1        stringr_1.4.0          munsell_0.5.0         </span>
 <span class="co">## [46] cluster_2.1.2          compiler_4.2.0         pkgdown_2.0.2.9000    </span>
 <span class="co">## [49] jquerylib_0.1.4        GenomeInfoDb_1.31.4    systemfonts_1.0.4     </span>
 <span class="co">## [52] rlang_1.0.1            grid_4.2.0             RCurl_1.98-1.6        </span>
-<span class="co">## [55] rsvg_2.2.0             rjson_0.2.21           MsCoreUtils_1.7.1     </span>
+<span class="co">## [55] rsvg_2.2.0             rjson_0.2.21           MsCoreUtils_1.7.4     </span>
 <span class="co">## [58] htmlwidgets_1.5.4      bitops_1.0-7           base64enc_0.1-3       </span>
 <span class="co">## [61] rmarkdown_2.11         gtable_0.3.0           DBI_1.1.2             </span>
 <span class="co">## [64] R6_2.5.1               gridExtra_2.3          knitr_1.37            </span>
 <span class="co">## [67] dplyr_1.0.8            bit_4.0.4              fastmap_1.1.0         </span>
 <span class="co">## [70] utf8_1.2.2             clue_0.3-60            rprojroot_2.0.2       </span>
-<span class="co">## [73] ragg_1.2.1             desc_1.4.0             stringi_1.7.6         </span>
+<span class="co">## [73] ragg_1.2.2             desc_1.4.0             stringi_1.7.6         </span>
 <span class="co">## [76] parallel_4.2.0         Rcpp_1.0.8             vctrs_0.3.8           </span>
-<span class="co">## [79] png_0.1-7              dbplyr_2.1.1           tidyselect_1.1.1      </span>
+<span class="co">## [79] png_0.1-7              dbplyr_2.1.1           tidyselect_1.1.2      </span>
 <span class="co">## [82] xfun_0.29              ChemmineR_3.47.0</span></code></pre>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -449,7 +728,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
+2.0.2.9000.</p>
 </div>
 
     </footer>
