@@ -39,7 +39,7 @@ annotations from a single source (e.g. HMDB or LipidMaps) but it is also
 possible to create cross-source databases too.
 
 
-# Create a `CompDb` object for HMDB
+# Creating `CompDb` databases
 
 The `CompDb` package provides the `compound_tbl_sdf` and the
 `compound_tbl_lipidblast` functions to extract relevant compound annotation from
@@ -54,9 +54,13 @@ files from:
 - MoNa (Massbank of North America): http://mona.fiehnlab.ucdavis.edu (for MoNa
   import see the next section).
 
-Note however that it is also possible to define such a table manually and
-use that to create the database. See the help page of `createCompDb` for more
-details on that.
+Note however that it is also possible to define such a table manually and use
+that to create the database. As simple example for this is provided in the
+section *`CompDb` from custom input* below or the help page of
+`createCompDb` for more details on that.
+
+
+## `CompDb` from HMDB data
 
 Below we use the `compound_tbl_sdf` to extract compound annotations from a SDF
 file representing a very small subset of the HMDB database. To generate a
@@ -162,8 +166,9 @@ compounds(cmpdb, columns = c("name", "formula", "exactmass"))
 ```
 
 Analogously we can use the `Spectra` function to extract spectrum data from the
-database. The function returns by default a `Spectra` object from the `R
-Biocpkg("Spectra")` package with all spectra metadata available as *spectra variables*.
+database. The function returns by default a `Spectra` object from the
+`r Biocpkg("Spectra")` package with all spectra metadata available as
+*spectra variables*.
 
 ```{r spectra}
 library(Spectra)
@@ -241,7 +246,149 @@ with the `license` parameter. The license of the package and how and if the
 package can be distributed will depend also on the license of the originating
 resource.
 
-# Create a `CompDb` object for MoNa
+
+## `CompDb` from custom data
+
+A `CompDb` database can also be created from custom, manually defined
+annotations. To illustrate this we create below first a `data.frame` with some
+arbitrary compound annotations. According to the `?createCompDb` help page, the
+data frame needs to have columns `"compound_id"`, `"name"`, `"inchi"`,
+`"inchikey"`, `"formula"`, `"exactmass"`, `"synonyms"`. All columns except
+`"compound_id"` can also contain missing values. It is also possible to define
+additional columns. Below we thus create a `data.frame` with some compound
+annotations as well as additional columns. Note that all these annotations in
+this example are for illustration purposes only and are by no means
+*real*. Also, we don't provide any information for columns `"inchi"`,
+`"inchikey"` and `"formula"` setting all values for these to `NA`.
+
+```{r}
+cmps <- data.frame(
+    compound_id = c("CP_0001", "CP_0002", "CP_0003", "CP_0004"),
+    name = c("A", "B", "C", "D"),
+    inchi = NA_character_,
+    inchikey = NA_character_,
+    formula = NA_character_,
+    exactmass = c(123.4, 234.5, 345.6, 456.7),
+    compound_group = c("G01", "G02", "G01", "G03")
+)
+```
+
+Next we add also *synonyms* for each compound. This columns supports multiple
+values for each row.
+
+```{r}
+cmps$synonyms <- list(
+    c("a", "AA", "aaa"),
+    c(),
+    c("C", "c"),
+    ("d")
+)
+```
+
+We also need to define the *metadata* for our database, which we do with the
+`make_metadata` function.  With this information we can already create a first
+rudimentary `CompDb` database that contains only compound annotations. We thus
+create below our custom `CompDb` database in a temporary directory. We also
+manually specify the name of our database with the `dbFile` parameter - if not
+provided, the name of the database will be constructed based on information from
+the `metadata` parameter. In a real-case scenario, `path` and `dbFile` should be
+changed to something more meaningful.
+
+```{r}
+metad <- make_metadata(source = "manually defined", url = "",
+                       source_version = "1.0.0", source_date = "2022-03-01",
+                       organism = NA_character_)
+
+db_file <- createCompDb(cmps, metadata = metad, path = tempdir(),
+                        dbFile = "CompDb.test.sqlite")
+```
+
+We can now load this toy database using the `CompDb` function providing the full
+path to the database file. Note that we load the database in read-write mode by
+specifying `flags = RSQLite::SQLITE_RW` - by default `CompDb` will load
+databases in read-only mode hence ensuring that the data within the database can
+not be compromised. In our case we would however like to add more information to
+this database later and hence we load it in read-write mode.
+
+```{r}
+cdb <- CompDb(db_file, flags = RSQLite::SQLITE_RW)
+cdb
+```
+
+We can now retrieve annotations from the database with the `compound` function.
+
+```{r}
+compounds(cdb)
+```
+
+Or also search and filter the annotations.
+
+```{r}
+compounds(cdb, filter = ~ name %in% c("B", "A"))
+```
+
+Next we would like to add also MS2 spectra data to the database. This could be
+either done directly in the `createCompDb` call with parameter `msms_spectra`,
+or with the `insertSpectra` function that allows to add MS2 spectra data to an
+existing `CompDb` which can be provided as a `Spectra` object. We thus below
+manually create a `Spectra` object with some arbitrary MS2 spectra -
+alternatively, `Spectra` can be imported from a variety of input sources,
+including MGF or MSP files using e.g. the `r Biocpkg("MsBackendMgf")` or
+`r Biocpkg("MsBackendMsp")` packages.
+
+```{r}
+#' Define basic spectra variables
+df <- DataFrame(msLevel = 2L, precursorMz = c(124.4, 124.4, 235.5))
+#' Add m/z and intensity information for each spectrum
+df$mz <- list(
+    c(3, 20, 59.1),
+    c(2, 10, 30, 59.1),
+    c(100, 206, 321.1))
+df$intensity <- list(
+    c(10, 13, 45),
+    c(5, 8, 9, 43),
+    c(10, 20, 400))
+#' Create the Spectra object
+sps <- Spectra(df)
+```
+
+The `Spectra` object needs also to have a variable (column) called
+`"compound_id"` which provides the information with which existing compound in
+the database the spectrum is associated.
+
+```{r}
+compounds(cdb, "compound_id")
+sps$compound_id <- c("CP_0001", "CP_0001", "CP_0002")
+```
+
+We can also add additional information to the spectra, such as the instrument.
+
+```{r}
+sps$instrument <- "AB Sciex TripleTOF 5600+"
+```
+
+And we can now add these spectra to our existing toy `CompDb`. Parameter
+`columns` allows to specify which of the *spectra variables* should be stored
+into the database.
+
+```{r}
+cdb <- insertSpectra(cdb, spectra = sps,
+                     columns = c("compound_id", "msLevel",
+                                 "precursorMz", "instrument"))
+cdb
+```
+
+We have thus now a `CompDb` database with compound annotations and 3 MS2
+spectra. We could for example also retrieve the MS2 spectra for the compound
+with the name *A* from the database with:
+
+```{r}
+Spectra(cdb, filter = ~ name == "A")
+```
+
+
+
+## `CompDb` from MoNA data
 
 MoNa (Massbank of North America) provides a large SDF file with all spectra
 which can be used to create a `CompDb` object with compound information and

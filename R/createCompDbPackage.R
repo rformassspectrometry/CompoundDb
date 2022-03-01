@@ -375,7 +375,9 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' [compound_tbl_sdf()] or LipidBlast files (see [compound_tbl_lipidblast()].
 #'
 #' An additional `data.frame` providing metadata information including the data
-#' source, date, version and organism is mandatory.
+#' source, date, version and organism is mandatory. By default, the function
+#' will define the name of the database based on the provided metadata, but it
+#' is also possible to define this manually with the `dbFile` parameter.
 #'
 #' Optionally MS/MS (MS2) spectra for compounds can be also stored in the
 #' database. Currently only MS/MS spectra from HMDB are supported. These can
@@ -471,6 +473,10 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #'     file or package folder should be written. Defaults to the current
 #'     directory.
 #'
+#' @param dbFile `character(1)` to optionally provide the name of the SQLite
+#'     database file. If not provided (the default) the database name is defined
+#'     using information from the provided `metadata`.
+#'
 #' @return For `createCompDb`: a `character(1)` with the database name
 #'     (invisibly).
 #'
@@ -559,10 +565,13 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #'
 #' ## To create a CompDb R-package we could simply use the
 #' ## createCompDbPackage function on the SQLite database file name.
-createCompDb <- function(x, metadata, msms_spectra, path = ".") {
+createCompDb <- function(x, metadata, msms_spectra, path = ".",
+                         dbFile = character()) {
     .valid_metadata(metadata)
-    db_file <- file.path(path, paste0(.db_file_from_metadata(metadata),
-                                      ".sqlite"))
+    if (!length(dbFile))
+        db_file <- file.path(path, paste0(.db_file_from_metadata(metadata),
+                                          ".sqlite"))
+    else db_file <- file.path(path, dbFile)
     con <- dbConnect(dbDriver("SQLite"), dbname = db_file)
     ## Add additional metadata info
     metadata$name <- as.character(metadata$name)
