@@ -170,7 +170,7 @@ database. The function returns by default a `Spectra` object from the
 `r Biocpkg("Spectra")` package with all spectra metadata available as
 *spectra variables*.
 
-```{r spectra}
+```{r spectra, message = FALSE}
 library(Spectra)
 sps <- Spectra(cmpdb)
 sps
