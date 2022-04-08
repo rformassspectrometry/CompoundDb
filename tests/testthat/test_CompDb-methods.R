@@ -194,3 +194,13 @@ test_that("deleteSpectra,CompDb works", {
     rownames(exp_msms_p) <- NULL
     expect_equal(dbReadTable(dbconn(tmp_db), "msms_spectrum_peak"), exp_msms_p)
 })
+
+test_that("mass2mz,CompDb works",{
+    ads <- c("[M+H]+", "[M+Na]+", "[M+K]+")
+    
+    expect_identical(mass2mz(cmp_db), mass2mz(cmp_db, "[M+H]+"))
+    
+    output <- mass2mz(cmp_db, ads)
+    expect_equal(nrow(output), nrow(compounds(cmp_db)))
+    expect_equal(ncol(output), length(ads))
+})

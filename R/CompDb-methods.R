@@ -194,3 +194,17 @@ setMethod("deleteSpectra", signature(object = "CompDb"),
               }
               object
           })
+
+#' @inherit MetaboCoreUtils::mass2mz
+#' 
+#' @importFrom MetaboCoreUtils mass2mz
+#' 
+#' @export
+#' 
+#' @rdname CompDb
+setMethod("mass2mz", signature = c("CompDb"),
+          function(x, adduct){
+              exact_mass <- compounds(x)$exactmass
+              names(exact_mass) <- compounds(x)$formula
+              return(mass2mz(exact_mass, adduct))
+          })
