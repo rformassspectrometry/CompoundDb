@@ -26,7 +26,7 @@ this backend."><meta property="og:image" content="https://rformassspectrometry.g
     
     <a class="navbar-brand me-2" href="../index.html">CompoundDb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.10</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,7 +91,7 @@ backendInitialize(object, x, filter, ...)
 show(object)
 
 # S4 method for MsBackendCompDb
-peaksData(object)
+peaksData(object, columns = peaksVariables(object))
 
 # S4 method for MsBackendCompDb
 dataStorage(object)
@@ -129,15 +129,17 @@ $(x, name) &lt;- value</code></pre></div>
 which elements to retrieve from the database.</p></dd>
 <dt>...</dt>
 <dd><p>ignored.</p></dd>
-<dt>value</dt>
-<dd><p>for <code>$&lt;-</code>: the replacement values.</p></dd>
 <dt>columns</dt>
 <dd><p>for <code>spectraData</code>: <code>character</code> with names of columns/spectra
 variables that should be returned. Defaults to
 <code>spectraVariables(object)</code>. Database columns <code>"ms_level"</code>,
 <code>"precursor_mz"</code>, <code>"precursor_intensity"</code>, <code>"precursor_charge"</code> are
 mapped to the core <code>Spectra</code> variables <code>msLevel</code>, <code>precursorMz</code>,
-<code>precursorIntensity</code> and <code>precursorCharge</code>, respectively.</p></dd>
+<code>precursorIntensity</code> and <code>precursorCharge</code>, respectively.
+For <code>peaksData</code>: <code>character</code> with the names of the peaks columns to
+return. Supported are <code>"mz"</code> and <code>"intensity"</code></p></dd>
+<dt>value</dt>
+<dd><p>for <code>$&lt;-</code>: the replacement values.</p></dd>
 <dt>i</dt>
 <dd><p>For <code>[</code>: <code>integer</code>, <code>logical</code> or <code>character</code> to subset the object.</p></dd>
 <dt>j</dt>
