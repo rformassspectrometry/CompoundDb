@@ -68,16 +68,25 @@ MsBackendCompDb <- function() {
 #' @author Johannes Rainer
 #'
 #' @noRd
-.peaks_data <- function(x) {
-    p <- .fetch_peaks(x)
+.peaks_data <- function(x, columns = c("mz", "intensity")) {
+    p <- .fetch_peaks(x, columns = columns)
     p <- unname(split.data.frame(p, as.factor(p$spectrum_id))[x@spectraIds])
-    emat <- matrix(ncol = 2, nrow = 0,
-                   dimnames = list(character(), c("mz", "intensity")))
-    lapply(p, function(z) {
-        if (nrow(z))
-            as.matrix(z[, 2:3], rownames.force = FALSE)
-        else emat
-    })
+    emat <- matrix(ncol = length(columns), nrow = 0,
+                   dimnames = list(character(), columns))
+    idx <- seq(2, (length(columns) + 1L))
+    if (length(idx) == 1) {
+        lapply(p, function(z) {
+            if (nrow(z))
+                matrix(z[, idx], dimnames = list(c(), columns))
+            else emat
+        })
+    } else {
+        lapply(p, function(z) {
+            if (nrow(z))
+                as.matrix(z[, idx], rownames.force = FALSE)
+            else emat
+        })
+    }
 }
 
 

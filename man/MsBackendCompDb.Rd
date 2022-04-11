@@ -23,7 +23,7 @@ MsBackendCompDb()
 
 \S4method{show}{MsBackendCompDb}(object)
 
-\S4method{peaksData}{MsBackendCompDb}(object)
+\S4method{peaksData}{MsBackendCompDb}(object, columns = peaksVariables(object))
 
 \S4method{dataStorage}{MsBackendCompDb}(object)
 
@@ -51,14 +51,16 @@ which elements to retrieve from the database.}
 
 \item{...}{ignored.}
 
-\item{value}{for \verb{$<-}: the replacement values.}
-
 \item{columns}{for \code{spectraData}: \code{character} with names of columns/spectra
 variables that should be returned. Defaults to
 \code{spectraVariables(object)}. Database columns \code{"ms_level"},
 \code{"precursor_mz"}, \code{"precursor_intensity"}, \code{"precursor_charge"} are
 mapped to the core \code{Spectra} variables \code{msLevel}, \code{precursorMz},
-\code{precursorIntensity} and \code{precursorCharge}, respectively.}
+\code{precursorIntensity} and \code{precursorCharge}, respectively.
+For \code{peaksData}: \code{character} with the names of the peaks columns to
+return. Supported are \code{"mz"} and \code{"intensity"}}
+
+\item{value}{for \verb{$<-}: the replacement values.}
 
 \item{i}{For \code{[}: \code{integer}, \code{logical} or \code{character} to subset the object.}
 

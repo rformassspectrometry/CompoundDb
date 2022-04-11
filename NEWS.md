@@ -1,5 +1,9 @@
 # Version 0.99
 
+## Changes in version 0.99.10
+
+- Add parameter `columns` to `peaksData`.
+
 ## Changes in version 0.99.9
 
 - Add parameter `dbFile` to `createCompDb` and add an example on how to create

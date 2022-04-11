@@ -21,6 +21,8 @@
 #'     `"precursor_mz"`, `"precursor_intensity"`, `"precursor_charge"` are
 #'     mapped to the core `Spectra` variables `msLevel`, `precursorMz`,
 #'     `precursorIntensity` and `precursorCharge`, respectively.
+#'     For `peaksData`: `character` with the names of the peaks columns to
+#'     return. Supported are `"mz"` and `"intensity"`
 #'
 #' @param drop For `[`: not considered.
 #'
@@ -185,9 +187,16 @@ setMethod("show", "MsBackendCompDb", function(object) {
 #'
 #' @exportMethod peaksData
 #'
+#' @importMethodsFrom Spectra peaksVariables
+#'
 #' @rdname MsBackendCompDb
-setMethod("peaksData", "MsBackendCompDb", function(object) {
-    .peaks_data(object)
+setMethod(
+    "peaksData", "MsBackendCompDb",
+    function(object, columns = peaksVariables(object)) {
+        if (!all(columns %in% c("mz", "intensity")))
+            stop("Currently only \"mz\" \"intensity\" are supported",
+                 call. = FALSE)
+        .peaks_data(object, columns = columns)
 })
 
 #' @importMethodsFrom ProtGenerics dataStorage

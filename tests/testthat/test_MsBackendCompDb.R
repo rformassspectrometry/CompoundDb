@@ -28,12 +28,20 @@ test_that("peaksData,MsBackendCompDb works", {
     expect_true(length(res) == 0)
     expect_true(is(res, "list"))
 
+    expect_error(peaksData(be, columns = c("other")), "supported")
+
     be <- Spectra(cmp_spctra_db)@backend
     res <- peaksData(be)
     expect_true(is(res, "list"))
     expect_true(length(res) == length(be))
     expect_true(is.matrix(res[[1]]))
-    expect_true(all(colnames(res[[2]]) %in% c("mz", "intensity")))
+    expect_equal(colnames(res[[2]]), c("mz", "intensity"))
+    res_2 <- peaksData(be, c("intensity", "mz"))
+    expect_equal(colnames(res_2[[2]]), c("intensity", "mz"))
+    expect_equal(res[[2]][, 1], res_2[[2]][, 2])
+    res_2 <- peaksData(be, c("intensity"))
+    expect_equal(colnames(res_2[[1]]), "intensity")
+    expect_equal(res[[2]][, 2], res_2[[2]][, 1])
 
     be <- be[c(2, 4, 2)]
     res_2 <- peaksData(be)
