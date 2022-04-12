@@ -28,7 +28,7 @@ test_that("peaksData,MsBackendCompDb works", {
     expect_true(length(res) == 0)
     expect_true(is(res, "list"))
 
-    expect_error(peaksData(be, columns = c("other")), "supported")
+    expect_error(peaksData(be, columns = c("other")))
 
     be <- Spectra(cmp_spctra_db)@backend
     res <- peaksData(be)
@@ -46,6 +46,13 @@ test_that("peaksData,MsBackendCompDb works", {
     be <- be[c(2, 4, 2)]
     res_2 <- peaksData(be)
     expect_equal(res_2, res[c(2, 4, 2)])
+})
+
+test_that("peaksVariables,MsBackendCompDb works", {
+    expect_equal(peaksVariables(MsBackendCompDb()), character())
+
+    res <- peaksVariables(Spectra(cmp_spctra_db)@backend)
+    expect_equal(res, c("mz", "intensity"))
 })
 
 test_that("dataStorage,MsBackendCompDb works", {

@@ -39,6 +39,19 @@ MsBackendCompDb <- function() {
     x
 }
 
+#' Get columns from the msms_spectrum_peak database table (dropping spectrum_id)
+#'
+#' @param x `MsBackendCompDb`
+#'
+#' @noRd
+.available_peaks_variables <- function(x) {
+    if (length(x@dbcon)) {
+        res <- dbGetQuery(
+            .dbconn(x), "select * from msms_spectrum_peak limit 1")
+        colnames(res)[!colnames(res) %in% c("spectrum_id", "peak_id")]
+    } else character()
+}
+
 #' Returns a `data.frame` with the peaks data for spectra IDs in `x`. Note that
 #' re-odering of the data needs to happen later.
 #'
@@ -88,7 +101,6 @@ MsBackendCompDb <- function() {
         })
     }
 }
-
 
 #' @importFrom S4Vectors make_zero_col_DFrame extractCOLS
 #'

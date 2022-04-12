@@ -1,5 +1,9 @@
 # Version 0.99
 
+## Changes in version 0.99.11
+
+- Add `peaksVariables` method.
+
 ## Changes in version 0.99.10
 
 - Add parameter `columns` to `peaksData`.

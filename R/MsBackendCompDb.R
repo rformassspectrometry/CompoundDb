@@ -22,7 +22,7 @@
 #'     mapped to the core `Spectra` variables `msLevel`, `precursorMz`,
 #'     `precursorIntensity` and `precursorCharge`, respectively.
 #'     For `peaksData`: `character` with the names of the peaks columns to
-#'     return. Supported are `"mz"` and `"intensity"`
+#'     return. Use `peaksVariables` for supported values.
 #'
 #' @param drop For `[`: not considered.
 #'
@@ -62,6 +62,9 @@
 #'   length equal to the number of spectra and each element being a `matrix`
 #'   with columns `"mz"` and `"intensity"` with the spectra's m/z and intensity
 #'   values.
+#'
+#' - `peaksVariables`: lists the available peaks variables in the backend
+#'   (database). These can be used for parameter `columns` of `peaksData`.
 #'
 #' - `intensity<-`: not supported.
 #'
@@ -192,12 +195,15 @@ setMethod("show", "MsBackendCompDb", function(object) {
 #' @rdname MsBackendCompDb
 setMethod(
     "peaksData", "MsBackendCompDb",
-    function(object, columns = peaksVariables(object)) {
-        if (!all(columns %in% c("mz", "intensity")))
-            stop("Currently only \"mz\" \"intensity\" are supported",
-                 call. = FALSE)
+    function(object, columns = c("mz", "intensity")) {
         .peaks_data(object, columns = columns)
 })
+
+#' @exportMethod peaksVariables
+#'
+#' @rdname MsBackendCompDb
+setMethod("peaksVariables", "MsBackendCompDb",
+          function(object) .available_peaks_variables(object))
 
 #' @importMethodsFrom ProtGenerics dataStorage
 #'
