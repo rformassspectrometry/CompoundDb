@@ -22,7 +22,7 @@ setGeneric("deleteSpectra", function(object, ...)
 setGeneric("IonDb", function(x, cdb, ...)
     standardGeneric("IonDb"))
 
-setGeneric("mass2mz", function(x, adduct = c("[M+H]+"))
+setGeneric("mass2mz", function(x, ...)
   standardGeneric("mass2mz"))
 
 #' @importClassesFrom tibble tbl_df

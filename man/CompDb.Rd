@@ -59,7 +59,7 @@ copyCompDb(x, y)
 
 \S4method{deleteSpectra}{CompDb}(object, ids = character(0), ...)
 
-\S4method{mass2mz}{CompDb}(x, adduct = c("[M+H]+"))
+\S4method{mass2mz}{CompDb}(x, adduct = c("[M+H]+"), name = "formula")
 }
 \arguments{
 \item{x}{For \code{CompDb}: \code{character(1)} with the file name of the SQLite
@@ -109,6 +109,11 @@ for which the m/z should be calculated or a \code{data.frame} with the adduct
 definition. See \code{\link[MetaboCoreUtils:adductNames]{adductNames()}} for supported adduct names and the
 description for more information on the expected format if a \code{data.frame}
 is provided.}
+
+\item{name}{For \code{mass2mz}: \code{character(1)}. Which CompDb column will be used as
+reference for calculating adduct mzs. For instance, "formula" would use all
+unique molecular formulas, while "compound_id" would return the adduct
+m/z for all compounds (even those with equal formulas).}
 }
 \value{
 See description of the respective function.

@@ -198,9 +198,14 @@ test_that("deleteSpectra,CompDb works", {
 test_that("mass2mz,CompDb works",{
     ads <- c("[M+H]+", "[M+Na]+", "[M+K]+")
     
+    #Default adduct as [M+H]+
     expect_identical(mass2mz(cmp_db), mass2mz(cmp_db, "[M+H]+"))
     
-    output <- mass2mz(cmp_db, ads)
-    expect_equal(nrow(output), nrow(compounds(cmp_db)))
+    output <- mass2mz(cmp_db, ads, "compound_id")
+    expect_equal(nrow(output), nrow(compounds(cmp_db, "compound_id")))
+    expect_equal(ncol(output), length(ads))
+    
+    output <- mass2mz(cmp_db, ads, "formula")
+    expect_equal(nrow(output), nrow(compounds(cmp_db, "formula")))
     expect_equal(ncol(output), length(ads))
 })
