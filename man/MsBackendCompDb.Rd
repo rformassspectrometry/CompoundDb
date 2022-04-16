@@ -7,6 +7,7 @@
 \alias{backendInitialize,MsBackendCompDb-method}
 \alias{show,MsBackendCompDb-method}
 \alias{peaksData,MsBackendCompDb-method}
+\alias{peaksVariables,MsBackendCompDb-method}
 \alias{dataStorage,MsBackendCompDb-method}
 \alias{intensity<-,MsBackendCompDb-method}
 \alias{mz<-,MsBackendCompDb-method}
@@ -23,7 +24,9 @@ MsBackendCompDb()
 
 \S4method{show}{MsBackendCompDb}(object)
 
-\S4method{peaksData}{MsBackendCompDb}(object)
+\S4method{peaksData}{MsBackendCompDb}(object, columns = c("mz", "intensity"))
+
+\S4method{peaksVariables}{MsBackendCompDb}(object)
 
 \S4method{dataStorage}{MsBackendCompDb}(object)
 
@@ -51,14 +54,16 @@ which elements to retrieve from the database.}
 
 \item{...}{ignored.}
 
-\item{value}{for \verb{$<-}: the replacement values.}
-
 \item{columns}{for \code{spectraData}: \code{character} with names of columns/spectra
 variables that should be returned. Defaults to
 \code{spectraVariables(object)}. Database columns \code{"ms_level"},
 \code{"precursor_mz"}, \code{"precursor_intensity"}, \code{"precursor_charge"} are
 mapped to the core \code{Spectra} variables \code{msLevel}, \code{precursorMz},
-\code{precursorIntensity} and \code{precursorCharge}, respectively.}
+\code{precursorIntensity} and \code{precursorCharge}, respectively.
+For \code{peaksData}: \code{character} with the names of the peaks columns to
+return. Use \code{peaksVariables} for supported values.}
+
+\item{value}{for \verb{$<-}: the replacement values.}
 
 \item{i}{For \code{[}: \code{integer}, \code{logical} or \code{character} to subset the object.}
 
@@ -100,6 +105,8 @@ complete listing of methods.
 length equal to the number of spectra and each element being a \code{matrix}
 with columns \code{"mz"} and \code{"intensity"} with the spectra's m/z and intensity
 values.
+\item \code{peaksVariables}: lists the available peaks variables in the backend
+(database). These can be used for parameter \code{columns} of \code{peaksData}.
 \item \verb{intensity<-}: not supported.
 \item \verb{mz<-}: not supported.
 \item \code{spectraData}: returns the complete spectrum data including m/z and

@@ -39,6 +39,19 @@ MsBackendCompDb <- function() {
     x
 }
 
+#' Get columns from the msms_spectrum_peak database table (dropping spectrum_id)
+#'
+#' @param x `MsBackendCompDb`
+#'
+#' @noRd
+.available_peaks_variables <- function(x) {
+    if (length(x@dbcon)) {
+        res <- dbGetQuery(
+            .dbconn(x), "select * from msms_spectrum_peak limit 1")
+        colnames(res)[!colnames(res) %in% c("spectrum_id", "peak_id")]
+    } else character()
+}
+
 #' Returns a `data.frame` with the peaks data for spectra IDs in `x`. Note that
 #' re-odering of the data needs to happen later.
 #'
@@ -68,18 +81,26 @@ MsBackendCompDb <- function() {
 #' @author Johannes Rainer
 #'
 #' @noRd
-.peaks_data <- function(x) {
-    p <- .fetch_peaks(x)
+.peaks_data <- function(x, columns = c("mz", "intensity")) {
+    p <- .fetch_peaks(x, columns = columns)
     p <- unname(split.data.frame(p, as.factor(p$spectrum_id))[x@spectraIds])
-    emat <- matrix(ncol = 2, nrow = 0,
-                   dimnames = list(character(), c("mz", "intensity")))
-    lapply(p, function(z) {
-        if (nrow(z))
-            as.matrix(z[, 2:3], rownames.force = FALSE)
-        else emat
-    })
+    emat <- matrix(ncol = length(columns), nrow = 0,
+                   dimnames = list(character(), columns))
+    idx <- seq(2, (length(columns) + 1L))
+    if (length(idx) == 1) {
+        lapply(p, function(z) {
+            if (nrow(z))
+                matrix(z[, idx], dimnames = list(c(), columns))
+            else emat
+        })
+    } else {
+        lapply(p, function(z) {
+            if (nrow(z))
+                as.matrix(z[, idx], rownames.force = FALSE)
+            else emat
+        })
+    }
 }
-
 
 #' @importFrom S4Vectors make_zero_col_DFrame extractCOLS
 #'

@@ -78,3 +78,9 @@ test_that(".spectra_data works", {
     expect_true(all(colnames(res_2) == c("name", "compound_id")))
     expect_equal(nrow(res_2), length(be))
 })
+
+test_that(".available_peaks_variables works", {
+    expect_equal(.available_peaks_variables(MsBackendCompDb()), character())
+    res <- .available_peaks_variables(Spectra(cmp_spctra_db)@backend)
+    expect_equal(res, c("mz", "intensity"))
+})
