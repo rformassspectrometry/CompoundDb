@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">CompoundDb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.11</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.12</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -101,8 +101,9 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script><p><strong>Authors</strong>: Jan Stanstrup [aut] (<a href="https://orcid.org/0000-0003-0541-7369" class="external-link uri">https://orcid.org/0000-0003-0541-7369</a>), Johannes Rainer
 [aut, cre] (<a href="https://orcid.org/0000-0002-6977-7147" class="external-link uri">https://orcid.org/0000-0002-6977-7147</a>), Josep M. Badia
-[ctb] (<a href="https://orcid.org/0000-0002-5704-1124" class="external-link uri">https://orcid.org/0000-0002-5704-1124</a>), Andrea Vicini
-[aut]<br><strong>Last modified:</strong> 2022-04-12 07:22:17<br><strong>Compiled</strong>: Tue Apr 12 07:34:58 2022</p>
+[ctb] (<a href="https://orcid.org/0000-0002-5704-1124" class="external-link uri">https://orcid.org/0000-0002-5704-1124</a>), Roger Gine [aut]
+(<a href="https://orcid.org/0000-0003-0288-9619" class="external-link uri">https://orcid.org/0000-0003-0288-9619</a>), Andrea Vicini
+[aut] (<a href="https://orcid.org/0000-0001-9438-6909" class="external-link uri">https://orcid.org/0000-0001-9438-6909</a>)<br><strong>Last modified:</strong> 2022-04-19 08:28:31<br><strong>Compiled</strong>: Tue Apr 19 08:41:20 2022</p>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
@@ -291,6 +292,83 @@ expressions. Below we combine the <code>FormulaFilter</code> with the
 <span class="co">## 1 C17H14O6   314.079 Aflatoxin B2</span></code></pre>
 </div>
 <div class="section level3">
+<h3 id="additional-functionality-for-compdb-databases">Additional functionality for <code>CompDb</code> databases<a class="anchor" aria-label="anchor" href="#additional-functionality-for-compdb-databases"></a>
+</h3>
+<p><code>CompoundDb</code> defines additional functions to work with
+<code>CompDb</code> databases. One of them is the <code>mass2mz</code>
+function that allows to directly calculate ion (adduct) m/z values for
+exact (monoisotopic) masses of compounds in a database. Below we use
+this function to calculate <code>[M+H]+</code> and <code>[M+Na]+</code>
+ions for all unique chemical formulas in our example <code>CompDb</code>
+database.</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/CompDb.html">mass2mz</a></span><span class="op">(</span><span class="va">cdb</span>, adduct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[M+H]+"</span>, <span class="st">"[M+Na]+"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">##              [M+H]+  [M+Na]+</span>
+<span class="co">## C10H10O3   179.0703 201.0522</span>
+<span class="co">## C25H47NO9  506.3324 528.3143</span>
+<span class="co">## C17H12O6   313.0706 335.0526</span>
+<span class="co">## C17H14O6   315.0863 337.0682</span>
+<span class="co">## C17H12O7   329.0656 351.0475</span>
+<span class="co">## C17H14O7   331.0812 353.0632</span>
+<span class="co">## C20H20N2O3 337.1547 359.1366</span>
+<span class="co">## C15H16O6   293.1020 315.0839</span>
+<span class="co">## C14H10O5   259.0601 281.0420</span>
+<span class="co">## C15H12O5   273.0757 295.0577</span>
+<span class="co">## C16H16O8   337.0918 359.0737</span></code></pre>
+<p>To get a <code>matrix</code> with adduct m/z values for discrete
+compounds (identified by their InChIKey) we specify
+<code>name = "inchikey"</code>.</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/CompDb.html">mass2mz</a></span><span class="op">(</span><span class="va">cdb</span>, adduct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[M+H]+"</span>, <span class="st">"[M+Na]+"</span><span class="op">)</span>, name <span class="op">=</span> <span class="st">"inchikey"</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">##                               [M+H]+  [M+Na]+</span>
+<span class="co">## KWILGNNWGSNMPA-UHFFFAOYSA-N 179.0703 201.0522</span>
+<span class="co">## CTXQVLLVFBNZKL-YVEDVMJTSA-N 506.3324 528.3143</span>
+<span class="co">## OQIQSTLJSLGHID-WNWIJWBNSA-N 313.0706 335.0526</span>
+<span class="co">## WWSYXEZEXMQWHT-WNWIJWBNSA-N 315.0863 337.0682</span>
+<span class="co">## XWIYFDMXXLINPU-WNWIJWBNSA-N 329.0656 351.0475</span>
+<span class="co">## WPCVRWVBBXIRMA-WNWIJWBNSA-N 331.0812 353.0632</span>
+<span class="co">## MJBWDEQAUQTVKK-IAGOWNOFSA-N 329.0656 351.0475</span>
+<span class="co">## SZINUGQCTHLQAZ-DQYPLSBCSA-N 337.1547 359.1366</span>
+<span class="co">## MMHTXEATDNFMMY-WBIUFABUSA-N 293.1020 315.0839</span>
+<span class="co">## CEBXXEKPIIDJHL-UHFFFAOYSA-N 259.0601 281.0420</span>
+<span class="co">## LCSDQFNUYFTXMT-UHFFFAOYSA-N 273.0757 295.0577</span>
+<span class="co">## VSMBLBOUQJNJIL-JJXSEGSLSA-N 337.0918 359.0737</span></code></pre>
+<p>Alternatively we could also use <code>name = "compound_id"</code> to
+get a value for each row in the compound database table, but for this
+example database this would result in highly redundant information.</p>
+<p><code>mass2mz</code> bases on the
+<code><a href="https://rdrr.io/pkg/MetaboCoreUtils/man/mass2mz.html" class="external-link">MetaboCoreUtils::mass2mz</a></code> function and thus supports all
+pre-defined adducts from that function. These are (for positive
+polarity):</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">MetaboCoreUtils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MetaboCoreUtils/man/adductNames.html" class="external-link">adductNames</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">##  [1] "[M+3H]3+"          "[M+2H+Na]3+"       "[M+H+Na2]3+"      </span>
+<span class="co">##  [4] "[M+Na3]3+"         "[M+2H]2+"          "[M+H+NH4]2+"      </span>
+<span class="co">##  [7] "[M+H+K]2+"         "[M+H+Na]2+"        "[M+C2H3N+2H]2+"   </span>
+<span class="co">## [10] "[M+2Na]2+"         "[M+C4H6N2+2H]2+"   "[M+C6H9N3+2H]2+"  </span>
+<span class="co">## [13] "[M+H]+"            "[M+Li]+"           "[M+2Li-H]+"       </span>
+<span class="co">## [16] "[M+NH4]+"          "[M+H2O+H]+"        "[M+Na]+"          </span>
+<span class="co">## [19] "[M+CH4O+H]+"       "[M+K]+"            "[M+C2H3N+H]+"     </span>
+<span class="co">## [22] "[M+2Na-H]+"        "[M+C3H8O+H]+"      "[M+C2H3N+Na]+"    </span>
+<span class="co">## [25] "[M+2K-H]+"         "[M+C2H6OS+H]+"     "[M+C4H6N2+H]+"    </span>
+<span class="co">## [28] "[2M+H]+"           "[2M+NH4]+"         "[2M+Na]+"         </span>
+<span class="co">## [31] "[2M+K]+"           "[2M+C2H3N+H]+"     "[2M+C2H3N+Na]+"   </span>
+<span class="co">## [34] "[3M+H]+"           "[M+H-NH3]+"        "[M+H-H2O]+"       </span>
+<span class="co">## [37] "[M+H-Hexose-H2O]+" "[M+H-H4O2]+"       "[M+H-CH2O2]+"     </span>
+<span class="co">## [40] "[M]+"</span></code></pre>
+<p>and for negative polarity:</p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">MetaboCoreUtils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MetaboCoreUtils/man/adductNames.html" class="external-link">adductNames</a></span><span class="op">(</span>polarity <span class="op">=</span> <span class="st">"negative"</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">##  [1] "[M-3H]3-"      "[M-2H]2-"      "[M-H]-"        "[M+Na-2H]-"   </span>
+<span class="co">##  [5] "[M+Cl]-"       "[M+K-2H]-"     "[M+C2H3N-H]-"  "[M+CHO2]-"    </span>
+<span class="co">##  [9] "[M+C2H3O2]-"   "[M+Br]-"       "[M+C2F3O2]-"   "[2M-H]-"      </span>
+<span class="co">## [13] "[2M+CHO2]-"    "[2M+C2H3O2]-"  "[3M-H]-"       "[M-H+HCOONa]-"</span>
+<span class="co">## [17] "[M]-"</span></code></pre>
+<p>In addition, user-supplied adduct definitions are also supported (see
+the help of <code>mass2mz</code> in the <code>MetaboCoreUtils</code>
+package for details).</p>
+</div>
+<div class="section level3">
 <h3 id="extracting-with-msms-data">Extracting with MS/MS data<a class="anchor" aria-label="anchor" href="#extracting-with-msms-data"></a>
 </h3>
 <p><code>CompDb</code> database can also store and provide MS/MS
@@ -298,7 +376,7 @@ spectral data. These can be interfaced with a <code>Spectra</code>
 object from the <em><a href="https://bioconductor.org/packages/3.15/Spectra" class="external-link">Spectra</a></em>
 Bioconductor package which can be initialized with the
 <code>Spectra</code> function as shown below.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span>
 <span class="va">sps</span></code></pre></div>
 <pre><code><span class="co">## MSn data (Spectra) with 70 spectra in a MsBackendCompDb backend:</span>
@@ -323,7 +401,7 @@ Bioconductor package which can be initialized with the
 <p>With the <code>spectraVariables</code> function it is possible to
 list all available annotations specific to a spectrum from the
 database.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">spectraVariables</a></span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">##  [1] "msLevel"                 "rtime"                  </span>
 <span class="co">##  [3] "acquisitionNum"          "scanIndex"              </span>
@@ -351,7 +429,7 @@ database.</p>
 <span class="co">## [47] "synonym"</span></code></pre>
 <p>Individual variables can then be accessed with <code>$</code> and the
 variable name:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sps</span><span class="op">$</span><span class="va">adduct</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## [1] "[M+H]+" "[M+H]+" "[M+H]+" "[M+H]+" "[M+H]+" "[M+H]+"</span></code></pre>
 <p>For more information on how to use <code>Spectra</code> objects in
@@ -367,7 +445,7 @@ compound <em>Mellein</em>. Using the <code>filter</code> in the
 <code>Spectra</code> call can be substantially faster than first
 initializing a <code>Spectra</code> with the full data and then
 subsetting that to selected spectra.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mellein</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">cdb</span>, filter <span class="op">=</span> <span class="op">~</span> <span class="va">name</span> <span class="op">==</span> <span class="st">"Mellein"</span><span class="op">)</span>
 <span class="va">mellein</span></code></pre></div>
 <pre><code><span class="co">## MSn data (Spectra) with 5 spectra in a MsBackendCompDb backend:</span>
@@ -388,7 +466,7 @@ from the database.</p>
 <p>As a simple toy example we perform next pairwise spectra comparison
 between the 5 spectra from <em>Mellein</em> with all the MS/MS spectra
 in the database.</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/Spectra" class="external-link">Spectra</a></span><span class="op">)</span>
 <span class="va">cormat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compareSpectra</a></span><span class="op">(</span><span class="va">mellein</span>, <span class="va">sps</span>, ppm <span class="op">=</span> <span class="fl">40</span><span class="op">)</span></code></pre></div>
 </div>
@@ -416,7 +494,7 @@ example, are however by default <em>read-only</em>, thus, we below
 create a new database connection, copy the content of the
 <code>cdb</code> to that database and convert the <code>CompDb</code> to
 an <code>IonDb</code>.</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rsqlite.r-dbi.org" class="external-link">RSQLite</a></span><span class="op">)</span>
 <span class="co">## Create a temporary database</span>
 <span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">dbConnect</span><span class="op">(</span><span class="fu"><a href="https://rsqlite.r-dbi.org/reference/SQLite.html" class="external-link">SQLite</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
@@ -433,7 +511,7 @@ an <code>IonDb</code>.</p>
 <p>The <code>IonDb</code> defines an additional function
 <code>ions</code> that allows to retrieve ion information from the
 database.</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/IonDb.html">ions</a></span><span class="op">(</span><span class="va">idb</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## [1] compound_id ion_adduct  ion_mz      ion_rt     </span>
 <span class="co">## &lt;0 rows&gt; (or 0-length row.names)</span></code></pre>
@@ -445,14 +523,14 @@ compounds to which the ion should be related to. In the present example
 we add 2 different ions for the compound with the ID 1
 (<em>Mellein</em>). Note that the specified m/z values as well as the
 retention times are completely arbitrary.</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ion</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>compound_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,
                   ion_adduct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[M+H]+"</span>, <span class="st">"[M+Na]+"</span><span class="op">)</span>,
                   ion_mz <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">123.34</span>, <span class="fl">125.34</span><span class="op">)</span>,
                   ion_rt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">196</span>, <span class="fl">196</span><span class="op">)</span><span class="op">)</span>
 <span class="va">idb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/IonDb.html">insertIon</a></span><span class="op">(</span><span class="va">idb</span>, <span class="va">ion</span><span class="op">)</span></code></pre></div>
 <p>These ions have now be addded to the database.</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/IonDb.html">ions</a></span><span class="op">(</span><span class="va">idb</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">##   compound_id ion_adduct ion_mz ion_rt</span>
 <span class="co">## 1           1     [M+H]+ 123.34    196</span>
@@ -460,7 +538,7 @@ retention times are completely arbitrary.</p>
 <p>Note that we can also retrieve compound annotation information for
 the ions. Below we extract the associated compound name and its exact
 mass.</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/IonDb.html">ions</a></span><span class="op">(</span><span class="va">idb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ion_adduct"</span>, <span class="st">"name"</span>, <span class="st">"exactmass"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">##   ion_adduct    name exactmass</span>
 <span class="co">## 1     [M+H]+ Mellein   178.063</span>
@@ -469,7 +547,7 @@ mass.</p>
 <div class="section level2">
 <h2 id="session-information">Session information<a class="anchor" aria-label="anchor" href="#session-information"></a>
 </h2>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## R Under development (unstable) (2022-03-14 r81896)</span>
 <span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span>
@@ -491,39 +569,39 @@ mass.</p>
 <span class="co">## [8] base     </span>
 <span class="co">## </span>
 <span class="co">## other attached packages:</span>
-<span class="co">## [1] RSQLite_2.2.12          Spectra_1.5.18          ProtGenerics_1.27.2    </span>
-<span class="co">## [4] BiocParallel_1.29.20    CompoundDb_0.99.11      S4Vectors_0.33.17      </span>
+<span class="co">## [1] RSQLite_2.2.12          Spectra_1.5.19          ProtGenerics_1.27.2    </span>
+<span class="co">## [4] BiocParallel_1.29.20    CompoundDb_0.99.12      S4Vectors_0.33.17      </span>
 <span class="co">## [7] BiocGenerics_0.41.2     AnnotationFilter_1.19.0 BiocStyle_2.23.1       </span>
 <span class="co">## </span>
 <span class="co">## loaded via a namespace (and not attached):</span>
 <span class="co">##  [1] Biobase_2.55.2         sass_0.4.1             bit64_4.0.5           </span>
 <span class="co">##  [4] jsonlite_1.8.0         bslib_0.3.1            assertthat_0.2.1      </span>
-<span class="co">##  [7] BiocManager_1.30.16    blob_1.2.3             GenomeInfoDbData_1.2.7</span>
-<span class="co">## [10] yaml_2.3.5             pillar_1.7.0           glue_1.6.2            </span>
-<span class="co">## [13] digest_0.6.29          GenomicRanges_1.47.6   XVector_0.35.0        </span>
-<span class="co">## [16] colorspace_2.0-3       htmltools_0.5.2        pkgconfig_2.0.3       </span>
-<span class="co">## [19] bookdown_0.25          zlibbioc_1.41.0        purrr_0.3.4           </span>
-<span class="co">## [22] scales_1.1.1           tibble_3.1.6           generics_0.1.2        </span>
-<span class="co">## [25] IRanges_2.29.1         ggplot2_3.3.5          ellipsis_0.3.2        </span>
-<span class="co">## [28] DT_0.22                cachem_1.0.6           lazyeval_0.2.2        </span>
-<span class="co">## [31] cli_3.2.0              magrittr_2.0.3         crayon_1.5.1          </span>
-<span class="co">## [34] memoise_2.0.1          evaluate_0.15          fs_1.5.2              </span>
-<span class="co">## [37] fansi_1.0.3            MASS_7.3-56            xml2_1.3.3            </span>
-<span class="co">## [40] textshaping_0.3.6      tools_4.2.0            lifecycle_1.0.1       </span>
-<span class="co">## [43] stringr_1.4.0          munsell_0.5.0          cluster_2.1.3         </span>
-<span class="co">## [46] compiler_4.2.0         pkgdown_2.0.2.9000     jquerylib_0.1.4       </span>
-<span class="co">## [49] GenomeInfoDb_1.31.7    systemfonts_1.0.4      rlang_1.0.2           </span>
-<span class="co">## [52] grid_4.2.0             RCurl_1.98-1.6         rsvg_2.2.0            </span>
-<span class="co">## [55] rjson_0.2.21           MsCoreUtils_1.7.4      htmlwidgets_1.5.4     </span>
-<span class="co">## [58] bitops_1.0-7           base64enc_0.1-3        rmarkdown_2.13        </span>
-<span class="co">## [61] gtable_0.3.0           DBI_1.1.2              R6_2.5.1              </span>
-<span class="co">## [64] gridExtra_2.3          knitr_1.38             dplyr_1.0.8           </span>
-<span class="co">## [67] fastmap_1.1.0          bit_4.0.4              utf8_1.2.2            </span>
-<span class="co">## [70] clue_0.3-60            rprojroot_2.0.3        ragg_1.2.2            </span>
-<span class="co">## [73] desc_1.4.1             stringi_1.7.6          parallel_4.2.0        </span>
-<span class="co">## [76] Rcpp_1.0.8.3           vctrs_0.4.0            png_0.1-7             </span>
-<span class="co">## [79] dbplyr_2.1.1           tidyselect_1.1.2       xfun_0.30             </span>
-<span class="co">## [82] ChemmineR_3.47.1</span></code></pre>
+<span class="co">##  [7] MetaboCoreUtils_1.3.8  BiocManager_1.30.16    blob_1.2.3            </span>
+<span class="co">## [10] GenomeInfoDbData_1.2.8 yaml_2.3.5             pillar_1.7.0          </span>
+<span class="co">## [13] glue_1.6.2             digest_0.6.29          GenomicRanges_1.47.6  </span>
+<span class="co">## [16] XVector_0.35.0         colorspace_2.0-3       htmltools_0.5.2       </span>
+<span class="co">## [19] pkgconfig_2.0.3        bookdown_0.26          zlibbioc_1.41.0       </span>
+<span class="co">## [22] purrr_0.3.4            scales_1.2.0           tibble_3.1.6          </span>
+<span class="co">## [25] generics_0.1.2         IRanges_2.29.1         ggplot2_3.3.5         </span>
+<span class="co">## [28] ellipsis_0.3.2         DT_0.22                cachem_1.0.6          </span>
+<span class="co">## [31] lazyeval_0.2.2         cli_3.2.0              magrittr_2.0.3        </span>
+<span class="co">## [34] crayon_1.5.1           memoise_2.0.1          evaluate_0.15         </span>
+<span class="co">## [37] fs_1.5.2               fansi_1.0.3            MASS_7.3-56           </span>
+<span class="co">## [40] xml2_1.3.3             textshaping_0.3.6      tools_4.2.0           </span>
+<span class="co">## [43] lifecycle_1.0.1        stringr_1.4.0          munsell_0.5.0         </span>
+<span class="co">## [46] cluster_2.1.3          compiler_4.2.0         pkgdown_2.0.2.9000    </span>
+<span class="co">## [49] jquerylib_0.1.4        GenomeInfoDb_1.31.7    systemfonts_1.0.4     </span>
+<span class="co">## [52] rlang_1.0.2            grid_4.2.0             RCurl_1.98-1.6        </span>
+<span class="co">## [55] rsvg_2.3.0             rjson_0.2.21           MsCoreUtils_1.7.5     </span>
+<span class="co">## [58] htmlwidgets_1.5.4      bitops_1.0-7           base64enc_0.1-3       </span>
+<span class="co">## [61] rmarkdown_2.13         gtable_0.3.0           DBI_1.1.2             </span>
+<span class="co">## [64] R6_2.5.1               gridExtra_2.3          knitr_1.38            </span>
+<span class="co">## [67] dplyr_1.0.8            bit_4.0.4              fastmap_1.1.0         </span>
+<span class="co">## [70] utf8_1.2.2             clue_0.3-60            rprojroot_2.0.3       </span>
+<span class="co">## [73] ragg_1.2.2             desc_1.4.1             stringi_1.7.6         </span>
+<span class="co">## [76] parallel_4.2.0         Rcpp_1.0.8.3           vctrs_0.4.1           </span>
+<span class="co">## [79] png_0.1-7              dbplyr_2.1.1           tidyselect_1.1.2      </span>
+<span class="co">## [82] xfun_0.30              ChemmineR_3.47.1</span></code></pre>
 </div>
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
@@ -546,7 +624,8 @@ in <span>R</span>.”</span> <em>Metabolites</em> 12 (2): 173. <a href="https://
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Jan Stanstrup, Johannes Rainer, Andrea Vicini.</p>
+<p>Developed by Jan Stanstrup, Johannes Rainer, Roger Gine, Andrea
+Vicini.</p>
 </div>
 
 <div class="pkgdown-footer-right">

@@ -20,7 +20,7 @@ available in the database and FALSE otherwise."><meta property="og:image" conten
     
     <a class="navbar-brand me-2" href="../index.html">CompoundDb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.11</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.12</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -114,7 +114,10 @@ available in the database and <code>FALSE</code> otherwise.</p>
 <span class="fu">insertSpectra</span><span class="op">(</span><span class="va">object</span>, <span class="va">spectra</span>, columns <span class="op">=</span> <span class="fu">spectraVariables</span><span class="op">(</span><span class="va">spectra</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span>
 
 <span class="co"># S4 method for CompDb</span>
-<span class="fu">deleteSpectra</span><span class="op">(</span><span class="va">object</span>, ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+<span class="fu">deleteSpectra</span><span class="op">(</span><span class="va">object</span>, ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span>
+
+<span class="co"># S4 method for CompDb</span>
+<span class="fu">mass2mz</span><span class="op">(</span><span class="va">x</span>, adduct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[M+H]+"</span><span class="op">)</span>, name <span class="op">=</span> <span class="st">"formula"</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -161,6 +164,19 @@ specifying the IDs of the spectra to delete. IDs in <code>ids</code> that are
 not associated to any spectra in the <code>CompDb</code> object are ignored. For
 <code>deleteIon</code>: <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> or (alternatively <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)
 specifying the IDs of the ions to delete.</p></dd>
+<dt>adduct</dt>
+<dd><p>either a <code>character</code> specifying the name(s) of the adduct(s)
+for which the m/z should be calculated or a <code>data.frame</code> with the adduct
+definition. See <code><a href="https://rdrr.io/pkg/MetaboCoreUtils/man/adductNames.html" class="external-link">adductNames()</a></code> for supported adduct names and the
+description for more information on the expected format if a <code>data.frame</code>
+is provided.</p></dd>
+<dt>name</dt>
+<dd><p>For <code>mass2mz</code>: <code>character(1)</code>. Defines the <code>CompDb</code> column that
+will be used to name/identify the returned m/z values. By default
+(<code>name = "formula"</code>) m/z values for all unique molecular formulas are
+calculated and these are used as <code>rownames</code> for the returned <code>matrix</code>.
+With <code>name = "compound_id"</code> the adduct m/z for all compounds (even those
+with equal formulas) are calculated and returned.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -232,6 +248,12 @@ that <code>deleteSpectra</code> doesn't work on default <em>read-only</em> <code
 (dropping the default parameter <code>flags = RSQLite::SQLITE_RO</code> in the
 <code>CompDb</code> call to connect to a database would return a <code>CompDb</code> object
 which is also writeable).</p></li>
+<li><p><code>mass2mz</code>: calculates a table of the m/z values for each compound based on
+the provided set of adduct(s). Adduct definitions can be provided with
+parameter <code>adduct</code>. See <code><a href="https://rdrr.io/pkg/MetaboCoreUtils/man/mass2mz.html" class="external-link">MetaboCoreUtils::mass2mz()</a></code> for more details.
+Parameter <code>name</code> defines the database table column that should be used as
+<code>rownames</code> of the returned <code>matrix</code>. By default <code>name = "formula"</code>, m/z
+values are calculated for each unique formula in the <code>CompDb</code> <code>x</code>.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="filtering-the-database">Filtering the database<a class="anchor" aria-label="anchor" href="#filtering-the-database"></a></h2>
@@ -358,6 +380,367 @@ details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11 Alternariol methyl ether</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12           Altersolanol A</span>
 <span class="r-in"></span>
+<span class="r-in"><span class="co">## Note that the `compounds` function will by default always return a</span></span>
+<span class="r-in"><span class="co">## data frame of **unique** entries for the specified columns. Including</span></span>
+<span class="r-in"><span class="co">## also the `"compound_id"` to the requested columns will ensure that all</span></span>
+<span class="r-in"><span class="co">## data is returned from the tables.</span></span>
+<span class="r-in"><span class="fu">compounds</span><span class="op">(</span><span class="va">cdb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"compound_id"</span>, <span class="fu">compoundVariables</span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    compound_id    formula exactmass</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1            1   C10H10O3  178.0630</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2            2   C10H10O3  178.0630</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3            3   C10H10O3  178.0630</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4            4   C10H10O3  178.0630</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5            5   C10H10O3  178.0630</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6            6  C25H47NO9  505.3251</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7            7  C25H47NO9  505.3251</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8            8  C25H47NO9  505.3251</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9            9  C25H47NO9  505.3251</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10          10  C25H47NO9  505.3251</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11          11  C25H47NO9  505.3251</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12          12  C25H47NO9  505.3251</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13          13  C25H47NO9  505.3251</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14          14  C25H47NO9  505.3251</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15          15  C25H47NO9  505.3251</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16          16   C17H12O6  312.0634</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17          17   C17H12O6  312.0634</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18          18   C17H12O6  312.0634</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19          19   C17H12O6  312.0634</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20          20   C17H12O6  312.0634</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21          21   C17H12O6  312.0634</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22          22   C17H12O6  312.0634</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23          23   C17H12O6  312.0634</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24          24   C17H12O6  312.0634</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25          25   C17H12O6  312.0634</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26          26   C17H14O6  314.0790</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27          27   C17H14O6  314.0790</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28          28   C17H14O6  314.0790</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29          29   C17H14O6  314.0790</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30          30   C17H14O6  314.0790</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31          31   C17H14O6  314.0790</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32          32   C17H12O7  328.0583</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33          33   C17H12O7  328.0583</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34          34   C17H12O7  328.0583</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35          35   C17H12O7  328.0583</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36          36   C17H12O7  328.0583</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37          37   C17H12O7  328.0583</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38          38   C17H14O7  330.0739</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39          39   C17H14O7  330.0739</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40          40   C17H14O7  330.0739</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41          41   C17H14O7  330.0739</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 42          42   C17H14O7  330.0739</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43          43   C17H14O7  330.0739</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44          44   C17H12O7  328.0583</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45          45   C17H12O7  328.0583</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46          46   C17H12O7  328.0583</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 47          47   C17H12O7  328.0583</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 48          48   C17H12O7  328.0583</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49          49   C17H12O7  328.0583</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 50          50 C20H20N2O3  336.1474</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 51          51 C20H20N2O3  336.1474</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 52          52 C20H20N2O3  336.1474</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 53          53 C20H20N2O3  336.1474</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 54          54 C20H20N2O3  336.1474</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 55          55   C15H16O6  292.0947</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 56          56   C15H16O6  292.0947</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 57          57   C15H16O6  292.0947</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 58          58   C15H16O6  292.0947</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 59          59   C15H16O6  292.0947</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 60          60   C14H10O5  258.0528</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 61          61   C14H10O5  258.0528</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 62          62   C14H10O5  258.0528</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 63          63   C15H12O5  272.0685</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 64          64   C15H12O5  272.0685</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 65          65   C15H12O5  272.0685</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 66          66   C16H16O8  336.0845</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 67          67   C16H16O8  336.0845</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 68          68   C16H16O8  336.0845</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 69          69   C16H16O8  336.0845</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 70          70   C16H16O8  336.0845</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                   smiles</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                            CC1CC2=C(C(=CC=C2)O)C(=O)O1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                            CC1CC2=C(C(=CC=C2)O)C(=O)O1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                            CC1CC2=C(C(=CC=C2)O)C(=O)O1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                            CC1CC2=C(C(=CC=C2)O)C(=O)O1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                            CC1CC2=C(C(=CC=C2)O)C(=O)O1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  CC[C@@H](C)[C@H]([C@H](C[C@@H](C)CCCCCC[C@H](C[C@@H](CN)O)O)OC(=O)CC(CC(=O)O)C(=O)O)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  CC[C@@H](C)[C@H]([C@H](C[C@@H](C)CCCCCC[C@H](C[C@@H](CN)O)O)OC(=O)CC(CC(=O)O)C(=O)O)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  CC[C@@H](C)[C@H]([C@H](C[C@@H](C)CCCCCC[C@H](C[C@@H](CN)O)O)OC(=O)CC(CC(=O)O)C(=O)O)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  CC[C@@H](C)[C@H]([C@H](C[C@@H](C)CCCCCC[C@H](C[C@@H](CN)O)O)OC(=O)CC(CC(=O)O)C(=O)O)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 CC[C@@H](C)[C@H]([C@H](C[C@@H](C)CCCCCC[C@H](C[C@@H](CN)O)O)OC(=O)CC(CC(=O)O)C(=O)O)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 CC[C@@H](C)[C@H]([C@H](C[C@@H](C)CCCCCC[C@H](C[C@@H](CN)O)O)OC(=O)CC(CC(=O)O)C(=O)O)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 CC[C@@H](C)[C@H]([C@H](C[C@@H](C)CCCCCC[C@H](C[C@@H](CN)O)O)OC(=O)CC(CC(=O)O)C(=O)O)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 CC[C@@H](C)[C@H]([C@H](C[C@@H](C)CCCCCC[C@H](C[C@@H](CN)O)O)OC(=O)CC(CC(=O)O)C(=O)O)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 CC[C@@H](C)[C@H]([C@H](C[C@@H](C)CCCCCC[C@H](C[C@@H](CN)O)O)OC(=O)CC(CC(=O)O)C(=O)O)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 CC[C@@H](C)[C@H]([C@H](C[C@@H](C)CCCCCC[C@H](C[C@@H](CN)O)O)OC(=O)CC(CC(=O)O)C(=O)O)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                              COC1=C2C3=C(C(=O)CC3)C(=O)OC2=C4[C@@H]5C=CO[C@@H]5OC4=C1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17                              COC1=C2C3=C(C(=O)CC3)C(=O)OC2=C4[C@@H]5C=CO[C@@H]5OC4=C1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                              COC1=C2C3=C(C(=O)CC3)C(=O)OC2=C4[C@@H]5C=CO[C@@H]5OC4=C1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19                              COC1=C2C3=C(C(=O)CC3)C(=O)OC2=C4[C@@H]5C=CO[C@@H]5OC4=C1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                              COC1=C2C3=C(C(=O)CC3)C(=O)OC2=C4[C@@H]5C=CO[C@@H]5OC4=C1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                              COC1=C2C3=C(C(=O)CC3)C(=O)OC2=C4[C@@H]5C=CO[C@@H]5OC4=C1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22                              COC1=C2C3=C(C(=O)CC3)C(=O)OC2=C4[C@@H]5C=CO[C@@H]5OC4=C1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23                              COC1=C2C3=C(C(=O)CC3)C(=O)OC2=C4[C@@H]5C=CO[C@@H]5OC4=C1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24                              COC1=C2C3=C(C(=O)CC3)C(=O)OC2=C4[C@@H]5C=CO[C@@H]5OC4=C1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25                              COC1=C2C3=C(C(=O)CC3)C(=O)OC2=C4[C@@H]5C=CO[C@@H]5OC4=C1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26                               COC1=C2C3=C(C(=O)CC3)C(=O)OC2=C4[C@@H]5CCO[C@@H]5OC4=C1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27                               COC1=C2C3=C(C(=O)CC3)C(=O)OC2=C4[C@@H]5CCO[C@@H]5OC4=C1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28                               COC1=C2C3=C(C(=O)CC3)C(=O)OC2=C4[C@@H]5CCO[C@@H]5OC4=C1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29                               COC1=C2C3=C(C(=O)CC3)C(=O)OC2=C4[C@@H]5CCO[C@@H]5OC4=C1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30                               COC1=C2C3=C(C(=O)CC3)C(=O)OC2=C4[C@@H]5CCO[C@@H]5OC4=C1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31                               COC1=C2C3=C(C(=O)CC3)C(=O)OC2=C4[C@@H]5CCO[C@@H]5OC4=C1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32                             COC1=C2C3=C(C(=O)OCC3)C(=O)OC2=C4[C@@H]5C=CO[C@@H]5OC4=C1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33                             COC1=C2C3=C(C(=O)OCC3)C(=O)OC2=C4[C@@H]5C=CO[C@@H]5OC4=C1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34                             COC1=C2C3=C(C(=O)OCC3)C(=O)OC2=C4[C@@H]5C=CO[C@@H]5OC4=C1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35                             COC1=C2C3=C(C(=O)OCC3)C(=O)OC2=C4[C@@H]5C=CO[C@@H]5OC4=C1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36                             COC1=C2C3=C(C(=O)OCC3)C(=O)OC2=C4[C@@H]5C=CO[C@@H]5OC4=C1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37                             COC1=C2C3=C(C(=O)OCC3)C(=O)OC2=C4[C@@H]5C=CO[C@@H]5OC4=C1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38                              COC1=C2C3=C(C(=O)OCC3)C(=O)OC2=C4[C@@H]5CCO[C@@H]5OC4=C1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39                              COC1=C2C3=C(C(=O)OCC3)C(=O)OC2=C4[C@@H]5CCO[C@@H]5OC4=C1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40                              COC1=C2C3=C(C(=O)OCC3)C(=O)OC2=C4[C@@H]5CCO[C@@H]5OC4=C1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41                              COC1=C2C3=C(C(=O)OCC3)C(=O)OC2=C4[C@@H]5CCO[C@@H]5OC4=C1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 42                              COC1=C2C3=C(C(=O)OCC3)C(=O)OC2=C4[C@@H]5CCO[C@@H]5OC4=C1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43                              COC1=C2C3=C(C(=O)OCC3)C(=O)OC2=C4[C@@H]5CCO[C@@H]5OC4=C1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44                           COC1=C2C3=C(C(=O)CC3)C(=O)OC2=C4C(=C1)O[C@@H]5[C@]4(C=CO5)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45                           COC1=C2C3=C(C(=O)CC3)C(=O)OC2=C4C(=C1)O[C@@H]5[C@]4(C=CO5)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46                           COC1=C2C3=C(C(=O)CC3)C(=O)OC2=C4C(=C1)O[C@@H]5[C@]4(C=CO5)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 47                           COC1=C2C3=C(C(=O)CC3)C(=O)OC2=C4C(=C1)O[C@@H]5[C@]4(C=CO5)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 48                           COC1=C2C3=C(C(=O)CC3)C(=O)OC2=C4C(=C1)O[C@@H]5[C@]4(C=CO5)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49                           COC1=C2C3=C(C(=O)CC3)C(=O)OC2=C4C(=C1)O[C@@H]5[C@]4(C=CO5)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 50                   CC(=O)C1=C([C@@H]2[C@@H]3[C@@H](CC4=C5C3=CNC5=CC=C4)C(N2C1=O)(C)C)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 51                   CC(=O)C1=C([C@@H]2[C@@H]3[C@@H](CC4=C5C3=CNC5=CC=C4)C(N2C1=O)(C)C)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 52                   CC(=O)C1=C([C@@H]2[C@@H]3[C@@H](CC4=C5C3=CNC5=CC=C4)C(N2C1=O)(C)C)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 53                   CC(=O)C1=C([C@@H]2[C@@H]3[C@@H](CC4=C5C3=CNC5=CC=C4)C(N2C1=O)(C)C)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 54                   CC(=O)C1=C([C@@H]2[C@@H]3[C@@H](CC4=C5C3=CNC5=CC=C4)C(N2C1=O)(C)C)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 55                                C[C@]12C[C@@H]([C@H](C=C1C3=CC(=CC(=C3C(=O)O2)O)OC)O)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 56                                C[C@]12C[C@@H]([C@H](C=C1C3=CC(=CC(=C3C(=O)O2)O)OC)O)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 57                                C[C@]12C[C@@H]([C@H](C=C1C3=CC(=CC(=C3C(=O)O2)O)OC)O)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 58                                C[C@]12C[C@@H]([C@H](C=C1C3=CC(=CC(=C3C(=O)O2)O)OC)O)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 59                                C[C@]12C[C@@H]([C@H](C=C1C3=CC(=CC(=C3C(=O)O2)O)OC)O)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 60                                              CC1=CC(=CC2=C1C3=CC(=CC(=C3C(=O)O2)O)O)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 61                                              CC1=CC(=CC2=C1C3=CC(=CC(=C3C(=O)O2)O)O)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 62                                              CC1=CC(=CC2=C1C3=CC(=CC(=C3C(=O)O2)O)O)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 63                                             CC1=CC(=CC2=C1C3=CC(=CC(=C3C(=O)O2)O)OC)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 64                                             CC1=CC(=CC2=C1C3=CC(=CC(=C3C(=O)O2)O)OC)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 65                                             CC1=CC(=CC2=C1C3=CC(=CC(=C3C(=O)O2)O)OC)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 66                    C[C@]1([C@@H]([C@H](C2=C([C@H]1O)C(=O)C3=CC(=CC(=C3C2=O)O)OC)O)O)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 67                    C[C@]1([C@@H]([C@H](C2=C([C@H]1O)C(=O)C3=CC(=CC(=C3C2=O)O)OC)O)O)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 68                    C[C@]1([C@@H]([C@H](C2=C([C@H]1O)C(=O)C3=CC(=CC(=C3C2=O)O)OC)O)O)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 69                    C[C@]1([C@@H]([C@H](C2=C([C@H]1O)C(=O)C3=CC(=CC(=C3C2=O)O)OC)O)O)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 70                    C[C@]1([C@@H]([C@H](C2=C([C@H]1O)C(=O)C3=CC(=CC(=C3C2=O)O)OC)O)O)O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                                                                                                            inchi</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                                                                                                        InChI=1S/C10H10O3/c1-6-5-7-3-2-4-8(11)9(7)10(12)13-6/h2-4,6,11H,5H2,1H3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                                                                                                        InChI=1S/C10H10O3/c1-6-5-7-3-2-4-8(11)9(7)10(12)13-6/h2-4,6,11H,5H2,1H3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                                                                                                        InChI=1S/C10H10O3/c1-6-5-7-3-2-4-8(11)9(7)10(12)13-6/h2-4,6,11H,5H2,1H3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                                                                                                                        InChI=1S/C10H10O3/c1-6-5-7-3-2-4-8(11)9(7)10(12)13-6/h2-4,6,11H,5H2,1H3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                                                                                                        InChI=1S/C10H10O3/c1-6-5-7-3-2-4-8(11)9(7)10(12)13-6/h2-4,6,11H,5H2,1H3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  InChI=1S/C25H47NO9/c1-4-17(3)24(32)21(35-23(31)13-18(25(33)34)12-22(29)30)11-16(2)9-7-5-6-8-10-19(27)14-20(28)15-26/h16-21,24,27-28,32H,4-15,26H2,1-3H3,(H,29,30)(H,33,34)/t16-,17+,18?,19+,20-,21-,24+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  InChI=1S/C25H47NO9/c1-4-17(3)24(32)21(35-23(31)13-18(25(33)34)12-22(29)30)11-16(2)9-7-5-6-8-10-19(27)14-20(28)15-26/h16-21,24,27-28,32H,4-15,26H2,1-3H3,(H,29,30)(H,33,34)/t16-,17+,18?,19+,20-,21-,24+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  InChI=1S/C25H47NO9/c1-4-17(3)24(32)21(35-23(31)13-18(25(33)34)12-22(29)30)11-16(2)9-7-5-6-8-10-19(27)14-20(28)15-26/h16-21,24,27-28,32H,4-15,26H2,1-3H3,(H,29,30)(H,33,34)/t16-,17+,18?,19+,20-,21-,24+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  InChI=1S/C25H47NO9/c1-4-17(3)24(32)21(35-23(31)13-18(25(33)34)12-22(29)30)11-16(2)9-7-5-6-8-10-19(27)14-20(28)15-26/h16-21,24,27-28,32H,4-15,26H2,1-3H3,(H,29,30)(H,33,34)/t16-,17+,18?,19+,20-,21-,24+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 InChI=1S/C25H47NO9/c1-4-17(3)24(32)21(35-23(31)13-18(25(33)34)12-22(29)30)11-16(2)9-7-5-6-8-10-19(27)14-20(28)15-26/h16-21,24,27-28,32H,4-15,26H2,1-3H3,(H,29,30)(H,33,34)/t16-,17+,18?,19+,20-,21-,24+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 InChI=1S/C25H47NO9/c1-4-17(3)24(32)21(35-23(31)13-18(25(33)34)12-22(29)30)11-16(2)9-7-5-6-8-10-19(27)14-20(28)15-26/h16-21,24,27-28,32H,4-15,26H2,1-3H3,(H,29,30)(H,33,34)/t16-,17+,18?,19+,20-,21-,24+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 InChI=1S/C25H47NO9/c1-4-17(3)24(32)21(35-23(31)13-18(25(33)34)12-22(29)30)11-16(2)9-7-5-6-8-10-19(27)14-20(28)15-26/h16-21,24,27-28,32H,4-15,26H2,1-3H3,(H,29,30)(H,33,34)/t16-,17+,18?,19+,20-,21-,24+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 InChI=1S/C25H47NO9/c1-4-17(3)24(32)21(35-23(31)13-18(25(33)34)12-22(29)30)11-16(2)9-7-5-6-8-10-19(27)14-20(28)15-26/h16-21,24,27-28,32H,4-15,26H2,1-3H3,(H,29,30)(H,33,34)/t16-,17+,18?,19+,20-,21-,24+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 InChI=1S/C25H47NO9/c1-4-17(3)24(32)21(35-23(31)13-18(25(33)34)12-22(29)30)11-16(2)9-7-5-6-8-10-19(27)14-20(28)15-26/h16-21,24,27-28,32H,4-15,26H2,1-3H3,(H,29,30)(H,33,34)/t16-,17+,18?,19+,20-,21-,24+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 InChI=1S/C25H47NO9/c1-4-17(3)24(32)21(35-23(31)13-18(25(33)34)12-22(29)30)11-16(2)9-7-5-6-8-10-19(27)14-20(28)15-26/h16-21,24,27-28,32H,4-15,26H2,1-3H3,(H,29,30)(H,33,34)/t16-,17+,18?,19+,20-,21-,24+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                                                                                InChI=1S/C17H12O6/c1-20-10-6-11-14(8-4-5-21-17(8)22-11)15-13(10)7-2-3-9(18)12(7)16(19)23-15/h4-6,8,17H,2-3H2,1H3/t8-,17+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17                                                                                InChI=1S/C17H12O6/c1-20-10-6-11-14(8-4-5-21-17(8)22-11)15-13(10)7-2-3-9(18)12(7)16(19)23-15/h4-6,8,17H,2-3H2,1H3/t8-,17+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                                                                                InChI=1S/C17H12O6/c1-20-10-6-11-14(8-4-5-21-17(8)22-11)15-13(10)7-2-3-9(18)12(7)16(19)23-15/h4-6,8,17H,2-3H2,1H3/t8-,17+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19                                                                                InChI=1S/C17H12O6/c1-20-10-6-11-14(8-4-5-21-17(8)22-11)15-13(10)7-2-3-9(18)12(7)16(19)23-15/h4-6,8,17H,2-3H2,1H3/t8-,17+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                                                                                InChI=1S/C17H12O6/c1-20-10-6-11-14(8-4-5-21-17(8)22-11)15-13(10)7-2-3-9(18)12(7)16(19)23-15/h4-6,8,17H,2-3H2,1H3/t8-,17+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                                                                                InChI=1S/C17H12O6/c1-20-10-6-11-14(8-4-5-21-17(8)22-11)15-13(10)7-2-3-9(18)12(7)16(19)23-15/h4-6,8,17H,2-3H2,1H3/t8-,17+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22                                                                                InChI=1S/C17H12O6/c1-20-10-6-11-14(8-4-5-21-17(8)22-11)15-13(10)7-2-3-9(18)12(7)16(19)23-15/h4-6,8,17H,2-3H2,1H3/t8-,17+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23                                                                                InChI=1S/C17H12O6/c1-20-10-6-11-14(8-4-5-21-17(8)22-11)15-13(10)7-2-3-9(18)12(7)16(19)23-15/h4-6,8,17H,2-3H2,1H3/t8-,17+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24                                                                                InChI=1S/C17H12O6/c1-20-10-6-11-14(8-4-5-21-17(8)22-11)15-13(10)7-2-3-9(18)12(7)16(19)23-15/h4-6,8,17H,2-3H2,1H3/t8-,17+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25                                                                                InChI=1S/C17H12O6/c1-20-10-6-11-14(8-4-5-21-17(8)22-11)15-13(10)7-2-3-9(18)12(7)16(19)23-15/h4-6,8,17H,2-3H2,1H3/t8-,17+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26                                                                                  InChI=1S/C17H14O6/c1-20-10-6-11-14(8-4-5-21-17(8)22-11)15-13(10)7-2-3-9(18)12(7)16(19)23-15/h6,8,17H,2-5H2,1H3/t8-,17+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27                                                                                  InChI=1S/C17H14O6/c1-20-10-6-11-14(8-4-5-21-17(8)22-11)15-13(10)7-2-3-9(18)12(7)16(19)23-15/h6,8,17H,2-5H2,1H3/t8-,17+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28                                                                                  InChI=1S/C17H14O6/c1-20-10-6-11-14(8-4-5-21-17(8)22-11)15-13(10)7-2-3-9(18)12(7)16(19)23-15/h6,8,17H,2-5H2,1H3/t8-,17+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29                                                                                  InChI=1S/C17H14O6/c1-20-10-6-11-14(8-4-5-21-17(8)22-11)15-13(10)7-2-3-9(18)12(7)16(19)23-15/h6,8,17H,2-5H2,1H3/t8-,17+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30                                                                                  InChI=1S/C17H14O6/c1-20-10-6-11-14(8-4-5-21-17(8)22-11)15-13(10)7-2-3-9(18)12(7)16(19)23-15/h6,8,17H,2-5H2,1H3/t8-,17+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31                                                                                  InChI=1S/C17H14O6/c1-20-10-6-11-14(8-4-5-21-17(8)22-11)15-13(10)7-2-3-9(18)12(7)16(19)23-15/h6,8,17H,2-5H2,1H3/t8-,17+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32                                                                            InChI=1S/C17H12O7/c1-20-9-6-10-12(8-3-5-22-17(8)23-10)14-11(9)7-2-4-21-15(18)13(7)16(19)24-14/h3,5-6,8,17H,2,4H2,1H3/t8-,17+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33                                                                            InChI=1S/C17H12O7/c1-20-9-6-10-12(8-3-5-22-17(8)23-10)14-11(9)7-2-4-21-15(18)13(7)16(19)24-14/h3,5-6,8,17H,2,4H2,1H3/t8-,17+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34                                                                            InChI=1S/C17H12O7/c1-20-9-6-10-12(8-3-5-22-17(8)23-10)14-11(9)7-2-4-21-15(18)13(7)16(19)24-14/h3,5-6,8,17H,2,4H2,1H3/t8-,17+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35                                                                            InChI=1S/C17H12O7/c1-20-9-6-10-12(8-3-5-22-17(8)23-10)14-11(9)7-2-4-21-15(18)13(7)16(19)24-14/h3,5-6,8,17H,2,4H2,1H3/t8-,17+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36                                                                            InChI=1S/C17H12O7/c1-20-9-6-10-12(8-3-5-22-17(8)23-10)14-11(9)7-2-4-21-15(18)13(7)16(19)24-14/h3,5-6,8,17H,2,4H2,1H3/t8-,17+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37                                                                            InChI=1S/C17H12O7/c1-20-9-6-10-12(8-3-5-22-17(8)23-10)14-11(9)7-2-4-21-15(18)13(7)16(19)24-14/h3,5-6,8,17H,2,4H2,1H3/t8-,17+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38                                                                                InChI=1S/C17H14O7/c1-20-9-6-10-12(8-3-5-22-17(8)23-10)14-11(9)7-2-4-21-15(18)13(7)16(19)24-14/h6,8,17H,2-5H2,1H3/t8-,17+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39                                                                                InChI=1S/C17H14O7/c1-20-9-6-10-12(8-3-5-22-17(8)23-10)14-11(9)7-2-4-21-15(18)13(7)16(19)24-14/h6,8,17H,2-5H2,1H3/t8-,17+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40                                                                                InChI=1S/C17H14O7/c1-20-9-6-10-12(8-3-5-22-17(8)23-10)14-11(9)7-2-4-21-15(18)13(7)16(19)24-14/h6,8,17H,2-5H2,1H3/t8-,17+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41                                                                                InChI=1S/C17H14O7/c1-20-9-6-10-12(8-3-5-22-17(8)23-10)14-11(9)7-2-4-21-15(18)13(7)16(19)24-14/h6,8,17H,2-5H2,1H3/t8-,17+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 42                                                                                InChI=1S/C17H14O7/c1-20-9-6-10-12(8-3-5-22-17(8)23-10)14-11(9)7-2-4-21-15(18)13(7)16(19)24-14/h6,8,17H,2-5H2,1H3/t8-,17+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43                                                                                InChI=1S/C17H14O7/c1-20-9-6-10-12(8-3-5-22-17(8)23-10)14-11(9)7-2-4-21-15(18)13(7)16(19)24-14/h6,8,17H,2-5H2,1H3/t8-,17+/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44                                                                           InChI=1S/C17H12O7/c1-21-9-6-10-13(17(20)4-5-22-16(17)23-10)14-12(9)7-2-3-8(18)11(7)15(19)24-14/h4-6,16,20H,2-3H2,1H3/t16-,17-/m1/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45                                                                           InChI=1S/C17H12O7/c1-21-9-6-10-13(17(20)4-5-22-16(17)23-10)14-12(9)7-2-3-8(18)11(7)15(19)24-14/h4-6,16,20H,2-3H2,1H3/t16-,17-/m1/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46                                                                           InChI=1S/C17H12O7/c1-21-9-6-10-13(17(20)4-5-22-16(17)23-10)14-12(9)7-2-3-8(18)11(7)15(19)24-14/h4-6,16,20H,2-3H2,1H3/t16-,17-/m1/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 47                                                                           InChI=1S/C17H12O7/c1-21-9-6-10-13(17(20)4-5-22-16(17)23-10)14-12(9)7-2-3-8(18)11(7)15(19)24-14/h4-6,16,20H,2-3H2,1H3/t16-,17-/m1/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 48                                                                           InChI=1S/C17H12O7/c1-21-9-6-10-13(17(20)4-5-22-16(17)23-10)14-12(9)7-2-3-8(18)11(7)15(19)24-14/h4-6,16,20H,2-3H2,1H3/t16-,17-/m1/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49                                                                           InChI=1S/C17H12O7/c1-21-9-6-10-13(17(20)4-5-22-16(17)23-10)14-12(9)7-2-3-8(18)11(7)15(19)24-14/h4-6,16,20H,2-3H2,1H3/t16-,17-/m1/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 50                                                     InChI=1S/C20H20N2O3/c1-9(23)14-18(24)17-16-11-8-21-13-6-4-5-10(15(11)13)7-12(16)20(2,3)22(17)19(14)25/h4-6,8,12,16-17,21,24H,7H2,1-3H3/t12-,16+,17+/m1/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 51                                                     InChI=1S/C20H20N2O3/c1-9(23)14-18(24)17-16-11-8-21-13-6-4-5-10(15(11)13)7-12(16)20(2,3)22(17)19(14)25/h4-6,8,12,16-17,21,24H,7H2,1-3H3/t12-,16+,17+/m1/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 52                                                     InChI=1S/C20H20N2O3/c1-9(23)14-18(24)17-16-11-8-21-13-6-4-5-10(15(11)13)7-12(16)20(2,3)22(17)19(14)25/h4-6,8,12,16-17,21,24H,7H2,1-3H3/t12-,16+,17+/m1/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 53                                                     InChI=1S/C20H20N2O3/c1-9(23)14-18(24)17-16-11-8-21-13-6-4-5-10(15(11)13)7-12(16)20(2,3)22(17)19(14)25/h4-6,8,12,16-17,21,24H,7H2,1-3H3/t12-,16+,17+/m1/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 54                                                     InChI=1S/C20H20N2O3/c1-9(23)14-18(24)17-16-11-8-21-13-6-4-5-10(15(11)13)7-12(16)20(2,3)22(17)19(14)25/h4-6,8,12,16-17,21,24H,7H2,1-3H3/t12-,16+,17+/m1/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 55                                                                               InChI=1S/C15H16O6/c1-15-6-12(18)10(16)5-9(15)8-3-7(20-2)4-11(17)13(8)14(19)21-15/h3-5,10,12,16-18H,6H2,1-2H3/t10-,12-,15-/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 56                                                                               InChI=1S/C15H16O6/c1-15-6-12(18)10(16)5-9(15)8-3-7(20-2)4-11(17)13(8)14(19)21-15/h3-5,10,12,16-18H,6H2,1-2H3/t10-,12-,15-/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 57                                                                               InChI=1S/C15H16O6/c1-15-6-12(18)10(16)5-9(15)8-3-7(20-2)4-11(17)13(8)14(19)21-15/h3-5,10,12,16-18H,6H2,1-2H3/t10-,12-,15-/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 58                                                                               InChI=1S/C15H16O6/c1-15-6-12(18)10(16)5-9(15)8-3-7(20-2)4-11(17)13(8)14(19)21-15/h3-5,10,12,16-18H,6H2,1-2H3/t10-,12-,15-/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 59                                                                               InChI=1S/C15H16O6/c1-15-6-12(18)10(16)5-9(15)8-3-7(20-2)4-11(17)13(8)14(19)21-15/h3-5,10,12,16-18H,6H2,1-2H3/t10-,12-,15-/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 60                                                                                                                     InChI=1S/C14H10O5/c1-6-2-7(15)5-11-12(6)9-3-8(16)4-10(17)13(9)14(18)19-11/h2-5,15-17H,1H3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 61                                                                                                                     InChI=1S/C14H10O5/c1-6-2-7(15)5-11-12(6)9-3-8(16)4-10(17)13(9)14(18)19-11/h2-5,15-17H,1H3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 62                                                                                                                     InChI=1S/C14H10O5/c1-6-2-7(15)5-11-12(6)9-3-8(16)4-10(17)13(9)14(18)19-11/h2-5,15-17H,1H3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 63                                                                                                               InChI=1S/C15H12O5/c1-7-3-8(16)4-12-13(7)10-5-9(19-2)6-11(17)14(10)15(18)20-12/h3-6,16-17H,1-2H3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 64                                                                                                               InChI=1S/C15H12O5/c1-7-3-8(16)4-12-13(7)10-5-9(19-2)6-11(17)14(10)15(18)20-12/h3-6,16-17H,1-2H3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 65                                                                                                               InChI=1S/C15H12O5/c1-7-3-8(16)4-12-13(7)10-5-9(19-2)6-11(17)14(10)15(18)20-12/h3-6,16-17H,1-2H3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 66                                                                   InChI=1S/C16H16O8/c1-16(23)14(21)10-9(13(20)15(16)22)12(19)8-6(11(10)18)3-5(24-2)4-7(8)17/h3-4,13-15,17,20-23H,1-2H3/t13-,14+,15+,16-/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 67                                                                   InChI=1S/C16H16O8/c1-16(23)14(21)10-9(13(20)15(16)22)12(19)8-6(11(10)18)3-5(24-2)4-7(8)17/h3-4,13-15,17,20-23H,1-2H3/t13-,14+,15+,16-/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 68                                                                   InChI=1S/C16H16O8/c1-16(23)14(21)10-9(13(20)15(16)22)12(19)8-6(11(10)18)3-5(24-2)4-7(8)17/h3-4,13-15,17,20-23H,1-2H3/t13-,14+,15+,16-/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 69                                                                   InChI=1S/C16H16O8/c1-16(23)14(21)10-9(13(20)15(16)22)12(19)8-6(11(10)18)3-5(24-2)4-7(8)17/h3-4,13-15,17,20-23H,1-2H3/t13-,14+,15+,16-/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 70                                                                   InChI=1S/C16H16O8/c1-16(23)14(21)10-9(13(20)15(16)22)12(19)8-6(11(10)18)3-5(24-2)4-7(8)17/h3-4,13-15,17,20-23H,1-2H3/t13-,14+,15+,16-/m0/s1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                       inchikey         cas       pubchem</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  KWILGNNWGSNMPA-UHFFFAOYSA-N  17397-85-2     CID:28516</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  KWILGNNWGSNMPA-UHFFFAOYSA-N  17397-85-2     CID:28516</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  KWILGNNWGSNMPA-UHFFFAOYSA-N  17397-85-2     CID:28516</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  KWILGNNWGSNMPA-UHFFFAOYSA-N  17397-85-2     CID:28516</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  KWILGNNWGSNMPA-UHFFFAOYSA-N  17397-85-2     CID:28516</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  CTXQVLLVFBNZKL-YVEDVMJTSA-N 149849-90-1 CID:102004382</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  CTXQVLLVFBNZKL-YVEDVMJTSA-N 149849-90-1 CID:102004382</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  CTXQVLLVFBNZKL-YVEDVMJTSA-N 149849-90-1 CID:102004382</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  CTXQVLLVFBNZKL-YVEDVMJTSA-N 149849-90-1 CID:102004382</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 CTXQVLLVFBNZKL-YVEDVMJTSA-N 149849-90-1 CID:102004382</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 CTXQVLLVFBNZKL-YVEDVMJTSA-N 149849-90-1 CID:102004382</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 CTXQVLLVFBNZKL-YVEDVMJTSA-N 149849-90-1 CID:102004382</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 CTXQVLLVFBNZKL-YVEDVMJTSA-N 149849-90-1 CID:102004382</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 CTXQVLLVFBNZKL-YVEDVMJTSA-N 149849-90-1 CID:102004382</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 CTXQVLLVFBNZKL-YVEDVMJTSA-N 149849-90-1 CID:102004382</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 OQIQSTLJSLGHID-WNWIJWBNSA-N   1162-65-8    CID:186907</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 OQIQSTLJSLGHID-WNWIJWBNSA-N   1162-65-8    CID:186907</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 OQIQSTLJSLGHID-WNWIJWBNSA-N   1162-65-8    CID:186907</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 OQIQSTLJSLGHID-WNWIJWBNSA-N   1162-65-8    CID:186907</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 OQIQSTLJSLGHID-WNWIJWBNSA-N   1162-65-8    CID:186907</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21 OQIQSTLJSLGHID-WNWIJWBNSA-N   1162-65-8    CID:186907</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22 OQIQSTLJSLGHID-WNWIJWBNSA-N   1162-65-8    CID:186907</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23 OQIQSTLJSLGHID-WNWIJWBNSA-N   1162-65-8    CID:186907</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24 OQIQSTLJSLGHID-WNWIJWBNSA-N   1162-65-8    CID:186907</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25 OQIQSTLJSLGHID-WNWIJWBNSA-N   1162-65-8    CID:186907</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26 WWSYXEZEXMQWHT-WNWIJWBNSA-N   7220-81-7   CID:2724360</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27 WWSYXEZEXMQWHT-WNWIJWBNSA-N   7220-81-7   CID:2724360</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28 WWSYXEZEXMQWHT-WNWIJWBNSA-N   7220-81-7   CID:2724360</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29 WWSYXEZEXMQWHT-WNWIJWBNSA-N   7220-81-7   CID:2724360</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30 WWSYXEZEXMQWHT-WNWIJWBNSA-N   7220-81-7   CID:2724360</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31 WWSYXEZEXMQWHT-WNWIJWBNSA-N   7220-81-7   CID:2724360</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32 XWIYFDMXXLINPU-WNWIJWBNSA-N   1165-39-5   CID:2724361</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33 XWIYFDMXXLINPU-WNWIJWBNSA-N   1165-39-5   CID:2724361</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34 XWIYFDMXXLINPU-WNWIJWBNSA-N   1165-39-5   CID:2724361</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35 XWIYFDMXXLINPU-WNWIJWBNSA-N   1165-39-5   CID:2724361</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36 XWIYFDMXXLINPU-WNWIJWBNSA-N   1165-39-5   CID:2724361</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37 XWIYFDMXXLINPU-WNWIJWBNSA-N   1165-39-5   CID:2724361</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38 WPCVRWVBBXIRMA-WNWIJWBNSA-N   7241-98-7   CID:2724362</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39 WPCVRWVBBXIRMA-WNWIJWBNSA-N   7241-98-7   CID:2724362</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40 WPCVRWVBBXIRMA-WNWIJWBNSA-N   7241-98-7   CID:2724362</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41 WPCVRWVBBXIRMA-WNWIJWBNSA-N   7241-98-7   CID:2724362</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 42 WPCVRWVBBXIRMA-WNWIJWBNSA-N   7241-98-7   CID:2724362</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43 WPCVRWVBBXIRMA-WNWIJWBNSA-N   7241-98-7   CID:2724362</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44 MJBWDEQAUQTVKK-IAGOWNOFSA-N   6795-23-9  CID:15558498</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45 MJBWDEQAUQTVKK-IAGOWNOFSA-N   6795-23-9  CID:15558498</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46 MJBWDEQAUQTVKK-IAGOWNOFSA-N   6795-23-9  CID:15558498</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 47 MJBWDEQAUQTVKK-IAGOWNOFSA-N   6795-23-9  CID:15558498</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 48 MJBWDEQAUQTVKK-IAGOWNOFSA-N   6795-23-9  CID:15558498</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49 MJBWDEQAUQTVKK-IAGOWNOFSA-N   6795-23-9  CID:15558498</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 50 SZINUGQCTHLQAZ-DQYPLSBCSA-N  18172-33-3  CID:54682463</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 51 SZINUGQCTHLQAZ-DQYPLSBCSA-N  18172-33-3  CID:54682463</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 52 SZINUGQCTHLQAZ-DQYPLSBCSA-N  18172-33-3  CID:54682463</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 53 SZINUGQCTHLQAZ-DQYPLSBCSA-N  18172-33-3  CID:54682463</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 54 SZINUGQCTHLQAZ-DQYPLSBCSA-N  18172-33-3  CID:54682463</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 55 MMHTXEATDNFMMY-WBIUFABUSA-N  29752-43-0     CID:34687</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 56 MMHTXEATDNFMMY-WBIUFABUSA-N  29752-43-0     CID:34687</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 57 MMHTXEATDNFMMY-WBIUFABUSA-N  29752-43-0     CID:34687</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 58 MMHTXEATDNFMMY-WBIUFABUSA-N  29752-43-0     CID:34687</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 59 MMHTXEATDNFMMY-WBIUFABUSA-N  29752-43-0     CID:34687</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 60 CEBXXEKPIIDJHL-UHFFFAOYSA-N    641-38-3   CID:5359485</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 61 CEBXXEKPIIDJHL-UHFFFAOYSA-N    641-38-3   CID:5359485</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 62 CEBXXEKPIIDJHL-UHFFFAOYSA-N    641-38-3   CID:5359485</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 63 LCSDQFNUYFTXMT-UHFFFAOYSA-N  23452-05-3   CID:5360741</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 64 LCSDQFNUYFTXMT-UHFFFAOYSA-N  23452-05-3   CID:5360741</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 65 LCSDQFNUYFTXMT-UHFFFAOYSA-N  23452-05-3   CID:5360741</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 66 VSMBLBOUQJNJIL-JJXSEGSLSA-N  22268-16-2     CID:89644</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 67 VSMBLBOUQJNJIL-JJXSEGSLSA-N  22268-16-2     CID:89644</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 68 VSMBLBOUQJNJIL-JJXSEGSLSA-N  22268-16-2     CID:89644</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 69 VSMBLBOUQJNJIL-JJXSEGSLSA-N  22268-16-2     CID:89644</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 70 VSMBLBOUQJNJIL-JJXSEGSLSA-N  22268-16-2     CID:89644</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                        name</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                   Mellein</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                   Mellein</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                   Mellein</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                   Mellein</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                   Mellein</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6              AAL toxin TB</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7              AAL toxin TB</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8              AAL toxin TB</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9              AAL toxin TB</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10             AAL toxin TB</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11             AAL toxin TB</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12             AAL toxin TB</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13             AAL toxin TB</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14             AAL toxin TB</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15             AAL toxin TB</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16             Aflatoxin B1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17             Aflatoxin B1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18             Aflatoxin B1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19             Aflatoxin B1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20             Aflatoxin B1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21             Aflatoxin B1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22             Aflatoxin B1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23             Aflatoxin B1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24             Aflatoxin B1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25             Aflatoxin B1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26             Aflatoxin B2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27             Aflatoxin B2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28             Aflatoxin B2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29             Aflatoxin B2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30             Aflatoxin B2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31             Aflatoxin B2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32             Aflatoxin G1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33             Aflatoxin G1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34             Aflatoxin G1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35             Aflatoxin G1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36             Aflatoxin G1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37             Aflatoxin G1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38             Aflatoxin G2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39             Aflatoxin G2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40             Aflatoxin G2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41             Aflatoxin G2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 42             Aflatoxin G2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43             Aflatoxin G2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44             Aflatoxin M1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45             Aflatoxin M1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46             Aflatoxin M1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 47             Aflatoxin M1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 48             Aflatoxin M1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49             Aflatoxin M1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 50 alpha-Cyclopiazonic acid</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 51 alpha-Cyclopiazonic acid</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 52 alpha-Cyclopiazonic acid</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 53 alpha-Cyclopiazonic acid</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 54 alpha-Cyclopiazonic acid</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 55                Altenuene</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 56                Altenuene</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 57                Altenuene</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 58                Altenuene</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 59                Altenuene</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 60              Alternariol</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 61              Alternariol</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 62              Alternariol</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 63 Alternariol methyl ether</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 64 Alternariol methyl ether</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 65 Alternariol methyl ether</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 66           Altersolanol A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 67           Altersolanol A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 68           Altersolanol A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 69           Altersolanol A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 70           Altersolanol A</span>
+<span class="r-in"></span>
 <span class="r-in"><span class="co">## Add also the synonyms (aliases) for the compounds. This will cause the</span></span>
 <span class="r-in"><span class="co">## tables compound and synonym to be joined. The elements of the compound_id</span></span>
 <span class="r-in"><span class="co">## and name are now no longer unique</span></span>
@@ -430,6 +813,98 @@ details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 9  Renaud, J. B.; Sumarah, M. W. Data Independent Acquisition-Digital Archiving Mass Spectrometry: Application to Single Kernel Mycotoxin Analysis of Fusarium Graminearum Infected Maize. Analytical and Bioanalytical Chemistry 2016, 408 (12), 3083–91. DOI:10.1007/s00216-016-9391-5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10 Renaud, J. B.; Sumarah, M. W. Data Independent Acquisition-Digital Archiving Mass Spectrometry: Application to Single Kernel Mycotoxin Analysis of Fusarium Graminearum Infected Maize. Analytical and Bioanalytical Chemistry 2016, 408 (12), 3083–91. DOI:10.1007/s00216-016-9391-5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11 Renaud, J. B.; Sumarah, M. W. Data Independent Acquisition-Digital Archiving Mass Spectrometry: Application to Single Kernel Mycotoxin Analysis of Fusarium Graminearum Infected Maize. Analytical and Bioanalytical Chemistry 2016, 408 (12), 3083–91. DOI:10.1007/s00216-016-9391-5</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co">## Calculating m/z values for the exact masses of unique chemical formulas</span></span>
+<span class="r-in"><span class="co">## in the database:</span></span>
+<span class="r-in"><span class="fu">mass2mz</span><span class="op">(</span><span class="va">cdb</span>, adduct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[M+H]+"</span>, <span class="st">"[M+Na]+"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              [M+H]+  [M+Na]+</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> C10H10O3   179.0703 201.0522</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> C25H47NO9  506.3324 528.3143</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> C17H12O6   313.0706 335.0526</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> C17H14O6   315.0863 337.0682</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> C17H12O7   329.0656 351.0475</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> C17H14O7   331.0812 353.0632</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> C20H20N2O3 337.1547 359.1366</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> C15H16O6   293.1020 315.0839</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> C14H10O5   259.0601 281.0420</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> C15H12O5   273.0757 295.0577</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> C16H16O8   337.0918 359.0737</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co">## By using `name = "compound_id"` the calculation will be performed for</span></span>
+<span class="r-in"><span class="co">## each unique compound ID instead (resulting in potentially redundant</span></span>
+<span class="r-in"><span class="co">## results)</span></span>
+<span class="r-in"><span class="fu">mass2mz</span><span class="op">(</span><span class="va">cdb</span>, adduct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[M+H]+"</span>, <span class="st">"[M+Na]+"</span><span class="op">)</span>, name <span class="op">=</span> <span class="st">"compound_id"</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      [M+H]+  [M+Na]+</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  179.0703 201.0522</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  179.0703 201.0522</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  179.0703 201.0522</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  179.0703 201.0522</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  179.0703 201.0522</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  506.3324 528.3143</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  506.3324 528.3143</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  506.3324 528.3143</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  506.3324 528.3143</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 506.3324 528.3143</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 506.3324 528.3143</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 506.3324 528.3143</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 506.3324 528.3143</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 506.3324 528.3143</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 506.3324 528.3143</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 313.0706 335.0526</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 313.0706 335.0526</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 313.0706 335.0526</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 313.0706 335.0526</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 313.0706 335.0526</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21 313.0706 335.0526</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22 313.0706 335.0526</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23 313.0706 335.0526</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24 313.0706 335.0526</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25 313.0706 335.0526</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26 315.0863 337.0682</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27 315.0863 337.0682</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28 315.0863 337.0682</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29 315.0863 337.0682</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30 315.0863 337.0682</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31 315.0863 337.0682</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32 329.0656 351.0475</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33 329.0656 351.0475</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34 329.0656 351.0475</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35 329.0656 351.0475</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36 329.0656 351.0475</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37 329.0656 351.0475</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38 331.0812 353.0632</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39 331.0812 353.0632</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40 331.0812 353.0632</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41 331.0812 353.0632</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 42 331.0812 353.0632</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43 331.0812 353.0632</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44 329.0656 351.0475</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45 329.0656 351.0475</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46 329.0656 351.0475</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 47 329.0656 351.0475</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 48 329.0656 351.0475</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49 329.0656 351.0475</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 50 337.1547 359.1366</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 51 337.1547 359.1366</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 52 337.1547 359.1366</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 53 337.1547 359.1366</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 54 337.1547 359.1366</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 55 293.1020 315.0839</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 56 293.1020 315.0839</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 57 293.1020 315.0839</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 58 293.1020 315.0839</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 59 293.1020 315.0839</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 60 259.0601 281.0420</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 61 259.0601 281.0420</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 62 259.0601 281.0420</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 63 273.0757 295.0577</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 64 273.0757 295.0577</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 65 273.0757 295.0577</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 66 337.0918 359.0737</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 67 337.0918 359.0737</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 68 337.0918 359.0737</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 69 337.0918 359.0737</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 70 337.0918 359.0737</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">## Create a Spectra object with all MS/MS spectra from the database.</span></span>
 <span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/Spectra" class="external-link">Spectra</a></span><span class="op">)</span></span>
@@ -623,7 +1098,8 @@ details.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Jan Stanstrup, Johannes Rainer, Andrea Vicini.</p>
+  <p></p><p>Developed by Jan Stanstrup, Johannes Rainer, Roger Gine, Andrea
+Vicini.</p>
 </div>
 
 <div class="pkgdown-footer-right">
