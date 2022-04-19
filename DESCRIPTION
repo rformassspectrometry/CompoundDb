@@ -44,7 +44,8 @@ Imports:
     xml2,
     IRanges,
     Spectra (>= 1.5.17),
-    MsCoreUtils
+    MsCoreUtils,
+    MetaboCoreUtils
 Suggests:
     knitr,
     rmarkdown,

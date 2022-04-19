@@ -8,7 +8,7 @@
 #'
 #' @aliases CompDb-class show dbconn,CompDb-method show,CompDb-method
 #'
-#' @aliases compoundVariables insertSpectra deleteSpectra
+#' @aliases compoundVariables insertSpectra deleteSpectra mass2mz
 #'
 #' @description
 #'
@@ -91,6 +91,9 @@
 #'   (dropping the default parameter `flags = RSQLite::SQLITE_RO` in the
 #'   `CompDb` call to connect to a database would return a `CompDb` object
 #'   which is also writeable).
+#'   
+#' - `mass2mz`: calculates a table of the m/z values for each compound and a
+#'   list of adducts.
 #'
 #' @section Filtering the database:
 #'
