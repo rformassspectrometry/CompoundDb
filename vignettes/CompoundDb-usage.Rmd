@@ -177,6 +177,45 @@ compounds(cdb, columns = c("name", "formula", "exactmass"),
 ```
 
 
+## Additional functionality for `CompDb` databases
+
+`CompoundDb` defines additional functions to work with `CompDb` databases. One
+of them is the `mass2mz` function that allows to directly calculate ion (adduct)
+m/z values for exact (monoisotopic) masses of compounds in a database. Below we
+use this function to calculate `[M+H]+` and `[M+Na]+` ions for all unique
+chemical formulas in our example `CompDb` database.
+
+```{r}
+mass2mz(cdb, adduct = c("[M+H]+", "[M+Na]+"))
+```
+
+To get a `matrix` with adduct m/z values for discrete compounds (identified
+by their InChIKey) we specify `name = "inchikey"`.
+
+```{r}
+mass2mz(cdb, adduct = c("[M+H]+", "[M+Na]+"), name = "inchikey")
+```
+
+Alternatively we could also use `name = "compound_id"` to get a value for each
+row in the compound database table, but for this example database this would
+result in highly redundant information.
+
+`mass2mz` bases on the `MetaboCoreUtils::mass2mz` function and thus supports all
+pre-defined adducts from that function. These are (for positive polarity):
+
+```{r}
+MetaboCoreUtils::adductNames()
+```
+
+and for negative polarity:
+
+```{r}
+MetaboCoreUtils::adductNames(polarity = "negative")
+```
+
+In addition, user-supplied adduct definitions are also supported (see the help
+of `mass2mz` in the `MetaboCoreUtils` package for details).
+
 ## Extracting with MS/MS data
 
 `CompDb` database can also store and provide MS/MS spectral data. These can be

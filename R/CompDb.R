@@ -10,6 +10,8 @@
 #'
 #' @aliases compoundVariables insertSpectra deleteSpectra mass2mz
 #'
+#' @aliases mass2mz,ANY-method
+#'
 #' @description
 #'
 #' `CompDb` objects provide access to general (metabolite) compound
@@ -91,9 +93,13 @@
 #'   (dropping the default parameter `flags = RSQLite::SQLITE_RO` in the
 #'   `CompDb` call to connect to a database would return a `CompDb` object
 #'   which is also writeable).
-#'   
-#' - `mass2mz`: calculates a table of the m/z values for each compound and a
-#'   list of adducts.
+#'
+#' - `mass2mz`: calculates a table of the m/z values for each compound based on
+#'   the provided set of adduct(s). Adduct definitions can be provided with
+#'   parameter `adduct`. See [MetaboCoreUtils::mass2mz()] for more details.
+#'   Parameter `name` defines the database table column that should be used as
+#'   `rownames` of the returned `matrix`. By default `name = "formula"`, m/z
+#'   values are calculated for each unique formula in the `CompDb` `x`.
 #'
 #' @section Filtering the database:
 #'
@@ -131,6 +137,12 @@
 #'     ID (column `"compound_id"`) should be included in the result. The
 #'     default is `includeIds = FALSE`.
 #'
+#' @param name For `mass2mz`: `character(1)`. Defines the `CompDb` column that
+#'   will be used to name/identify the returned m/z values. By default
+#'   (`name = "formula"`) m/z values for all unique molecular formulas are
+#'   calculated and these are used as `rownames` for the returned `matrix`.
+#'   With `name = "compound_id"` the adduct m/z for all compounds (even those
+#'   with equal formulas) are calculated and returned.
 #'
 #' @param object For all methods: a `CompDb` object.
 #'
@@ -179,6 +191,12 @@
 #' ## Extract a data.frame with these annotations for all compounds
 #' compounds(cdb)
 #'
+#' ## Note that the `compounds` function will by default always return a
+#' ## data frame of **unique** entries for the specified columns. Including
+#' ## also the `"compound_id"` to the requested columns will ensure that all
+#' ## data is returned from the tables.
+#' compounds(cdb, columns = c("compound_id", compoundVariables(cdb)))
+#'
 #' ## Add also the synonyms (aliases) for the compounds. This will cause the
 #' ## tables compound and synonym to be joined. The elements of the compound_id
 #' ## and name are now no longer unique
@@ -192,6 +210,15 @@
 #' ## the specific annotations. The corresponding database tables will then be
 #' ## joined together
 #' compounds(cdb, columns = c("formula", "publication"))
+#'
+#' ## Calculating m/z values for the exact masses of unique chemical formulas
+#' ## in the database:
+#' mass2mz(cdb, adduct = c("[M+H]+", "[M+Na]+"))
+#'
+#' ## By using `name = "compound_id"` the calculation will be performed for
+#' ## each unique compound ID instead (resulting in potentially redundant
+#' ## results)
+#' mass2mz(cdb, adduct = c("[M+H]+", "[M+Na]+"), name = "compound_id")
 #'
 #' ## Create a Spectra object with all MS/MS spectra from the database.
 #' library(Spectra)

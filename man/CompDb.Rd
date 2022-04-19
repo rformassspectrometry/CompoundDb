@@ -10,6 +10,7 @@
 \alias{insertSpectra}
 \alias{deleteSpectra}
 \alias{mass2mz}
+\alias{mass2mz,ANY-method}
 \alias{hasMsMsSpectra}
 \alias{src_compdb}
 \alias{tables}
@@ -110,10 +111,12 @@ definition. See \code{\link[MetaboCoreUtils:adductNames]{adductNames()}} for sup
 description for more information on the expected format if a \code{data.frame}
 is provided.}
 
-\item{name}{For \code{mass2mz}: \code{character(1)}. Which CompDb column will be used as
-reference for calculating adduct mzs. For instance, "formula" would use all
-unique molecular formulas, while "compound_id" would return the adduct
-m/z for all compounds (even those with equal formulas).}
+\item{name}{For \code{mass2mz}: \code{character(1)}. Defines the \code{CompDb} column that
+will be used to name/identify the returned m/z values. By default
+(\code{name = "formula"}) m/z values for all unique molecular formulas are
+calculated and these are used as \code{rownames} for the returned \code{matrix}.
+With \code{name = "compound_id"} the adduct m/z for all compounds (even those
+with equal formulas) are calculated and returned.}
 }
 \value{
 See description of the respective function.
@@ -193,8 +196,12 @@ that \code{deleteSpectra} doesn't work on default \emph{read-only} \code{CompDb}
 (dropping the default parameter \code{flags = RSQLite::SQLITE_RO} in the
 \code{CompDb} call to connect to a database would return a \code{CompDb} object
 which is also writeable).
-\item \code{mass2mz}: calculates a table of the m/z values for each compound and a
-list of adducts.
+\item \code{mass2mz}: calculates a table of the m/z values for each compound based on
+the provided set of adduct(s). Adduct definitions can be provided with
+parameter \code{adduct}. See \code{\link[MetaboCoreUtils:mass2mz]{MetaboCoreUtils::mass2mz()}} for more details.
+Parameter \code{name} defines the database table column that should be used as
+\code{rownames} of the returned \code{matrix}. By default \code{name = "formula"}, m/z
+values are calculated for each unique formula in the \code{CompDb} \code{x}.
 }
 }
 
@@ -230,6 +237,12 @@ compoundVariables(cdb)
 ## Extract a data.frame with these annotations for all compounds
 compounds(cdb)
 
+## Note that the `compounds` function will by default always return a
+## data frame of **unique** entries for the specified columns. Including
+## also the `"compound_id"` to the requested columns will ensure that all
+## data is returned from the tables.
+compounds(cdb, columns = c("compound_id", compoundVariables(cdb)))
+
 ## Add also the synonyms (aliases) for the compounds. This will cause the
 ## tables compound and synonym to be joined. The elements of the compound_id
 ## and name are now no longer unique
@@ -243,6 +256,15 @@ tables(cdb)
 ## the specific annotations. The corresponding database tables will then be
 ## joined together
 compounds(cdb, columns = c("formula", "publication"))
+
+## Calculating m/z values for the exact masses of unique chemical formulas
+## in the database:
+mass2mz(cdb, adduct = c("[M+H]+", "[M+Na]+"))
+
+## By using `name = "compound_id"` the calculation will be performed for
+## each unique compound ID instead (resulting in potentially redundant
+## results)
+mass2mz(cdb, adduct = c("[M+H]+", "[M+Na]+"), name = "compound_id")
 
 ## Create a Spectra object with all MS/MS spectra from the database.
 library(Spectra)

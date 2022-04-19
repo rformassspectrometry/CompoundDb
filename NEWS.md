@@ -1,5 +1,9 @@
 # Version 0.99
 
+## Changes in version 0.99.12
+
+- Add `mass2mz` method for `CompDb` databases.
+
 ## Changes in version 0.99.11
 
 - Add `peaksVariables` method.

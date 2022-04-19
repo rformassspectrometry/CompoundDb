@@ -1,7 +1,7 @@
 Package: CompoundDb
 Type: Package
 Title: Creating and Using (Chemical) Compound Annotation Databases
-Version: 0.99.11
+Version: 0.99.12
 Authors@R: c(person(given = "Jan", family = "Stanstrup",
                     email = "stanstrup@gmail.com",
 		    role = c("aut"),
@@ -14,9 +14,14 @@ Authors@R: c(person(given = "Jan", family = "Stanstrup",
 		    email = "josepmaria.badia@urv.cat",
 		    role = c("ctb"),
 		    comment = c(ORCID = "0000-0002-5704-1124")),
+             person(given = "Roger", family = "Gine",
+		    email = "alrgibe9@gmail.com",
+		    role = c("aut"),
+		    comment = c(ORCID = "0000-0003-0288-9619")),
              person(given = "Andrea", family = "Vicini",
 	            email = "andrea.vicini@eurac.edu",
-		    role = c("aut"))
+		    role = c("aut"),
+		    comment = c(ORCID = "0000-0001-9438-6909"))
 		    )
 Description: CompoundDb provides functionality to create and use (chemical)
     compound annotation databases from a variety of different sources such as

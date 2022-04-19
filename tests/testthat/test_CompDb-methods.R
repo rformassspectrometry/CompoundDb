@@ -165,15 +165,15 @@ test_that("insertSpectra,CompDb works", {
 
 test_that("deleteSpectra,CompDb works", {
     expect_error(deleteSpectra(cmp_spctra_db, ids = c("1", "2")), "readonly")
-    
+
     tmp_con <- dbConnect(SQLite(), tempfile())
     CompoundDb:::.copy_compdb(cmp_db@dbcon, tmp_con)
     tmp_db <- CompDb(tmp_con)
     expect_false(CompoundDb:::.has_msms_spectra(tmp_db))
     expect_error(deleteSpectra(tmp_db, ids = c("1", "2")), "not contain msms")
-    
-    
-    
+
+
+
     tmp_con <- dbConnect(SQLite(), tempfile())
     CompoundDb:::.copy_compdb(cmp_spctra_db@dbcon, tmp_con)
     tmp_db <- CompDb(tmp_con)
@@ -182,8 +182,8 @@ test_that("deleteSpectra,CompDb works", {
                  dbReadTable(dbconn(cmp_spctra_db), "msms_spectrum"))
     expect_equal(dbReadTable(dbconn(tmp_db), "msms_spectrum_peak"),
                  dbReadTable(dbconn(cmp_spctra_db), "msms_spectrum_peak"))
-    
-    
+
+
     tmp_db <- deleteSpectra(tmp_db, ids = c("1", "2"))
     tmp_msms_sp <- dbReadTable(dbconn(cmp_spctra_db), "msms_spectrum")
     exp_msms_sp <- tmp_msms_sp[!tmp_msms_sp$spectrum_id %in% c("1", "2"), ]
@@ -197,15 +197,25 @@ test_that("deleteSpectra,CompDb works", {
 
 test_that("mass2mz,CompDb works",{
     ads <- c("[M+H]+", "[M+Na]+", "[M+K]+")
-    
+
     #Default adduct as [M+H]+
     expect_identical(mass2mz(cmp_db), mass2mz(cmp_db, "[M+H]+"))
-    
+
     output <- mass2mz(cmp_db, ads, "compound_id")
     expect_equal(nrow(output), nrow(compounds(cmp_db, "compound_id")))
     expect_equal(ncol(output), length(ads))
-    
+    expect_equal(rownames(output), compounds(cmp_db, "compound_id")$compound_id)
+
     output <- mass2mz(cmp_db, ads, "formula")
     expect_equal(nrow(output), nrow(compounds(cmp_db, "formula")))
     expect_equal(ncol(output), length(ads))
+    expect_equal(rownames(output), compounds(cmp_db, "formula")$formula)
+})
+
+test_that("mass2mz,ANY works", {
+    cmps <- compounds(cdb, c("formula", "exactmass"))
+    res <- mass2mz(cmps$exactmass, adduct = c("[M+H]+", "[M+Na]+"))
+    res_2 <- mass2mz(cdb, adduct = c("[M+H]+", "[M+Na]+"))
+    rownames(res_2) <- NULL
+    expect_equal(res, res_2)
 })

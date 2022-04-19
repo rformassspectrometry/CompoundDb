@@ -196,16 +196,11 @@ setMethod("deleteSpectra", signature(object = "CompDb"),
           })
 
 #' @inherit MetaboCoreUtils::mass2mz
-#' 
+#'
 #' @importFrom MetaboCoreUtils mass2mz
-#' 
-#' @param name For `mass2mz`: `character(1)`. Which CompDb column will be used as
-#'   reference for calculating adduct mzs. For instance, "formula" would use all
-#'   unique molecular formulas, while "compound_id" would return the adduct 
-#'   m/z for all compounds (even those with equal formulas).
-#' 
+#'
 #' @export
-#' 
+#'
 #' @rdname CompDb
 setMethod("mass2mz", signature = c("CompDb"),
           function(x, adduct = c("[M+H]+"), name = "formula") {
@@ -213,4 +208,8 @@ setMethod("mass2mz", signature = c("CompDb"),
               res <- MetaboCoreUtils::mass2mz(cmps$exactmass, adduct)
               rownames(res) <- cmps[[name]]
               res
+          })
+setMethod("mass2mz", signature = c("ANY"),
+          function(x, ...) {
+              MetaboCoreUtils::mass2mz(x, ...)
           })
