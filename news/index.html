@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">CompoundDb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.99.12</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,8 +55,7 @@
 <h2 class="pkg-version" data-toc-text="0.99" id="version-099">Version 0.99<a class="anchor" aria-label="anchor" href="#version-099"></a></h2>
 <div class="section level3">
 <h3 id="changes-in-version-0-99">Changes in version 0.99.12<a class="anchor" aria-label="anchor" href="#changes-in-version-0-99"></a></h3>
-<ul><li>Add <code>mass2mz</code> method for <code>CompDb</code>
-databases.</li>
+<ul><li>Add <code>mass2mz</code> method for <code>CompDb</code> databases.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="changes-in-version-0-99-1">Changes in version 0.99.11<a class="anchor" aria-label="anchor" href="#changes-in-version-0-99-1"></a></h3>
@@ -68,9 +67,7 @@ databases.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="changes-in-version-0-99-3">Changes in version 0.99.9<a class="anchor" aria-label="anchor" href="#changes-in-version-0-99-3"></a></h3>
-<ul><li>Add parameter <code>dbFile</code> to <code>createCompDb</code> and
-add an example on how to create a <code>CompDb</code> database from
-custom input.</li>
+<ul><li>Add parameter <code>dbFile</code> to <code>createCompDb</code> and add an example on how to create a <code>CompDb</code> database from custom input.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="changes-in-version-0-99-4">Changes in version 0.99.8<a class="anchor" aria-label="anchor" href="#changes-in-version-0-99-4"></a></h3>
@@ -83,9 +80,7 @@ custom input.</li>
 <div class="section level3">
 <h3 id="changes-in-version-0-99-6">Changes in version 0.99.6<a class="anchor" aria-label="anchor" href="#changes-in-version-0-99-6"></a></h3>
 <ul><li>
-<code>MsBackendCompDb</code> extends
-<code><a href="https://rdrr.io/pkg/Spectra/man/MsBackendCached.html" class="external-link">Spectra::MsBackendCached</a></code> instead of
-<code><a href="https://rdrr.io/pkg/Spectra/man/MsBackend.html" class="external-link">Spectra::MsBackendDataFrame</a></code>.</li>
+<code>MsBackendCompDb</code> extends <code><a href="https://rdrr.io/pkg/Spectra/man/MsBackendCached.html" class="external-link">Spectra::MsBackendCached</a></code> instead of <code><a href="https://rdrr.io/pkg/Spectra/man/MsBackend.html" class="external-link">Spectra::MsBackendDataFrame</a></code>.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="changes-in-version-0-99-7">Changes in version 0.99.5<a class="anchor" aria-label="anchor" href="#changes-in-version-0-99-7"></a></h3>
@@ -116,19 +111,16 @@ custom input.</li>
 <h2 class="pkg-version" data-toc-text="0.9" id="version-09">Version 0.9<a class="anchor" aria-label="anchor" href="#version-09"></a></h2>
 <div class="section level3">
 <h3 id="changes-in-version-0-9">Changes in version 0.9.4<a class="anchor" aria-label="anchor" href="#changes-in-version-0-9"></a></h3>
-<ul><li>Add <code>deleteIon</code> and <code>deleteSpectra</code> allowing
-to delete ions or spectra.</li>
+<ul><li>Add <code>deleteIon</code> and <code>deleteSpectra</code> allowing to delete ions or spectra.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="changes-in-version-0-9-1">Changes in version 0.9.3<a class="anchor" aria-label="anchor" href="#changes-in-version-0-9-1"></a></h3>
 <ul><li>
-<code>insertIons</code> supports adding additional database
-columns.</li>
+<code>insertIons</code> supports adding additional database columns.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="changes-in-version-0-9-2">Changes in version 0.9.2<a class="anchor" aria-label="anchor" href="#changes-in-version-0-9-2"></a></h3>
-<ul><li>Add <code>instertSpectra</code> method to add MS/MS spectra from a
-<code>Spectra</code> object to the database.</li>
+<ul><li>Add <code>instertSpectra</code> method to add MS/MS spectra from a <code>Spectra</code> object to the database.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="changes-in-version-0-9-3">Changes in version 0.9.1<a class="anchor" aria-label="anchor" href="#changes-in-version-0-9-3"></a></h3>
@@ -138,15 +130,10 @@ columns.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="changes-in-version-0-9-4">Changes in version 0.9.0<a class="anchor" aria-label="anchor" href="#changes-in-version-0-9-4"></a></h3>
-<ul><li>Add <code>IonDb</code> class as extension of <code>CompDb</code> (to
-allow adding ion information to the database) and the functionalities to
-create such object.</li>
-<li>Add <code>insertIon</code> to allow adding new ions to an
-<code>IonDb</code> object</li>
-<li>Add <code>ionVariables</code>, <code>ions</code> functions to access
-the ions data in the database.</li>
-<li>Add filters: <code>IonIdFilter</code>, <code>IonAdductFilter</code>,
-<code>IonMzFilter</code>, <code>IonRtFilter</code>.</li>
+<ul><li>Add <code>IonDb</code> class as extension of <code>CompDb</code> (to allow adding ion information to the database) and the functionalities to create such object.</li>
+<li>Add <code>insertIon</code> to allow adding new ions to an <code>IonDb</code> object</li>
+<li>Add <code>ionVariables</code>, <code>ions</code> functions to access the ions data in the database.</li>
+<li>Add filters: <code>IonIdFilter</code>, <code>IonAdductFilter</code>, <code>IonMzFilter</code>, <code>IonRtFilter</code>.</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -157,60 +144,46 @@ the ions data in the database.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="changes-in-version-0-8-1">Changes in version 0.8.0<a class="anchor" aria-label="anchor" href="#changes-in-version-0-8-1"></a></h3>
-<ul><li>Rename database table name <em>compound</em> into
-<em>ms_compound</em> <a href="https://github.com/EuracBiomedicalResearch/CompoundDb/issues/74" class="external-link">issue
-</a><a href="https://github.com/RforMassSpectrometry/CompoundDb/issues/74" class="external-link">#74</a>.</li>
+<ul><li>Rename database table name <em>compound</em> into <em>ms_compound</em> <a href="https://github.com/EuracBiomedicalResearch/CompoundDb/issues/74" class="external-link">issue </a><a href="https://github.com/RforMassSpectrometry/CompoundDb/issues/74" class="external-link">#74</a>.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.7" id="version-07">Version 0.7<a class="anchor" aria-label="anchor" href="#version-07"></a></h2>
 <div class="section level3">
 <h3 id="changes-in-version-0-7">Changes in version 0.7.0<a class="anchor" aria-label="anchor" href="#changes-in-version-0-7"></a></h3>
-<ul><li>Remove <code>mass2mz</code> and <code>mz2mass</code> function in
-favour of the functions implemented in
-<code>MetaboCoreUtils</code>.</li>
+<ul><li>Remove <code>mass2mz</code> and <code>mz2mass</code> function in favour of the functions implemented in <code>MetaboCoreUtils</code>.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.6" id="version-06">Version 0.6<a class="anchor" aria-label="anchor" href="#version-06"></a></h2>
 <div class="section level3">
 <h3 id="changes-in-version-0-6">Changes in version 0.6.6<a class="anchor" aria-label="anchor" href="#changes-in-version-0-6"></a></h3>
-<ul><li>Import <code>compounds</code> method from
-<code>ProtGenerics</code>.</li>
+<ul><li>Import <code>compounds</code> method from <code>ProtGenerics</code>.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="changes-in-version-0-6-1">Changes in version 0.6.5<a class="anchor" aria-label="anchor" href="#changes-in-version-0-6-1"></a></h3>
-<ul><li>Add parameter <code>onlyValid</code> to
-<code>compound_tbl_sdf</code> to allow importing of only valid elements
-<a href="https://github.com/EuracBiomedicalResearch/CompoundDb/issues/69" class="external-link">issue
-</a><a href="https://github.com/RforMassSpectrometry/CompoundDb/issues/69" class="external-link">#69</a>.</li>
+<ul><li>Add parameter <code>onlyValid</code> to <code>compound_tbl_sdf</code> to allow importing of only valid elements <a href="https://github.com/EuracBiomedicalResearch/CompoundDb/issues/69" class="external-link">issue </a><a href="https://github.com/RforMassSpectrometry/CompoundDb/issues/69" class="external-link">#69</a>.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="changes-in-version-0-6-2">Changes in version 0.6.4<a class="anchor" aria-label="anchor" href="#changes-in-version-0-6-2"></a></h3>
-<ul><li>Add additional filters: <code>MassFilter</code>,
-<code>FormulaFilter</code>, <code>InchiFilter</code> and
-<code>InchikeyFilter</code>.</li>
+<ul><li>Add additional filters: <code>MassFilter</code>, <code>FormulaFilter</code>, <code>InchiFilter</code> and <code>InchikeyFilter</code>.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="changes-in-version-0-6-3">Changes in version 0.6.3<a class="anchor" aria-label="anchor" href="#changes-in-version-0-6-3"></a></h3>
-<ul><li>Add <code>metadata</code>, <code>spectraVariables</code> and
-<code>compoundVariables</code> functions.</li>
+<ul><li>Add <code>metadata</code>, <code>spectraVariables</code> and <code>compoundVariables</code> functions.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="changes-in-version-0-6-4">Changes in version 0.6.2<a class="anchor" aria-label="anchor" href="#changes-in-version-0-6-4"></a></h3>
 <ul><li>Support creation of databases without specifying the organism.</li>
-<li>Ensure database columns are mapped correctly to Spectra variable
-names.</li>
+<li>Ensure database columns are mapped correctly to Spectra variable names.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="changes-in-version-0-6-5">Changes in version 0.6.1<a class="anchor" aria-label="anchor" href="#changes-in-version-0-6-5"></a></h3>
-<ul><li>Add <code>SpectrumIdFilter</code> to support filtering by spectrum
-IDs.</li>
+<ul><li>Add <code>SpectrumIdFilter</code> to support filtering by spectrum IDs.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="changes-in-version-0-6-6">Changes in version 0.6.0<a class="anchor" aria-label="anchor" href="#changes-in-version-0-6-6"></a></h3>
-<ul><li>Rename column names: compound_name -&gt; name, mass -&gt; exactmass,
-inchi_key -&gt; inchikey.</li>
+<ul><li>Rename column names: compound_name -&gt; name, mass -&gt; exactmass, inchi_key -&gt; inchikey.</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -229,14 +202,11 @@ inchi_key -&gt; inchikey.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="changes-in-version-0-4-1">Changes in version 0.4.2<a class="anchor" aria-label="anchor" href="#changes-in-version-0-4-1"></a></h3>
-<ul><li>Fix bug in <code>as.list,MsBackendCompDb</code> which returned a
-<code>SimpleList</code> instead of a <code>list</code>.</li>
+<ul><li>Fix bug in <code>as.list,MsBackendCompDb</code> which returned a <code>SimpleList</code> instead of a <code>list</code>.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="changes-in-version-0-4-2">Changes in version 0.4.0<a class="anchor" aria-label="anchor" href="#changes-in-version-0-4-2"></a></h3>
-<ul><li>Rename method <code>spectraData</code> for
-<code>MsBackendCompDb</code> into <code>asDataFrame</code> (adapting to
-the changes in <code>Spectra</code>).</li>
+<ul><li>Rename method <code>spectraData</code> for <code>MsBackendCompDb</code> into <code>asDataFrame</code> (adapting to the changes in <code>Spectra</code>).</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -251,41 +221,33 @@ the changes in <code>Spectra</code>).</li>
 </ul></div>
 <div class="section level3">
 <h3 id="changes-in-version-0-3-2">Changes in version 0.3.0<a class="anchor" aria-label="anchor" href="#changes-in-version-0-3-2"></a></h3>
-<ul><li>Change from MSnbase to RforMassSpectrometry packages (Spectra and
-MsCoreUtils).</li>
-<li>Store MS/MS spectra in two tables, msms_spectrum and
-msms_spectrum_peak.</li>
+<ul><li>Change from MSnbase to RforMassSpectrometry packages (Spectra and MsCoreUtils).</li>
+<li>Store MS/MS spectra in two tables, msms_spectrum and msms_spectrum_peak.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2" id="version-02">Version 0.2<a class="anchor" aria-label="anchor" href="#version-02"></a></h2>
 <div class="section level3">
 <h3 id="changes-in-version-0-2">Changes in version 0.2.3<a class="anchor" aria-label="anchor" href="#changes-in-version-0-2"></a></h3>
-<ul><li>Add instrument and precursor_mz spectra data columns (issue
-<a href="https://github.com/RforMassSpectrometry/CompoundDb/issues/32" class="external-link">#32</a>).</li>
+<ul><li>Add instrument and precursor_mz spectra data columns (issue <a href="https://github.com/RforMassSpectrometry/CompoundDb/issues/32" class="external-link">#32</a>).</li>
 </ul></div>
 <div class="section level3">
 <h3 id="changes-in-version-0-2-1">Changes in version 0.2.2<a class="anchor" aria-label="anchor" href="#changes-in-version-0-2-1"></a></h3>
 <ul><li>Add adduct information from Jan Stanstrup’s commonMZ package.</li>
-<li>Add matchWithPpm function to match numeric values allowing for a
-small difference.</li>
+<li>Add matchWithPpm function to match numeric values allowing for a small difference.</li>
 <li>Add adducts function to retrieve adduct definitions.</li>
-<li>Add mass2mz and mz2mass to convert between mass and m/z for provided
-adducts.</li>
+<li>Add mass2mz and mz2mass to convert between mass and m/z for provided adducts.</li>
 <li>Add annotateMz method to annotate m/z values.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="changes-in-version-0-2-2">Changes in version 0.2.1<a class="anchor" aria-label="anchor" href="#changes-in-version-0-2-2"></a></h3>
-<ul><li>Change field collision_energy to character to support values from
-MoNa (issue <a href="https://github.com/RforMassSpectrometry/CompoundDb/issues/31" class="external-link">#31</a>).</li>
-<li>Add functions import_mona_sdf and msms_spectra_mona functions to
-enable import of spectrum data from MoNa SDF files (issue <a href="https://github.com/RforMassSpectrometry/CompoundDb/issues/30" class="external-link">#30</a>).</li>
+<ul><li>Change field collision_energy to character to support values from MoNa (issue <a href="https://github.com/RforMassSpectrometry/CompoundDb/issues/31" class="external-link">#31</a>).</li>
+<li>Add functions import_mona_sdf and msms_spectra_mona functions to enable import of spectrum data from MoNa SDF files (issue <a href="https://github.com/RforMassSpectrometry/CompoundDb/issues/30" class="external-link">#30</a>).</li>
 <li>Add support for MoNa SDF files (issue <a href="https://github.com/RforMassSpectrometry/CompoundDb/issues/30" class="external-link">#30</a>).</li>
 </ul></div>
 <div class="section level3">
 <h3 id="changes-in-version-0-2-3">Changes in version 0.2.0<a class="anchor" aria-label="anchor" href="#changes-in-version-0-2-3"></a></h3>
-<ul><li>Add hasMz,Spectrum and hasMz,Spectra methods to look for m/z values
-within spectra (issue <a href="https://github.com/RforMassSpectrometry/CompoundDb/issues/28" class="external-link">#28</a>).</li>
+<ul><li>Add hasMz,Spectrum and hasMz,Spectra methods to look for m/z values within spectra (issue <a href="https://github.com/RforMassSpectrometry/CompoundDb/issues/28" class="external-link">#28</a>).</li>
 <li>Add MsmsMzRangeMinFilter and MsmsMzRangeMaxFilter (issue <a href="https://github.com/RforMassSpectrometry/CompoundDb/issues/29" class="external-link">#29</a>).</li>
 <li>Re-use Spectra object from MSnbase.</li>
 <li>Add supportedFilters,CompDb method.</li>
@@ -295,17 +257,13 @@ within spectra (issue <a href="https://github.com/RforMassSpectrometry/CompoundD
 <h2 class="pkg-version" data-toc-text="0.1" id="version-01">Version 0.1<a class="anchor" aria-label="anchor" href="#version-01"></a></h2>
 <div class="section level3">
 <h3 id="changes-in-version-0-1">Changes in version 0.1.1<a class="anchor" aria-label="anchor" href="#changes-in-version-0-1"></a></h3>
-<ul><li>Add precursorMz, precursorCharge, precursorIntensity,
-acquisitionNum, scanIndex, peaksCount, msLevel, tic, ionCount,
-collisionEnergy, fromFile, polarity, smoothed, isEmpty, centroided and
-isCentroided methods for Spectrum2List.</li>
+<ul><li>Add precursorMz, precursorCharge, precursorIntensity, acquisitionNum, scanIndex, peaksCount, msLevel, tic, ionCount, collisionEnergy, fromFile, polarity, smoothed, isEmpty, centroided and isCentroided methods for Spectrum2List.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="changes-in-version-0-1-1">Changes in version 0.1.0<a class="anchor" aria-label="anchor" href="#changes-in-version-0-1-1"></a></h3>
 <ul><li>Add expandMzIntensity function.</li>
 <li>Add spectra method to extract spectra from the CompDb database.</li>
-<li>Add functionality to store MS/MS spectra in a CompDb database (m/z
-and intensity values stored as BLOB).</li>
+<li>Add functionality to store MS/MS spectra in a CompDb database (m/z and intensity values stored as BLOB).</li>
 <li>Add functionality to load MS/MS spectra from HMDB xml files.</li>
 </ul></div>
 </div>
@@ -313,15 +271,12 @@ and intensity values stored as BLOB).</li>
 <h2 class="pkg-version" data-toc-text="0.0" id="version-00">Version 0.0<a class="anchor" aria-label="anchor" href="#version-00"></a></h2>
 <div class="section level3">
 <h3 id="changes-in-version-0-0">Changes in version 0.0.3<a class="anchor" aria-label="anchor" href="#changes-in-version-0-0"></a></h3>
-<ul><li>Add CompoundIdFilter and CompoundNameFilter classes and filtering
-framework.</li>
+<ul><li>Add CompoundIdFilter and CompoundNameFilter classes and filtering framework.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="changes-in-version-0-0-1">Changes in version 0.0.2<a class="anchor" aria-label="anchor" href="#changes-in-version-0-0-1"></a></h3>
-<ul><li>Define CompDb class and all functionality to create CompDb
-databases.</li>
-<li>createCompDb supports file names as input and create a database
-including annotations from all files.</li>
+<ul><li>Define CompDb class and all functionality to create CompDb databases.</li>
+<li>createCompDb supports file names as input and create a database including annotations from all files.</li>
 <li>Add create-compounddb vignette.</li>
 </ul></div>
 </div>
@@ -330,13 +285,11 @@ including annotations from all files.</li>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Jan Stanstrup, Johannes Rainer, Roger Gine, Andrea
-Vicini.</p>
+  <p></p><p>Developed by Jan Stanstrup, Johannes Rainer, Roger Gine, Andrea Vicini.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
 </div>
 
     </footer></div>
