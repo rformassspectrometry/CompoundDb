@@ -127,11 +127,10 @@
 #' @param flags flags passed to the SQLite database connection.
 #'     See [SQLite()]. Defaults to read-only, i.e. `RSQLite::SQLITE_RO`.
 #'
-#' @param ids For `deleteSpectra`: `character()` or (alternatively `integer()`)
+#' @param ids For `deleteSpectra`: `integer()`
 #'     specifying the IDs of the spectra to delete. IDs in `ids` that are
 #'     not associated to any spectra in the `CompDb` object are ignored. For
-#'     `deleteIon`: `character()` or (alternatively `integer()`)
-#'     specifying the IDs of the ions to delete.
+#'     `deleteIon`: `integer()` specifying the IDs of the ions to delete.
 #'
 #' @param includeId for `compoundVariables`: `logical(1)` whether the comound
 #'     ID (column `"compound_id"`) should be included in the result. The

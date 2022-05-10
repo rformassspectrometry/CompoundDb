@@ -174,7 +174,7 @@ setMethod("insertSpectra", signature(object = "CompDb", spectra = "Spectra"),
 #'
 #' @rdname CompDb
 setMethod("deleteSpectra", signature(object = "CompDb"),
-          function(object, ids = character(0), ...) {
+          function(object, ids = integer(0), ...) {
               dbcon <- .dbconn(object)
               if (is.null(dbcon))
                   stop("Database not initialized")
