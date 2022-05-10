@@ -58,7 +58,7 @@ copyCompDb(x, y)
 
 \S4method{insertSpectra}{CompDb,Spectra}(object, spectra, columns = spectraVariables(spectra), ...)
 
-\S4method{deleteSpectra}{CompDb}(object, ids = character(0), ...)
+\S4method{deleteSpectra}{CompDb}(object, ids = integer(0), ...)
 
 \S4method{mass2mz}{CompDb}(x, adduct = c("[M+H]+"), name = "formula")
 }
@@ -99,11 +99,10 @@ return the result as a \code{\link[=data.frame]{data.frame()}} or \code{\link[=t
 \item{spectra}{For \code{insertSpectra}: \code{Spectra} object containing the spectra
 to be added to the \code{IonDb} database.}
 
-\item{ids}{For \code{deleteSpectra}: \code{character()} or (alternatively \code{integer()})
+\item{ids}{For \code{deleteSpectra}: \code{integer()}
 specifying the IDs of the spectra to delete. IDs in \code{ids} that are
 not associated to any spectra in the \code{CompDb} object are ignored. For
-\code{deleteIon}: \code{character()} or (alternatively \code{integer()})
-specifying the IDs of the ions to delete.}
+\code{deleteIon}: \code{integer()} specifying the IDs of the ions to delete.}
 
 \item{adduct}{either a \code{character} specifying the name(s) of the adduct(s)
 for which the m/z should be calculated or a \code{data.frame} with the adduct
