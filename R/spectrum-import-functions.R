@@ -226,8 +226,8 @@ msms_spectra_hmdb <- function(x, collapsed = TRUE) {
 #'
 #' @note
 #'
-#' The identifiers provided by MoNa are used as *spectrum_id*. Note also that
-#' the MoNa data is not normalized in the sense that each spectrum is
+#' The identifiers provided by MoNa are used as *original_spectrum_id*. Note
+#' also that the MoNa data is not normalized in the sense that each spectrum is
 #' associated to one compound and the compound data is partially redundant.
 #' Also, MoNa does not provide a *splash* for a spectrum, hence the
 #' corresponding column will only contain `NA`.

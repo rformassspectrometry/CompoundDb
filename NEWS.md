@@ -1,3 +1,10 @@
+# CompoundDb 1.0
+
+## Changes in version 1.0.1
+
+- Fix wrong warning message in `deleteIon`.
+- Change database data type for internal `ion_id` from `character` to `integer`.
+
 # Version 0.99
 
 ## Changes in version 0.99.12
