@@ -79,7 +79,7 @@
 #' results using specific filter classes and expressions. Filtering uses the
 #' concepts from Bioconductor's `AnnotationFilter` package. All information
 #' for a certain compound with the ID `"1"` can for example be
-#' retrieved by passing the filter expression `filter = ~ ion_id == "1"` to
+#' retrieved by passing the filter expression `filter = ~ ion_id == 1` to
 #' the `ions` function.
 #'
 #' Use the [supportedFilters()] function on the `IonDb` object to get a list of
@@ -105,7 +105,7 @@
 #'     not associated to any ion in the `IonDb` object are ignored.
 #'
 #' @param includeId For `ionVariables`: `logical(1)` whether the ion
-#'     ID (column `"ms_ion_id"`) should be included in the result. The
+#'     ID (column `"ion_id"`) should be included in the result. The
 #'     default is `includeId = FALSE`.
 #'
 #' @param ions for `insertIon` and `IonDb`: `data.frame` with ion definitions
@@ -243,7 +243,7 @@ setValidity("IonDb", function(object) {
 #' @importMethodsFrom DBI dbDataType
 #'
 #' @noRd
-.create_ion_table <- function(con, ions = data.frame(ion_id = character(),
+.create_ion_table <- function(con, ions = data.frame(ion_id = integer(),
                                                      compound_id = character(),
                                                      ion_adduct = character(),
                                                      ion_mz = numeric(),

@@ -32,7 +32,7 @@
 
 \S4method{insertIon}{IonDb}(object, ions, addColumns = FALSE)
 
-\S4method{deleteIon}{IonDb}(object, ids = character(0), ...)
+\S4method{deleteIon}{IonDb}(object, ids = integer(0), ...)
 
 \S4method{IonDb}{missing,missing}(x, cdb, ...)
 
@@ -50,7 +50,7 @@
 \item{object}{For all methods: a \code{IonDb} object.}
 
 \item{includeId}{For \code{ionVariables}: \code{logical(1)} whether the ion
-ID (column \code{"ms_ion_id"}) should be included in the result. The
+ID (column \code{"ion_id"}) should be included in the result. The
 default is \code{includeId = FALSE}.}
 
 \item{...}{additional arguments. Currently not used.}
@@ -165,7 +165,7 @@ Like \code{compounds} and \code{Spectra} also \code{ions} allows to filter the
 results using specific filter classes and expressions. Filtering uses the
 concepts from Bioconductor's \code{AnnotationFilter} package. All information
 for a certain compound with the ID \code{"1"} can for example be
-retrieved by passing the filter expression \code{filter = ~ ion_id == "1"} to
+retrieved by passing the filter expression \code{filter = ~ ion_id == 1} to
 the \code{ions} function.
 
 Use the \code{\link[=supportedFilters]{supportedFilters()}} function on the \code{IonDb} object to get a list of

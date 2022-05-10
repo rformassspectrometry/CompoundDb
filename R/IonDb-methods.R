@@ -71,7 +71,7 @@ setMethod("insertIon", "IonDb", function(object, ions, addColumns = FALSE) {
         tmp <- dbGetQuery(dbcon, "select max(ion_id) from ms_ion")
         if (!is.na(tmp[1, 1]))
             max_id <- as.integer(tmp[1, 1])
-        ions$ion_id <- as.character(max_id + seq_len(nrow(ions)))
+        ions$ion_id <- max_id + seq_len(nrow(ions))
         cols <- colnames(dbGetQuery(dbcon, "select * from ms_ion limit 1"))
         new_cols <- colnames(ions)[!colnames(ions) %in% cols]
         if (addColumns && length(new_cols)) {
@@ -94,16 +94,16 @@ setMethod("insertIon", "IonDb", function(object, ions, addColumns = FALSE) {
 #'
 #' @rdname IonDb
 setMethod("deleteIon", signature(object = "IonDb"),
-          function(object, ids = character(0), ...) {
+          function(object, ids = integer(0), ...) {
               dbcon <- .dbconn(object)
               if (is.null(dbcon))
                   stop("Database not initialized")
-              # maybe this check can be removed? 
-              if(any(!ids %in% dbGetQuery(dbcon,
-                                          paste0("select spectrum_id ",
-                                                 "from msms_spectrum"))[, 1]))
+              # maybe this check can be removed?
+              if (any(!ids %in% dbGetQuery(dbcon,
+                                           paste0("select ion_id ",
+                                                  "from ms_ion"))[, 1]))
                   warning("Some IDs in 'ids' are not valid and will be ignored")
-              dbExecute(dbcon, paste0("delete from ms_ion where ion_id in (", 
+              dbExecute(dbcon, paste0("delete from ms_ion where ion_id in (",
                                       toString(ids), ")"))
               object
           })
