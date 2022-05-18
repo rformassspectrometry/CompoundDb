@@ -267,3 +267,41 @@ test_that("insertCompound,CompDb works", {
     expect_error(insertCompound(db, compounds = "d"), "data.frame")
     expect_error(insertCompound(new("CompDb"), cmp), "not initialized")
 })
+
+test_that("deleteCompound,CompDb works", {
+    db <- emptyCompDb(tempfile())
+    res <- deleteCompound(db, 1:4)
+    expect_equal(compounds(res), compounds(db))
+
+    cmp <- data.frame(compound_id = 1:4, name = letters[1:4], synonyms = 1:4)
+    db <- insertCompound(db, cmp)
+    library(RSQLite)
+    db <- deleteCompound(db, ids = c(3, 6, 8, 10))
+    syns <- dbGetQuery(dbconn(db), "select * from synonym")
+    expect_equal(syns$synonym, c("1", "2", "4"))
+    expect_equal(compounds(db)$name, c("a", "b", "d"))
+
+    ## With Spectra data
+    spd <- DataFrame(
+        msLevel = c(2L, 2L),
+        polarity = c(1L, 1L),
+        other_column = "b")
+    spd$mz <- list(
+        c(109.2, 124.2, 124.5, 170.16, 170.52),
+        c(83.1, 96.12, 97.14, 109.14, 124.08, 125.1, 170.16))
+    spd$intensity <- list(
+        c(3.407, 47.494, 3.094, 100.0, 13.240),
+        c(6.685, 4.381, 3.022, 16.708, 100.0, 4.565, 40.643))
+    sps <- Spectra(spd)
+    sps$compound_id <- as.character(c(2, 4))
+    db <- insertSpectra(db, sps)
+    expect_error(deleteCompound(db, ids = c(1, 2)), "MS2")
+
+    db <- deleteCompound(db, ids = c(1, 2), recursive = TRUE)
+    expect_equal(compounds(db)$name, "d")
+    expect_equal(
+        dbGetQuery(dbconn(db), "select * from msms_spectrum")$compound_id, "4")
+
+    ## errors
+    expect_error(deleteCompound(new("CompDb"), 2), "not initialized")
+})

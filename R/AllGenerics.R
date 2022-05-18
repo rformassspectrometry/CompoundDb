@@ -16,6 +16,9 @@ setGeneric("insertIon", function(object, ions, ...)
 setGeneric("insertSpectra", function(object, spectra, ...)
   standardGeneric("insertSpectra"))
 
+setGeneric("deleteCompound", function(object, ...)
+  standardGeneric("deleteCompound"))
+
 setGeneric("deleteIon", function(object, ...)
   standardGeneric("deleteIon"))
 

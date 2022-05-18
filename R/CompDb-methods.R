@@ -230,6 +230,7 @@ setMethod("insertCompound", "CompDb", function(object, compounds = data.frame(),
                       inchikey = character(), formula = character(),
                       exactmass = numeric(), synonyms = character())
     suppressWarnings(compounds <- rbindFill(compounds, ref))
+    compounds$compound_id <- as.character(compounds$compound_id)
     .valid_compound(compounds, db = FALSE)
     if (is.list(compounds$synonyms) | !all(is.na(compounds$synonyms))) {
         if (is.list(compounds$synonyms)) {
@@ -258,5 +259,35 @@ setMethod("insertCompound", "CompDb", function(object, compounds = data.frame(),
     }
     dbAppendTable(dbcon, "ms_compound",
                   compounds[, intersect(dbcols, colnames(compounds))])
+    object
+})
+
+#' @export
+#'
+#' @rdname CompDb
+setMethod("deleteCompound", "CompDb", function(object, ids = integer(),
+                                               recursive = FALSE, ...) {
+    dbcon <- .dbconn(object)
+    if (is.null(dbcon)) stop("Database not initialized")
+    if (!length(ids)) return(object)
+    id_string <- paste0("'", ids, "'", collapse = ",")
+    if (hasMsMsSpectra(object)) {
+        ms <- dbGetQuery(dbcon, paste0("select compound_id, spectrum_id from ",
+                                       "msms_spectrum where compound_id in (",
+                                       id_string, ");"))
+        if (nrow(ms)) {
+            if (recursive)
+                object <- deleteSpectra(object, ids = ms$spectrum_id)
+            else stop("MS2 spectra for ", length(unique(ms$compound_id)),
+                      " of the specified compounds present. Use parameter ",
+                      "'recursive = TRUE' to delete compounds and all ",
+                      "related MS2 spectra from the database.")
+
+        }
+    }
+    dbExecute(dbcon, paste0("delete from synonym where compound_id in (",
+                            id_string, ");"))
+    dbExecute(dbcon, paste0("delete from ms_compound where compound_id in (",
+                            id_string, ");"))
     object
 })

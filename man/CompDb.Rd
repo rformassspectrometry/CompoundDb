@@ -12,6 +12,7 @@
 \alias{mass2mz}
 \alias{mass2mz,ANY-method}
 \alias{insertCompound}
+\alias{deleteCompound}
 \alias{hasMsMsSpectra}
 \alias{src_compdb}
 \alias{tables}
@@ -26,6 +27,7 @@
 \alias{deleteSpectra,CompDb-method}
 \alias{mass2mz,CompDb-method}
 \alias{insertCompound,CompDb-method}
+\alias{deleteCompound,CompDb-method}
 \title{Simple compound (metabolite) databases}
 \usage{
 CompDb(x, flags = SQLITE_RO)
@@ -65,6 +67,8 @@ copyCompDb(x, y)
 \S4method{mass2mz}{CompDb}(x, adduct = c("[M+H]+"), name = "formula")
 
 \S4method{insertCompound}{CompDb}(object, compounds = data.frame(), addColumns = FALSE)
+
+\S4method{deleteCompound}{CompDb}(object, ids = integer(), recursive = FALSE, ...)
 }
 \arguments{
 \item{x}{For \code{CompDb}: \code{character(1)} with the file name of the SQLite
@@ -105,8 +109,9 @@ to be added to the \code{IonDb} database.}
 
 \item{ids}{For \code{deleteSpectra}: \code{integer()}
 specifying the IDs of the spectra to delete. IDs in \code{ids} that are
-not associated to any spectra in the \code{CompDb} object are ignored. For
-\code{deleteIon}: \code{integer()} specifying the IDs of the ions to delete.}
+not associated to any spectra in the \code{CompDb} object are ignored.
+For \code{deleteIon}: \code{integer()} specifying the IDs of the ions to delete.
+For \code{deleteCompound}: \code{character()} with the compound IDs to be deleted.}
 
 \item{adduct}{either a \code{character} specifying the name(s) of the adduct(s)
 for which the m/z should be calculated or a \code{data.frame} with the adduct
@@ -127,6 +132,9 @@ inserted into a \code{CompDb} database. See function description for details.}
 \item{addColumns}{For \code{insertCompound}: \code{logical(1)} whether all (extra)
 columns in parameter \code{compounds} should be stored also in the database
 table. The default is \code{addColumns = FALSE}.}
+
+\item{recursive}{For \code{deleteCompound}: \code{logical(1)} whether also MS2 spectra
+associated with the compounds should be deleted.}
 }
 \value{
 See description of the respective function.
@@ -216,6 +224,14 @@ the database table. The default is \code{addColumns = FALSE}. The function
 returns the \code{CompDb} with the compounds added.
 See also \code{\link[=createCompDb]{createCompDb()}} for more information and details on expected
 compound data and the examples below for general usage.
+\item \code{deleteCompound}: removes specified compounds from the \code{CompDb} database.
+The IDs of the compounds that should be deleted need to be provided with
+parameter \code{ids}. To include compound IDs in the output of a \code{compounds}
+call \code{"compound_id"} should be added to the \code{columns} parameter. By
+default an error is thrown if for some of the specified compounds also MS2
+spectra are present in the database. To force deletion of the compounds
+along with all associated MS2 spectra use \code{recursive = TRUE}. See examples
+below for details. The function returns the updated \code{CompDb} database.
 \item \code{insertSpectra}: adds further spectra to the database.
 The method always adds all the spectra specified through the \code{spectra}
 parameter and does not check if they are already in the database. Note that
@@ -378,6 +394,25 @@ cmp <- data.frame(
 cdb <- insertCompound(cdb, compounds = cmp, addColumns = TRUE)
 cdb
 compounds(cdb)
+
+######
+## Deleting selected compounds from a database
+##
+## Compounds can be deleted with the deleteCompound function providing the
+## IDs of the compounds that should be deleted. IDs of compounds in the
+## database can be retrieved by adding "compound_id" to the columns parameter
+## of the compounds function:
+compounds(cdb, columns = c("compound_id", "name"))
+
+## Compounds can be deleted with the deleteCompound function. Below we delete
+## the compounds with the IDs "1" and "3" from the database
+cdb <- deleteCompound(cdb, ids = c("1", "3"))
+compounds(cdb)
+
+## If also MS2 spectra associated with any of these two compounds an error
+## would be thrown. Setting the parameter `recursive = TRUE` in the
+## `deleteCompound` call would delete the compounds along with their MS2
+## spectra.
 }
 \seealso{
 \code{\link[=createCompDb]{createCompDb()}} for the function to create a SQLite compound database.

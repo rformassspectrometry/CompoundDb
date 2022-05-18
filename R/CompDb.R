@@ -10,7 +10,7 @@
 #'
 #' @aliases compoundVariables insertSpectra deleteSpectra mass2mz
 #'
-#' @aliases mass2mz,ANY-method insertCompound
+#' @aliases mass2mz,ANY-method insertCompound deleteCompound
 #'
 #' @description
 #'
@@ -100,6 +100,15 @@
 #'   See also [createCompDb()] for more information and details on expected
 #'   compound data and the examples below for general usage.
 #'
+#' - `deleteCompound`: removes specified compounds from the `CompDb` database.
+#'   The IDs of the compounds that should be deleted need to be provided with
+#'   parameter `ids`. To include compound IDs in the output of a `compounds`
+#'   call `"compound_id"` should be added to the `columns` parameter. By
+#'   default an error is thrown if for some of the specified compounds also MS2
+#'   spectra are present in the database. To force deletion of the compounds
+#'   along with all associated MS2 spectra use `recursive = TRUE`. See examples
+#'   below for details. The function returns the updated `CompDb` database.
+#'
 #' - `insertSpectra`: adds further spectra to the database.
 #'   The method always adds all the spectra specified through the `spectra`
 #'   parameter and does not check if they are already in the database. Note that
@@ -151,21 +160,25 @@
 #'
 #' @param ids For `deleteSpectra`: `integer()`
 #'     specifying the IDs of the spectra to delete. IDs in `ids` that are
-#'     not associated to any spectra in the `CompDb` object are ignored. For
-#'     `deleteIon`: `integer()` specifying the IDs of the ions to delete.
+#'     not associated to any spectra in the `CompDb` object are ignored.
+#'     For `deleteIon`: `integer()` specifying the IDs of the ions to delete.
+#'     For `deleteCompound`: `character()` with the compound IDs to be deleted.
 #'
 #' @param includeId for `compoundVariables`: `logical(1)` whether the comound
 #'     ID (column `"compound_id"`) should be included in the result. The
 #'     default is `includeIds = FALSE`.
 #'
 #' @param name For `mass2mz`: `character(1)`. Defines the `CompDb` column that
-#'   will be used to name/identify the returned m/z values. By default
-#'   (`name = "formula"`) m/z values for all unique molecular formulas are
-#'   calculated and these are used as `rownames` for the returned `matrix`.
-#'   With `name = "compound_id"` the adduct m/z for all compounds (even those
-#'   with equal formulas) are calculated and returned.
+#'     will be used to name/identify the returned m/z values. By default
+#'     (`name = "formula"`) m/z values for all unique molecular formulas are
+#'     calculated and these are used as `rownames` for the returned `matrix`.
+#'     With `name = "compound_id"` the adduct m/z for all compounds (even those
+#'     with equal formulas) are calculated and returned.
 #'
 #' @param object For all methods: a `CompDb` object.
+#'
+#' @param recursive For `deleteCompound`: `logical(1)` whether also MS2 spectra
+#'     associated with the compounds should be deleted.
 #'
 #' @param return.type For `compounds`: either `"data.frame"` or `"tibble"` to
 #'     return the result as a [data.frame()] or [tibble()], respectively.
@@ -325,6 +338,25 @@
 #' cdb <- insertCompound(cdb, compounds = cmp, addColumns = TRUE)
 #' cdb
 #' compounds(cdb)
+#'
+#' ######
+#' ## Deleting selected compounds from a database
+#' ##
+#' ## Compounds can be deleted with the deleteCompound function providing the
+#' ## IDs of the compounds that should be deleted. IDs of compounds in the
+#' ## database can be retrieved by adding "compound_id" to the columns parameter
+#' ## of the compounds function:
+#' compounds(cdb, columns = c("compound_id", "name"))
+#'
+#' ## Compounds can be deleted with the deleteCompound function. Below we delete
+#' ## the compounds with the IDs "1" and "3" from the database
+#' cdb <- deleteCompound(cdb, ids = c("1", "3"))
+#' compounds(cdb)
+#'
+#' ## If also MS2 spectra associated with any of these two compounds an error
+#' ## would be thrown. Setting the parameter `recursive = TRUE` in the
+#' ## `deleteCompound` call would delete the compounds along with their MS2
+#' ## spectra.
 NULL
 
 #' @importFrom methods new
