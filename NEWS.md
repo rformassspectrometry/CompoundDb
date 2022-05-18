@@ -1,5 +1,9 @@
 # CompoundDb version 1.1
 
+## Changes in version 1.1.2
+
+- Add `insertCompound` function.
+
 ## Changes in version 1.1.1
 
 - Fix wrong warning message in `deleteIon`.

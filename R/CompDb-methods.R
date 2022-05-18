@@ -213,3 +213,37 @@ setMethod("mass2mz", signature = c("ANY"),
           function(x, ...) {
               MetaboCoreUtils::mass2mz(x, ...)
           })
+
+#' @importFrom MsCoreUtils rbindFill
+#'
+#' @rdname CompDb
+#'
+#' @export
+setMethod("insertCompound", "CompDb", function(object, compounds = data.frame(),
+                                               addColumns = FALSE) {
+    if (!is.data.frame(compounds))
+        stop("'compounds' is expected to be a data.frame")
+    dbcon <- .dbconn(object)
+    if (is.null(dbcon)) stop("Database not initialized")
+    if (nrow(compounds)) {
+        ref <- data.frame(name = character(), inchi = character(),
+                          inchikey = character(), formula = character(),
+                          exactmass = numeric(), synonyms = character())
+        suppressWarnings(compound <- rbindFill(compound, ref))
+        .valid_compound(compound, db = FALSE)
+        dbcols <- colnames(dbGetQuery(dbcon,
+                                      "select * from ms_compound limit 1"))
+        new_cols <- colnames(compound)[!colnames(compound) %in% dbcols]
+        if (addColumns && length(new_cols)) {
+            dtype <- dbDataType(con, compound[, new_cols, drop = FALSE])
+            dtype <- paste(names(dtype), dtype)
+            for (dt in dtype)
+                dbExecute(dbcon, paste("alter table ms_compound add", dt))
+            cols <- colnames(dbGetQuery(dbcon,
+                                        "select * from ms_compound limit 1"))
+            object@.properties$tables$ms_compound <- cols
+        }
+        dbAppendTable(dbcon, "ms_compound", compound)
+    }
+    object
+})

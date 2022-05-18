@@ -219,3 +219,13 @@ test_that("mass2mz,ANY works", {
     rownames(res_2) <- NULL
     expect_equal(res, res_2)
 })
+
+test_that("insertCompound,CompDb works", {
+    db <- emptyCompDb(tempfile())
+    res <- insertCompound(db, compounds = data.frame())
+    expect_equal(compounds(db), compounds(res))
+
+    cmp <- data.frame(compound_id = 1:3, name = c("a", "b", "c"))
+
+    ## additional columns.
+})

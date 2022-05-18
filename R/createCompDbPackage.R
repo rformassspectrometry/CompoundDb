@@ -367,6 +367,14 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #'
 #' @description
 #'
+#' `CompDb` databases can be created with the `createCompDb` or the
+#' `emptyCompDb` functions, the former creating and initializing (filling) the
+#' database with existing data, the latter creating an empty database that can
+#' be subsequently filled with [insertCompound()] or [insertSpectra()] calls.
+#'
+#' `emptyCompDb` requires only the file name of the database that should be
+#' created as input and returns a `CompDb` representing the empty database.
+#'
 #' `createCompDb` creates a `SQLite`-based [`CompDb`] object/database
 #' from a compound resource provided as a `data.frame` or `tbl`. Alternatively,
 #' the name(s) of the file(s) from which the annotation should be extracted can
@@ -388,7 +396,9 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #'
 #' Required columns for the `data.frame` providing the compound information (
 #' parameter `x`) are:
-#' + `"compound_id"`: the ID of the compound.
+#' + `"compound_id"`: the ID of the compound. Can be an `integer` or
+#'   `character`. Duplicated IDs are supported (for compatibility reasons), but
+#'   not suggested. No missing values allowed.
 #' + `"name"`: the compound's name.
 #' + `"inchi"`: the InChI of the compound.
 #' + `"inchikey"`: the InChI key.
@@ -870,9 +880,10 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".",
         txt <- .valid_data_frame_columns(x, "x", .required_compound_db_columns)
     else
         txt <- .valid_data_frame_columns(x, "x", .required_compound_columns)
-    if (!length(txt))
-        if (!is.numeric(x$exactmass))
-            txt <- c(txt, "Column 'exactmass' should be numeric")
+    if (!length(txt) && !is.numeric(x$exactmass))
+        txt <- c(txt, "Column 'exactmass' should be numeric")
+    if (!length(txt) && (any(is.na(x$compound_id)) | any(x$compound_id == "")))
+        txt <- c(txt, "Missing values are not allowed in column 'compound_id'")
     .throw_error(txt, error = error)
 }
 
@@ -1053,4 +1064,26 @@ import_mona_sdf <- function(x, nonStop = TRUE) {
     spctra <- .extract_spectra_mona_sdf(sdfs)
     message("OK")
     list(compound = cmps, msms_spectrum = spctra)
+}
+
+#' @importFrom RSQLite SQLITE_RW
+#'
+#' @export
+#'
+#' @rdname createCompDb
+emptyCompDb <- function(dbFile = character()) {
+    if (file.exists(dbFile))
+        stop("The file \"", dbFile, "\" does already exist.")
+    ## Initialize tables.
+    comps <- data.frame(compound_id = character(), name = character(),
+                        inchi = character(), inchikey = character(),
+                        formula = character(), exactmass = numeric(),
+                        synonyms = character())
+    metad <- data.frame(name = c("source", "url", "source_version",
+                                 "source_date", "organism"),
+                        value = NA_character_)
+    ## source, url, source_version, source_date, organism.
+    createCompDb(comps, metad, path = dirname(dbFile),
+                 dbFile = basename(dbFile))
+    CompDb(dbFile, flags = SQLITE_RW)
 }

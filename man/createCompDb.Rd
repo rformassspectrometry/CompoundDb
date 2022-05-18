@@ -4,6 +4,7 @@
 \alias{createCompDb}
 \alias{createCompDbPackage}
 \alias{make_metadata}
+\alias{emptyCompDb}
 \title{Create a CompDb database}
 \usage{
 createCompDb(x, metadata, msms_spectra, path = ".", dbFile = character())
@@ -24,6 +25,8 @@ make_metadata(
   source_date = character(),
   organism = NA_character_
 )
+
+emptyCompDb(dbFile = character())
 }
 \arguments{
 \item{x}{For \code{createCompDb}: \code{data.frame} or \code{tbl} with the compound
@@ -81,6 +84,14 @@ For \code{createCompDb}: a \code{character(1)} with the database name
 (invisibly).
 }
 \description{
+\code{CompDb} databases can be created with the \code{createCompDb} or the
+\code{emptyCompDb} functions, the former creating and initializing (filling) the
+database with existing data, the latter creating an empty database that can
+be subsequently filled with \code{\link[=insertCompound]{insertCompound()}} or \code{\link[=insertSpectra]{insertSpectra()}} calls.
+
+\code{emptyCompDb} requires only the file name of the database that should be
+created as input and returns a \code{CompDb} representing the empty database.
+
 \code{createCompDb} creates a \code{SQLite}-based \code{\link{CompDb}} object/database
 from a compound resource provided as a \code{data.frame} or \code{tbl}. Alternatively,
 the name(s) of the file(s) from which the annotation should be extracted can
@@ -103,7 +114,9 @@ the function with the \code{msms_spectra} argument. See \code{\link[=msms_spectr
 Required columns for the \code{data.frame} providing the compound information (
 parameter \code{x}) are:
 \itemize{
-\item \code{"compound_id"}: the ID of the compound.
+\item \code{"compound_id"}: the ID of the compound. Can be an \code{integer} or
+\code{character}. Duplicated IDs are supported (for compatibility reasons), but
+not suggested. No missing values allowed.
 \item \code{"name"}: the compound's name.
 \item \code{"inchi"}: the InChI of the compound.
 \item \code{"inchikey"}: the InChI key.

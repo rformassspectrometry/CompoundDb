@@ -85,7 +85,8 @@ cmps
 
 The `tibble` contains columns
 
-- `compound_id`: the resource-specific ID of the compound.
+- `compound_id`: the resource-specific ID of the compound. Can be an `integer`
+  or a `character`.
 - `name`: the name of the compound, mostly a generic or common name.
 - `inchi`: the compound's inchi.
 - `inchikey`: the INCHI key.

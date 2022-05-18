@@ -70,11 +70,34 @@
 #' - `tables`: returns a named `list` (names being table names) with
 #'   the fields/columns from each table in the database.
 #'
-#' - `insertSpectra`: allows to add further spectra to the database object. Note
-#'   that `insertSpectra` doesn't work on default *read-only* `CompDb` objects
-#'   (dropping the default parameter `flags = RSQLite::SQLITE_RO` in the
-#'   `CompDb` call to connect to a database would return a `CompDb` object
-#'   which is also writeable).
+#' - `mass2mz`: calculates a table of the m/z values for each compound based on
+#'   the provided set of adduct(s). Adduct definitions can be provided with
+#'   parameter `adduct`. See [MetaboCoreUtils::mass2mz()] for more details.
+#'   Parameter `name` defines the database table column that should be used as
+#'   `rownames` of the returned `matrix`. By default `name = "formula"`, m/z
+#'   values are calculated for each unique formula in the `CompDb` `x`.
+#'
+#' @section Adding and removing data from a database:
+#'
+#' Note that inserting and deleting data requires read-write access to the
+#' database. Databases returned by `CompDb` are by default *read-only*. To get
+#' write access `CompDb` should be called with parameter
+#' `flags = RSQLite::SQLITE_RW`.
+#'
+#' - `insertCompound`: adds additional compound(s) to a `CompDb`. The
+#'   compound(s) to be added can be specified with parameter `compounds` that
+#'   is expected to be a `data.frame` with columns `"compound_id"`, `"name"`,
+#'   `"inchi"`, `"inchikey"`, `"formula"`, `"exactmass"` and `"synonyms"`.
+#'   Column `"exactmass"` is expected to contain numeric values, all other
+#'   columns `character`. Missing values are allowed for all columns except
+#'   `"compound_id"`. By setting parameter `addColumns = TRUE` any additional
+#'   columns in `compound` will be added to the database table. The default is
+#'   `addColumns = FALSE`. The function returns the `CompDb` with the compounds
+#'   added.
+#'   See also [createCompDb()] for more information and details on expected
+#'   compound data.
+#'
+#' - `insertSpectra`: adds further spectra to the database.
 #'   The method always adds all the spectra specified through the `spectra`
 #'   parameter and does not check if they are already in the database. Note that
 #'   the input spectra must have the variable `compound_id` and only `Spectra`
@@ -87,19 +110,8 @@
 #'   If needed, the function adds additional columns to the `msms_spectrum`
 #'   database table. The function returns the updated `CompDb` object.
 #'
-#' - `deleteSpectra`: allows to delete spectra from the database object by
-#'   specifying their IDs through parameter `ids`.  Note
-#'   that `deleteSpectra` doesn't work on default *read-only* `CompDb` objects
-#'   (dropping the default parameter `flags = RSQLite::SQLITE_RO` in the
-#'   `CompDb` call to connect to a database would return a `CompDb` object
-#'   which is also writeable).
-#'
-#' - `mass2mz`: calculates a table of the m/z values for each compound based on
-#'   the provided set of adduct(s). Adduct definitions can be provided with
-#'   parameter `adduct`. See [MetaboCoreUtils::mass2mz()] for more details.
-#'   Parameter `name` defines the database table column that should be used as
-#'   `rownames` of the returned `matrix`. By default `name = "formula"`, m/z
-#'   values are calculated for each unique formula in the `CompDb` `x`.
+#' - `deleteSpectra`: deletes specified spectra from the database. The IDs of
+#'   the spectra to be deleted need to be provided with parameter `ids`.
 #'
 #' @section Filtering the database:
 #'
