@@ -10,7 +10,7 @@
 #'
 #' @aliases compoundVariables insertSpectra deleteSpectra mass2mz
 #'
-#' @aliases mass2mz,ANY-method
+#' @aliases mass2mz,ANY-method insertCompound
 #'
 #' @description
 #'
@@ -87,15 +87,18 @@
 #' - `insertCompound`: adds additional compound(s) to a `CompDb`. The
 #'   compound(s) to be added can be specified with parameter `compounds` that
 #'   is expected to be a `data.frame` with columns `"compound_id"`, `"name"`,
-#'   `"inchi"`, `"inchikey"`, `"formula"`, `"exactmass"` and `"synonyms"`.
+#'   `"inchi"`, `"inchikey"`, `"formula"`, `"exactmass"`.
 #'   Column `"exactmass"` is expected to contain numeric values, all other
 #'   columns `character`. Missing values are allowed for all columns except
-#'   `"compound_id"`. By setting parameter `addColumns = TRUE` any additional
-#'   columns in `compound` will be added to the database table. The default is
-#'   `addColumns = FALSE`. The function returns the `CompDb` with the compounds
-#'   added.
+#'   `"compound_id"`. An optional column `"synonyms"` can be used to provide
+#'   alternative names for the compound. This column can contain a single
+#'   `character` by row, or a `list` with multiple `character` (names) per
+#'   row/compound (see examples below for details). By setting parameter
+#'   `addColumns = TRUE` any additional columns in `compound` will be added to
+#'   the database table. The default is `addColumns = FALSE`. The function
+#'   returns the `CompDb` with the compounds added.
 #'   See also [createCompDb()] for more information and details on expected
-#'   compound data.
+#'   compound data and the examples below for general usage.
 #'
 #' - `insertSpectra`: adds further spectra to the database.
 #'   The method always adds all the spectra specified through the `spectra`
@@ -126,11 +129,18 @@
 #' all supported filters. See also examples below or the usage vignette for
 #' details.
 #'
+#' @param addColumns For `insertCompound`: `logical(1)` whether all (extra)
+#'     columns in parameter `compounds` should be stored also in the database
+#'     table. The default is `addColumns = FALSE`.
+#'
 #' @param columns For `compounds`, `Spectra`: `character` with the names of the
 #'     database columns that should be retrieved. Use `compoundVariables` and/or
 #'     `spectraVariables` for a list of available column names.
 #'     For `insertSpectra`: columns (spectra variables) that should be inserted
 #'     into the database (to avoid inserting all variables).
+#'
+#' @param compounds For `insertCompound`: `data.frame` with compound data to be
+#'     inserted into a `CompDb` database. See function description for details.
 #'
 #' @param filter For `compounds` and `Spectra`: filter expression or
 #'     [AnnotationFilter()] defining a filter to be used to retrieve specific
@@ -278,6 +288,43 @@
 #'
 #' ## Extract the id, name and inchi
 #' cmp_tbl %>% select(compound_id, name, inchi) %>% collect()
+#'
+#' ########
+#' ## Creating an empty CompDb and sequentially adding content
+#' ##
+#' ## Create an empty CompDb and store the database in a temporary file
+#' cdb <- emptyCompDb(tempfile())
+#' cdb
+#'
+#' ## Define a data.frame with some compounds to add
+#' cmp <- data.frame(
+#'     compound_id = c(1, 2),
+#'     name = c("Caffeine", "Glucose"),
+#'     formula = c("C8H10N4O2", "C6H12O6"),
+#'     exactmass = c(194.080375584, 180.063388116))
+#'
+#' ## We can also add multiple synonyms for each compound
+#' cmp$synonyms <- list(c("Cafeina", "Koffein"), "D Glucose")
+#' cmp
+#'
+#' ## These compounds can be added to the empty database with insertCompound
+#' cdb <- insertCompound(cdb, compounds = cmp)
+#' compounds(cdb)
+#'
+#' ## insertCompound would also allow to add additional columns/annotations to
+#' ## the database. Below we define a new compound adding an additional column
+#' ## hmdb_id
+#' cmp <- data.frame(
+#'     compound_id = 3,
+#'     name = "Alpha-Lactose",
+#'     formula = "C12H22O11",
+#'     exactmass = 342.116211546,
+#'     hmdb_id = "HMDB0000186")
+#'
+#' ## To add additional columns we need to set addColumns = TRUE
+#' cdb <- insertCompound(cdb, compounds = cmp, addColumns = TRUE)
+#' cdb
+#' compounds(cdb)
 NULL
 
 #' @importFrom methods new

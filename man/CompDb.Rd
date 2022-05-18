@@ -11,6 +11,7 @@
 \alias{deleteSpectra}
 \alias{mass2mz}
 \alias{mass2mz,ANY-method}
+\alias{insertCompound}
 \alias{hasMsMsSpectra}
 \alias{src_compdb}
 \alias{tables}
@@ -119,6 +120,13 @@ will be used to name/identify the returned m/z values. By default
 calculated and these are used as \code{rownames} for the returned \code{matrix}.
 With \code{name = "compound_id"} the adduct m/z for all compounds (even those
 with equal formulas) are calculated and returned.}
+
+\item{compounds}{For \code{insertCompound}: \code{data.frame} with compound data to be
+inserted into a \code{CompDb} database. See function description for details.}
+
+\item{addColumns}{For \code{insertCompound}: \code{logical(1)} whether all (extra)
+columns in parameter \code{compounds} should be stored also in the database
+table. The default is \code{addColumns = FALSE}.}
 }
 \value{
 See description of the respective function.
@@ -196,15 +204,18 @@ write access \code{CompDb} should be called with parameter
 \item \code{insertCompound}: adds additional compound(s) to a \code{CompDb}. The
 compound(s) to be added can be specified with parameter \code{compounds} that
 is expected to be a \code{data.frame} with columns \code{"compound_id"}, \code{"name"},
-\code{"inchi"}, \code{"inchikey"}, \code{"formula"}, \code{"exactmass"} and \code{"synonyms"}.
+\code{"inchi"}, \code{"inchikey"}, \code{"formula"}, \code{"exactmass"}.
 Column \code{"exactmass"} is expected to contain numeric values, all other
 columns \code{character}. Missing values are allowed for all columns except
-\code{"compound_id"}. By setting parameter \code{addColumns = TRUE} any additional
-columns in \code{compound} will be added to the database table. The default is
-\code{addColumns = FALSE}. The function returns the \code{CompDb} with the compounds
-added.
+\code{"compound_id"}. An optional column \code{"synonyms"} can be used to provide
+alternative names for the compound. This column can contain a single
+\code{character} by row, or a \code{list} with multiple \code{character} (names) per
+row/compound (see examples below for details). By setting parameter
+\code{addColumns = TRUE} any additional columns in \code{compound} will be added to
+the database table. The default is \code{addColumns = FALSE}. The function
+returns the \code{CompDb} with the compounds added.
 See also \code{\link[=createCompDb]{createCompDb()}} for more information and details on expected
-compound data.
+compound data and the examples below for general usage.
 \item \code{insertSpectra}: adds further spectra to the database.
 The method always adds all the spectra specified through the \code{spectra}
 parameter and does not check if they are already in the database. Note that
@@ -330,6 +341,43 @@ cmp_tbl <- tbl(src_cmp, "ms_compound")
 
 ## Extract the id, name and inchi
 cmp_tbl \%>\% select(compound_id, name, inchi) \%>\% collect()
+
+########
+## Creating an empty CompDb and sequentially adding content
+##
+## Create an empty CompDb and store the database in a temporary file
+cdb <- emptyCompDb(tempfile())
+cdb
+
+## Define a data.frame with some compounds to add
+cmp <- data.frame(
+    compound_id = c(1, 2),
+    name = c("Caffeine", "Glucose"),
+    formula = c("C8H10N4O2", "C6H12O6"),
+    exactmass = c(194.080375584, 180.063388116))
+
+## We can also add multiple synonyms for each compound
+cmp$synonyms <- list(c("Cafeina", "Koffein"), "D Glucose")
+cmp
+
+## These compounds can be added to the empty database with insertCompound
+cdb <- insertCompound(cdb, compounds = cmp)
+compounds(cdb)
+
+## insertCompound would also allow to add additional columns/annotations to
+## the database. Below we define a new compound adding an additional column
+## hmdb_id
+cmp <- data.frame(
+    compound_id = 3,
+    name = "Alpha-Lactose",
+    formula = "C12H22O11",
+    exactmass = 342.116211546,
+    hmdb_id = "HMDB0000186")
+
+## To add additional columns we need to set addColumns = TRUE
+cdb <- insertCompound(cdb, compounds = cmp, addColumns = TRUE)
+cdb
+compounds(cdb)
 }
 \seealso{
 \code{\link[=createCompDb]{createCompDb()}} for the function to create a SQLite compound database.

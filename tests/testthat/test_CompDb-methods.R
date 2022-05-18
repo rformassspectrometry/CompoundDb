@@ -226,6 +226,44 @@ test_that("insertCompound,CompDb works", {
     expect_equal(compounds(db), compounds(res))
 
     cmp <- data.frame(compound_id = 1:3, name = c("a", "b", "c"))
+    res <- insertCompound(db, compounds = cmp)
+    res_c <- compounds(res)
+    expect_equal(colnames(res_c), compoundVariables(res))
+    expect_equal(res_c$name, cmp$name)
 
     ## additional columns.
+    cmp$add_col <- 5
+    res <- insertCompound(db, compounds = cmp)
+    res_c <- compounds(res)
+    expect_equal(colnames(res_c), compoundVariables(res))
+    expect_equal(res_c$name, cmp$name)
+    library(RSQLite)
+    all <- dbGetQuery(dbconn(res), "select * from ms_compound")
+    expect_equal(all$name, c(cmp$name, cmp$name))
+    expect_true(!any(colnames(all) == "add_col"))
+
+    res <- insertCompound(res, compounds = cmp, addColumns = TRUE)
+    expect_true(any(compoundVariables(res) == "add_col"))
+    all <- dbGetQuery(dbconn(res), "select * from ms_compound")
+    expect_equal(all$name, c(cmp$name, cmp$name, cmp$name))
+    expect_true(any(colnames(all) == "add_col"))
+    expect_true(all(all$add_col[7:9] == 5))
+
+    ## synonyms.
+    cmp <- data.frame(compound_id = c("8", "9"), name = c("first", "second"),
+                      synonyms = c("primo", NA))
+    res <- insertCompound(res, compounds = cmp)
+    syns <- dbGetQuery(dbconn(res), "select * from synonym")
+    expect_equal(syns$compound_id, "8")
+    expect_equal(syns$synonym, "primo")
+
+    cmp$synonyms <- list(c(), c("secondo", "segundo", "zweiter"))
+    res <- insertCompound(res, compounds = cmp)
+    syns <- dbGetQuery(dbconn(res), "select * from synonym")
+    expect_equal(syns$compound_id, c("8", "9", "9", "9"))
+    expect_equal(syns$synonym, c("primo", "secondo", "segundo", "zweiter"))
+
+    ## errors
+    expect_error(insertCompound(db, compounds = "d"), "data.frame")
+    expect_error(insertCompound(new("CompDb"), cmp), "not initialized")
 })

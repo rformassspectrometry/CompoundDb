@@ -225,25 +225,38 @@ setMethod("insertCompound", "CompDb", function(object, compounds = data.frame(),
         stop("'compounds' is expected to be a data.frame")
     dbcon <- .dbconn(object)
     if (is.null(dbcon)) stop("Database not initialized")
-    if (nrow(compounds)) {
-        ref <- data.frame(name = character(), inchi = character(),
-                          inchikey = character(), formula = character(),
-                          exactmass = numeric(), synonyms = character())
-        suppressWarnings(compound <- rbindFill(compound, ref))
-        .valid_compound(compound, db = FALSE)
-        dbcols <- colnames(dbGetQuery(dbcon,
-                                      "select * from ms_compound limit 1"))
-        new_cols <- colnames(compound)[!colnames(compound) %in% dbcols]
-        if (addColumns && length(new_cols)) {
-            dtype <- dbDataType(con, compound[, new_cols, drop = FALSE])
-            dtype <- paste(names(dtype), dtype)
-            for (dt in dtype)
-                dbExecute(dbcon, paste("alter table ms_compound add", dt))
-            cols <- colnames(dbGetQuery(dbcon,
-                                        "select * from ms_compound limit 1"))
-            object@.properties$tables$ms_compound <- cols
-        }
-        dbAppendTable(dbcon, "ms_compound", compound)
+    if (!nrow(compounds)) return(object)
+    ref <- data.frame(name = character(), inchi = character(),
+                      inchikey = character(), formula = character(),
+                      exactmass = numeric(), synonyms = character())
+    suppressWarnings(compounds <- rbindFill(compounds, ref))
+    .valid_compound(compounds, db = FALSE)
+    if (is.list(compounds$synonyms) | !all(is.na(compounds$synonyms))) {
+        if (is.list(compounds$synonyms)) {
+            syn <- data.frame(
+                compound_id = rep(compounds$compound_id,
+                                  lengths(compounds$synonyms)),
+                synonym = as.character(unlist(compounds$synonyms)))
+        } else syn <- data.frame(compound_id = compounds$compound_id,
+                                 synonym = compounds$synonyms)
+        syn <- syn[!is.na(syn$synonym), ]
+        if (nrow(syn)) dbAppendTable(dbcon, "synonym", syn)
     }
+    dbcols <- colnames(dbGetQuery(dbcon, "select * from ms_compound limit 1"))
+    compounds$synonyms <- NULL
+    new_cols <- colnames(compounds)[!colnames(compounds) %in% dbcols]
+    if (addColumns && length(new_cols)) {
+        dtype <- dbDataType(dbcon, compounds[, new_cols, drop = FALSE])
+        dtype <- paste(names(dtype), dtype)
+        for (dt in dtype)
+            dbExecute(dbcon, paste("alter table ms_compound add", dt))
+        cols <- colnames(dbGetQuery(dbcon,
+                                    "select * from ms_compound limit 1"))
+        object@.properties$tables$ms_compound <- cols
+        dbcols <- colnames(
+            dbGetQuery(dbcon, "select * from ms_compound limit 1"))
+    }
+    dbAppendTable(dbcon, "ms_compound",
+                  compounds[, intersect(dbcols, colnames(compounds))])
     object
 })
