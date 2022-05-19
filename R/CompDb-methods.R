@@ -265,7 +265,7 @@ setMethod("insertCompound", "CompDb", function(object, compounds = data.frame(),
 #' @export
 #'
 #' @rdname CompDb
-setMethod("deleteCompound", "CompDb", function(object, ids = integer(),
+setMethod("deleteCompound", "CompDb", function(object, ids = character(),
                                                recursive = FALSE, ...) {
     dbcon <- .dbconn(object)
     if (is.null(dbcon)) stop("Database not initialized")

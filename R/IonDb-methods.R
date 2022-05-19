@@ -161,3 +161,24 @@ setMethod("IonDb", signature(x = "DBIConnection", cdb = "CompDb"),
               .create_ion_table(x)
               IonDb(x, ions = ions, ...)
           })
+
+setMethod("deleteCompound", "IonDb", function(object, ids = character(),
+                                               recursive = FALSE, ...) {
+    dbcon <- .dbconn(object)
+    if (is.null(dbcon)) stop("Database not initialized")
+    if (!length(ids)) return(object)
+    id_string <- paste0("'", ids, "'", collapse = ",")
+    ins <- dbGetQuery(dbcon, paste0("select compound_id, ion_id from ms_ion",
+                                    " where compound_id in (", id_string, ");"))
+    if (nrow(ins)) {
+        if (recursive)
+            dbExecute(dbcon, paste0("delete from ms_ion where ion_id in (",
+                                    paste0("'", ins$ion_id, "'", collapse =","),
+                                    ");"))
+        else stop("Ions for ", length(unique(ins$compound_id)), " of the ",
+                  "specified compounds present. Use parameter 'recursive = ",
+                  "TRUE' to delete compounds and all ions (and eventually MS2",
+                  " spectra) associated with them from the database.")
+    }
+    callNextMethod()
+})

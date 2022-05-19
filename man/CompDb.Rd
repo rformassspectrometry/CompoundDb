@@ -13,6 +13,7 @@
 \alias{mass2mz,ANY-method}
 \alias{insertCompound}
 \alias{deleteCompound}
+\alias{deleteCompound,IonDb-method}
 \alias{hasMsMsSpectra}
 \alias{src_compdb}
 \alias{tables}
@@ -68,7 +69,7 @@ copyCompDb(x, y)
 
 \S4method{insertCompound}{CompDb}(object, compounds = data.frame(), addColumns = FALSE)
 
-\S4method{deleteCompound}{CompDb}(object, ids = integer(), recursive = FALSE, ...)
+\S4method{deleteCompound}{CompDb}(object, ids = character(), recursive = FALSE, ...)
 }
 \arguments{
 \item{x}{For \code{CompDb}: \code{character(1)} with the file name of the SQLite
@@ -110,7 +111,6 @@ to be added to the \code{IonDb} database.}
 \item{ids}{For \code{deleteSpectra}: \code{integer()}
 specifying the IDs of the spectra to delete. IDs in \code{ids} that are
 not associated to any spectra in the \code{CompDb} object are ignored.
-For \code{deleteIon}: \code{integer()} specifying the IDs of the ions to delete.
 For \code{deleteCompound}: \code{character()} with the compound IDs to be deleted.}
 
 \item{adduct}{either a \code{character} specifying the name(s) of the adduct(s)

@@ -148,12 +148,21 @@ return all elements from the \emph{ms_ion} table (unless a \code{filter} is used
 \itemize{
 \item \code{IonDb}: connect to or create a compound/ion database.
 \item \code{ionVariables}: returns all available columns/database fields for ions.
-\item \code{insertIon}: allows to add further ions to the \code{IonDb} object. Note that
+}
+}
+
+\section{Adding and removing data from a database}{
+
+
+\code{IonDb} inherits the \code{insertCompound}, \code{insertSpectra}, \code{deleteCompound} and
+\code{deleteSpectra} from \code{\link[=CompDb]{CompDb()}}. In addition, \code{IonDb} defines the functions:
+\itemize{
+\item \code{insertIon}: adds ions to the \code{IonDb} object. Note that
 \code{insertIon} always adds all the ions specified through the \code{ions} parameter
 and does not check if they are already in the database. To add columns
 present in the submitted \code{data.frame} to the database table set
 \code{addColumns = TRUE} (default is \code{addColumns = FALSE}).
-\item \code{deleteIon}: allows to delete ions from the \code{IonDb} object by specifying
+\item \code{deleteIon}: deletes ions from the \code{IonDb} object by specifying
 their IDs.
 }
 }

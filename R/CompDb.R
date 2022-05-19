@@ -12,6 +12,8 @@
 #'
 #' @aliases mass2mz,ANY-method insertCompound deleteCompound
 #'
+#' @aliases deleteCompound,IonDb-method
+#'
 #' @description
 #'
 #' `CompDb` objects provide access to general (metabolite) compound
@@ -161,7 +163,6 @@
 #' @param ids For `deleteSpectra`: `integer()`
 #'     specifying the IDs of the spectra to delete. IDs in `ids` that are
 #'     not associated to any spectra in the `CompDb` object are ignored.
-#'     For `deleteIon`: `integer()` specifying the IDs of the ions to delete.
 #'     For `deleteCompound`: `character()` with the compound IDs to be deleted.
 #'
 #' @param includeId for `compoundVariables`: `logical(1)` whether the comound
