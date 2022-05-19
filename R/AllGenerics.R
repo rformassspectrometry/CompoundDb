@@ -7,11 +7,17 @@ setGeneric("compoundVariables", function(object, ...)
 setGeneric("ionVariables", function(object, ...)
   standardGeneric("ionVariables"))
 
+setGeneric("insertCompound", function(object, compounds, ...)
+  standardGeneric("insertCompound"))
+
 setGeneric("insertIon", function(object, ions, ...)
   standardGeneric("insertIon"))
 
 setGeneric("insertSpectra", function(object, spectra, ...)
   standardGeneric("insertSpectra"))
+
+setGeneric("deleteCompound", function(object, ...)
+  standardGeneric("deleteCompound"))
 
 setGeneric("deleteIon", function(object, ...)
   standardGeneric("deleteIon"))

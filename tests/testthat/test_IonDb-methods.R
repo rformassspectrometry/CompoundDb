@@ -308,3 +308,51 @@ test_that("deleteIon,IonDb works", {
     expect_equal(ions(idb, ionVariables(idb, includeId = TRUE)), expected_ions)
 })
 
+test_that("deleteCompound,IonDb works", {
+    db <- IonDb(emptyCompDb(tempfile()))
+    res <- deleteCompound(db, 1:4)
+    expect_equal(compounds(res), compounds(db))
+    expect_equal(ions(res), ions(db))
+
+    cmp <- data.frame(compound_id = 1:4, name = letters[1:4], synonyms = 1:4)
+    db <- insertCompound(db, cmp)
+    ins <- data.frame(compound_id = c("2", "3"), ion_adduct = "[M+H]+",
+                      ion_mz = c(1.2, 4.3), ion_rt = c(4.3, 4.5))
+    db <- insertIon(db, ins)
+
+    library(RSQLite)
+    db <- deleteCompound(db, ids = 1)
+    expect_true(!any(compounds(db, "compound_id")$compound_id == 1))
+
+    expect_error(deleteCompound(db, ids = c(3, 6, 8, 10)), "compounds present")
+
+    ## With Spectra data
+    spd <- DataFrame(
+        msLevel = c(2L, 2L),
+        polarity = c(1L, 1L),
+        other_column = "b")
+    spd$mz <- list(
+        c(109.2, 124.2, 124.5, 170.16, 170.52),
+        c(83.1, 96.12, 97.14, 109.14, 124.08, 125.1, 170.16))
+    spd$intensity <- list(
+        c(3.407, 47.494, 3.094, 100.0, 13.240),
+        c(6.685, 4.381, 3.022, 16.708, 100.0, 4.565, 40.643))
+    sps <- Spectra(spd)
+    sps$compound_id <- as.character(c(2, 4))
+
+    db <- insertSpectra(db, sps)
+
+    expect_error(deleteCompound(db, ids = c(1, 2)), "Ions")
+    expect_error(deleteCompound(db, ids = c(1, 4)), "MS2")
+
+    db <- deleteCompound(db, ids = c(1, 2), recursive = TRUE)
+    expect_true(!any(ions(db)$compound_id %in% c(1, 2)))
+    expect_equal(ions(db)$compound_id, "3")
+
+    expect_true(!any(compounds(db, "compound_id")$compound_id %in% c(1, 2)))
+    expect_equal(
+        dbGetQuery(dbconn(db), "select * from msms_spectrum")$compound_id, "4")
+
+    ## errors
+    expect_error(deleteCompound(new("IonDb"), 2), "not initialized")
+})

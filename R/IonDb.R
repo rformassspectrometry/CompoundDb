@@ -63,15 +63,19 @@
 #'
 #' - `ionVariables`: returns all available columns/database fields for ions.
 #'
-#' - `insertIon`: allows to add further ions to the `IonDb` object. Note that
+#' @section Adding and removing data from a database:
+#'
+#' `IonDb` inherits the `insertCompound`, `insertSpectra`, `deleteCompound` and
+#' `deleteSpectra` from [CompDb()]. In addition, `IonDb` defines the functions:
+#'
+#' - `insertIon`: adds ions to the `IonDb` object. Note that
 #'   `insertIon` always adds all the ions specified through the `ions` parameter
 #'   and does not check if they are already in the database. To add columns
 #'   present in the submitted `data.frame` to the database table set
 #'   `addColumns = TRUE` (default is `addColumns = FALSE`).
 #'
-#' - `deleteIon`: allows to delete ions from the `IonDb` object by specifying
+#' - `deleteIon`: deletes ions from the `IonDb` object by specifying
 #'    their IDs.
-#'
 #'
 #' @section Filtering the database:
 #'

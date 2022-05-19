@@ -10,7 +10,9 @@
 #'
 #' @aliases compoundVariables insertSpectra deleteSpectra mass2mz
 #'
-#' @aliases mass2mz,ANY-method
+#' @aliases mass2mz,ANY-method insertCompound deleteCompound
+#'
+#' @aliases deleteCompound,IonDb-method
 #'
 #' @description
 #'
@@ -70,11 +72,46 @@
 #' - `tables`: returns a named `list` (names being table names) with
 #'   the fields/columns from each table in the database.
 #'
-#' - `insertSpectra`: allows to add further spectra to the database object. Note
-#'   that `insertSpectra` doesn't work on default *read-only* `CompDb` objects
-#'   (dropping the default parameter `flags = RSQLite::SQLITE_RO` in the
-#'   `CompDb` call to connect to a database would return a `CompDb` object
-#'   which is also writeable).
+#' - `mass2mz`: calculates a table of the m/z values for each compound based on
+#'   the provided set of adduct(s). Adduct definitions can be provided with
+#'   parameter `adduct`. See [MetaboCoreUtils::mass2mz()] for more details.
+#'   Parameter `name` defines the database table column that should be used as
+#'   `rownames` of the returned `matrix`. By default `name = "formula"`, m/z
+#'   values are calculated for each unique formula in the `CompDb` `x`.
+#'
+#' @section Adding and removing data from a database:
+#'
+#' Note that inserting and deleting data requires read-write access to the
+#' database. Databases returned by `CompDb` are by default *read-only*. To get
+#' write access `CompDb` should be called with parameter
+#' `flags = RSQLite::SQLITE_RW`.
+#'
+#' - `insertCompound`: adds additional compound(s) to a `CompDb`. The
+#'   compound(s) to be added can be specified with parameter `compounds` that
+#'   is expected to be a `data.frame` with columns `"compound_id"`, `"name"`,
+#'   `"inchi"`, `"inchikey"`, `"formula"`, `"exactmass"`.
+#'   Column `"exactmass"` is expected to contain numeric values, all other
+#'   columns `character`. Missing values are allowed for all columns except
+#'   `"compound_id"`. An optional column `"synonyms"` can be used to provide
+#'   alternative names for the compound. This column can contain a single
+#'   `character` by row, or a `list` with multiple `character` (names) per
+#'   row/compound (see examples below for details). By setting parameter
+#'   `addColumns = TRUE` any additional columns in `compound` will be added to
+#'   the database table. The default is `addColumns = FALSE`. The function
+#'   returns the `CompDb` with the compounds added.
+#'   See also [createCompDb()] for more information and details on expected
+#'   compound data and the examples below for general usage.
+#'
+#' - `deleteCompound`: removes specified compounds from the `CompDb` database.
+#'   The IDs of the compounds that should be deleted need to be provided with
+#'   parameter `ids`. To include compound IDs in the output of a `compounds`
+#'   call `"compound_id"` should be added to the `columns` parameter. By
+#'   default an error is thrown if for some of the specified compounds also MS2
+#'   spectra are present in the database. To force deletion of the compounds
+#'   along with all associated MS2 spectra use `recursive = TRUE`. See examples
+#'   below for details. The function returns the updated `CompDb` database.
+#'
+#' - `insertSpectra`: adds further spectra to the database.
 #'   The method always adds all the spectra specified through the `spectra`
 #'   parameter and does not check if they are already in the database. Note that
 #'   the input spectra must have the variable `compound_id` and only `Spectra`
@@ -87,19 +124,8 @@
 #'   If needed, the function adds additional columns to the `msms_spectrum`
 #'   database table. The function returns the updated `CompDb` object.
 #'
-#' - `deleteSpectra`: allows to delete spectra from the database object by
-#'   specifying their IDs through parameter `ids`.  Note
-#'   that `deleteSpectra` doesn't work on default *read-only* `CompDb` objects
-#'   (dropping the default parameter `flags = RSQLite::SQLITE_RO` in the
-#'   `CompDb` call to connect to a database would return a `CompDb` object
-#'   which is also writeable).
-#'
-#' - `mass2mz`: calculates a table of the m/z values for each compound based on
-#'   the provided set of adduct(s). Adduct definitions can be provided with
-#'   parameter `adduct`. See [MetaboCoreUtils::mass2mz()] for more details.
-#'   Parameter `name` defines the database table column that should be used as
-#'   `rownames` of the returned `matrix`. By default `name = "formula"`, m/z
-#'   values are calculated for each unique formula in the `CompDb` `x`.
+#' - `deleteSpectra`: deletes specified spectra from the database. The IDs of
+#'   the spectra to be deleted need to be provided with parameter `ids`.
 #'
 #' @section Filtering the database:
 #'
@@ -114,11 +140,18 @@
 #' all supported filters. See also examples below or the usage vignette for
 #' details.
 #'
+#' @param addColumns For `insertCompound`: `logical(1)` whether all (extra)
+#'     columns in parameter `compounds` should be stored also in the database
+#'     table. The default is `addColumns = FALSE`.
+#'
 #' @param columns For `compounds`, `Spectra`: `character` with the names of the
 #'     database columns that should be retrieved. Use `compoundVariables` and/or
 #'     `spectraVariables` for a list of available column names.
 #'     For `insertSpectra`: columns (spectra variables) that should be inserted
 #'     into the database (to avoid inserting all variables).
+#'
+#' @param compounds For `insertCompound`: `data.frame` with compound data to be
+#'     inserted into a `CompDb` database. See function description for details.
 #'
 #' @param filter For `compounds` and `Spectra`: filter expression or
 #'     [AnnotationFilter()] defining a filter to be used to retrieve specific
@@ -129,21 +162,24 @@
 #'
 #' @param ids For `deleteSpectra`: `integer()`
 #'     specifying the IDs of the spectra to delete. IDs in `ids` that are
-#'     not associated to any spectra in the `CompDb` object are ignored. For
-#'     `deleteIon`: `integer()` specifying the IDs of the ions to delete.
+#'     not associated to any spectra in the `CompDb` object are ignored.
+#'     For `deleteCompound`: `character()` with the compound IDs to be deleted.
 #'
 #' @param includeId for `compoundVariables`: `logical(1)` whether the comound
 #'     ID (column `"compound_id"`) should be included in the result. The
 #'     default is `includeIds = FALSE`.
 #'
 #' @param name For `mass2mz`: `character(1)`. Defines the `CompDb` column that
-#'   will be used to name/identify the returned m/z values. By default
-#'   (`name = "formula"`) m/z values for all unique molecular formulas are
-#'   calculated and these are used as `rownames` for the returned `matrix`.
-#'   With `name = "compound_id"` the adduct m/z for all compounds (even those
-#'   with equal formulas) are calculated and returned.
+#'     will be used to name/identify the returned m/z values. By default
+#'     (`name = "formula"`) m/z values for all unique molecular formulas are
+#'     calculated and these are used as `rownames` for the returned `matrix`.
+#'     With `name = "compound_id"` the adduct m/z for all compounds (even those
+#'     with equal formulas) are calculated and returned.
 #'
 #' @param object For all methods: a `CompDb` object.
+#'
+#' @param recursive For `deleteCompound`: `logical(1)` whether also MS2 spectra
+#'     associated with the compounds should be deleted.
 #'
 #' @param return.type For `compounds`: either `"data.frame"` or `"tibble"` to
 #'     return the result as a [data.frame()] or [tibble()], respectively.
@@ -266,6 +302,62 @@
 #'
 #' ## Extract the id, name and inchi
 #' cmp_tbl %>% select(compound_id, name, inchi) %>% collect()
+#'
+#' ########
+#' ## Creating an empty CompDb and sequentially adding content
+#' ##
+#' ## Create an empty CompDb and store the database in a temporary file
+#' cdb <- emptyCompDb(tempfile())
+#' cdb
+#'
+#' ## Define a data.frame with some compounds to add
+#' cmp <- data.frame(
+#'     compound_id = c(1, 2),
+#'     name = c("Caffeine", "Glucose"),
+#'     formula = c("C8H10N4O2", "C6H12O6"),
+#'     exactmass = c(194.080375584, 180.063388116))
+#'
+#' ## We can also add multiple synonyms for each compound
+#' cmp$synonyms <- list(c("Cafeina", "Koffein"), "D Glucose")
+#' cmp
+#'
+#' ## These compounds can be added to the empty database with insertCompound
+#' cdb <- insertCompound(cdb, compounds = cmp)
+#' compounds(cdb)
+#'
+#' ## insertCompound would also allow to add additional columns/annotations to
+#' ## the database. Below we define a new compound adding an additional column
+#' ## hmdb_id
+#' cmp <- data.frame(
+#'     compound_id = 3,
+#'     name = "Alpha-Lactose",
+#'     formula = "C12H22O11",
+#'     exactmass = 342.116211546,
+#'     hmdb_id = "HMDB0000186")
+#'
+#' ## To add additional columns we need to set addColumns = TRUE
+#' cdb <- insertCompound(cdb, compounds = cmp, addColumns = TRUE)
+#' cdb
+#' compounds(cdb)
+#'
+#' ######
+#' ## Deleting selected compounds from a database
+#' ##
+#' ## Compounds can be deleted with the deleteCompound function providing the
+#' ## IDs of the compounds that should be deleted. IDs of compounds in the
+#' ## database can be retrieved by adding "compound_id" to the columns parameter
+#' ## of the compounds function:
+#' compounds(cdb, columns = c("compound_id", "name"))
+#'
+#' ## Compounds can be deleted with the deleteCompound function. Below we delete
+#' ## the compounds with the IDs "1" and "3" from the database
+#' cdb <- deleteCompound(cdb, ids = c("1", "3"))
+#' compounds(cdb)
+#'
+#' ## If also MS2 spectra associated with any of these two compounds an error
+#' ## would be thrown. Setting the parameter `recursive = TRUE` in the
+#' ## `deleteCompound` call would delete the compounds along with their MS2
+#' ## spectra.
 NULL
 
 #' @importFrom methods new

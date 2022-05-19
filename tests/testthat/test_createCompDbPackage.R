@@ -200,6 +200,12 @@ test_that(".valid_compound works", {
     expect_error(.valid_compound(cmps[, 1:3]))
     cmps$exactmass <- c("1", "2")
     expect_error(.valid_compound(cmps))
+
+    cmps$compound_id <- ""
+    cmps$exactmass <- 1.3
+    expect_error(.valid_compound(cmps), "not allowed")
+    cmps$compound_id <- NA_character_
+    expect_error(.valid_compound(cmps), "not allowed")
 })
 
 test_that("createCompDb and createCompDbPackage works", {
@@ -431,4 +437,13 @@ test_that(".throw_error works", {
     expect_true(.throw_error())
     expect_error(.throw_error("abc"), "abc")
     expect_match(.throw_error("abc", error = FALSE), "abc")
+})
+
+test_that("emptyCompDb works", {
+    fl <- tempfile()
+    res <- emptyCompDb(fl)
+    expect_s4_class(res, "CompDb")
+    expect_true(nrow(compounds(res)) == 0)
+
+    expect_error(emptyCompDb(fl), "exist")
 })

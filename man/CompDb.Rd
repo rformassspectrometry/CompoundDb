@@ -11,6 +11,9 @@
 \alias{deleteSpectra}
 \alias{mass2mz}
 \alias{mass2mz,ANY-method}
+\alias{insertCompound}
+\alias{deleteCompound}
+\alias{deleteCompound,IonDb-method}
 \alias{hasMsMsSpectra}
 \alias{src_compdb}
 \alias{tables}
@@ -24,6 +27,8 @@
 \alias{insertSpectra,CompDb,Spectra-method}
 \alias{deleteSpectra,CompDb-method}
 \alias{mass2mz,CompDb-method}
+\alias{insertCompound,CompDb-method}
+\alias{deleteCompound,CompDb-method}
 \title{Simple compound (metabolite) databases}
 \usage{
 CompDb(x, flags = SQLITE_RO)
@@ -61,6 +66,10 @@ copyCompDb(x, y)
 \S4method{deleteSpectra}{CompDb}(object, ids = integer(0), ...)
 
 \S4method{mass2mz}{CompDb}(x, adduct = c("[M+H]+"), name = "formula")
+
+\S4method{insertCompound}{CompDb}(object, compounds = data.frame(), addColumns = FALSE)
+
+\S4method{deleteCompound}{CompDb}(object, ids = character(), recursive = FALSE, ...)
 }
 \arguments{
 \item{x}{For \code{CompDb}: \code{character(1)} with the file name of the SQLite
@@ -101,8 +110,8 @@ to be added to the \code{IonDb} database.}
 
 \item{ids}{For \code{deleteSpectra}: \code{integer()}
 specifying the IDs of the spectra to delete. IDs in \code{ids} that are
-not associated to any spectra in the \code{CompDb} object are ignored. For
-\code{deleteIon}: \code{integer()} specifying the IDs of the ions to delete.}
+not associated to any spectra in the \code{CompDb} object are ignored.
+For \code{deleteCompound}: \code{character()} with the compound IDs to be deleted.}
 
 \item{adduct}{either a \code{character} specifying the name(s) of the adduct(s)
 for which the m/z should be calculated or a \code{data.frame} with the adduct
@@ -116,6 +125,16 @@ will be used to name/identify the returned m/z values. By default
 calculated and these are used as \code{rownames} for the returned \code{matrix}.
 With \code{name = "compound_id"} the adduct m/z for all compounds (even those
 with equal formulas) are calculated and returned.}
+
+\item{compounds}{For \code{insertCompound}: \code{data.frame} with compound data to be
+inserted into a \code{CompDb} database. See function description for details.}
+
+\item{addColumns}{For \code{insertCompound}: \code{logical(1)} whether all (extra)
+columns in parameter \code{compounds} should be stored also in the database
+table. The default is \code{addColumns = FALSE}.}
+
+\item{recursive}{For \code{deleteCompound}: \code{logical(1)} whether also MS2 spectra
+associated with the compounds should be deleted.}
 }
 \value{
 See description of the respective function.
@@ -173,11 +192,47 @@ applied on a \code{CompDb} object to extract only specific data from the
 database.
 \item \code{tables}: returns a named \code{list} (names being table names) with
 the fields/columns from each table in the database.
-\item \code{insertSpectra}: allows to add further spectra to the database object. Note
-that \code{insertSpectra} doesn't work on default \emph{read-only} \code{CompDb} objects
-(dropping the default parameter \code{flags = RSQLite::SQLITE_RO} in the
-\code{CompDb} call to connect to a database would return a \code{CompDb} object
-which is also writeable).
+\item \code{mass2mz}: calculates a table of the m/z values for each compound based on
+the provided set of adduct(s). Adduct definitions can be provided with
+parameter \code{adduct}. See \code{\link[MetaboCoreUtils:mass2mz]{MetaboCoreUtils::mass2mz()}} for more details.
+Parameter \code{name} defines the database table column that should be used as
+\code{rownames} of the returned \code{matrix}. By default \code{name = "formula"}, m/z
+values are calculated for each unique formula in the \code{CompDb} \code{x}.
+}
+}
+
+\section{Adding and removing data from a database}{
+
+
+Note that inserting and deleting data requires read-write access to the
+database. Databases returned by \code{CompDb} are by default \emph{read-only}. To get
+write access \code{CompDb} should be called with parameter
+\code{flags = RSQLite::SQLITE_RW}.
+\itemize{
+\item \code{insertCompound}: adds additional compound(s) to a \code{CompDb}. The
+compound(s) to be added can be specified with parameter \code{compounds} that
+is expected to be a \code{data.frame} with columns \code{"compound_id"}, \code{"name"},
+\code{"inchi"}, \code{"inchikey"}, \code{"formula"}, \code{"exactmass"}.
+Column \code{"exactmass"} is expected to contain numeric values, all other
+columns \code{character}. Missing values are allowed for all columns except
+\code{"compound_id"}. An optional column \code{"synonyms"} can be used to provide
+alternative names for the compound. This column can contain a single
+\code{character} by row, or a \code{list} with multiple \code{character} (names) per
+row/compound (see examples below for details). By setting parameter
+\code{addColumns = TRUE} any additional columns in \code{compound} will be added to
+the database table. The default is \code{addColumns = FALSE}. The function
+returns the \code{CompDb} with the compounds added.
+See also \code{\link[=createCompDb]{createCompDb()}} for more information and details on expected
+compound data and the examples below for general usage.
+\item \code{deleteCompound}: removes specified compounds from the \code{CompDb} database.
+The IDs of the compounds that should be deleted need to be provided with
+parameter \code{ids}. To include compound IDs in the output of a \code{compounds}
+call \code{"compound_id"} should be added to the \code{columns} parameter. By
+default an error is thrown if for some of the specified compounds also MS2
+spectra are present in the database. To force deletion of the compounds
+along with all associated MS2 spectra use \code{recursive = TRUE}. See examples
+below for details. The function returns the updated \code{CompDb} database.
+\item \code{insertSpectra}: adds further spectra to the database.
 The method always adds all the spectra specified through the \code{spectra}
 parameter and does not check if they are already in the database. Note that
 the input spectra must have the variable \code{compound_id} and only \code{Spectra}
@@ -189,18 +244,8 @@ variables are added but it is strongly suggested to specifically select
 Note that a spectra variable \code{"compound_id"} is mandatory.
 If needed, the function adds additional columns to the \code{msms_spectrum}
 database table. The function returns the updated \code{CompDb} object.
-\item \code{deleteSpectra}: allows to delete spectra from the database object by
-specifying their IDs through parameter \code{ids}.  Note
-that \code{deleteSpectra} doesn't work on default \emph{read-only} \code{CompDb} objects
-(dropping the default parameter \code{flags = RSQLite::SQLITE_RO} in the
-\code{CompDb} call to connect to a database would return a \code{CompDb} object
-which is also writeable).
-\item \code{mass2mz}: calculates a table of the m/z values for each compound based on
-the provided set of adduct(s). Adduct definitions can be provided with
-parameter \code{adduct}. See \code{\link[MetaboCoreUtils:mass2mz]{MetaboCoreUtils::mass2mz()}} for more details.
-Parameter \code{name} defines the database table column that should be used as
-\code{rownames} of the returned \code{matrix}. By default \code{name = "formula"}, m/z
-values are calculated for each unique formula in the \code{CompDb} \code{x}.
+\item \code{deleteSpectra}: deletes specified spectra from the database. The IDs of
+the spectra to be deleted need to be provided with parameter \code{ids}.
 }
 }
 
@@ -312,6 +357,62 @@ cmp_tbl <- tbl(src_cmp, "ms_compound")
 
 ## Extract the id, name and inchi
 cmp_tbl \%>\% select(compound_id, name, inchi) \%>\% collect()
+
+########
+## Creating an empty CompDb and sequentially adding content
+##
+## Create an empty CompDb and store the database in a temporary file
+cdb <- emptyCompDb(tempfile())
+cdb
+
+## Define a data.frame with some compounds to add
+cmp <- data.frame(
+    compound_id = c(1, 2),
+    name = c("Caffeine", "Glucose"),
+    formula = c("C8H10N4O2", "C6H12O6"),
+    exactmass = c(194.080375584, 180.063388116))
+
+## We can also add multiple synonyms for each compound
+cmp$synonyms <- list(c("Cafeina", "Koffein"), "D Glucose")
+cmp
+
+## These compounds can be added to the empty database with insertCompound
+cdb <- insertCompound(cdb, compounds = cmp)
+compounds(cdb)
+
+## insertCompound would also allow to add additional columns/annotations to
+## the database. Below we define a new compound adding an additional column
+## hmdb_id
+cmp <- data.frame(
+    compound_id = 3,
+    name = "Alpha-Lactose",
+    formula = "C12H22O11",
+    exactmass = 342.116211546,
+    hmdb_id = "HMDB0000186")
+
+## To add additional columns we need to set addColumns = TRUE
+cdb <- insertCompound(cdb, compounds = cmp, addColumns = TRUE)
+cdb
+compounds(cdb)
+
+######
+## Deleting selected compounds from a database
+##
+## Compounds can be deleted with the deleteCompound function providing the
+## IDs of the compounds that should be deleted. IDs of compounds in the
+## database can be retrieved by adding "compound_id" to the columns parameter
+## of the compounds function:
+compounds(cdb, columns = c("compound_id", "name"))
+
+## Compounds can be deleted with the deleteCompound function. Below we delete
+## the compounds with the IDs "1" and "3" from the database
+cdb <- deleteCompound(cdb, ids = c("1", "3"))
+compounds(cdb)
+
+## If also MS2 spectra associated with any of these two compounds an error
+## would be thrown. Setting the parameter `recursive = TRUE` in the
+## `deleteCompound` call would delete the compounds along with their MS2
+## spectra.
 }
 \seealso{
 \code{\link[=createCompDb]{createCompDb()}} for the function to create a SQLite compound database.

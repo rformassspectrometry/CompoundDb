@@ -1,5 +1,10 @@
 # CompoundDb version 1.1
 
+## Changes in version 1.1.2
+
+- Add `insertCompound` and `deleteCompound` functions to add or remove compounds
+  from a `CompDb` or `IonDb`.
+
 ## Changes in version 1.1.1
 
 - Fix wrong warning message in `deleteIon`.
