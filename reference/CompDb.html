@@ -20,7 +20,7 @@ available in the database and FALSE otherwise."><meta property="og:image" conten
     
     <a class="navbar-brand me-2" href="../index.html">CompoundDb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -117,7 +117,13 @@ available in the database and <code>FALSE</code> otherwise.</p>
 <span class="fu">deleteSpectra</span><span class="op">(</span><span class="va">object</span>, ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span>
 
 <span class="co"># S4 method for CompDb</span>
-<span class="fu">mass2mz</span><span class="op">(</span><span class="va">x</span>, adduct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[M+H]+"</span><span class="op">)</span>, name <span class="op">=</span> <span class="st">"formula"</span><span class="op">)</span></code></pre></div>
+<span class="fu">mass2mz</span><span class="op">(</span><span class="va">x</span>, adduct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[M+H]+"</span><span class="op">)</span>, name <span class="op">=</span> <span class="st">"formula"</span><span class="op">)</span>
+
+<span class="co"># S4 method for CompDb</span>
+<span class="fu">insertCompound</span><span class="op">(</span><span class="va">object</span>, compounds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="op">)</span>, addColumns <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+
+<span class="co"># S4 method for CompDb</span>
+<span class="fu">deleteCompound</span><span class="op">(</span><span class="va">object</span>, ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -161,8 +167,8 @@ to be added to the <code>IonDb</code> database.</p></dd>
 <dt>ids</dt>
 <dd><p>For <code>deleteSpectra</code>: <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>
 specifying the IDs of the spectra to delete. IDs in <code>ids</code> that are
-not associated to any spectra in the <code>CompDb</code> object are ignored. For
-<code>deleteIon</code>: <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code> specifying the IDs of the ions to delete.</p></dd>
+not associated to any spectra in the <code>CompDb</code> object are ignored.
+For <code>deleteCompound</code>: <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> with the compound IDs to be deleted.</p></dd>
 <dt>adduct</dt>
 <dd><p>either a <code>character</code> specifying the name(s) of the adduct(s)
 for which the m/z should be calculated or a <code>data.frame</code> with the adduct
@@ -176,6 +182,16 @@ will be used to name/identify the returned m/z values. By default
 calculated and these are used as <code>rownames</code> for the returned <code>matrix</code>.
 With <code>name = "compound_id"</code> the adduct m/z for all compounds (even those
 with equal formulas) are calculated and returned.</p></dd>
+<dt>compounds</dt>
+<dd><p>For <code>insertCompound</code>: <code>data.frame</code> with compound data to be
+inserted into a <code>CompDb</code> database. See function description for details.</p></dd>
+<dt>addColumns</dt>
+<dd><p>For <code>insertCompound</code>: <code>logical(1)</code> whether all (extra)
+columns in parameter <code>compounds</code> should be stored also in the database
+table. The default is <code>addColumns = FALSE</code>.</p></dd>
+<dt>recursive</dt>
+<dd><p>For <code>deleteCompound</code>: <code>logical(1)</code> whether also MS2 spectra
+associated with the compounds should be deleted.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -225,11 +241,45 @@ applied on a <code>CompDb</code> object to extract only specific data from the
 database.</p></li>
 <li><p><code>tables</code>: returns a named <code>list</code> (names being table names) with
 the fields/columns from each table in the database.</p></li>
-<li><p><code>insertSpectra</code>: allows to add further spectra to the database object. Note
-that <code>insertSpectra</code> doesn't work on default <em>read-only</em> <code>CompDb</code> objects
-(dropping the default parameter <code>flags = RSQLite::SQLITE_RO</code> in the
-<code>CompDb</code> call to connect to a database would return a <code>CompDb</code> object
-which is also writeable).
+<li><p><code>mass2mz</code>: calculates a table of the m/z values for each compound based on
+the provided set of adduct(s). Adduct definitions can be provided with
+parameter <code>adduct</code>. See <code><a href="https://rdrr.io/pkg/MetaboCoreUtils/man/mass2mz.html" class="external-link">MetaboCoreUtils::mass2mz()</a></code> for more details.
+Parameter <code>name</code> defines the database table column that should be used as
+<code>rownames</code> of the returned <code>matrix</code>. By default <code>name = "formula"</code>, m/z
+values are calculated for each unique formula in the <code>CompDb</code> <code>x</code>.</p></li>
+</ul></div>
+    <div class="section level2">
+    <h2 id="adding-and-removing-data-from-a-database">Adding and removing data from a database<a class="anchor" aria-label="anchor" href="#adding-and-removing-data-from-a-database"></a></h2>
+    
+
+
+<p>Note that inserting and deleting data requires read-write access to the
+database. Databases returned by <code>CompDb</code> are by default <em>read-only</em>. To get
+write access <code>CompDb</code> should be called with parameter
+<code>flags = RSQLite::SQLITE_RW</code>.</p><ul><li><p><code>insertCompound</code>: adds additional compound(s) to a <code>CompDb</code>. The
+compound(s) to be added can be specified with parameter <code>compounds</code> that
+is expected to be a <code>data.frame</code> with columns <code>"compound_id"</code>, <code>"name"</code>,
+<code>"inchi"</code>, <code>"inchikey"</code>, <code>"formula"</code>, <code>"exactmass"</code>.
+Column <code>"exactmass"</code> is expected to contain numeric values, all other
+columns <code>character</code>. Missing values are allowed for all columns except
+<code>"compound_id"</code>. An optional column <code>"synonyms"</code> can be used to provide
+alternative names for the compound. This column can contain a single
+<code>character</code> by row, or a <code>list</code> with multiple <code>character</code> (names) per
+row/compound (see examples below for details). By setting parameter
+<code>addColumns = TRUE</code> any additional columns in <code>compound</code> will be added to
+the database table. The default is <code>addColumns = FALSE</code>. The function
+returns the <code>CompDb</code> with the compounds added.
+See also <code><a href="createCompDb.html">createCompDb()</a></code> for more information and details on expected
+compound data and the examples below for general usage.</p></li>
+<li><p><code>deleteCompound</code>: removes specified compounds from the <code>CompDb</code> database.
+The IDs of the compounds that should be deleted need to be provided with
+parameter <code>ids</code>. To include compound IDs in the output of a <code>compounds</code>
+call <code>"compound_id"</code> should be added to the <code>columns</code> parameter. By
+default an error is thrown if for some of the specified compounds also MS2
+spectra are present in the database. To force deletion of the compounds
+along with all associated MS2 spectra use <code>recursive = TRUE</code>. See examples
+below for details. The function returns the updated <code>CompDb</code> database.</p></li>
+<li><p><code>insertSpectra</code>: adds further spectra to the database.
 The method always adds all the spectra specified through the <code>spectra</code>
 parameter and does not check if they are already in the database. Note that
 the input spectra must have the variable <code>compound_id</code> and only <code>Spectra</code>
@@ -241,18 +291,8 @@ variables are added but it is strongly suggested to specifically select
 Note that a spectra variable <code>"compound_id"</code> is mandatory.
 If needed, the function adds additional columns to the <code>msms_spectrum</code>
 database table. The function returns the updated <code>CompDb</code> object.</p></li>
-<li><p><code>deleteSpectra</code>: allows to delete spectra from the database object by
-specifying their IDs through parameter <code>ids</code>.  Note
-that <code>deleteSpectra</code> doesn't work on default <em>read-only</em> <code>CompDb</code> objects
-(dropping the default parameter <code>flags = RSQLite::SQLITE_RO</code> in the
-<code>CompDb</code> call to connect to a database would return a <code>CompDb</code> object
-which is also writeable).</p></li>
-<li><p><code>mass2mz</code>: calculates a table of the m/z values for each compound based on
-the provided set of adduct(s). Adduct definitions can be provided with
-parameter <code>adduct</code>. See <code><a href="https://rdrr.io/pkg/MetaboCoreUtils/man/mass2mz.html" class="external-link">MetaboCoreUtils::mass2mz()</a></code> for more details.
-Parameter <code>name</code> defines the database table column that should be used as
-<code>rownames</code> of the returned <code>matrix</code>. By default <code>name = "formula"</code>, m/z
-values are calculated for each unique formula in the <code>CompDb</code> <code>x</code>.</p></li>
+<li><p><code>deleteSpectra</code>: deletes specified spectra from the database. The IDs of
+the spectra to be deleted need to be provided with parameter <code>ids</code>.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="filtering-the-database">Filtering the database<a class="anchor" aria-label="anchor" href="#filtering-the-database"></a></h2>
@@ -1090,6 +1130,88 @@ details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 9           AAL toxin TB InChI=1S/C25H47NO9/c1-4-17(3)24(32)21(35-23(31)13-1…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 10          AAL toxin TB InChI=1S/C25H47NO9/c1-4-17(3)24(32)21(35-23(31)13-1…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 60 more rows</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co">########</span></span>
+<span class="r-in"><span class="co">## Creating an empty CompDb and sequentially adding content</span></span>
+<span class="r-in"><span class="co">##</span></span>
+<span class="r-in"><span class="co">## Create an empty CompDb and store the database in a temporary file</span></span>
+<span class="r-in"><span class="va">cdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="createCompDb.html">emptyCompDb</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">cdb</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> class: CompDb </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  data source: NA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  version: NA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  organism: NA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  compound count: 0 </span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co">## Define a data.frame with some compounds to add</span></span>
+<span class="r-in"><span class="va">cmp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span class="r-in">    compound_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span class="r-in">    name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Caffeine"</span>, <span class="st">"Glucose"</span><span class="op">)</span>,</span>
+<span class="r-in">    formula <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"C8H10N4O2"</span>, <span class="st">"C6H12O6"</span><span class="op">)</span>,</span>
+<span class="r-in">    exactmass <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">194.080375584</span>, <span class="fl">180.063388116</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co">## We can also add multiple synonyms for each compound</span></span>
+<span class="r-in"><span class="va">cmp</span><span class="op">$</span><span class="va">synonyms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cafeina"</span>, <span class="st">"Koffein"</span><span class="op">)</span>, <span class="st">"D Glucose"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">cmp</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   compound_id     name   formula exactmass         synonyms</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1           1 Caffeine C8H10N4O2  194.0804 Cafeina, Koffein</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2           2  Glucose   C6H12O6  180.0634        D Glucose</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co">## These compounds can be added to the empty database with insertCompound</span></span>
+<span class="r-in"><span class="va">cdb</span> <span class="op">&lt;-</span> <span class="fu">insertCompound</span><span class="op">(</span><span class="va">cdb</span>, compounds <span class="op">=</span> <span class="va">cmp</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       name inchi inchikey   formula exactmass</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Caffeine  &lt;NA&gt;     &lt;NA&gt; C8H10N4O2  194.0804</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  Glucose  &lt;NA&gt;     &lt;NA&gt;   C6H12O6  180.0634</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co">## insertCompound would also allow to add additional columns/annotations to</span></span>
+<span class="r-in"><span class="co">## the database. Below we define a new compound adding an additional column</span></span>
+<span class="r-in"><span class="co">## hmdb_id</span></span>
+<span class="r-in"><span class="va">cmp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span class="r-in">    compound_id <span class="op">=</span> <span class="fl">3</span>,</span>
+<span class="r-in">    name <span class="op">=</span> <span class="st">"Alpha-Lactose"</span>,</span>
+<span class="r-in">    formula <span class="op">=</span> <span class="st">"C12H22O11"</span>,</span>
+<span class="r-in">    exactmass <span class="op">=</span> <span class="fl">342.116211546</span>,</span>
+<span class="r-in">    hmdb_id <span class="op">=</span> <span class="st">"HMDB0000186"</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co">## To add additional columns we need to set addColumns = TRUE</span></span>
+<span class="r-in"><span class="va">cdb</span> <span class="op">&lt;-</span> <span class="fu">insertCompound</span><span class="op">(</span><span class="va">cdb</span>, compounds <span class="op">=</span> <span class="va">cmp</span>, addColumns <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">cdb</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> class: CompDb </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  data source: NA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  version: NA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  organism: NA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  compound count: 3 </span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            name inchi inchikey   formula exactmass     hmdb_id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Alpha-Lactose  &lt;NA&gt;     &lt;NA&gt; C12H22O11  342.1162 HMDB0000186</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2      Caffeine  &lt;NA&gt;     &lt;NA&gt; C8H10N4O2  194.0804        &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3       Glucose  &lt;NA&gt;     &lt;NA&gt;   C6H12O6  180.0634        &lt;NA&gt;</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co">######</span></span>
+<span class="r-in"><span class="co">## Deleting selected compounds from a database</span></span>
+<span class="r-in"><span class="co">##</span></span>
+<span class="r-in"><span class="co">## Compounds can be deleted with the deleteCompound function providing the</span></span>
+<span class="r-in"><span class="co">## IDs of the compounds that should be deleted. IDs of compounds in the</span></span>
+<span class="r-in"><span class="co">## database can be retrieved by adding "compound_id" to the columns parameter</span></span>
+<span class="r-in"><span class="co">## of the compounds function:</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"compound_id"</span>, <span class="st">"name"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   compound_id          name</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1           1      Caffeine</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2           2       Glucose</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3           3 Alpha-Lactose</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co">## Compounds can be deleted with the deleteCompound function. Below we delete</span></span>
+<span class="r-in"><span class="co">## the compounds with the IDs "1" and "3" from the database</span></span>
+<span class="r-in"><span class="va">cdb</span> <span class="op">&lt;-</span> <span class="fu">deleteCompound</span><span class="op">(</span><span class="va">cdb</span>, ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1"</span>, <span class="st">"3"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      name inchi inchikey formula exactmass hmdb_id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Glucose  &lt;NA&gt;     &lt;NA&gt; C6H12O6  180.0634    &lt;NA&gt;</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co">## If also MS2 spectra associated with any of these two compounds an error</span></span>
+<span class="r-in"><span class="co">## would be thrown. Setting the parameter `recursive = TRUE` in the</span></span>
+<span class="r-in"><span class="co">## `deleteCompound` call would delete the compounds along with their MS2</span></span>
+<span class="r-in"><span class="co">## spectra.</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

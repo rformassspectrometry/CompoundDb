@@ -40,7 +40,7 @@ package)."><meta property="og:image" content="https://rformassspectrometry.githu
     
     <a class="navbar-brand me-2" href="../index.html">CompoundDb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -227,12 +227,19 @@ return all elements from the <em>ms_ion</em> table (unless a <code>filter</code>
 
 <ul><li><p><code>IonDb</code>: connect to or create a compound/ion database.</p></li>
 <li><p><code>ionVariables</code>: returns all available columns/database fields for ions.</p></li>
-<li><p><code>insertIon</code>: allows to add further ions to the <code>IonDb</code> object. Note that
+</ul></div>
+    <div class="section level2">
+    <h2 id="adding-and-removing-data-from-a-database">Adding and removing data from a database<a class="anchor" aria-label="anchor" href="#adding-and-removing-data-from-a-database"></a></h2>
+    
+
+
+<p><code>IonDb</code> inherits the <code>insertCompound</code>, <code>insertSpectra</code>, <code>deleteCompound</code> and
+<code>deleteSpectra</code> from <code><a href="CompDb.html">CompDb()</a></code>. In addition, <code>IonDb</code> defines the functions:</p><ul><li><p><code>insertIon</code>: adds ions to the <code>IonDb</code> object. Note that
 <code>insertIon</code> always adds all the ions specified through the <code>ions</code> parameter
 and does not check if they are already in the database. To add columns
 present in the submitted <code>data.frame</code> to the database table set
 <code>addColumns = TRUE</code> (default is <code>addColumns = FALSE</code>).</p></li>
-<li><p><code>deleteIon</code>: allows to delete ions from the <code>IonDb</code> object by specifying
+<li><p><code>deleteIon</code>: deletes ions from the <code>IonDb</code> object by specifying
 their IDs.</p></li>
 </ul></div>
     <div class="section level2">
