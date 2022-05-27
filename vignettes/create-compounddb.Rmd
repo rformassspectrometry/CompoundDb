@@ -10,7 +10,7 @@ vignette: >
   %\VignetteKeywords{Mass Spectrometry, Metabolomics, Infrastructure, Bioinformatics}
   %\VignetteEncoding{UTF-8}
   %\VignettePackage{MsBackendHmdb}
-  %\VignetteDepends{Spectra,BiocStyle}
+  %\VignetteDepends{Spectra,BiocStyle,MsBackendMgf}
 ---
 
 ```{r style, echo = FALSE, results = 'asis'}
@@ -41,7 +41,14 @@ possible to create cross-source databases too.
 
 # Creating `CompDb` databases
 
-The `CompDb` package provides the `compound_tbl_sdf` and the
+`CompDb` databases can be created from existing data resources such as the Human
+Metabolome Database (HMDB) by importing all of their data or can alternatively
+be *build* by sequentially adding data and information to the database. This
+section explains first how data can be loaded from existing resources to create
+a `CompDb` database and in the last subsection how an empty `CompDb` can be
+sequentially and manually filled with annotation data \@ref(sec:fill).
+
+The `CompoundDb` package provides the `compound_tbl_sdf` and the
 `compound_tbl_lipidblast` functions to extract relevant compound annotation from
 files in SDF (structure-data file) format or in the json files from LipidBlast
 (http://mona.fiehnlab.ucdavis.edu/downloads). `CompoundDb` allows to process SDF
@@ -56,7 +63,7 @@ files from:
 
 Note however that it is also possible to define such a table manually and use
 that to create the database. As simple example for this is provided in the
-section *`CompDb` from custom input* below or the help page of
+section *`CompDb` from custom input* \@ref(sec:custom) below or the help page of
 `createCompDb` for more details on that.
 
 
@@ -248,7 +255,7 @@ package can be distributed will depend also on the license of the originating
 resource.
 
 
-## `CompDb` from custom data
+## `CompDb` from custom data {#sec:custom}
 
 A `CompDb` database can also be created from custom, manually defined
 annotations. To illustrate this we create below first a `data.frame` with some
@@ -437,6 +444,142 @@ As stated in the introduction of this section the `compound` information
 contains redundant information and the table has essentially one row per
 spectrum. Feedback on how to reduce the redundancy in the ms_compound table is
 highly appreciated.
+
+
+## `CompDb` by sequentially filling with data {#sec:fill}
+
+As an alternative to creating a full database from an existing resource it is
+also possible to create an empty `CompDb` database and *sequentially* filling it
+with data. This could for example be used to create a laboratory specific
+annotation library with compound, ion and fragment spectra of pure standards
+measured on a certain LC-MS setup. Below we create an empty `CompDb` database
+providing the file name of the database. In the example we store the database to
+a temporary file but in a real use case a meaningful file name and file path
+should be used instead.
+
+```{r}
+dbfile <- tempfile()
+mydb <- emptyCompDb(dbfile)
+mydb
+```
+
+We next define some first compound annotation we want to add to the
+database. For compound annotations, fields `"compound_id"` (an arbitrary ID of
+the compound), `"name"` (the compound name), `"inchi"`, `"inchikey"`,
+`"formula"` (the chemical formula) and `"exactmass"` (the monoisotopic mass) are
+expected, but, except of `"compound_id"`, they can also contain missing values
+or be completely omitted. Below we define a `data.frame` with annotations for
+some compounds and add this annotation to the database using the
+`insertCompound` function.
+
+```{r}
+cmp <- data.frame(compound_id = c("1", "2"),
+                  name = c("Caffeine", "Glucose"),
+                  formula = c("C8H10N4O2", "C6H12O6"),
+                  exactmass = c(194.080375584, 180.063388116))
+mydb <- insertCompound(mydb, cmp)
+mydb
+```
+
+We next add fragment spectra for the compounds. These could for example
+represent MS2 spectra measured for the pure standard of the compound and could
+be extracted for example from `xcms` result objects or other sources. Below we
+load some fragment spectra for caffeine from an MGF file distributed with this
+package. We use the `r BiocStyle::Biocpkg("MsBackendMgf")` package to import
+that data into a `Spectra` object.
+
+```{r, message = FALSE}
+library(MsBackendMgf)
+caf_ms2 <- Spectra(system.file("mgf", "caffeine.mgf", package = "CompoundDb"),
+                   source = MsBackendMgf())
+caf_ms2
+```
+
+We can evaluate what spectra variables are available in the imported data.
+
+```{r}
+spectraVariables(caf_ms2)
+caf_ms2$rtime
+```
+
+There are many variables available, but most of them, like for example the
+retention time, or not defined as this information was not provided in the MGF
+file. In order to associate these fragment spectra to the caffeine compound we
+just added to the database, we need to assign them the ID of the compound (in
+our case `"1"`).
+
+```{r}
+caf_ms2$compound_id <- "1"
+```
+
+We can then add the spectra to the database using the `insertSpectra`
+function. With parameter `columns` we specify which of the spectra variables we
+actually want to store in the database.
+
+```{r}
+mydb <- insertSpectra(mydb, caf_ms2,
+                      columns = c("compound_id", "msLevel", "splash",
+                                  "precursorMz", "collisionEnergy"))
+mydb
+```
+
+We thus have now 2 compounds in the database and 2 fragment spectra:
+
+```{r}
+compounds(mydb)
+sps <- Spectra(mydb)
+sps$name
+```
+
+With `insertCommpound` and `insertSpectra` further compounds and fragment
+spectra could be added to the database. Note that both functions support also to
+add additional columns (*fields* or *variables*) to the database. As an example
+we define below a compound with an arbitrary additional column and add this to
+the database using parameter `addColumns = TRUE`.
+
+```{r}
+cmps <- data.frame(compound_id = "3", name = "X003",
+                   formula = "C5H2P3O", extra_field = "artificial compound")
+mydb <- insertCompound(mydb, cmps, addColumns = TRUE)
+compounds(mydb)
+```
+
+The additional column is now available in the database. Existing entries in a
+`CompDb` can also be deleted using the `deleteCompound` or `deleteSpectra`
+functions. Both require as additional input the IDs of the compound(s) (or
+spectra) to delete. Below we extract the IDs and names of the compounds from our
+database.
+
+```{r}
+compounds(mydb, columns = c("compound_id", "name"))
+```
+
+We can now delete the compound `"X003"` with `deleteCompound` and the ID of this
+compound.
+
+```{r}
+mydb <- deleteCompound(mydb, ids = "3")
+compounds(mydb)
+```
+
+Note that deleting a compound with associated spectra (or ions) will result in
+an error, thus it would not be possible to delete caffeine from the database,
+because it contains also MS2 spectra for that compound. Using parameter
+`recursive = TRUE` in the `deleteCompound` call would however allow to delete
+the compound **and all** associated spectra (and/or ions) along with it. Below
+we delete thus caffeine and the associated MS2 spectra which leaves us a
+`CompDb` with a single compound and no more MS2 spectra.
+
+```{r}
+mydb <- deleteCompound(mydb, ids = "1", recursive = TRUE)
+compounds(mydb)
+Spectra(mydb)
+```
+
+Note that these functions can also be used to add or remove annotations to/from
+any `CompDb` database, as long as the database is *writeable* (i.e. the database
+is loaded by specifying `flags = RSQLite::SQLITE_RW` as additional parameter to
+the `CompDb` call to load the database).
 
 
 # Session information

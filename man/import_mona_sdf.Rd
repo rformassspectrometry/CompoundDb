@@ -2,13 +2,7 @@
 % Please edit documentation in R/createCompDbPackage.R
 \name{import_mona_sdf}
 \alias{import_mona_sdf}
-\title{Import compound and spectrum information from MoNa
-
-\code{import_mona_sdf} allows to import compound and spectrum information from an
-SDF file from MoNa (Massbank of North America
-http://mona.fiehnlab.ucdavis.edu/). This function is a convenience function
-using the \code{\link[=compound_tbl_sdf]{compound_tbl_sdf()}} and \code{\link[=msms_spectra_mona]{msms_spectra_mona()}} functions for data
-import but avoiding to read the SDF files twice.}
+\title{Import compound and spectrum information from MoNa}
 \usage{
 import_mona_sdf(x, nonStop = TRUE)
 }
@@ -23,8 +17,6 @@ A \code{list} with elements \code{"compound"} and \code{"msms_spectrum"} contain
 data.frames with compound and MS/MS spectrum data, respectively.
 }
 \description{
-Import compound and spectrum information from MoNa
-
 \code{import_mona_sdf} allows to import compound and spectrum information from an
 SDF file from MoNa (Massbank of North America
 http://mona.fiehnlab.ucdavis.edu/). This function is a convenience function

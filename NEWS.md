@@ -1,5 +1,9 @@
 # CompoundDb version 1.1
 
+## Changes in version 1.1.3
+
+- Expand vignette with examples to create `CompDb` databases from scratch.
+
 ## Changes in version 1.1.2
 
 - Add `insertCompound` and `deleteCompound` functions to add or remove compounds

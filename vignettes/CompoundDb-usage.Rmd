@@ -323,11 +323,14 @@ ion <- data.frame(compound_id = c(1, 1),
 idb <- insertIon(idb, ion)
 ```
 
-These ions have now be addded to the database.
+These ions have now be added to the database.
 
 ```{r}
 ions(idb)
 ```
+
+Ions can also be deleted from a database with the `deleteIon` function (see the
+respective help page for more information).
 
 Note that we can also retrieve compound annotation information for the
 ions. Below we extract the associated compound name and its exact mass.
