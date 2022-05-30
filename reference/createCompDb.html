@@ -178,7 +178,7 @@ returns a data.frame."><meta property="og:image" content="https://rformassspectr
     
     <a class="navbar-brand me-2" href="../index.html">CompoundDb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -328,9 +328,9 @@ returns a <code>data.frame</code>.</p>
     <dl><dt>x</dt>
 <dd><p>For <code>createCompDb</code>: <code>data.frame</code> or <code>tbl</code> with the compound
 annotations or <code>character</code> with the file name(s) from which the compound
-annotations should be retrieved. See description for details.</p><div class="sourceCode"><pre><code>For `createCompDbPackage`: `character(1)` with the file name of the
-`CompDb` SQLite file (created by `createCompDb`).
-</code></pre></div></dd>
+annotations should be retrieved. See description for details.</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>For <span class="st">`</span><span class="at">createCompDbPackage</span><span class="st">`</span><span class="sc">:</span> <span class="st">`</span><span class="at">character(1)</span><span class="st">`</span> with the file name of the</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">CompDb</span><span class="st">`</span> SQLite <span class="fu">file</span> (created by <span class="st">`</span><span class="at">createCompDb</span><span class="st">`</span>).</span></code></pre><p></p></div></dd>
 <dt>metadata</dt>
 <dd><p>For <code>createCompDb</code>: <code>data.frame</code> with metadata
 information. See description for details.</p></dd>
@@ -524,7 +524,7 @@ MS/MS spectrum data from xml files from HMDB or an SDF file from MoNa.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3     source_version                        2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4        source_date                     &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5           organism                 Hsapiens</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6   db_creation_date Thu May 19 11:36:44 2022</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   db_creation_date Mon May 30 06:44:10 2022</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7 supporting_package               CompoundDb</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8  supporting_object                   CompDb</span>
 <span class="r-in"><span class="fu">dbGetQuery</span><span class="op">(</span><span class="va">con</span>, <span class="st">"select * from ms_compound"</span><span class="op">)</span></span>
