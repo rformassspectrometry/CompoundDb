@@ -1,5 +1,9 @@
 # CompoundDb version 1.1
 
+## Changes in version 1.1.4
+
+- Add script to create a `CompDb` from a MassBank database.
+
 ## Changes in version 1.1.3
 
 - Expand vignette with examples to create `CompDb` databases from scratch.
