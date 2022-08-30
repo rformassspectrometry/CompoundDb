@@ -1,10 +1,10 @@
-pandoc: 2.17.1.1
-pkgdown: 2.0.3.9000
-pkgdown_sha: 374c615670c9eb52ac2f7646a273fff974031fa6
+pandoc: '2.18'
+pkgdown: 2.0.6.9000
+pkgdown_sha: 956f076f661eb2de9413f64ea24a580cf444466d
 articles:
   CompoundDb-usage: CompoundDb-usage.html
   create-compounddb: create-compounddb.html
-last_built: 2022-05-30T06:43Z
+last_built: 2022-08-30T06:05Z
 urls:
   reference: https://rformassspectrometry.github.io/CompoundDb/reference
   article: https://rformassspectrometry.github.io/CompoundDb/articles

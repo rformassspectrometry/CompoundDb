@@ -14,7 +14,7 @@ database for one specific LC-MS setup. Such an IonDb database can then be
 used to match experimental m/z and retention times against ions defined in
 the database (using the functionality of the
 MetaboAnnotation
-package)."><title>IonDb: compound database with additional ion information — IonDb • CompoundDb</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="IonDb: compound database with additional ion information — IonDb"><meta property="og:description" content="IonDb objects extends CompDb by allowing to store also information about
+package)."><title>IonDb: compound database with additional ion information — IonDb • CompoundDb</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="IonDb: compound database with additional ion information — IonDb"><meta property="og:description" content="IonDb objects extends CompDb by allowing to store also information about
 measured ions to a CompDb() database. This information includes the type
 (adduct) of the ion, it's measured (or expected) retention time for a certain
 LC-MS setup and its mass-to-charge ratio.
@@ -40,7 +40,7 @@ package)."><meta property="og:image" content="https://rformassspectrometry.githu
     
     <a class="navbar-brand me-2" href="../index.html">CompoundDb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -103,89 +103,112 @@ package).</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S4 method for IonDb</span>
-<span class="fu">ionVariables</span><span class="op">(</span><span class="va">object</span>, includeId <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S4 method for IonDb</span>
-<span class="fu">ions</span><span class="op">(</span>
-  <span class="va">object</span>,
-  columns <span class="op">=</span> <span class="fu">ionVariables</span><span class="op">(</span><span class="va">object</span><span class="op">)</span>,
-  <span class="va">filter</span>,
-  return.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"data.frame"</span>, <span class="st">"tibble"</span><span class="op">)</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="co"># S4 method for IonDb</span>
-<span class="fu">insertIon</span><span class="op">(</span><span class="va">object</span>, <span class="va">ions</span>, addColumns <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="co"># S4 method for IonDb</span>
-<span class="fu">deleteIon</span><span class="op">(</span><span class="va">object</span>, ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S4 method for missing,missing</span>
-<span class="fu">IonDb</span><span class="op">(</span><span class="va">x</span>, <span class="va">cdb</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S4 method for character,missing</span>
-<span class="fu">IonDb</span><span class="op">(</span><span class="va">x</span>, <span class="va">cdb</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S4 method for CompDb,missing</span>
-<span class="fu">IonDb</span><span class="op">(</span><span class="va">x</span>, <span class="va">cdb</span>, ions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S4 method for DBIConnection,missing</span>
-<span class="fu">IonDb</span><span class="op">(</span><span class="va">x</span>, <span class="va">cdb</span>, ions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S4 method for character,CompDb</span>
-<span class="fu">IonDb</span><span class="op">(</span><span class="va">x</span>, <span class="va">cdb</span>, ions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S4 method for DBIConnection,CompDb</span>
-<span class="fu">IonDb</span><span class="op">(</span><span class="va">x</span>, <span class="va">cdb</span>, ions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S4 method for IonDb</span></span>
+<span><span class="fu">ionVariables</span><span class="op">(</span><span class="va">object</span>, includeId <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for IonDb</span></span>
+<span><span class="fu">ions</span><span class="op">(</span></span>
+<span>  <span class="va">object</span>,</span>
+<span>  columns <span class="op">=</span> <span class="fu">ionVariables</span><span class="op">(</span><span class="va">object</span><span class="op">)</span>,</span>
+<span>  <span class="va">filter</span>,</span>
+<span>  return.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"data.frame"</span>, <span class="st">"tibble"</span><span class="op">)</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for IonDb</span></span>
+<span><span class="fu">insertIon</span><span class="op">(</span><span class="va">object</span>, <span class="va">ions</span>, addColumns <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for IonDb</span></span>
+<span><span class="fu">deleteIon</span><span class="op">(</span><span class="va">object</span>, ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for missing,missing</span></span>
+<span><span class="fu">IonDb</span><span class="op">(</span><span class="va">x</span>, <span class="va">cdb</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for character,missing</span></span>
+<span><span class="fu">IonDb</span><span class="op">(</span><span class="va">x</span>, <span class="va">cdb</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for CompDb,missing</span></span>
+<span><span class="fu">IonDb</span><span class="op">(</span><span class="va">x</span>, <span class="va">cdb</span>, ions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for DBIConnection,missing</span></span>
+<span><span class="fu">IonDb</span><span class="op">(</span><span class="va">x</span>, <span class="va">cdb</span>, ions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for character,CompDb</span></span>
+<span><span class="fu">IonDb</span><span class="op">(</span><span class="va">x</span>, <span class="va">cdb</span>, ions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for DBIConnection,CompDb</span></span>
+<span><span class="fu">IonDb</span><span class="op">(</span><span class="va">x</span>, <span class="va">cdb</span>, ions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>object</dt>
 <dd><p>For all methods: a <code>IonDb</code> object.</p></dd>
+
+
 <dt>includeId</dt>
 <dd><p>For <code>ionVariables</code>: <code>logical(1)</code> whether the ion
 ID (column <code>"ion_id"</code>) should be included in the result. The
 default is <code>includeId = FALSE</code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional arguments. Currently not used.</p></dd>
+
+
 <dt>columns</dt>
 <dd><p>For <code>ions</code>: <code>character</code> with the names of the database
 columns that should be retrieved. Use <code>ionVariables</code> for a list
 of available column names.</p></dd>
+
+
 <dt>filter</dt>
 <dd><p>For <code>ions</code>: filter expression or <code>AnnotationFilter()</code> defining
 a filter to be used to retrieve specific elements from the database.</p></dd>
+
+
 <dt>return.type</dt>
 <dd><p>For <code>ions</code>: either <code>"data.frame"</code> or <code>"tibble"</code> to
 return the result as a <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> or <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble()</a></code>, respectively.</p></dd>
+
+
 <dt>ions</dt>
 <dd><p>for <code>insertIon</code> and <code>IonDb</code>: <code>data.frame</code> with ion definitions
 to be added to the <code>IonDb</code> database. Columns <code>"compound_id"</code>
 (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>), <code>"ion_adduct"</code> (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>), <code>"ion_mz"</code>
 (<code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>) and <code>"ion_rt"</code> (<code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>) are mandatory (but, with the
 exception of <code>"compound_id"</code>, can contain <code>NA</code>).</p></dd>
+
+
 <dt>addColumns</dt>
 <dd><p>For <code>insertIons</code>: <code>logical(1)</code> whether columns being
 present in the submitted <code>data.frame</code> but not in the database table
 should be added to the database's ion table.</p></dd>
+
+
 <dt>ids</dt>
 <dd><p>For <code>deleteIon</code>: <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> or (alternatively <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)
 specifying the IDs of the ions to delete. IDs in <code>ids</code> that are
 not associated to any ion in the <code>IonDb</code> object are ignored.</p></dd>
+
+
 <dt>x</dt>
 <dd><p>For <code>IonDb</code>: database connection or <code>character(1)</code> with the file
 name of the SQLite database where the <code>IonDb</code> data will be stored or a
 <code><a href="CompDb.html">CompDb()</a></code> object that should be converted into an <code>IonDb</code> object.</p>
 <p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>For all other methods<span class="sc">:</span> an <span class="st">`</span><span class="at">IonDb</span><span class="st">`</span> object.</span></code></pre><p></p></div></dd>
+
+
 <dt>cdb</dt>
 <dd><p>For <code>IonDb</code>: <code>CompDb</code> object from which data should be
 transferred to the <code>IonDb</code> database.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>See description of the respective function.</p>
+    
+
+<p>See description of the respective function.</p>
     </div>
     <div class="section level2">
     <h2 id="creation-of-iondb-objects-databases">Creation of <code>IonDb</code> objects/databases<a class="anchor" aria-label="anchor" href="#creation-of-iondb-objects-databases"></a></h2>
@@ -264,23 +287,23 @@ details.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="co"># We load a small compound test database based on MassBank which is</span></span>
-<span class="r-in"><span class="co"># distributed with this package.</span></span>
-<span class="r-in"><span class="va">cdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="CompDb.html">CompDb</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"sql/CompDb.MassBank.sql"</span>, package <span class="op">=</span> <span class="st">"CompoundDb"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">cdb</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># We load a small compound test database based on MassBank which is</span></span></span>
+<span class="r-in"><span><span class="co"># distributed with this package.</span></span></span>
+<span class="r-in"><span><span class="va">cdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="CompDb.html">CompDb</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"sql/CompDb.MassBank.sql"</span>, package <span class="op">=</span> <span class="st">"CompoundDb"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cdb</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> class: CompDb </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  data source: MassBank </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  version: 2020.09 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  organism: NA </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  compound count: 70 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  MS/MS spectra count: 70 </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># We next want to convert this CompDb into an IonDb, but the original CompDb</span></span>
-<span class="r-in"><span class="co"># database is read only, thus we have to provide the name (or connection) of</span></span>
-<span class="r-in"><span class="co"># an other database to transfer all the data from the CompDb to that.</span></span>
-<span class="r-in"><span class="va">idb</span> <span class="op">&lt;-</span> <span class="fu">IonDb</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"/idb_ex.db"</span><span class="op">)</span>, <span class="va">cdb</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">idb</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># We next want to convert this CompDb into an IonDb, but the original CompDb</span></span></span>
+<span class="r-in"><span><span class="co"># database is read only, thus we have to provide the name (or connection) of</span></span></span>
+<span class="r-in"><span><span class="co"># an other database to transfer all the data from the CompDb to that.</span></span></span>
+<span class="r-in"><span><span class="va">idb</span> <span class="op">&lt;-</span> <span class="fu">IonDb</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"/idb_ex.db"</span><span class="op">)</span>, <span class="va">cdb</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">idb</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> class: IonDb </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  data source: MassBank </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  version: 2020.09 </span>
@@ -288,17 +311,17 @@ details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  compound count: 70 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  MS/MS spectra count: 70 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  ion count: 0 </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># It is also possible to load a previously created IonDb passing only the</span></span>
-<span class="r-in"><span class="co"># connection to the database.</span></span>
-<span class="r-in"><span class="va">idb2</span> <span class="op">&lt;-</span> <span class="fu">IonDb</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"/idb_ex.db"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Ion definitions can be added to the database with the `insertIon` function</span></span>
-<span class="r-in"><span class="co"># providing a `data.frame` with ion definition. This `data.frame` is expected</span></span>
-<span class="r-in"><span class="co"># to provide the IDs of the compounds, an adduct name/definition and the</span></span>
-<span class="r-in"><span class="co"># (experimentally determined) m/z and retention time of the ion. To list</span></span>
-<span class="r-in"><span class="co"># compound IDs from the CompDb database:</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span>, <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"compound_id"</span>, <span class="st">"name"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># It is also possible to load a previously created IonDb passing only the</span></span></span>
+<span class="r-in"><span><span class="co"># connection to the database.</span></span></span>
+<span class="r-in"><span><span class="va">idb2</span> <span class="op">&lt;-</span> <span class="fu">IonDb</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"/idb_ex.db"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Ion definitions can be added to the database with the `insertIon` function</span></span></span>
+<span class="r-in"><span><span class="co"># providing a `data.frame` with ion definition. This `data.frame` is expected</span></span></span>
+<span class="r-in"><span><span class="co"># to provide the IDs of the compounds, an adduct name/definition and the</span></span></span>
+<span class="r-in"><span><span class="co"># (experimentally determined) m/z and retention time of the ion. To list</span></span></span>
+<span class="r-in"><span><span class="co"># compound IDs from the CompDb database:</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"compound_id"</span>, <span class="st">"name"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   compound_id         name</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1           1      Mellein</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2           2      Mellein</span>
@@ -306,17 +329,17 @@ details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4           4      Mellein</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5           5      Mellein</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6           6 AAL toxin TB</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">ions</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>compound_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1"</span>, <span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span>, <span class="st">"6"</span>, <span class="st">"35"</span><span class="op">)</span>,</span>
-<span class="r-in">                  ion_adduct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[M+H]+"</span>, <span class="st">"[M+Na]+"</span>, <span class="st">"[M+Na]+"</span>,</span>
-<span class="r-in">                                 <span class="st">"[M+Na]+"</span>, <span class="st">"[M+2H]2+"</span>, <span class="st">"[M+H-NH3]+"</span><span class="op">)</span>,</span>
-<span class="r-in">                  ion_mz <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">179.0703</span>, <span class="fl">201.0522</span>, <span class="fl">201.0522</span>,</span>
-<span class="r-in">                             <span class="fl">201.0522</span>, <span class="fl">253.66982</span>, <span class="fl">312.0390</span><span class="op">)</span>,</span>
-<span class="r-in">                  ion_rt <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Inserting ion definitions.</span></span>
-<span class="r-in"><span class="va">idb</span> <span class="op">&lt;-</span> <span class="fu">insertIon</span><span class="op">(</span><span class="va">idb</span>, <span class="va">ions</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">idb</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">ions</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>compound_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1"</span>, <span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span>, <span class="st">"6"</span>, <span class="st">"35"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                  ion_adduct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[M+H]+"</span>, <span class="st">"[M+Na]+"</span>, <span class="st">"[M+Na]+"</span>,</span></span>
+<span class="r-in"><span>                                 <span class="st">"[M+Na]+"</span>, <span class="st">"[M+2H]2+"</span>, <span class="st">"[M+H-NH3]+"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                  ion_mz <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">179.0703</span>, <span class="fl">201.0522</span>, <span class="fl">201.0522</span>,</span></span>
+<span class="r-in"><span>                             <span class="fl">201.0522</span>, <span class="fl">253.66982</span>, <span class="fl">312.0390</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                  ion_rt <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Inserting ion definitions.</span></span></span>
+<span class="r-in"><span><span class="va">idb</span> <span class="op">&lt;-</span> <span class="fu">insertIon</span><span class="op">(</span><span class="va">idb</span>, <span class="va">ions</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">idb</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> class: IonDb </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  data source: MassBank </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  version: 2020.09 </span>
@@ -324,8 +347,8 @@ details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  compound count: 70 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  MS/MS spectra count: 70 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  ion count: 6 </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">ions</span><span class="op">(</span><span class="va">idb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"formula"</span>, <span class="st">"ion_adduct"</span>, <span class="st">"ion_mz"</span>, <span class="st">"ion_rt"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">ions</span><span class="op">(</span><span class="va">idb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"formula"</span>, <span class="st">"ion_adduct"</span>, <span class="st">"ion_mz"</span>, <span class="st">"ion_rt"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ion_adduct   ion_mz ion_rt         name   formula</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1     [M+H]+ 179.0703      1      Mellein  C10H10O3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2    [M+Na]+ 201.0522      2      Mellein  C10H10O3</span>
@@ -333,13 +356,13 @@ details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4    [M+Na]+ 201.0522      4      Mellein  C10H10O3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5   [M+2H]2+ 253.6698      5 AAL toxin TB C25H47NO9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 [M+H-NH3]+ 312.0390      6 Aflatoxin G1  C17H12O7</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## List all available ion variables</span></span>
-<span class="r-in"><span class="fu">ionVariables</span><span class="op">(</span><span class="va">idb</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## List all available ion variables</span></span></span>
+<span class="r-in"><span><span class="fu">ionVariables</span><span class="op">(</span><span class="va">idb</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "compound_id" "ion_adduct"  "ion_mz"      "ion_rt"     </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Extract a data.frame with ion variables for all ions</span></span>
-<span class="r-in"><span class="fu">ions</span><span class="op">(</span><span class="va">idb</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Extract a data.frame with ion variables for all ions</span></span></span>
+<span class="r-in"><span><span class="fu">ions</span><span class="op">(</span><span class="va">idb</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   compound_id ion_adduct   ion_mz ion_rt</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1           1     [M+H]+ 179.0703      1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2           1    [M+Na]+ 201.0522      2</span>
@@ -347,9 +370,9 @@ details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4           3    [M+Na]+ 201.0522      4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5          35 [M+H-NH3]+ 312.0390      6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6           6   [M+2H]2+ 253.6698      5</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## List all database tables and their columns</span></span>
-<span class="r-in"><span class="fu"><a href="CompDb.html">tables</a></span><span class="op">(</span><span class="va">idb</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## List all database tables and their columns</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="CompDb.html">tables</a></span><span class="op">(</span><span class="va">idb</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ms_compound</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "compound_id" "formula"     "exactmass"   "smiles"      "inchi"      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [6] "inchikey"    "cas"         "pubchem"     "name"       </span>
@@ -374,21 +397,21 @@ details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $synonym</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "compound_id" "synonym"    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Filtering the database</span></span>
-<span class="r-in"><span class="co">##</span></span>
-<span class="r-in"><span class="co">## Get all ions with an m/z between 200 and 300</span></span>
-<span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">ions</span><span class="op">(</span><span class="va">idb</span>, filter <span class="op">=</span> <span class="op">~</span> <span class="va">ion_mz</span> <span class="op">&gt;</span> <span class="fl">200</span> <span class="op">&amp;</span> <span class="va">ion_mz</span> <span class="op">&lt;</span> <span class="fl">300</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">res</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Filtering the database</span></span></span>
+<span class="r-in"><span><span class="co">##</span></span></span>
+<span class="r-in"><span><span class="co">## Get all ions with an m/z between 200 and 300</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">ions</span><span class="op">(</span><span class="va">idb</span>, filter <span class="op">=</span> <span class="op">~</span> <span class="va">ion_mz</span> <span class="op">&gt;</span> <span class="fl">200</span> <span class="op">&amp;</span> <span class="va">ion_mz</span> <span class="op">&lt;</span> <span class="fl">300</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">res</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   compound_id ion_adduct   ion_mz ion_rt</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1           1    [M+Na]+ 201.0522      2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2           2    [M+Na]+ 201.0522      3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3           3    [M+Na]+ 201.0522      4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4           6   [M+2H]2+ 253.6698      5</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Get all ions that have a H in their adduct definition.</span></span>
-<span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">ions</span><span class="op">(</span><span class="va">idb</span>, filter <span class="op">=</span> <span class="fu"><a href="Filter-classes.html">IonAdductFilter</a></span><span class="op">(</span><span class="st">"H"</span>, <span class="st">"contains"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">res</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Get all ions that have a H in their adduct definition.</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">ions</span><span class="op">(</span><span class="va">idb</span>, filter <span class="op">=</span> <span class="fu"><a href="Filter-classes.html">IonAdductFilter</a></span><span class="op">(</span><span class="st">"H"</span>, <span class="st">"contains"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">res</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   compound_id ion_adduct   ion_mz ion_rt</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1           1     [M+H]+ 179.0703      1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2          35 [M+H-NH3]+ 312.0390      6</span>
@@ -404,7 +427,7 @@ details.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
     </footer></div>

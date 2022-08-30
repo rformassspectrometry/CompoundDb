@@ -4,7 +4,7 @@ annotations along with metadata information such as the annotation's
 source, date and release version. The data is stored internally in a
 database (usually an SQLite database).
 hasMsMsSpectra returns TRUE if MS/MS spectrum data is
-available in the database and FALSE otherwise."><title>Simple compound (metabolite) databases — CompDb • CompoundDb</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Simple compound (metabolite) databases — CompDb"><meta property="og:description" content="CompDb objects provide access to general (metabolite) compound
+available in the database and FALSE otherwise."><title>Simple compound (metabolite) databases — CompDb • CompoundDb</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Simple compound (metabolite) databases — CompDb"><meta property="og:description" content="CompDb objects provide access to general (metabolite) compound
 annotations along with metadata information such as the annotation's
 source, date and release version. The data is stored internally in a
 database (usually an SQLite database).
@@ -20,7 +20,7 @@ available in the database and FALSE otherwise."><meta property="og:image" conten
     
     <a class="navbar-brand me-2" href="../index.html">CompoundDb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,57 +73,57 @@ available in the database and <code>FALSE</code> otherwise.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">CompDb</span><span class="op">(</span><span class="va">x</span>, flags <span class="op">=</span> <span class="va">SQLITE_RO</span><span class="op">)</span>
-
-<span class="fu">hasMsMsSpectra</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
-
-<span class="fu">src_compdb</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
-
-<span class="fu">tables</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
-
-<span class="fu">copyCompDb</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span>
-
-<span class="co"># S4 method for CompDb</span>
-<span class="fu">dbconn</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
-
-<span class="co"># S4 method for CompDb</span>
-<span class="fu">Spectra</span><span class="op">(</span><span class="va">object</span>, <span class="va">filter</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S4 method for CompDb</span>
-<span class="fu">supportedFilters</span><span class="op">(</span><span class="va">object</span><span class="op">)</span>
-
-<span class="co"># S4 method for CompDb</span>
-<span class="fu">metadata</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S4 method for CompDb</span>
-<span class="fu">spectraVariables</span><span class="op">(</span><span class="va">object</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S4 method for CompDb</span>
-<span class="fu">compoundVariables</span><span class="op">(</span><span class="va">object</span>, includeId <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S4 method for CompDb</span>
-<span class="fu">compounds</span><span class="op">(</span>
-  <span class="va">object</span>,
-  columns <span class="op">=</span> <span class="fu">compoundVariables</span><span class="op">(</span><span class="va">object</span><span class="op">)</span>,
-  <span class="va">filter</span>,
-  return.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"data.frame"</span>, <span class="st">"tibble"</span><span class="op">)</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="co"># S4 method for CompDb,Spectra</span>
-<span class="fu">insertSpectra</span><span class="op">(</span><span class="va">object</span>, <span class="va">spectra</span>, columns <span class="op">=</span> <span class="fu">spectraVariables</span><span class="op">(</span><span class="va">spectra</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S4 method for CompDb</span>
-<span class="fu">deleteSpectra</span><span class="op">(</span><span class="va">object</span>, ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S4 method for CompDb</span>
-<span class="fu">mass2mz</span><span class="op">(</span><span class="va">x</span>, adduct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[M+H]+"</span><span class="op">)</span>, name <span class="op">=</span> <span class="st">"formula"</span><span class="op">)</span>
-
-<span class="co"># S4 method for CompDb</span>
-<span class="fu">insertCompound</span><span class="op">(</span><span class="va">object</span>, compounds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="op">)</span>, addColumns <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="co"># S4 method for CompDb</span>
-<span class="fu">deleteCompound</span><span class="op">(</span><span class="va">object</span>, ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">CompDb</span><span class="op">(</span><span class="va">x</span>, flags <span class="op">=</span> <span class="va">SQLITE_RO</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">hasMsMsSpectra</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">src_compdb</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tables</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">copyCompDb</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for CompDb</span></span>
+<span><span class="fu">dbconn</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for CompDb</span></span>
+<span><span class="fu">Spectra</span><span class="op">(</span><span class="va">object</span>, <span class="va">filter</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for CompDb</span></span>
+<span><span class="fu">supportedFilters</span><span class="op">(</span><span class="va">object</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for CompDb</span></span>
+<span><span class="fu">metadata</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for CompDb</span></span>
+<span><span class="fu">spectraVariables</span><span class="op">(</span><span class="va">object</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for CompDb</span></span>
+<span><span class="fu">compoundVariables</span><span class="op">(</span><span class="va">object</span>, includeId <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for CompDb</span></span>
+<span><span class="fu">compounds</span><span class="op">(</span></span>
+<span>  <span class="va">object</span>,</span>
+<span>  columns <span class="op">=</span> <span class="fu">compoundVariables</span><span class="op">(</span><span class="va">object</span><span class="op">)</span>,</span>
+<span>  <span class="va">filter</span>,</span>
+<span>  return.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"data.frame"</span>, <span class="st">"tibble"</span><span class="op">)</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for CompDb,Spectra</span></span>
+<span><span class="fu">insertSpectra</span><span class="op">(</span><span class="va">object</span>, <span class="va">spectra</span>, columns <span class="op">=</span> <span class="fu">spectraVariables</span><span class="op">(</span><span class="va">spectra</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for CompDb</span></span>
+<span><span class="fu">deleteSpectra</span><span class="op">(</span><span class="va">object</span>, ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for CompDb</span></span>
+<span><span class="fu">mass2mz</span><span class="op">(</span><span class="va">x</span>, adduct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[M+H]+"</span><span class="op">)</span>, name <span class="op">=</span> <span class="st">"formula"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for CompDb</span></span>
+<span><span class="fu">insertCompound</span><span class="op">(</span><span class="va">object</span>, compounds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="op">)</span>, addColumns <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for CompDb</span></span>
+<span><span class="fu">deleteCompound</span><span class="op">(</span><span class="va">object</span>, ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -134,47 +134,71 @@ compound database. Alternatively it is possible to provide the connection
 to the database with parameter <code>x</code>. For <code>copyCompDb</code>: either a <code>CompDb</code>
 or a database connection.</p>
 <p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>For all other methods<span class="sc">:</span> a <span class="st">`</span><span class="at">CompDb</span><span class="st">`</span> object.</span></code></pre><p></p></div></dd>
+
+
 <dt>flags</dt>
 <dd><p>flags passed to the SQLite database connection.
 See <code>SQLite()</code>. Defaults to read-only, i.e. <code><a href="https://rsqlite.r-dbi.org/reference/SQLite.html" class="external-link">RSQLite::SQLITE_RO</a></code>.</p></dd>
+
+
 <dt>y</dt>
 <dd><p>For <code>copyCompDb</code>: connection to a database to which the content
 should be copied.</p></dd>
+
+
 <dt>object</dt>
 <dd><p>For all methods: a <code>CompDb</code> object.</p></dd>
+
+
 <dt>filter</dt>
 <dd><p>For <code>compounds</code> and <code>Spectra</code>: filter expression or
 <code>AnnotationFilter()</code> defining a filter to be used to retrieve specific
 elements from the database.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional arguments. Currently not used.</p></dd>
+
+
 <dt>includeId</dt>
 <dd><p>for <code>compoundVariables</code>: <code>logical(1)</code> whether the comound
 ID (column <code>"compound_id"</code>) should be included in the result. The
 default is <code>includeIds = FALSE</code>.</p></dd>
+
+
 <dt>columns</dt>
 <dd><p>For <code>compounds</code>, <code>Spectra</code>: <code>character</code> with the names of the
 database columns that should be retrieved. Use <code>compoundVariables</code> and/or
 <code>spectraVariables</code> for a list of available column names.
 For <code>insertSpectra</code>: columns (spectra variables) that should be inserted
 into the database (to avoid inserting all variables).</p></dd>
+
+
 <dt>return.type</dt>
 <dd><p>For <code>compounds</code>: either <code>"data.frame"</code> or <code>"tibble"</code> to
 return the result as a <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> or <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble()</a></code>, respectively.</p></dd>
+
+
 <dt>spectra</dt>
 <dd><p>For <code>insertSpectra</code>: <code>Spectra</code> object containing the spectra
 to be added to the <code>IonDb</code> database.</p></dd>
+
+
 <dt>ids</dt>
 <dd><p>For <code>deleteSpectra</code>: <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>
 specifying the IDs of the spectra to delete. IDs in <code>ids</code> that are
 not associated to any spectra in the <code>CompDb</code> object are ignored.
 For <code>deleteCompound</code>: <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> with the compound IDs to be deleted.</p></dd>
+
+
 <dt>adduct</dt>
 <dd><p>either a <code>character</code> specifying the name(s) of the adduct(s)
 for which the m/z should be calculated or a <code>data.frame</code> with the adduct
 definition. See <code><a href="https://rdrr.io/pkg/MetaboCoreUtils/man/adductNames.html" class="external-link">adductNames()</a></code> for supported adduct names and the
 description for more information on the expected format if a <code>data.frame</code>
 is provided.</p></dd>
+
+
 <dt>name</dt>
 <dd><p>For <code>mass2mz</code>: <code>character(1)</code>. Defines the <code>CompDb</code> column that
 will be used to name/identify the returned m/z values. By default
@@ -182,20 +206,29 @@ will be used to name/identify the returned m/z values. By default
 calculated and these are used as <code>rownames</code> for the returned <code>matrix</code>.
 With <code>name = "compound_id"</code> the adduct m/z for all compounds (even those
 with equal formulas) are calculated and returned.</p></dd>
+
+
 <dt>compounds</dt>
 <dd><p>For <code>insertCompound</code>: <code>data.frame</code> with compound data to be
 inserted into a <code>CompDb</code> database. See function description for details.</p></dd>
+
+
 <dt>addColumns</dt>
 <dd><p>For <code>insertCompound</code>: <code>logical(1)</code> whether all (extra)
 columns in parameter <code>compounds</code> should be stored also in the database
 table. The default is <code>addColumns = FALSE</code>.</p></dd>
+
+
 <dt>recursive</dt>
 <dd><p>For <code>deleteCompound</code>: <code>logical(1)</code> whether also MS2 spectra
 associated with the compounds should be deleted.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>See description of the respective function.</p>
+    
+
+<p>See description of the respective function.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -321,21 +354,21 @@ details.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="co">## We load a small compound test database based on MassBank which is</span></span>
-<span class="r-in"><span class="co">## distributed with this package.</span></span>
-<span class="r-in"><span class="va">cdb</span> <span class="op">&lt;-</span> <span class="fu">CompDb</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"sql/CompDb.MassBank.sql"</span>, package <span class="op">=</span> <span class="st">"CompoundDb"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">cdb</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## We load a small compound test database based on MassBank which is</span></span></span>
+<span class="r-in"><span><span class="co">## distributed with this package.</span></span></span>
+<span class="r-in"><span><span class="va">cdb</span> <span class="op">&lt;-</span> <span class="fu">CompDb</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"sql/CompDb.MassBank.sql"</span>, package <span class="op">=</span> <span class="st">"CompoundDb"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cdb</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> class: CompDb </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  data source: MassBank </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  version: 2020.09 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  organism: NA </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  compound count: 70 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  MS/MS spectra count: 70 </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Get general metadata information from the database, such as originating</span></span>
-<span class="r-in"><span class="co">## source and version:</span></span>
-<span class="r-in"><span class="fu">metadata</span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Get general metadata information from the database, such as originating</span></span></span>
+<span class="r-in"><span><span class="co">## source and version:</span></span></span>
+<span class="r-in"><span><span class="fu">metadata</span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 name                         value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1             source                      MassBank</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                url https://massbank.eu/MassBank/</span>
@@ -345,14 +378,14 @@ details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6   db_creation_date      Thu Oct 22 08:45:31 2020</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7 supporting_package                    CompoundDb</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8  supporting_object                        CompDb</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## List all available compound annotations/fields</span></span>
-<span class="r-in"><span class="fu">compoundVariables</span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## List all available compound annotations/fields</span></span></span>
+<span class="r-in"><span><span class="fu">compoundVariables</span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "formula"   "exactmass" "smiles"    "inchi"     "inchikey"  "cas"      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [7] "pubchem"   "name"     </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Extract a data.frame with these annotations for all compounds</span></span>
-<span class="r-in"><span class="fu">compounds</span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Extract a data.frame with these annotations for all compounds</span></span></span>
+<span class="r-in"><span><span class="fu">compounds</span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       formula exactmass</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1    C10H10O3  178.0630</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2   C25H47NO9  505.3251</span>
@@ -418,12 +451,12 @@ details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10              Alternariol</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11 Alternariol methyl ether</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12           Altersolanol A</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Note that the `compounds` function will by default always return a</span></span>
-<span class="r-in"><span class="co">## data frame of **unique** entries for the specified columns. Including</span></span>
-<span class="r-in"><span class="co">## also the `"compound_id"` to the requested columns will ensure that all</span></span>
-<span class="r-in"><span class="co">## data is returned from the tables.</span></span>
-<span class="r-in"><span class="fu">compounds</span><span class="op">(</span><span class="va">cdb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"compound_id"</span>, <span class="fu">compoundVariables</span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Note that the `compounds` function will by default always return a</span></span></span>
+<span class="r-in"><span><span class="co">## data frame of **unique** entries for the specified columns. Including</span></span></span>
+<span class="r-in"><span><span class="co">## also the `"compound_id"` to the requested columns will ensure that all</span></span></span>
+<span class="r-in"><span><span class="co">## data is returned from the tables.</span></span></span>
+<span class="r-in"><span><span class="fu">compounds</span><span class="op">(</span><span class="va">cdb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"compound_id"</span>, <span class="fu">compoundVariables</span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    compound_id    formula exactmass</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1            1   C10H10O3  178.0630</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2            2   C10H10O3  178.0630</span>
@@ -779,12 +812,12 @@ details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 68           Altersolanol A</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 69           Altersolanol A</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 70           Altersolanol A</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Add also the synonyms (aliases) for the compounds. This will cause the</span></span>
-<span class="r-in"><span class="co">## tables compound and synonym to be joined. The elements of the compound_id</span></span>
-<span class="r-in"><span class="co">## and name are now no longer unique</span></span>
-<span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">compounds</span><span class="op">(</span><span class="va">cdb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"synonym"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Add also the synonyms (aliases) for the compounds. This will cause the</span></span></span>
+<span class="r-in"><span><span class="co">## tables compound and synonym to be joined. The elements of the compound_id</span></span></span>
+<span class="r-in"><span><span class="co">## and name are now no longer unique</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">compounds</span><span class="op">(</span><span class="va">cdb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"synonym"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           name</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1      Mellein</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2      Mellein</span>
@@ -799,9 +832,9 @@ details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 2-[2-[(3R,4R,5S,7S,14R,16S)-17-amino-4,14,16-trihydroxy-3,7-dimethylheptadecan-5-yl]oxy-2-oxoethyl]butanedioic acid</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                                                                        AAL toxin TB</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6                  (6aR,9aS)-4-Methoxy-2,3,6a,9a-tetrahydrocyclopenta[c]furo[3',2':4,5]furo[2,3-h]chromene-1,11-dione</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## List all database tables and their columns</span></span>
-<span class="r-in"><span class="fu">tables</span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## List all database tables and their columns</span></span></span>
+<span class="r-in"><span><span class="fu">tables</span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ms_compound</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "compound_id" "formula"     "exactmass"   "smiles"      "inchi"      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [6] "inchikey"    "cas"         "pubchem"     "name"       </span>
@@ -823,11 +856,11 @@ details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $synonym</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "compound_id" "synonym"    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Any of these columns can be used in the `compounds` call to retrieve</span></span>
-<span class="r-in"><span class="co">## the specific annotations. The corresponding database tables will then be</span></span>
-<span class="r-in"><span class="co">## joined together</span></span>
-<span class="r-in"><span class="fu">compounds</span><span class="op">(</span><span class="va">cdb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"formula"</span>, <span class="st">"publication"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Any of these columns can be used in the `compounds` call to retrieve</span></span></span>
+<span class="r-in"><span><span class="co">## the specific annotations. The corresponding database tables will then be</span></span></span>
+<span class="r-in"><span><span class="co">## joined together</span></span></span>
+<span class="r-in"><span><span class="fu">compounds</span><span class="op">(</span><span class="va">cdb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"formula"</span>, <span class="st">"publication"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       formula</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1    C10H10O3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2   C25H47NO9</span>
@@ -852,10 +885,10 @@ details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 9  Renaud, J. B.; Sumarah, M. W. Data Independent Acquisition-Digital Archiving Mass Spectrometry: Application to Single Kernel Mycotoxin Analysis of Fusarium Graminearum Infected Maize. Analytical and Bioanalytical Chemistry 2016, 408 (12), 3083–91. DOI:10.1007/s00216-016-9391-5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10 Renaud, J. B.; Sumarah, M. W. Data Independent Acquisition-Digital Archiving Mass Spectrometry: Application to Single Kernel Mycotoxin Analysis of Fusarium Graminearum Infected Maize. Analytical and Bioanalytical Chemistry 2016, 408 (12), 3083–91. DOI:10.1007/s00216-016-9391-5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11 Renaud, J. B.; Sumarah, M. W. Data Independent Acquisition-Digital Archiving Mass Spectrometry: Application to Single Kernel Mycotoxin Analysis of Fusarium Graminearum Infected Maize. Analytical and Bioanalytical Chemistry 2016, 408 (12), 3083–91. DOI:10.1007/s00216-016-9391-5</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Calculating m/z values for the exact masses of unique chemical formulas</span></span>
-<span class="r-in"><span class="co">## in the database:</span></span>
-<span class="r-in"><span class="fu">mass2mz</span><span class="op">(</span><span class="va">cdb</span>, adduct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[M+H]+"</span>, <span class="st">"[M+Na]+"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Calculating m/z values for the exact masses of unique chemical formulas</span></span></span>
+<span class="r-in"><span><span class="co">## in the database:</span></span></span>
+<span class="r-in"><span><span class="fu">mass2mz</span><span class="op">(</span><span class="va">cdb</span>, adduct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[M+H]+"</span>, <span class="st">"[M+Na]+"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              [M+H]+  [M+Na]+</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> C10H10O3   179.0703 201.0522</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> C25H47NO9  506.3324 528.3143</span>
@@ -868,11 +901,11 @@ details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> C14H10O5   259.0601 281.0420</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> C15H12O5   273.0757 295.0577</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> C16H16O8   337.0918 359.0737</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## By using `name = "compound_id"` the calculation will be performed for</span></span>
-<span class="r-in"><span class="co">## each unique compound ID instead (resulting in potentially redundant</span></span>
-<span class="r-in"><span class="co">## results)</span></span>
-<span class="r-in"><span class="fu">mass2mz</span><span class="op">(</span><span class="va">cdb</span>, adduct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[M+H]+"</span>, <span class="st">"[M+Na]+"</span><span class="op">)</span>, name <span class="op">=</span> <span class="st">"compound_id"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## By using `name = "compound_id"` the calculation will be performed for</span></span></span>
+<span class="r-in"><span><span class="co">## each unique compound ID instead (resulting in potentially redundant</span></span></span>
+<span class="r-in"><span><span class="co">## results)</span></span></span>
+<span class="r-in"><span><span class="fu">mass2mz</span><span class="op">(</span><span class="va">cdb</span>, adduct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"[M+H]+"</span>, <span class="st">"[M+Na]+"</span><span class="op">)</span>, name <span class="op">=</span> <span class="st">"compound_id"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [M+H]+  [M+Na]+</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  179.0703 201.0522</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  179.0703 201.0522</span>
@@ -944,9 +977,9 @@ details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 68 337.0918 359.0737</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 69 337.0918 359.0737</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 70 337.0918 359.0737</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Create a Spectra object with all MS/MS spectra from the database.</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/Spectra" class="external-link">Spectra</a></span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Create a Spectra object with all MS/MS spectra from the database.</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/Spectra" class="external-link">Spectra</a></span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: BiocParallel</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: ProtGenerics</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
@@ -959,8 +992,8 @@ details.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The following object is masked from ‘package:ProtGenerics’:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     addProcessing</span>
-<span class="r-in"><span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">sps</span></span>
+<span class="r-in"><span><span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">sps</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> MSn data (Spectra) with 70 spectra in a MsBackendCompDb backend:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       msLevel precursorMz  polarity</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;integer&gt;   &lt;numeric&gt; &lt;integer&gt;</span>
@@ -980,10 +1013,10 @@ details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  data source: MassBank </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  version: 2020.09 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  organism: NA </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Extract spectra for a specific compound.</span></span>
-<span class="r-in"><span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">cdb</span>, filter <span class="op">=</span> <span class="op">~</span> <span class="va">name</span> <span class="op">==</span> <span class="st">"Mellein"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">sps</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Extract spectra for a specific compound.</span></span></span>
+<span class="r-in"><span><span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">cdb</span>, filter <span class="op">=</span> <span class="op">~</span> <span class="va">name</span> <span class="op">==</span> <span class="st">"Mellein"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">sps</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> MSn data (Spectra) with 5 spectra in a MsBackendCompDb backend:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     msLevel precursorMz  polarity</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;integer&gt;   &lt;numeric&gt; &lt;integer&gt;</span>
@@ -997,9 +1030,9 @@ details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  data source: MassBank </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  version: 2020.09 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  organism: NA </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## List all available annotations for MS/MS spectra</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">spectraVariables</a></span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## List all available annotations for MS/MS spectra</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">spectraVariables</a></span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "msLevel"                 "rtime"                  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [3] "acquisitionNum"          "scanIndex"              </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [5] "dataStorage"             "dataOrigin"             </span>
@@ -1024,28 +1057,28 @@ details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [43] "spectrum_id"             "predicted"              </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [45] "msms_mz_range_min"       "msms_mz_range_max"      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [47] "synonym"                </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Get access to the m/z values of these</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">mz</a></span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Get access to the m/z values of these</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">mz</a></span><span class="op">(</span><span class="va">sps</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NumericList of length 5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]] 133.0648 151.0754 155.9743 161.0597 179.0703</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[2]] 133.0648 151.0754 155.9745 161.0597 179.0703</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[3]] 105.0699 133.0648 151.0754 161.0597 179.0703</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[4]] 105.0699 133.0648 151.0754 161.0597 179.0703</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[5]] 105.0699 115.0542 133.0648 151.0754 161.0597 179.0703</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/Spectra" class="external-link">Spectra</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="co">## Plot the first spectrum</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html" class="external-link">plotSpectra</a></span><span class="op">(</span><span class="va">sps</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/Spectra" class="external-link">Spectra</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co">## Plot the first spectrum</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html" class="external-link">plotSpectra</a></span><span class="op">(</span><span class="va">sps</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="CompDb-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#########</span></span>
-<span class="r-in"><span class="co">## Filtering the database</span></span>
-<span class="r-in"><span class="co">##</span></span>
-<span class="r-in"><span class="co">## Get all compounds with an exact mass between 310 and 320</span></span>
-<span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span>, filter <span class="op">=</span> <span class="op">~</span> <span class="va">exactmass</span> <span class="op">&gt;</span> <span class="fl">310</span> <span class="op">&amp;</span> <span class="va">exactmass</span> <span class="op">&lt;</span> <span class="fl">320</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">res</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#########</span></span></span>
+<span class="r-in"><span><span class="co">## Filtering the database</span></span></span>
+<span class="r-in"><span><span class="co">##</span></span></span>
+<span class="r-in"><span><span class="co">## Get all compounds with an exact mass between 310 and 320</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span>, filter <span class="op">=</span> <span class="op">~</span> <span class="va">exactmass</span> <span class="op">&gt;</span> <span class="fl">310</span> <span class="op">&amp;</span> <span class="va">exactmass</span> <span class="op">&lt;</span> <span class="fl">320</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">res</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    formula exactmass                                                   smiles</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 C17H12O6  312.0634 COC1=C2C3=C(C(=O)CC3)C(=O)OC2=C4[C@@H]5C=CO[C@@H]5OC4=C1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 C17H14O6  314.0790  COC1=C2C3=C(C(=O)CC3)C(=O)OC2=C4[C@@H]5CCO[C@@H]5OC4=C1</span>
@@ -1055,10 +1088,10 @@ details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      inchikey       cas     pubchem         name</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 OQIQSTLJSLGHID-WNWIJWBNSA-N 1162-65-8  CID:186907 Aflatoxin B1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 WWSYXEZEXMQWHT-WNWIJWBNSA-N 7220-81-7 CID:2724360 Aflatoxin B2</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Get all compounds that have an H14 in their formula.</span></span>
-<span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span>, filter <span class="op">=</span> <span class="fu"><a href="Filter-classes.html">FormulaFilter</a></span><span class="op">(</span><span class="st">"H14"</span>, <span class="st">"contains"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">res</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Get all compounds that have an H14 in their formula.</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span>, filter <span class="op">=</span> <span class="fu"><a href="Filter-classes.html">FormulaFilter</a></span><span class="op">(</span><span class="st">"H14"</span>, <span class="st">"contains"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">res</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    formula exactmass                                                   smiles</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 C17H14O6  314.0790  COC1=C2C3=C(C(=O)CC3)C(=O)OC2=C4[C@@H]5CCO[C@@H]5OC4=C1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 C17H14O7  330.0739 COC1=C2C3=C(C(=O)OCC3)C(=O)OC2=C4[C@@H]5CCO[C@@H]5OC4=C1</span>
@@ -1068,30 +1101,31 @@ details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                      inchikey       cas     pubchem         name</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 WWSYXEZEXMQWHT-WNWIJWBNSA-N 7220-81-7 CID:2724360 Aflatoxin B2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 WPCVRWVBBXIRMA-WNWIJWBNSA-N 7241-98-7 CID:2724362 Aflatoxin G2</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#########</span></span>
-<span class="r-in"><span class="co">## Using CompDb with the *tidyverse*</span></span>
-<span class="r-in"><span class="co">##</span></span>
-<span class="r-in"><span class="co">## Using return.type = "tibble" the result will be returned as a "tibble"</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span>, return.type <span class="op">=</span> <span class="st">"tibble"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#########</span></span></span>
+<span class="r-in"><span><span class="co">## Using CompDb with the *tidyverse*</span></span></span>
+<span class="r-in"><span><span class="co">##</span></span></span>
+<span class="r-in"><span><span class="co">## Using return.type = "tibble" the result will be returned as a "tibble"</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span>, return.type <span class="op">=</span> <span class="st">"tibble"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 12 × 8</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    formula    exactmass smiles                inchi inchikey cas   pubchem name </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> C10H10O3        178. CC1CC2=C(C(=CC=C2)O)… InCh… KWILGNN… 1739… CID:28… Mell…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> C25H47NO9       505. CC[C@@H](C)[C@H]([C@… InCh… CTXQVLL… 1498… CID:10… AAL …</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> C17H12O6        312. COC1=C2C3=C(C(=O)CC3… InCh… OQIQSTL… 1162… CID:18… Afla…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> C17H14O6        314. COC1=C2C3=C(C(=O)CC3… InCh… WWSYXEZ… 7220… CID:27… Afla…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> C17H12O7        328. COC1=C2C3=C(C(=O)OCC… InCh… XWIYFDM… 1165… CID:27… Afla…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> C17H14O7        330. COC1=C2C3=C(C(=O)OCC… InCh… WPCVRWV… 7241… CID:27… Afla…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> C17H12O7        328. COC1=C2C3=C(C(=O)CC3… InCh… MJBWDEQ… 6795… CID:15… Afla…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> C20H20N2O3      336. CC(=O)C1=C([C@@H]2[C… InCh… SZINUGQ… 1817… CID:54… alph…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> C15H16O6        292. C[C@]12C[C@@H]([C@H]… InCh… MMHTXEA… 2975… CID:34… Alte…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> C14H10O5        258. CC1=CC(=CC2=C1C3=CC(… InCh… CEBXXEK… 641-… CID:53… Alte…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> C15H12O5        272. CC1=CC(=CC2=C1C3=CC(… InCh… LCSDQFN… 2345… CID:53… Alte…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> C16H16O8        336. C[C@]1([C@@H]([C@H](… InCh… VSMBLBO… 2226… CID:89… Alte…</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Use the CompDb in a dplyr setup</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    formula    exactmass smiles                 inchi inchi…¹ cas   pubchem name </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> C10H10O3        178. CC1CC2=C(C(=CC=C2)O)C… InCh… KWILGN… 1739… CID:28… Mell…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> C25H47NO9       505. CC[C@@H](C)[C@H]([C@H… InCh… CTXQVL… 1498… CID:10… AAL …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> C17H12O6        312. COC1=C2C3=C(C(=O)CC3)… InCh… OQIQST… 1162… CID:18… Afla…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> C17H14O6        314. COC1=C2C3=C(C(=O)CC3)… InCh… WWSYXE… 7220… CID:27… Afla…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> C17H12O7        328. COC1=C2C3=C(C(=O)OCC3… InCh… XWIYFD… 1165… CID:27… Afla…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> C17H14O7        330. COC1=C2C3=C(C(=O)OCC3… InCh… WPCVRW… 7241… CID:27… Afla…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> C17H12O7        328. COC1=C2C3=C(C(=O)CC3)… InCh… MJBWDE… 6795… CID:15… Afla…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> C20H20N2O3      336. CC(=O)C1=C([C@@H]2[C@… InCh… SZINUG… 1817… CID:54… alph…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> C15H16O6        292. C[C@]12C[C@@H]([C@H](… InCh… MMHTXE… 2975… CID:34… Alte…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> C14H10O5        258. CC1=CC(=CC2=C1C3=CC(=… InCh… CEBXXE… 641-… CID:53… Alte…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> C15H12O5        272. CC1=CC(=CC2=C1C3=CC(=… InCh… LCSDQF… 2345… CID:53… Alte…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> C16H16O8        336. C[C@]1([C@@H]([C@H](C… InCh… VSMBLB… 2226… CID:89… Alte…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable name ¹​inchikey</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Use the CompDb in a dplyr setup</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘dplyr’</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:S4Vectors’:</span>
@@ -1106,16 +1140,16 @@ details.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:base’:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     intersect, setdiff, setequal, union</span>
-<span class="r-in"><span class="va">src_cmp</span> <span class="op">&lt;-</span> <span class="fu">src_compdb</span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">src_cmp</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> src:  sqlite 3.38.5 [/__w/_temp/Library/CompoundDb/sql/CompDb.MassBank.sql]</span>
+<span class="r-in"><span><span class="va">src_cmp</span> <span class="op">&lt;-</span> <span class="fu">src_compdb</span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">src_cmp</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> src:  sqlite 3.39.2 [/__w/_temp/Library/CompoundDb/sql/CompDb.MassBank.sql]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> tbls: metadata, ms_compound, msms_spectrum, msms_spectrum_peak, synonym</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Get a tbl for the ms_compound table</span></span>
-<span class="r-in"><span class="va">cmp_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/tbl.html" class="external-link">tbl</a></span><span class="op">(</span><span class="va">src_cmp</span>, <span class="st">"ms_compound"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Extract the id, name and inchi</span></span>
-<span class="r-in"><span class="va">cmp_tbl</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">compound_id</span>, <span class="va">name</span>, <span class="va">inchi</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">collect</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Get a tbl for the ms_compound table</span></span></span>
+<span class="r-in"><span><span class="va">cmp_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/tbl.html" class="external-link">tbl</a></span><span class="op">(</span><span class="va">src_cmp</span>, <span class="st">"ms_compound"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Extract the id, name and inchi</span></span></span>
+<span class="r-in"><span><span class="va">cmp_tbl</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">compound_id</span>, <span class="va">name</span>, <span class="va">inchi</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">collect</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 70 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    compound_id name         inchi                                               </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                               </span>
@@ -1130,88 +1164,88 @@ details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 9           AAL toxin TB InChI=1S/C25H47NO9/c1-4-17(3)24(32)21(35-23(31)13-1…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 10          AAL toxin TB InChI=1S/C25H47NO9/c1-4-17(3)24(32)21(35-23(31)13-1…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 60 more rows</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">########</span></span>
-<span class="r-in"><span class="co">## Creating an empty CompDb and sequentially adding content</span></span>
-<span class="r-in"><span class="co">##</span></span>
-<span class="r-in"><span class="co">## Create an empty CompDb and store the database in a temporary file</span></span>
-<span class="r-in"><span class="va">cdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="createCompDb.html">emptyCompDb</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">cdb</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">########</span></span></span>
+<span class="r-in"><span><span class="co">## Creating an empty CompDb and sequentially adding content</span></span></span>
+<span class="r-in"><span><span class="co">##</span></span></span>
+<span class="r-in"><span><span class="co">## Create an empty CompDb and store the database in a temporary file</span></span></span>
+<span class="r-in"><span><span class="va">cdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="createCompDb.html">emptyCompDb</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cdb</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> class: CompDb </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  data source: NA </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  version: NA </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  organism: NA </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  compound count: 0 </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Define a data.frame with some compounds to add</span></span>
-<span class="r-in"><span class="va">cmp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span class="r-in">    compound_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>,</span>
-<span class="r-in">    name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Caffeine"</span>, <span class="st">"Glucose"</span><span class="op">)</span>,</span>
-<span class="r-in">    formula <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"C8H10N4O2"</span>, <span class="st">"C6H12O6"</span><span class="op">)</span>,</span>
-<span class="r-in">    exactmass <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">194.080375584</span>, <span class="fl">180.063388116</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## We can also add multiple synonyms for each compound</span></span>
-<span class="r-in"><span class="va">cmp</span><span class="op">$</span><span class="va">synonyms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cafeina"</span>, <span class="st">"Koffein"</span><span class="op">)</span>, <span class="st">"D Glucose"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">cmp</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Define a data.frame with some compounds to add</span></span></span>
+<span class="r-in"><span><span class="va">cmp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    compound_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Caffeine"</span>, <span class="st">"Glucose"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    formula <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"C8H10N4O2"</span>, <span class="st">"C6H12O6"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    exactmass <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">194.080375584</span>, <span class="fl">180.063388116</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## We can also add multiple synonyms for each compound</span></span></span>
+<span class="r-in"><span><span class="va">cmp</span><span class="op">$</span><span class="va">synonyms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cafeina"</span>, <span class="st">"Koffein"</span><span class="op">)</span>, <span class="st">"D Glucose"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cmp</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   compound_id     name   formula exactmass         synonyms</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1           1 Caffeine C8H10N4O2  194.0804 Cafeina, Koffein</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2           2  Glucose   C6H12O6  180.0634        D Glucose</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## These compounds can be added to the empty database with insertCompound</span></span>
-<span class="r-in"><span class="va">cdb</span> <span class="op">&lt;-</span> <span class="fu">insertCompound</span><span class="op">(</span><span class="va">cdb</span>, compounds <span class="op">=</span> <span class="va">cmp</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## These compounds can be added to the empty database with insertCompound</span></span></span>
+<span class="r-in"><span><span class="va">cdb</span> <span class="op">&lt;-</span> <span class="fu">insertCompound</span><span class="op">(</span><span class="va">cdb</span>, compounds <span class="op">=</span> <span class="va">cmp</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       name inchi inchikey   formula exactmass</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 Caffeine  &lt;NA&gt;     &lt;NA&gt; C8H10N4O2  194.0804</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  Glucose  &lt;NA&gt;     &lt;NA&gt;   C6H12O6  180.0634</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## insertCompound would also allow to add additional columns/annotations to</span></span>
-<span class="r-in"><span class="co">## the database. Below we define a new compound adding an additional column</span></span>
-<span class="r-in"><span class="co">## hmdb_id</span></span>
-<span class="r-in"><span class="va">cmp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span class="r-in">    compound_id <span class="op">=</span> <span class="fl">3</span>,</span>
-<span class="r-in">    name <span class="op">=</span> <span class="st">"Alpha-Lactose"</span>,</span>
-<span class="r-in">    formula <span class="op">=</span> <span class="st">"C12H22O11"</span>,</span>
-<span class="r-in">    exactmass <span class="op">=</span> <span class="fl">342.116211546</span>,</span>
-<span class="r-in">    hmdb_id <span class="op">=</span> <span class="st">"HMDB0000186"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## To add additional columns we need to set addColumns = TRUE</span></span>
-<span class="r-in"><span class="va">cdb</span> <span class="op">&lt;-</span> <span class="fu">insertCompound</span><span class="op">(</span><span class="va">cdb</span>, compounds <span class="op">=</span> <span class="va">cmp</span>, addColumns <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">cdb</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## insertCompound would also allow to add additional columns/annotations to</span></span></span>
+<span class="r-in"><span><span class="co">## the database. Below we define a new compound adding an additional column</span></span></span>
+<span class="r-in"><span><span class="co">## hmdb_id</span></span></span>
+<span class="r-in"><span><span class="va">cmp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    compound_id <span class="op">=</span> <span class="fl">3</span>,</span></span>
+<span class="r-in"><span>    name <span class="op">=</span> <span class="st">"Alpha-Lactose"</span>,</span></span>
+<span class="r-in"><span>    formula <span class="op">=</span> <span class="st">"C12H22O11"</span>,</span></span>
+<span class="r-in"><span>    exactmass <span class="op">=</span> <span class="fl">342.116211546</span>,</span></span>
+<span class="r-in"><span>    hmdb_id <span class="op">=</span> <span class="st">"HMDB0000186"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## To add additional columns we need to set addColumns = TRUE</span></span></span>
+<span class="r-in"><span><span class="va">cdb</span> <span class="op">&lt;-</span> <span class="fu">insertCompound</span><span class="op">(</span><span class="va">cdb</span>, compounds <span class="op">=</span> <span class="va">cmp</span>, addColumns <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cdb</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> class: CompDb </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  data source: NA </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  version: NA </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  organism: NA </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  compound count: 3 </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            name inchi inchikey   formula exactmass     hmdb_id</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 Alpha-Lactose  &lt;NA&gt;     &lt;NA&gt; C12H22O11  342.1162 HMDB0000186</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2      Caffeine  &lt;NA&gt;     &lt;NA&gt; C8H10N4O2  194.0804        &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3       Glucose  &lt;NA&gt;     &lt;NA&gt;   C6H12O6  180.0634        &lt;NA&gt;</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">######</span></span>
-<span class="r-in"><span class="co">## Deleting selected compounds from a database</span></span>
-<span class="r-in"><span class="co">##</span></span>
-<span class="r-in"><span class="co">## Compounds can be deleted with the deleteCompound function providing the</span></span>
-<span class="r-in"><span class="co">## IDs of the compounds that should be deleted. IDs of compounds in the</span></span>
-<span class="r-in"><span class="co">## database can be retrieved by adding "compound_id" to the columns parameter</span></span>
-<span class="r-in"><span class="co">## of the compounds function:</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"compound_id"</span>, <span class="st">"name"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">######</span></span></span>
+<span class="r-in"><span><span class="co">## Deleting selected compounds from a database</span></span></span>
+<span class="r-in"><span><span class="co">##</span></span></span>
+<span class="r-in"><span><span class="co">## Compounds can be deleted with the deleteCompound function providing the</span></span></span>
+<span class="r-in"><span><span class="co">## IDs of the compounds that should be deleted. IDs of compounds in the</span></span></span>
+<span class="r-in"><span><span class="co">## database can be retrieved by adding "compound_id" to the columns parameter</span></span></span>
+<span class="r-in"><span><span class="co">## of the compounds function:</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"compound_id"</span>, <span class="st">"name"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   compound_id          name</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1           1      Caffeine</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2           2       Glucose</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3           3 Alpha-Lactose</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Compounds can be deleted with the deleteCompound function. Below we delete</span></span>
-<span class="r-in"><span class="co">## the compounds with the IDs "1" and "3" from the database</span></span>
-<span class="r-in"><span class="va">cdb</span> <span class="op">&lt;-</span> <span class="fu">deleteCompound</span><span class="op">(</span><span class="va">cdb</span>, ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1"</span>, <span class="st">"3"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Compounds can be deleted with the deleteCompound function. Below we delete</span></span></span>
+<span class="r-in"><span><span class="co">## the compounds with the IDs "1" and "3" from the database</span></span></span>
+<span class="r-in"><span><span class="va">cdb</span> <span class="op">&lt;-</span> <span class="fu">deleteCompound</span><span class="op">(</span><span class="va">cdb</span>, ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1"</span>, <span class="st">"3"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      name inchi inchikey formula exactmass hmdb_id</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 Glucose  &lt;NA&gt;     &lt;NA&gt; C6H12O6  180.0634    &lt;NA&gt;</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## If also MS2 spectra associated with any of these two compounds an error</span></span>
-<span class="r-in"><span class="co">## would be thrown. Setting the parameter `recursive = TRUE` in the</span></span>
-<span class="r-in"><span class="co">## `deleteCompound` call would delete the compounds along with their MS2</span></span>
-<span class="r-in"><span class="co">## spectra.</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## If also MS2 spectra associated with any of these two compounds an error</span></span></span>
+<span class="r-in"><span><span class="co">## would be thrown. Setting the parameter `recursive = TRUE` in the</span></span></span>
+<span class="r-in"><span><span class="co">## `deleteCompound` call would delete the compounds along with their MS2</span></span></span>
+<span class="r-in"><span><span class="co">## spectra.</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -1223,7 +1257,7 @@ details.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
     </footer></div>

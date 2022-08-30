@@ -7,7 +7,7 @@ LMSD (LIPID MAPS Structure Database): http://www.lipidmaps.org
 PubChem: https://pubchem.ncbi.nlm.nih.gov/
 MoNa: http://mona.fiehnlab.ucdavis.edu/ (see notes below!)
 
-"><title>Extract compound data from a file in SDF format — compound_tbl_sdf • CompoundDb</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Extract compound data from a file in SDF format — compound_tbl_sdf"><meta property="og:description" content="compound_tbl_sdf extracts basic compound annotations from a file in SDF
+"><title>Extract compound data from a file in SDF format — compound_tbl_sdf • CompoundDb</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Extract compound data from a file in SDF format — compound_tbl_sdf"><meta property="og:description" content="compound_tbl_sdf extracts basic compound annotations from a file in SDF
 format (structure-data file). The function currently supports SDF files from:
 HMDB (Human Metabolome Database): http://www.hmdb.ca
 ChEBI (Chemical Entities of Biological Interest): http://ebi.ac.uk/chebi
@@ -26,7 +26,7 @@ MoNa: http://mona.fiehnlab.ucdavis.edu/ (see notes below!)
     
     <a class="navbar-brand me-2" href="../index.html">CompoundDb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,23 +79,30 @@ format (structure-data file). The function currently supports SDF files from:</p
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">compound_tbl_sdf</span><span class="op">(</span><span class="va">file</span>, <span class="va">collapse</span>, onlyValid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">compound_tbl_sdf</span><span class="op">(</span><span class="va">file</span>, <span class="va">collapse</span>, onlyValid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>file</dt>
 <dd><p><code>character(1)</code> with the name of the SDF file.</p></dd>
+
+
 <dt>collapse</dt>
 <dd><p>optional <code>character(1)</code> to be used to collapse multiple
 values in the columns <code>"synonyms"</code>. See examples for details.</p></dd>
+
+
 <dt>onlyValid</dt>
 <dd><p><code>logical(1)</code> to import only valid or all elements (defaults
 to <code>onlyValid = TRUE</code>)</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A <a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble</a> with general compound information (one row per
+    
+
+<p>A <a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble</a> with general compound information (one row per
 compound):</p><ul><li><p><code>compound_id</code>: the ID of the compound.</p></li>
 <li><p><code>name</code>: the compound's name.</p></li>
 <li><p><code>inchi</code>: the InChI of the compound.</p></li>
@@ -141,26 +148,27 @@ database.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="co">## Read compound information from a subset of HMDB</span></span>
-<span class="r-in"><span class="va">fl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"sdf/HMDB_sub.sdf.gz"</span>, package <span class="op">=</span> <span class="st">"CompoundDb"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">cmps</span> <span class="op">&lt;-</span> <span class="fu">compound_tbl_sdf</span><span class="op">(</span><span class="va">fl</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">cmps</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Read compound information from a subset of HMDB</span></span></span>
+<span class="r-in"><span><span class="va">fl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"sdf/HMDB_sub.sdf.gz"</span>, package <span class="op">=</span> <span class="st">"CompoundDb"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cmps</span> <span class="op">&lt;-</span> <span class="fu">compound_tbl_sdf</span><span class="op">(</span><span class="va">fl</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cmps</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 9 × 8</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   compound_id name              inchi inchikey formula exactmass synonyms smiles</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;named &gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> HMDB0000001 1-Methylhistidine InCh… BRMWTNU… C7H11N…     169.  &lt;chr&gt;    <span style="color: #949494;">"</span>CN1C…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> HMDB0000002 1,3-Diaminopropa… InCh… XFNJVJP… C3H10N2      74.1 &lt;chr&gt;    <span style="color: #949494;">"</span>NCCC…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> HMDB0000005 2-Ketobutyric ac… InCh… TYEYBOS… C4H6O3      102.  &lt;chr&gt;    <span style="color: #949494;">"</span>CCC(…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> HMDB0000008 2-Hydroxybutyric… InCh… AFENDNX… C4H8O3      104.  &lt;chr&gt;    <span style="color: #949494;">"</span>CCC(…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> HMDB0000010 2-Methoxyestrone  InCh… WHEUWNK… C19H24…     300.  &lt;chr&gt;    <span style="color: #949494;">"</span>[H][…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> HMDB0000011 (R)-3-Hydroxybut… InCh… WHBMMWS… C4H8O3      104.  &lt;chr&gt;    <span style="color: #949494;">"</span>C[C@…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> HMDB0000012 Deoxyuridine      InCh… MXHRCPN… C9H12N…     228.  &lt;chr&gt;    <span style="color: #949494;">"</span>OC[C…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> HMDB0004370 N-Methyltryptami… InCh… NCIKQJB… C11H14…     174.  &lt;chr&gt;    <span style="color: #949494;">"</span>CNCC…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> HMDB0006719 5,6-trans-Vitami… InCh… QYSXJUF… C27H44O     384.  &lt;chr&gt;    <span style="color: #949494;">"</span>CC(C…</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Column synonyms contains a list</span></span>
-<span class="r-in"><span class="va">cmps</span><span class="op">$</span><span class="va">synonyms</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   compound_id name                  inchi inchi…¹ formula exact…² synon…³ smiles</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;named&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> HMDB0000001 1-Methylhistidine     InCh… BRMWTN… C7H11N…   169.  &lt;chr&gt;   <span style="color: #949494;">"</span>CN1C…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> HMDB0000002 1,3-Diaminopropane    InCh… XFNJVJ… C3H10N2    74.1 &lt;chr&gt;   <span style="color: #949494;">"</span>NCCC…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> HMDB0000005 2-Ketobutyric acid    InCh… TYEYBO… C4H6O3    102.  &lt;chr&gt;   <span style="color: #949494;">"</span>CCC(…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> HMDB0000008 2-Hydroxybutyric acid InCh… AFENDN… C4H8O3    104.  &lt;chr&gt;   <span style="color: #949494;">"</span>CCC(…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> HMDB0000010 2-Methoxyestrone      InCh… WHEUWN… C19H24…   300.  &lt;chr&gt;   <span style="color: #949494;">"</span>[H][…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> HMDB0000011 (R)-3-Hydroxybutyric… InCh… WHBMMW… C4H8O3    104.  &lt;chr&gt;   <span style="color: #949494;">"</span>C[C@…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> HMDB0000012 Deoxyuridine          InCh… MXHRCP… C9H12N…   228.  &lt;chr&gt;   <span style="color: #949494;">"</span>OC[C…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> HMDB0004370 N-Methyltryptamine    InCh… NCIKQJ… C11H14…   174.  &lt;chr&gt;   <span style="color: #949494;">"</span>CNCC…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> HMDB0006719 5,6-trans-Vitamin D3  InCh… QYSXJU… C27H44O   384.  &lt;chr&gt;   <span style="color: #949494;">"</span>CC(C…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​inchikey, ²​exactmass, ³​synonyms</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Column synonyms contains a list</span></span></span>
+<span class="r-in"><span><span class="va">cmps</span><span class="op">$</span><span class="va">synonyms</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $CMP1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "1 Methylhistidine"      "1-Methyl histidine"     "1-Methyl-Histidine"    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4] "1-Methyl-L-histidine"   "1-MHis"                 "1-N-Methyl-L-histidine"</span>
@@ -261,24 +269,25 @@ database.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3] "5,6-trans-Vitamin D3"                                                                                                         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4] "trans-Vitamin D3"                                                                                                             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## If we provide the optional argument collapse, multiple entries will be</span></span>
-<span class="r-in"><span class="co">## collapsed.</span></span>
-<span class="r-in"><span class="va">cmps</span> <span class="op">&lt;-</span> <span class="fu">compound_tbl_sdf</span><span class="op">(</span><span class="va">fl</span>, collapse <span class="op">=</span> <span class="st">"|"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">cmps</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## If we provide the optional argument collapse, multiple entries will be</span></span></span>
+<span class="r-in"><span><span class="co">## collapsed.</span></span></span>
+<span class="r-in"><span><span class="va">cmps</span> <span class="op">&lt;-</span> <span class="fu">compound_tbl_sdf</span><span class="op">(</span><span class="va">fl</span>, collapse <span class="op">=</span> <span class="st">"|"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cmps</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 9 × 8</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   compound_id name              inchi inchikey formula exactmass synonyms smiles</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> HMDB0000001 1-Methylhistidine InCh… BRMWTNU… C7H11N…     169.  1 Methy… <span style="color: #949494;">"</span>CN1C…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> HMDB0000002 1,3-Diaminopropa… InCh… XFNJVJP… C3H10N2      74.1 1,3-Dia… <span style="color: #949494;">"</span>NCCC…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> HMDB0000005 2-Ketobutyric ac… InCh… TYEYBOS… C4H6O3      102.  2-Ketob… <span style="color: #949494;">"</span>CCC(…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> HMDB0000008 2-Hydroxybutyric… InCh… AFENDNX… C4H8O3      104.  (RS)-2-… <span style="color: #949494;">"</span>CCC(…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> HMDB0000010 2-Methoxyestrone  InCh… WHEUWNK… C19H24…     300.  2-(8S,9… <span style="color: #949494;">"</span>[H][…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> HMDB0000011 (R)-3-Hydroxybut… InCh… WHBMMWS… C4H8O3      104.  (R)-(-)… <span style="color: #949494;">"</span>C[C@…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> HMDB0000012 Deoxyuridine      InCh… MXHRCPN… C9H12N…     228.  1-(2-De… <span style="color: #949494;">"</span>OC[C…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> HMDB0004370 N-Methyltryptami… InCh… NCIKQJB… C11H14…     174.  1-Methy… <span style="color: #949494;">"</span>CNCC…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> HMDB0006719 5,6-trans-Vitami… InCh… QYSXJUF… C27H44O     384.  3-[(2E)… <span style="color: #949494;">"</span>CC(C…</span>
-<span class="r-in"><span class="va">cmps</span><span class="op">$</span><span class="va">synonyms</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   compound_id name                  inchi inchi…¹ formula exact…² synon…³ smiles</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> HMDB0000001 1-Methylhistidine     InCh… BRMWTN… C7H11N…   169.  1 Meth… <span style="color: #949494;">"</span>CN1C…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> HMDB0000002 1,3-Diaminopropane    InCh… XFNJVJ… C3H10N2    74.1 1,3-Di… <span style="color: #949494;">"</span>NCCC…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> HMDB0000005 2-Ketobutyric acid    InCh… TYEYBO… C4H6O3    102.  2-Keto… <span style="color: #949494;">"</span>CCC(…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> HMDB0000008 2-Hydroxybutyric acid InCh… AFENDN… C4H8O3    104.  (RS)-2… <span style="color: #949494;">"</span>CCC(…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> HMDB0000010 2-Methoxyestrone      InCh… WHEUWN… C19H24…   300.  2-(8S,… <span style="color: #949494;">"</span>[H][…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> HMDB0000011 (R)-3-Hydroxybutyric… InCh… WHBMMW… C4H8O3    104.  (R)-(-… <span style="color: #949494;">"</span>C[C@…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> HMDB0000012 Deoxyuridine          InCh… MXHRCP… C9H12N…   228.  1-(2-D… <span style="color: #949494;">"</span>OC[C…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> HMDB0004370 N-Methyltryptamine    InCh… NCIKQJ… C11H14…   174.  1-Meth… <span style="color: #949494;">"</span>CNCC…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> HMDB0006719 5,6-trans-Vitamin D3  InCh… QYSXJU… C27H44O   384.  3-[(2E… <span style="color: #949494;">"</span>CC(C…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​inchikey, ²​exactmass, ³​synonyms</span></span>
+<span class="r-in"><span><span class="va">cmps</span><span class="op">$</span><span class="va">synonyms</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       CMP1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  "1 Methylhistidine|1-Methyl histidine|1-Methyl-Histidine|1-Methyl-L-histidine|1-MHis|1-N-Methyl-L-histidine|L-1-Methylhistidine|N1-Methyl-L-histidine|Pi-methylhistidine" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       CMP2 </span>
@@ -308,7 +317,7 @@ database.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
     </footer></div>
