@@ -28,9 +28,11 @@ make_metadata(
 \arguments{
 \item{x}{For \code{createCompDb}: \code{data.frame} or \code{tbl} with the compound
 annotations or \code{character} with the file name(s) from which the compound
-annotations should be retrieved. See description for details.\preformatted{For `createCompDbPackage`: `character(1)` with the file name of the
+annotations should be retrieved. See description for details.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{For `createCompDbPackage`: `character(1)` with the file name of the
 `CompDb` SQLite file (created by `createCompDb`).
-}}
+}\if{html}{\out{</div>}}}
 
 \item{metadata}{For \code{createCompDb}: \code{data.frame} with metadata
 information. See description for details.}

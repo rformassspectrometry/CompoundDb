@@ -993,6 +993,8 @@ make_metadata <- function(source = character(), url = character(),
 
 #' @title Import compound and spectrum information from MoNa
 #'
+#' @description
+#'
 #' `import_mona_sdf` allows to import compound and spectrum information from an
 #' SDF file from MoNa (Massbank of North America
 #' http://mona.fiehnlab.ucdavis.edu/). This function is a convenience function

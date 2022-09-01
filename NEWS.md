@@ -1,5 +1,9 @@
 # CompoundDb 1.0
 
+## Changes in version 1.0.2
+
+- `MsBackendCompDb` forces `collisionEnergy` to be a `numeric`.
+
 ## Changes in version 1.0.1
 
 - Fix wrong warning message in `deleteIon`.

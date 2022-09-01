@@ -81,8 +81,10 @@ not associated to any ion in the \code{IonDb} object are ignored.}
 
 \item{x}{For \code{IonDb}: database connection or \code{character(1)} with the file
 name of the SQLite database where the \code{IonDb} data will be stored or a
-\code{\link[=CompDb]{CompDb()}} object that should be converted into an \code{IonDb} object.\preformatted{For all other methods: an `IonDb` object.
-}}
+\code{\link[=CompDb]{CompDb()}} object that should be converted into an \code{IonDb} object.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{For all other methods: an `IonDb` object.
+}\if{html}{\out{</div>}}}
 
 \item{cdb}{For \code{IonDb}: \code{CompDb} object from which data should be
 transferred to the \code{IonDb} database.}

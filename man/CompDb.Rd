@@ -66,8 +66,10 @@ copyCompDb(x, y)
 \item{x}{For \code{CompDb}: \code{character(1)} with the file name of the SQLite
 compound database. Alternatively it is possible to provide the connection
 to the database with parameter \code{x}. For \code{copyCompDb}: either a \code{CompDb}
-or a database connection.\preformatted{For all other methods: a `CompDb` object.
-}}
+or a database connection.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{For all other methods: a `CompDb` object.
+}\if{html}{\out{</div>}}}
 
 \item{flags}{flags passed to the SQLite database connection.
 See \code{\link[=SQLite]{SQLite()}}. Defaults to read-only, i.e. \code{RSQLite::SQLITE_RO}.}
