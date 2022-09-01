@@ -133,6 +133,8 @@ MsBackendCompDb <- function() {
         sp_data <- sp_data[idx[!is.na(idx)], , drop = FALSE]
         rownames(sp_data) <- NULL
         ## ? change data types for some variables ?
+        if (any(colnames(sp_data) == "collision_energy"))
+            sp_data$collision_energy <- as.numeric(sp_data$collision_energy)
         colnames(sp_data) <- .map_sql_to_spectraVariables(colnames(sp_data))
         res <- cbind(res, as(sp_data, "DataFrame"))
         if (have_synonym) {
