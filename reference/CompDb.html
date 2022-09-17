@@ -20,7 +20,7 @@ available in the database and FALSE otherwise."><meta property="og:image" conten
     
     <a class="navbar-brand me-2" href="../index.html">CompoundDb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -1142,7 +1142,7 @@ details.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     intersect, setdiff, setequal, union</span>
 <span class="r-in"><span><span class="va">src_cmp</span> <span class="op">&lt;-</span> <span class="fu">src_compdb</span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">src_cmp</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> src:  sqlite 3.39.2 [/__w/_temp/Library/CompoundDb/sql/CompDb.MassBank.sql]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> src:  sqlite 3.39.3 [/__w/_temp/Library/CompoundDb/sql/CompDb.MassBank.sql]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> tbls: metadata, ms_compound, msms_spectrum, msms_spectrum_peak, synonym</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Get a tbl for the ms_compound table</span></span></span>
@@ -1187,9 +1187,9 @@ details.</p>
 <span class="r-in"><span><span class="co">## We can also add multiple synonyms for each compound</span></span></span>
 <span class="r-in"><span><span class="va">cmp</span><span class="op">$</span><span class="va">synonyms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Cafeina"</span>, <span class="st">"Koffein"</span><span class="op">)</span>, <span class="st">"D Glucose"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">cmp</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   compound_id     name   formula exactmass         synonyms</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1           1 Caffeine C8H10N4O2  194.0804 Cafeina, Koffein</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2           2  Glucose   C6H12O6  180.0634        D Glucose</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   compound_id     name   formula exactmass     synonyms</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1           1 Caffeine C8H10N4O2  194.0804 Cafeina,....</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2           2  Glucose   C6H12O6  180.0634    D Glucose</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## These compounds can be added to the empty database with insertCompound</span></span></span>
 <span class="r-in"><span><span class="va">cdb</span> <span class="op">&lt;-</span> <span class="fu">insertCompound</span><span class="op">(</span><span class="va">cdb</span>, compounds <span class="op">=</span> <span class="va">cmp</span><span class="op">)</span></span></span>
