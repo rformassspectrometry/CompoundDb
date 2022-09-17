@@ -1,5 +1,9 @@
 # CompoundDb version 1.1
 
+## Changes in version 1.1.6
+
+- `CompDb` tests also for `NA` input.
+
 ## Changes in version 1.1.5
 
 - `MsBackendCompDb` always returns `collisionEnergy` as `numeric`.

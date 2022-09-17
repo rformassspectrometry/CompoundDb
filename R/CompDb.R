@@ -433,12 +433,13 @@ setValidity("CompDb", function(object) {
 #'
 #' @rdname CompDb
 CompDb <- function(x, flags = SQLITE_RO) {
-    if (missing(x))
-        stop("Argument 'x' is required")
+    if (missing(x) || is.na(x))
+        stop("Argument 'x' is required and should be either a connection to ",
+             "the database or, for SQLite, the database file.")
     if (is.character(x)) {
         ## Assume it's the file name of the SQLite database
         x <- dbConnect(dbDriver("SQLite"), dbname = x,
-                         flags = flags)
+                       flags = flags)
     }
     if (is(x, "DBIConnection")) {
         res <- .validCompDb(x)

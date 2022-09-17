@@ -1,6 +1,7 @@
 test_that("CompDb constructor and low level functions", {
-    expect_error(CompDb())
+    expect_error(CompDb(), "database")
     expect_error(CompDb(3))
+    expect_error(CompDb(NA), "database")
     cmp <- new("CompDb")
     expect_true(is.null(.dbconn(cmp)))
     expect_true(is.null(dbconn(cmp)))
