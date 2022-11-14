@@ -4,7 +4,7 @@
 \alias{compound_tbl_sdf}
 \title{Extract compound data from a file in SDF format}
 \usage{
-compound_tbl_sdf(file, collapse, onlyValid = TRUE)
+compound_tbl_sdf(file, collapse, onlyValid = TRUE, nonStop = TRUE)
 }
 \arguments{
 \item{file}{\code{character(1)} with the name of the SDF file.}
@@ -14,6 +14,11 @@ values in the columns \code{"synonyms"}. See examples for details.}
 
 \item{onlyValid}{\code{logical(1)} to import only valid or all elements (defaults
 to \code{onlyValid = TRUE})}
+
+\item{nonStop}{\code{logical(1)} whether file content specific errors should
+only reported as warnings and not break the full import process. The
+value of this parameter is passed to parameter \code{skipErrors} of the
+\code{\link[=read.SDFset]{read.SDFset()}} function.}
 }
 \value{
 A \link[tibble:tibble]{tibble::tibble} with general compound information (one row per

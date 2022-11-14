@@ -1,3 +1,15 @@
+# CompoundDb version 1.2
+
+## Changes in version 1.2.1
+
+- Add parameter `nonStop` to `compound_tbl_sdf` that is passed to parameter
+  `skipErrors` of `ChemmineR::read.SDFset`.
+  Issue [#110](https://github.com/rformassspectrometry/CompoundDb/issues/110)
+
+## Version 1.2.0
+
+- Bioconductor 3.16 release.
+
 # CompoundDb version 1.1
 
 ## Changes in version 1.1.6

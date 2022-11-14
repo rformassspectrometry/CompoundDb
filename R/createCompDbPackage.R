@@ -39,6 +39,11 @@
 #' @param onlyValid `logical(1)` to import only valid or all elements (defaults
 #'     to `onlyValid = TRUE`)
 #'
+#' @param nonStop `logical(1)` whether file content specific errors should
+#'     only reported as warnings and not break the full import process. The
+#'     value of this parameter is passed to parameter `skipErrors` of the
+#'     [read.SDFset()] function.
+#'
 #' @return A [tibble::tibble] with general compound information (one row per
 #' compound):
 #' + `compound_id`: the ID of the compound.
@@ -79,10 +84,11 @@
 #' cmps <- compound_tbl_sdf(fl, collapse = "|")
 #' cmps
 #' cmps$synonyms
-compound_tbl_sdf <- function(file, collapse, onlyValid = TRUE) {
+compound_tbl_sdf <- function(file, collapse, onlyValid = TRUE,
+                             nonStop = TRUE) {
     .check_parameter_file(file)
     suppressWarnings(
-        sdf <- read.SDFset(file))
+        sdf <- read.SDFset(file, skipErrors = nonStop))
     nsdf <- length(sdf)
     if (onlyValid) {
         sdf <- sdf[validSDF(sdf)]
@@ -90,8 +96,7 @@ compound_tbl_sdf <- function(file, collapse, onlyValid = TRUE) {
             message("Skipped import of ", nsdf - length(sdf),
                     " invalid elements")
     }
-    res <- .simple_extract_compounds_sdf(
-        datablock2ma(datablock(read.SDFset(file))))
+    res <- .simple_extract_compounds_sdf(datablock2ma(datablock(sdf)))
     if (!missing(collapse)) {
         ## collapse elements from lists.
         res$synonyms <- vapply(res$synonyms, paste0, collapse = collapse,
@@ -1022,8 +1027,10 @@ make_metadata <- function(source = character(), url = character(),
 #'
 #' @param x `character(1)` being the SDF file name.
 #'
-#' @param nonStop `logical(1)` wheter file content specific errors should
-#'     only reported as warnings and not break the full import process.
+#' @param nonStop `logical(1)` whether file content specific errors should
+#'     only reported as warnings and not break the full import process. The
+#'     value of this parameter is passed to parameter `skipErrors` of the
+#'     [read.SDFset()] function.
 #'
 #' @author Johannes Rainer
 #'
