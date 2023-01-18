@@ -36,3 +36,9 @@ ion_spctra_db <- IonDb(paste0(tempdir(), "/ion_spctra_db.db"),
                        cmp_spctra_db, ions)
 
 test_check("CompoundDb")
+
+library(Spectra)
+be <- backendInitialize(MsBackendCompDb(), cmp_spctra_db)
+test_suite <- system.file("test_backends", "test_MsBackend",
+                          package = "Spectra")
+test_dir(test_suite, stop_on_failure = TRUE)

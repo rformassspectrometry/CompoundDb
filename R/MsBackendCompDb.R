@@ -29,6 +29,10 @@
 #' @param filter for `backendInitialize`: optional filter expression to specify
 #'     which elements to retrieve from the database.
 #'
+#' @param initial for `tic`: `logical(1)` whether original total ion current
+#'     values should be returned or if the values should be calculated based
+#'     on the actual intensity values of each spectrum.
+#'
 #' @param i For `[`: `integer`, `logical` or `character` to subset the object.
 #'
 #' @param j For `[`: not supported.
@@ -288,4 +292,30 @@ setReplaceMethod("$", "MsBackendCompDb", function(x, name, value) {
     if (name %in% c("spectrum_id"))
         stop("Spectra IDs can not be changed.", call. = FALSE)
     callNextMethod()
+})
+
+#' @rdname MsBackendCompDb
+#'
+#' @importMethodsFrom Spectra precScanNum
+#' @export
+setMethod("precScanNum", "MsBackendCompDb", function(object) {
+    message("precursor scan numbers not available")
+    rep(NA_integer_, length(object))
+})
+
+#' @importMethodsFrom ProtGenerics tic
+#'
+#' @importFrom Spectra intensity
+#'
+#' @importFrom MsCoreUtils vapply1d
+#'
+#' @exportMethod tic
+#'
+#' @rdname MsBackendCompDb
+setMethod("tic", "MsBackendCompDb", function(object, initial = TRUE) {
+    if (initial) {
+        if (any(colnames(object@localData) == "totIonCurrent"))
+            object@localData[, "totIonCurrent"]
+        else rep(NA_real_, times = length(object))
+    } else vapply1d(intensity(object), sum, na.rm = TRUE)
 })

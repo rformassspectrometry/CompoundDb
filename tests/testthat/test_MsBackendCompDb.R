@@ -168,3 +168,17 @@ test_that("show,MsBackendCompDb doesn't break", {
     be <- Spectra(cmp_spctra_db)@backend
     show(be)
 })
+
+test_that("precScanNum,MsBackendCompDb works", {
+    be <- backendInitialize(MsBackendCompDb(), cmp_spctra_db)
+    res <- precScanNum(be)
+    expect_true(all(is.na(res)))
+})
+
+test_that("tic,MsBackendCompDb works", {
+    be <- backendInitialize(MsBackendCompDb(), cmp_spctra_db)
+    res <- tic(be, initial = TRUE)
+    expect_true(all(is.na(res)))
+    res <- tic(be, initial = FALSE)
+    expect_false(all(is.na(res)))
+})

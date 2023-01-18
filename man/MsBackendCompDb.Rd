@@ -16,6 +16,8 @@
 \alias{spectraNames<-,MsBackendCompDb-method}
 \alias{[,MsBackendCompDb,ANY-method}
 \alias{$<-,MsBackendCompDb-method}
+\alias{precScanNum,MsBackendCompDb-method}
+\alias{tic,MsBackendCompDb-method}
 \title{CompDb-based MS spectrum backend}
 \usage{
 MsBackendCompDb()
@@ -43,6 +45,10 @@ MsBackendCompDb()
 \S4method{[}{MsBackendCompDb,ANY}(x, i, j, ..., drop = FALSE)
 
 \S4method{$}{MsBackendCompDb}(x, name) <- value
+
+\S4method{precScanNum}{MsBackendCompDb}(object)
+
+\S4method{tic}{MsBackendCompDb}(object, initial = TRUE)
 }
 \arguments{
 \item{object}{an \code{MsBackendCompDb} instance.}
@@ -72,6 +78,10 @@ return. Use \code{peaksVariables} for supported values.}
 \item{drop}{For \code{[}: not considered.}
 
 \item{name}{for \verb{$<-}: the name of the spectra variable to replace.}
+
+\item{initial}{for \code{tic}: \code{logical(1)} whether original total ion current
+values should be returned or if the values should be calculated based
+on the actual intensity values of each spectrum.}
 }
 \value{
 See the description of the respective function.

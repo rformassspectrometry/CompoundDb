@@ -1,6 +1,11 @@
 # CompoundDb version 1.3
 
-## Changes in version 1.3.1
+## Changes in version 1.3.2
+
+- Evaluate validity of the `MsBackendCompDb` using the full test suite from the
+  `Spectra` package.
+
+## Changes in version 1.3.2
 
 - Add parameter `nonStop` to `compound_tbl_sdf` that is passed to parameter
   `skipErrors` of `ChemmineR::read.SDFset`.
