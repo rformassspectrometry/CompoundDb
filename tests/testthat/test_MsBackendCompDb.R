@@ -182,3 +182,11 @@ test_that("tic,MsBackendCompDb works", {
     res <- tic(be, initial = FALSE)
     expect_false(all(is.na(res)))
 })
+
+test_that("backendBpparam,MsBackendCompDb works", {
+    expect_s4_class(backendBpparam(MsBackendCompDb(),
+                                   BiocParallel::MulticoreParam(2)),
+                    "SerialParam")
+    expect_s4_class(backendBpparam(MsBackendCompDb(), SerialParam()),
+                    "SerialParam")
+})

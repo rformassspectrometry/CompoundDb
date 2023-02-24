@@ -216,19 +216,25 @@ MetaboCoreUtils::adductNames(polarity = "negative")
 In addition, user-supplied adduct definitions are also supported (see the help
 of `mass2mz` in the `MetaboCoreUtils` package for details).
 
-## Extracting with MS/MS data
+## Accessing and using MS/MS data
 
 `CompDb` database can also store and provide MS/MS spectral data. These can be
-interfaced with a `Spectra` object from the `r Biocpkg("Spectra")` Bioconductor
-package which can be initialized with the `Spectra` function as shown below.
+accessed *via* a `Spectra` object from the `r Biocpkg("Spectra")`
+Bioconductor. Such a `Spectra` object for a `CompDb` can be created with the
+`Spectra` function as in the example below.
 
 ```{r}
 sps <- Spectra(cdb)
 sps
 ```
 
-With the `spectraVariables` function it is possible to list all available
-annotations specific to a spectrum from the database.
+This `Spectra` object uses a `MsBackendCompDb` to *represent* the MS data of the
+`CompDb` database. In fact, only the compound identifiers and the precursor m/z
+values from all spectra are stored in memory while all other data is retrieved
+on-the-fly from the database when needed.
+
+The `spectraVariables` function lists all available annotations for a spectrum
+from the database, which includes also annotations of the associated compounds.
 
 ```{r}
 spectraVariables(sps)
@@ -265,9 +271,17 @@ spectra from the database.
 As a simple toy example we perform next pairwise spectra comparison between the
 5 spectra from *Mellein* with all the MS/MS spectra in the database.
 
-```{r}
+```{r, message = FALSE}
 library(Spectra)
 cormat <- compareSpectra(mellein, sps, ppm = 40)
+```
+
+Note that the `MsBackendCompDb` does not support parallel processing, thus,
+while `compareSpectra` would in general support parallel processing, it gets
+automatically be disabled if a `Spectra` with a `MsBackendCompDb` is used.
+
+```{r}
+cormat <- compareSpectra(mellein, sps, ppm = 40, BPPARAM = MulticoreParam(2))
 ```
 
 

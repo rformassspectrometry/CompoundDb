@@ -4,9 +4,11 @@
 #'
 #' @description
 #'
-#' The `MsBackendCompDb` allows to retrieve MS2 spectra from an [CompDb()]
-#' object/database. The object keeps only a limited amount of data in memory
-#' and retrieves the m/z and intensity values from the database *on-demand*. By
+#' The `MsBackendCompDb` *represents* MS2 spectra data from a [CompDb()]
+#' object/database. The object keeps only the primary keys of the spectra,
+#' the associated compound IDs and the precursor m/z values in memory and
+#' has thus only a very low memory footprint. All spectra variables, including
+#' m/z and intensity values are retrieved from the database *on-demand*. By
 #' extending the [MsBackendCached()] class directly, `MsBackendCompDb` supports
 #' adding/replacing spectra variables. These values are however only cached
 #' within the object and not propagated (written) to the database.
@@ -14,6 +16,16 @@
 #' It is not intended that users create or use instances of this class directly,
 #' the [Spectra()] call on [CompDb()] will return a `Spectra` object that uses
 #' this backend.
+#'
+#' The `MsBackendCompDb` does not support parallel processing because the
+#' database connection stored within the object can not be used across
+#' multiple parallel processes. The `backendBpparam` method for
+#' `MsBackendCompDb` thus returns always `SerialParam` and hence any
+#' function that uses this method to check for parallel processing capability
+#' of a `MsBackend` will by default disable parallel processing.
+#'
+#' @param BPPARAM for `backendBpparam`: `BiocParallel` parallel processing
+#'     setup. See [bpparam()] for more information.
 #'
 #' @param columns for `spectraData`: `character` with names of columns/spectra
 #'     variables that should be returned. Defaults to
@@ -319,3 +331,17 @@ setMethod("tic", "MsBackendCompDb", function(object, initial = TRUE) {
         else rep(NA_real_, times = length(object))
     } else vapply1d(intensity(object), sum, na.rm = TRUE)
 })
+
+#' @importMethodsFrom Spectra backendBpparam
+#'
+#' @importFrom BiocParallel SerialParam bpparam
+#'
+#' @rdname MsBackendCompDb
+setMethod(
+    "backendBpparam", signature = "MsBackendCompDb",
+    function(object, BPPARAM = bpparam()) {
+        if (!is(BPPARAM, "SerialParam"))
+            message("'", class(object)[1L], "' does not support ",
+                    "parallel processing. Switching to serial processing.")
+        SerialParam()
+    })

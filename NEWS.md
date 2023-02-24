@@ -1,5 +1,10 @@
 # CompoundDb version 1.3
 
+## Changes in version 1.3.3
+
+- Add `backendBpparam` to define (disable) parallel processing for the
+  `MsBackendCompDb` backend.
+
 ## Changes in version 1.3.2
 
 - Evaluate validity of the `MsBackendCompDb` using the full test suite from the

@@ -18,6 +18,7 @@
 \alias{$<-,MsBackendCompDb-method}
 \alias{precScanNum,MsBackendCompDb-method}
 \alias{tic,MsBackendCompDb-method}
+\alias{backendBpparam,MsBackendCompDb-method}
 \title{CompDb-based MS spectrum backend}
 \usage{
 MsBackendCompDb()
@@ -49,6 +50,8 @@ MsBackendCompDb()
 \S4method{precScanNum}{MsBackendCompDb}(object)
 
 \S4method{tic}{MsBackendCompDb}(object, initial = TRUE)
+
+\S4method{backendBpparam}{MsBackendCompDb}(object, BPPARAM = bpparam())
 }
 \arguments{
 \item{object}{an \code{MsBackendCompDb} instance.}
@@ -82,14 +85,19 @@ return. Use \code{peaksVariables} for supported values.}
 \item{initial}{for \code{tic}: \code{logical(1)} whether original total ion current
 values should be returned or if the values should be calculated based
 on the actual intensity values of each spectrum.}
+
+\item{BPPARAM}{for \code{backendBpparam}: \code{BiocParallel} parallel processing
+setup. See \code{\link[=bpparam]{bpparam()}} for more information.}
 }
 \value{
 See the description of the respective function.
 }
 \description{
-The \code{MsBackendCompDb} allows to retrieve MS2 spectra from an \code{\link[=CompDb]{CompDb()}}
-object/database. The object keeps only a limited amount of data in memory
-and retrieves the m/z and intensity values from the database \emph{on-demand}. By
+The \code{MsBackendCompDb} \emph{represents} MS2 spectra data from a \code{\link[=CompDb]{CompDb()}}
+object/database. The object keeps only the primary keys of the spectra,
+the associated compound IDs and the precursor m/z values in memory and
+has thus only a very low memory footprint. All spectra variables, including
+m/z and intensity values are retrieved from the database \emph{on-demand}. By
 extending the \code{\link[=MsBackendCached]{MsBackendCached()}} class directly, \code{MsBackendCompDb} supports
 adding/replacing spectra variables. These values are however only cached
 within the object and not propagated (written) to the database.
@@ -97,6 +105,13 @@ within the object and not propagated (written) to the database.
 It is not intended that users create or use instances of this class directly,
 the \code{\link[=Spectra]{Spectra()}} call on \code{\link[=CompDb]{CompDb()}} will return a \code{Spectra} object that uses
 this backend.
+
+The \code{MsBackendCompDb} does not support parallel processing because the
+database connection stored within the object can not be used across
+multiple parallel processes. The \code{backendBpparam} method for
+\code{MsBackendCompDb} thus returns always \code{SerialParam} and hence any
+function that uses this method to check for parallel processing capability
+of a \code{MsBackend} will by default disable parallel processing.
 }
 \note{
 For higher performance it is suggested to change the backend of the
