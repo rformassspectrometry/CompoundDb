@@ -26,13 +26,13 @@ generated from (mostly publicly) available resources such as
 [PubChem](https://pubchem.ncbi.nlm.nih.gov).
 
 
-# How to contribute
+For more information see the package
+[homepage](https://rformassspectrometry.github.io/MsBackendTimsTof).
 
-Contributions are welcome, but should follow certain guidelines:
-1) Open an issue.
-2) Create a new branch (internal collaborator) or fork the repository (external
-contributor).
-3) Add your code (following loosly Bioconductor's [coding
-style](http://bioconductor.org/developers/how-to/coding-style/).
-4) Ensure the package passes `R CMD build` and `R CMD check`.
-5) Make a pull request.
+
+# Contributions
+
+Contributions are highly welcome and should follow the [contribution
+guidelines](https://rformassspectrometry.github.io/RforMassSpectrometry/articles/RforMassSpectrometry.html#contributions).
+Also, please check the coding style guidelines in the [RforMassSpectrometry
+vignette](https://rformassspectrometry.github.io/RforMassSpectrometry/articles/RforMassSpectrometry.html).
