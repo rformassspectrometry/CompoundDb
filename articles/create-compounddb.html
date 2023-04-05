@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2023-03-15 09:24:38.713657<br><strong>Compiled</strong>: Wed Mar 15 09:31:05 2023</p>
+</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2023-04-05 05:45:18.799671<br><strong>Compiled</strong>: Wed Apr 5 06:04:24 2023</p>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
@@ -174,18 +174,17 @@ load that file instead.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cmps</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 9 × 8</span></span></span>
-<span><span class="co">##   compound_id name                  inchi inchi…¹ formula exact…² synon…³ smiles</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;named&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span> HMDB0000001 1-Methylhistidine     InCh… BRMWTN… C7H11N…   169.  &lt;chr&gt;   <span style="color: #949494;">"</span>CN1C…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span> HMDB0000002 1,3-Diaminopropane    InCh… XFNJVJ… C3H10N2    74.1 &lt;chr&gt;   <span style="color: #949494;">"</span>NCCC…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span> HMDB0000005 2-Ketobutyric acid    InCh… TYEYBO… C4H6O3    102.  &lt;chr&gt;   <span style="color: #949494;">"</span>CCC(…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">4</span> HMDB0000008 2-Hydroxybutyric acid InCh… AFENDN… C4H8O3    104.  &lt;chr&gt;   <span style="color: #949494;">"</span>CCC(…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">5</span> HMDB0000010 2-Methoxyestrone      InCh… WHEUWN… C19H24…   300.  &lt;chr&gt;   <span style="color: #949494;">"</span>[H][…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">6</span> HMDB0000011 (R)-3-Hydroxybutyric… InCh… WHBMMW… C4H8O3    104.  &lt;chr&gt;   <span style="color: #949494;">"</span>C[C@…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">7</span> HMDB0000012 Deoxyuridine          InCh… MXHRCP… C9H12N…   228.  &lt;chr&gt;   <span style="color: #949494;">"</span>OC[C…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">8</span> HMDB0004370 N-Methyltryptamine    InCh… NCIKQJ… C11H14…   174.  &lt;chr&gt;   <span style="color: #949494;">"</span>CNCC…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">9</span> HMDB0006719 5,6-trans-Vitamin D3  InCh… QYSXJU… C27H44O   384.  &lt;chr&gt;   <span style="color: #949494;">"</span>CC(C…</span></span>
-<span><span class="co">## <span style="color: #949494;"># … with abbreviated variable names ¹​inchikey, ²​exactmass, ³​synonyms</span></span></span></code></pre>
+<span><span class="co">##   compound_id name              inchi inchikey formula exactmass synonyms smiles</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;named &gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> HMDB0000001 1-Methylhistidine InCh… BRMWTNU… C7H11N…     169.  <span style="color: #949494;">&lt;chr&gt;</span>    <span style="color: #949494;">"</span>CN1C…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> HMDB0000002 1,3-Diaminopropa… InCh… XFNJVJP… C3H10N2      74.1 <span style="color: #949494;">&lt;chr&gt;</span>    <span style="color: #949494;">"</span>NCCC…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> HMDB0000005 2-Ketobutyric ac… InCh… TYEYBOS… C4H6O3      102.  <span style="color: #949494;">&lt;chr&gt;</span>    <span style="color: #949494;">"</span>CCC(…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> HMDB0000008 2-Hydroxybutyric… InCh… AFENDNX… C4H8O3      104.  <span style="color: #949494;">&lt;chr&gt;</span>    <span style="color: #949494;">"</span>CCC(…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">5</span> HMDB0000010 2-Methoxyestrone  InCh… WHEUWNK… C19H24…     300.  <span style="color: #949494;">&lt;chr&gt;</span>    <span style="color: #949494;">"</span>[H][…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">6</span> HMDB0000011 (R)-3-Hydroxybut… InCh… WHBMMWS… C4H8O3      104.  <span style="color: #949494;">&lt;chr&gt;</span>    <span style="color: #949494;">"</span>C[C@…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">7</span> HMDB0000012 Deoxyuridine      InCh… MXHRCPN… C9H12N…     228.  <span style="color: #949494;">&lt;chr&gt;</span>    <span style="color: #949494;">"</span>OC[C…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">8</span> HMDB0004370 N-Methyltryptami… InCh… NCIKQJB… C11H14…     174.  <span style="color: #949494;">&lt;chr&gt;</span>    <span style="color: #949494;">"</span>CNCC…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">9</span> HMDB0006719 5,6-trans-Vitami… InCh… QYSXJUF… C27H44O     384.  <span style="color: #949494;">&lt;chr&gt;</span>    <span style="color: #949494;">"</span>CC(C…</span></span></code></pre>
 <p>The <code>tibble</code> contains columns</p>
 <ul>
 <li>
@@ -419,7 +418,7 @@ are the package creator/maintainer and its version.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/createCompDb.html">createCompDbPackage</a></span><span class="op">(</span></span>
 <span>    <span class="va">db_file</span>, version <span class="op">=</span> <span class="st">"0.0.1"</span>, author <span class="op">=</span> <span class="st">"J Rainer"</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    maintainer <span class="op">=</span> <span class="st">"Johannes Rainer &lt;johannes.rainer@eurac.edu&gt;"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Creating package in /tmp/Rtmp77aPGm/CompDb.Hsapiens.HMDB.4.0</span></span></code></pre>
+<pre><code><span><span class="co">## Creating package in /tmp/Rtmp73XFzs/CompDb.Hsapiens.HMDB.4.0</span></span></code></pre>
 <p>The function creates a folder (in our case in a temporary directory)
 that can be build and installed with <code>R CMD build</code> and
 <code>R CMD INSTALL</code>.</p>
@@ -831,13 +830,13 @@ parameter to the <code>CompDb</code> call to load the database).</p>
 <div class="section level2">
 <h2 id="session-information">Session information<a class="anchor" aria-label="anchor" href="#session-information"></a>
 </h2>
-<pre><code><span><span class="co">## R Under development (unstable) (2023-03-09 r83957)</span></span>
+<pre><code><span><span class="co">## R Under development (unstable) (2023-03-16 r83996)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
 <span><span class="co">## Running under: Ubuntu 22.04.2 LTS</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Matrix products: default</span></span>
 <span><span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 </span></span>
-<span><span class="co">## LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.20.so;  LAPACK version 3.10.0</span></span>
+<span><span class="co">## </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## locale:</span></span>
 <span><span class="co">##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span></span>
@@ -855,38 +854,38 @@ parameter to the <code>CompDb</code> call to load the database).</p>
 <span><span class="co">## [8] base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">## [1] MsBackendMgf_1.7.5      Spectra_1.9.13          ProtGenerics_1.29.1    </span></span>
-<span><span class="co">## [4] BiocParallel_1.33.9     CompoundDb_1.3.3        S4Vectors_0.37.4       </span></span>
-<span><span class="co">## [7] BiocGenerics_0.45.0     AnnotationFilter_1.23.0 BiocStyle_2.27.1       </span></span>
+<span><span class="co">## [1] MsBackendMgf_1.7.5      Spectra_1.9.15          ProtGenerics_1.29.1    </span></span>
+<span><span class="co">## [4] BiocParallel_1.33.12    CompoundDb_1.3.3        S4Vectors_0.37.4       </span></span>
+<span><span class="co">## [7] BiocGenerics_0.45.3     AnnotationFilter_1.23.0 BiocStyle_2.27.1       </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##  [1] tidyselect_1.2.0       dplyr_1.1.0            blob_1.2.3            </span></span>
-<span><span class="co">##  [4] bitops_1.0-7           fastmap_1.1.1          lazyeval_0.2.2        </span></span>
-<span><span class="co">##  [7] RCurl_1.98-1.10        digest_0.6.31          lifecycle_1.0.3       </span></span>
-<span><span class="co">## [10] cluster_2.1.4          rsvg_2.4.0             RSQLite_2.3.0         </span></span>
-<span><span class="co">## [13] magrittr_2.0.3         compiler_4.3.0         rlang_1.1.0           </span></span>
-<span><span class="co">## [16] sass_0.4.5             tools_4.3.0            utf8_1.2.3            </span></span>
-<span><span class="co">## [19] yaml_2.3.7             knitr_1.42             htmlwidgets_1.6.1     </span></span>
-<span><span class="co">## [22] bit_4.0.5              xml2_1.3.3             purrr_1.0.1           </span></span>
-<span><span class="co">## [25] desc_1.4.2             grid_4.3.0             fansi_1.0.4           </span></span>
-<span><span class="co">## [28] colorspace_2.1-0       ggplot2_3.4.1          scales_1.2.1          </span></span>
-<span><span class="co">## [31] MASS_7.3-58.3          cli_3.6.0              rmarkdown_2.20        </span></span>
-<span><span class="co">## [34] ragg_1.2.5             generics_0.1.3         rjson_0.2.21          </span></span>
-<span><span class="co">## [37] DBI_1.1.3              cachem_1.0.7           stringr_1.5.0         </span></span>
-<span><span class="co">## [40] zlibbioc_1.45.0        parallel_4.3.0         BiocManager_1.30.20   </span></span>
-<span><span class="co">## [43] XVector_0.39.0         base64enc_0.1-3        vctrs_0.5.2           </span></span>
-<span><span class="co">## [46] jsonlite_1.8.4         bookdown_0.33          IRanges_2.33.0        </span></span>
-<span><span class="co">## [49] bit64_4.0.5            clue_0.3-64            systemfonts_1.0.4     </span></span>
-<span><span class="co">## [52] jquerylib_0.1.4        glue_1.6.2             pkgdown_2.0.7.9000    </span></span>
-<span><span class="co">## [55] codetools_0.2-19       DT_0.27                stringi_1.7.12        </span></span>
-<span><span class="co">## [58] gtable_0.3.1           GenomeInfoDb_1.35.15   GenomicRanges_1.51.4  </span></span>
-<span><span class="co">## [61] munsell_0.5.0          tibble_3.2.0           pillar_1.8.1          </span></span>
-<span><span class="co">## [64] htmltools_0.5.4        GenomeInfoDbData_1.2.9 R6_2.5.1              </span></span>
-<span><span class="co">## [67] dbplyr_2.3.1           textshaping_0.3.6      rprojroot_2.0.3       </span></span>
-<span><span class="co">## [70] evaluate_0.20          Biobase_2.59.0         png_0.1-8             </span></span>
-<span><span class="co">## [73] memoise_2.0.1          bslib_0.4.2            MetaboCoreUtils_1.7.0 </span></span>
-<span><span class="co">## [76] Rcpp_1.0.10            gridExtra_2.3          ChemmineR_3.51.1      </span></span>
-<span><span class="co">## [79] xfun_0.37              fs_1.6.1               MsCoreUtils_1.11.5    </span></span>
+<span><span class="co">##  [1] tidyselect_1.2.0        dplyr_1.1.1             blob_1.2.4             </span></span>
+<span><span class="co">##  [4] bitops_1.0-7            fastmap_1.1.1           lazyeval_0.2.2         </span></span>
+<span><span class="co">##  [7] RCurl_1.98-1.12         digest_0.6.31           lifecycle_1.0.3        </span></span>
+<span><span class="co">## [10] cluster_2.1.4           rsvg_2.4.0              RSQLite_2.3.1          </span></span>
+<span><span class="co">## [13] magrittr_2.0.3          compiler_4.3.0          rlang_1.1.0            </span></span>
+<span><span class="co">## [16] sass_0.4.5              tools_4.3.0             utf8_1.2.3             </span></span>
+<span><span class="co">## [19] yaml_2.3.7              knitr_1.42              htmlwidgets_1.6.2      </span></span>
+<span><span class="co">## [22] bit_4.0.5               xml2_1.3.3              purrr_1.0.1            </span></span>
+<span><span class="co">## [25] desc_1.4.2              grid_4.3.0              fansi_1.0.4            </span></span>
+<span><span class="co">## [28] colorspace_2.1-0        ggplot2_3.4.2           scales_1.2.1           </span></span>
+<span><span class="co">## [31] MASS_7.3-58.3           cli_3.6.1               rmarkdown_2.21         </span></span>
+<span><span class="co">## [34] ragg_1.2.5              generics_0.1.3          rjson_0.2.21           </span></span>
+<span><span class="co">## [37] DBI_1.1.3               cachem_1.0.7            stringr_1.5.0          </span></span>
+<span><span class="co">## [40] zlibbioc_1.45.0         parallel_4.3.0          BiocManager_1.30.20    </span></span>
+<span><span class="co">## [43] XVector_0.39.0          base64enc_0.1-3         vctrs_0.6.1            </span></span>
+<span><span class="co">## [46] jsonlite_1.8.4          bookdown_0.33           IRanges_2.33.0         </span></span>
+<span><span class="co">## [49] bit64_4.0.5             clue_0.3-64             systemfonts_1.0.4      </span></span>
+<span><span class="co">## [52] jquerylib_0.1.4         glue_1.6.2              pkgdown_2.0.7.9000     </span></span>
+<span><span class="co">## [55] codetools_0.2-19        DT_0.27                 stringi_1.7.12         </span></span>
+<span><span class="co">## [58] gtable_0.3.3            GenomeInfoDb_1.35.16    GenomicRanges_1.51.4   </span></span>
+<span><span class="co">## [61] munsell_0.5.0           tibble_3.2.1            pillar_1.9.0           </span></span>
+<span><span class="co">## [64] htmltools_0.5.5         GenomeInfoDbData_1.2.10 R6_2.5.1               </span></span>
+<span><span class="co">## [67] dbplyr_2.3.2            textshaping_0.3.6       rprojroot_2.0.3        </span></span>
+<span><span class="co">## [70] evaluate_0.20           Biobase_2.59.0          png_0.1-8              </span></span>
+<span><span class="co">## [73] memoise_2.0.1           bslib_0.4.2             MetaboCoreUtils_1.7.0  </span></span>
+<span><span class="co">## [76] Rcpp_1.0.10             gridExtra_2.3           ChemmineR_3.51.1       </span></span>
+<span><span class="co">## [79] xfun_0.38               fs_1.6.1                MsCoreUtils_1.11.5     </span></span>
 <span><span class="co">## [82] pkgconfig_2.0.3</span></span></code></pre>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
