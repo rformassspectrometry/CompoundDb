@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2023-04-05 05:45:18.799671<br><strong>Compiled</strong>: Wed Apr 5 06:04:24 2023</p>
+</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2023-04-12 09:30:03.030008<br><strong>Compiled</strong>: Wed Apr 12 09:44:03 2023</p>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
@@ -418,7 +418,7 @@ are the package creator/maintainer and its version.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/createCompDb.html">createCompDbPackage</a></span><span class="op">(</span></span>
 <span>    <span class="va">db_file</span>, version <span class="op">=</span> <span class="st">"0.0.1"</span>, author <span class="op">=</span> <span class="st">"J Rainer"</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    maintainer <span class="op">=</span> <span class="st">"Johannes Rainer &lt;johannes.rainer@eurac.edu&gt;"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Creating package in /tmp/Rtmp73XFzs/CompDb.Hsapiens.HMDB.4.0</span></span></code></pre>
+<pre><code><span><span class="co">## Creating package in /tmp/Rtmpz0lYDe/CompDb.Hsapiens.HMDB.4.0</span></span></code></pre>
 <p>The function creates a folder (in our case in a temporary directory)
 that can be build and installed with <code>R CMD build</code> and
 <code>R CMD INSTALL</code>.</p>
@@ -830,13 +830,13 @@ parameter to the <code>CompDb</code> call to load the database).</p>
 <div class="section level2">
 <h2 id="session-information">Session information<a class="anchor" aria-label="anchor" href="#session-information"></a>
 </h2>
-<pre><code><span><span class="co">## R Under development (unstable) (2023-03-16 r83996)</span></span>
+<pre><code><span><span class="co">## R version 4.3.0 beta (2023-04-06 r84184)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
 <span><span class="co">## Running under: Ubuntu 22.04.2 LTS</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Matrix products: default</span></span>
 <span><span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 </span></span>
-<span><span class="co">## </span></span>
+<span><span class="co">## LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.20.so;  LAPACK version 3.10.0</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## locale:</span></span>
 <span><span class="co">##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span></span>
@@ -855,7 +855,7 @@ parameter to the <code>CompDb</code> call to load the database).</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
 <span><span class="co">## [1] MsBackendMgf_1.7.5      Spectra_1.9.15          ProtGenerics_1.29.1    </span></span>
-<span><span class="co">## [4] BiocParallel_1.33.12    CompoundDb_1.3.3        S4Vectors_0.37.4       </span></span>
+<span><span class="co">## [4] BiocParallel_1.33.12    CompoundDb_1.3.3        S4Vectors_0.37.5       </span></span>
 <span><span class="co">## [7] BiocGenerics_0.45.3     AnnotationFilter_1.23.0 BiocStyle_2.27.1       </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
@@ -869,12 +869,12 @@ parameter to the <code>CompDb</code> call to load the database).</p>
 <span><span class="co">## [22] bit_4.0.5               xml2_1.3.3              purrr_1.0.1            </span></span>
 <span><span class="co">## [25] desc_1.4.2              grid_4.3.0              fansi_1.0.4            </span></span>
 <span><span class="co">## [28] colorspace_2.1-0        ggplot2_3.4.2           scales_1.2.1           </span></span>
-<span><span class="co">## [31] MASS_7.3-58.3           cli_3.6.1               rmarkdown_2.21         </span></span>
+<span><span class="co">## [31] MASS_7.3-58.4           cli_3.6.1               rmarkdown_2.21         </span></span>
 <span><span class="co">## [34] ragg_1.2.5              generics_0.1.3          rjson_0.2.21           </span></span>
 <span><span class="co">## [37] DBI_1.1.3               cachem_1.0.7            stringr_1.5.0          </span></span>
 <span><span class="co">## [40] zlibbioc_1.45.0         parallel_4.3.0          BiocManager_1.30.20    </span></span>
 <span><span class="co">## [43] XVector_0.39.0          base64enc_0.1-3         vctrs_0.6.1            </span></span>
-<span><span class="co">## [46] jsonlite_1.8.4          bookdown_0.33           IRanges_2.33.0         </span></span>
+<span><span class="co">## [46] jsonlite_1.8.4          bookdown_0.33           IRanges_2.33.1         </span></span>
 <span><span class="co">## [49] bit64_4.0.5             clue_0.3-64             systemfonts_1.0.4      </span></span>
 <span><span class="co">## [52] jquerylib_0.1.4         glue_1.6.2              pkgdown_2.0.7.9000     </span></span>
 <span><span class="co">## [55] codetools_0.2-19        DT_0.27                 stringi_1.7.12         </span></span>
