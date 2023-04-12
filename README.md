@@ -15,7 +15,7 @@ The package can be installed with
 
 ```r
 install.packages(c("BiocManager", "remotes"))
-BiocManager::install("RforMassSpectrometry/CompoundDb")
+BiocManager::install("CompoundDb")
 ```
 
 # Creating and using (chemical) compound databases
