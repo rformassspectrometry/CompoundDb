@@ -46,7 +46,7 @@ massbank_to_compdb <- function(con, path = ".") {
     version <- dbGetQuery(con, "select * from LAST_UPDATE")
     metad <- make_metadata(source = "MassBank",
                            source_version = sub("\n", "", version$VERSION[1]),
-                           source_date = format(version$TIME,
+                           source_date = format(version$LAST_UPDATE,
                                                 format = "%Y-%m-%d"),
                            url = "https://massbank.eu/MassBank/")
     message("Creating database ... ", appendLF = FALSE)

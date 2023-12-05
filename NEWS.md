@@ -1,3 +1,9 @@
+# CompoundDb version 1.7
+
+## Changes in version 1.7.1
+
+- Adapt script to create CompDb from MassBank to new MassBank database format.
+
 # CompoundDb version 1.3
 
 ## Changes in version 1.3.3
