@@ -27,7 +27,7 @@ generated from (mostly publicly) available resources such as
 
 
 For more information see the package
-[homepage](https://rformassspectrometry.github.io/MsBackendTimsTof).
+[homepage](https://rformassspectrometry.github.io/CompoundDb).
 
 
 # Contributions
