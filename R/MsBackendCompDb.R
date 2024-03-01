@@ -102,7 +102,7 @@
 #'
 #' @importClassesFrom DBI DBIConnection
 #'
-#' @importMethodsFrom Spectra peaksData
+#' @importMethodsFrom ProtGenerics peaksData
 #'
 #' @examples
 #'
@@ -153,7 +153,7 @@ setValidity("MsBackendCompDb", function(object) {
 #'
 #' @importFrom S4Vectors DataFrame
 #'
-#' @importMethodsFrom Spectra backendInitialize
+#' @importMethodsFrom ProtGenerics backendInitialize
 #'
 #' @exportMethod backendInitialize
 setMethod("backendInitialize", "MsBackendCompDb", function(object,
@@ -202,11 +202,11 @@ setMethod("show", "MsBackendCompDb", function(object) {
     }
 })
 
-#' @importMethodsFrom Spectra peaksData
+#' @importMethodsFrom ProtGenerics peaksData
 #'
 #' @exportMethod peaksData
 #'
-#' @importMethodsFrom Spectra peaksVariables
+#' @importMethodsFrom ProtGenerics peaksVariables
 #'
 #' @rdname MsBackendCompDb
 setMethod(

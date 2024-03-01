@@ -1,7 +1,7 @@
 Package: CompoundDb
 Type: Package
 Title: Creating and Using (Chemical) Compound Annotation Databases
-Version: 1.7.1
+Version: 1.7.2
 Authors@R: c(person(given = "Jan", family = "Stanstrup",
                     email = "stanstrup@gmail.com",
 		    role = c("aut"),
@@ -45,7 +45,7 @@ Imports:
     dbplyr,
     RSQLite,
     Biobase,
-    ProtGenerics,
+    ProtGenerics (>= 1.35.3),
     xml2,
     IRanges,
     Spectra (>= 1.9.12),
@@ -63,7 +63,7 @@ BugReports: https://github.com/RforMassSpectrometry/CompoundDb/issues
 biocViews: MassSpectrometry, Metabolomics, Annotation
 VignetteBuilder: knitr
 License: Artistic-2.0
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Roxygen: list(markdown=TRUE)
 Collate:
     'AllGenerics.R'
