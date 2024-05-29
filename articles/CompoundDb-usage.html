@@ -9,18 +9,17 @@
 <title>Usage of Annotation Resources with the CompoundDb Package • CompoundDb</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Usage of Annotation Resources with the CompoundDb Package">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="../deps/MathJax-2.7.5/MathJax.js"></script><script src="../deps/MathJax-2.7.5/TeX-AMS-MML_HTMLorMML.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Usage of Annotation Resources with the CompoundDb Package">
 <meta property="og:description" content="CompoundDb">
 <meta property="og:image" content="https://rformassspectrometry.github.io/CompoundDb/logo.png">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
     <a class="navbar-brand me-2" href="../index.html">CompoundDb</a>
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.9.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.9.1</small>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -69,16 +68,18 @@ document.addEventListener("DOMContentLoaded", function() {
 [aut, cre] (<a href="https://orcid.org/0000-0002-6977-7147" class="external-link uri">https://orcid.org/0000-0002-6977-7147</a>), Josep M. Badia
 [ctb] (<a href="https://orcid.org/0000-0002-5704-1124" class="external-link uri">https://orcid.org/0000-0002-5704-1124</a>), Roger Gine [aut]
 (<a href="https://orcid.org/0000-0003-0288-9619" class="external-link uri">https://orcid.org/0000-0003-0288-9619</a>), Andrea Vicini
-[aut] (<a href="https://orcid.org/0000-0001-9438-6909" class="external-link uri">https://orcid.org/0000-0001-9438-6909</a>)<br><strong>Last modified:</strong> 2024-05-22 13:47:59.916127<br><strong>Compiled</strong>: Wed May 22 13:57:56 2024</p>
+[aut] (<a href="https://orcid.org/0000-0001-9438-6909" class="external-link uri">https://orcid.org/0000-0001-9438-6909</a>)<br><strong>Last modified:</strong> 2024-05-29 06:23:46.757347<br><strong>Compiled</strong>: Wed May 29 06:28:30 2024</p>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>The <code>CompoundDb</code> package provides the functionality to
-create <em>compound</em> databases from a variety of sources and to use
-such annotation databases (<code>CompDb</code>) <span class="citation">(Rainer et al. 2022)</span>. A detailed description on
-the creation of annotation resources is given in the <em>Creating
-CompoundDb annotation resources</em> vignette. This vignette focuses on
-how annotations can be search for and retrieved.</p>
+<p>The <em><a href="https://bioconductor.org/packages/3.20/CompoundDb" class="external-link">CompoundDb</a></em>
+package provides the functionality to create chemical <em>compound</em>
+databases from a variety of sources and to use such annotation databases
+(<code>CompDb</code>) <span class="citation">(Rainer et al.
+2022)</span>. A detailed description on the creation of annotation
+resources is given in the <em>Creating CompoundDb annotation
+resources</em> vignette. This vignette focuses on how annotations can be
+search for and retrieved.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -129,7 +130,7 @@ characterized by an exact mass and additional information such as their
 IUPAC International Chemical Identifier <a href="https://en.wikipedia.org/wiki/International_Chemical_Identifier" class="external-link">InChI</a>
 or their chemical formula. The available annotations
 (<em>variables</em>) for compounds can differ between databases. The
-<code>compoundVariables</code> function can be used to retrieve a list
+<code><a href="../reference/CompDb.html">compoundVariables()</a></code> function can be used to retrieve a list
 of all available compound annotations for a specific <code>CompDb</code>
 database.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -137,8 +138,8 @@ database.</p>
 <pre><code><span><span class="co">## [1] "formula"   "exactmass" "smiles"    "inchi"     "inchikey"  "cas"      </span></span>
 <span><span class="co">## [7] "pubchem"   "name"</span></span></code></pre>
 <p>The actual compound annotations can then be extracted with the
-<code>compounds</code> function which returns by default all columns
-listed by <code>compoundVariables</code>. We can also define specific
+<code><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds()</a></code> function which returns by default all columns
+listed by <code><a href="../reference/CompDb.html">compoundVariables()</a></code>. We can also define specific
 columns we want to extract with the <code>columns</code> parameter.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"formula"</span>, <span class="st">"exactmass"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -167,7 +168,7 @@ redundant values:</p>
 <span><span class="co">## 4           4  C10H10O3      Mellein</span></span>
 <span><span class="co">## 5           5  C10H10O3      Mellein</span></span>
 <span><span class="co">## 6           6 C25H47NO9 AAL toxin TB</span></span></code></pre>
-<p>By default, <code>compounds</code> extracts the data for
+<p>By default, <code><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds()</a></code> extracts the data for
 <strong>all</strong> compounds stored in the database. The function
 supports however also <em>filters</em> to get values for specific
 entries only. These can be defined as <em>filter expressions</em> which
@@ -187,7 +188,7 @@ and chemical formula for a compound <em>Mellein</em>.</p>
 followed by the <em>variable</em> on which the data should be subsetted
 and the condition to select the entries of interest. An overview of
 available filters for a <code>CompDb</code> can be retrieved with the
-<code>supportedFilter</code> function which returns the name of the
+<code>supportedFilter()</code> function which returns the name of the
 filter and the database column on which the filter selects the
 values:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
@@ -260,8 +261,8 @@ expressions. Below we combine the <code>FormulaFilter</code> with the
 <div class="section level3">
 <h3 id="additional-functionality-for-compdb-databases">Additional functionality for <code>CompDb</code> databases<a class="anchor" aria-label="anchor" href="#additional-functionality-for-compdb-databases"></a>
 </h3>
-<p><code>CompoundDb</code> defines additional functions to work with
-<code>CompDb</code> databases. One of them is the <code>mass2mz</code>
+<p><em>CompoundDb</em> defines additional functions to work with
+<code>CompDb</code> databases. One of them is the <code><a href="../reference/CompDb.html">mass2mz()</a></code>
 function that allows to directly calculate ion (adduct) m/z values for
 exact (monoisotopic) masses of compounds in a database. Below we use
 this function to calculate <code>[M+H]+</code> and <code>[M+Na]+</code>
@@ -302,7 +303,7 @@ compounds (identified by their InChIKey) we specify
 <p>Alternatively we could also use <code>name = "compound_id"</code> to
 get a value for each row in the compound database table, but for this
 example database this would result in highly redundant information.</p>
-<p><code>mass2mz</code> bases on the
+<p><code><a href="../reference/CompDb.html">mass2mz()</a></code> bases on the
 <code><a href="https://rdrr.io/pkg/MetaboCoreUtils/man/mass2mz.html" class="external-link">MetaboCoreUtils::mass2mz</a></code> function and thus supports all
 pre-defined adducts from that function. These are (for positive
 polarity):</p>
@@ -331,7 +332,7 @@ polarity):</p>
 <span><span class="co">## [13] "[2M+CHO2]-"    "[2M+C2H3O2]-"  "[3M-H]-"       "[M-H+HCOONa]-"</span></span>
 <span><span class="co">## [17] "[M]-"</span></span></code></pre>
 <p>In addition, user-supplied adduct definitions are also supported (see
-the help of <code>mass2mz</code> in the <code>MetaboCoreUtils</code>
+the help of <code><a href="../reference/CompDb.html">mass2mz()</a></code> in the <em><a href="https://bioconductor.org/packages/3.20/MetaboCoreUtils" class="external-link">MetaboCoreUtils</a></em>
 package for details).</p>
 </div>
 <div class="section level3">
@@ -341,7 +342,7 @@ package for details).</p>
 spectral data. These can be accessed <em>via</em> a <code>Spectra</code>
 object from the <em><a href="https://bioconductor.org/packages/3.20/Spectra" class="external-link">Spectra</a></em>
 Bioconductor. Such a <code>Spectra</code> object for a
-<code>CompDb</code> can be created with the <code>Spectra</code>
+<code>CompDb</code> can be created with the <code><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra()</a></code>
 function as in the example below.</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span>
@@ -370,7 +371,7 @@ to <em>represent</em> the MS data of the <code>CompDb</code> database.
 In fact, only the compound identifiers and the precursor m/z values from
 all spectra are stored in memory while all other data is retrieved
 on-the-fly from the database when needed.</p>
-<p>The <code>spectraVariables</code> function lists all available
+<p>The <code><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">spectraVariables()</a></code> function lists all available
 annotations for a spectrum from the database, which includes also
 annotations of the associated compounds.</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
@@ -408,13 +409,13 @@ variable name:</p>
 your analysis have also a look at the package <a href="https://rformassspectrometry.github.io/Spectra/articles/Spectra.html" class="external-link">vignette</a>
 or a <a href="https://jorainer.github.io/SpectraTutorials/" class="external-link">tutorial</a>
 on how to perform MS/MS spectra matching with <code>Spectra</code>.</p>
-<p>Similar to the <code>compounds</code> function, a call to
-<code>Spectra</code> will give access to <strong>all</strong> spectra in
-the database. Using the same filtering framework it is however also
+<p>Similar to the <code><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds()</a></code> function, a call to
+<code><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra()</a></code> will give access to <strong>all</strong> spectra
+in the database. Using the same filtering framework it is however also
 possible to <em>extract</em> only specific spectra from the database.
 Below we are for example accessing only the MS/MS spectra of the
 compound <em>Mellein</em>. Using the <code>filter</code> in the
-<code>Spectra</code> call can be substantially faster than first
+<code><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra()</a></code> call can be substantially faster than first
 initializing a <code>Spectra</code> with the full data and then
 subsetting that to selected spectra.</p>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
@@ -442,7 +443,7 @@ in the database.</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/Spectra" class="external-link">Spectra</a></span><span class="op">)</span></span>
 <span><span class="va">cormat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compareSpectra</a></span><span class="op">(</span><span class="va">mellein</span>, <span class="va">sps</span>, ppm <span class="op">=</span> <span class="fl">40</span><span class="op">)</span></span></code></pre></div>
 <p>Note that the <code>MsBackendCompDb</code> does not support parallel
-processing, thus, while <code>compareSpectra</code> would in general
+processing, thus, while <code><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compareSpectra()</a></code> would in general
 support parallel processing, it gets automatically be disabled if a
 <code>Spectra</code> with a <code>MsBackendCompDb</code> is used.</p>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
@@ -495,7 +496,7 @@ database.</p>
 <span><span class="co">## &lt;0 rows&gt; (or 0-length row.names)</span></span></code></pre>
 <p>The present database does not yet contain any ion information. Below
 we define a data frame with ion annotations and add that to the database
-with the <code>insertIon</code> function. The column
+with the <code><a href="../reference/IonDb.html">insertIon()</a></code> function. The column
 <code>"compound_id"</code> needs to contain the identifiers of the
 compounds to which the ion should be related to. In the present example
 we add 2 different ions for the compound with the ID 1
@@ -554,8 +555,8 @@ mass.</p>
 <span><span class="co">## [8] base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">## [1] RSQLite_2.3.6           Spectra_1.15.2          ProtGenerics_1.35.4    </span></span>
-<span><span class="co">## [4] BiocParallel_1.39.0     CompoundDb_1.9.0        S4Vectors_0.43.0       </span></span>
+<span><span class="co">## [1] RSQLite_2.3.7           Spectra_1.15.2          ProtGenerics_1.35.4    </span></span>
+<span><span class="co">## [4] BiocParallel_1.39.0     CompoundDb_1.9.1        S4Vectors_0.43.0       </span></span>
 <span><span class="co">## [7] BiocGenerics_0.51.0     AnnotationFilter_1.29.0 BiocStyle_2.33.0       </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
@@ -566,8 +567,8 @@ mass.</p>
 <span><span class="co">## [13] tibble_3.2.1            fansi_1.0.6             blob_1.2.4             </span></span>
 <span><span class="co">## [16] cluster_2.1.6           pkgconfig_2.0.3         dbplyr_2.5.0           </span></span>
 <span><span class="co">## [19] desc_1.4.3              lifecycle_1.0.4         GenomeInfoDbData_1.2.12</span></span>
-<span><span class="co">## [22] compiler_4.4.0          textshaping_0.3.7       munsell_0.5.1          </span></span>
-<span><span class="co">## [25] codetools_0.2-20        clue_0.3-65             GenomeInfoDb_1.41.0    </span></span>
+<span><span class="co">## [22] compiler_4.4.0          textshaping_0.4.0       munsell_0.5.1          </span></span>
+<span><span class="co">## [25] codetools_0.2-20        clue_0.3-65             GenomeInfoDb_1.41.1    </span></span>
 <span><span class="co">## [28] htmltools_0.5.8.1       sass_0.4.9              RCurl_1.98-1.14        </span></span>
 <span><span class="co">## [31] yaml_2.3.8              lazyeval_0.2.2          pkgdown_2.0.9.9000     </span></span>
 <span><span class="co">## [34] pillar_1.9.0            jquerylib_0.1.4         MASS_7.3-60.2          </span></span>
