@@ -29,18 +29,18 @@ make_metadata(
 emptyCompDb(dbFile = character())
 }
 \arguments{
-\item{x}{For \code{createCompDb}: \code{data.frame} or \code{tbl} with the compound
+\item{x}{For \code{createCompDb()}: \code{data.frame} or \code{tbl} with the compound
 annotations or \code{character} with the file name(s) from which the compound
 annotations should be retrieved. See description for details.
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{For `createCompDbPackage`: `character(1)` with the file name of the
+\if{html}{\out{<div class="sourceCode">}}\preformatted{For `createCompDbPackage()`: `character(1)` with the file name of the
 `CompDb` SQLite file (created by `createCompDb`).
 }\if{html}{\out{</div>}}}
 
-\item{metadata}{For \code{createCompDb}: \code{data.frame} with metadata
+\item{metadata}{For \code{createCompDb()}: \code{data.frame} with metadata
 information. See description for details.}
 
-\item{msms_spectra}{For \code{createCompDb}: \code{data.frame} with MS/MS spectrum
+\item{msms_spectra}{For \code{createCompDb()}: \code{data.frame} with MS/MS spectrum
 data. See \code{\link[=msms_spectra_hmdb]{msms_spectra_hmdb()}} for the expected format and a function
 to import such data from spectrum xml files from HMDB.}
 
@@ -52,49 +52,50 @@ directory.}
 database file. If not provided (the default) the database name is defined
 using information from the provided \code{metadata}.}
 
-\item{version}{For \code{createCompDbPackage}: \code{character(1)} with the version
+\item{version}{For \code{createCompDbPackage()}: \code{character(1)} with the version
 of the package (ideally in the format \code{"x.y.z"}).}
 
-\item{maintainer}{For \code{createCompDbPackage}: \code{character(1)} with the
+\item{maintainer}{For \code{createCompDbPackage()}: \code{character(1)} with the
 name and email address of the package maintainer (in the form
 \code{"First Last <first.last@provider.com>"}.}
 
-\item{author}{For \code{createCompDbPackage}: \code{character(1)} with the name
+\item{author}{For \code{createCompDbPackage()}: \code{character(1)} with the name
 of the package author.}
 
-\item{license}{For \code{createCompDbPackage}: \code{character(1)} with the
+\item{license}{For \code{createCompDbPackage()}: \code{character(1)} with the
 license of the package respectively the originating provider.}
 
-\item{source}{For \code{make_metadata}: \code{character(1)} with the name of the
+\item{source}{For \code{make_metadata()}: \code{character(1)} with the name of the
 resource that provided the compound annotation.}
 
-\item{url}{For \code{make_metadata}: \code{character(1)} with the url to the original
+\item{url}{For \code{make_metadata()}: \code{character(1)} with the url to the original
 resource.}
 
-\item{source_version}{For \code{make_metadata}: \code{character(1)} with the version
+\item{source_version}{For \code{make_metadata()}: \code{character(1)} with the version
 of the original resource providing the annotation.}
 
-\item{source_date}{For \code{make_metadata}: \code{character(1)} with the date of the
-resource's release.}
+\item{source_date}{For \code{make_metadata()}: \code{character(1)} with the date of
+the resource's release.}
 
-\item{organism}{For \code{make_metadata}: \code{character(1)} with the name of the
+\item{organism}{For \code{make_metadata()}: \code{character(1)} with the name of the
 organism. This should be in the format \code{"Hsapiens"} for human,
 \code{"Mmusculus"} for mouse etc. Leave to \code{NA} if not applicable.}
 }
 \value{
-For \code{createCompDb}: a \code{character(1)} with the database name
+For \code{createCompDb()}: a \code{character(1)} with the database name
 (invisibly).
 }
 \description{
-\code{CompDb} databases can be created with the \code{createCompDb} or the
-\code{emptyCompDb} functions, the former creating and initializing (filling) the
-database with existing data, the latter creating an empty database that can
-be subsequently filled with \code{\link[=insertCompound]{insertCompound()}} or \code{\link[=insertSpectra]{insertSpectra()}} calls.
+\code{CompDb} databases can be created with the \code{createCompDb()} or the
+\code{emptyCompDb()} functions, the former creating and initializing (filling)
+the database with existing data, the latter creating an empty database that
+can be subsequently filled with \code{\link[=insertCompound]{insertCompound()}} or \code{\link[=insertSpectra]{insertSpectra()}}
+calls.
 
-\code{emptyCompDb} requires only the file name of the database that should be
+\code{emptyCompDb()} requires only the file name of the database that should be
 created as input and returns a \code{CompDb} representing the empty database.
 
-\code{createCompDb} creates a \code{SQLite}-based \code{\link{CompDb}} object/database
+\code{createCompDb()} creates a \code{SQLite}-based \code{\link{CompDb}} object/database
 from a compound resource provided as a \code{data.frame} or \code{tbl}. Alternatively,
 the name(s) of the file(s) from which the annotation should be extracted can
 be provided. Supported are SDF files (such as those from the
@@ -180,8 +181,8 @@ The metadata \code{data.frame} is supposed to have two columns named \code{"name
 \code{createCompDbPackage} creates an R data package with the data from a
 \code{\link{CompDb}} object.
 
-\code{make_metadata} helps generating a metadata \code{data.frame} in the
-correct format expected by the \code{createCompDb} function. The function
+\code{make_metadata()} helps generating a metadata \code{data.frame} in
+the correct format expected by the \code{createCompDb} function. The function
 returns a \code{data.frame}.
 }
 \details{

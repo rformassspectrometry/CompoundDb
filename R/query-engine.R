@@ -329,10 +329,13 @@
     ## wise it's not possible to assign them correctly
     if (any(columns %in% c("mz", "intensity")) & !any(columns == "spectrum_id"))
         columns <- c(columns, "spectrum_id")
-    res <- dbGetQuery(.dbconn(x), .build_query_CompDb(x, columns = columns,
-                                                      filter = filter,
-                                                      start_from = start_from,
-                                                      order = order))
+    con <- .dbconn(x)
+    if (length(.dbname(x)))
+        on.exit(dbDisconnect(con))
+    res <- dbGetQuery(con, .build_query_CompDb(x, columns = columns,
+                                               filter = filter,
+                                               start_from = start_from,
+                                               order = order))
     if (any(columns == "predicted"))
         res$predicted <- as.logical(res$predicted)
     .deserialize_mz_intensity(res)

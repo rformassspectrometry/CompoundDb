@@ -2,13 +2,14 @@
 #'
 #' @description
 #'
-#' `compound_tbl_sdf` extracts basic compound annotations from a file in SDF
+#' `compound_tbl_sdf()` extracts basic compound annotations from a file in SDF
 #' format (structure-data file). The function currently supports SDF files from:
-#' + HMDB (Human Metabolome Database): http://www.hmdb.ca
-#' + ChEBI (Chemical Entities of Biological Interest): http://ebi.ac.uk/chebi
-#' + LMSD (LIPID MAPS Structure Database): http://www.lipidmaps.org
-#' + PubChem: https://pubchem.ncbi.nlm.nih.gov/
-#' + MoNa: http://mona.fiehnlab.ucdavis.edu/ (see notes below!)
+#'
+#' - HMDB (Human Metabolome Database): http://www.hmdb.ca
+#' - ChEBI (Chemical Entities of Biological Interest): http://ebi.ac.uk/chebi
+#' - LMSD (LIPID MAPS Structure Database): http://www.lipidmaps.org
+#' - PubChem: https://pubchem.ncbi.nlm.nih.gov/
+#' - MoNa: http://mona.fiehnlab.ucdavis.edu/ (see notes below!)
 #'
 #' @details
 #'
@@ -20,7 +21,7 @@
 #'
 #' @note
 #'
-#' `compound_tbl_sdf` supports also to read/process gzipped files.
+#' `compound_tbl_sdf()` supports also to read/process gzipped files.
 #'
 #' MoNa SDF files organize the data by individual spectra (i.e. each element
 #' is one spectrum) and individual compounds can not easily and consistently
@@ -46,17 +47,18 @@
 #'
 #' @return A [tibble::tibble] with general compound information (one row per
 #' compound):
-#' + `compound_id`: the ID of the compound.
-#' + `name`: the compound's name.
-#' + `inchi`: the InChI of the compound.
-#' + `inchikey`: the InChI key.
-#' + `formula`: the chemical formula.
-#' + `exactmass`: the compound's (monoisotopic exact) mass.
-#' + `synonyms`: the compound's synonyms (aliases). This type of this column is
+#'
+#' - `compound_id`: the ID of the compound.
+#' - `name`: the compound's name.
+#' - `inchi`: the InChI of the compound.
+#' - `inchikey`: the InChI key.
+#' - `formula`: the chemical formula.
+#' - `exactmass`: the compound's (monoisotopic exact) mass.
+#' - `synonyms`: the compound's synonyms (aliases). This type of this column is
 #'   by default a `list` to support multiple aliases per compound, unless
 #'   argument `collapse` is provided, in which case multiple synonyms are pasted
 #'   into a single element separated by the value of `collapse`.
-#' + `smiles`: the compound's SMILES (if provided).
+#' - `smiles`: the compound's SMILES (if provided).
 #'
 #' @family compound table creation functions
 #'
@@ -109,7 +111,7 @@ compound_tbl_sdf <- function(file, collapse, onlyValid = TRUE,
 #'
 #' @description
 #'
-#' `compound_tbl_lipidblast` extracts basic comopund annotations from a
+#' `compound_tbl_lipidblast()` extracts basic comopund annotations from a
 #' LipidBlast file in (json format) downloaded from
 #' http://mona.fiehnlab.ucdavis.edu/downloads
 #'
@@ -120,13 +122,14 @@ compound_tbl_sdf <- function(file, collapse, onlyValid = TRUE,
 #'
 #' @return A [tibble::tibble] with general compound information (one row per
 #' compound):
-#' + `compound_id`: the ID of the compound.
-#' + `name`: the compound's name.
-#' + `inchi`: the InChI of the compound.
-#' + `inchikey`: the InChI key.
-#' + `formula`: the chemical formula.
-#' + `exactmass`: the compound's mass.
-#' + `synonyms`: the compound's synonyms (aliases). This type of this column is
+#'
+#' - `compound_id`: the ID of the compound.
+#' - `name`: the compound's name.
+#' - `inchi`: the InChI of the compound.
+#' - `inchikey`: the InChI key.
+#' - `formula`: the chemical formula.
+#' - `exactmass`: the compound's mass.
+#' - `synonyms`: the compound's synonyms (aliases). This type of this column is
 #'   by default a `list` to support multiple aliases per compound, unless
 #'   argument `collapse` is provided, in which case multiple synonyms are pasted
 #'   into a single element separated by the value of `collapse`.
@@ -372,15 +375,16 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #'
 #' @description
 #'
-#' `CompDb` databases can be created with the `createCompDb` or the
-#' `emptyCompDb` functions, the former creating and initializing (filling) the
-#' database with existing data, the latter creating an empty database that can
-#' be subsequently filled with [insertCompound()] or [insertSpectra()] calls.
+#' `CompDb` databases can be created with the `createCompDb()` or the
+#' `emptyCompDb()` functions, the former creating and initializing (filling)
+#' the database with existing data, the latter creating an empty database that
+#' can be subsequently filled with [insertCompound()] or [insertSpectra()]
+#' calls.
 #'
-#' `emptyCompDb` requires only the file name of the database that should be
+#' `emptyCompDb()` requires only the file name of the database that should be
 #' created as input and returns a `CompDb` representing the empty database.
 #'
-#' `createCompDb` creates a `SQLite`-based [`CompDb`] object/database
+#' `createCompDb()` creates a `SQLite`-based [`CompDb`] object/database
 #' from a compound resource provided as a `data.frame` or `tbl`. Alternatively,
 #' the name(s) of the file(s) from which the annotation should be extracted can
 #' be provided. Supported are SDF files (such as those from the
@@ -401,15 +405,16 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #'
 #' Required columns for the `data.frame` providing the compound information (
 #' parameter `x`) are:
-#' + `"compound_id"`: the ID of the compound. Can be an `integer` or
+#'
+#' - `"compound_id"`: the ID of the compound. Can be an `integer` or
 #'   `character`. Duplicated IDs are supported (for compatibility reasons), but
 #'   not suggested. No missing values allowed.
-#' + `"name"`: the compound's name.
-#' + `"inchi"`: the InChI of the compound.
-#' + `"inchikey"`: the InChI key.
-#' + `"formula"`: the chemical formula.
-#' + `"exactmass"`: the compound's (exact) mass.
-#' + `"synonyms"`: additional synonyms/aliases for the compound. Should be
+#' - `"name"`: the compound's name.
+#' - `"inchi"`: the InChI of the compound.
+#' - `"inchikey"`: the InChI key.
+#' - `"formula"`: the chemical formula.
+#' - `"exactmass"`: the compound's (exact) mass.
+#' - `"synonyms"`: additional synonyms/aliases for the compound. Should be
 #'   either a single character or a list of values for each compound.
 #'
 #' Any additional columns in the provided `data.frame` (such as e.g. `"smiles"`
@@ -422,20 +427,20 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' The table containing the MS2 spectra data should have the following format
 #' and columns:
 #'
-#' + `"spectrum_id"`: an arbitrary ID for the spectrum. Has to be an `integer`.
-#' + `"compound_id"`: the ID of the compound to which the spectrum can be
+#' - `"spectrum_id"`: an arbitrary ID for the spectrum. Has to be an `integer`.
+#' - `"compound_id"`: the ID of the compound to which the spectrum can be
 #'   associated with. This has to be present in the `data.frame` defining the
 #'   compounds.
-#' + `"polarity"`: the polarity (as an `integer`, `0` for negative, `1` for
+#' - `"polarity"`: the polarity (as an `integer`, `0` for negative, `1` for
 #'   positive, `NA` for not set).
-#' + `"collision_energy"`: the collision energy.
-#' + `"predicted"`: whether the spectrum was predicted or measured.
-#' + `"splash"`: the SPLASH of the spectrum.
-#' + `"instrument_type"`: the instrument type.
-#' + `"instrument"`: the name of the instrument.
-#' + `"precursor_mz"`: the precursor m/z (as a `numeric`).
-#' + `"mz"`: the m/z values.
-#' + `"intensity"`: the intensity values.
+#' - `"collision_energy"`: the collision energy.
+#' - `"predicted"`: whether the spectrum was predicted or measured.
+#' - `"splash"`: the SPLASH of the spectrum.
+#' - `"instrument_type"`: the instrument type.
+#' - `"instrument"`: the name of the instrument.
+#' - `"precursor_mz"`: the precursor m/z (as a `numeric`).
+#' - `"mz"`: the m/z values.
+#' - `"intensity"`: the intensity values.
 #'
 #' Only for columns `"spectrum_id"`, `"compound_id"`, `"mz"` and `"intensity"`
 #' a value has to be provided in each row of the `data.frame`. The others are
@@ -450,12 +455,13 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' The metadata `data.frame` is supposed to have two columns named `"name"` and
 #' `"value"` providing the following minimal information as key-value pairs
 #' (see `make_metadata` for a utility function to create such a `data.frame`):
-#' + `"source"`: the source from which the data was retrieved (e.g. `"HMDB"`).
-#' + `"url"`: the url from which the original data was retrieved.
-#' + `"source_version"`: the version from the original data source
+#'
+#' - `"source"`: the source from which the data was retrieved (e.g. `"HMDB"`).
+#' - `"url"`: the url from which the original data was retrieved.
+#' - `"source_version"`: the version from the original data source
 #'   (e.g. `"v4"`).
-#' + `"source_date"`: the date when the original data source was generated.
-#' + `"organism"`: the organism. Should be in the form `"Hsapiens"` or
+#' - `"source_date"`: the date when the original data source was generated.
+#' - `"organism"`: the organism. Should be in the form `"Hsapiens"` or
 #'   `"Mmusculus"`.
 #'
 #' @details
@@ -470,17 +476,17 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' processing is currently not enabled because SQLite does not support it yet
 #' natively.
 #'
-#' @param x For `createCompDb`: `data.frame` or `tbl` with the compound
+#' @param x For `createCompDb()`: `data.frame` or `tbl` with the compound
 #'     annotations or `character` with the file name(s) from which the compound
 #'     annotations should be retrieved. See description for details.
 #'
-#'     For `createCompDbPackage`: `character(1)` with the file name of the
+#'     For `createCompDbPackage()`: `character(1)` with the file name of the
 #'     `CompDb` SQLite file (created by `createCompDb`).
 #'
-#' @param metadata For `createCompDb`: `data.frame` with metadata
+#' @param metadata For `createCompDb()`: `data.frame` with metadata
 #'     information. See description for details.
 #'
-#' @param msms_spectra For `createCompDb`: `data.frame` with MS/MS spectrum
+#' @param msms_spectra For `createCompDb()`: `data.frame` with MS/MS spectrum
 #'     data. See [msms_spectra_hmdb()] for the expected format and a function
 #'     to import such data from spectrum xml files from HMDB.
 #'
@@ -492,7 +498,7 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #'     database file. If not provided (the default) the database name is defined
 #'     using information from the provided `metadata`.
 #'
-#' @return For `createCompDb`: a `character(1)` with the database name
+#' @return For `createCompDb()`: a `character(1)` with the database name
 #'     (invisibly).
 #'
 #' @importFrom DBI dbDriver dbWriteTable dbExecute dbDisconnect
@@ -899,17 +905,17 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".",
 #'
 #' @importFrom Biobase createPackage
 #'
-#' @param version For `createCompDbPackage`: `character(1)` with the version
+#' @param version For `createCompDbPackage()`: `character(1)` with the version
 #'     of the package (ideally in the format `"x.y.z"`).
 #'
-#' @param maintainer For `createCompDbPackage`: `character(1)` with the
+#' @param maintainer For `createCompDbPackage()`: `character(1)` with the
 #'     name and email address of the package maintainer (in the form
 #'     `"First Last <first.last@provider.com>"`.
 #'
-#' @param author For `createCompDbPackage`: `character(1)` with the name
+#' @param author For `createCompDbPackage()`: `character(1)` with the name
 #'     of the package author.
 #'
-#' @param license For `createCompDbPackage`: `character(1)` with the
+#' @param license For `createCompDbPackage()`: `character(1)` with the
 #'     license of the package respectively the originating provider.
 #'
 #' @export
@@ -969,23 +975,23 @@ createCompDbPackage <- function(x, version, maintainer, author,
     grepl(".sdf($|.gz$)", x, ignore.case = TRUE)
 }
 
-#' @description `make_metadata` helps generating a metadata `data.frame` in the
-#'     correct format expected by the `createCompDb` function. The function
+#' @description `make_metadata()` helps generating a metadata `data.frame` in
+#'     the correct format expected by the `createCompDb` function. The function
 #'     returns a `data.frame`.
 #'
-#' @param source For `make_metadata`: `character(1)` with the name of the
+#' @param source For `make_metadata()`: `character(1)` with the name of the
 #'     resource that provided the compound annotation.
 #'
-#' @param url For `make_metadata`: `character(1)` with the url to the original
+#' @param url For `make_metadata()`: `character(1)` with the url to the original
 #'     resource.
 #'
-#' @param source_version For `make_metadata`: `character(1)` with the version
+#' @param source_version For `make_metadata()`: `character(1)` with the version
 #'     of the original resource providing the annotation.
 #'
-#' @param source_date For `make_metadata`: `character(1)` with the date of the
-#'     resource's release.
+#' @param source_date For `make_metadata()`: `character(1)` with the date of
+#'     the resource's release.
 #'
-#' @param organism For `make_metadata`: `character(1)` with the name of the
+#' @param organism For `make_metadata()`: `character(1)` with the name of the
 #'     organism. This should be in the format `"Hsapiens"` for human,
 #'     `"Mmusculus"` for mouse etc. Leave to `NA` if not applicable.
 #'
@@ -1011,8 +1017,8 @@ make_metadata <- function(source = character(), url = character(),
 #'
 #' @description
 #'
-#' `import_mona_sdf` allows to import compound and spectrum information from an
-#' SDF file from MoNa (Massbank of North America
+#' `import_mona_sdf()` allows to import compound and spectrum information from
+#' an SDF file from MoNa (Massbank of North America
 #' http://mona.fiehnlab.ucdavis.edu/). This function is a convenience function
 #' using the [compound_tbl_sdf()] and [msms_spectra_mona()] functions for data
 #' import but avoiding to read the SDF files twice.

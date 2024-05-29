@@ -1,3 +1,13 @@
+# CompoundDb version 1.9
+
+## Changes in version 1.9.1
+
+- Allow `CompDb` to store that database name as alternative to an active
+  database connection. This allows to serialize and load an object to/from disk
+  (serializing an active database connection would not be possible) . Each call
+  to extract data from the database will however open (and close) its own
+  connection.
+
 # CompoundDb version 1.7
 
 ## Changes in version 1.7.2

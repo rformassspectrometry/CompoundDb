@@ -381,7 +381,7 @@ test_that(".msms_spectrum_add_missing_columns works", {
 
 test_that(".append_msms_spectra works", {
     tmp_con <- dbConnect(SQLite(), tempfile())
-    tmp_db <- .copy_compdb(cmp_spctra_db@dbcon, tmp_con)
+    tmp_db <- .copy_compdb(.dbconn(cmp_spctra_db), tmp_con)
     tmp_db <- CompDb(tmp_con)
 
     spd <- DataFrame(

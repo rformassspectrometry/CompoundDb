@@ -72,10 +72,10 @@ copyCompDb(x, y)
 \S4method{deleteCompound}{CompDb}(object, ids = character(), recursive = FALSE, ...)
 }
 \arguments{
-\item{x}{For \code{CompDb}: \code{character(1)} with the file name of the SQLite
-compound database. Alternatively it is possible to provide the connection
-to the database with parameter \code{x}. For \code{copyCompDb}: either a \code{CompDb}
-or a database connection.
+\item{x}{For \code{CompDb()}: \code{character(1)} with the file name of the SQLite
+compound database. Alternatively it is possible to provide the
+connection to the database with parameter \code{x}. For \code{copyCompDb()}:
+either a \code{CompDb} or a database connection.
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{For all other methods: a `CompDb` object.
 }\if{html}{\out{</div>}}}
@@ -83,34 +83,34 @@ or a database connection.
 \item{flags}{flags passed to the SQLite database connection.
 See \code{\link[=SQLite]{SQLite()}}. Defaults to read-only, i.e. \code{RSQLite::SQLITE_RO}.}
 
-\item{y}{For \code{copyCompDb}: connection to a database to which the content
+\item{y}{For \code{copyCompDb()}: connection to a database to which the content
 should be copied.}
 
 \item{object}{For all methods: a \code{CompDb} object.}
 
-\item{filter}{For \code{compounds} and \code{Spectra}: filter expression or
+\item{filter}{For \code{compounds()} and \code{Spectra()}: filter expression or
 \code{\link[=AnnotationFilter]{AnnotationFilter()}} defining a filter to be used to retrieve specific
 elements from the database.}
 
 \item{...}{additional arguments. Currently not used.}
 
-\item{includeId}{for \code{compoundVariables}: \code{logical(1)} whether the comound
+\item{includeId}{for \code{compoundVariables()}: \code{logical(1)} whether the comound
 ID (column \code{"compound_id"}) should be included in the result. The
 default is \code{includeIds = FALSE}.}
 
-\item{columns}{For \code{compounds}, \code{Spectra}: \code{character} with the names of the
-database columns that should be retrieved. Use \code{compoundVariables} and/or
-\code{spectraVariables} for a list of available column names.
-For \code{insertSpectra}: columns (spectra variables) that should be inserted
-into the database (to avoid inserting all variables).}
+\item{columns}{For \code{compounds()}, \code{Spectra}: \code{character} with the names of
+the database columns that should be retrieved. Use \code{compoundVariables()}
+and/or \code{spectraVariables()} for a list of available column names.
+For \code{insertSpectra()}: columns (spectra variables) that should be
+inserted into the database (to avoid inserting all variables).}
 
-\item{return.type}{For \code{compounds}: either \code{"data.frame"} or \code{"tibble"} to
+\item{return.type}{For \code{compounds()}: either \code{"data.frame"} or \code{"tibble"} to
 return the result as a \code{\link[=data.frame]{data.frame()}} or \code{\link[=tibble]{tibble()}}, respectively.}
 
-\item{spectra}{For \code{insertSpectra}: \code{Spectra} object containing the spectra
-to be added to the \code{IonDb} database.}
+\item{spectra}{For \code{insertSpectra()}: \code{Spectra} object containing the
+spectra to be added to the \code{IonDb} database.}
 
-\item{ids}{For \code{deleteSpectra}: \code{integer()}
+\item{ids}{For \code{deleteSpectra()}: \code{integer()}
 specifying the IDs of the spectra to delete. IDs in \code{ids} that are
 not associated to any spectra in the \code{CompDb} object are ignored.
 For \code{deleteCompound}: \code{character()} with the compound IDs to be deleted.}
@@ -121,22 +121,23 @@ definition. See \code{\link[MetaboCoreUtils:adductNames]{adductNames()}} for sup
 description for more information on the expected format if a \code{data.frame}
 is provided.}
 
-\item{name}{For \code{mass2mz}: \code{character(1)}. Defines the \code{CompDb} column that
-will be used to name/identify the returned m/z values. By default
+\item{name}{For \code{mass2mz()}: \code{character(1)}. Defines the \code{CompDb} column
+that will be used to name/identify the returned m/z values. By default
 (\code{name = "formula"}) m/z values for all unique molecular formulas are
 calculated and these are used as \code{rownames} for the returned \code{matrix}.
 With \code{name = "compound_id"} the adduct m/z for all compounds (even those
 with equal formulas) are calculated and returned.}
 
-\item{compounds}{For \code{insertCompound}: \code{data.frame} with compound data to be
-inserted into a \code{CompDb} database. See function description for details.}
+\item{compounds}{For \code{insertCompound()}: \code{data.frame} with compound data to
+be inserted into a \code{CompDb} database. See function description for
+details.}
 
-\item{addColumns}{For \code{insertCompound}: \code{logical(1)} whether all (extra)
+\item{addColumns}{For \code{insertCompound()}: \code{logical(1)} whether all (extra)
 columns in parameter \code{compounds} should be stored also in the database
 table. The default is \code{addColumns = FALSE}.}
 
-\item{recursive}{For \code{deleteCompound}: \code{logical(1)} whether also MS2 spectra
-associated with the compounds should be deleted.}
+\item{recursive}{For \code{deleteCompound()}: \code{logical(1)} whether also MS2
+spectra associated with the compounds should be deleted.}
 }
 \value{
 See description of the respective function.
@@ -152,22 +153,22 @@ available in the database and \code{FALSE} otherwise.
 }
 \details{
 \code{CompDb} objects should be created using the constructor function
-\code{CompDb} providing the name of the (SQLite) database file providing
+\code{CompDb()} providing the name of the (SQLite) database file providing
 the compound annotation data.
 }
 \section{Retrieve annotations from the database}{
 
 
 Annotations/compound informations can be retrieved from a \code{CompDb} database
-with the \code{compounds} and \code{Spectra} functions:
+with the \code{compounds()} and \code{Spectra()} functions:
 \itemize{
-\item \code{compounds} extracts compound data from the \code{CompDb} object. In contrast
+\item \code{compounds()} extracts compound data from the \code{CompDb} object. In contrast
 to \code{src_compdb} it returns the actual data as a \code{data.frame} (if
 \code{return.type = "data.frame"}) or a \code{\link[tibble:tibble]{tibble::tibble()}} (if
-\code{return.type = "tibble"}). A \code{compounds} call will always return all
+\code{return.type = "tibble"}). A \code{compounds()} call will always return all
 elements from the \emph{ms_compound} table (unless a \code{filter} is used).
-\item \code{Spectra} extract spectra from the database and returns them as a
-\code{\link[=Spectra]{Spectra()}} object from the \code{Spectra} package. Additional annotations
+\item \code{Spectra()} extract spectra from the database and returns them as a
+\code{\link[=Spectra]{Spectra()}} object from the \emph{Spectra} package. Additional annotations
 requested with the \code{columns} parameter are added as additional spectra
 variables.
 }
@@ -176,26 +177,27 @@ variables.
 \section{General functions}{
 
 \itemize{
-\item \code{CompDb}: connect to a compound database.
-\item \code{compoundVariables}: returns all available columns/database fields for
+\item \code{CompDb()}: connect to a compound database.
+\item \code{compoundVariables()}: returns all available columns/database fields for
 compounds.
-\item \code{copyCompDb}: allows to copy the content from a CompDb to another database.
-Parameter \code{x} is supposed to be either a \code{CompDb} or a database connection
-from which the data should be copied and \code{y} a connection to a database
-to which it should be copied.
-\item \code{dbconn}: returns the connection (of type \code{DBIConnection}) to the database.
-\item \code{metadata}: returns general meta data of the compound database.
-\item \code{spectraVariables}: returns all spectra variables (i.e. columns) available
-in the \code{CompDb}.
-\item \code{src_compdb} provides access to the \code{CompDb}'s database \emph{via}
+\item \code{copyCompDb()}: allows to copy the content from a CompDb to another
+database. Parameter \code{x} is supposed to be either a \code{CompDb} or a database
+connection from which the data should be copied and \code{y} a connection to
+a database to which it should be copied.
+\item \code{dbconn()}: returns the connection (of type \code{DBIConnection}) to the
+database.
+\item \code{metadata()}: returns general meta data of the compound database.
+\item \code{spectraVariables()}: returns all spectra variables (i.e. columns)
+available in the \code{CompDb}.
+\item \code{src_compdb()} provides access to the \code{CompDb}'s database \emph{via}
 the functionality from the \code{dplyr}/\code{dbplyr} package.
-\item \code{supportedFilters}: provides an overview of the filters that can be
+\item \code{supportedFilters()}: provides an overview of the filters that can be
 applied on a \code{CompDb} object to extract only specific data from the
 database.
-\item \code{tables}: returns a named \code{list} (names being table names) with
+\item \code{tables()}: returns a named \code{list} (names being table names) with
 the fields/columns from each table in the database.
-\item \code{mass2mz}: calculates a table of the m/z values for each compound based on
-the provided set of adduct(s). Adduct definitions can be provided with
+\item \code{mass2mz()}: calculates a table of the m/z values for each compound based
+on the provided set of adduct(s). Adduct definitions can be provided with
 parameter \code{adduct}. See \code{\link[MetaboCoreUtils:mass2mz]{MetaboCoreUtils::mass2mz()}} for more details.
 Parameter \code{name} defines the database table column that should be used as
 \code{rownames} of the returned \code{matrix}. By default \code{name = "formula"}, m/z
@@ -211,7 +213,7 @@ database. Databases returned by \code{CompDb} are by default \emph{read-only}. T
 write access \code{CompDb} should be called with parameter
 \code{flags = RSQLite::SQLITE_RW}.
 \itemize{
-\item \code{insertCompound}: adds additional compound(s) to a \code{CompDb}. The
+\item \code{insertCompound()}: adds additional compound(s) to a \code{CompDb}. The
 compound(s) to be added can be specified with parameter \code{compounds} that
 is expected to be a \code{data.frame} with columns \code{"compound_id"}, \code{"name"},
 \code{"inchi"}, \code{"inchikey"}, \code{"formula"}, \code{"exactmass"}.
@@ -226,15 +228,15 @@ the database table. The default is \code{addColumns = FALSE}. The function
 returns the \code{CompDb} with the compounds added.
 See also \code{\link[=createCompDb]{createCompDb()}} for more information and details on expected
 compound data and the examples below for general usage.
-\item \code{deleteCompound}: removes specified compounds from the \code{CompDb} database.
+\item \code{deleteCompound()}: removes specified compounds from the \code{CompDb} database.
 The IDs of the compounds that should be deleted need to be provided with
-parameter \code{ids}. To include compound IDs in the output of a \code{compounds}
+parameter \code{ids}. To include compound IDs in the output of a \code{compounds()}
 call \code{"compound_id"} should be added to the \code{columns} parameter. By
 default an error is thrown if for some of the specified compounds also MS2
 spectra are present in the database. To force deletion of the compounds
 along with all associated MS2 spectra use \code{recursive = TRUE}. See examples
 below for details. The function returns the updated \code{CompDb} database.
-\item \code{insertSpectra}: adds further spectra to the database.
+\item \code{insertSpectra()}: adds further spectra to the database.
 The method always adds all the spectra specified through the \code{spectra}
 parameter and does not check if they are already in the database. Note that
 the input spectra must have the variable \code{compound_id} and only \code{Spectra}
@@ -246,7 +248,7 @@ variables are added but it is strongly suggested to specifically select
 Note that a spectra variable \code{"compound_id"} is mandatory.
 If needed, the function adds additional columns to the \code{msms_spectrum}
 database table. The function returns the updated \code{CompDb} object.
-\item \code{deleteSpectra}: deletes specified spectra from the database. The IDs of
+\item \code{deleteSpectra()}: deletes specified spectra from the database. The IDs of
 the spectra to be deleted need to be provided with parameter \code{ids}.
 }
 }
@@ -254,15 +256,15 @@ the spectra to be deleted need to be provided with parameter \code{ids}.
 \section{Filtering the database}{
 
 
-Data access methods such as \code{compounds} and \code{Spectra} allow to filter the
+Data access methods such as \code{compounds()} and \code{Spectra} allow to filter the
 results using specific filter classes and expressions. Filtering uses the
 concepts from Bioconductor's \code{AnnotationFilter} package. All information
 for a certain compound with the ID \code{"HMDB0000001"} can for example be
 retrieved by passing the filter expression
 \code{filter = ~ compound_id == "HMDB0000001"} to the \code{compounds} function.
 
-Use the \link{supportedFilters} function on the \link{CompDb} object to get a list of
-all supported filters. See also examples below or the usage vignette for
+Use the \code{\link[=supportedFilters]{supportedFilters()}} function on the \link{CompDb} object to get a list
+of all supported filters. See also examples below or the usage vignette for
 details.
 }
 

@@ -111,7 +111,7 @@
 #'
 #' @description
 #'
-#' `msms_spectra_hmdb` imports MS/MS spectra from corresponding xml files from
+#' `msms_spectra_hmdb()` imports MS/MS spectra from corresponding xml files from
 #' HMDB (http://www.hmdb.ca) and returns the data as a `data.frame`. HMDB
 #' stores MS/MS spectrum data in xml files, one file per spectrum.
 #'
@@ -214,7 +214,7 @@ msms_spectra_hmdb <- function(x, collapsed = TRUE) {
 #'
 #' @description
 #'
-#' `msms_spectra_mona` imports MS/MS spectra from a MoNa (Massbank of North
+#' `msms_spectra_mona()` imports MS/MS spectra from a MoNa (Massbank of North
 #' America, http://mona.fiehnlab.ucdavis.edu/downloads) SDF file and returns
 #' the data as a `data.frame`.
 #'

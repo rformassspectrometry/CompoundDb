@@ -38,7 +38,7 @@ into a single element separated by the value of \code{collapse}.
 }
 }
 \description{
-\code{compound_tbl_sdf} extracts basic compound annotations from a file in SDF
+\code{compound_tbl_sdf()} extracts basic compound annotations from a file in SDF
 format (structure-data file). The function currently supports SDF files from:
 \itemize{
 \item HMDB (Human Metabolome Database): http://www.hmdb.ca
@@ -56,7 +56,7 @@ not available, the first of the compounds synonyms and, if that is also not
 provided, the \code{"SYSTEMATIC_NAME"}.
 }
 \note{
-\code{compound_tbl_sdf} supports also to read/process gzipped files.
+\code{compound_tbl_sdf()} supports also to read/process gzipped files.
 
 MoNa SDF files organize the data by individual spectra (i.e. each element
 is one spectrum) and individual compounds can not easily and consistently

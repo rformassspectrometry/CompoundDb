@@ -255,7 +255,7 @@ test_that(".fetch_data works", {
     expect_equal(colnames(res), c("polarity", "spectrum_id", "mz",
                                   "name"))
     expect_true(is.numeric(res$mz[[1]]))
-    res <- CompoundDb:::.fetch_data(cmp_spctra_db,
+    res <- .fetch_data(cmp_spctra_db,
                        columns = c("name", "spectrum_id",
                                    "compound_id"),
                        filter = ~ compound_id == "HMDB0000001")

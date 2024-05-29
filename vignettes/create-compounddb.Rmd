@@ -26,12 +26,13 @@ BiocStyle::markdown()
 Chemical compound annotation and information can be retrieved from a variety of
 sources including [HMDB](http://www.hmdb.ca),
 [LipidMaps](http://www.lipidmaps.org) or
-[ChEBI](https://www.ebi.ac.uk/chebi). The `CompoundDb` package provides
-functionality to extract data relevant for (chromatographic) peak annotations in
-metabolomics/lipidomics experiments from these sources and to store it into a
-common format (i.e. an `CompDb` object/database). This vignette describes how
-such `CompDb` objects can be created exemplified with package-internal test
-files that represent data subsets from some annotation resources.
+[ChEBI](https://www.ebi.ac.uk/chebi). The `r Biocpkg("CompoundDb")` package
+provides functionality to extract data relevant for (chromatographic) peak
+annotations in metabolomics/lipidomics experiments from these sources and to
+store it into a common format (i.e. an `CompDb` object/database). This vignette
+describes how such `CompDb` objects can be created exemplified with
+package-internal test files that represent data subsets from some annotation
+resources.
 
 The R object to represent the compound annotation is the `CompDb` object. Each
 object (respectively its database) is supposed to contain and provide
@@ -48,11 +49,11 @@ section explains first how data can be loaded from existing resources to create
 a `CompDb` database and in the last subsection how an empty `CompDb` can be
 sequentially and manually filled with annotation data \@ref(sec:fill).
 
-The `CompoundDb` package provides the `compound_tbl_sdf` and the
-`compound_tbl_lipidblast` functions to extract relevant compound annotation from
-files in SDF (structure-data file) format or in the json files from LipidBlast
-(http://mona.fiehnlab.ucdavis.edu/downloads). `CompoundDb` allows to process SDF
-files from:
+The *CompoundDb* package provides the `compound_tbl_sdf()` and the
+`compound_tbl_lipidblast()` functions to extract relevant compound annotation
+from files in SDF (structure-data file) format or in the json files from
+LipidBlast (http://mona.fiehnlab.ucdavis.edu/downloads). *CompoundDb* allows to
+process SDF files from:
 
 - Human Metabolome Database (HMDB), http://www.hmdb.ca
 - Chemical Entities of Biological Interest (ChEBI): https://www.ebi.ac.uk/chebi
@@ -64,12 +65,12 @@ files from:
 Note however that it is also possible to define such a table manually and use
 that to create the database. As simple example for this is provided in the
 section *`CompDb` from custom input* \@ref(sec:custom) below or the help page of
-`createCompDb` for more details on that.
+`createCompDb()` for more details on that.
 
 
 ## `CompDb` from HMDB data
 
-Below we use the `compound_tbl_sdf` to extract compound annotations from a SDF
+Below we use the `compound_tbl_sdf()` to extract compound annotations from a SDF
 file representing a very small subset of the HMDB database. To generate a
 database for the full HMDB we would have to download the *structures.sdf* file
 containing all metabolites and load that file instead.
@@ -84,7 +85,7 @@ cmps <- compound_tbl_sdf(hmdb_file)
 ```
 
 The function returns by default a (`data.frame`-equivalent) `tibble` (from the
-*tidyverse*'s `tibble` package).
+*tidyverse*'s *tibble* package).
 
 ```{r cmps}
 cmps
@@ -103,11 +104,11 @@ The `tibble` contains columns
 - `smiles`: the SMILES of the compound.
 
 To create a simple compound database, we could pass this `tibble` along with
-additional required metadata information to the `createCompDb` function. In the
-present example we want to add however also MS/MS spectrum data to the
+additional required metadata information to the `createCompDb()` function. In
+the present example we want to add however also MS/MS spectrum data to the
 database. We thus load below the MS/MS spectra for some of the compounds from
 the respective xml files downloaded from HMDB. To this end we pass the path to
-the folder in which the files are located to the `msms_spectra_hmdb`
+the folder in which the files are located to the `msms_spectra_hmdb()`
 function. The function identifies the xml files containing MS/MS spectra based
 on their their file name and loads the respective spectrum data. The folder can
 therefore also contain other files, but the xml files from HMDB should not be
@@ -127,7 +128,7 @@ expected structure of the `data.frame` (see `?createCompDb` for details).
 At last we have to create the metadata for the resource. The metadata
 information for a `CompDb` resource is crucial as it defines the origin of the
 annotations and its version. This information should thus be carefully defined
-by the user. Below we use the `make_metadata` helper function to create a
+by the user. Below we use the `make_metadata()` helper function to create a
 `data.frame` in the expected format. The organism should be provided in the
 format e.g. `"Hsapiens"` for human or `"Mmusculus"` for mouse, i.e. capital
 first letter followed by lower case characters without whitespaces.
@@ -149,7 +150,7 @@ db_file <- createCompDb(cmps, metadata = metad, msms_spectra = spctra,
 ```
 
 The variable `db_file` is now the file name of the SQLite database. We can pass
-this file name to the `CompDb` function to get the `CompDb` objects acting as
+this file name to the `CompDb()` function to get the `CompDb` objects acting as
 the interface to the database.
 
 ```{r CompDb}
@@ -157,10 +158,10 @@ cmpdb <- CompDb(db_file)
 cmpdb
 ```
 
-To extract all compounds from the database we can use the `compounds`
+To extract all compounds from the database we can use the `compounds()`
 function. The parameter `columns` allows to choose the database columns to
 return. Any columns for any of the database tables are supported. To get an
-overview of available database tables and their columns, the `tables` function
+overview of available database tables and their columns, the `tables()` function
 can be used:
 
 ```{r}
@@ -173,10 +174,10 @@ Below we extract only selected columns from the *compounds* table.
 compounds(cmpdb, columns = c("name", "formula", "exactmass"))
 ```
 
-Analogously we can use the `Spectra` function to extract spectrum data from the
-database. The function returns by default a `Spectra` object from the
-`r Biocpkg("Spectra")` package with all spectra metadata available as
-*spectra variables*.
+Analogously we can use the `Spectra()` function to extract spectrum data from
+the database. The function returns by default a `Spectra` object from the
+`r Biocpkg("Spectra")` package with all spectra metadata available as *spectra
+variables*.
 
 ```{r spectra, message = FALSE}
 library(Spectra)
@@ -185,7 +186,7 @@ sps
 ```
 
 The available *spectra variables* for the `Spectra` object can be retrieved with
-`spectraVariables`:
+`spectraVariables()`:
 
 ```{r spectraVariables}
 spectraVariables(sps)
@@ -197,7 +198,7 @@ Individual spectra variables can be accessed with the `$` operator:
 sps$collisionEnergy
 ```
 
-And the actual m/z and intensity values with `mz` and `intensity`:
+And the actual m/z and intensity values with `mz()` and `intensity()`:
 
 ```{r}
 mz(sps)
@@ -294,7 +295,7 @@ cmps$synonyms <- list(
 ```
 
 We also need to define the *metadata* for our database, which we do with the
-`make_metadata` function.  With this information we can already create a first
+`make_metadata()` function.  With this information we can already create a first
 rudimentary `CompDb` database that contains only compound annotations. We thus
 create below our custom `CompDb` database in a temporary directory. We also
 manually specify the name of our database with the `dbFile` parameter - if not
@@ -311,19 +312,20 @@ db_file <- createCompDb(cmps, metadata = metad, path = tempdir(),
                         dbFile = "CompDb.test.sqlite")
 ```
 
-We can now load this toy database using the `CompDb` function providing the full
-path to the database file. Note that we load the database in read-write mode by
-specifying `flags = RSQLite::SQLITE_RW` - by default `CompDb` will load
-databases in read-only mode hence ensuring that the data within the database can
-not be compromised. In our case we would however like to add more information to
-this database later and hence we load it in read-write mode.
+We can now load this toy database using the `CompDb()` function providing the
+full path to the database file. Note that we load the database in read-write
+mode by specifying `flags = RSQLite::SQLITE_RW` - by default `CompDb()` will
+load databases in read-only mode hence ensuring that the data within the
+database can not be compromised. In our case we would however like to add more
+information to this database later and hence we load it in read-write mode.
 
 ```{r}
 cdb <- CompDb(db_file, flags = RSQLite::SQLITE_RW)
 cdb
 ```
 
-We can now retrieve annotations from the database with the `compound` function.
+We can now retrieve annotations from the database with the `compound()`
+function.
 
 ```{r}
 compounds(cdb)
@@ -336,8 +338,8 @@ compounds(cdb, filter = ~ name %in% c("B", "A"))
 ```
 
 Next we would like to add also MS2 spectra data to the database. This could be
-either done directly in the `createCompDb` call with parameter `msms_spectra`,
-or with the `insertSpectra` function that allows to add MS2 spectra data to an
+either done directly in the `createCompDb()` call with parameter `msms_spectra`,
+or with the `insertSpectra()` function that allows to add MS2 spectra data to an
 existing `CompDb` which can be provided as a `Spectra` object. We thus below
 manually create a `Spectra` object with some arbitrary MS2 spectra -
 alternatively, `Spectra` can be imported from a variety of input sources,
@@ -406,11 +408,11 @@ compound can have their own compound identified and data that e.g. can differ in
 their chemical formula, precision of their exact mass or other fields.
 
 Similar to the example above, compound annotations can be imported with the
-`compound_tbl_sdf` function while spectrum data can be imported with
-`msms_spectra_mona`. In the example below we use however the `import_mona_sdf`
-that wraps both functions to reads both compound and spectrum data from a SDF
-file without having to import the file twice. As an example we use a small
-subset from a MoNa SDF file that contains only 7 spectra.
+`compound_tbl_sdf()` function while spectrum data can be imported with
+`msms_spectra_mona()`. In the example below we use however the
+`import_mona_sdf()` that wraps both functions to reads both compound and
+spectrum data from a SDF file without having to import the file twice. As an
+example we use a small subset from a MoNa SDF file that contains only 7 spectra.
 
 ```{r mona-import, message = FALSE}
 mona_sub <- system.file("sdf/MoNa_export-All_Spectra_sub.sdf.gz",
@@ -419,8 +421,8 @@ mona_data <- import_mona_sdf(mona_sub)
 ```
 
 As a result we get a `list` with a data.frame each for compound and spectrum
-information. These can be passed along to the `createCompDb` function to create
-the database (see below).
+information. These can be passed along to the `createCompDb()` function to
+create the database (see below).
 
 ```{r mona-metadata}
 metad <- make_metadata(source = "MoNa",
@@ -470,7 +472,7 @@ the compound), `"name"` (the compound name), `"inchi"`, `"inchikey"`,
 expected, but, except of `"compound_id"`, they can also contain missing values
 or be completely omitted. Below we define a `data.frame` with annotations for
 some compounds and add this annotation to the database using the
-`insertCompound` function.
+`insertCompound()` function.
 
 ```{r}
 cmp <- data.frame(compound_id = c("1", "2"),
@@ -483,10 +485,10 @@ mydb
 
 We next add fragment spectra for the compounds. These could for example
 represent MS2 spectra measured for the pure standard of the compound and could
-be extracted for example from `xcms` result objects or other sources. Below we
-load some fragment spectra for caffeine from an MGF file distributed with this
-package. We use the `r BiocStyle::Biocpkg("MsBackendMgf")` package to import
-that data into a `Spectra` object.
+be extracted for example from `r Biocpkg("xcms")` result objects or other
+sources. Below we load some fragment spectra for caffeine from an MGF file
+distributed with this package. We use the `r BiocStyle::Biocpkg("MsBackendMgf")`
+package to import that data into a `Spectra` object.
 
 ```{r, message = FALSE}
 library(MsBackendMgf)
@@ -512,7 +514,7 @@ our case `"1"`).
 caf_ms2$compound_id <- "1"
 ```
 
-We can then add the spectra to the database using the `insertSpectra`
+We can then add the spectra to the database using the `insertSpectra()`
 function. With parameter `columns` we specify which of the spectra variables we
 actually want to store in the database.
 
@@ -531,7 +533,7 @@ sps <- Spectra(mydb)
 sps$name
 ```
 
-With `insertCommpound` and `insertSpectra` further compounds and fragment
+With `insertCommpound()` and `insertSpectra()` further compounds and fragment
 spectra could be added to the database. Note that both functions support also to
 add additional columns (*fields* or *variables*) to the database. As an example
 we define below a compound with an arbitrary additional column and add this to
@@ -545,7 +547,7 @@ compounds(mydb)
 ```
 
 The additional column is now available in the database. Existing entries in a
-`CompDb` can also be deleted using the `deleteCompound` or `deleteSpectra`
+`CompDb` can also be deleted using the `deleteCompound()` or `deleteSpectra()`
 functions. Both require as additional input the IDs of the compound(s) (or
 spectra) to delete. Below we extract the IDs and names of the compounds from our
 database.
@@ -554,8 +556,8 @@ database.
 compounds(mydb, columns = c("compound_id", "name"))
 ```
 
-We can now delete the compound `"X003"` with `deleteCompound` and the ID of this
-compound.
+We can now delete the compound `"X003"` with `deleteCompound()` and the ID of
+this compound.
 
 ```{r}
 mydb <- deleteCompound(mydb, ids = "3")
@@ -565,7 +567,7 @@ compounds(mydb)
 Note that deleting a compound with associated spectra (or ions) will result in
 an error, thus it would not be possible to delete caffeine from the database,
 because it contains also MS2 spectra for that compound. Using parameter
-`recursive = TRUE` in the `deleteCompound` call would however allow to delete
+`recursive = TRUE` in the `deleteCompound()` call would however allow to delete
 the compound **and all** associated spectra (and/or ions) along with it. Below
 we delete thus caffeine and the associated MS2 spectra which leaves us a
 `CompDb` with a single compound and no more MS2 spectra.

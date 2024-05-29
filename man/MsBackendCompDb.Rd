@@ -58,12 +58,12 @@ MsBackendCompDb()
 
 \item{x}{an \code{MsBackendCompDb} instance.}
 
-\item{filter}{for \code{backendInitialize}: optional filter expression to specify
-which elements to retrieve from the database.}
+\item{filter}{for \code{backendInitialize()}: optional filter expression to
+specify which elements to retrieve from the database.}
 
 \item{...}{ignored.}
 
-\item{columns}{for \code{spectraData}: \code{character} with names of columns/spectra
+\item{columns}{for \code{spectraData()}: \code{character} with names of columns/spectra
 variables that should be returned. Defaults to
 \code{spectraVariables(object)}. Database columns \code{"ms_level"},
 \code{"precursor_mz"}, \code{"precursor_intensity"}, \code{"precursor_charge"} are
@@ -82,11 +82,11 @@ return. Use \code{peaksVariables} for supported values.}
 
 \item{name}{for \verb{$<-}: the name of the spectra variable to replace.}
 
-\item{initial}{for \code{tic}: \code{logical(1)} whether original total ion current
+\item{initial}{for \code{tic()}: \code{logical(1)} whether original total ion current
 values should be returned or if the values should be calculated based
 on the actual intensity values of each spectrum.}
 
-\item{BPPARAM}{for \code{backendBpparam}: \code{BiocParallel} parallel processing
+\item{BPPARAM}{for \code{backendBpparam()}: \code{BiocParallel} parallel processing
 setup. See \code{\link[=bpparam]{bpparam()}} for more information.}
 }
 \value{
@@ -108,14 +108,14 @@ this backend.
 
 The \code{MsBackendCompDb} does not support parallel processing because the
 database connection stored within the object can not be used across
-multiple parallel processes. The \code{backendBpparam} method for
+multiple parallel processes. The \code{backendBpparam()} method for
 \code{MsBackendCompDb} thus returns always \code{SerialParam} and hence any
 function that uses this method to check for parallel processing capability
 of a \code{MsBackend} will by default disable parallel processing.
 }
 \note{
 For higher performance it is suggested to change the backend of the
-\code{\link[=Spectra]{Spectra()}} object to an \code{\link[=MsBackendDataFrame]{MsBackendDataFrame()}} backend with the
+\code{\link[=Spectra]{Spectra()}} object to an \code{\link[=MsBackendMemory]{MsBackendMemory()}} backend with the
 \code{\link[=setBackend]{setBackend()}} method of \code{Spectra} objects.
 }
 \section{Methods implemented for \code{MsBackendCompDb}}{
@@ -126,15 +126,15 @@ methods are inherited directly from the parent \code{\link[=MsBackendCached]{MsB
 See the help of \code{\link[=MsBackend]{MsBackend()}} in the \code{Spectra} package for a
 complete listing of methods.
 \itemize{
-\item \code{peaksData}: gets the full list of peak matrices. Returns a \code{\link[=list]{list()}},
+\item \code{peaksData()}: gets the full list of peak matrices. Returns a \code{\link[=list]{list()}},
 length equal to the number of spectra and each element being a \code{matrix}
 with columns \code{"mz"} and \code{"intensity"} with the spectra's m/z and intensity
 values.
-\item \code{peaksVariables}: lists the available peaks variables in the backend
-(database). These can be used for parameter \code{columns} of \code{peaksData}.
+\item \code{peaksVariables()}: lists the available peaks variables in the backend
+(database). These can be used for parameter \code{columns} of \code{peaksData()}.
 \item \verb{intensity<-}: not supported.
 \item \verb{mz<-}: not supported.
-\item \code{spectraData}: returns the complete spectrum data including m/z and
+\item \code{spectraData()}: returns the complete spectrum data including m/z and
 intensity values as a \code{\link[=DataFrame]{DataFrame()}}.
 \item \verb{$<-}: replace or add a spectrum variable. Note that \code{mz}, \code{intensity} and
 \code{spectrum_id} variables can not be replaced.

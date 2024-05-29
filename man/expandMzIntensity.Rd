@@ -16,8 +16,8 @@ parameter \code{collapsed = TRUE}, or by \code{\link[=spectra]{spectra()}} or \c
 description for details.
 }
 \description{
-\code{expandMzIntensity} \emph{expands} a \code{data.frame} with m/z and/or intensity values
-stored as a \code{list} in columns \code{"mz"} and \code{"intensity"}. The resulting
+\code{expandMzIntensity()} \emph{expands} a \code{data.frame} with m/z and/or intensity
+values stored as a \code{list} in columns \code{"mz"} and \code{"intensity"}. The resulting
 \code{data.frame} has the m/z and intensity values stored as \code{numeric} in columns
 \code{"mz"} and \code{"intensity"}, one value per row, with the content of other
 columns repeated as many times as there are m/z and intensity values.

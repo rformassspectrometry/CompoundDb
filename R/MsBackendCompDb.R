@@ -19,15 +19,15 @@
 #'
 #' The `MsBackendCompDb` does not support parallel processing because the
 #' database connection stored within the object can not be used across
-#' multiple parallel processes. The `backendBpparam` method for
+#' multiple parallel processes. The `backendBpparam()` method for
 #' `MsBackendCompDb` thus returns always `SerialParam` and hence any
 #' function that uses this method to check for parallel processing capability
 #' of a `MsBackend` will by default disable parallel processing.
 #'
-#' @param BPPARAM for `backendBpparam`: `BiocParallel` parallel processing
+#' @param BPPARAM for `backendBpparam()`: `BiocParallel` parallel processing
 #'     setup. See [bpparam()] for more information.
 #'
-#' @param columns for `spectraData`: `character` with names of columns/spectra
+#' @param columns for `spectraData()`: `character` with names of columns/spectra
 #'     variables that should be returned. Defaults to
 #'     `spectraVariables(object)`. Database columns `"ms_level"`,
 #'     `"precursor_mz"`, `"precursor_intensity"`, `"precursor_charge"` are
@@ -38,10 +38,10 @@
 #'
 #' @param drop For `[`: not considered.
 #'
-#' @param filter for `backendInitialize`: optional filter expression to specify
-#'     which elements to retrieve from the database.
+#' @param filter for `backendInitialize()`: optional filter expression to
+#'     specify which elements to retrieve from the database.
 #'
-#' @param initial for `tic`: `logical(1)` whether original total ion current
+#' @param initial for `tic()`: `logical(1)` whether original total ion current
 #'     values should be returned or if the values should be calculated based
 #'     on the actual intensity values of each spectrum.
 #'
@@ -64,7 +64,7 @@
 #' @note
 #'
 #' For higher performance it is suggested to change the backend of the
-#' [Spectra()] object to an [MsBackendDataFrame()] backend with the
+#' [Spectra()] object to an [MsBackendMemory()] backend with the
 #' [setBackend()] method of `Spectra` objects.
 #'
 #' @section Methods implemented for `MsBackendCompDb`:
@@ -74,19 +74,19 @@
 #' See the help of [MsBackend()] in the `Spectra` package for a
 #' complete listing of methods.
 #'
-#' - `peaksData`: gets the full list of peak matrices. Returns a [list()],
+#' - `peaksData()`: gets the full list of peak matrices. Returns a [list()],
 #'   length equal to the number of spectra and each element being a `matrix`
 #'   with columns `"mz"` and `"intensity"` with the spectra's m/z and intensity
 #'   values.
 #'
-#' - `peaksVariables`: lists the available peaks variables in the backend
-#'   (database). These can be used for parameter `columns` of `peaksData`.
+#' - `peaksVariables()`: lists the available peaks variables in the backend
+#'   (database). These can be used for parameter `columns` of `peaksData()`.
 #'
 #' - `intensity<-`: not supported.
 #'
 #' - `mz<-`: not supported.
 #'
-#' - `spectraData`: returns the complete spectrum data including m/z and
+#' - `spectraData()`: returns the complete spectrum data including m/z and
 #'   intensity values as a [DataFrame()].
 #'
 #' - `$<-`: replace or add a spectrum variable. Note that `mz`, `intensity` and
@@ -133,16 +133,21 @@ setClass("MsBackendCompDb",
          contains = "MsBackendCached",
          slots = c(dbcon = "DBIConnectionOrNULL",
                    spectraIds = "character",
-                   .properties = "list"),
+                   .properties = "list",
+                   dbname = "character"),
          prototype = prototype(
              dbcon = NULL,
              spectraIds = character(),
              .properties = list(),
-             version = "0.1",
+             dbname = character(),
+             version = "0.2",
              readonly = TRUE))
 
 setValidity("MsBackendCompDb", function(object) {
-    msg <- .valid_dbcon(object@dbcon)
+    con <- .dbconn(object)
+    if (!length(con) && length(.dbname(object)))
+        on.exit(dbDisconnect(con))
+    msg <- .valid_dbcon(con)
     if (length(msg)) msg
     else TRUE
 })
@@ -163,10 +168,14 @@ setMethod("backendInitialize", "MsBackendCompDb", function(object,
         stop("Parameter 'x' is mandatory for 'MsBackendCompDb'")
     if (!is(x, "CompDb"))
         stop("Parameter 'x' has to be a 'CompDb' object")
-    msg <- .valid_dbcon(.dbconn(x))
+    con <- .dbconn(x)
+    msg <- .valid_dbcon(con)
     if (length(msg))
         stop(msg)
-    object@dbcon <- .dbconn(x)
+    if (length(.dbname(x))) {
+        object@dbname <- .dbname(x)
+        dbDisconnect(con)
+    } else object@dbcon <- con
     ## Get spectrum ID, precursor_mz and compound_id from db (msms_spectrum).
     ## Put that into localData.
     local_data <- .fetch_data(
@@ -196,9 +205,12 @@ setMethod("backendInitialize", "MsBackendCompDb", function(object,
 setMethod("show", "MsBackendCompDb", function(object) {
     callNextMethod()
     if (length(object)) {
-        cat(" data source:", .metadata_value(object@dbcon, "source"), "\n")
-        cat(" version:", .metadata_value(object@dbcon, "source_version"), "\n")
-        cat(" organism:", .metadata_value(object@dbcon, "organism"), "\n")
+        con <- .dbconn(object)
+        if (length(con) && length(.dbname(object)))
+            on.exit(dbDisconnect(con))
+        cat(" data source:", .metadata_value(con, "source"), "\n")
+        cat(" version:", .metadata_value(con, "source_version"), "\n")
+        cat(" organism:", .metadata_value(con, "organism"), "\n")
     }
 })
 

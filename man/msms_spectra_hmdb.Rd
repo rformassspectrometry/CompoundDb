@@ -36,7 +36,7 @@ in HMDB).
 }
 }
 \description{
-\code{msms_spectra_hmdb} imports MS/MS spectra from corresponding xml files from
+\code{msms_spectra_hmdb()} imports MS/MS spectra from corresponding xml files from
 HMDB (http://www.hmdb.ca) and returns the data as a \code{data.frame}. HMDB
 stores MS/MS spectrum data in xml files, one file per spectrum.
 

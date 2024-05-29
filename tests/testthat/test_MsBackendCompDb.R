@@ -2,7 +2,7 @@ test_that("backendInitialize,MsBackendCompDb works", {
     res <- backendInitialize(MsBackendCompDb(), cmp_spctra_db)
     expect_true(is(res, "MsBackendCompDb"))
     expect_true(length(res) == 4)
-    expect_true(!is.null(res@dbcon))
+    expect_true(!is.null(.dbconn(res)))
 
     expect_error(backendInitialize(MsBackendCompDb(), 4), "'CompDb'")
     expect_error(backendInitialize(MsBackendCompDb(), cmp_db), "no MS/MS")
@@ -164,9 +164,9 @@ test_that("[,MsBackendCompDb works", {
 
 test_that("show,MsBackendCompDb doesn't break", {
     be <- MsBackendCompDb()
-    show(be)
+    expect_output(show(be), "MsBackendCompDb with 0 spectra")
     be <- Spectra(cmp_spctra_db)@backend
-    show(be)
+    expect_output(show(be), "MsBackendCompDb with 4 spectra")
 })
 
 test_that("precScanNum,MsBackendCompDb works", {

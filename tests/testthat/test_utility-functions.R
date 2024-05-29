@@ -25,9 +25,9 @@ test_that(".extract_field_from_string works", {
     expect_equal(res, "the last entry")
 
     strngs <- c(strng, "some=second")
-    res <- CompoundDb:::.extract_field_from_string(strngs, "some=", ";")
+    res <- .extract_field_from_string(strngs, "some=", ";")
     expect_equal(res, c("bl df", "second"))
-    res <- CompoundDb:::.extract_field_from_string(strngs, "last=", ";")
+    res <- .extract_field_from_string(strngs, "last=", ";")
     expect_equal(res, c("the last entry", NA))
 })
 

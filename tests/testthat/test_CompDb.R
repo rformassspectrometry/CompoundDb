@@ -1,6 +1,24 @@
+test_that("CompDb works with SQLite database name and connection", {
+    a <- CompDb(db_file)
+    expect_true(validObject(a))
+    expect_identical(a@dbcon, NULL)
+    expect_identical(a@dbname, db_file)
+
+    db_con <- dbConnect(SQLite(), db_file)
+    b <- CompDb(db_con)
+    expect_true(validObject(b))
+    expect_identical(b@dbname, character())
+    expect_true(length(b@dbcon) > 0)
+
+    expect_equal(compounds(a), compounds(b))
+    expect_equal(metadata(a), metadata(b))
+    expect_equal(a@.properties, b@.properties)
+    dbDisconnect(db_con)
+})
+
 test_that("CompDb constructor and low level functions", {
     expect_error(CompDb(), "database")
-    expect_error(CompDb(3))
+    expect_error(CompDb(3), "database")
     expect_error(CompDb(NA), "database")
     cmp <- new("CompDb")
     expect_true(is.null(.dbconn(cmp)))
@@ -66,4 +84,20 @@ test_that(".has_msms_spectra/hasMsMsSpectra works", {
     expect_false(hasMsMsSpectra(cmp_db))
     expect_true(.has_msms_spectra(cmp_spctra_db))
     expect_true(hasMsMsSpectra(cmp_spctra_db))
+})
+
+test_that(".dbconn works", {
+    tmp <- new("CompDb")
+    expect_identical(.dbconn(tmp), NULL)
+    expect_true(is(.dbconn(cmp_db), "SQLiteConnection"))
+    tmp <- cmp_db
+    tmp@dbcon <- dbConnect(SQLite(), tmp@dbname)
+    tmp@dbname <- character()
+    expect_true(is(.dbconn(cmp_db), "SQLiteConnection"))
+    dbDisconnect(tmp@dbcon)
+})
+
+test_that(".dbname works", {
+    expect_identical(.dbname(3), character())
+    expect_identical(.dbname(cmp_db), db_file)
 })

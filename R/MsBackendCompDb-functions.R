@@ -45,9 +45,11 @@ MsBackendCompDb <- function() {
 #'
 #' @noRd
 .available_peaks_variables <- function(x) {
-    if (length(x@dbcon)) {
-        res <- dbGetQuery(
-            .dbconn(x), "select * from msms_spectrum_peak limit 1")
+    con <- .dbconn(x)
+    if (length(con)) {
+        if (length(.dbname(x)))
+            on.exit(dbDisconnect(con))
+        res <- dbGetQuery(con, "select * from msms_spectrum_peak limit 1")
         colnames(res)[!colnames(res) %in% c("spectrum_id", "peak_id")]
     } else character()
 }
@@ -59,9 +61,12 @@ MsBackendCompDb <- function() {
 #'
 #' @noRd
 .fetch_peaks <- function(x, columns = c("mz", "intensity")) {
-    if (length(x@dbcon)) {
+    con <- .dbconn(x)
+    if (length(con)) {
+        if (length(.dbname(x)))
+            on.exit(dbDisconnect(con))
         dbGetQuery(
-            .dbconn(x),
+            con,
             paste0("select spectrum_id,", paste(columns, collapse = ","),
                    " from msms_spectrum_peak where spectrum_id in (",
                    paste0("'", unique(x@spectraIds), "'", collapse = ","), ")"))
@@ -138,11 +143,13 @@ MsBackendCompDb <- function() {
         colnames(sp_data) <- .map_sql_to_spectraVariables(colnames(sp_data))
         res <- cbind(res, as(sp_data, "DataFrame"))
         if (have_synonym) {
+            con <- .dbconn(x)
             tmp <- dbGetQuery(
-                .dbconn(x),
+                con,
                 paste0("select * from synonym where compound_id in (",
                        paste0("'", unique(res$compound_id), "'",
                               collapse = ","), ")"))
+            dbDisconnect(con)
             res$synonym <- CharacterList(
                 unname(split(tmp$synonym, as.factor(tmp$compound_id))[
                     as.character(res$compound_id)]), compress = FALSE)

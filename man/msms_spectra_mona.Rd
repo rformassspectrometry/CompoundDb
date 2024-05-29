@@ -37,7 +37,7 @@ spectrum was measured.
 }
 }
 \description{
-\code{msms_spectra_mona} imports MS/MS spectra from a MoNa (Massbank of North
+\code{msms_spectra_mona()} imports MS/MS spectra from a MoNa (Massbank of North
 America, http://mona.fiehnlab.ucdavis.edu/downloads) SDF file and returns
 the data as a \code{data.frame}.
 

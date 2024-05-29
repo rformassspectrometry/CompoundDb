@@ -16,6 +16,8 @@ setMethod("show", "CompDb", function(object) {
     cat("class:", class(object), "\n")
     con <- .dbconn(object)
     if (!is.null(con)) {
+        if (length(.dbname(object)))
+            on.exit(dbDisconnect(con))
         cat(" data source:", .metadata_value(con, "source"), "\n")
         cat(" version:", .metadata_value(con, "source_version"), "\n")
         cat(" organism:", .metadata_value(con, "organism"), "\n")
@@ -124,15 +126,18 @@ setMethod("compounds", "CompDb", function(object,
 #' @rdname CompDb
 setMethod("insertSpectra", signature(object = "CompDb", spectra = "Spectra"),
           function(object, spectra, columns = spectraVariables(spectra), ...) {
-              if (is.null(.dbconn(object)))
+              con <- .dbconn(object)
+              if (is.null(con))
                   stop("Database not initialized")
+              if (length(.dbname(object)))
+                  on.exit(dbDisconnect(con))
               new_sD <- as.data.frame(spectraData(spectra, columns))
               if (!any(colnames(new_sD) == "compound_id"))
                   stop("Column 'compound_id' needs to be provided (as a ",
                        "spectra variable to insert to the database).")
               if (!all(new_sD$compound_id %in%
-                       dbGetQuery(.dbconn(object),
-                                  "select compound_id from ms_compound")[, 1]))
+                       dbGetQuery(
+                           con, "select compound_id from ms_compound")[, 1]))
                   stop("All values of spectra variable 'compound_id' must be",
                        " in 'compound_id' column of the database 'ms_compound'",
                        " table")
@@ -150,20 +155,18 @@ setMethod("insertSpectra", signature(object = "CompDb", spectra = "Spectra"),
               new_sD$mz <- as.list(spectra$mz)
               new_sD$intensity <- as.list(spectra$intensity)
               if (hasMsMsSpectra(object))
-                  .append_msms_spectra(.dbconn(object), new_sD)
+                  .append_msms_spectra(con, new_sD)
               else {
                   if("spectrum_id" %in% colnames(new_sD))
                       warning("'spectrum_id' variable in 'spectra' will be
                               replaced with internal indexes")
                   new_sD$spectrum_id <- seq_len(nrow(new_sD))
-                  .insert_msms_spectra(.dbconn(object), new_sD)
+                  .insert_msms_spectra(con, new_sD)
               }
               object@.properties$tables$msms_spectrum <- colnames(
-                  dbGetQuery(.dbconn(object),
-                             "select * from msms_spectrum limit 1"))
+                  dbGetQuery(con, "select * from msms_spectrum limit 1"))
               object@.properties$tables$msms_spectrum_peak <- colnames(
-                  dbGetQuery(.dbconn(object),
-                             "select * from msms_spectrum_peak limit 1"))
+                  dbGetQuery(con, "select * from msms_spectrum_peak limit 1"))
               object
           })
 
@@ -178,6 +181,8 @@ setMethod("deleteSpectra", signature(object = "CompDb"),
               dbcon <- .dbconn(object)
               if (is.null(dbcon))
                   stop("Database not initialized")
+              if (length(.dbname(object)))
+                  on.exit(dbDisconnect(dbcon))
               if (hasMsMsSpectra(object)) {
                   if(any(!ids %in%
                          dbGetQuery(dbcon, paste0("select spectrum_id ",
@@ -225,6 +230,8 @@ setMethod("insertCompound", "CompDb", function(object, compounds = data.frame(),
         stop("'compounds' is expected to be a data.frame")
     dbcon <- .dbconn(object)
     if (is.null(dbcon)) stop("Database not initialized")
+    if (length(.dbname(object)))
+        on.exit(dbDisconnect(dbcon))
     if (!nrow(compounds)) return(object)
     ref <- data.frame(name = character(), inchi = character(),
                       inchikey = character(), formula = character(),
@@ -269,6 +276,8 @@ setMethod("deleteCompound", "CompDb", function(object, ids = character(),
                                                recursive = FALSE, ...) {
     dbcon <- .dbconn(object)
     if (is.null(dbcon)) stop("Database not initialized")
+    if (length(.dbname(object)))
+        on.exit(dbDisconnect(dbcon))
     if (!length(ids)) return(object)
     id_string <- paste0("'", ids, "'", collapse = ",")
     if (hasMsMsSpectra(object)) {
