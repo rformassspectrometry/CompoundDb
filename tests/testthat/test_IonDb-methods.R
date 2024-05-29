@@ -45,7 +45,7 @@ test_that("IonDb works", {
     ## from existing (rw) CompDb
     dbf <- tempfile()
     con <- dbConnect(dbDriver("SQLite"), dbf)
-    CompoundDb:::.copy_compdb(dbconn(cmp_db), con)
+    .copy_compdb(dbconn(cmp_db), con)
     cdb_dbf <- CompDb(con)
     res <- IonDb(cdb_dbf)
     expect_true(is(res, "IonDb"))
@@ -199,7 +199,7 @@ test_that("ions,ionDb works", {
 test_that("insertIon,ionDb works", {
     dbf <- tempfile()
     con <- dbConnect(dbDriver("SQLite"), dbf)
-    CompoundDb:::.copy_compdb(dbconn(ion_spctra_db), con)
+    .copy_compdb(dbconn(ion_spctra_db), con)
     idb <- IonDb(con)
 
     more_ions <- data.frame(compound_id = c("HMDB0000005", "HMDB0000008"),
@@ -248,7 +248,7 @@ test_that("insertSpectra,IonDb works", {
     sps <- Spectra(spd)
     dbf <- tempfile()
     con <- dbConnect(dbDriver("SQLite"), dbf)
-    CompoundDb:::.copy_compdb(dbconn(ion_spctra_db), con)
+    .copy_compdb(dbconn(ion_spctra_db), con)
     idb <- IonDb(con)
     msms_sp <- dbReadTable(dbconn(idb), "msms_spectrum")
     msms_sp_peak <- dbReadTable(dbconn(idb), "msms_spectrum_peak")
@@ -280,7 +280,7 @@ test_that("insertSpectra,IonDb works", {
     sps$newvariable <- c("value1", "value2")
     dbf <- tempfile()
     con <- dbConnect(dbDriver("SQLite"), dbf)
-    CompoundDb:::.copy_compdb(dbconn(ion_spctra_db), con)
+    .copy_compdb(dbconn(ion_spctra_db), con)
     idb <- IonDb(con)
     msms_sp <- dbReadTable(dbconn(idb), "msms_spectrum")
     expect_error(insertSpectra(idb, sps, columns = c("newvariable2",
@@ -298,7 +298,7 @@ test_that("insertSpectra,IonDb works", {
 test_that("deleteIon,IonDb works", {
     dbf <- tempfile()
     con <- dbConnect(dbDriver("SQLite"), dbf)
-    CompoundDb:::.copy_compdb(dbconn(ion_spctra_db), con)
+    .copy_compdb(dbconn(ion_spctra_db), con)
     idb <- IonDb(con)
     ids <- c(1, 2)
     deleteIon(idb, ids)

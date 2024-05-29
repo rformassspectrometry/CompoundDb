@@ -7,6 +7,8 @@ setMethod("show", "IonDb", function(object) {
     callNextMethod()
     con <- .dbconn(object)
     if (!is.null(con)) {
+        if (length(.dbname(object)))
+            on.exit(dbDisconnect(con))
         ion_nr <- dbGetQuery(con, paste0("select count(distinct ion_id) ",
                                          "from ms_ion"))
         cat(" ion count:", ion_nr[1, 1], "\n")
@@ -57,6 +59,8 @@ setMethod("insertIon", "IonDb", function(object, ions, addColumns = FALSE) {
         ions$compound_id <- as.character(ions$compound_id)
     .valid_ion(ions, error = TRUE)
     dbcon <- .dbconn(object)
+    if (length(.dbname(object)) && !is.null(dbcon))
+        on.exit(dbDisconnect(dbcon))
     if (!is.null(dbcon) && nrow(ions)) {
         if (!all(ions$compound_id %in%
                  dbGetQuery(dbcon, "select compound_id from ms_compound")[, 1]))
@@ -98,6 +102,8 @@ setMethod("deleteIon", signature(object = "IonDb"),
               dbcon <- .dbconn(object)
               if (is.null(dbcon))
                   stop("Database not initialized")
+              if (length(.dbname(object)))
+                  on.exit(dbDisconnect(dbcon))
               # maybe this check can be removed?
               if (any(!ids %in% dbGetQuery(dbcon,
                                            paste0("select ion_id ",
@@ -112,35 +118,43 @@ setMethod("deleteIon", signature(object = "IonDb"),
 #' @rdname IonDb
 #'
 #' @exportMethod IonDb
+#'
+#' @importFrom RSQLite SQLITE_RWC
 setMethod("IonDb", signature(x = "missing", cdb = "missing"),
-          function(x, cdb, ...) {
+          function(x, cdb, flags = SQLITE_RWC, ...) {
               .IonDb()
+          })
+
+## for character or CompDb with @dbname: only store @dbname but no connection.
+
+#' @rdname IonDb
+setMethod("IonDb", signature(x = "CompDb", cdb = "missing"),
+          function(x, cdb, ions = data.frame(), ...) {
+              con <- .dbconn(x)
+              .create_ion_table(con)
+              IonDb(con, ions = ions, .DBNAME = .dbname(x),
+                    flags = .dbflags(x), ...)
           })
 
 #' @rdname IonDb
 setMethod("IonDb", signature(x = "character", cdb = "missing"),
-          function(x, cdb, ...) {
+          function(x, cdb, flags = SQLITE_RW, ...) {
               con <- dbConnect(dbDriver("SQLite"), x)
-              IonDb(con, ...)
-          })
-
-#' @rdname IonDb
-setMethod("IonDb", signature(x = "CompDb",
-                             cdb = "missing"),
-          function(x, cdb, ions = data.frame(), ...) {
-              con <- .dbconn(x)
-              .create_ion_table(con)
-              IonDb(con, ions = ions, ...)
+              IonDb(con, ..., .DBNAME = x, flags = flags)
           })
 
 #' @rdname IonDb
 setMethod("IonDb", signature(x = "DBIConnection", cdb = "missing"),
-          function(x, cdb, ions = data.frame(), ...) {
+          function(x, cdb, ions = data.frame(), flags = SQLITE_RW, ...,
+                   .DBNAME = character()) {
               res <- .validCompDb(x)
               if (is.character(res)) stop(res)
               res <- .validIonDb(x)
               if (is.character(res)) stop(res)
-              idb <- .IonDb(dbcon = x)
+              if (length(.DBNAME)) {
+                  idb <- .IonDb(dbname = .DBNAME, dbflags = flags)
+                  dbDisconnect(x)
+              } else idb <- .IonDb(dbcon = x, dbflags = flags)
               idb <- .initialize_compdb(idb)
               if (nrow(ions))
                   insertIon(idb, ions)
@@ -149,23 +163,30 @@ setMethod("IonDb", signature(x = "DBIConnection", cdb = "missing"),
 
 #' @rdname IonDb
 setMethod("IonDb", signature(x = "character", cdb = "CompDb"),
-          function(x, cdb, ions = data.frame(), ...) {
+          function(x, cdb, ions = data.frame(), flags = SQLITE_RW, ...) {
               con <- dbConnect(dbDriver("SQLite"), x)
-              IonDb(con, cdb = cdb, ions = ions, ...)
+              IonDb(con, cdb = cdb, ions = ions, flags = flags,
+                    ..., .DBNAME = x)
           })
 
 #' @rdname IonDb
 setMethod("IonDb", signature(x = "DBIConnection", cdb = "CompDb"),
-          function(x, cdb, ions = data.frame(), ...) {
-              .copy_compdb(.dbconn(cdb), x)
+          function(x, cdb, ions = data.frame(), flags = SQLITE_RW, ...,
+                   .DBNAME = character()) {
+              con <- .dbconn(cdb)
+              if (length(.dbname(cdb)) && !is.null(con))
+                  on.exit(dbDisconnect(con))
+              .copy_compdb(con, x)
               .create_ion_table(x)
-              IonDb(x, ions = ions, ...)
+              IonDb(x, ions = ions, flags = flags, ..., .DBNAME = .DBNAME)
           })
 
 setMethod("deleteCompound", "IonDb", function(object, ids = character(),
                                                recursive = FALSE, ...) {
     dbcon <- .dbconn(object)
     if (is.null(dbcon)) stop("Database not initialized")
+    if (length(.dbname(object)))
+        on.exit(dbDisconnect(dbcon))
     if (!length(ids)) return(object)
     id_string <- paste0("'", ids, "'", collapse = ",")
     ins <- dbGetQuery(dbcon, paste0("select compound_id, ion_id from ms_ion",

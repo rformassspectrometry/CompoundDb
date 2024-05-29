@@ -29,7 +29,7 @@ into a single element separated by the value of \code{collapse}.
 }
 }
 \description{
-\code{compound_tbl_lipidblast} extracts basic comopund annotations from a
+\code{compound_tbl_lipidblast()} extracts basic comopund annotations from a
 LipidBlast file in (json format) downloaded from
 http://mona.fiehnlab.ucdavis.edu/downloads
 }

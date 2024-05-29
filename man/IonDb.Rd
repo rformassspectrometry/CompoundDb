@@ -13,8 +13,8 @@
 \alias{insertIon,IonDb-method}
 \alias{deleteIon,IonDb-method}
 \alias{IonDb,missing,missing-method}
-\alias{IonDb,character,missing-method}
 \alias{IonDb,CompDb,missing-method}
+\alias{IonDb,character,missing-method}
 \alias{IonDb,DBIConnection,missing-method}
 \alias{IonDb,character,CompDb-method}
 \alias{IonDb,DBIConnection,CompDb-method}
@@ -34,60 +34,81 @@
 
 \S4method{deleteIon}{IonDb}(object, ids = integer(0), ...)
 
-\S4method{IonDb}{missing,missing}(x, cdb, ...)
-
-\S4method{IonDb}{character,missing}(x, cdb, ...)
+\S4method{IonDb}{missing,missing}(x, cdb, flags = SQLITE_RWC, ...)
 
 \S4method{IonDb}{CompDb,missing}(x, cdb, ions = data.frame(), ...)
 
-\S4method{IonDb}{DBIConnection,missing}(x, cdb, ions = data.frame(), ...)
+\S4method{IonDb}{character,missing}(x, cdb, flags = SQLITE_RW, ...)
 
-\S4method{IonDb}{character,CompDb}(x, cdb, ions = data.frame(), ...)
+\S4method{IonDb}{DBIConnection,missing}(
+  x,
+  cdb,
+  ions = data.frame(),
+  flags = SQLITE_RW,
+  ...,
+  .DBNAME = character()
+)
 
-\S4method{IonDb}{DBIConnection,CompDb}(x, cdb, ions = data.frame(), ...)
+\S4method{IonDb}{character,CompDb}(x, cdb, ions = data.frame(), flags = SQLITE_RW, ...)
+
+\S4method{IonDb}{DBIConnection,CompDb}(
+  x,
+  cdb,
+  ions = data.frame(),
+  flags = SQLITE_RW,
+  ...,
+  .DBNAME = character()
+)
 }
 \arguments{
 \item{object}{For all methods: a \code{IonDb} object.}
 
-\item{includeId}{For \code{ionVariables}: \code{logical(1)} whether the ion
+\item{includeId}{For \code{ionVariables()}: \code{logical(1)} whether the ion
 ID (column \code{"ion_id"}) should be included in the result. The
 default is \code{includeId = FALSE}.}
 
 \item{...}{additional arguments. Currently not used.}
 
-\item{columns}{For \code{ions}: \code{character} with the names of the database
+\item{columns}{For \code{ions()}: \code{character} with the names of the database
 columns that should be retrieved. Use \code{ionVariables} for a list
 of available column names.}
 
-\item{filter}{For \code{ions}: filter expression or \code{\link[=AnnotationFilter]{AnnotationFilter()}} defining
-a filter to be used to retrieve specific elements from the database.}
+\item{filter}{For \code{ions()}: filter expression or \code{\link[=AnnotationFilter]{AnnotationFilter()}}
+defining a filter to be used to retrieve specific elements from the
+database.}
 
-\item{return.type}{For \code{ions}: either \code{"data.frame"} or \code{"tibble"} to
+\item{return.type}{For \code{ions()}: either \code{"data.frame"} or \code{"tibble"} to
 return the result as a \code{\link[=data.frame]{data.frame()}} or \code{\link[=tibble]{tibble()}}, respectively.}
 
-\item{ions}{for \code{insertIon} and \code{IonDb}: \code{data.frame} with ion definitions
-to be added to the \code{IonDb} database. Columns \code{"compound_id"}
+\item{ions}{for \code{insertIon()} and \code{IonDb()}: \code{data.frame} with ion
+definitions to be added to the \code{IonDb} database. Columns \code{"compound_id"}
 (\code{character()}), \code{"ion_adduct"} (\code{character()}), \code{"ion_mz"}
 (\code{numeric()}) and \code{"ion_rt"} (\code{numeric()}) are mandatory (but, with the
 exception of \code{"compound_id"}, can contain \code{NA}).}
 
-\item{addColumns}{For \code{insertIons}: \code{logical(1)} whether columns being
+\item{addColumns}{For \code{insertIons()}: \code{logical(1)} whether columns being
 present in the submitted \code{data.frame} but not in the database table
 should be added to the database's ion table.}
 
-\item{ids}{For \code{deleteIon}: \code{character()} or (alternatively \code{integer()})
+\item{ids}{For \code{deleteIon()}: \code{character()} or (alternatively \code{integer()})
 specifying the IDs of the ions to delete. IDs in \code{ids} that are
 not associated to any ion in the \code{IonDb} object are ignored.}
 
-\item{x}{For \code{IonDb}: database connection or \code{character(1)} with the file
+\item{x}{For \code{IonDb()}: database connection or \code{character(1)} with the file
 name of the SQLite database where the \code{IonDb} data will be stored or a
 \code{\link[=CompDb]{CompDb()}} object that should be converted into an \code{IonDb} object.
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{For all other methods: an `IonDb` object.
 }\if{html}{\out{</div>}}}
 
-\item{cdb}{For \code{IonDb}: \code{CompDb} object from which data should be
+\item{cdb}{For \code{IonDb()}: \code{CompDb} object from which data should be
 transferred to the \code{IonDb} database.}
+
+\item{flags}{For \code{IonDb()}: optional \code{integer(1)} defining the flags for
+the SQLite database connection. Only used if \code{x} is a \code{character()}.}
+
+\item{.DBNAME}{\code{character(1)} defining the SQLite database file. This is
+an internal parameter not intended to be used/provided by the user.}
 }
 \value{
 See description of the respective function.
@@ -103,11 +124,11 @@ database e.g. containing compound (and eventually MS/MS spectra) annotations
 from public databases such as the Human Metabolome Database (HMDB) or
 MassBank. To store now measured ions (e.g. of lab-internal standards) for a
 certain LC-MS setup, such a \code{CompDb} can then be converted to an \code{IonDb}
-using the \code{IonDb} constructor function. Ions can be subsequently added using
-the \code{insertIon} function. In general, it is suggested to create one \code{IonDb}
-database for one specific LC-MS setup. Such an \code{IonDb} database can then be
-used to match experimental m/z and retention times against ions defined in
-the database (using the functionality of the
+using the \code{IonDb()} constructor function. Ions can be subsequently added
+using the \code{insertIon()} function. In general, it is suggested to create
+one \code{IonDb} database for one specific LC-MS setup. Such an \code{IonDb}
+database can then be used to match experimental m/z and retention times
+against ions defined in the database (using the functionality of the
 \href{https://rformassspectrometry.github.io/MetaboAnnotation}{MetaboAnnotation}
 package).
 }
@@ -117,54 +138,55 @@ package).
 \item A new \code{IonDb} database can be created and initialized with data from an
 existing \code{CompDb} database by passing either the database connection
 (e.g. an \code{SQLiteConnection}) or the file path of a (to be created) SQLite
-database with parameter \code{x} to the \code{IonDb} function and the \code{CompDb}
+database with parameter \code{x} to the \code{IonDb()} function and the \code{CompDb}
 object with parameter \code{cdb}. Optional parameter \code{ions} allows insert in
 addition ion definitions (which can also be added later using
-\code{insertIon} function calls).
+\code{insertIon()} function calls).
 \item An existing \code{CompDb} can be converted to an \code{IonDb} by passing the
 \code{\link[=CompDb]{CompDb()}} object with parameter \code{x} to the \code{IonDb} function. Optional
 parameter \code{ions} allows to provide a \code{data.frame} with ion definitions to
 be inserted in to the database (which can also be added later using
-\code{insertIon} function calls). Note that this fails if the database
+\code{insertIon()} function calls). Note that this fails if the database
 connection for the \code{CompDb} is read-only.
 \item Previously created \code{IonDb} databases can be loaded by passing either the
 database connection (e.g. an \code{SQLiteConnection}) or the file path of the
-(SQLite) database with parameter \code{x} to the \code{IonDb} function.
+(SQLite) database with parameter \code{x} to the \code{IonDb()} function.
 }
 }
 
 \section{Retrieve annotations and ion information from the database}{
 
 
-Annotations/compound informations can be retrieved from a \code{IonDb} in the same
-way as thay are extracted from a \code{CompDb}. In addition, the function
-\code{ions} allows to retrieve the specific ion information from the database.
+Annotations/compound informations can be retrieved from a \code{IonDb} in the
+same way as thay are extracted from a \code{CompDb}. In addition, the function
+\code{ions()} allows to retrieve the specific ion information from the database.
 It returns the actual data as a \code{data.frame} (if
 \code{return.type = "data.frame"}) or a \code{\link[tibble:tibble]{tibble::tibble()}}
-(if \code{return.type = "tibble"}). An \code{ions} call will always
+(if \code{return.type = "tibble"}). An \code{ions()} call will always
 return all elements from the \emph{ms_ion} table (unless a \code{filter} is used).
 }
 
 \section{General functions (beside those inherited from \code{CompDb})}{
 
 \itemize{
-\item \code{IonDb}: connect to or create a compound/ion database.
-\item \code{ionVariables}: returns all available columns/database fields for ions.
+\item \code{IonDb()}: connect to or create a compound/ion database.
+\item \code{ionVariables()}: returns all available columns/database fields for ions.
 }
 }
 
 \section{Adding and removing data from a database}{
 
 
-\code{IonDb} inherits the \code{insertCompound}, \code{insertSpectra}, \code{deleteCompound} and
-\code{deleteSpectra} from \code{\link[=CompDb]{CompDb()}}. In addition, \code{IonDb} defines the functions:
+\code{IonDb} inherits the \code{insertCompound()}, \code{insertSpectra()},
+\code{deleteCompound()} and \code{deleteSpectra()} functions from \code{\link[=CompDb]{CompDb()}}.
+In addition, \code{IonDb} defines the functions:
 \itemize{
-\item \code{insertIon}: adds ions to the \code{IonDb} object. Note that
-\code{insertIon} always adds all the ions specified through the \code{ions} parameter
+\item \code{insertIon()}: adds ions to the \code{IonDb} object. Note that \code{insertIon()}
+always adds all the ions specified through the \code{ions} parameter
 and does not check if they are already in the database. To add columns
 present in the submitted \code{data.frame} to the database table set
 \code{addColumns = TRUE} (default is \code{addColumns = FALSE}).
-\item \code{deleteIon}: deletes ions from the \code{IonDb} object by specifying
+\item \code{deleteIon()}: deletes ions from the \code{IonDb} object by specifying
 their IDs.
 }
 }
@@ -172,12 +194,12 @@ their IDs.
 \section{Filtering the database}{
 
 
-Like \code{compounds} and \code{Spectra} also \code{ions} allows to filter the
+Like \code{compounds()} and \code{Spectra()} also \code{ions()} allows to filter the
 results using specific filter classes and expressions. Filtering uses the
-concepts from Bioconductor's \code{AnnotationFilter} package. All information
+concepts from Bioconductor's \emph{AnnotationFilter} package. All information
 for a certain compound with the ID \code{"1"} can for example be
 retrieved by passing the filter expression \code{filter = ~ ion_id == 1} to
-the \code{ions} function.
+the \code{ions()} function.
 
 Use the \code{\link[=supportedFilters]{supportedFilters()}} function on the \code{IonDb} object to get a list of
 all supported filters. See also examples below or the usage vignette for

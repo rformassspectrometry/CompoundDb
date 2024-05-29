@@ -24,56 +24,57 @@
 #' @details
 #'
 #' `CompDb` objects should be created using the constructor function
-#' `CompDb` providing the name of the (SQLite) database file providing
+#' `CompDb()` providing the name of the (SQLite) database file providing
 #' the compound annotation data.
 #'
 #' @section Retrieve annotations from the database:
 #'
 #' Annotations/compound informations can be retrieved from a `CompDb` database
-#' with the `compounds` and `Spectra` functions:
+#' with the `compounds()` and `Spectra()` functions:
 #'
-#' - `compounds` extracts compound data from the `CompDb` object. In contrast
+#' - `compounds()` extracts compound data from the `CompDb` object. In contrast
 #'   to `src_compdb` it returns the actual data as a `data.frame` (if
 #'   `return.type = "data.frame"`) or a [tibble::tibble()] (if
-#'   `return.type = "tibble"`). A `compounds` call will always return all
+#'   `return.type = "tibble"`). A `compounds()` call will always return all
 #'   elements from the *ms_compound* table (unless a `filter` is used).
 #'
-#' - `Spectra` extract spectra from the database and returns them as a
-#'   [Spectra()] object from the `Spectra` package. Additional annotations
+#' - `Spectra()` extract spectra from the database and returns them as a
+#'   [Spectra()] object from the *Spectra* package. Additional annotations
 #'   requested with the `columns` parameter are added as additional spectra
 #'   variables.
 #'
 #' @section General functions:
 #'
-#' - `CompDb`: connect to a compound database.
+#' - `CompDb()`: connect to a compound database.
 #'
-#' - `compoundVariables`: returns all available columns/database fields for
+#' - `compoundVariables()`: returns all available columns/database fields for
 #'   compounds.
 #'
-#' - `copyCompDb`: allows to copy the content from a CompDb to another database.
-#'   Parameter `x` is supposed to be either a `CompDb` or a database connection
-#'   from which the data should be copied and `y` a connection to a database
-#'   to which it should be copied.
+#' - `copyCompDb()`: allows to copy the content from a CompDb to another
+#'   database. Parameter `x` is supposed to be either a `CompDb` or a database
+#'   connection from which the data should be copied and `y` a connection to
+#'   a database to which it should be copied.
 #'
-#' - `dbconn`: returns the connection (of type `DBIConnection`) to the database.
+#' - `dbconn()`: returns the connection (of type `DBIConnection`) to the
+#'   database.
 #'
-#' - `metadata`: returns general meta data of the compound database.
+#' - `metadata()`: returns general meta data of the compound database.
 #'
-#' - `spectraVariables`: returns all spectra variables (i.e. columns) available
-#'   in the `CompDb`.
+#' - `spectraVariables()`: returns all spectra variables (i.e. columns)
+#'   available in the `CompDb`.
 #'
-#' - `src_compdb` provides access to the `CompDb`'s database *via*
+#' - `src_compdb()` provides access to the `CompDb`'s database *via*
 #'   the functionality from the `dplyr`/`dbplyr` package.
 #'
-#' - `supportedFilters`: provides an overview of the filters that can be
+#' - `supportedFilters()`: provides an overview of the filters that can be
 #'   applied on a `CompDb` object to extract only specific data from the
 #'   database.
 #'
-#' - `tables`: returns a named `list` (names being table names) with
+#' - `tables()`: returns a named `list` (names being table names) with
 #'   the fields/columns from each table in the database.
 #'
-#' - `mass2mz`: calculates a table of the m/z values for each compound based on
-#'   the provided set of adduct(s). Adduct definitions can be provided with
+#' - `mass2mz()`: calculates a table of the m/z values for each compound based
+#'   on the provided set of adduct(s). Adduct definitions can be provided with
 #'   parameter `adduct`. See [MetaboCoreUtils::mass2mz()] for more details.
 #'   Parameter `name` defines the database table column that should be used as
 #'   `rownames` of the returned `matrix`. By default `name = "formula"`, m/z
@@ -86,7 +87,7 @@
 #' write access `CompDb` should be called with parameter
 #' `flags = RSQLite::SQLITE_RW`.
 #'
-#' - `insertCompound`: adds additional compound(s) to a `CompDb`. The
+#' - `insertCompound()`: adds additional compound(s) to a `CompDb`. The
 #'   compound(s) to be added can be specified with parameter `compounds` that
 #'   is expected to be a `data.frame` with columns `"compound_id"`, `"name"`,
 #'   `"inchi"`, `"inchikey"`, `"formula"`, `"exactmass"`.
@@ -102,16 +103,16 @@
 #'   See also [createCompDb()] for more information and details on expected
 #'   compound data and the examples below for general usage.
 #'
-#' - `deleteCompound`: removes specified compounds from the `CompDb` database.
+#' - `deleteCompound()`: removes specified compounds from the `CompDb` database.
 #'   The IDs of the compounds that should be deleted need to be provided with
-#'   parameter `ids`. To include compound IDs in the output of a `compounds`
+#'   parameter `ids`. To include compound IDs in the output of a `compounds()`
 #'   call `"compound_id"` should be added to the `columns` parameter. By
 #'   default an error is thrown if for some of the specified compounds also MS2
 #'   spectra are present in the database. To force deletion of the compounds
 #'   along with all associated MS2 spectra use `recursive = TRUE`. See examples
 #'   below for details. The function returns the updated `CompDb` database.
 #'
-#' - `insertSpectra`: adds further spectra to the database.
+#' - `insertSpectra()`: adds further spectra to the database.
 #'   The method always adds all the spectra specified through the `spectra`
 #'   parameter and does not check if they are already in the database. Note that
 #'   the input spectra must have the variable `compound_id` and only `Spectra`
@@ -124,53 +125,54 @@
 #'   If needed, the function adds additional columns to the `msms_spectrum`
 #'   database table. The function returns the updated `CompDb` object.
 #'
-#' - `deleteSpectra`: deletes specified spectra from the database. The IDs of
+#' - `deleteSpectra()`: deletes specified spectra from the database. The IDs of
 #'   the spectra to be deleted need to be provided with parameter `ids`.
 #'
 #' @section Filtering the database:
 #'
-#' Data access methods such as `compounds` and `Spectra` allow to filter the
+#' Data access methods such as `compounds()` and `Spectra` allow to filter the
 #' results using specific filter classes and expressions. Filtering uses the
 #' concepts from Bioconductor's `AnnotationFilter` package. All information
 #' for a certain compound with the ID `"HMDB0000001"` can for example be
 #' retrieved by passing the filter expression
 #' `filter = ~ compound_id == "HMDB0000001"` to the `compounds` function.
 #'
-#' Use the [supportedFilters] function on the [CompDb] object to get a list of
-#' all supported filters. See also examples below or the usage vignette for
+#' Use the [supportedFilters()] function on the [CompDb] object to get a list
+#' of all supported filters. See also examples below or the usage vignette for
 #' details.
 #'
-#' @param addColumns For `insertCompound`: `logical(1)` whether all (extra)
+#' @param addColumns For `insertCompound()`: `logical(1)` whether all (extra)
 #'     columns in parameter `compounds` should be stored also in the database
 #'     table. The default is `addColumns = FALSE`.
 #'
-#' @param columns For `compounds`, `Spectra`: `character` with the names of the
-#'     database columns that should be retrieved. Use `compoundVariables` and/or
-#'     `spectraVariables` for a list of available column names.
-#'     For `insertSpectra`: columns (spectra variables) that should be inserted
-#'     into the database (to avoid inserting all variables).
+#' @param columns For `compounds()`, `Spectra`: `character` with the names of
+#'     the database columns that should be retrieved. Use `compoundVariables()`
+#'     and/or `spectraVariables()` for a list of available column names.
+#'     For `insertSpectra()`: columns (spectra variables) that should be
+#'     inserted into the database (to avoid inserting all variables).
 #'
-#' @param compounds For `insertCompound`: `data.frame` with compound data to be
-#'     inserted into a `CompDb` database. See function description for details.
+#' @param compounds For `insertCompound()`: `data.frame` with compound data to
+#'     be inserted into a `CompDb` database. See function description for
+#'     details.
 #'
-#' @param filter For `compounds` and `Spectra`: filter expression or
+#' @param filter For `compounds()` and `Spectra()`: filter expression or
 #'     [AnnotationFilter()] defining a filter to be used to retrieve specific
 #'     elements from the database.
 #'
 #' @param flags flags passed to the SQLite database connection.
 #'     See [SQLite()]. Defaults to read-only, i.e. `RSQLite::SQLITE_RO`.
 #'
-#' @param ids For `deleteSpectra`: `integer()`
+#' @param ids For `deleteSpectra()`: `integer()`
 #'     specifying the IDs of the spectra to delete. IDs in `ids` that are
 #'     not associated to any spectra in the `CompDb` object are ignored.
 #'     For `deleteCompound`: `character()` with the compound IDs to be deleted.
 #'
-#' @param includeId for `compoundVariables`: `logical(1)` whether the comound
+#' @param includeId for `compoundVariables()`: `logical(1)` whether the comound
 #'     ID (column `"compound_id"`) should be included in the result. The
 #'     default is `includeIds = FALSE`.
 #'
-#' @param name For `mass2mz`: `character(1)`. Defines the `CompDb` column that
-#'     will be used to name/identify the returned m/z values. By default
+#' @param name For `mass2mz()`: `character(1)`. Defines the `CompDb` column
+#'     that will be used to name/identify the returned m/z values. By default
 #'     (`name = "formula"`) m/z values for all unique molecular formulas are
 #'     calculated and these are used as `rownames` for the returned `matrix`.
 #'     With `name = "compound_id"` the adduct m/z for all compounds (even those
@@ -178,24 +180,24 @@
 #'
 #' @param object For all methods: a `CompDb` object.
 #'
-#' @param recursive For `deleteCompound`: `logical(1)` whether also MS2 spectra
-#'     associated with the compounds should be deleted.
+#' @param recursive For `deleteCompound()`: `logical(1)` whether also MS2
+#'     spectra associated with the compounds should be deleted.
 #'
-#' @param return.type For `compounds`: either `"data.frame"` or `"tibble"` to
+#' @param return.type For `compounds()`: either `"data.frame"` or `"tibble"` to
 #'     return the result as a [data.frame()] or [tibble()], respectively.
 #'
-#' @param x For `CompDb`: `character(1)` with the file name of the SQLite
-#'     compound database. Alternatively it is possible to provide the connection
-#'     to the database with parameter `x`. For `copyCompDb`: either a `CompDb`
-#'     or a database connection.
+#' @param x For `CompDb()`: `character(1)` with the file name of the SQLite
+#'     compound database. Alternatively it is possible to provide the
+#'     connection to the database with parameter `x`. For `copyCompDb()`:
+#'     either a `CompDb` or a database connection.
 #'
 #'     For all other methods: a `CompDb` object.
 #'
-#' @param y For `copyCompDb`: connection to a database to which the content
+#' @param y For `copyCompDb()`: connection to a database to which the content
 #'     should be copied.
 #'
-#' @param spectra For `insertSpectra`: `Spectra` object containing the spectra
-#'     to be added to the `IonDb` database.
+#' @param spectra For `insertSpectra()`: `Spectra` object containing the
+#'     spectra to be added to the `IonDb` database.
 #'
 #' @param ... additional arguments. Currently not used.
 #'
@@ -360,25 +362,36 @@
 #' ## spectra.
 NULL
 
+setClassUnion("DBIConnectionOrNULL", c("DBIConnection", "NULL"))
+
 #' @importFrom methods new
 #'
 #' @exportClass CompDb
 .CompDb <- setClass("CompDb",
-                    slots = c(dbcon = "DBIConnection",
-                              .properties = "list"),
+                    slots = c(dbcon = "DBIConnectionOrNULL",
+                              .properties = "list",
+                              dbname= "character",
+                              dbflags = "integer"),
                     prototype = list(.properties = list(),
-                                     dbcon = NULL))
+                                     dbcon = NULL,
+                                     dbname = character(),
+                                     dbflags = 1L))
 
 #' @importFrom methods validObject
 setValidity("CompDb", function(object) {
-    if (!is.null(object@dbcon))
-        .validCompDb(object@dbcon)
-    else TRUE
+    con <- .dbconn(object)
+    if (!is.null(con)) {
+        if (length(.dbname(object)))
+            on.exit(dbDisconnect(con))
+        .validCompDb(con)
+    } else TRUE
 })
 
-#' @importFrom DBI dbListTables dbGetQuery
+#' @importFrom DBI dbListTables dbGetQuery dbIsValid
 .validCompDb <- function(x) {
     txt <- character()
+    if (!dbIsValid(x))
+        return("Database connection not available or closed.")
     tables <- dbListTables(x)
     required_tables <- c("ms_compound", "metadata")
     got <- required_tables %in% tables
@@ -433,31 +446,28 @@ setValidity("CompDb", function(object) {
 #'
 #' @rdname CompDb
 CompDb <- function(x, flags = SQLITE_RO) {
-    if (missing(x) || is.na(x))
+    if (missing(x))
         stop("Argument 'x' is required and should be either a connection to ",
              "the database or, for SQLite, the database file.")
-    if (is.character(x)) {
-        ## Assume it's the file name of the SQLite database
-        x <- dbConnect(dbDriver("SQLite"), dbname = x,
-                       flags = flags)
-    }
-    if (is(x, "DBIConnection")) {
-        res <- .validCompDb(x)
-        if (is.character(res))
-            stop(res)
-        cdb <- .CompDb(dbcon = x)
-        cdb <- .initialize_compdb(cdb)
-        return(cdb)
-    }
-    stop("Can not create a 'CompDb' from 'x' of type '", class(x), "'.")
+    if (is.character(x))
+        return(.initialize_compdb(.CompDb(dbname = x, dbflags = flags)))
+    if (is(x, "DBIConnection"))
+        return(.initialize_compdb(.CompDb(dbcon = x, dbflags = flags)))
+    stop("'x' should be either a connection to a database or a character ",
+         "specifying the (SQLite) database file.")
 }
 
 .initialize_compdb <- function(x) {
+    con <- .dbconn(x)
+    if (length(.dbname(x)) && !is.null(con))
+        on.exit(dbDisconnect(con))
+    res <- .validCompDb(con)
+    if (is.character(res))
+        stop(res)
     ## fetch all tables and all columns for all tables.
-    tbl_nms <- dbListTables(.dbconn(x))
+    tbl_nms <- dbListTables(con)
     tbls <- lapply(tbl_nms, function(z) {
-        colnames(dbGetQuery(.dbconn(x),
-                            paste0("select * from ", z, " limit 1")))
+        colnames(dbGetQuery(con, paste0("select * from ", z, " limit 1")))
     })
     names(tbls) <- tbl_nms
     x@.properties$tables <- tbls
@@ -466,8 +476,12 @@ CompDb <- function(x, flags = SQLITE_RO) {
 
 #' @importFrom methods is
 .metadata <- function(x) {
-    if (!is(x, "DBIConnection"))
+    if (!is(x, "DBIConnection")) {
+        n <- .dbname(x)
         x <- .dbconn(x)
+        if (length(n) && !is.null(x))
+            on.exit(dbDisconnect(x))
+    }
     dbGetQuery(x, "select * from metadata")
 }
 
@@ -476,8 +490,23 @@ CompDb <- function(x, flags = SQLITE_RO) {
     metad[metad$name == key, "value"]
 }
 
+#' @importFrom methods .hasSlot
+.dbflags <- function(x) {
+    if (.hasSlot(x, "dbflags"))
+        x@dbflags
+    else 1L
+}
+
 .dbconn <- function(x) {
-    x@dbcon
+    if (length(.dbname(x)))
+        dbConnect(dbDriver("SQLite"), dbname = x@dbname, flags = .dbflags(x))
+    else x@dbcon
+}
+
+.dbname <- function(x) {
+    if (.hasSlot(x, "dbname"))
+        x@dbname
+    else character()
 }
 
 .has_msms_spectra <- function(x) {
@@ -540,7 +569,11 @@ tables <- function(x) {
 #'
 #' @rdname CompDb
 copyCompDb <- function(x, y) {
-    if (inherits(x, "CompDb"))
+    if (inherits(x, "CompDb")) {
+        n <- .dbname(x)
         x <- .dbconn(x)
+        if (length(n) && !is.null(x))
+            on.exit(dbDisconnect(x))
+    }
     .copy_compdb(x, y)
 }

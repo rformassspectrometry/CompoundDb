@@ -19,8 +19,8 @@ A \code{list} with elements \code{"compound"} and \code{"msms_spectrum"} contain
 data.frames with compound and MS/MS spectrum data, respectively.
 }
 \description{
-\code{import_mona_sdf} allows to import compound and spectrum information from an
-SDF file from MoNa (Massbank of North America
+\code{import_mona_sdf()} allows to import compound and spectrum information from
+an SDF file from MoNa (Massbank of North America
 http://mona.fiehnlab.ucdavis.edu/). This function is a convenience function
 using the \code{\link[=compound_tbl_sdf]{compound_tbl_sdf()}} and \code{\link[=msms_spectra_mona]{msms_spectra_mona()}} functions for data
 import but avoiding to read the SDF files twice.

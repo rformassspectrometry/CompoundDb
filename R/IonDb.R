@@ -18,11 +18,11 @@
 #' from public databases such as the Human Metabolome Database (HMDB) or
 #' MassBank. To store now measured ions (e.g. of lab-internal standards) for a
 #' certain LC-MS setup, such a `CompDb` can then be converted to an `IonDb`
-#' using the `IonDb` constructor function. Ions can be subsequently added using
-#' the `insertIon` function. In general, it is suggested to create one `IonDb`
-#' database for one specific LC-MS setup. Such an `IonDb` database can then be
-#' used to match experimental m/z and retention times against ions defined in
-#' the database (using the functionality of the
+#' using the `IonDb()` constructor function. Ions can be subsequently added
+#' using the `insertIon()` function. In general, it is suggested to create
+#' one `IonDb` database for one specific LC-MS setup. Such an `IonDb`
+#' database can then be used to match experimental m/z and retention times
+#' against ions defined in the database (using the functionality of the
 #' [MetaboAnnotation](https://rformassspectrometry.github.io/MetaboAnnotation)
 #' package).
 #'
@@ -31,103 +31,111 @@
 #' - A new `IonDb` database can be created and initialized with data from an
 #'   existing `CompDb` database by passing either the database connection
 #'   (e.g. an `SQLiteConnection`) or the file path of a (to be created) SQLite
-#'   database with parameter `x` to the `IonDb` function and the `CompDb`
+#'   database with parameter `x` to the `IonDb()` function and the `CompDb`
 #'   object with parameter `cdb`. Optional parameter `ions` allows insert in
 #'   addition ion definitions (which can also be added later using
-#'   `insertIon` function calls).
+#'   `insertIon()` function calls).
 #'
 #' - An existing `CompDb` can be converted to an `IonDb` by passing the
 #'   [CompDb()] object with parameter `x` to the `IonDb` function. Optional
 #'   parameter `ions` allows to provide a `data.frame` with ion definitions to
 #'   be inserted in to the database (which can also be added later using
-#'   `insertIon` function calls). Note that this fails if the database
+#'   `insertIon()` function calls). Note that this fails if the database
 #'   connection for the `CompDb` is read-only.
 #'
 #' - Previously created `IonDb` databases can be loaded by passing either the
 #'   database connection (e.g. an `SQLiteConnection`) or the file path of the
-#'   (SQLite) database with parameter `x` to the `IonDb` function.
+#'   (SQLite) database with parameter `x` to the `IonDb()` function.
 #'
 #' @section Retrieve annotations and ion information from the database:
 #'
-#' Annotations/compound informations can be retrieved from a `IonDb` in the same
-#' way as thay are extracted from a `CompDb`. In addition, the function
-#' `ions` allows to retrieve the specific ion information from the database.
+#' Annotations/compound informations can be retrieved from a `IonDb` in the
+#' same way as thay are extracted from a `CompDb`. In addition, the function
+#' `ions()` allows to retrieve the specific ion information from the database.
 #' It returns the actual data as a `data.frame` (if
 #' `return.type = "data.frame"`) or a [tibble::tibble()]
-#' (if `return.type = "tibble"`). An `ions` call will always
+#' (if `return.type = "tibble"`). An `ions()` call will always
 #' return all elements from the *ms_ion* table (unless a `filter` is used).
 #'
 #' @section General functions (beside those inherited from `CompDb`):
 #'
-#' - `IonDb`: connect to or create a compound/ion database.
+#' - `IonDb()`: connect to or create a compound/ion database.
 #'
-#' - `ionVariables`: returns all available columns/database fields for ions.
+#' - `ionVariables()`: returns all available columns/database fields for ions.
 #'
 #' @section Adding and removing data from a database:
 #'
-#' `IonDb` inherits the `insertCompound`, `insertSpectra`, `deleteCompound` and
-#' `deleteSpectra` from [CompDb()]. In addition, `IonDb` defines the functions:
+#' `IonDb` inherits the `insertCompound()`, `insertSpectra()`,
+#' `deleteCompound()` and `deleteSpectra()` functions from [CompDb()].
+#' In addition, `IonDb` defines the functions:
 #'
-#' - `insertIon`: adds ions to the `IonDb` object. Note that
-#'   `insertIon` always adds all the ions specified through the `ions` parameter
+#' - `insertIon()`: adds ions to the `IonDb` object. Note that `insertIon()`
+#'   always adds all the ions specified through the `ions` parameter
 #'   and does not check if they are already in the database. To add columns
 #'   present in the submitted `data.frame` to the database table set
 #'   `addColumns = TRUE` (default is `addColumns = FALSE`).
 #'
-#' - `deleteIon`: deletes ions from the `IonDb` object by specifying
+#' - `deleteIon()`: deletes ions from the `IonDb` object by specifying
 #'    their IDs.
 #'
 #' @section Filtering the database:
 #'
-#' Like `compounds` and `Spectra` also `ions` allows to filter the
+#' Like `compounds()` and `Spectra()` also `ions()` allows to filter the
 #' results using specific filter classes and expressions. Filtering uses the
-#' concepts from Bioconductor's `AnnotationFilter` package. All information
+#' concepts from Bioconductor's *AnnotationFilter* package. All information
 #' for a certain compound with the ID `"1"` can for example be
 #' retrieved by passing the filter expression `filter = ~ ion_id == 1` to
-#' the `ions` function.
+#' the `ions()` function.
 #'
 #' Use the [supportedFilters()] function on the `IonDb` object to get a list of
 #' all supported filters. See also examples below or the usage vignette for
 #' details.
 #'
-#' @param addColumns For `insertIons`: `logical(1)` whether columns being
+#' @param addColumns For `insertIons()`: `logical(1)` whether columns being
 #'     present in the submitted `data.frame` but not in the database table
 #'     should be added to the database's ion table.
 #'
-#' @param cdb For `IonDb`: `CompDb` object from which data should be
+#' @param cdb For `IonDb()`: `CompDb` object from which data should be
 #'     transferred to the `IonDb` database.
 #'
-#' @param columns For `ions`: `character` with the names of the database
+#' @param columns For `ions()`: `character` with the names of the database
 #'     columns that should be retrieved. Use `ionVariables` for a list
 #'     of available column names.
 #'
-#' @param filter For `ions`: filter expression or [AnnotationFilter()] defining
-#'     a filter to be used to retrieve specific elements from the database.
+#' @param filter For `ions()`: filter expression or [AnnotationFilter()]
+#'     defining a filter to be used to retrieve specific elements from the
+#'     database.
 #'
-#' @param ids For `deleteIon`: `character()` or (alternatively `integer()`)
+#' @param flags For `IonDb()`: optional `integer(1)` defining the flags for
+#'     the SQLite database connection. Only used if `x` is a `character()`.
+#'
+#' @param ids For `deleteIon()`: `character()` or (alternatively `integer()`)
 #'     specifying the IDs of the ions to delete. IDs in `ids` that are
 #'     not associated to any ion in the `IonDb` object are ignored.
 #'
-#' @param includeId For `ionVariables`: `logical(1)` whether the ion
+#' @param includeId For `ionVariables()`: `logical(1)` whether the ion
 #'     ID (column `"ion_id"`) should be included in the result. The
 #'     default is `includeId = FALSE`.
 #'
-#' @param ions for `insertIon` and `IonDb`: `data.frame` with ion definitions
-#'     to be added to the `IonDb` database. Columns `"compound_id"`
+#' @param ions for `insertIon()` and `IonDb()`: `data.frame` with ion
+#'     definitions to be added to the `IonDb` database. Columns `"compound_id"`
 #'     (`character()`), `"ion_adduct"` (`character()`), `"ion_mz"`
 #'     (`numeric()`) and `"ion_rt"` (`numeric()`) are mandatory (but, with the
 #'     exception of `"compound_id"`, can contain `NA`).
 #'
 #' @param object For all methods: a `IonDb` object.
 #'
-#' @param return.type For `ions`: either `"data.frame"` or `"tibble"` to
+#' @param return.type For `ions()`: either `"data.frame"` or `"tibble"` to
 #'     return the result as a [data.frame()] or [tibble()], respectively.
 #'
-#' @param x For `IonDb`: database connection or `character(1)` with the file
+#' @param x For `IonDb()`: database connection or `character(1)` with the file
 #'     name of the SQLite database where the `IonDb` data will be stored or a
 #'     [CompDb()] object that should be converted into an `IonDb` object.
 #'
 #'     For all other methods: an `IonDb` object.
+#'
+#' @param .DBNAME `character(1)` defining the SQLite database file. This is
+#'     an internal parameter not intended to be used/provided by the user.
 #'
 #' @param ... additional arguments. Currently not used.
 #'
@@ -200,14 +208,19 @@ NULL
 
 #' @importFrom methods validObject
 setValidity("IonDb", function(object) {
-    if (!is.null(object@dbcon))
-        .validIonDb(object@dbcon)
+    con <- .dbconn(object)
+    if (length(.dbname(object)) && !is.null(con))
+        on.exit(dbDisconnect(con))
+    if (!is.null(con))
+        .validIonDb(con)
     else TRUE
 })
 
 #' @importFrom DBI dbListTables dbGetQuery
 .validIonDb <- function(x) {
     txt <- character()
+    if (!dbIsValid(x))
+        return("Database connection not available or closed.")
     if(!("ms_ion" %in% dbListTables(x)))
         txt <- c(txt, "Required table 'ms_ion' not found not found in database")
     else {

@@ -1,8 +1,7 @@
-
 test_that("show,CompDb works", {
-    expect_output(show(cmp_db))
+    expect_output(show(cmp_db), "class: CompDb")
     db <- new("CompDb")
-    expect_output(show(cmp_db))
+    expect_output(show(cmp_db), "class: CompDb")
 })
 
 test_that("dbconn,CompDb works", {
@@ -107,29 +106,32 @@ test_that("insertSpectra,CompDb works", {
         c(3.407, 47.494, 3.094, 100.0, 13.240),
         c(6.685, 4.381, 3.022, 16.708, 100.0, 4.565, 40.643))
     sps <- Spectra(spd)
-    expect_error(insertSpectra(
-        cmp_spctra_db, sps, c("msLevel", "polarity", "other_column")),
-                 "Column 'compound_id'")
+    expect_error(
+        insertSpectra(cmp_spctra_db, sps,
+                      c("msLevel", "polarity", "other_column"))
+       , "Column 'compound_id'")
 
     sps$compound_id <- c("HMDB0000008", "b")
-    expect_error(insertSpectra(
-        cmp_spctra_db, sps, c("msLevel", "polarity", "other_column",
-                              "compound_id")),
-        "variable 'compound_id'")
+    expect_error(
+        insertSpectra(cmp_spctra_db, sps,
+                      c("msLevel", "polarity", "other_column", "compound_id"))
+       , "variable 'compound_id'")
+
     sps$compound_id <- c("HMDB0000008", "HMDB0000008")
-    expect_error(insertSpectra(
-        cmp_spctra_db, sps, c("msLevel", "polarity", "other_column",
-                              "compound_id")), "readonly")
+    expect_error(
+        insertSpectra(cmp_spctra_db, sps,
+                      c("msLevel", "polarity", "other_column" ,"compound_id"))
+      , "readonly")
 
     ## Insert to database without spectra data.
     tmp_con <- dbConnect(SQLite(), tempfile())
-    CompoundDb:::.copy_compdb(cmp_db@dbcon, tmp_con)
+    .copy_compdb(.dbconn(cmp_db), tmp_con)
 
     tmp_db <- CompDb(tmp_con)
-    expect_false(CompoundDb:::.has_msms_spectra(tmp_db))
+    expect_false(.has_msms_spectra(tmp_db))
     tmp_db <- insertSpectra(
         tmp_db, sps, c("msLevel", "polarity", "other_column", "compound_id"))
-    expect_true(CompoundDb:::.has_msms_spectra(tmp_db))
+    expect_true(.has_msms_spectra(tmp_db))
     res <- dbGetQuery(tmp_con, "select * from msms_spectrum")
     expect_true(all(c("ms_level", "polarity", "other_column", "compound_id")
                     %in% colnames(res)))
@@ -144,12 +146,12 @@ test_that("insertSpectra,CompDb works", {
 
     ## Append to existing database.
     tmp_con <- dbConnect(SQLite(), tempfile())
-    CompoundDb:::.copy_compdb(cmp_spctra_db@dbcon, tmp_con)
+    .copy_compdb(.dbconn(cmp_spctra_db), tmp_con)
 
     tmp_db <- CompDb(tmp_con)
     tmp_db <- insertSpectra(
         tmp_db, sps, c("msLevel", "polarity", "other_column", "compound_id"))
-    expect_true(CompoundDb:::.has_msms_spectra(tmp_db))
+    expect_true(.has_msms_spectra(tmp_db))
     res <- dbGetQuery(tmp_con, "select * from msms_spectrum")
     expect_true(all(c("ms_level", "polarity", "other_column", "compound_id")
                     %in% colnames(res)))
@@ -167,15 +169,15 @@ test_that("deleteSpectra,CompDb works", {
     expect_error(deleteSpectra(cmp_spctra_db, ids = c("1", "2")), "readonly")
 
     tmp_con <- dbConnect(SQLite(), tempfile())
-    CompoundDb:::.copy_compdb(cmp_db@dbcon, tmp_con)
+    .copy_compdb(.dbconn(cmp_db), tmp_con)
     tmp_db <- CompDb(tmp_con)
-    expect_false(CompoundDb:::.has_msms_spectra(tmp_db))
+    expect_false(.has_msms_spectra(tmp_db))
     expect_error(deleteSpectra(tmp_db, ids = c("1", "2")), "not contain msms")
 
 
 
     tmp_con <- dbConnect(SQLite(), tempfile())
-    CompoundDb:::.copy_compdb(cmp_spctra_db@dbcon, tmp_con)
+    .copy_compdb(.dbconn(cmp_spctra_db), tmp_con)
     tmp_db <- CompDb(tmp_con)
     tmp_db <- deleteSpectra(tmp_db) #should instead the default be delete evrything?
     expect_equal(dbReadTable(dbconn(tmp_db), "msms_spectrum"),

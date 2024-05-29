@@ -55,8 +55,8 @@
 #'
 #' @description
 #'
-#' `expandMzIntensity` *expands* a `data.frame` with m/z and/or intensity values
-#' stored as a `list` in columns `"mz"` and `"intensity"`. The resulting
+#' `expandMzIntensity()` *expands* a `data.frame` with m/z and/or intensity
+#' values stored as a `list` in columns `"mz"` and `"intensity"`. The resulting
 #' `data.frame` has the m/z and intensity values stored as `numeric` in columns
 #' `"mz"` and `"intensity"`, one value per row, with the content of other
 #' columns repeated as many times as there are m/z and intensity values.
