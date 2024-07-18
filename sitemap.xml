@@ -1,60 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://rformassspectrometry.github.io/CompoundDb/404.html</loc>
-  </url>
-  <url>
-    <loc>https://rformassspectrometry.github.io/CompoundDb/articles/CompoundDb-usage.html</loc>
-  </url>
-  <url>
-    <loc>https://rformassspectrometry.github.io/CompoundDb/articles/create-compounddb.html</loc>
-  </url>
-  <url>
-    <loc>https://rformassspectrometry.github.io/CompoundDb/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rformassspectrometry.github.io/CompoundDb/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://rformassspectrometry.github.io/CompoundDb/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rformassspectrometry.github.io/CompoundDb/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rformassspectrometry.github.io/CompoundDb/reference/CompDb.html</loc>
-  </url>
-  <url>
-    <loc>https://rformassspectrometry.github.io/CompoundDb/reference/Filter-classes.html</loc>
-  </url>
-  <url>
-    <loc>https://rformassspectrometry.github.io/CompoundDb/reference/IonDb.html</loc>
-  </url>
-  <url>
-    <loc>https://rformassspectrometry.github.io/CompoundDb/reference/MsBackendCompDb.html</loc>
-  </url>
-  <url>
-    <loc>https://rformassspectrometry.github.io/CompoundDb/reference/compound_tbl_lipidblast.html</loc>
-  </url>
-  <url>
-    <loc>https://rformassspectrometry.github.io/CompoundDb/reference/compound_tbl_sdf.html</loc>
-  </url>
-  <url>
-    <loc>https://rformassspectrometry.github.io/CompoundDb/reference/createCompDb.html</loc>
-  </url>
-  <url>
-    <loc>https://rformassspectrometry.github.io/CompoundDb/reference/expandMzIntensity.html</loc>
-  </url>
-  <url>
-    <loc>https://rformassspectrometry.github.io/CompoundDb/reference/import_mona_sdf.html</loc>
-  </url>
-  <url>
-    <loc>https://rformassspectrometry.github.io/CompoundDb/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rformassspectrometry.github.io/CompoundDb/reference/msms_spectra_hmdb.html</loc>
-  </url>
-  <url>
-    <loc>https://rformassspectrometry.github.io/CompoundDb/reference/msms_spectra_mona.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://rformassspectrometry.github.io/CompoundDb/404.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/CompoundDb/articles/CompoundDb-usage.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/CompoundDb/articles/create-compounddb.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/CompoundDb/articles/index.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/CompoundDb/authors.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/CompoundDb/index.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/CompoundDb/news/index.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/CompoundDb/reference/CompDb.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/CompoundDb/reference/Filter-classes.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/CompoundDb/reference/IonDb.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/CompoundDb/reference/MsBackendCompDb.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/CompoundDb/reference/compound_tbl_lipidblast.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/CompoundDb/reference/compound_tbl_sdf.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/CompoundDb/reference/createCompDb.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/CompoundDb/reference/expandMzIntensity.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/CompoundDb/reference/import_mona_sdf.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/CompoundDb/reference/index.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/CompoundDb/reference/msms_spectra_hmdb.html</loc></url>
+<url><loc>https://rformassspectrometry.github.io/CompoundDb/reference/msms_spectra_mona.html</loc></url>
 </urlset>
+
