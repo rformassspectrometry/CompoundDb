@@ -111,14 +111,26 @@ compound_tbl_sdf <- function(file, collapse, onlyValid = TRUE,
 #'
 #' @description
 #'
-#' `compound_tbl_lipidblast()` extracts basic comopund annotations from a
+#' `compound_tbl_lipidblast()` extracts basic compound annotations from a
 #' LipidBlast file in (json format) downloaded from
-#' http://mona.fiehnlab.ucdavis.edu/downloads
+#' http://mona.fiehnlab.ucdavis.edu/downloads . Note that no mass spectra data
+#' is extracted from the json file.
 #'
 #' @param file `character(1)` with the name of the file name.
 #'
 #' @param collapse optional `character(1)` to be used to collapse multiple
 #'     values in the columns `"synonyms"`. See examples for details.
+#'
+#' @param n `integer(1)` defining the number of rows from the json file that
+#'     should be read and processed at a time. By default (`n = -1L`) the
+#'     complete file is imported and processed. For large json files it is
+#'     suggested to set e.g. `n = 100000` to enable chunk-wise processing and
+#'     hence reduce the memory demand.
+#'
+#' @param verbose `logical(1)` whether some progress information should be
+#'     provided. Defaults to `verbose = FALSE`, but for parsing very large
+#'     files (specifically with chunk-wise processing enabled with `n` > 0)
+#'     it might be helpful to set to `verbose = TRUE`.
 #'
 #' @return A [tibble::tibble] with general compound information (one row per
 #' compound):
@@ -126,7 +138,8 @@ compound_tbl_sdf <- function(file, collapse, onlyValid = TRUE,
 #' - `compound_id`: the ID of the compound.
 #' - `name`: the compound's name.
 #' - `inchi`: the InChI of the compound.
-#' - `inchikey`: the InChI key.
+#' - `inchikey`: the InChI key. `NA` for all compounds as it is ot provided
+#'   in MoNA json files.
 #' - `formula`: the chemical formula.
 #' - `exactmass`: the compound's mass.
 #' - `synonyms`: the compound's synonyms (aliases). This type of this column is
@@ -146,12 +159,13 @@ compound_tbl_sdf <- function(file, collapse, onlyValid = TRUE,
 #' fl <- system.file("json/MoNa-LipidBlast_sub.json", package = "CompoundDb")
 #' cmps <- compound_tbl_lipidblast(fl)
 #' cmps
-compound_tbl_lipidblast <- function(file, collapse) {
+compound_tbl_lipidblast <- function(file, collapse = character(), n = -1L,
+                                    verbose = FALSE) {
     .check_parameter_file(file)
-    res <- .import_lipidblast(file)
-    if (!missing(collapse)) {
+    res <- .import_lipidblast(file, n = n, verbose = verbose)
+    if (length(collapse)) {
         ## collapse elements from lists.
-        res$synonyms <- vapply(res$synonyms, paste0, collapse = collapse,
+        res$synonyms <- vapply(res$synonyms, paste0, collapse = collapse[1L],
                                FUN.VALUE = "character")
     }
     res
@@ -331,44 +345,79 @@ compound_tbl_lipidblast <- function(file, collapse) {
 #' @author Jan Stanstrup and Johannes Rainer
 #'
 #' @importFrom jsonlite read_json
+#'
 #' @importFrom dplyr bind_rows
 #'
 #' @md
 #'
 #' @noRd
-.import_lipidblast <- function(file) {
-    lipidb <- read_json(file)
-
-    parse_element <- function(x) {
-        id <- x$id
-        cmp <- x$compound[[1]]
-        ## get the name(s) -> name + aliases
-        nms <- vapply(cmp$names, `[[`, "name", FUN.VALUE = "character")
-        mass <- unlist(lapply(cmp$metaData, function(z) {
-            if (z$name == "total exact mass")
-                z$value
-        }))
-        if (is.null(mass))
-            mass <- NA_character_
-        frml <- unlist(lapply(cmp$metaData, function(z) {
-            if (z$name == "molecular formula")
-                z$value
-        }))
-        if (is.null(frml))
-            mass <- NA_character_
-        list(
-            compound_id = x$id,
-            name = nms[1],
-            inchi = cmp$inchi,
-            inchikey = NA_character_,
-            formula = frml,
-            exactmass = mass,
-            synonyms = nms[-1]
-        )
-    }
-
-    res <- lapply(lipidb, parse_element)
+.import_lipidblast <- function(file, n = -1L, verbose = FALSE) {
+    if (n < 0) {
+        lipidb <- read_json(file)
+        if (verbose)
+            message("Processing ", length(lipidb), " elements ...",
+                    appendLF = FALSE)
+        res <- lapply(lipidb, .parse_lipidblast_json_element)
+        if (verbose) message(" done.")
+    } else res <- .import_lipidblast_json_chunk(file, n = n, verbose = verbose)
     bind_rows(res)
+}
+
+.parse_lipidblast_json_element <- function(x) {
+    id <- x$id[[1L]]
+    cmp <- x$compound[[1L]]
+    ## get the name(s) -> name + aliases
+    nms <- vapply(cmp$names, `[[`, "name", FUN.VALUE = "character")
+    mass <- unlist(lapply(cmp$metaData, function(z) {
+        if (z$name == "total exact mass")
+            z$value
+    }))
+    if (is.null(mass))
+        mass <- NA_character_
+    frml <- unlist(lapply(cmp$metaData, function(z) {
+        if (z$name == "molecular formula")
+            z$value
+    }))
+    if (is.null(frml))
+        frml <- NA_character_
+    snms <- NA_character_
+    if (length(nms) > 1L)
+        snms <- nms[-1L]
+    list(
+        compound_id = id,
+        name = nms[1L],
+        inchi = cmp$inchi,
+        inchikey = NA_character_,
+        formula = unique(frml),
+        exactmass = mass,
+        synonyms = list(snms)
+    )
+}
+
+
+#' @importFrom jsonlite fromJSON
+#'
+#' @importFrom dplyr bind_rows
+.import_lipidblast_json_chunk <- function(x, n = 10000, verbose = FALSE) {
+    con <- file(x, open = "r")
+    on.exit(close(con))
+    res <- list()
+    while (length(ls <- readLines(con, n = n, warn = FALSE))) {
+        if (length(grep("^\\[", ls[1L])))
+            ls <- ls[-1L]
+        if (length(grep("^\\]", ls[length(ls)])))
+            ls <- ls[-length(ls)]
+        ls <- sub(",$", "", ls)
+        if (length(ls)) {
+            res <- c(res, lapply(ls, function(z) {
+                .parse_lipidblast_json_element(
+                    fromJSON(z, simplifyVector = FALSE))
+            }))
+        }
+        if (verbose)
+            message("Processed ", length(ls), " elements")
+    }
+    res
 }
 
 #' @title Create a CompDb database
