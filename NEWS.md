@@ -1,5 +1,9 @@
 # CompoundDb version 1.9
 
+## Changes in version 1.9.3
+
+- `compound_tbl_lipidblast`: ensure *exactmass* is of type `numeric`.
+
 ## Changes in version 1.9.2
 
 - `compound_tbl_lipidblast`: add parameter `n` to support reading and

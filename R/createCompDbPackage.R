@@ -370,10 +370,10 @@ compound_tbl_lipidblast <- function(file, collapse = character(), n = -1L,
     nms <- vapply(cmp$names, `[[`, "name", FUN.VALUE = "character")
     mass <- unlist(lapply(cmp$metaData, function(z) {
         if (z$name == "total exact mass")
-            z$value
+            as.numeric(z$value)
     }))
     if (is.null(mass))
-        mass <- NA_character_
+        mass <- NA_real_
     frml <- unlist(lapply(cmp$metaData, function(z) {
         if (z$name == "molecular formula")
             z$value
