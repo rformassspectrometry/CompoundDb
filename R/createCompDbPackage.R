@@ -132,16 +132,26 @@ compound_tbl_sdf <- function(file, collapse, onlyValid = TRUE,
 #'     files (specifically with chunk-wise processing enabled with `n` > 0)
 #'     it might be helpful to set to `verbose = TRUE`.
 #'
+#' @param BPPARAM `BiocParallelParam` object to configure parallel processing.
+#'     Defaults to `bpparam()`.
+#'
 #' @return A [tibble::tibble] with general compound information (one row per
 #' compound):
 #'
 #' - `compound_id`: the ID of the compound.
 #' - `name`: the compound's name.
 #' - `inchi`: the InChI of the compound.
-#' - `inchikey`: the InChI key. `NA` for all compounds as it is ot provided
-#'   in MoNA json files.
+#' - `inchikey`: the InChI key.
+#' - `smiles`: the SMILES representation of the compound.
 #' - `formula`: the chemical formula.
 #' - `exactmass`: the compound's mass.
+#' - `compound_class`: the class of the compound.
+#' - `ionization_mode`: the ionization mode.
+#' - `precursor_mz`: the precursor m/z value.
+#' - `precursor_type`: the precursor type.
+#' - `retention_time`: the retention time.
+#' - `ccs`: the collision cross-section.
+#' - `spectrum`: the spectrum data.
 #' - `synonyms`: the compound's synonyms (aliases). This type of this column is
 #'   by default a `list` to support multiple aliases per compound, unless
 #'   argument `collapse` is provided, in which case multiple synonyms are pasted
@@ -157,16 +167,16 @@ compound_tbl_sdf <- function(file, collapse, onlyValid = TRUE,
 #'
 #' ## Read compound information from a subset of HMDB
 #' fl <- system.file("json/MoNa-LipidBlast_sub.json", package = "CompoundDb")
-#' cmps <- compound_tbl_lipidblast(fl)
+#' cmps <- compound_tbl_lipidblast(fl, n = 50000, verbose = TRUE,BPPARAM = bbparam())
 #' cmps
 compound_tbl_lipidblast <- function(file, collapse = character(), n = -1L,
-                                    verbose = FALSE) {
+                                    verbose = FALSE, BPPARAM = bpparam()) {
     .check_parameter_file(file)
-    res <- .import_lipidblast(file, n = n, verbose = verbose)
+    res <- .import_lipidblast(file, n = n, verbose = verbose, BPPARAM = BPPARAM)
     if (length(collapse)) {
         ## collapse elements from lists.
         res$synonyms <- vapply(res$synonyms, paste0, collapse = collapse[1L],
-                               FUN.VALUE = "character")
+                                FUN.VALUE = "character")
     }
     res
 }
@@ -336,8 +346,8 @@ compound_tbl_lipidblast <- function(file, collapse = character(), n = -1L,
                   )
 .mona_separator <- " __ "
 
-#' @description Import compound information from a LipidBlast file in json
-#'     format.
+#' @description Import compound information from a LipidBlast file in json 
+#'    format.
 #'
 #' @note This is a modified version from Jan's generate_lipidblast_tbl that
 #'     extracts the mass also from the json and does not calculate it.
@@ -347,58 +357,106 @@ compound_tbl_lipidblast <- function(file, collapse = character(), n = -1L,
 #' @importFrom jsonlite read_json
 #'
 #' @importFrom dplyr bind_rows
+#' @importFrom BiocParallel bplapply bpparam
 #'
 #' @md
-#'
 #' @noRd
-.import_lipidblast <- function(file, n = -1L, verbose = FALSE) {
+.import_lipidblast <- function(file, n = -1L, verbose = FALSE, BPPARAM = bpparam()) {
     if (n < 0) {
         lipidb <- read_json(file)
         if (verbose)
-            message("Processing ", length(lipidb), " elements ...",
-                    appendLF = FALSE)
-        res <- lapply(lipidb, .parse_lipidblast_json_element)
+            message("Processing ", length(lipidb), " elements ...", appendLF = FALSE)
+        
+        # Use BiocParallel to process elements in parallel
+        res <- bplapply(lipidb, .parse_lipidblast_json_element, BPPARAM = BPPARAM)
+        
         if (verbose) message(" done.")
-    } else res <- .import_lipidblast_json_chunk(file, n = n, verbose = verbose)
+    } else {
+        res <- .import_lipidblast_json_chunk(file, n = n, verbose = verbose, BPPARAM = BPPARAM)
+    }
     bind_rows(res)
 }
 
+#' @description Parse a single LipidBlast JSON element.
+#'
+#' @param x A JSON element representing a compound.
+#' @return A list containing parsed compound information.
+#' @noRd
 .parse_lipidblast_json_element <- function(x) {
-    id <- x$id[[1L]]
-    cmp <- x$compound[[1L]]
-    ## get the name(s) -> name + aliases
+    id <- x$id
+    cmp <- x$compound[[1]]
+    
+    # Helper function to extract metadata from multiple sources
+    get_metadata <- function(name, sources) {
+        for (source in sources) {
+            value <- unlist(lapply(source, function(z) {
+                if (z$name == name) z$value
+            }))
+            if (length(value) > 0 && !all(value == "")) {
+                return(value[1])
+            }
+        }
+        return(NA_character_)
+    }
+    
+    # Define metadata sources
+    metadata_sources <- list(x$metaData, cmp$metaData)
+    
+    # Get names
     nms <- vapply(cmp$names, `[[`, "name", FUN.VALUE = "character")
-    mass <- unlist(lapply(cmp$metaData, function(z) {
-        if (z$name == "total exact mass")
-            as.numeric(z$value)
-    }))
-    if (is.null(mass))
-        mass <- NA_real_
-    frml <- unlist(lapply(cmp$metaData, function(z) {
-        if (z$name == "molecular formula")
-            z$value
-    }))
-    if (is.null(frml))
-        frml <- NA_character_
-    snms <- NA_character_
-    if (length(nms) > 1L)
-        snms <- nms[-1L]
+    snms <- if (length(nms) > 1L) nms[-1L] else NA_character_
+    
+    # Extract metadata
+    mass <- get_metadata("total exact mass", metadata_sources)
+    mass <- as.numeric(mass)
+    if (is.na(mass)) mass <- NA_real_
+    
+    frml <- get_metadata("molecular formula", metadata_sources)
+    inchi <- get_metadata("InChI", metadata_sources)
+    inchikey <- get_metadata("InChIKey", metadata_sources)
+    smiles <- get_metadata("SMILES", metadata_sources)
+    compound_class <- get_metadata("compound class", metadata_sources)
+    ionization_mode <- get_metadata("ionization mode", metadata_sources)
+    precursor_mz <- as.numeric(get_metadata("precursor m/z", metadata_sources))
+    precursor_type <- get_metadata("precursor type", metadata_sources)
+    retention_time <- as.numeric(get_metadata("retention time", metadata_sources))
+    ccs <- as.numeric(get_metadata("ccs", metadata_sources))
+    
+    # Extract spectrum data
+    spectrum <- x$spectrum
+    if (is.null(spectrum)) spectrum <- NA_character_
+    
     list(
         compound_id = id,
-        name = nms[1L],
-        inchi = cmp$inchi,
-        inchikey = NA_character_,
-        formula = unique(frml),
+        name = nms[1],
+        inchi = inchi,
+        inchikey = inchikey,
+        smiles = smiles,
+        formula = frml,
         exactmass = mass,
+        compound_class = compound_class,
+        ionization_mode = ionization_mode,
+        precursor_mz = precursor_mz,
+        precursor_type = precursor_type,
+        retention_time = retention_time,
+        ccs = ccs,
+        spectrum = spectrum,
         synonyms = list(snms)
     )
 }
 
-
-#' @importFrom jsonlite fromJSON
+#' @description Import compound information from a chunk of a LipidBlast file in JSON format.
 #'
+#' @param x The file path to the LipidBlast JSON file.
+#' @param n The number of lines to read in each chunk.
+#' @param verbose Logical, if TRUE, progress messages are printed.
+#' @param BPPARAM A BiocParallelParam object specifying the parallel backend.
+#' @return A list of parsed compound information.
+#' @importFrom jsonlite fromJSON
 #' @importFrom dplyr bind_rows
-.import_lipidblast_json_chunk <- function(x, n = 10000, verbose = FALSE) {
+#' @importFrom BiocParallel bplapply bpparam
+#' @noRd
+.import_lipidblast_json_chunk <- function(x, n = 10000, verbose = FALSE, BPPARAM = bpparam()) {
     con <- file(x, open = "r")
     on.exit(close(con))
     res <- list()
@@ -409,10 +467,10 @@ compound_tbl_lipidblast <- function(file, collapse = character(), n = -1L,
             ls <- ls[-length(ls)]
         ls <- sub(",$", "", ls)
         if (length(ls)) {
-            res <- c(res, lapply(ls, function(z) {
-                .parse_lipidblast_json_element(
-                    fromJSON(z, simplifyVector = FALSE))
-            }))
+            chunk_res <- bplapply(ls, function(z) {
+                .parse_lipidblast_json_element(jsonlite::fromJSON(z, simplifyVector = FALSE))
+            }, BPPARAM = BPPARAM)
+            res <- c(res, chunk_res)
         }
         if (verbose)
             message("Processed ", length(ls), " elements")
