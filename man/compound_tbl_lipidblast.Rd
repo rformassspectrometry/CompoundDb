@@ -4,13 +4,24 @@
 \alias{compound_tbl_lipidblast}
 \title{Extract compound data from LipidBlast}
 \usage{
-compound_tbl_lipidblast(file, collapse)
+compound_tbl_lipidblast(file, collapse = character(), n = -1L, verbose = FALSE)
 }
 \arguments{
 \item{file}{\code{character(1)} with the name of the file name.}
 
 \item{collapse}{optional \code{character(1)} to be used to collapse multiple
 values in the columns \code{"synonyms"}. See examples for details.}
+
+\item{n}{\code{integer(1)} defining the number of rows from the json file that
+should be read and processed at a time. By default (\code{n = -1L}) the
+complete file is imported and processed. For large json files it is
+suggested to set e.g. \code{n = 100000} to enable chunk-wise processing and
+hence reduce the memory demand.}
+
+\item{verbose}{\code{logical(1)} whether some progress information should be
+provided. Defaults to \code{verbose = FALSE}, but for parsing very large
+files (specifically with chunk-wise processing enabled with \code{n} > 0)
+it might be helpful to set to \code{verbose = TRUE}.}
 }
 \value{
 A \link[tibble:tibble]{tibble::tibble} with general compound information (one row per
@@ -19,7 +30,8 @@ compound):
 \item \code{compound_id}: the ID of the compound.
 \item \code{name}: the compound's name.
 \item \code{inchi}: the InChI of the compound.
-\item \code{inchikey}: the InChI key.
+\item \code{inchikey}: the InChI key. \code{NA} for all compounds as it is ot provided
+in MoNA json files.
 \item \code{formula}: the chemical formula.
 \item \code{exactmass}: the compound's mass.
 \item \code{synonyms}: the compound's synonyms (aliases). This type of this column is
@@ -29,9 +41,10 @@ into a single element separated by the value of \code{collapse}.
 }
 }
 \description{
-\code{compound_tbl_lipidblast()} extracts basic comopund annotations from a
+\code{compound_tbl_lipidblast()} extracts basic compound annotations from a
 LipidBlast file in (json format) downloaded from
-http://mona.fiehnlab.ucdavis.edu/downloads
+http://mona.fiehnlab.ucdavis.edu/downloads . Note that no mass spectra data
+is extracted from the json file.
 }
 \examples{
 

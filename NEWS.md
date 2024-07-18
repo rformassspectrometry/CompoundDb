@@ -1,5 +1,11 @@
 # CompoundDb version 1.9
 
+## Changes in version 1.9.2
+
+- `compound_tbl_lipidblast`: add parameter `n` to support reading and
+  processing MoNA json files in sets (chunks) of lines at a time and hence
+  reduce memory demand for very large files.
+
 ## Changes in version 1.9.1
 
 - Allow `CompDb` to store that database name as alternative to an active

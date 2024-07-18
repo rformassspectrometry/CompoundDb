@@ -151,7 +151,7 @@ test_that("compound_tbl_lipidblast works", {
                                    "inchikey", "formula", "exactmass",
                                    "synonyms"))
     expect_true(nrow(cmps) == 8)
-    expect_true(is(cmps$synonyms, "character"))
+    expect_true(is.list(cmps$synonyms))
     cmps <- compound_tbl_lipidblast(lb, collapse = ";")
     expect_true(is.character(cmps$synonyms))
 })
@@ -446,4 +446,34 @@ test_that("emptyCompDb works", {
     expect_true(nrow(compounds(res)) == 0)
 
     expect_error(emptyCompDb(fl), "exist")
+})
+
+test_that(".parse_lipidblast_json_element works", {
+    library(jsonlite)
+    f <- system.file("json", "MoNa-LipidBlast_sub.json", package = "CompoundDb")
+    js <- read_json(f)
+    res <- .parse_lipidblast_json_element(js[[1L]])
+    expect_true(is.list(res))
+    expect_equal(names(res), c("compound_id", "name", "inchi", "inchikey",
+                               "formula", "exactmass", "synonyms"))
+    expect_equal(res$name, "CerP 24:0")
+})
+
+test_that(".import_lipidblast_json_chunk works", {
+    f <- system.file("json", "MoNa-LipidBlast_sub.json", package = "CompoundDb")
+    res <- .import_lipidblast_json_chunk(f, n = 3)
+    expect_true(is.list(res))
+    expect_true(length(res) == 8L)
+
+    ref <- .import_lipidblast(f, verbose = TRUE)
+    expect_equal(nrow(ref), length(res))
+    res <- bind_rows(res)
+    expect_equal(ref, res)
+})
+
+test_that("compound_tbl_lipidblast works with n > 0", {
+    f <- system.file("json", "MoNa-LipidBlast_sub.json", package = "CompoundDb")
+    ref <- compound_tbl_lipidblast(f)
+    res <- compound_tbl_lipidblast(f, n = 4)
+    expect_equal(ref, res)
 })
