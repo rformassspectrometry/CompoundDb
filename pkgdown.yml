@@ -4,7 +4,7 @@ pkgdown_sha: 2841c0f994fda7f7c7da94034bd24e3882fc7a37
 articles:
   CompoundDb-usage: CompoundDb-usage.html
   create-compounddb: create-compounddb.html
-last_built: 2024-07-18T06:34Z
+last_built: 2024-07-18T14:04Z
 urls:
   reference: https://rformassspectrometry.github.io/CompoundDb/reference
   article: https://rformassspectrometry.github.io/CompoundDb/articles
