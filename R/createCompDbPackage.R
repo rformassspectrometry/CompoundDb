@@ -159,7 +159,7 @@ compound_tbl_sdf <- function(file, collapse, onlyValid = TRUE,
 #'
 #' @family compound table creation functions
 #'
-#' @author Johannes Rainer and Jan Stanstrup
+#' @author Johannes Rainer, Jan Stanstrup and Prateek Arora
 #'
 #' @export
 #'
@@ -352,7 +352,7 @@ compound_tbl_lipidblast <- function(file, collapse = character(), n = -1L,
 #' @note This is a modified version from Jan's generate_lipidblast_tbl that
 #'     extracts the mass also from the json and does not calculate it.
 #'
-#' @author Jan Stanstrup and Johannes Rainer
+#' @author Jan Stanstrup, Johannes Rainer and Prateek Arora
 #'
 #' @importFrom jsonlite read_json
 #'

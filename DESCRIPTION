@@ -21,7 +21,11 @@ Authors@R: c(person(given = "Jan", family = "Stanstrup",
              person(given = "Andrea", family = "Vicini",
 	            email = "andrea.vicini@eurac.edu",
 		    role = c("aut"),
-		    comment = c(ORCID = "0000-0001-9438-6909"))
+		    comment = c(ORCID = "0000-0001-9438-6909")),
+            person(given = "Prateek", family = "Arora",
+	            email = "prateek.arora@unibe.ch",
+		    role = c("ctb"),
+		    comment = c(ORCID = "0000-0003-0822-9240"))
 		    )
 Description: CompoundDb provides functionality to create and use (chemical)
     compound annotation databases from a variety of different sources such as

@@ -74,6 +74,6 @@ Other compound table creation functions:
 \code{\link{compound_tbl_sdf}()}
 }
 \author{
-Johannes Rainer and Jan Stanstrup
+Johannes Rainer, Jan Stanstrup and Prateek Arora
 }
 \concept{compound table creation functions}
