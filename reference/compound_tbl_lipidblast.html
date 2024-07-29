@@ -13,7 +13,7 @@ is extracted from the json file."><meta property="og:image" content="https://rfo
 
     <a class="navbar-brand me-2" href="../index.html">CompoundDb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.9.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.9.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,7 +52,13 @@ is extracted from the json file.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">compound_tbl_lipidblast</span><span class="op">(</span><span class="va">file</span>, collapse <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>, n <span class="op">=</span> <span class="op">-</span><span class="fl">1L</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">compound_tbl_lipidblast</span><span class="op">(</span></span>
+<span>  <span class="va">file</span>,</span>
+<span>  collapse <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  n <span class="op">=</span> <span class="op">-</span><span class="fl">1L</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  BPPARAM <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/register.html" class="external-link">bpparam</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -82,6 +88,11 @@ provided. Defaults to <code>verbose = FALSE</code>, but for parsing very large
 files (specifically with chunk-wise processing enabled with <code>n</code> &gt; 0)
 it might be helpful to set to <code>verbose = TRUE</code>.</p></dd>
 
+
+<dt id="arg-bpparam">BPPARAM<a class="anchor" aria-label="anchor" href="#arg-bpparam"></a></dt>
+<dd><p><code>BiocParallelParam</code> object to configure parallel processing.
+Defaults to <code><a href="https://rdrr.io/pkg/BiocParallel/man/register.html" class="external-link">bpparam()</a></code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -89,10 +100,18 @@ it might be helpful to set to <code>verbose = TRUE</code>.</p></dd>
 compound):</p><ul><li><p><code>compound_id</code>: the ID of the compound.</p></li>
 <li><p><code>name</code>: the compound's name.</p></li>
 <li><p><code>inchi</code>: the InChI of the compound.</p></li>
-<li><p><code>inchikey</code>: the InChI key. <code>NA</code> for all compounds as it is ot provided
-in MoNA json files.</p></li>
+<li><p><code>inchikey</code>: the InChI key.</p></li>
+<li><p><code>smiles</code>: the SMILES representation of the compound.</p></li>
 <li><p><code>formula</code>: the chemical formula.</p></li>
 <li><p><code>exactmass</code>: the compound's mass.</p></li>
+<li><p><code>compound_class</code>: the class of the compound.</p></li>
+<li><p><code>ionization_mode</code>: the ionization mode.</p></li>
+<li><p><code>precursor_mz</code>: the precursor m/z value.</p></li>
+<li><p><code>precursor_type</code>: the precursor type.</p></li>
+<li><p><code>retention_time</code>: the retention time.</p></li>
+<li><p><code>ccs</code>: the collision cross-section.</p></li>
+<li><p><code>spectrum</code>: the spectrum data (i.e. the mass peaks, as a concatenated
+character string).</p></li>
 <li><p><code>synonyms</code>: the compound's synonyms (aliases). This type of this column is
 by default a <code>list</code> to support multiple aliases per compound, unless
 argument <code>collapse</code> is provided, in which case multiple synonyms are pasted
@@ -105,7 +124,7 @@ into a single element separated by the value of <code>collapse</code>.</p></li>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
-    <p>Johannes Rainer and Jan Stanstrup</p>
+    <p>Johannes Rainer, Jan Stanstrup and Prateek Arora</p>
     </div>
 
     <div class="section level2">
@@ -113,19 +132,23 @@ into a single element separated by the value of <code>collapse</code>.</p></li>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Read compound information from a subset of HMDB</span></span></span>
 <span class="r-in"><span><span class="va">fl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"json/MoNa-LipidBlast_sub.json"</span>, package <span class="op">=</span> <span class="st">"CompoundDb"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">cmps</span> <span class="op">&lt;-</span> <span class="fu">compound_tbl_lipidblast</span><span class="op">(</span><span class="va">fl</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cmps</span> <span class="op">&lt;-</span> <span class="fu">compound_tbl_lipidblast</span><span class="op">(</span><span class="va">fl</span>, n <span class="op">=</span> <span class="fl">50000</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Processed 8 elements</span>
 <span class="r-in"><span><span class="va">cmps</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 8 × 7</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   compound_id      name      inchi           inchikey formula exactmass synonyms</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> LipidBlast000001 CerP 24:0 InChI=1S/C24H5… <span style="color: #BB0000;">NA</span>       C24H50…      479. <span style="color: #949494;">&lt;chr&gt;</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> LipidBlast000002 CerP 26:0 InChI=1S/C26H5… <span style="color: #BB0000;">NA</span>       C26H54…      507. <span style="color: #949494;">&lt;chr&gt;</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> LipidBlast000003 CerP 28:0 InChI=1S/C28H5… <span style="color: #BB0000;">NA</span>       C28H58…      535. <span style="color: #949494;">&lt;chr&gt;</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> LipidBlast000004 CerP 30:0 InChI=1S/C30H6… <span style="color: #BB0000;">NA</span>       C30H62…      563. <span style="color: #949494;">&lt;chr&gt;</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> LipidBlast000005 CerP 32:0 InChI=1S/C32H6… <span style="color: #BB0000;">NA</span>       C32H66…      591. <span style="color: #949494;">&lt;chr&gt;</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> LipidBlast000006 CerP 32:1 InChI=1S/C32H6… <span style="color: #BB0000;">NA</span>       C32H64…      589. <span style="color: #949494;">&lt;chr&gt;</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> LipidBlast000007 CerP 34:0 InChI=1S/C34H7… <span style="color: #BB0000;">NA</span>       C34H70…      619. <span style="color: #949494;">&lt;chr&gt;</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> LipidBlast000008 CerP 36:0 InChI=1S/C36H7… <span style="color: #BB0000;">NA</span>       C36H74…      648. <span style="color: #949494;">&lt;chr&gt;</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 8 × 15</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   compound_id      name   inchi inchikey smiles formula exactmass compound_class</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> LipidBlast000001 CerP … InCh… FIIUKKI… <span style="color: #949494;">"</span>CCCC… C24H50…      479. CerP          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> LipidBlast000002 CerP … InCh… LVZNXIM… <span style="color: #949494;">"</span>CCCC… C26H54…      507. CerP          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> LipidBlast000003 CerP … InCh… KKMUWYA… <span style="color: #949494;">"</span>CCCC… C28H58…      535. CerP          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> LipidBlast000004 CerP … InCh… LYSHUFF… <span style="color: #949494;">"</span>CCCC… C30H62…      563. CerP          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> LipidBlast000005 CerP … InCh… OKWWFSI… <span style="color: #949494;">"</span>CCCC… C32H66…      591. CerP          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> LipidBlast000006 CerP … InCh… MKJOCAJ… <span style="color: #949494;">"</span>CCCC… C32H64…      589. CerP          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> LipidBlast000007 CerP … InCh… KZLFXFL… <span style="color: #949494;">"</span>CCCC… C34H70…      619. CerP          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> LipidBlast000008 CerP … InCh… GTSHVCJ… <span style="color: #949494;">"</span>CCCC… C36H74…      648. CerP          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 7 more variables: ionization_mode &lt;chr&gt;, precursor_mz &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   precursor_type &lt;chr&gt;, retention_time &lt;dbl&gt;, ccs &lt;dbl&gt;, spectrum &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   synonyms &lt;list&gt;</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
