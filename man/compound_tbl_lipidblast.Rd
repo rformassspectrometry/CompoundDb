@@ -4,7 +4,13 @@
 \alias{compound_tbl_lipidblast}
 \title{Extract compound data from LipidBlast}
 \usage{
-compound_tbl_lipidblast(file, collapse = character(), n = -1L, verbose = FALSE)
+compound_tbl_lipidblast(
+  file,
+  collapse = character(),
+  n = -1L,
+  verbose = FALSE,
+  BPPARAM = bpparam()
+)
 }
 \arguments{
 \item{file}{\code{character(1)} with the name of the file name.}
@@ -22,6 +28,9 @@ hence reduce the memory demand.}
 provided. Defaults to \code{verbose = FALSE}, but for parsing very large
 files (specifically with chunk-wise processing enabled with \code{n} > 0)
 it might be helpful to set to \code{verbose = TRUE}.}
+
+\item{BPPARAM}{\code{BiocParallelParam} object to configure parallel processing.
+Defaults to \code{bpparam()}.}
 }
 \value{
 A \link[tibble:tibble]{tibble::tibble} with general compound information (one row per
@@ -30,10 +39,17 @@ compound):
 \item \code{compound_id}: the ID of the compound.
 \item \code{name}: the compound's name.
 \item \code{inchi}: the InChI of the compound.
-\item \code{inchikey}: the InChI key. \code{NA} for all compounds as it is ot provided
-in MoNA json files.
+\item \code{inchikey}: the InChI key.
+\item \code{smiles}: the SMILES representation of the compound.
 \item \code{formula}: the chemical formula.
 \item \code{exactmass}: the compound's mass.
+\item \code{compound_class}: the class of the compound.
+\item \code{ionization_mode}: the ionization mode.
+\item \code{precursor_mz}: the precursor m/z value.
+\item \code{precursor_type}: the precursor type.
+\item \code{retention_time}: the retention time.
+\item \code{ccs}: the collision cross-section.
+\item \code{spectrum}: the spectrum data.
 \item \code{synonyms}: the compound's synonyms (aliases). This type of this column is
 by default a \code{list} to support multiple aliases per compound, unless
 argument \code{collapse} is provided, in which case multiple synonyms are pasted
@@ -50,7 +66,7 @@ is extracted from the json file.
 
 ## Read compound information from a subset of HMDB
 fl <- system.file("json/MoNa-LipidBlast_sub.json", package = "CompoundDb")
-cmps <- compound_tbl_lipidblast(fl)
+cmps <- compound_tbl_lipidblast(fl, n = 50000, verbose = TRUE,BPPARAM = bbparam())
 cmps
 }
 \seealso{
@@ -58,6 +74,6 @@ Other compound table creation functions:
 \code{\link{compound_tbl_sdf}()}
 }
 \author{
-Johannes Rainer and Jan Stanstrup
+Johannes Rainer, Jan Stanstrup and Prateek Arora
 }
 \concept{compound table creation functions}
