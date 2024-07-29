@@ -151,7 +151,8 @@ compound_tbl_sdf <- function(file, collapse, onlyValid = TRUE,
 #' - `precursor_type`: the precursor type.
 #' - `retention_time`: the retention time.
 #' - `ccs`: the collision cross-section.
-#' - `spectrum`: the spectrum data.
+#' - `spectrum`: the spectrum data (i.e. the mass peaks, as a concatenated
+#'   character string).
 #' - `synonyms`: the compound's synonyms (aliases). This type of this column is
 #'   by default a `list` to support multiple aliases per compound, unless
 #'   argument `collapse` is provided, in which case multiple synonyms are pasted
@@ -163,11 +164,13 @@ compound_tbl_sdf <- function(file, collapse, onlyValid = TRUE,
 #'
 #' @export
 #'
+#' @importFrom BiocParallel bpparam
+#'
 #' @examples
 #'
 #' ## Read compound information from a subset of HMDB
 #' fl <- system.file("json/MoNa-LipidBlast_sub.json", package = "CompoundDb")
-#' cmps <- compound_tbl_lipidblast(fl, n = 50000, verbose = TRUE,BPPARAM = bbparam())
+#' cmps <- compound_tbl_lipidblast(fl, n = 50000, verbose = TRUE)
 #' cmps
 compound_tbl_lipidblast <- function(file, collapse = character(), n = -1L,
                                     verbose = FALSE, BPPARAM = bpparam()) {
@@ -346,7 +349,7 @@ compound_tbl_lipidblast <- function(file, collapse = character(), n = -1L,
                   )
 .mona_separator <- " __ "
 
-#' @description Import compound information from a LipidBlast file in json 
+#' @description Import compound information from a LipidBlast file in json
 #'    format.
 #'
 #' @note This is a modified version from Jan's generate_lipidblast_tbl that
@@ -361,18 +364,22 @@ compound_tbl_lipidblast <- function(file, collapse = character(), n = -1L,
 #'
 #' @md
 #' @noRd
-.import_lipidblast <- function(file, n = -1L, verbose = FALSE, BPPARAM = bpparam()) {
+.import_lipidblast <- function(file, n = -1L, verbose = FALSE,
+                               BPPARAM = bpparam()) {
     if (n < 0) {
         lipidb <- read_json(file)
         if (verbose)
-            message("Processing ", length(lipidb), " elements ...", appendLF = FALSE)
-        
-        # Use BiocParallel to process elements in parallel
-        res <- bplapply(lipidb, .parse_lipidblast_json_element, BPPARAM = BPPARAM)
-        
+            message("Processing ", length(lipidb), " elements ...",
+                    appendLF = FALSE)
+
+        ## Use BiocParallel to process elements in parallel
+        res <- bplapply(lipidb, .parse_lipidblast_json_element,
+                        BPPARAM = BPPARAM)
+
         if (verbose) message(" done.")
     } else {
-        res <- .import_lipidblast_json_chunk(file, n = n, verbose = verbose, BPPARAM = BPPARAM)
+        res <- .import_lipidblast_json_chunk(file, n = n, verbose = verbose,
+                                             BPPARAM = BPPARAM)
     }
     bind_rows(res)
 }
@@ -385,8 +392,8 @@ compound_tbl_lipidblast <- function(file, collapse = character(), n = -1L,
 .parse_lipidblast_json_element <- function(x) {
     id <- x$id
     cmp <- x$compound[[1]]
-    
-    # Helper function to extract metadata from multiple sources
+
+    ## Helper function to extract metadata from multiple sources
     get_metadata <- function(name, sources) {
         for (source in sources) {
             value <- unlist(lapply(source, function(z) {
@@ -398,19 +405,19 @@ compound_tbl_lipidblast <- function(file, collapse = character(), n = -1L,
         }
         return(NA_character_)
     }
-    
-    # Define metadata sources
+
+    ## Define metadata sources
     metadata_sources <- list(x$metaData, cmp$metaData)
-    
-    # Get names
+
+    ## Get names
     nms <- vapply(cmp$names, `[[`, "name", FUN.VALUE = "character")
     snms <- if (length(nms) > 1L) nms[-1L] else NA_character_
-    
-    # Extract metadata
+
+    ## Extract metadata
     mass <- get_metadata("total exact mass", metadata_sources)
     mass <- as.numeric(mass)
     if (is.na(mass)) mass <- NA_real_
-    
+
     frml <- get_metadata("molecular formula", metadata_sources)
     inchi <- get_metadata("InChI", metadata_sources)
     inchikey <- get_metadata("InChIKey", metadata_sources)
@@ -421,11 +428,11 @@ compound_tbl_lipidblast <- function(file, collapse = character(), n = -1L,
     precursor_type <- get_metadata("precursor type", metadata_sources)
     retention_time <- as.numeric(get_metadata("retention time", metadata_sources))
     ccs <- as.numeric(get_metadata("ccs", metadata_sources))
-    
-    # Extract spectrum data
+
+    ## Extract spectrum data
     spectrum <- x$spectrum
     if (is.null(spectrum)) spectrum <- NA_character_
-    
+
     list(
         compound_id = id,
         name = nms[1],
@@ -456,7 +463,8 @@ compound_tbl_lipidblast <- function(file, collapse = character(), n = -1L,
 #' @importFrom dplyr bind_rows
 #' @importFrom BiocParallel bplapply bpparam
 #' @noRd
-.import_lipidblast_json_chunk <- function(x, n = 10000, verbose = FALSE, BPPARAM = bpparam()) {
+.import_lipidblast_json_chunk <- function(x, n = 10000, verbose = FALSE,
+                                          BPPARAM = bpparam()) {
     con <- file(x, open = "r")
     on.exit(close(con))
     res <- list()
@@ -468,7 +476,8 @@ compound_tbl_lipidblast <- function(file, collapse = character(), n = -1L,
         ls <- sub(",$", "", ls)
         if (length(ls)) {
             chunk_res <- bplapply(ls, function(z) {
-                .parse_lipidblast_json_element(jsonlite::fromJSON(z, simplifyVector = FALSE))
+                .parse_lipidblast_json_element(
+                    jsonlite::fromJSON(z, simplifyVector = FALSE))
             }, BPPARAM = BPPARAM)
             res <- c(res, chunk_res)
         }
@@ -611,6 +620,7 @@ compound_tbl_lipidblast <- function(file, collapse = character(), n = -1L,
 #' @importFrom DBI dbDriver dbWriteTable dbExecute dbDisconnect
 #' @importFrom RSQLite dbConnect
 #' @importFrom dplyr bind_cols bind_rows
+#' @importFrom MsCoreUtils rbindFill
 #'
 #' @export
 #'
@@ -713,7 +723,9 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".",
     dbWriteTable(con, name = "metadata", metadata, row.names = FALSE)
     ## ms_compound table
     if (is.character(x)) {
-        lapply(x, function(z) {
+        tbls <- snms <- vector("list", length(x))
+        for (i in seq_along(x)) {
+            z <- x[i]
             message("Import data from ", basename(z), " ...", appendLF = FALSE)
             if (.is_sdf_filename(z)) {
                 tbl <- compound_tbl_sdf(z)
@@ -723,15 +735,18 @@ createCompDb <- function(x, metadata, msms_spectra, path = ".",
             }
             message("OK")
             .valid_compound(tbl, db = FALSE)
-            tbl_syn <- bind_cols(compound_id = rep(tbl$compound_id,
-                                                   lengths(tbl$synonyms)),
-                                 synonym = unlist(tbl$synonyms))
-            tbl <- tbl[, colnames(tbl) != "synonyms"]
-            dbWriteTable(con, name = "synonym", tbl_syn, row.names = FALSE,
-                         append = TRUE)
-            dbWriteTable(con, name = "ms_compound", row.names = FALSE,
-                         tbl[, colnames(tbl) != "synonyms"], append = TRUE)
-        })
+            snms[[i]] <- bind_cols(compound_id = rep(tbl$compound_id,
+                                                     lengths(tbl$synonyms)),
+                                   synonym = unlist(tbl$synonyms))
+            tbls[[i]] <- tbl[, colnames(tbl) != "synonyms"]
+        }
+        tbls <- do.call(rbindFill, tbls)
+        snms <- do.call(rbindFill, snms)
+        dbWriteTable(con, name = "synonym", snms, row.names = FALSE,
+                     append = TRUE)
+        dbWriteTable(con, name = "ms_compound", row.names = FALSE,
+                     tbls, append = TRUE)
+
     } else {
         .valid_compound(x, db = FALSE)
         x_synonym <- bind_cols(compound_id = rep(x$compound_id,

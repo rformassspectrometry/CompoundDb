@@ -1,5 +1,11 @@
 # CompoundDb version 1.9
 
+## Changes in version 1.9.4
+
+- `compound_tbl_lipidblast` supports now parallel processing and extracts more
+  information from MoNA's JSON format (thanks to Prateek Arora for
+  contribution).
+
 ## Changes in version 1.9.3
 
 - `compound_tbl_lipidblast`: ensure *exactmass* is of type `numeric`.

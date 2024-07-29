@@ -49,7 +49,8 @@ compound):
 \item \code{precursor_type}: the precursor type.
 \item \code{retention_time}: the retention time.
 \item \code{ccs}: the collision cross-section.
-\item \code{spectrum}: the spectrum data.
+\item \code{spectrum}: the spectrum data (i.e. the mass peaks, as a concatenated
+character string).
 \item \code{synonyms}: the compound's synonyms (aliases). This type of this column is
 by default a \code{list} to support multiple aliases per compound, unless
 argument \code{collapse} is provided, in which case multiple synonyms are pasted
@@ -66,7 +67,7 @@ is extracted from the json file.
 
 ## Read compound information from a subset of HMDB
 fl <- system.file("json/MoNa-LipidBlast_sub.json", package = "CompoundDb")
-cmps <- compound_tbl_lipidblast(fl, n = 50000, verbose = TRUE,BPPARAM = bbparam())
+cmps <- compound_tbl_lipidblast(fl, n = 50000, verbose = TRUE)
 cmps
 }
 \seealso{

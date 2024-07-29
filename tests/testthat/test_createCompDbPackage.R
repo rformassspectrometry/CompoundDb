@@ -133,9 +133,8 @@ test_that(".import_lipidblast works", {
     cmps <- .import_lipidblast(fl)
     expect_true(is(cmps, "data.frame"))
     expect_true(is(cmps, "tbl"))
-    expect_equal(colnames(cmps), c("compound_id", "name", "inchi",
-                                   "inchikey", "formula", "exactmass",
-                                   "synonyms"))
+    expect_true(all(c("compound_id", "name", "inchi", "inchikey",
+                      "formula", "exactmass", "synonyms") %in% colnames(cmps)))
     expect_true(nrow(cmps) == 8)
 })
 
@@ -147,9 +146,8 @@ test_that("compound_tbl_lipidblast works", {
     cmps <- compound_tbl_lipidblast(lb)
     expect_true(is(cmps, "data.frame"))
     expect_true(is(cmps, "tbl"))
-    expect_equal(colnames(cmps), c("compound_id", "name", "inchi",
-                                   "inchikey", "formula", "exactmass",
-                                   "synonyms"))
+    expect_true(all(c("compound_id", "name", "inchi", "inchikey", "formula",
+                       "exactmass", "synonyms") %in% colnames(cmps)))
     expect_true(nrow(cmps) == 8)
     expect_true(is.list(cmps$synonyms))
     cmps <- compound_tbl_lipidblast(lb, collapse = ";")
@@ -454,8 +452,8 @@ test_that(".parse_lipidblast_json_element works", {
     js <- read_json(f)
     res <- .parse_lipidblast_json_element(js[[1L]])
     expect_true(is.list(res))
-    expect_equal(names(res), c("compound_id", "name", "inchi", "inchikey",
-                               "formula", "exactmass", "synonyms"))
+    expect_true(all(c("compound_id", "name", "inchi", "inchikey",
+                      "formula", "exactmass", "synonyms") %in% names(res)))
     expect_equal(res$name, "CerP 24:0")
 })
 
