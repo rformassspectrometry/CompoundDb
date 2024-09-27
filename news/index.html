@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">CompoundDb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.9.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.9.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,22 +39,26 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.9" id="compounddb-version-19">CompoundDb version 1.9<a class="anchor" aria-label="anchor" href="#compounddb-version-19"></a></h2>
 <div class="section level3">
-<h3 id="changes-in-version-1-9">Changes in version 1.9.4<a class="anchor" aria-label="anchor" href="#changes-in-version-1-9"></a></h3>
+<h3 id="changes-in-version-1-9">Changes in version 1.9.5<a class="anchor" aria-label="anchor" href="#changes-in-version-1-9"></a></h3>
+<ul><li>Add new <code><a href="https://rdrr.io/pkg/Spectra/man/MsBackend.html" class="external-link">extractByIndex()</a></code> method.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="changes-in-version-1-9-1">Changes in version 1.9.4<a class="anchor" aria-label="anchor" href="#changes-in-version-1-9-1"></a></h3>
 <ul><li>
 <code>compound_tbl_lipidblast</code> supports now parallel processing and extracts more information from MoNA’s JSON format (thanks to Prateek Arora for contribution).</li>
 </ul></div>
 <div class="section level3">
-<h3 id="changes-in-version-1-9-1">Changes in version 1.9.3<a class="anchor" aria-label="anchor" href="#changes-in-version-1-9-1"></a></h3>
+<h3 id="changes-in-version-1-9-2">Changes in version 1.9.3<a class="anchor" aria-label="anchor" href="#changes-in-version-1-9-2"></a></h3>
 <ul><li>
 <code>compound_tbl_lipidblast</code>: ensure <em>exactmass</em> is of type <code>numeric</code>.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="changes-in-version-1-9-2">Changes in version 1.9.2<a class="anchor" aria-label="anchor" href="#changes-in-version-1-9-2"></a></h3>
+<h3 id="changes-in-version-1-9-3">Changes in version 1.9.2<a class="anchor" aria-label="anchor" href="#changes-in-version-1-9-3"></a></h3>
 <ul><li>
 <code>compound_tbl_lipidblast</code>: add parameter <code>n</code> to support reading and processing MoNA json files in sets (chunks) of lines at a time and hence reduce memory demand for very large files.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="changes-in-version-1-9-3">Changes in version 1.9.1<a class="anchor" aria-label="anchor" href="#changes-in-version-1-9-3"></a></h3>
+<h3 id="changes-in-version-1-9-4">Changes in version 1.9.1<a class="anchor" aria-label="anchor" href="#changes-in-version-1-9-4"></a></h3>
 <ul><li>Allow <code>CompDb</code> to store that database name as alternative to an active database connection. This allows to serialize and load an object to/from disk (serializing an active database connection would not be possible) . Each call to extract data from the database will however open (and close) its own connection.</li>
 </ul></div>
 </div>
@@ -357,7 +361,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.9000.</p>
 </div>
 
     </footer></div>

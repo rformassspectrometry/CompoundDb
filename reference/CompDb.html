@@ -17,7 +17,7 @@ available in the database and FALSE otherwise."><meta property="og:image" conten
 
     <a class="navbar-brand me-2" href="../index.html">CompoundDb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.9.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.9.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -138,7 +138,7 @@ should be copied.</p></dd>
 
 
 <dt id="arg-filter">filter<a class="anchor" aria-label="anchor" href="#arg-filter"></a></dt>
-<dd><p>For <code><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds()</a></code> and <code><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra()</a></code>: filter expression or
+<dd><p>For <code>compounds()</code> and <code><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra()</a></code>: filter expression or
 <code>AnnotationFilter()</code> defining a filter to be used to retrieve specific
 elements from the database.</p></dd>
 
@@ -154,7 +154,7 @@ default is <code>includeIds = FALSE</code>.</p></dd>
 
 
 <dt id="arg-columns">columns<a class="anchor" aria-label="anchor" href="#arg-columns"></a></dt>
-<dd><p>For <code><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds()</a></code>, <code>Spectra</code>: <code>character</code> with the names of
+<dd><p>For <code>compounds()</code>, <code>Spectra</code>: <code>character</code> with the names of
 the database columns that should be retrieved. Use <code>compoundVariables()</code>
 and/or <code><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">spectraVariables()</a></code> for a list of available column names.
 For <code>insertSpectra()</code>: columns (spectra variables) that should be
@@ -162,7 +162,7 @@ inserted into the database (to avoid inserting all variables).</p></dd>
 
 
 <dt id="arg-return-type">return.type<a class="anchor" aria-label="anchor" href="#arg-return-type"></a></dt>
-<dd><p>For <code><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds()</a></code>: either <code>"data.frame"</code> or <code>"tibble"</code> to
+<dd><p>For <code>compounds()</code>: either <code>"data.frame"</code> or <code>"tibble"</code> to
 return the result as a <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> or <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble()</a></code>, respectively.</p></dd>
 
 
@@ -228,10 +228,10 @@ the compound annotation data.</p>
 
 
 <p>Annotations/compound informations can be retrieved from a <code>CompDb</code> database
-with the <code><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds()</a></code> and <code><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra()</a></code> functions:</p><ul><li><p><code><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds()</a></code> extracts compound data from the <code>CompDb</code> object. In contrast
+with the <code>compounds()</code> and <code><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra()</a></code> functions:</p><ul><li><p><code>compounds()</code> extracts compound data from the <code>CompDb</code> object. In contrast
 to <code>src_compdb</code> it returns the actual data as a <code>data.frame</code> (if
 <code>return.type = "data.frame"</code>) or a <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> (if
-<code>return.type = "tibble"</code>). A <code><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds()</a></code> call will always return all
+<code>return.type = "tibble"</code>). A <code>compounds()</code> call will always return all
 elements from the <em>ms_compound</em> table (unless a <code>filter</code> is used).</p></li>
 <li><p><code><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra()</a></code> extract spectra from the database and returns them as a
 <code><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra()</a></code> object from the <em>Spectra</em> package. Additional annotations
@@ -293,7 +293,7 @@ See also <code><a href="createCompDb.html">createCompDb()</a></code> for more in
 compound data and the examples below for general usage.</p></li>
 <li><p><code>deleteCompound()</code>: removes specified compounds from the <code>CompDb</code> database.
 The IDs of the compounds that should be deleted need to be provided with
-parameter <code>ids</code>. To include compound IDs in the output of a <code><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds()</a></code>
+parameter <code>ids</code>. To include compound IDs in the output of a <code>compounds()</code>
 call <code>"compound_id"</code> should be added to the <code>columns</code> parameter. By
 default an error is thrown if for some of the specified compounds also MS2
 spectra are present in the database. To force deletion of the compounds
@@ -319,7 +319,7 @@ the spectra to be deleted need to be provided with parameter <code>ids</code>.</
 
 
 
-<p>Data access methods such as <code><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds()</a></code> and <code>Spectra</code> allow to filter the
+<p>Data access methods such as <code>compounds()</code> and <code>Spectra</code> allow to filter the
 results using specific filter classes and expressions. Filtering uses the
 concepts from Bioconductor's <code>AnnotationFilter</code> package. All information
 for a certain compound with the ID <code>"HMDB0000001"</code> can for example be
@@ -968,12 +968,6 @@ details.</p>
 <span class="r-in"><span><span class="co">## Create a Spectra object with all MS/MS spectra from the database.</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/Spectra" class="external-link">Spectra</a></span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: BiocParallel</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: ProtGenerics</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘ProtGenerics’</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The following object is masked from ‘package:stats’:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>     smooth</span>
 <span class="r-in"><span><span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sps</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> MSn data (Spectra) with 70 spectra in a MsBackendCompDb backend:</span>
@@ -1059,7 +1053,7 @@ details.</p>
 <span class="r-in"><span><span class="co">## Filtering the database</span></span></span>
 <span class="r-in"><span><span class="co">##</span></span></span>
 <span class="r-in"><span><span class="co">## Get all compounds with an exact mass between 310 and 320</span></span></span>
-<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span>, filter <span class="op">=</span> <span class="op">~</span> <span class="va">exactmass</span> <span class="op">&gt;</span> <span class="fl">310</span> <span class="op">&amp;</span> <span class="va">exactmass</span> <span class="op">&lt;</span> <span class="fl">320</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">compounds</span><span class="op">(</span><span class="va">cdb</span>, filter <span class="op">=</span> <span class="op">~</span> <span class="va">exactmass</span> <span class="op">&gt;</span> <span class="fl">310</span> <span class="op">&amp;</span> <span class="va">exactmass</span> <span class="op">&lt;</span> <span class="fl">320</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">res</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    formula exactmass                                                   smiles</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 C17H12O6  312.0634 COC1=C2C3=C(C(=O)CC3)C(=O)OC2=C4[C@@H]5C=CO[C@@H]5OC4=C1</span>
@@ -1072,7 +1066,7 @@ details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 WWSYXEZEXMQWHT-WNWIJWBNSA-N 7220-81-7 CID:2724360 Aflatoxin B2</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Get all compounds that have an H14 in their formula.</span></span></span>
-<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span>, filter <span class="op">=</span> <span class="fu"><a href="Filter-classes.html">FormulaFilter</a></span><span class="op">(</span><span class="st">"H14"</span>, <span class="st">"contains"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">compounds</span><span class="op">(</span><span class="va">cdb</span>, filter <span class="op">=</span> <span class="fu"><a href="Filter-classes.html">FormulaFilter</a></span><span class="op">(</span><span class="st">"H14"</span>, <span class="st">"contains"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">res</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    formula exactmass                                                   smiles</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 C17H14O6  314.0790  COC1=C2C3=C(C(=O)CC3)C(=O)OC2=C4[C@@H]5CCO[C@@H]5OC4=C1</span>
@@ -1088,7 +1082,7 @@ details.</p>
 <span class="r-in"><span><span class="co">## Using CompDb with the *tidyverse*</span></span></span>
 <span class="r-in"><span><span class="co">##</span></span></span>
 <span class="r-in"><span><span class="co">## Using return.type = "tibble" the result will be returned as a "tibble"</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span>, return.type <span class="op">=</span> <span class="st">"tibble"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">compounds</span><span class="op">(</span><span class="va">cdb</span>, return.type <span class="op">=</span> <span class="st">"tibble"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 12 × 8</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    formula    exactmass smiles                inchi inchikey cas   pubchem name </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
@@ -1174,7 +1168,7 @@ details.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## These compounds can be added to the empty database with insertCompound</span></span></span>
 <span class="r-in"><span><span class="va">cdb</span> <span class="op">&lt;-</span> <span class="fu">insertCompound</span><span class="op">(</span><span class="va">cdb</span>, compounds <span class="op">=</span> <span class="va">cmp</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">compounds</span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       name inchi inchikey   formula exactmass</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 Caffeine  &lt;NA&gt;     &lt;NA&gt; C8H10N4O2  194.0804</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  Glucose  &lt;NA&gt;     &lt;NA&gt;   C6H12O6  180.0634</span>
@@ -1197,7 +1191,7 @@ details.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  version: NA </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  organism: NA </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  compound count: 3 </span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">compounds</span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            name inchi inchikey   formula exactmass     hmdb_id</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 Alpha-Lactose  &lt;NA&gt;     &lt;NA&gt; C12H22O11  342.1162 HMDB0000186</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2      Caffeine  &lt;NA&gt;     &lt;NA&gt; C8H10N4O2  194.0804        &lt;NA&gt;</span>
@@ -1210,7 +1204,7 @@ details.</p>
 <span class="r-in"><span><span class="co">## IDs of the compounds that should be deleted. IDs of compounds in the</span></span></span>
 <span class="r-in"><span><span class="co">## database can be retrieved by adding "compound_id" to the columns parameter</span></span></span>
 <span class="r-in"><span><span class="co">## of the compounds function:</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"compound_id"</span>, <span class="st">"name"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">compounds</span><span class="op">(</span><span class="va">cdb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"compound_id"</span>, <span class="st">"name"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   compound_id          name</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1           1      Caffeine</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2           2       Glucose</span>
@@ -1219,7 +1213,7 @@ details.</p>
 <span class="r-in"><span><span class="co">## Compounds can be deleted with the deleteCompound function. Below we delete</span></span></span>
 <span class="r-in"><span><span class="co">## the compounds with the IDs "1" and "3" from the database</span></span></span>
 <span class="r-in"><span><span class="va">cdb</span> <span class="op">&lt;-</span> <span class="fu">deleteCompound</span><span class="op">(</span><span class="va">cdb</span>, ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1"</span>, <span class="st">"3"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compounds</a></span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">compounds</span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      name inchi inchikey formula exactmass hmdb_id</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 Glucose  &lt;NA&gt;     &lt;NA&gt; C6H12O6  180.0634    &lt;NA&gt;</span>
 <span class="r-in"><span></span></span>
@@ -1238,7 +1232,7 @@ details.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.9000.</p>
 </div>
 
     </footer></div>
