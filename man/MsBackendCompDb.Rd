@@ -15,6 +15,7 @@
 \alias{spectraNames,MsBackendCompDb-method}
 \alias{spectraNames<-,MsBackendCompDb-method}
 \alias{[,MsBackendCompDb,ANY-method}
+\alias{extractByIndex,MsBackendCompDb,ANY-method}
 \alias{$<-,MsBackendCompDb-method}
 \alias{precScanNum,MsBackendCompDb-method}
 \alias{tic,MsBackendCompDb-method}
@@ -44,6 +45,8 @@ MsBackendCompDb()
 \S4method{spectraNames}{MsBackendCompDb}(object) <- value
 
 \S4method{[}{MsBackendCompDb,ANY}(x, i, j, ..., drop = FALSE)
+
+\S4method{extractByIndex}{MsBackendCompDb,ANY}(object, i)
 
 \S4method{$}{MsBackendCompDb}(x, name) <- value
 

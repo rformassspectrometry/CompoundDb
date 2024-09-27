@@ -142,8 +142,21 @@ test_that("$<-,MsBackendCompDb works", {
     expect_error(be$mz <- be$mz, "not supported")
 })
 
+test_that("extractByIndex,MsBackendCompDb works", {
+    be <- backendInitialize(MsBackendCompDb(), cmp_spctra_db)
+    res <- extractByIndex(be, c(2, 4))
+    expect_true(length(res) == 2)
+    expect_equal(res$polarity, be$polarity[c(2, 4)])
+    expect_equal(res@spectraIds, be@spectraIds[c(2, 4)])
+    expect_equal(res$mz, be$mz[c(2, 4)])
+
+})
+
 test_that("[,MsBackendCompDb works", {
     be <- backendInitialize(MsBackendCompDb(), cmp_spctra_db)
+    res <- be[]
+    expect_equal(res, be)
+
     res <- be[c(2, 4)]
     expect_true(length(res) == 2)
     expect_equal(res$polarity, be$polarity[c(2, 4)])
