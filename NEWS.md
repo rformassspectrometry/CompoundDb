@@ -1,5 +1,9 @@
 # CompoundDb version 1.9
 
+## Changes in version 1.9.5
+
+- Add new `extractByIndex()` method.
+
 ## Changes in version 1.9.4
 
 - `compound_tbl_lipidblast` supports now parallel processing and extracts more
