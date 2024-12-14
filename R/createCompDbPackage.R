@@ -43,7 +43,7 @@
 #' @param nonStop `logical(1)` whether file content specific errors should
 #'     only reported as warnings and not break the full import process. The
 #'     value of this parameter is passed to parameter `skipErrors` of the
-#'     [read.SDFset()] function.
+#'     [ChemmineR::read.SDFset()] function.
 #'
 #' @return A [tibble::tibble] with general compound information (one row per
 #' compound):
@@ -1160,7 +1160,7 @@ make_metadata <- function(source = character(), url = character(),
 #' @param nonStop `logical(1)` whether file content specific errors should
 #'     only reported as warnings and not break the full import process. The
 #'     value of this parameter is passed to parameter `skipErrors` of the
-#'     [read.SDFset()] function.
+#'     [ChemmineR::read.SDFset()] function.
 #'
 #' @author Johannes Rainer
 #'

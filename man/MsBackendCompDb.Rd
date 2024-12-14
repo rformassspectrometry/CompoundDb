@@ -90,7 +90,7 @@ values should be returned or if the values should be calculated based
 on the actual intensity values of each spectrum.}
 
 \item{BPPARAM}{for \code{backendBpparam()}: \code{BiocParallel} parallel processing
-setup. See \code{\link[=bpparam]{bpparam()}} for more information.}
+setup. See \code{\link[BiocParallel:register]{BiocParallel::bpparam()}} for more information.}
 }
 \value{
 See the description of the respective function.
@@ -101,13 +101,13 @@ object/database. The object keeps only the primary keys of the spectra,
 the associated compound IDs and the precursor m/z values in memory and
 has thus only a very low memory footprint. All spectra variables, including
 m/z and intensity values are retrieved from the database \emph{on-demand}. By
-extending the \code{\link[=MsBackendCached]{MsBackendCached()}} class directly, \code{MsBackendCompDb} supports
-adding/replacing spectra variables. These values are however only cached
-within the object and not propagated (written) to the database.
+extending the \code{\link[Spectra:MsBackendCached]{Spectra::MsBackendCached()}} class directly, \code{MsBackendCompDb}
+supports adding/replacing spectra variables. These values are however only
+cached within the object and not propagated (written) to the database.
 
 It is not intended that users create or use instances of this class directly,
-the \code{\link[=Spectra]{Spectra()}} call on \code{\link[=CompDb]{CompDb()}} will return a \code{Spectra} object that uses
-this backend.
+the \code{\link[Spectra:Spectra]{Spectra::Spectra()}} call on \code{\link[=CompDb]{CompDb()}} will return a \code{Spectra}
+object that uses this backend.
 
 The \code{MsBackendCompDb} does not support parallel processing because the
 database connection stored within the object can not be used across
@@ -118,15 +118,15 @@ of a \code{MsBackend} will by default disable parallel processing.
 }
 \note{
 For higher performance it is suggested to change the backend of the
-\code{\link[=Spectra]{Spectra()}} object to an \code{\link[=MsBackendMemory]{MsBackendMemory()}} backend with the
-\code{\link[=setBackend]{setBackend()}} method of \code{Spectra} objects.
+\code{\link[Spectra:Spectra]{Spectra::Spectra()}} object to an \code{\link[Spectra:MsBackend]{Spectra::MsBackendMemory()}} backend
+with the \code{\link[Spectra:Spectra]{Spectra::setBackend()}} method of \code{Spectra} objects.
 }
 \section{Methods implemented for \code{MsBackendCompDb}}{
 
 
 The methods listed here are implemented for the \code{MsBackendCompDb}. All other
-methods are inherited directly from the parent \code{\link[=MsBackendCached]{MsBackendCached()}} class.
-See the help of \code{\link[=MsBackend]{MsBackend()}} in the \code{Spectra} package for a
+methods are inherited directly from the parent \code{\link[Spectra:MsBackendCached]{Spectra::MsBackendCached()}}
+class. See the help of \code{\link[Spectra:MsBackend]{Spectra::MsBackend()}} in the \code{Spectra} package for a
 complete listing of methods.
 \itemize{
 \item \code{peaksData()}: gets the full list of peak matrices. Returns a \code{\link[=list]{list()}},
@@ -138,7 +138,7 @@ values.
 \item \verb{intensity<-}: not supported.
 \item \verb{mz<-}: not supported.
 \item \code{spectraData()}: returns the complete spectrum data including m/z and
-intensity values as a \code{\link[=DataFrame]{DataFrame()}}.
+intensity values as a \code{\link[S4Vectors:DataFrame-class]{S4Vectors::DataFrame()}}.
 \item \verb{$<-}: replace or add a spectrum variable. Note that \code{mz}, \code{intensity} and
 \code{spectrum_id} variables can not be replaced.
 }

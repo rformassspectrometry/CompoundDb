@@ -115,8 +115,8 @@ AnnotationFilterList(CompoundIdFilter("a"), NameFilter("b"))
 AnnotationFilter(~ compound_id == "a" | name != "b")
 }
 \seealso{
-\code{\link[=supportedFilters]{supportedFilters()}} for the method to list all supported filters
-for a \code{CompDb} (or a IonDb) object.
+\code{\link[AnnotationFilter:AnnotationFilter]{AnnotationFilter::supportedFilters()}} for the method to list all
+supported filters for a \code{CompDb} (or a IonDb) object.
 }
 \author{
 Johannes Rainer

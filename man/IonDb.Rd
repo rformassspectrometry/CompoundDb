@@ -73,12 +73,13 @@ default is \code{includeId = FALSE}.}
 columns that should be retrieved. Use \code{ionVariables} for a list
 of available column names.}
 
-\item{filter}{For \code{ions()}: filter expression or \code{\link[=AnnotationFilter]{AnnotationFilter()}}
-defining a filter to be used to retrieve specific elements from the
-database.}
+\item{filter}{For \code{ions()}: filter expression or
+\code{\link[AnnotationFilter:AnnotationFilter]{AnnotationFilter::AnnotationFilter()}} defining a filter to be used
+to retrieve specific elements from the database.}
 
 \item{return.type}{For \code{ions()}: either \code{"data.frame"} or \code{"tibble"} to
-return the result as a \code{\link[=data.frame]{data.frame()}} or \code{\link[=tibble]{tibble()}}, respectively.}
+return the result as a \code{\link[=data.frame]{data.frame()}} or \code{\link[tibble:tibble]{tibble::tibble()}},
+respectively.}
 
 \item{ions}{for \code{insertIon()} and \code{IonDb()}: \code{data.frame} with ion
 definitions to be added to the \code{IonDb} database. Columns \code{"compound_id"}
@@ -201,9 +202,9 @@ for a certain compound with the ID \code{"1"} can for example be
 retrieved by passing the filter expression \code{filter = ~ ion_id == 1} to
 the \code{ions()} function.
 
-Use the \code{\link[=supportedFilters]{supportedFilters()}} function on the \code{IonDb} object to get a list of
-all supported filters. See also examples below or the usage vignette for
-details.
+Use the \code{\link[AnnotationFilter:AnnotationFilter]{AnnotationFilter::supportedFilters()}} function on the \code{IonDb}
+object to get a list of all supported filters. See also examples below
+or the usage vignette for details.
 }
 
 \examples{

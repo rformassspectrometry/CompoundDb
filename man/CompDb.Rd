@@ -81,7 +81,8 @@ either a \code{CompDb} or a database connection.
 }\if{html}{\out{</div>}}}
 
 \item{flags}{flags passed to the SQLite database connection.
-See \code{\link[=SQLite]{SQLite()}}. Defaults to read-only, i.e. \code{RSQLite::SQLITE_RO}.}
+See \code{\link[RSQLite:SQLite]{RSQLite::SQLite()}}. Defaults to read-only, i.e.
+\code{RSQLite::SQLITE_RO}.}
 
 \item{y}{For \code{copyCompDb()}: connection to a database to which the content
 should be copied.}
@@ -89,8 +90,8 @@ should be copied.}
 \item{object}{For all methods: a \code{CompDb} object.}
 
 \item{filter}{For \code{compounds()} and \code{Spectra()}: filter expression or
-\code{\link[=AnnotationFilter]{AnnotationFilter()}} defining a filter to be used to retrieve specific
-elements from the database.}
+\code{\link[AnnotationFilter:AnnotationFilter]{AnnotationFilter::AnnotationFilter()}} defining a filter to be used to
+retrieve specific elements from the database.}
 
 \item{...}{additional arguments. Currently not used.}
 
@@ -105,7 +106,8 @@ For \code{insertSpectra()}: columns (spectra variables) that should be
 inserted into the database (to avoid inserting all variables).}
 
 \item{return.type}{For \code{compounds()}: either \code{"data.frame"} or \code{"tibble"} to
-return the result as a \code{\link[=data.frame]{data.frame()}} or \code{\link[=tibble]{tibble()}}, respectively.}
+return the result as a \code{\link[=data.frame]{data.frame()}} or \code{\link[tibble:tibble]{tibble::tibble()}},
+respectively.}
 
 \item{spectra}{For \code{insertSpectra()}: \code{Spectra} object containing the
 spectra to be added to the \code{IonDb} database.}
@@ -168,9 +170,9 @@ to \code{src_compdb} it returns the actual data as a \code{data.frame} (if
 \code{return.type = "tibble"}). A \code{compounds()} call will always return all
 elements from the \emph{ms_compound} table (unless a \code{filter} is used).
 \item \code{Spectra()} extract spectra from the database and returns them as a
-\code{\link[=Spectra]{Spectra()}} object from the \emph{Spectra} package. Additional annotations
-requested with the \code{columns} parameter are added as additional spectra
-variables.
+\code{\link[Spectra:Spectra]{Spectra::Spectra()}} object from the \emph{Spectra} package. Additional
+annotations requested with the \code{columns} parameter are added as additional
+spectra variables.
 }
 }
 
@@ -263,9 +265,9 @@ for a certain compound with the ID \code{"HMDB0000001"} can for example be
 retrieved by passing the filter expression
 \code{filter = ~ compound_id == "HMDB0000001"} to the \code{compounds} function.
 
-Use the \code{\link[=supportedFilters]{supportedFilters()}} function on the \link{CompDb} object to get a list
-of all supported filters. See also examples below or the usage vignette for
-details.
+Use the \code{\link[AnnotationFilter:AnnotationFilter]{AnnotationFilter::supportedFilters()}} function on the \link{CompDb}
+object to get a list of all supported filters. See also examples below
+or the usage vignette for details.
 }
 
 \examples{

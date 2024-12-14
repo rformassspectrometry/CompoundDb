@@ -18,7 +18,7 @@ to \code{onlyValid = TRUE})}
 \item{nonStop}{\code{logical(1)} whether file content specific errors should
 only reported as warnings and not break the full import process. The
 value of this parameter is passed to parameter \code{skipErrors} of the
-\code{\link[=read.SDFset]{read.SDFset()}} function.}
+\code{\link[ChemmineR:read.SDFset]{ChemmineR::read.SDFset()}} function.}
 }
 \value{
 A \link[tibble:tibble]{tibble::tibble} with general compound information (one row per

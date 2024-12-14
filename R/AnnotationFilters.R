@@ -44,8 +44,8 @@
 #'
 #' @name Filter-classes
 #'
-#' @seealso [supportedFilters()] for the method to list all supported filters
-#'     for a `CompDb` (or a IonDb) object.
+#' @seealso [AnnotationFilter::supportedFilters()] for the method to list all
+#'     supported filters for a `CompDb` (or a IonDb) object.
 #'
 #' @examples
 #' ## Create a filter for the compound id

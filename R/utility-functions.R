@@ -63,7 +63,7 @@
 #'
 #' @param x `data.frame` with *collapsed* m/z and intensity values in columns
 #'     `"mz"` and `"intensity"`, such as returned by [msms_spectra_hmdb()] with
-#'     parameter `collapsed = TRUE`, or by [spectra()] or [compounds()] calls.
+#'     parameter `collapsed = TRUE`, or by `spectra` or `compounds` calls.
 #'
 #' @return `data.frame` with `"mz"` and `"intensity"` columns *expanded*. See
 #'     description for details.

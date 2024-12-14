@@ -87,9 +87,9 @@
 #' retrieved by passing the filter expression `filter = ~ ion_id == 1` to
 #' the `ions()` function.
 #'
-#' Use the [supportedFilters()] function on the `IonDb` object to get a list of
-#' all supported filters. See also examples below or the usage vignette for
-#' details.
+#' Use the [AnnotationFilter::supportedFilters()] function on the `IonDb`
+#' object to get a list of all supported filters. See also examples below
+#' or the usage vignette for details.
 #'
 #' @param addColumns For `insertIons()`: `logical(1)` whether columns being
 #'     present in the submitted `data.frame` but not in the database table
@@ -102,9 +102,9 @@
 #'     columns that should be retrieved. Use `ionVariables` for a list
 #'     of available column names.
 #'
-#' @param filter For `ions()`: filter expression or [AnnotationFilter()]
-#'     defining a filter to be used to retrieve specific elements from the
-#'     database.
+#' @param filter For `ions()`: filter expression or
+#'     [AnnotationFilter::AnnotationFilter()] defining a filter to be used
+#'     to retrieve specific elements from the database.
 #'
 #' @param flags For `IonDb()`: optional `integer(1)` defining the flags for
 #'     the SQLite database connection. Only used if `x` is a `character()`.
@@ -126,7 +126,8 @@
 #' @param object For all methods: a `IonDb` object.
 #'
 #' @param return.type For `ions()`: either `"data.frame"` or `"tibble"` to
-#'     return the result as a [data.frame()] or [tibble()], respectively.
+#'     return the result as a [data.frame()] or [tibble::tibble()],
+#'     respectively.
 #'
 #' @param x For `IonDb()`: database connection or `character(1)` with the file
 #'     name of the SQLite database where the `IonDb` data will be stored or a

@@ -9,7 +9,7 @@ expandMzIntensity(x)
 \arguments{
 \item{x}{\code{data.frame} with \emph{collapsed} m/z and intensity values in columns
 \code{"mz"} and \code{"intensity"}, such as returned by \code{\link[=msms_spectra_hmdb]{msms_spectra_hmdb()}} with
-parameter \code{collapsed = TRUE}, or by \code{\link[=spectra]{spectra()}} or \code{\link[=compounds]{compounds()}} calls.}
+parameter \code{collapsed = TRUE}, or by \code{spectra} or \code{compounds} calls.}
 }
 \value{
 \code{data.frame} with \code{"mz"} and \code{"intensity"} columns \emph{expanded}. See

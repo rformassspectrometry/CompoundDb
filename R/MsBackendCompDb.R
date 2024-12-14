@@ -9,13 +9,13 @@
 #' the associated compound IDs and the precursor m/z values in memory and
 #' has thus only a very low memory footprint. All spectra variables, including
 #' m/z and intensity values are retrieved from the database *on-demand*. By
-#' extending the [MsBackendCached()] class directly, `MsBackendCompDb` supports
-#' adding/replacing spectra variables. These values are however only cached
-#' within the object and not propagated (written) to the database.
+#' extending the [Spectra::MsBackendCached()] class directly, `MsBackendCompDb`
+#' supports adding/replacing spectra variables. These values are however only
+#' cached within the object and not propagated (written) to the database.
 #'
 #' It is not intended that users create or use instances of this class directly,
-#' the [Spectra()] call on [CompDb()] will return a `Spectra` object that uses
-#' this backend.
+#' the [Spectra::Spectra()] call on [CompDb()] will return a `Spectra`
+#' object that uses this backend.
 #'
 #' The `MsBackendCompDb` does not support parallel processing because the
 #' database connection stored within the object can not be used across
@@ -25,7 +25,7 @@
 #' of a `MsBackend` will by default disable parallel processing.
 #'
 #' @param BPPARAM for `backendBpparam()`: `BiocParallel` parallel processing
-#'     setup. See [bpparam()] for more information.
+#'     setup. See [BiocParallel::bpparam()] for more information.
 #'
 #' @param columns for `spectraData()`: `character` with names of columns/spectra
 #'     variables that should be returned. Defaults to
@@ -64,14 +64,14 @@
 #' @note
 #'
 #' For higher performance it is suggested to change the backend of the
-#' [Spectra()] object to an [MsBackendMemory()] backend with the
-#' [setBackend()] method of `Spectra` objects.
+#' [Spectra::Spectra()] object to an [Spectra::MsBackendMemory()] backend
+#' with the [Spectra::setBackend()] method of `Spectra` objects.
 #'
 #' @section Methods implemented for `MsBackendCompDb`:
 #'
 #' The methods listed here are implemented for the `MsBackendCompDb`. All other
-#' methods are inherited directly from the parent [MsBackendCached()] class.
-#' See the help of [MsBackend()] in the `Spectra` package for a
+#' methods are inherited directly from the parent [Spectra::MsBackendCached()]
+#' class. See the help of [Spectra::MsBackend()] in the `Spectra` package for a
 #' complete listing of methods.
 #'
 #' - `peaksData()`: gets the full list of peak matrices. Returns a [list()],
@@ -87,7 +87,7 @@
 #' - `mz<-`: not supported.
 #'
 #' - `spectraData()`: returns the complete spectrum data including m/z and
-#'   intensity values as a [DataFrame()].
+#'   intensity values as a [S4Vectors::DataFrame()].
 #'
 #' - `$<-`: replace or add a spectrum variable. Note that `mz`, `intensity` and
 #'   `spectrum_id` variables can not be replaced.

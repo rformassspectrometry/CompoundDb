@@ -39,9 +39,9 @@
 #'   elements from the *ms_compound* table (unless a `filter` is used).
 #'
 #' - `Spectra()` extract spectra from the database and returns them as a
-#'   [Spectra()] object from the *Spectra* package. Additional annotations
-#'   requested with the `columns` parameter are added as additional spectra
-#'   variables.
+#'   [Spectra::Spectra()] object from the *Spectra* package. Additional
+#'   annotations requested with the `columns` parameter are added as additional
+#'   spectra variables.
 #'
 #' @section General functions:
 #'
@@ -137,9 +137,9 @@
 #' retrieved by passing the filter expression
 #' `filter = ~ compound_id == "HMDB0000001"` to the `compounds` function.
 #'
-#' Use the [supportedFilters()] function on the [CompDb] object to get a list
-#' of all supported filters. See also examples below or the usage vignette for
-#' details.
+#' Use the [AnnotationFilter::supportedFilters()] function on the [CompDb]
+#' object to get a list of all supported filters. See also examples below
+#' or the usage vignette for details.
 #'
 #' @param addColumns For `insertCompound()`: `logical(1)` whether all (extra)
 #'     columns in parameter `compounds` should be stored also in the database
@@ -156,11 +156,12 @@
 #'     details.
 #'
 #' @param filter For `compounds()` and `Spectra()`: filter expression or
-#'     [AnnotationFilter()] defining a filter to be used to retrieve specific
-#'     elements from the database.
+#'     [AnnotationFilter::AnnotationFilter()] defining a filter to be used to
+#'     retrieve specific elements from the database.
 #'
 #' @param flags flags passed to the SQLite database connection.
-#'     See [SQLite()]. Defaults to read-only, i.e. `RSQLite::SQLITE_RO`.
+#'     See [RSQLite::SQLite()]. Defaults to read-only, i.e.
+#'     `RSQLite::SQLITE_RO`.
 #'
 #' @param ids For `deleteSpectra()`: `integer()`
 #'     specifying the IDs of the spectra to delete. IDs in `ids` that are
@@ -184,7 +185,8 @@
 #'     spectra associated with the compounds should be deleted.
 #'
 #' @param return.type For `compounds()`: either `"data.frame"` or `"tibble"` to
-#'     return the result as a [data.frame()] or [tibble()], respectively.
+#'     return the result as a [data.frame()] or [tibble::tibble()],
+#'     respectively.
 #'
 #' @param x For `CompDb()`: `character(1)` with the file name of the SQLite
 #'     compound database. Alternatively it is possible to provide the
