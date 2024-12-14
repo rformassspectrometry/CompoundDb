@@ -35,11 +35,19 @@ test_that(".valid_ion works", {
                        ion_rt = 4.2)
     expect_true(.valid_ion(ions))
     ions$compound_id <- 4
-    expect_error(.valid_ion(ions), "should be character")
+    expect_error(.valid_ion(ions), "should be of type character")
     ions$compound_id <- "a"
+    ions$ion_adduct <- TRUE
+    expect_error(.valid_ion(ions), "should be of type character")
+    ions$ion_adduct <- "f"
     ions$ion_mz <- NULL
     expect_error(.valid_ion(ions), "ion_mz")
+    ions$ion_mz <- "a"
+    expect_error(.valid_ion(ions), "should be numeric")
     ions$ion_mz <- 45.3
+    ions$ion_rt <- FALSE
+    expect_error(.valid_ion(ions), "should be numeric")
+    ions$ion_rt <- 4.2
     ions$add_col <- "d"
     expect_true(.valid_ion(ions))
     ions$compound_id <- NA
@@ -60,4 +68,14 @@ test_that(".copy_compdb works", {
     expect_equal(dbListTables(a), dbListTables(dbconn(cmp_spctra_db)))
     expect_equal(sort(dbGetQuery(dbconn(cmp_spctra_db), idx)$name),
                  sort(dbGetQuery(a, idx)$name))
+})
+
+test_that(".validIonDb works", {
+    tc <- dbConnect(SQLite(), paste0(tempdir(), "/ion_spctra_db.db"))
+    with_mocked_bindings(
+        ".valid_ion" = function(x, error = FALSE) return("ERROR"),
+        code = expect_match(.validIonDb(tc), "ERROR")
+    )
+    dbDisconnect(tc)
+    expect_match(.validIonDb(tc), "not available or closed")
 })

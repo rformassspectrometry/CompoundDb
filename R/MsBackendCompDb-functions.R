@@ -59,6 +59,8 @@ MsBackendCompDb <- function() {
 #'
 #' @param x `MsBackendCompDb`
 #'
+#' @importFrom stringi stri_c
+#'
 #' @noRd
 .fetch_peaks <- function(x, columns = c("mz", "intensity")) {
     con <- .dbconn(x)
@@ -67,9 +69,9 @@ MsBackendCompDb <- function() {
             on.exit(dbDisconnect(con))
         dbGetQuery(
             con,
-            paste0("select spectrum_id,", paste(columns, collapse = ","),
+            stri_c("select spectrum_id,", stri_c(columns, collapse = ","),
                    " from msms_spectrum_peak where spectrum_id in (",
-                   paste0("'", unique(x@spectraIds), "'", collapse = ","), ")"))
+                   stri_c("'", unique(x@spectraIds), "'", collapse = ","), ")"))
     } else {
         data.frame(spectrum_id = character(), mz = numeric(),
                    intensity = numeric())[, c("spectrum_id", columns)]
@@ -86,26 +88,39 @@ MsBackendCompDb <- function() {
 #' @author Johannes Rainer
 #'
 #' @noRd
-.peaks_data <- function(x, columns = c("mz", "intensity")) {
-    p <- .fetch_peaks(x, columns = columns)
-    p <- unname(split.data.frame(p, as.factor(p$spectrum_id))[x@spectraIds])
-    emat <- matrix(ncol = length(columns), nrow = 0,
+.peaks_data <- function(x, columns = c("mz", "intensity"),
+                         p = .fetch_peaks(x, columns = columns)) {
+    sid <- as.factor(p$spectrum_id)
+    p <- split.data.frame(as.matrix(p[, seq(2, (length(columns) + 1)),
+                                      drop = FALSE]), sid)[x@spectraIds]
+    emat <- matrix(NA_real_, ncol = length(columns), nrow = 0,
                    dimnames = list(character(), columns))
-    idx <- seq(2, (length(columns) + 1L))
-    if (length(idx) == 1) {
-        lapply(p, function(z) {
-            if (nrow(z))
-                matrix(z[, idx], dimnames = list(c(), columns))
-            else emat
-        })
-    } else {
-        lapply(p, function(z) {
-            if (nrow(z))
-                as.matrix(z[, idx], rownames.force = FALSE)
-            else emat
-        })
-    }
+    el <- which(lengths(p) == 0)
+    if (length(el))
+        p[el] <- replicate(length(el), emat)
+    unname(p)
 }
+
+## .peaks_data <- function(x, columns = c("mz", "intensity"),
+##                         p = .fetch_peaks(x, columns = columns)) {
+##     p <- unname(split.data.frame(p, as.factor(p$spectrum_id))[x@spectraIds])
+##     emat <- matrix(ncol = length(columns), nrow = 0,
+##                    dimnames = list(character(), columns))
+##     idx <- seq(2, (length(columns) + 1L))
+##     if (length(idx) == 1) {
+##         lapply(p, function(z) {
+##             if (nrow(z))
+##                 matrix(z[, idx], dimnames = list(c(), columns))
+##             else emat
+##         })
+##     } else {
+##         lapply(p, function(z) {
+##             if (nrow(z))
+##                 as.matrix(z[, idx], rownames.force = FALSE)
+##             else emat
+##         })
+##     }
+## }
 
 #' @importFrom S4Vectors make_zero_col_DFrame extractCOLS
 #'
@@ -146,8 +161,8 @@ MsBackendCompDb <- function() {
             con <- .dbconn(x)
             tmp <- dbGetQuery(
                 con,
-                paste0("select * from synonym where compound_id in (",
-                       paste0("'", unique(res$compound_id), "'",
+                stri_c("select * from synonym where compound_id in (",
+                       stri_c("'", unique(res$compound_id), "'",
                               collapse = ","), ")"))
             dbDisconnect(con)
             res$synonym <- CharacterList(
@@ -167,9 +182,5 @@ MsBackendCompDb <- function() {
                              as.factor(pks$spectrum_id))[x@spectraIds]),
                 compress = FALSE)
     }
-    if (!all(columns %in% colnames(res)))
-        stop("Column(s) ", paste0(columns[!columns %in% names(res)],
-                                  collapse = ", "), " not available.",
-             call. = FALSE)
     extractCOLS(res, columns)
 }

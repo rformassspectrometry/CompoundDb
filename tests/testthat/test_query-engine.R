@@ -225,6 +225,14 @@ test_that(".deserialize_mz_intensity works", {
     expect_equal(df_ds$mz[[2]], 5:10)
     expect_equal(df_ds$mz[[3]], 3:9)
 
+    df$intensity <- list(serialize(5:7, NULL), serialize(15:20, NULL),
+                  serialize(13:19, NULL))
+    df_ds <- .deserialize_mz_intensity(df)
+    expect_equal(df[, 1:2], df_ds[, 1:2])
+    expect_equal(df_ds$intensity[[1]], 5:7)
+    expect_equal(df_ds$intensity[[2]], 15:20)
+    expect_equal(df_ds$intensity[[3]], 13:19)
+
     ## ## Now from the database...
     ## library(RSQLite)
     ## res <- dbGetQuery(dbconn(cmp_spctra_db), "select * from msms_spectrum")

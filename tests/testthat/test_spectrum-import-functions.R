@@ -1,4 +1,17 @@
 test_that(".import_hmdb_ms_ms_spectrum works", {
+    fl <- system.file("xml/fail/no_id.xml", package = "CompoundDb")
+    expect_error(CompoundDb:::.import_hmdb_ms_ms_spectrum(fl), "Could not extract")
+    expect_warning(res <- .import_hmdb_ms_ms_spectrum(fl, nonStop = TRUE), "Could not extract")
+    expect_equal(res, data.frame())
+
+    fl <- system.file("xml/fail/missing_values.xml", package = "CompoundDb")
+    res <- CompoundDb:::.import_hmdb_ms_ms_spectrum(fl, nonStop = TRUE)
+    expect_equal(res$spectrum_id, as.character(7))
+    expect_true(is.na(res$polarity))
+    expect_true(is.na(res$predicted))
+    expect_true(is.na(res$instrument))
+    expect_true(is.na(res$instrument_type))
+
     fl <- system.file("xml/HMDB0000001_ms_ms_spectrum_2_experimental.xml",
                       package = "CompoundDb")
 

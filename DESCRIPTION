@@ -1,7 +1,7 @@
 Package: CompoundDb
 Type: Package
 Title: Creating and Using (Chemical) Compound Annotation Databases
-Version: 1.11.0
+Version: 1.11.1
 Authors@R: c(person(given = "Jan", family = "Stanstrup",
                     email = "stanstrup@gmail.com",
 		    role = c("aut"),
@@ -55,7 +55,8 @@ Imports:
     Spectra (>= 1.15.10),
     MsCoreUtils,
     MetaboCoreUtils,
-    BiocParallel
+    BiocParallel,
+    stringi
 Suggests:
     knitr,
     rmarkdown,

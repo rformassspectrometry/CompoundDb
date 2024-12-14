@@ -389,38 +389,38 @@ setValidity("CompDb", function(object) {
 
 #' @importFrom DBI dbListTables dbGetQuery dbIsValid
 .validCompDb <- function(x) {
-    txt <- character()
     if (!dbIsValid(x))
         return("Database connection not available or closed.")
     tables <- dbListTables(x)
     required_tables <- c("ms_compound", "metadata")
     got <- required_tables %in% tables
     if (!all(got))
-        txt <- c(txt, paste0("Required tables ", paste0(required_tables[!got]),
-                             "not found in the database"))
+        return(paste0("Required tables ",
+                      paste0("'", required_tables[!got], "'", collapse = ", "),
+                      " not found in the database"))
     ## Check table columns.
     comps <- dbGetQuery(x, "select * from ms_compound limit 3")
     res <- .valid_compound(comps, error = FALSE)
     if (is.character(res))
-        txt <- c(txt, res)
+        return(res)
     metad <- .metadata(x)
     res <- .valid_metadata(metad, error = FALSE)
     if (is.character(res))
-        txt <- c(txt, res)
+        return(res)
     if (length(grep("msms", tables))) {
         if (!all(c("msms_spectrum", "msms_spectrum_peak") %in% tables))
-            txt <- c(txt, paste0("Required tables msms_spectrum and ",
-                                 "msms_spectrum_peak not found in",
-                                 " the database"))
+            return(paste0("Required tables msms_spectrum and ",
+                          "msms_spectrum_peak not found in the database"))
         res <- dbGetQuery(x, "select * from msms_spectrum limit 3")
         if (!any(colnames(res) == "spectrum_id"))
-            stop("Required column 'spectrum_id' not found in table ",
-                 "msms_spectrum")
+            return(paste0("Required column 'spectrum_id' not found in table ",
+                          "msms_spectrum"))
         res2 <- dbGetQuery(x, "select * from msms_spectrum_peak limit 3")
         if (!all(c("spectrum_id", "mz", "intensity", "peak_id") %in%
                  colnames(res2)))
-            stop("Required columns 'spectrum_id', 'mz', 'intensity' and ",
-                 "'peak_id' not found in table msms_spectrum_peak")
+            return(paste0("Required columns 'spectrum_id', 'mz', 'intensity'",
+                          " and 'peak_id' not found in table ",
+                          "msms_spectrum_peak"))
         res <- dbGetQuery(
             x, paste0("select * from msms_spectrum join msms_spectrum_peak on ",
                       "(msms_spectrum.spectrum_id=msms_spectrum_peak.spectrum_",
@@ -428,16 +428,16 @@ setValidity("CompDb", function(object) {
         res$predicted <- as.logical(res$predicted)
         res <- .valid_msms_spectrum(res, error = FALSE)
         if (is.character(res))
-            txt <- c(txt, res)
+            return(res)
         compound_cmp_id <- dbGetQuery(
-            x, "select compound_id from ms_compound")[,1]
+            x, "select compound_id from ms_compound")[, 1L]
         spectrum_cmp_id <- dbGetQuery(x, paste0("select compound_id from ",
-                                                "msms_spectrum"))[, 1]
+                                                "msms_spectrum"))[, 1L]
         if (!all(spectrum_cmp_id %in% compound_cmp_id))
-            txt <- c(txt, paste0("Not all compound ids in the msms_spectrum",
-                                 " table are also in the compound table"))
+            return(paste0("Not all compound ids in the msms_spectrum",
+                          " table are also in the compound table"))
     }
-    if (length(txt)) txt else TRUE
+    TRUE
 }
 
 #' @export
@@ -576,4 +576,8 @@ copyCompDb <- function(x, y) {
             on.exit(dbDisconnect(x))
     }
     .copy_compdb(x, y)
+}
+
+.require_spectra <- function() {
+    requireNamespace("Spectra", quietly = TRUE)
 }

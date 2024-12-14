@@ -9,6 +9,17 @@ test_that("IonDb works", {
     res <- IonDb()
     expect_true(is(res, "IonDb"))
 
+    ## errors
+    tf <- tempfile()
+    tc <- dbConnect(SQLite(), tf)
+    expect_error(IonDb(tc), "not found in")
+    dbDisconnect(tc)
+    rm(tf)
+
+    tc <- dbConnect(SQLite(), db_file)
+    expect_error(IonDb(tc), "not found in")
+    dbDisconnect(tc)
+
     ## from existing CompDb using character
     dbf <- tempfile()
     res <- IonDb(dbf, cmp_db)
@@ -205,10 +216,11 @@ test_that("insertIon,ionDb works", {
     more_ions <- data.frame(compound_id = c("HMDB0000005", "HMDB0000008"),
                             ion_adduct = c("C", "D"),
                             ion_mz = c(220, 300),
-                            ion_rt = c(90, 140))
-    idb <- insertIon(idb, more_ions)
+                            ion_rt = c(90, 140),
+                            ion_id = c(1, 2))
+    expect_warning(idb <- insertIon(idb, more_ions), "replaced with")
     expect_true(nrow(ions(idb)) == 7)
-    expect_equal(ions(idb), rbind(ions(ion_spctra_db), more_ions))
+    expect_equal(ions(idb), rbind(ions(ion_spctra_db), more_ions[, -5L]))
 
     ## Different ordering of columns
     more_ions <- more_ions[, c(3, 1, 2, 4)]
@@ -231,7 +243,11 @@ test_that("insertIon,ionDb works", {
     expect_error(insertIon(idb, more_ions[, 1:3]), "required")
     more_ions$compound_id <- c("a", "b")
     expect_error(insertIon(idb, more_ions), "compound_id")
-    dbDisconnect(con)
+    ## dbDisconnect(con)
+
+    tmp <- IonDb()
+    expect_error(insertIon(tmp, more_ions, addColumns = TRUE),
+                 "not initialized")
 })
 
 test_that("insertSpectra,IonDb works", {
@@ -306,6 +322,22 @@ test_that("deleteIon,IonDb works", {
     expected_ions <- tmp[-match(ids, tmp$ion_id), ]
     rownames(expected_ions) <- NULL
     expect_equal(ions(idb, ionVariables(idb, includeId = TRUE)), expected_ions)
+    dbDisconnect(con)
+    rm(dbf)
+
+    dbf <- tempfile()
+    con <- dbConnect(dbDriver("SQLite"), dbf)
+    CompoundDb:::.copy_compdb(dbconn(ion_spctra_db), con)
+    idb <- IonDb(dbf)
+    ids <- c(1, 2, 30)
+    expect_warning(deleteIon(idb, ids), "Some IDs")
+    tmp <- ions(ion_spctra_db, ionVariables(ion_spctra_db, includeId = TRUE))
+    expected_ions <- tmp[-match(ids[-3], tmp$ion_id), ]
+    rownames(expected_ions) <- NULL
+    expect_equal(ions(idb, ionVariables(idb, includeId = TRUE)), expected_ions)
+    rm(fbf)
+
+    expect_error(deleteIon(IonDb(), ids = 1:3), "not initialized")
 })
 
 test_that("deleteCompound,IonDb works", {
@@ -313,6 +345,9 @@ test_that("deleteCompound,IonDb works", {
     res <- deleteCompound(db, 1:4)
     expect_equal(compounds(res), compounds(db))
     expect_equal(ions(res), ions(db))
+
+    res <- deleteCompound(db)
+    expect_equal(compounds(res), compounds(db))
 
     cmp <- data.frame(compound_id = 1:4, name = letters[1:4], synonyms = 1:4)
     db <- insertCompound(db, cmp)

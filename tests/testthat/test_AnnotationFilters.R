@@ -11,6 +11,26 @@ test_that("CompoundIdFilter, .field, .sql_condition, sql_value work", {
     expect_equal(.sql_value(fl), "'samid'")
 })
 
+test_that("IonIdFilter works", {
+    res <- IonIdFilter("a")
+    expect_s4_class(res, "IonIdFilter")
+})
+
+test_that("IonAdductFilter works", {
+    res <- IonAdductFilter("a")
+    expect_s4_class(res, "IonAdductFilter")
+})
+
+test_that("IonMzFilter works", {
+    res <- IonMzFilter(1.2)
+    expect_s4_class(res, "IonMzFilter")
+})
+
+test_that("IonRtFilter works", {
+    res <- IonRtFilter(2.2)
+    expect_s4_class(res, "IonRtFilter")
+})
+
 test_that("NameFilter works", {
     fl <- NameFilter("a")
     expect_true(is(fl, "NameFilter"))

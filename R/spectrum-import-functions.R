@@ -43,7 +43,7 @@
     x_ml <- read_xml(x)
     id <- xml_text(xml_find_first(x_ml, "id"))
     cmp_id <- xml_text(xml_find_first(x_ml, "database-id"))
-    if (id == "" || cmp_id == "") {
+    if (is.na(id) || is.na(cmp_id) || id == "" || cmp_id == "") {
         msg <- paste0("Could not extract the HMDB ID from ", basename(x),
                       "! Is the file a spectrum xml file from HMDB?")
         if (nonStop) {

@@ -25,6 +25,11 @@ test_that("Spectra,CompDb works", {
     expect_error(Spectra(cmp_spctra_db, filter = "ad"), "'filter' has to")
     expect_error(Spectra(cmp_spctra_db, filter = ~ gene_name == "b"),
                  "not supported")
+
+    with_mocked_bindings(
+        ".require_spectra" = function() FALSE,
+        code = expect_error(Spectra(cmp_spctra_db), "The use of")
+    )
 })
 
 test_that("supportedFilters works", {
@@ -94,6 +99,11 @@ test_that("compounds works", {
     expect_true(nrow(res) > 0)
 })
 
+test_that("show,CompDb", {
+    a <- new("CompDb")
+    expect_output(show(a), "no database connection")
+})
+
 test_that("insertSpectra,CompDb works", {
     spd <- DataFrame(
         msLevel = c(2L, 2L),
@@ -106,10 +116,13 @@ test_that("insertSpectra,CompDb works", {
         c(3.407, 47.494, 3.094, 100.0, 13.240),
         c(6.685, 4.381, 3.022, 16.708, 100.0, 4.565, 40.643))
     sps <- Spectra(spd)
-    expect_error(
-        insertSpectra(cmp_spctra_db, sps,
-                      c("msLevel", "polarity", "other_column"))
-       , "Column 'compound_id'")
+    expect_error(insertSpectra(new("CompDb"), sps),
+                 "Database not initialized")
+    expect_error(insertSpectra(
+        cmp_spctra_db, sps, c("msLevel", "polarity", "other_column")),
+        "Column 'compound_id'")
+
+    expect_output(show(cmp_spctra_db), "MS/MS spectra count")
 
     sps$compound_id <- c("HMDB0000008", "b")
     expect_error(
@@ -129,8 +142,11 @@ test_that("insertSpectra,CompDb works", {
 
     tmp_db <- CompDb(tmp_con)
     expect_false(.has_msms_spectra(tmp_db))
-    tmp_db <- insertSpectra(
-        tmp_db, sps, c("msLevel", "polarity", "other_column", "compound_id"))
+    sps$spectrum_id <- seq_along(sps)
+    expect_warning(tmp_db <- insertSpectra(
+                       tmp_db, sps, c("msLevel", "polarity", "other_column",
+                                      "compound_id", "spectrum_id")),
+                   "replaced with internal indexes")
     expect_true(.has_msms_spectra(tmp_db))
     res <- dbGetQuery(tmp_con, "select * from msms_spectrum")
     expect_true(all(c("ms_level", "polarity", "other_column", "compound_id")
@@ -167,14 +183,13 @@ test_that("insertSpectra,CompDb works", {
 
 test_that("deleteSpectra,CompDb works", {
     expect_error(deleteSpectra(cmp_spctra_db, ids = c("1", "2")), "readonly")
+    expect_error(deleteSpectra(new("CompDb"), ids = c("1", "2")), "initialized")
 
     tmp_con <- dbConnect(SQLite(), tempfile())
     .copy_compdb(.dbconn(cmp_db), tmp_con)
     tmp_db <- CompDb(tmp_con)
     expect_false(.has_msms_spectra(tmp_db))
     expect_error(deleteSpectra(tmp_db, ids = c("1", "2")), "not contain msms")
-
-
 
     tmp_con <- dbConnect(SQLite(), tempfile())
     .copy_compdb(.dbconn(cmp_spctra_db), tmp_con)
@@ -186,7 +201,9 @@ test_that("deleteSpectra,CompDb works", {
                  dbReadTable(dbconn(cmp_spctra_db), "msms_spectrum_peak"))
 
 
-    tmp_db <- deleteSpectra(tmp_db, ids = c("1", "2"))
+    expect_warning(
+        tmp_db <- deleteSpectra(tmp_db, ids = c("1", "2", "100")),
+        "not valid and will be ignored")
     tmp_msms_sp <- dbReadTable(dbconn(cmp_spctra_db), "msms_spectrum")
     exp_msms_sp <- tmp_msms_sp[!tmp_msms_sp$spectrum_id %in% c("1", "2"), ]
     rownames(exp_msms_sp) <- NULL
@@ -278,6 +295,9 @@ test_that("deleteCompound,CompDb works", {
     cmp <- data.frame(compound_id = 1:4, name = letters[1:4], synonyms = 1:4)
     db <- insertCompound(db, cmp)
     library(RSQLite)
+    res <- deleteCompound(db)
+    expect_equal(compounds(db), compounds(res))
+
     db <- deleteCompound(db, ids = c(3, 6, 8, 10))
     syns <- dbGetQuery(dbconn(db), "select * from synonym")
     expect_equal(syns$synonym, c("1", "2", "4"))

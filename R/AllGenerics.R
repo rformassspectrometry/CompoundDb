@@ -1,6 +1,3 @@
-setGeneric("annotateMz", function(object, compounds, ...)
-    standardGeneric("annotateMz"))
-
 setGeneric("compoundVariables", function(object, ...)
     standardGeneric("compoundVariables"))
 

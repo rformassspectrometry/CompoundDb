@@ -219,7 +219,7 @@ compound_tbl_lipidblast <- function(file, collapse = character(), n = -1L,
              "HMDB, ChEBI and LipidMaps.")
     colmap <- get(paste0(".", source_db, "_colmap"))
     sep <- get(paste0(".", source_db, "_separator"))
-    ## Fix missing COMMON_NAME entries in LipidMaps (see issue #1)
+    ## Fix missing NAME entries in LipidMaps (see issue #1)
     nms <- x[, colmap["name"]]
     syns <- strsplit(x[, colmap["synonyms"]], split = sep)
     if (source_db == "lipidmaps") {
@@ -416,7 +416,6 @@ compound_tbl_lipidblast <- function(file, collapse = character(), n = -1L,
     ## Extract metadata
     mass <- get_metadata("total exact mass", metadata_sources)
     mass <- as.numeric(mass)
-    if (is.na(mass)) mass <- NA_real_
 
     frml <- get_metadata("molecular formula", metadata_sources)
     inchi <- get_metadata("InChI", metadata_sources)
@@ -468,23 +467,26 @@ compound_tbl_lipidblast <- function(file, collapse = character(), n = -1L,
     con <- file(x, open = "r")
     on.exit(close(con))
     res <- list()
-    while (length(ls <- readLines(con, n = n, warn = FALSE))) {
-        if (length(grep("^\\[", ls[1L])))
-            ls <- ls[-1L]
-        if (length(grep("^\\]", ls[length(ls)])))
-            ls <- ls[-length(ls)]
-        ls <- sub(",$", "", ls)
-        if (length(ls)) {
-            chunk_res <- bplapply(ls, function(z) {
-                .parse_lipidblast_json_element(
-                    jsonlite::fromJSON(z, simplifyVector = FALSE))
-            }, BPPARAM = BPPARAM)
-            res <- c(res, chunk_res)
+    while (length(l <- readLines(con, n = n, warn = FALSE))) {
+        if (length(grep("^\\[", l[1L])))
+            l <- l[-1L]
+        if (length(grep("^\\]", l[length(l)])))
+            l <- l[-length(l)]
+        l <- sub(",$", "", l)
+        if (length(l)) {
+            res <- c(res, .lipidblast_parallel_parse(l, BPPARAM))
         }
         if (verbose)
             message("Processed ", length(ls), " elements")
     }
     res
+}
+
+#' @importFrom BiocParallel bplapply
+.lipidblast_parallel_parse <- function(x, BPPARAM = bpparam()) {
+    bplapply(x, function(z) {
+        .parse_lipidblast_json_element(fromJSON(z, FALSE))
+    }, BPPARAM = BPPARAM)
 }
 
 #' @title Create a CompDb database

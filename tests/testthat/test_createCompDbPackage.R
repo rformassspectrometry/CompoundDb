@@ -1,6 +1,10 @@
 test_that(".simple_extract_compounds_sdf works", {
-
     hmdb <- system.file("sdf/HMDB_sub.sdf.gz", package = "CompoundDb")
+
+    with_mocked_bindings(
+        ".guess_sdf_source" = function(x) return(NULL),
+        code = expect_error(.simple_extract_compounds_sdf(hmdb), "The SDF file")
+    )
     cmps <- .simple_extract_compounds_sdf(
         datablock2ma(datablock(read.SDFset(hmdb))))
     expect_true(is(cmps, "data.frame"))
@@ -21,7 +25,7 @@ test_that(".simple_extract_compounds_sdf works", {
     expect_true(nrow(cmps) == 6)
 
     lm <- system.file("sdf/LipidMaps_sub.sdf.gz", package = "CompoundDb")
-    cmps <- .simple_extract_compounds_sdf(
+    cmps <- CompoundDb:::.simple_extract_compounds_sdf(
         datablock2ma(datablock(read.SDFset(lm))))
     expect_true(is(cmps, "data.frame"))
     expect_true(is(cmps, "tbl"))
@@ -29,6 +33,12 @@ test_that(".simple_extract_compounds_sdf works", {
                                    "inchikey", "formula", "exactmass",
                                    "synonyms", "smiles"))
     expect_true(nrow(cmps) == 7)
+
+    lm <- system.file("sdf/LipidMaps_mock.sdf", package = "CompoundDb")
+    cmps2 <- CompoundDb:::.simple_extract_compounds_sdf(
+                              datablock2ma(datablock(read.SDFset(lm))))
+    expect_true(any(cmps2$name == "syns"))
+    expect_true(any(cmps2$name == "sysname"))
 
     pubchem <- system.file("sdf/PubChem_sub.sdf.gz", package = "CompoundDb")
     cmps <- .simple_extract_compounds_sdf(
@@ -69,6 +79,11 @@ test_that("compound_tbl_sdf works", {
     expect_true(is(cmps$synonyms, "list"))
     cmps <- compound_tbl_sdf(hmdb, collapse = "|")
     expect_true(is(cmps$synonyms, "character"))
+
+    with_mocked_bindings(
+        "validSDF" = function(x) c(1, 3),
+        code = expect_message(compound_tbl_sdf(hmdb), "Skipped import")
+    )
 
     chebi <- system.file("sdf/ChEBI_sub.sdf.gz", package = "CompoundDb")
     cmps <- compound_tbl_sdf(chebi)
@@ -270,6 +285,19 @@ test_that("createCompDb and createCompDbPackage works", {
                            source_version = "xx", organism = "Hsapiens",
                            url = NA)
     expect_error(createCompDb(fls, metadata = metad, path = tempdir()))
+
+    a <- system.file("sdf/HMDB_sub.sdf.gz", package = "CompoundDb")
+    cmps <- compound_tbl_sdf(a)
+    cmps <- cmps[-1L, ]
+    metad <- data.frame(name = c("source", "url", "source_version",
+                                 "source_date", "organism"),
+                        value = c("HMDB_testx", "http://www.hmdb.ca",
+                                  "v4", "2017-08-27", "Hsapiens"))
+    dr <- system.file("xml/", package = "CompoundDb")
+    msms_spctra <- msms_spectra_hmdb(dr)
+    expect_error(createCompDb(cmps, metadata = metad, path = tempdir(),
+                              msms_spectra = msms_spctra),
+                 "All compound")
 })
 
 test_that(".is_sdf_filename works", {
@@ -398,8 +426,9 @@ test_that(".append_msms_spectra works", {
                                           "rtime", "compound_id")))
     x$mz <- as.list(sps$mz)
     x$intensity <- as.list(sps$intensity)
+    x$spectrum_id <- seq_len(nrow(x))
 
-    .append_msms_spectra(tmp_con, x)
+    expect_warning(.append_msms_spectra(tmp_con, x), "replaced with internal")
     res <- dbGetQuery(tmp_con, "select * from msms_spectrum")
     expect_true(all(c("msLevel", "polarity", "precursorMz", "rtime") %in%
                     colnames(res)))
@@ -419,6 +448,9 @@ test_that(".prepare_msms_spectra_table works", {
     res <- .prepare_msms_spectra_table(tbl)
     expect_equal(names(res), c("x", "msms_spectrum_peak"))
     expect_true(is.character(res$x$splash))
+
+    tbl$mz[[2]] <- c("a")
+    expect_error(.prepare_msms_spectra_table(tbl), "contain numeric values")
 })
 
 test_that(".valid_data_frame_columns works", {
@@ -455,6 +487,12 @@ test_that(".parse_lipidblast_json_element works", {
     expect_true(all(c("compound_id", "name", "inchi", "inchikey",
                       "formula", "exactmass", "synonyms") %in% names(res)))
     expect_equal(res$name, "CerP 24:0")
+
+    x <- js[[1L]]
+    x$spectrum <- NULL
+
+    res <- CompoundDb:::.parse_lipidblast_json_element(x)
+    expect_identical(res$spectrum, NA_character_)
 })
 
 test_that(".import_lipidblast_json_chunk works", {
@@ -463,10 +501,22 @@ test_that(".import_lipidblast_json_chunk works", {
     expect_true(is.list(res))
     expect_true(length(res) == 8L)
 
+    res <- .import_lipidblast_json_chunk(f, n = 9, verbose = TRUE)
+    expect_true(is.list(res))
+    expect_true(length(res) == 8L)
+
     ref <- .import_lipidblast(f, verbose = TRUE)
     expect_equal(nrow(ref), length(res))
     res <- bind_rows(res)
     expect_equal(ref, res)
+})
+
+test_that(".lipidblast_parallel_parse works", {
+    f <- system.file("json", "MoNa-LipidBlast_sub.json", package = "CompoundDb")
+    l <- readLines(f)
+    l <- sub(",$", "", l)
+    res <- .lipidblast_parallel_parse(l[2:5], BPPARAM = SerialParam())
+    expect_true(length(res) == 4)
 })
 
 test_that("compound_tbl_lipidblast works with n > 0", {

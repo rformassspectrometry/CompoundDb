@@ -46,7 +46,7 @@ setMethod("Spectra", "CompDb", function(object,
                 call. = FALSE)
         return(Spectra())
     }
-    if (!requireNamespace("Spectra", quietly = TRUE))
+    if (!.require_spectra())
         stop("The use of 'Spectra' requires package 'Spectra'. Please install ",
              "with 'BiocManager::install(\"Spectra\")'")
     sps <- new("Spectra")

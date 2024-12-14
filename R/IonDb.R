@@ -243,9 +243,9 @@ setValidity("IonDb", function(object) {
     txt <- .valid_data_frame_columns(ions, "ions", .required_ion_columns)
     if (!length(txt)) {
         if (!is.character(ions$compound_id))
-          txt <- c(txt, "Column 'compound_id' should be character")
+          txt <- c(txt, "Column 'compound_id' should be of type character")
         if (!is.character(ions$ion_adduct))
-            txt <- c(txt, "Column 'ion_adduct' should be chararcter")
+            txt <- c(txt, "Column 'ion_adduct' should be of type character")
         if (!is.numeric(ions$ion_mz))
             txt <- c(txt, "Column 'ion_mz' should be numeric")
         if (!is.numeric(ions$ion_rt))

@@ -1,4 +1,6 @@
 test_that("backendInitialize,MsBackendCompDb works", {
+    expect_error(backendInitialize(MsBackendCompDb()), "mandatory")
+
     res <- backendInitialize(MsBackendCompDb(), cmp_spctra_db)
     expect_true(is(res, "MsBackendCompDb"))
     expect_true(length(res) == 4)
@@ -20,6 +22,12 @@ test_that("backendInitialize,MsBackendCompDb works", {
     res <- backendInitialize(MsBackendCompDb(), cmp_spctra_db,
                              filter = ~ compound_id == "bla")
     expect_true(length(res) == 0)
+
+    a <- cmp_spctra_db
+    a@dbcon <- CompoundDb:::.dbconn(a)
+    a@dbname <- character()
+    res <- backendInitialize(MsBackendCompDb(), a)
+    expect_true(length(res) > 0)
 })
 
 test_that("peaksData,MsBackendCompDb works", {
@@ -129,6 +137,11 @@ test_that("spectraNames,MsBackendCompDb works", {
     expect_equal(res, be@spectraIds)
 })
 
+test_that("spectraNames,MsBackendCompDb<- works", {
+    be <- backendInitialize(MsBackendCompDb(), cdb)
+    expect_error(spectraNames(be) <- c("a", "b"), "does not support")
+})
+
 test_that("$<-,MsBackendCompDb works", {
     be <- backendInitialize(MsBackendCompDb(), cdb)
     be$polarity <- 0L
@@ -194,6 +207,10 @@ test_that("tic,MsBackendCompDb works", {
     expect_true(all(is.na(res)))
     res <- tic(be, initial = FALSE)
     expect_false(all(is.na(res)))
+
+    vals <- c(12.3, 34, 54, 12.3)
+    be$totIonCurrent <- vals
+    expect_equal(tic(be), vals)
 })
 
 test_that("backendBpparam,MsBackendCompDb works", {

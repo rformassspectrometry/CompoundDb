@@ -1,3 +1,9 @@
+# CompoundDb version 1.11
+
+## Changes in version 1.11.1
+
+- Complete unit test coverage.
+
 # CompoundDb version 1.9
 
 ## Changes in version 1.9.5
