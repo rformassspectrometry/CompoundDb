@@ -8,8 +8,8 @@
 <title>Creating CompoundDb annotation resources • CompoundDb</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Creating CompoundDb annotation resources">
 </head>
 <body>
@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">CompoundDb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.9.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.11.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,12 +76,12 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2024-09-27 12:02:39.449229<br><strong>Compiled</strong>: Fri Sep 27 12:10:17 2024</p>
+</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2024-12-17 14:14:11.249713<br><strong>Compiled</strong>: Tue Dec 17 14:28:05 2024</p>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
 <p>Chemical compound annotation and information can be retrieved from a
-variety of sources including <a href="http://www.hmdb.ca" class="external-link">HMDB</a>, <a href="http://www.lipidmaps.org" class="external-link">LipidMaps</a> or <a href="https://www.ebi.ac.uk/chebi" class="external-link">ChEBI</a>. The <em><a href="https://bioconductor.org/packages/3.20/CompoundDb" class="external-link">CompoundDb</a></em>
+variety of sources including <a href="http://www.hmdb.ca" class="external-link">HMDB</a>, <a href="http://www.lipidmaps.org" class="external-link">LipidMaps</a> or <a href="https://www.ebi.ac.uk/chebi" class="external-link">ChEBI</a>. The <em><a href="https://bioconductor.org/packages/3.21/CompoundDb" class="external-link">CompoundDb</a></em>
 package provides functionality to extract data relevant for
 (chromatographic) peak annotations in metabolomics/lipidomics
 experiments from these sources and to store it into a common format
@@ -279,7 +279,7 @@ table.</p>
 <span><span class="co">## 9        N-Methyltryptamine  C11H14N2  174.1157</span></span></code></pre>
 <p>Analogously we can use the <code><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra()</a></code> function to extract
 spectrum data from the database. The function returns by default a
-<code>Spectra</code> object from the <em><a href="https://bioconductor.org/packages/3.20/Spectra" class="external-link">Spectra</a></em>
+<code>Spectra</code> object from the <em><a href="https://bioconductor.org/packages/3.21/Spectra" class="external-link">Spectra</a></em>
 package with all spectra metadata available as <em>spectra
 variables</em>.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
@@ -395,7 +395,7 @@ are the package creator/maintainer and its version.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/createCompDb.html">createCompDbPackage</a></span><span class="op">(</span></span>
 <span>    <span class="va">db_file</span>, version <span class="op">=</span> <span class="st">"0.0.1"</span>, author <span class="op">=</span> <span class="st">"J Rainer"</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    maintainer <span class="op">=</span> <span class="st">"Johannes Rainer &lt;johannes.rainer@eurac.edu&gt;"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Creating package in /tmp/Rtmp62jQ2i/CompDb.Hsapiens.HMDB.4.0</span></span></code></pre>
+<pre><code><span><span class="co">## Creating package in /tmp/RtmpxKRC2f/CompDb.Hsapiens.HMDB.4.0</span></span></code></pre>
 <p>The function creates a folder (in our case in a temporary directory)
 that can be build and installed with <code>R CMD build</code> and
 <code>R CMD INSTALL</code>.</p>
@@ -499,8 +499,8 @@ data to an existing <code>CompDb</code> which can be provided as a
 <code>Spectra</code> object. We thus below manually create a
 <code>Spectra</code> object with some arbitrary MS2 spectra -
 alternatively, <code>Spectra</code> can be imported from a variety of
-input sources, including MGF or MSP files using e.g. the <em><a href="https://bioconductor.org/packages/3.20/MsBackendMgf" class="external-link">MsBackendMgf</a></em>
-or <em><a href="https://bioconductor.org/packages/3.20/MsBackendMsp" class="external-link">MsBackendMsp</a></em>
+input sources, including MGF or MSP files using e.g. the <em><a href="https://bioconductor.org/packages/3.21/MsBackendMgf" class="external-link">MsBackendMgf</a></em>
+or <em><a href="https://bioconductor.org/packages/3.21/MsBackendMsp" class="external-link">MsBackendMsp</a></em>
 packages.</p>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Define basic spectra variables</span></span>
@@ -676,10 +676,10 @@ function.</p>
 <span><span class="co">##  compound count: 2</span></span></code></pre>
 <p>We next add fragment spectra for the compounds. These could for
 example represent MS2 spectra measured for the pure standard of the
-compound and could be extracted for example from <em><a href="https://bioconductor.org/packages/3.20/xcms" class="external-link">xcms</a></em> result
+compound and could be extracted for example from <em><a href="https://bioconductor.org/packages/3.21/xcms" class="external-link">xcms</a></em> result
 objects or other sources. Below we load some fragment spectra for
 caffeine from an MGF file distributed with this package. We use the
-<em><a href="https://bioconductor.org/packages/3.20/MsBackendMgf" class="external-link">MsBackendMgf</a></em>
+<em><a href="https://bioconductor.org/packages/3.21/MsBackendMgf" class="external-link">MsBackendMgf</a></em>
 package to import that data into a <code>Spectra</code> object.</p>
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/MsBackendMgf" class="external-link">MsBackendMgf</a></span><span class="op">)</span></span>
@@ -807,13 +807,13 @@ parameter to the <code>CompDb</code> call to load the database).</p>
 <div class="section level2">
 <h2 id="session-information">Session information<a class="anchor" aria-label="anchor" href="#session-information"></a>
 </h2>
-<pre><code><span><span class="co">## R version 4.4.1 (2024-06-14)</span></span>
+<pre><code><span><span class="co">## R Under development (unstable) (2024-12-13 r87441)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
-<span><span class="co">## Running under: Ubuntu 22.04.4 LTS</span></span>
+<span><span class="co">## Running under: Ubuntu 24.04.1 LTS</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Matrix products: default</span></span>
 <span><span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 </span></span>
-<span><span class="co">## LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.20.so;  LAPACK version 3.10.0</span></span>
+<span><span class="co">## LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## locale:</span></span>
 <span><span class="co">##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span></span>
@@ -831,38 +831,38 @@ parameter to the <code>CompDb</code> call to load the database).</p>
 <span><span class="co">## [8] base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">## [1] MsBackendMgf_1.13.0     Spectra_1.15.10         BiocParallel_1.39.0    </span></span>
-<span><span class="co">## [4] CompoundDb_1.9.5        S4Vectors_0.43.2        BiocGenerics_0.51.1    </span></span>
-<span><span class="co">## [7] AnnotationFilter_1.29.0 BiocStyle_2.33.1       </span></span>
+<span><span class="co">## [1] MsBackendMgf_1.15.1     Spectra_1.17.3          BiocParallel_1.41.0    </span></span>
+<span><span class="co">## [4] CompoundDb_1.11.1       S4Vectors_0.45.2        BiocGenerics_0.53.3    </span></span>
+<span><span class="co">## [7] generics_0.1.3          AnnotationFilter_1.31.0 BiocStyle_2.35.0       </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
 <span><span class="co">##  [1] tidyselect_1.2.1        dplyr_1.1.4             blob_1.2.4             </span></span>
-<span><span class="co">##  [4] bitops_1.0-8            fastmap_1.2.0           lazyeval_0.2.2         </span></span>
+<span><span class="co">##  [4] bitops_1.0-9            fastmap_1.2.0           lazyeval_0.2.2         </span></span>
 <span><span class="co">##  [7] RCurl_1.98-1.16         digest_0.6.37           lifecycle_1.0.4        </span></span>
-<span><span class="co">## [10] cluster_2.1.6           ProtGenerics_1.37.1     rsvg_2.6.1             </span></span>
-<span><span class="co">## [13] RSQLite_2.3.7           magrittr_2.0.3          compiler_4.4.1         </span></span>
-<span><span class="co">## [16] rlang_1.1.4             sass_0.4.9              tools_4.4.1            </span></span>
-<span><span class="co">## [19] utf8_1.2.4              yaml_2.3.10             knitr_1.48             </span></span>
-<span><span class="co">## [22] htmlwidgets_1.6.4       bit_4.5.0               xml2_1.3.6             </span></span>
-<span><span class="co">## [25] desc_1.4.3              grid_4.4.1              fansi_1.0.6            </span></span>
+<span><span class="co">## [10] cluster_2.1.8           ProtGenerics_1.37.1     rsvg_2.6.1             </span></span>
+<span><span class="co">## [13] RSQLite_2.3.9           magrittr_2.0.3          compiler_4.5.0         </span></span>
+<span><span class="co">## [16] rlang_1.1.4             sass_0.4.9              tools_4.5.0            </span></span>
+<span><span class="co">## [19] utf8_1.2.4              yaml_2.3.10             knitr_1.49             </span></span>
+<span><span class="co">## [22] htmlwidgets_1.6.4       bit_4.5.0.1             xml2_1.3.6             </span></span>
+<span><span class="co">## [25] desc_1.4.3              grid_4.5.0              fansi_1.0.6            </span></span>
 <span><span class="co">## [28] colorspace_2.1-1        ggplot2_3.5.1           scales_1.3.0           </span></span>
-<span><span class="co">## [31] MASS_7.3-61             cli_3.6.3               rmarkdown_2.28         </span></span>
-<span><span class="co">## [34] ragg_1.3.3              generics_0.1.3          httr_1.4.7             </span></span>
-<span><span class="co">## [37] rjson_0.2.23            DBI_1.2.3               cachem_1.1.0           </span></span>
-<span><span class="co">## [40] zlibbioc_1.51.1         parallel_4.4.1          BiocManager_1.30.25    </span></span>
-<span><span class="co">## [43] XVector_0.45.0          base64enc_0.1-3         vctrs_0.6.5            </span></span>
-<span><span class="co">## [46] jsonlite_1.8.9          bookdown_0.40           IRanges_2.39.2         </span></span>
-<span><span class="co">## [49] bit64_4.5.2             clue_0.3-65             systemfonts_1.1.0      </span></span>
-<span><span class="co">## [52] jquerylib_0.1.4         glue_1.7.0              pkgdown_2.1.1.9000     </span></span>
-<span><span class="co">## [55] codetools_0.2-20        DT_0.33                 gtable_0.3.5           </span></span>
-<span><span class="co">## [58] GenomeInfoDb_1.41.1     GenomicRanges_1.57.1    UCSC.utils_1.1.0       </span></span>
+<span><span class="co">## [31] MASS_7.3-61             cli_3.6.3               rmarkdown_2.29         </span></span>
+<span><span class="co">## [34] ragg_1.3.3              httr_1.4.7              rjson_0.2.23           </span></span>
+<span><span class="co">## [37] DBI_1.2.3               cachem_1.1.0            zlibbioc_1.53.0        </span></span>
+<span><span class="co">## [40] parallel_4.5.0          BiocManager_1.30.25     XVector_0.47.0         </span></span>
+<span><span class="co">## [43] base64enc_0.1-3         vctrs_0.6.5             jsonlite_1.8.9         </span></span>
+<span><span class="co">## [46] bookdown_0.41           IRanges_2.41.2          bit64_4.5.2            </span></span>
+<span><span class="co">## [49] clue_0.3-66             systemfonts_1.1.0       jquerylib_0.1.4        </span></span>
+<span><span class="co">## [52] glue_1.8.0              pkgdown_2.1.1.9000      codetools_0.2-20       </span></span>
+<span><span class="co">## [55] DT_0.33                 stringi_1.8.4           gtable_0.3.6           </span></span>
+<span><span class="co">## [58] GenomeInfoDb_1.43.2     GenomicRanges_1.59.1    UCSC.utils_1.3.0       </span></span>
 <span><span class="co">## [61] munsell_0.5.1           tibble_3.2.1            pillar_1.9.0           </span></span>
-<span><span class="co">## [64] htmltools_0.5.8.1       GenomeInfoDbData_1.2.12 R6_2.5.1               </span></span>
-<span><span class="co">## [67] dbplyr_2.5.0            textshaping_0.4.0       evaluate_1.0.0         </span></span>
-<span><span class="co">## [70] Biobase_2.65.1          png_0.1-8               memoise_2.0.1          </span></span>
-<span><span class="co">## [73] bslib_0.8.0             MetaboCoreUtils_1.13.0  Rcpp_1.0.13            </span></span>
-<span><span class="co">## [76] gridExtra_2.3           ChemmineR_3.57.0        xfun_0.47              </span></span>
-<span><span class="co">## [79] fs_1.6.4                MsCoreUtils_1.17.2      pkgconfig_2.0.3</span></span></code></pre>
+<span><span class="co">## [64] htmltools_0.5.8.1       GenomeInfoDbData_1.2.13 R6_2.5.1               </span></span>
+<span><span class="co">## [67] dbplyr_2.5.0            textshaping_0.4.1       evaluate_1.0.1         </span></span>
+<span><span class="co">## [70] Biobase_2.67.0          png_0.1-8               memoise_2.0.1          </span></span>
+<span><span class="co">## [73] bslib_0.8.0             MetaboCoreUtils_1.15.0  Rcpp_1.0.13-1          </span></span>
+<span><span class="co">## [76] gridExtra_2.3           ChemmineR_3.59.0        xfun_0.49              </span></span>
+<span><span class="co">## [79] fs_1.6.5                MsCoreUtils_1.19.0      pkgconfig_2.0.3</span></span></code></pre>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
