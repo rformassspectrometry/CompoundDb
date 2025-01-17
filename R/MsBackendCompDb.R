@@ -309,7 +309,7 @@ setMethod("[", "MsBackendCompDb", function(x, i, j, ..., drop = FALSE) {
 
 #' @rdname MsBackendCompDb
 #'
-#' @importMethodsFrom Spectra extractByIndex
+#' @importMethodsFrom ProtGenerics extractByIndex
 #'
 #' @export
 setMethod("extractByIndex", c("MsBackendCompDb", "ANY"), function(object, i) {

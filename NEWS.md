@@ -1,5 +1,9 @@
 # CompoundDb version 1.11
 
+## Changes in version 1.11.2
+
+- Import `extractByIndex()` from ProtGenerics.
+
 ## Changes in version 1.11.1
 
 - Complete unit test coverage.
