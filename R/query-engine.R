@@ -79,6 +79,83 @@
     paste0(" from ", q)
 }
 
+#' Initialize that in zzz.R and allow adding joins.
+.JOINS <- rbind(
+    c("ms_compound", "synonym",
+      "on (ms_compound.compound_id=synonym.compound_id)",
+      "left outer join"),
+    c("ms_ion", "ms_compound",
+      "on (ms_ion.compound_id=ms_compound.compound_id)",
+      "left outer join"),
+    c("ms_compound", "msms_spectrum",
+      "on (ms_compound.compound_id=msms_spectrum.compound_id)",
+      "left outer join"),
+    c("ms_ion", "msms_spectrum",
+      "on (ms_ion.compound_id=msms_spectrum.compound_id)",
+      "left outer join"),
+    c("msms_spectrum", "synonym",
+      "on (msms_spectrum.compound_id=synonym.compound_id)",
+      "left outer join"),
+    c("msms_spectrum", "msms_spectrum_peak",
+      "on (msms_spectrum.spectrum_id=msms_spectrum_peak.spectrum_id)",
+      "left outer join"),
+    c("ms_compound", "experiment",
+      "on (ms_compound.expid=experiment.expid)",
+      "left outer join")
+)
+
+#' Counting the number of nodes in a path
+#'
+#' @noRd
+.path_nodes <- function(x = NULL) {
+    if (is.null(x)) return(Inf)
+    length(x)
+}
+
+#' Get the shortest path between two nodes in a graph.
+#'
+#' @param graph `list` of connected nodes. Names of the `list` are node names
+#'     and the elements are the names of the nodes the current node is directly
+#'     connected with.
+#'
+#' @param start `character(1)` with the name of the start node.
+#'
+#' @param end `character(1)` with the name of the end node.
+#'
+#' @param path `character` with the path already travelled. Should be empty
+#'     for the first call. This will be used in the recursive call to keep
+#'     track of the path.
+#'
+#' @noRd
+.shortest_path <- function(graph, start, end, path = c()) {
+    if (is.null(graph[[start]])) return(NULL)
+    path <- c(path, start)
+    ## end of recursion - return path ended in start node
+    if (start == end) return(path)
+    shortest <- NULL
+    for (node in graph[[start]]) {
+        if (!node %in% path) {
+            newpath <- .shortest_path(graph, node, end, path)
+            if (.path_nodes(newpath) < .path_nodes(shortest))
+                shortest <- newpath
+        }
+    }
+    shortest
+}
+
+#' Function to convert the "join definition" into a node list
+#'
+#' @noRd
+.table_to_graph <- function(x) {
+    u <- unique(as.vector(x))
+    res <- lapply(u, function(z) {
+        v <- as.vector(x)[x[, 1L] %in% z | x[, 2L] %in% z]
+        unique(v[!v %in% z])
+    })
+    names(res) <- u
+    res
+}
+
 #' @description Joins two tables from the database.
 #'
 #' @param x `character` with the names of the tables to be joined.
@@ -89,26 +166,6 @@
 #'
 #' @noRd
 .join_tables <- function(x){
-    .JOINS <- rbind(
-        c("ms_compound", "synonym",
-          "on (ms_compound.compound_id=synonym.compound_id)",
-          "left outer join"),
-        c("ms_ion", "ms_compound",
-          "on (ms_ion.compound_id=ms_compound.compound_id)",
-          "left outer join"),
-        c("ms_compound", "msms_spectrum",
-          "on (ms_compound.compound_id=msms_spectrum.compound_id)",
-          "left outer join"),
-        c("ms_ion", "msms_spectrum",
-          "on (ms_ion.compound_id=msms_spectrum.compound_id)",
-          "left outer join"),
-        c("msms_spectrum", "synonym",
-          "on (msms_spectrum.compound_id=synonym.compound_id)",
-          "left outer join"),
-        c("msms_spectrum", "msms_spectrum_peak",
-          "on (msms_spectrum.spectrum_id=msms_spectrum_peak.spectrum_id)",
-          "left outer join")
-    )
     x <- .add_join_tables(x)
     q <- x[1]
     tbls_used <- x[1]
@@ -147,9 +204,13 @@
 #'
 #' @noRd
 .add_join_tables <- function(x) {
-    ## msms_spectrum_peak with any other table: need also msms_spectrum_metadata
-    unique(x)
+    if (any(x == "experiment"))
+        x <- c(x, "ms_compound")
+    x <- unique(x)
 }
+
+x <- c("experiment", "msms_spectrum_peak")
+
 
 
 #' @description

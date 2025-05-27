@@ -1,3 +1,13 @@
+# CompoundDb version 1.13
+
+## Changes in version 1.13.3
+
+- Add support for additional database tables.
+
+## Changes in version 1.13.2
+
+- Add support for `precScanNum()`.
+
 # CompoundDb version 1.11
 
 ## Changes in version 1.11.2
