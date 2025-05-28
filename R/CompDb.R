@@ -473,8 +473,14 @@ CompDb <- function(x, flags = SQLITE_RO) {
     })
     names(tbls) <- tbl_nms
     x@.properties$tables <- tbls
+    x@.properties$joins <- .JOINS
     x
 }
+
+## .add_join <- function(x, join) {
+##     if (!length(def) == 4)
+##         stop("Parameter 'join' is expected to ")
+## }
 
 #' @importFrom methods is
 .metadata <- function(x) {

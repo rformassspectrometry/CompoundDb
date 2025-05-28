@@ -74,12 +74,20 @@
 #' @md
 #'
 #' @noRd
-.from <- function(tables) {
-    q <- .join_tables(tables)
+.from <- function(tables, joins = .JOINS) {
+    q <- .join_tables(tables, joins = joins)
     paste0(" from ", q)
 }
 
+.joins <- function(x = new("CompDb")) {
+    if (length(x@.properties[["joins"]]))
+        x@.properties[["joins"]]
+    else .JOINS
+}
+
 #' Initialize that in zzz.R and allow adding joins.
+#'
+#' @noRd
 .JOINS <- rbind(
     c("ms_compound", "synonym",
       "on (ms_compound.compound_id=synonym.compound_id)",
@@ -104,45 +112,6 @@
       "left outer join")
 )
 
-#' Counting the number of nodes in a path
-#'
-#' @noRd
-.path_nodes <- function(x = NULL) {
-    if (is.null(x)) return(Inf)
-    length(x)
-}
-
-#' Get the shortest path between two nodes in a graph.
-#'
-#' @param graph `list` of connected nodes. Names of the `list` are node names
-#'     and the elements are the names of the nodes the current node is directly
-#'     connected with.
-#'
-#' @param start `character(1)` with the name of the start node.
-#'
-#' @param end `character(1)` with the name of the end node.
-#'
-#' @param path `character` with the path already travelled. Should be empty
-#'     for the first call. This will be used in the recursive call to keep
-#'     track of the path.
-#'
-#' @noRd
-.shortest_path <- function(graph, start, end, path = c()) {
-    if (is.null(graph[[start]])) return(NULL)
-    path <- c(path, start)
-    ## end of recursion - return path ended in start node
-    if (start == end) return(path)
-    shortest <- NULL
-    for (node in graph[[start]]) {
-        if (!node %in% path) {
-            newpath <- .shortest_path(graph, node, end, path)
-            if (.path_nodes(newpath) < .path_nodes(shortest))
-                shortest <- newpath
-        }
-    }
-    shortest
-}
-
 #' Function to convert the "join definition" into a node list
 #'
 #' @noRd
@@ -160,21 +129,27 @@
 #'
 #' @param x `character` with the names of the tables to be joined.
 #'
+#' @param joins `character` `matrix` with the definition of the joins that
+#'     can be done between database tables.
+#'
 #' @author Johannes Rainer
 #'
 #' @md
 #'
 #' @noRd
-.join_tables <- function(x){
+.join_tables <- function(x, joins = .JOINS){
+    x <- unique(x)
+    if (length(x) < 2L)
+        return(x)
     x <- .add_join_tables(x)
     q <- x[1]
     tbls_used <- x[1]
     tbls <- x[-1]
     idxs <- c(1, 2)
     while(length(tbls)) {
-        got_it <- which((.JOINS[, 1] %in% tbls_used & .JOINS[, 2] %in% tbls) |
-                        (.JOINS[, 2] %in% tbls_used & .JOINS[, 1] %in% tbls))
-        join <- .JOINS[got_it[1], ]
+        got_it <- which((joins[, 1] %in% tbls_used & joins[, 2] %in% tbls) |
+                        (joins[, 2] %in% tbls_used & joins[, 1] %in% tbls))
+        join <- joins[got_it[1], ]
         if (length(got_it)) {
             new_tbl <- join[idxs][!(join[idxs] %in% tbls_used)]
             q <- paste(q, join[4], new_tbl, join[3])
@@ -187,13 +162,16 @@
     q
 }
 
-#' @description Helper function to add additional tables required to join the
-#'     provided tables.
+#' @description
 #'
-#' @note This function uses some hard-coded logic based on the database layout
-#'     to define if, and which, tables are needed for a join.
+#' Helper function to add additional tables required to join the two provided
+#' tables.
 #'
-#' @param x `character` with the names of the tables to be joined.
+#' @param x `character` with the names of the tables to be joined. Has to be
+#'     of length > 1.
+#'
+#' @param join `character` `matrix` with the definition of the tables that
+#'     can be joined.
 #'
 #' @return `character` with all tables needed to join the tables in `x`
 #'     (contain `x` plus eventually required additional tables).
@@ -202,16 +180,20 @@
 #'
 #' @author Johannes Rainer
 #'
+#' @importFrom utils combn
+#'
 #' @noRd
-.add_join_tables <- function(x) {
-    if (any(x == "experiment"))
-        x <- c(x, "ms_compound")
-    x <- unique(x)
+.add_join_tables <- function(x, join = .JOINS) {
+    g <- .table_to_graph(join[, 1:2, drop = FALSE])
+    cmb <- combn(x, 2, simplify = FALSE)
+    res <- unlist(lapply(
+        cmb, function(z) .shortest_path(g, start = z[1L], end = z[2L])),
+        use.names = FALSE)
+    if (!length(res))
+        stop("Unable to join tables ", paste0("'", x, "'", collapse = ", "),
+             call. = FALSE)
+    unique(res)
 }
-
-x <- c("experiment", "msms_spectrum_peak")
-
-
 
 #' @description
 #'
@@ -415,4 +397,43 @@ x <- c("experiment", "msms_spectrum_peak")
             x$intensity <- lapply(x$intensity, unserialize)
     }
     x
+}
+
+#' Counting the number of nodes in a path
+#'
+#' @noRd
+.path_nodes <- function(x = NULL) {
+    if (is.null(x)) return(Inf)
+    length(x)
+}
+
+#' Get the shortest path between two nodes in a graph.
+#'
+#' @param graph `list` of connected nodes. Names of the `list` are node names
+#'     and the elements are the names of the nodes the current node is directly
+#'     connected with.
+#'
+#' @param start `character(1)` with the name of the start node.
+#'
+#' @param end `character(1)` with the name of the end node.
+#'
+#' @param path `character` with the path already travelled. Should be empty
+#'     for the first call. This will be used in the recursive call to keep
+#'     track of the path.
+#'
+#' @noRd
+.shortest_path <- function(graph, start, end, path = c()) {
+    if (is.null(graph[[start]])) return(NULL)
+    path <- c(path, start)
+    ## end of recursion - return path ended in start node
+    if (start == end) return(path)
+    shortest <- NULL
+    for (node in graph[[start]]) {
+        if (!node %in% path) {
+            newpath <- .shortest_path(graph, node, end, path)
+            if (.path_nodes(newpath) < .path_nodes(shortest))
+                shortest <- newpath
+        }
+    }
+    shortest
 }
