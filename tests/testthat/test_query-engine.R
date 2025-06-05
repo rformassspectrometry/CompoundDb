@@ -30,13 +30,17 @@ test_that(".prefix_columns works", {
 })
 
 test_that(".add_join_tables works", {
-    expect_equal(.add_join_tables(c("a", "b")), c("a", "b"))
-    expect_equal(.add_join_tables(c("msms_spectrum_peak")),
-                 c("msms_spectrum_peak"))
-    expect_equal(.add_join_tables(c("msms_spectrum", "ms_compound")),
-                 c("msms_spectrum", "ms_compound"))
-    ## expect_equal(.add_join_tables(c("msms_spectrum_peak", "compound")),
-    ##              c("msms_spectrum_peak", "compound", "msms_spectrum_metadata"))
+    res <- .add_join_tables(c("ms_compound", "ms_ion"))
+    expect_equal(res, c("ms_compound", "ms_ion"))
+    res <- .add_join_tables(c("msms_spectrum", "ms_ion"))
+    expect_equal(res, c("msms_spectrum", "ms_ion"))
+    res <- .add_join_tables(c("msms_spectrum", "ms_compound"))
+    expect_equal(res, c("msms_spectrum", "ms_compound"))
+
+    res <- .add_join_tables(c("synonym", "msms_spectrum_peak"))
+    expect_equal(res, c("synonym", "msms_spectrum", "msms_spectrum_peak"))
+
+    expect_error(.add_join_tables(c("a", "b", "c")), "Unable to join")
 })
 
 test_that(".where works", {
@@ -53,7 +57,7 @@ test_that(".order works", {
 
 test_that(".from works", {
     expect_equal(.from("ms_compound"), " from ms_compound")
-    expect_error(.from(c("a", "b")))
+    expect_error(.from(c("a", "b")), "Unable to join")
     expect_equal(
         .from(c("ms_compound", "synonym")),
         paste0(" from ms_compound left outer join synonym on (ms_compound.",
@@ -62,6 +66,13 @@ test_that(".from works", {
         .from(c("synonym", "ms_compound")),
         paste0(" from synonym left outer join ms_compound on (ms_compound.",
                "compound_id=synonym.compound_id)"))
+    res <- .from(c("ms_compound", "msms_spectrum_peak"))
+    expect_equal(
+        res,
+        paste0(" from ms_compound left outer join msms_spectrum on ",
+               "(ms_compound.compound_id=msms_spectrum.compound_id) ",
+               "left outer join msms_spectrum_peak on (msms_spectrum.",
+               "spectrum_id=msms_spectrum_peak.spectrum_id)"))
 })
 
 test_that(".select works", {
@@ -71,16 +82,17 @@ test_that(".select works", {
 })
 
 test_that(".build_query_CompDb works", {
-    expect_error(.build_query_CompDb())
-    expect_error(.build_query_CompDb(columns = c("compound_id", "inchi")))
-    expect_error(.build_query_CompDb(cmp_db))
+    expect_error(.build_query_CompDb(), "is required")
+    expect_error(.build_query_CompDb(columns = c("compound_id", "inchi")),
+                 "is required")
+    expect_error(.build_query_CompDb(cmp_db), "'columns' is required")
     res <- .build_query_CompDb(
         cmp_db, columns = c("compound_id", "inchi"))
     expect_equal(res,
                  paste0("select distinct ms_compound.compound_id,ms_compound.",
                         "inchi from ms_compound"))
-    expect_error(.build_query_CompDb(
-        cmp_db, columns = c("od", "inchi")))
+    expect_error(.build_query_CompDb(cmp_db, columns = c("od", "inchi")),
+                 "not present in the database")
     res <- .build_query_CompDb(
         cmp_db, columns = c("compound_id", "inchi"), order = "something")
     expect_equal(res,
@@ -105,12 +117,19 @@ test_that(".build_query_CompDb works", {
         cmp_db, columns = c("compound_id", "inchi"),
         filter = ~ compound_id == "a" | gene_id != "b"))
     ## Include columns from msms_spectrum_*
-    expect_error(.build_query_CompDb(cmp_db,
-                                     columns = c("compound_id", "intensity")))
+    expect_error(.build_query_CompDb(
+        cmp_db, columns = c("compound_id", "intensity")),
+        "are not present in the database")
     ## compound, msms_spectrum
-    expect_error(.build_query_CompDb(cmp_spctra_db, start_from = "ms_compound",
-                                     columns = c("compound_id", "intensity")),
-                 "can not be joined")
+    res <- .build_query_CompDb(cmp_spctra_db, start_from = "ms_compound",
+                               columns = c("compound_id", "intensity"))
+    expect_equal(
+        res,
+        paste0("select distinct ms_compound.compound_id,msms_spectrum_peak.",
+               "intensity from ms_compound left outer join msms_spectrum on ",
+               "(ms_compound.compound_id=msms_spectrum.compound_id) left ",
+               "outer join msms_spectrum_peak on (msms_spectrum.spectrum_id=",
+               "msms_spectrum_peak.spectrum_id)"))
     res <- .build_query_CompDb(
         cmp_spctra_db, columns = c("compound_id", "intensity", "splash"))
     expect_equal(
@@ -135,8 +154,14 @@ test_that(".build_query_CompDb works", {
                "ms_compound on (ms_compound.compound_id=msms_spectrum.",
                "compound_id) where msms_spectrum.compound_id = 'a'"))
     ## msms_spectrum, synonym
-    expect_error(.build_query_CompDb(
-        cmp_spctra_db, columns = c("synonym", "mz")), "can not be")
+    res <- .build_query_CompDb(cmp_spctra_db, columns = c("synonym", "mz"))
+    expect_equal(
+        res,
+        paste0("select distinct msms_spectrum_peak.mz,synonym.synonym from ",
+               "msms_spectrum_peak left outer join msms_spectrum on ",
+               "(msms_spectrum.spectrum_id=msms_spectrum_peak.spectrum_id) ",
+               "left outer join synonym on (msms_spectrum.compound_id=",
+               "synonym.compound_id)"))
     res <- .build_query_CompDb(
         cmp_spctra_db, columns = c("synonym", "mz", "polarity"))
     expect_equal(
@@ -167,27 +192,6 @@ test_that(".join_tables works", {
     expect_equal(
         res, paste0("synonym left outer join msms_spectrum on (msms_spectrum.c",
                     "ompound_id=synonym.compound_id)"))
-    ## res <- .join_tables(c("compound", "msms_spectrum_metadata"))
-    ## expect_equal(res, paste0("compound left outer join msms_spectrum_metadata ",
-    ##                          "on (compound.compound_id=msms_spectrum_metadata.",
-    ##                          "compound_id)"))
-    ## ## Same query but starting from other table.
-    ## res <- .join_tables(c("msms_spectrum_metadata", "compound"))
-    ## expect_equal(res, paste0("msms_spectrum_metadata left outer join compound ",
-    ##                          "on (compound.compound_id=msms_spectrum_metadata.",
-    ##                          "compound_id)"))
-    ## res <- .join_tables(c("msms_spectrum_peak", "compound"))
-    ## expect_equal(res, paste0("msms_spectrum_peak left outer join msms_spectrum",
-    ##                          "_metadata on (msms_spectrum_metadata.spectrum_id",
-    ##                          "=msms_spectrum_peak.spectrum_id) left outer join",
-    ##                          " compound on (compound.compound_id=msms_spectrum",
-    ##                          "_metadata.compound_id)"))
-    ## res <- .join_tables(c("synonym", "msms_spectrum_peak"))
-    ## expect_equal(res, paste0("synonym left outer join msms_spectrum_metadata",
-    ##                          " on (msms_spectrum_metadata.compound_id=synonym",
-    ##                          ".compound_id) left outer join msms_spectrum_",
-    ##                          "peak on (msms_spectrum_metadata.spectrum_id=",
-    ##                          "msms_spectrum_peak.spectrum_id)"))
 })
 
 test_that(".reduce_tables_start_from works", {
@@ -270,4 +274,71 @@ test_that(".fetch_data works", {
     expect_equal(colnames(res), c("name", "compound_id",
                                   "spectrum_id"))
     expect_true(nrow(res) == 2)
+})
+
+test_that(".path_nodes works", {
+    expect_equal(.path_nodes(), Inf)
+    expect_equal(.path_nodes(1:3), 3)
+    expect_equal(.path_nodes(c("a", "b")), 2)
+})
+
+test_that(".shortest_path works", {
+    ## Construct graph
+    g <- list(a = c("b", "c"),
+              b = c("a", "e", "f", "g"),
+              c = c("a", "d"),
+              d = c("c"),
+              e = c("b", "g"),
+              f = c("b"),
+              g = c("b", "e"))
+
+    res <- .shortest_path(g, "a", "b")
+    expect_equal(res, c("a", "b"))
+    res <- .shortest_path(g, "a", "d")
+    expect_equal(res, c("a", "c", "d"))
+    res <- .shortest_path(g, "a", "g")
+    expect_equal(res, c("a", "b", "g"))
+
+    expect_equal(.shortest_path(g, "z"), NULL)
+
+    g <- list(a = c("b", "c"),
+              b = c("a", "c"),
+              c = c("a", "b"),
+              d = "e",
+              e = "d")
+    res <- .shortest_path(g, "a", "c")
+    expect_equal(res, c("a", "c"))
+    expect_equal(.shortest_path(g, "a", "e"), NULL)
+})
+
+test_that(".table_to_graph works", {
+    m <- rbind(c("a", "b"),
+               c("a", "c"),
+               c("d", "a"),
+               c("b", "e"),
+               c("f", "g"))
+    res <- .table_to_graph(m)
+    expect_equal(names(res), unique(as.vector(m)))
+    expect_equal(res[["a"]], c("d", "b", "c"))
+    expect_equal(res[["d"]], c("a"))
+    expect_equal(res[["b"]], c("a", "e"))
+    expect_equal(res[["f"]], c("g"))
+    expect_equal(res[["c"]], c("a"))
+    expect_equal(res[["e"]], c("b"))
+    expect_equal(res[["g"]], c("f"))
+
+    ## res <- .table_to_graph(.JOINS[, 1:2])
+    ## expect_equal(res[["ms_compound"]], c("ms_ion", "synonym", "msms_spectrum"))
+    ## expect_equal(res[["ms_ion"]], c("ms_compound", "msms_spectrum"))
+    ## expect_equal(res[["msms_spectrum"]], c("ms_compound", "ms_ion", "synonym",
+    ##                                        "msms_spectrum_peak"))
+    ## expect_equal(res[["synonym"]], c("ms_compound", "msms_spectrum"))
+    ## expect_equal(res[["msms_spectrum_peak"]], c("msms_spectrum"))
+})
+
+test_that(".joins works", {
+    expect_equal(.joins(), .JOINS)
+    x <- new("CompDb")
+    x@.properties$joins <- c("a", "b")
+    expect_equal(.joins(x), c("a", "b"))
 })

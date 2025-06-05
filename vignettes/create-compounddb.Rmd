@@ -10,7 +10,7 @@ vignette: >
   %\VignetteKeywords{Mass Spectrometry, Metabolomics, Infrastructure, Bioinformatics}
   %\VignetteEncoding{UTF-8}
   %\VignettePackage{MsBackendHmdb}
-  %\VignetteDepends{Spectra,BiocStyle,MsBackendMgf}
+  %\VignetteDepends{Spectra,BiocStyle,MsBackendMgf,RSQLite}
 ---
 
 ```{r style, echo = FALSE, results = 'asis'}
@@ -583,6 +583,151 @@ any `CompDb` database, as long as the database is *writeable* (i.e. the database
 is loaded by specifying `flags = RSQLite::SQLITE_RW` as additional parameter to
 the `CompDb` call to load the database).
 
+
+# Extending `CompDb` databases
+
+The `CompDb` database layout is very flexible supporting extension with new
+database tables. The content of such additional database tables can be
+automatically integrated into the information returned by the `compounds()` or
+`spectraData()` functions if the relationships between the new and existing
+database tables is defined. Elements of the new tables need to be linked
+(related) to entries in at least one of the *core* `CompDb` database tables. The
+respective relationship information can then be added to a `CompDb` object using
+the `addJoinDefinition()` function.
+
+As an example we add a new database table *experiment* to a `CompDb`
+database. This new database table could contain information on the individual
+experiments in which certain compounds stored in the `CompDb`'s *ms_compound*
+table were measured.
+
+We add this new table to the test database of the *CompoundDb*. Below we first
+copy this database to a temporary file and connect through it using the
+*RSQLite* R package.
+
+```{r}
+#' Copy the test database to a temporary file
+tf <- tempfile()
+file.copy(system.file("sql/CompDb.MassBank.sql", package = "CompoundDb"), tf)
+
+#' Connect to this new database
+library(RSQLite)
+con <- dbConnect(SQLite(), tf)
+```
+
+The tables in this database are:
+
+```{r}
+dbListTables(con)
+```
+
+As detailed above, we want to add a new database table *experiment* with some
+additional (experiment-related) information on the experiments/measurement runs
+in which certain compounds were measured. Such a table could for example be
+defined as follows:
+
+```{r}
+exp <- data.frame(
+    experiment_id = 1:4,
+    experiment_name = c("exp_a", "exp_b", "exp_c", "exp_d"),
+    experiment_date = c("2022-11-24", "2023-06-12", "2023-09-21", "2024-12-07"),
+    experiment_operator = c("AA", "VV", "AA", "AA"))
+```
+
+We next need to *link* entries in this table with rows in the *ms_compound*
+database table. We thus load the content of this table from the database and add
+a column `"experiment_id"` to link it's entries to the new *experiment* table
+defined above.
+
+```{r}
+cmp <- dbGetQuery(con, "select * from ms_compound")
+nrow(cmp)
+```
+
+We add the new column and fill it with values. Each row should contain one of
+the values of the `"experiment_id"` column of `exp`. In our example we fill the
+column randomly with values between 1 and 4 (the primary keys of the elements in
+the `exp` data frame). In a real use case this reference should of course
+represent a real relationship between elements in the two tables.
+
+```{r}
+cmp$experiment_id <- sample(1:4, nrow(cmp), replace = TRUE)
+```
+
+We next write both tables to the database, replacing the existing *ms_compound*
+table and adding a new *experiment* table.
+
+```{r}
+dbWriteTable(con, name = "ms_compound", cmp, overwrite = TRUE)
+dbWriteTable(con, name = "experiment", exp)
+dbListTables(con)
+dbDisconnect(con)
+```
+
+We can now load this database as a `CompDb` object.
+
+```{r}
+cdb <- CompDb(tf)
+```
+
+The message indicates that a database table was found which is not related to
+any other database table. We could use the `cdb` variable as any other `CompDb`
+object, the content of the new *experiment* would however not (yet) be included
+in the results returned from this database. The full list of available database
+tables (including their columns) is:
+
+```{r}
+tables(cdb)
+```
+
+In order to allow extraction of content of the new database table, we need to
+add the relationship information between the new table *experiment* and the
+other existing database tables in the `CompDb` object. We can add this
+information using the `addJoinDefinition()` function. With parameters `table_a`
+and `table_b` we provide the names of the database tables that are related to
+each other and with `column_a` and `column_b` we specify the names of the
+columns in the two tables that define the relationship (i.e. contain the primary
+and foreign keys of the relationship).
+
+```{r}
+cdb <- addJoinDefinition(
+    cdb, table_a = "ms_compound", table_b = "experiment",
+    column_a = "experiment_id", column_b = "experiment_id")
+```
+
+We can now also request information from the *experiment* database table. Below
+we show the first 6 rows returned by joining the *ms_compound* and *experiment*
+tables.
+
+```{r}
+#' Show the first 6 rows
+compounds(cdb, columns = c("compound_id", "formula", "experiment_name",
+                           "experiment_date")) |>
+    head()
+```
+
+Information on the *experiment* table is also available through the `Spectra`
+interface. Below we return the full content from the database through the
+`spectraData()` function.
+
+```{r}
+s <- Spectra(cdb)
+spectraData(s)
+```
+
+This `DataFrame` includes thus also the columns `"experiment_id"`,
+`"experiment_name"`, `"experiment_date"` and `"experiment_operator"` from the
+new *experiment* table. Similarly, columns from this table can also be extracted
+using `$`, thus returning the values from the respective columns associated to
+the individual spectra.
+
+```{r}
+s$experiment_name
+```
+
+
+```{r}
+file.remove(tf)
+```
 
 # Session information
 

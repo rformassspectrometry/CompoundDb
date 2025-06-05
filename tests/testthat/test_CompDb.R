@@ -163,7 +163,7 @@ test_that(".initialize_compdb works", {
         code = expect_error(.initialize_compdb(tmp), "ERROR")
     )
     dbDisconnect(tmp_db)
-    rm(tf)
+    file.remove(tf)
 })
 
 test_that("copyCompDb works", {
@@ -174,5 +174,82 @@ test_that("copyCompDb works", {
         dbGetQuery(.dbconn(cmp_spctra_db), "select * from ms_compound"),
         dbGetQuery(tmp_db, "select * from ms_compound"))
     dbDisconnect(tmp_db)
-    rm(tf)
+    file.remove(tf)
+})
+
+test_that("addJoinDefinition works", {
+    tf <- tempfile()
+    file.copy(system.file("sql/CompDb.MassBank.sql", package = "CompoundDb"),
+              tf)
+    tmp <- dbConnect(SQLite(), tf)
+    cmp <- dbGetQuery(tmp, "select * from ms_compound")
+    cmp$exp_id <- rep(1:7, each = 10)
+    dbWriteTable(tmp, name = "ms_compound", value = cmp, overwrite = TRUE)
+    ex <- data.frame(expid = 1:7,
+                     exp_name = c("a", "b", "c", "d", "e", "f", "g"))
+    dbWriteTable(tmp, name = "experiment", value = ex)
+
+    expect_message(a <- CompDb(tf), "one or more database")
+    expect_error(compounds(a, c("compound_id", "formula", "exp_name")),
+                 "Unable to join")
+    ## Input errors
+    expect_error(addJoinDefinition(
+        a, table_a = "ms_compound"), "both have to be provided")
+    expect_error(addJoinDefinition(
+        a, table_a = "a", table_b = "ms_compound"), "'column_b' both")
+    expect_error(
+        addJoinDefinition(
+            a, table_a = "a",
+            table_b = "ms_compounnd",
+            column_a = "exp_id",
+            column_b = "expid"),
+        "\"a\" not found")
+    expect_error(
+        addJoinDefinition(
+            a, table_a = "experiment",
+            table_b = "ms_compounnd",
+            column_a = "exp_id",
+            column_b = "expid"),
+        "\"ms_compounnd\" not found")
+    expect_error(
+        addJoinDefinition(
+            a, table_a = "experiment",
+            table_b = "ms_compound",
+            column_a = "experiment_id",
+            column_b = "expid"),
+        "column named \"experiment_id\"")
+    expect_error(
+        addJoinDefinition(
+            a, table_a = "experiment",
+            table_b = "ms_compound",
+            column_a = "expid",
+            column_b = "expidd"),
+        "column named \"expidd\"")
+
+    a <- addJoinDefinition(a, table_a = "experiment", table_b = "ms_compound",
+                           column_a = "expid", column_b = "exp_id")
+    expect_true(any(a@.properties$joins[, 1:2] %in% "experiment"))
+    expect_equal(a@.properties$joins[7, ],
+                 c("experiment", "ms_compound",
+                   "on (experiment.expid=ms_compound.exp_id)",
+                   "left outer join"))
+
+    res <- compounds(a, c("compound_id", "formula", "exp_name"))
+    expect_equal(colnames(res), c("compound_id", "formula", "exp_name"))
+    expect_equal(nrow(res), 70)
+    expect_equal(res$exp_name,
+                 rep(c("a", "b", "c", "d", "e", "f", "g"), each = 10))
+
+    ## Checks for MsBackendCompDb
+    s <- Spectra(a)
+    expect_equal(.joins(a), .joins(s@backend))
+
+    sdata <- spectraData(s)
+    expect_equal(nrow(sdata), 70)
+    expect_equal(sdata$exp_name,
+                 rep(c("a", "b", "c", "d", "e", "f", "g"), each = 10))
+    expect_equal(s$exp_name,
+                 rep(c("a", "b", "c", "d", "e", "f", "g"), each = 10))
+
+    file.remove(tf)
 })
