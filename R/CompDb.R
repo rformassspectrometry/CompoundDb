@@ -14,6 +14,8 @@
 #'
 #' @aliases deleteCompound,IonDb-method
 #'
+#' @aliases compounds
+#'
 #' @description
 #'
 #' `CompDb` objects provide access to general (metabolite) compound
@@ -128,6 +130,9 @@
 #' - `deleteSpectra()`: deletes specified spectra from the database. The IDs of
 #'   the spectra to be deleted need to be provided with parameter `ids`.
 #'
+#' Note that it is also possible to add new database tables and include them in
+#' the data retrieval queries. See [addJoinDefinition()] for more information.
+#'
 #' @section Filtering the database:
 #'
 #' Data access methods such as `compounds()` and `Spectra` allow to filter the
@@ -209,9 +214,12 @@
 #'
 #' @seealso
 #'
-#' [createCompDb()] for the function to create a SQLite compound database.
+#' - [createCompDb()] for the function to create a SQLite compound database.
 #'
-#' [CompoundIdFilter()] for filters that can be used on the `CompDb` database.
+#' - [CompoundIdFilter()] for filters that can be used on the `CompDb` database.
+#'
+#' - [addJoinDefinition()] to expand a *CompDb* with additional, related,
+#'   database tables.
 #'
 #' @examples
 #'
@@ -474,13 +482,116 @@ CompDb <- function(x, flags = SQLITE_RO) {
     names(tbls) <- tbl_nms
     x@.properties$tables <- tbls
     x@.properties$joins <- .JOINS
+    j <- setdiff(tbl_nms, c("metadata", unique(as.vector(.JOINS[, 1:2]))))
+    if (length(j)) {
+        message("Note: found one or more database tables without defined ",
+                "relationship to other database tables. These are: ",
+                paste0("\"", j,"\"", collapse = ","),
+                ". You might consider to use the 'addJoinDefinition()' to ",
+                "specify how that table(s) could be joined with the other ",
+                "database tables.")
+    }
     x
 }
 
-## .add_join <- function(x, join) {
-##     if (!length(def) == 4)
-##         stop("Parameter 'join' is expected to ")
-## }
+#' @title Expand a CompDb database with additional, related tables
+#'
+#' @description
+#'
+#' The `CompDb` object uses a simple relational database model that consists of
+#' the following database tables, some of which are optional:
+#'
+#' - *ms_compound*: annotation(s) of compounds.
+#'
+#' - *metadata*: general metadata information on the database. This database
+#'   table is **not** related to any other table in the database and its
+#'   content is thus also not joined with other database tables.
+#'
+#' - *synonym* (optional): database table containing optional additional
+#'   synonym(s) for compounds in the *ms_compound* table. Rows in this table
+#'   are linked to a row in *ms_compound* through the `"compound_id"` database
+#'   table column.
+#'
+#' - *msms_spectrum* (optional): database table with information on individual
+#'   mass spectra (each row containing the metadata for one spectrum). Database
+#'   table column `"compound_id"` links entries in this database table to a
+#'   single row in the *ms_compound* table.
+#'
+#' - *msms_spectrum_peak* (otional): database table containing mass peak data.
+#'   Each row in this table is related to one row in the *msms_spectrum* table
+#'   (through the `"spectrum_id"` column present in both tables).
+#'
+#' In addition, the `CompDb` database layout can be extended by adding
+#' additional tables. To make their content automatically available through
+#' the built-in [CompoundDb::compounds()] or `Spectra()` functions, the
+#' information on how to combine/join these tables with the existing ones
+#' needs to be provided.
+#' This can be done using the `addJoinDefinition()` function: the relationship
+#' of a new table with one of the existing tables can be defined with
+#' this function providing the names of the two database tables as well as the
+#' names of the columns containing the primary/foreign keys defining the
+#' the relationship.
+#'
+#' See the section *Extending CompDb databases* in the *Creating
+#' CompoundDb annotation resources* package vignette for a detailed example.
+#'
+#' @param x `CompDb` to which the join definition should be added.
+#'
+#' @param table_a `character(1)` with the name of one of the two tables that
+#'     are related to each other (and can be joined).
+#'
+#' @param table_b `character(1)` with the name of the second of the two tables
+#'     that are related to each other (and can be joined).
+#'
+#' @param column_a `character(1)` with the name of the column in `table_a`
+#'     containing the keys for the relationship to table `table_b`.
+#'
+#' @param column_b `character(1)` with the name of the column in `table_b`
+#'     containing the keys for the relationship to table `table_a`.
+#'
+#' @param join `character(1)` with the type of join. Defaults to
+#'     `join = "left outer join"`.
+#'
+#' @return The input `CompDb` with tha added information on how to join the
+#'     respective database tables.
+#'
+#' @author Johannes Rainer
+#'
+#' @examples
+#'
+#' ## The pre-defined table join definitions:
+#' CompoundDb:::.JOINS
+#'
+#' ## See section "Extending CompDb databases" in the *Creating CompoundDb
+#' ## annotation resources* package vignette for examples
+#'
+#' @export
+addJoinDefinition <- function(x, table_a = character(), table_b = character(),
+                              column_a = character(), column_b = character(),
+                              join = "left outer join") {
+    if (!length(table_a) || !length(table_b))
+        stop("'table_a' and 'table_b' both have to be provided")
+    if (!length(column_a) || !length(column_b))
+        stop("'column_a' and 'column_b' both have to be provided")
+    tbls <- tables(x)
+    if (!length(a <- tbls[[table_a]]))
+        stop("Database table \"", table_a, "\" not found. Use 'tables(x)' to",
+             " list available tables.")
+    if (!length(b <- tbls[[table_b]]))
+        stop("Database table \"", table_b, "\" not found. Use 'tables(x)' to",
+             " list available tables.")
+    if (!column_a %in% a)
+        stop("Table \"", table_a, "\" does not contain a column named \"",
+             column_a, "\". Use 'tables(x)' to list all tables and columns.")
+    if (!column_b %in% b)
+        stop("Table \"", table_b, "\" does not contain a column named \"",
+             column_b, "\". Use 'tables(x)' to list all tables and columns.")
+    x@.properties$joins <- rbind(
+        x@.properties$joins,
+        c(table_a, table_b, paste0("on (", table_a, ".", column_a, "=",
+                                   table_b, ".", column_b, ")"), join))
+    x
+}
 
 #' @importFrom methods is
 .metadata <- function(x) {

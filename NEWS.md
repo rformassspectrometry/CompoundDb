@@ -1,5 +1,10 @@
 # CompoundDb version 1.13
 
+## Changes in version 1.13.4
+
+- Add `addJoinDefinition()` function to define relationships between core
+  database tables and newly added tables.
+
 ## Changes in version 1.13.3
 
 - Add support for additional database tables.

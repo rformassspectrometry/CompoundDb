@@ -190,6 +190,7 @@ setMethod("backendInitialize", "MsBackendCompDb", function(object,
     object@spectraIds <- as.character(local_data$spectrum_id)
     ## Get info on tables and column names. Put them into spectraVariables.
     object@.properties$tables <- .tables(x)
+    object@.properties$joins <- .joins(x)
     spectra_variables <- unique(unlist(.tables(object)))
     spectra_variables <- spectra_variables[!spectra_variables %in% c("peak_id")]
     object <- callNextMethod(

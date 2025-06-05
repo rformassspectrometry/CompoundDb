@@ -43,7 +43,7 @@
     ## By default we return also the filter columns!
     columns_tbl <- .reduce_tables_start_from(tbls, columns, start_from)
     paste0(.select(unlist(.prefix_columns(columns_tbl), use.names = FALSE)),
-           .from(names(columns_tbl)),
+           .from(names(columns_tbl), joins = .joins(x)),
            .where(filter, columns_tbl), .order(order))
 }
 
@@ -106,9 +106,6 @@
       "left outer join"),
     c("msms_spectrum", "msms_spectrum_peak",
       "on (msms_spectrum.spectrum_id=msms_spectrum_peak.spectrum_id)",
-      "left outer join"),
-    c("ms_compound", "experiment",
-      "on (ms_compound.expid=experiment.expid)",
       "left outer join")
 )
 
@@ -125,7 +122,12 @@
     res
 }
 
-#' @description Joins two tables from the database.
+#' @description
+#'
+#' Creates a join statement to join the database tables which names are
+#' provided with `x`. The function uses `.add_join_tables()` to eventually
+#' add additional database tables in case the ones defined in `x` can not
+#' be directly joined.
 #'
 #' @param x `character` with the names of the tables to be joined.
 #'
@@ -141,7 +143,7 @@
     x <- unique(x)
     if (length(x) < 2L)
         return(x)
-    x <- .add_join_tables(x)
+    x <- .add_join_tables(x, joins = joins)
     q <- x[1]
     tbls_used <- x[1]
     tbls <- x[-1]
@@ -170,7 +172,7 @@
 #' @param x `character` with the names of the tables to be joined. Has to be
 #'     of length > 1.
 #'
-#' @param join `character` `matrix` with the definition of the tables that
+#' @param joins `character` `matrix` with the definition of the tables that
 #'     can be joined.
 #'
 #' @return `character` with all tables needed to join the tables in `x`
@@ -183,8 +185,8 @@
 #' @importFrom utils combn
 #'
 #' @noRd
-.add_join_tables <- function(x, join = .JOINS) {
-    g <- .table_to_graph(join[, 1:2, drop = FALSE])
+.add_join_tables <- function(x, joins = .JOINS) {
+    g <- .table_to_graph(joins[, 1:2, drop = FALSE])
     cmb <- combn(x, 2, simplify = FALSE)
     res <- unlist(lapply(
         cmb, function(z) .shortest_path(g, start = z[1L], end = z[2L])),
@@ -358,7 +360,7 @@
 
 .prefix_columns <- function(x) {
     mapply(names(x), x, FUN = function(y, z) paste0(y, ".", z),
-                  SIMPLIFY = FALSE)
+           SIMPLIFY = FALSE)
 }
 
 #' Main interface function to retrieve data from the database. Performs the
