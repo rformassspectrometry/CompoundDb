@@ -1,9 +1,11 @@
-# CompoundDb version 1.13
+# CompoundDb version 1.15
 
-## Changes in version 1.13.4
+## Changes in version 1.15.1
 
 - Add `addJoinDefinition()` function to define relationships between core
   database tables and newly added tables.
+
+# CompoundDb version 1.13
 
 ## Changes in version 1.13.3
 
