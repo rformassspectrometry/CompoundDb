@@ -17,7 +17,7 @@ available in the database and FALSE otherwise."><meta property="og:image" conten
 
     <a class="navbar-brand me-2" href="../index.html">CompoundDb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.13.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.15.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -315,7 +315,9 @@ If needed, the function adds additional columns to the <code>msms_spectrum</code
 database table. The function returns the updated <code>CompDb</code> object.</p></li>
 <li><p><code>deleteSpectra()</code>: deletes specified spectra from the database. The IDs of
 the spectra to be deleted need to be provided with parameter <code>ids</code>.</p></li>
-</ul></div>
+</ul><p>Note that it is also possible to add new database tables and include them in
+the data retrieval queries. See <code><a href="addJoinDefinition.html">addJoinDefinition()</a></code> for more information.</p>
+    </div>
     <div class="section level2">
     <h2 id="filtering-the-database">Filtering the database<a class="anchor" aria-label="anchor" href="#filtering-the-database"></a></h2>
 
@@ -333,8 +335,12 @@ or the usage vignette for details.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="createCompDb.html">createCompDb()</a></code> for the function to create a SQLite compound database.</p>
-<p><code><a href="Filter-classes.html">CompoundIdFilter()</a></code> for filters that can be used on the <code>CompDb</code> database.</p></div>
+    <div class="dont-index">
+<ul><li><p><code><a href="createCompDb.html">createCompDb()</a></code> for the function to create a SQLite compound database.</p></li>
+<li><p><code><a href="Filter-classes.html">CompoundIdFilter()</a></code> for filters that can be used on the <code>CompDb</code> database.</p></li>
+<li><p><code><a href="addJoinDefinition.html">addJoinDefinition()</a></code> to expand a <em>CompDb</em> with additional, related,
+database tables.</p></li>
+</ul></div>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -1122,7 +1128,7 @@ or the usage vignette for details.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     intersect, setdiff, setequal, union</span>
 <span class="r-in"><span><span class="va">src_cmp</span> <span class="op">&lt;-</span> <span class="fu">src_compdb</span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">src_cmp</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> src:  sqlite 3.49.1 [/__w/_temp/Library/CompoundDb/sql/CompDb.MassBank.sql]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> src:  sqlite 3.51.1 [/__w/_temp/Library/CompoundDb/sql/CompDb.MassBank.sql]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> tbls: metadata, ms_compound, msms_spectrum, msms_spectrum_peak, synonym</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Get a tbl for the ms_compound table</span></span></span>
@@ -1237,7 +1243,7 @@ or the usage vignette for details.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.9000.</p>
 </div>
 
     </footer></div>

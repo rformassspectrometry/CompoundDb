@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">CompoundDb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.13.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.15.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,12 +76,12 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2025-05-20 05:06:38.214169<br><strong>Compiled</strong>: Tue May 20 05:12:09 2025</p>
+</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2026-01-12 14:43:57.453111<br><strong>Compiled</strong>: Mon Jan 12 14:50:04 2026</p>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
 <p>Chemical compound annotation and information can be retrieved from a
-variety of sources including <a href="http://www.hmdb.ca" class="external-link">HMDB</a>, <a href="http://www.lipidmaps.org" class="external-link">LipidMaps</a> or <a href="https://www.ebi.ac.uk/chebi" class="external-link">ChEBI</a>. The <em><a href="https://bioconductor.org/packages/3.22/CompoundDb" class="external-link">CompoundDb</a></em>
+variety of sources including <a href="http://www.hmdb.ca" class="external-link">HMDB</a>, <a href="http://www.lipidmaps.org" class="external-link">LipidMaps</a> or <a href="https://www.ebi.ac.uk/chebi" class="external-link">ChEBI</a>. The <em><a href="https://bioconductor.org/packages/3.23/CompoundDb" class="external-link">CompoundDb</a></em>
 package provides functionality to extract data relevant for
 (chromatographic) peak annotations in metabolomics/lipidomics
 experiments from these sources and to store it into a common format
@@ -241,7 +241,7 @@ to the database.</p>
 <span><span class="co">##  compound count: 9 </span></span>
 <span><span class="co">##  MS/MS spectra count: 4</span></span></code></pre>
 <p>To extract all compounds from the database we can use the
-<code>compounds()</code> function. The parameter <code>columns</code>
+<code><a href="../reference/CompDb.html">compounds()</a></code> function. The parameter <code>columns</code>
 allows to choose the database columns to return. Any columns for any of
 the database tables are supported. To get an overview of available
 database tables and their columns, the <code><a href="../reference/CompDb.html">tables()</a></code> function
@@ -266,7 +266,7 @@ can be used:</p>
 <p>Below we extract only selected columns from the <em>compounds</em>
 table.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">compounds</span><span class="op">(</span><span class="va">cmpdb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"formula"</span>, <span class="st">"exactmass"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/CompDb.html">compounds</a></span><span class="op">(</span><span class="va">cmpdb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"name"</span>, <span class="st">"formula"</span>, <span class="st">"exactmass"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##                        name   formula exactmass</span></span>
 <span><span class="co">## 1 (R)-3-Hydroxybutyric acid    C4H8O3  104.0473</span></span>
 <span><span class="co">## 2        1,3-Diaminopropane   C3H10N2   74.0844</span></span>
@@ -279,7 +279,7 @@ table.</p>
 <span><span class="co">## 9        N-Methyltryptamine  C11H14N2  174.1157</span></span></code></pre>
 <p>Analogously we can use the <code><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra()</a></code> function to extract
 spectrum data from the database. The function returns by default a
-<code>Spectra</code> object from the <em><a href="https://bioconductor.org/packages/3.22/Spectra" class="external-link">Spectra</a></em>
+<code>Spectra</code> object from the <em><a href="https://bioconductor.org/packages/3.23/Spectra" class="external-link">Spectra</a></em>
 package with all spectra metadata available as <em>spectra
 variables</em>.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
@@ -395,7 +395,7 @@ are the package creator/maintainer and its version.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/createCompDb.html">createCompDbPackage</a></span><span class="op">(</span></span>
 <span>    <span class="va">db_file</span>, version <span class="op">=</span> <span class="st">"0.0.1"</span>, author <span class="op">=</span> <span class="st">"J Rainer"</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    maintainer <span class="op">=</span> <span class="st">"Johannes Rainer &lt;johannes.rainer@eurac.edu&gt;"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Creating package in /tmp/RtmpKiZUQH/CompDb.Hsapiens.HMDB.4.0</span></span></code></pre>
+<pre><code><span><span class="co">## Creating package in /tmp/RtmpR3Brac/CompDb.Hsapiens.HMDB.4.0</span></span></code></pre>
 <p>The function creates a folder (in our case in a temporary directory)
 that can be build and installed with <code>R CMD build</code> and
 <code>R CMD INSTALL</code>.</p>
@@ -479,7 +479,7 @@ later and hence we load it in read-write mode.</p>
 <p>We can now retrieve annotations from the database with the
 <code>compound()</code> function.</p>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">compounds</span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/CompDb.html">compounds</a></span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   name inchi inchikey formula exactmass compound_group</span></span>
 <span><span class="co">## 1    A  &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;     123.4            G01</span></span>
 <span><span class="co">## 2    B  &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;     234.5            G02</span></span>
@@ -487,7 +487,7 @@ later and hence we load it in read-write mode.</p>
 <span><span class="co">## 4    D  &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;     456.7            G03</span></span></code></pre>
 <p>Or also search and filter the annotations.</p>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">compounds</span><span class="op">(</span><span class="va">cdb</span>, filter <span class="op">=</span> <span class="op">~</span> <span class="va">name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"A"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/CompDb.html">compounds</a></span><span class="op">(</span><span class="va">cdb</span>, filter <span class="op">=</span> <span class="op">~</span> <span class="va">name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"A"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   name inchi inchikey formula exactmass compound_group</span></span>
 <span><span class="co">## 1    A  &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;     123.4            G01</span></span>
 <span><span class="co">## 2    B  &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;     234.5            G02</span></span></code></pre>
@@ -499,8 +499,8 @@ data to an existing <code>CompDb</code> which can be provided as a
 <code>Spectra</code> object. We thus below manually create a
 <code>Spectra</code> object with some arbitrary MS2 spectra -
 alternatively, <code>Spectra</code> can be imported from a variety of
-input sources, including MGF or MSP files using e.g. the <em><a href="https://bioconductor.org/packages/3.22/MsBackendMgf" class="external-link">MsBackendMgf</a></em>
-or <em><a href="https://bioconductor.org/packages/3.22/MsBackendMsp" class="external-link">MsBackendMsp</a></em>
+input sources, including MGF or MSP files using e.g. the <em><a href="https://bioconductor.org/packages/3.23/MsBackendMgf" class="external-link">MsBackendMgf</a></em>
+or <em><a href="https://bioconductor.org/packages/3.23/MsBackendMsp" class="external-link">MsBackendMsp</a></em>
 packages.</p>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Define basic spectra variables</span></span>
@@ -521,7 +521,7 @@ packages.</p>
 information with which existing compound in the database the spectrum is
 associated.</p>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">compounds</span><span class="op">(</span><span class="va">cdb</span>, <span class="st">"compound_id"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/CompDb.html">compounds</a></span><span class="op">(</span><span class="va">cdb</span>, <span class="st">"compound_id"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   compound_id</span></span>
 <span><span class="co">## 1     CP_0001</span></span>
 <span><span class="co">## 2     CP_0002</span></span>
@@ -605,7 +605,7 @@ below).</p>
 compounds as shown below.</p>
 <div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mona</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/CompDb.html">CompDb</a></span><span class="op">(</span><span class="va">mona_db_file</span><span class="op">)</span></span>
-<span><span class="fu">compounds</span><span class="op">(</span><span class="va">mona</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/CompDb.html">compounds</a></span><span class="op">(</span><span class="va">mona</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##                   name</span></span>
 <span><span class="co">## 1 Sulfachlorpyridazine</span></span>
 <span><span class="co">## 2         Sulfaclozine</span></span>
@@ -676,10 +676,10 @@ function.</p>
 <span><span class="co">##  compound count: 2</span></span></code></pre>
 <p>We next add fragment spectra for the compounds. These could for
 example represent MS2 spectra measured for the pure standard of the
-compound and could be extracted for example from <em><a href="https://bioconductor.org/packages/3.22/xcms" class="external-link">xcms</a></em> result
+compound and could be extracted for example from <em><a href="https://bioconductor.org/packages/3.23/xcms" class="external-link">xcms</a></em> result
 objects or other sources. Below we load some fragment spectra for
 caffeine from an MGF file distributed with this package. We use the
-<em><a href="https://bioconductor.org/packages/3.22/MsBackendMgf" class="external-link">MsBackendMgf</a></em>
+<em><a href="https://bioconductor.org/packages/3.23/MsBackendMgf" class="external-link">MsBackendMgf</a></em>
 package to import that data into a <code>Spectra</code> object.</p>
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/MsBackendMgf" class="external-link">MsBackendMgf</a></span><span class="op">)</span></span>
@@ -737,7 +737,7 @@ actually want to store in the database.</p>
 <p>We thus have now 2 compounds in the database and 2 fragment
 spectra:</p>
 <div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">compounds</span><span class="op">(</span><span class="va">mydb</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/CompDb.html">compounds</a></span><span class="op">(</span><span class="va">mydb</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##       name inchi inchikey   formula exactmass</span></span>
 <span><span class="co">## 1 Caffeine  &lt;NA&gt;     &lt;NA&gt; C8H10N4O2  194.0804</span></span>
 <span><span class="co">## 2  Glucose  &lt;NA&gt;     &lt;NA&gt;   C6H12O6  180.0634</span></span></code></pre>
@@ -755,7 +755,7 @@ this to the database using parameter <code>addColumns = TRUE</code>.</p>
 <code class="sourceCode R"><span><span class="va">cmps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>compound_id <span class="op">=</span> <span class="st">"3"</span>, name <span class="op">=</span> <span class="st">"X003"</span>,</span>
 <span>                   formula <span class="op">=</span> <span class="st">"C5H2P3O"</span>, extra_field <span class="op">=</span> <span class="st">"artificial compound"</span><span class="op">)</span></span>
 <span><span class="va">mydb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/CompDb.html">insertCompound</a></span><span class="op">(</span><span class="va">mydb</span>, <span class="va">cmps</span>, addColumns <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu">compounds</span><span class="op">(</span><span class="va">mydb</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/CompDb.html">compounds</a></span><span class="op">(</span><span class="va">mydb</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##       name inchi inchikey   formula exactmass         extra_field</span></span>
 <span><span class="co">## 1 Caffeine  &lt;NA&gt;     &lt;NA&gt; C8H10N4O2  194.0804                &lt;NA&gt;</span></span>
 <span><span class="co">## 2  Glucose  &lt;NA&gt;     &lt;NA&gt;   C6H12O6  180.0634                &lt;NA&gt;</span></span>
@@ -767,7 +767,7 @@ Both require as additional input the IDs of the compound(s) (or spectra)
 to delete. Below we extract the IDs and names of the compounds from our
 database.</p>
 <div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">compounds</span><span class="op">(</span><span class="va">mydb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"compound_id"</span>, <span class="st">"name"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/CompDb.html">compounds</a></span><span class="op">(</span><span class="va">mydb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"compound_id"</span>, <span class="st">"name"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   compound_id     name</span></span>
 <span><span class="co">## 1           1 Caffeine</span></span>
 <span><span class="co">## 2           2  Glucose</span></span>
@@ -776,7 +776,7 @@ database.</p>
 <code><a href="../reference/CompDb.html">deleteCompound()</a></code> and the ID of this compound.</p>
 <div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mydb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/CompDb.html">deleteCompound</a></span><span class="op">(</span><span class="va">mydb</span>, ids <span class="op">=</span> <span class="st">"3"</span><span class="op">)</span></span>
-<span><span class="fu">compounds</span><span class="op">(</span><span class="va">mydb</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/CompDb.html">compounds</a></span><span class="op">(</span><span class="va">mydb</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##       name inchi inchikey   formula exactmass extra_field</span></span>
 <span><span class="co">## 1 Caffeine  &lt;NA&gt;     &lt;NA&gt; C8H10N4O2  194.0804        &lt;NA&gt;</span></span>
 <span><span class="co">## 2  Glucose  &lt;NA&gt;     &lt;NA&gt;   C6H12O6  180.0634        &lt;NA&gt;</span></span></code></pre>
@@ -791,7 +791,7 @@ which leaves us a <code>CompDb</code> with a single compound and no more
 MS2 spectra.</p>
 <div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mydb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/CompDb.html">deleteCompound</a></span><span class="op">(</span><span class="va">mydb</span>, ids <span class="op">=</span> <span class="st">"1"</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu">compounds</span><span class="op">(</span><span class="va">mydb</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/CompDb.html">compounds</a></span><span class="op">(</span><span class="va">mydb</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##      name inchi inchikey formula exactmass extra_field</span></span>
 <span><span class="co">## 1 Glucose  &lt;NA&gt;     &lt;NA&gt; C6H12O6  180.0634        &lt;NA&gt;</span></span></code></pre>
 <div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
@@ -805,11 +805,350 @@ parameter to the <code>CompDb</code> call to load the database).</p>
 </div>
 </div>
 <div class="section level2">
+<h2 id="extending-compdb-databases">Extending <code>CompDb</code> databases<a class="anchor" aria-label="anchor" href="#extending-compdb-databases"></a>
+</h2>
+<p>The <code>CompDb</code> database layout is very flexible supporting
+extension with new database tables. The content of such additional
+database tables can be automatically integrated into the information
+returned by the <code><a href="../reference/CompDb.html">compounds()</a></code> or <code><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">spectraData()</a></code>
+functions if the relationships between the new and existing database
+tables is defined. Elements of the new tables need to be linked
+(related) to entries in at least one of the <em>core</em>
+<code>CompDb</code> database tables. The respective relationship
+information can then be added to a <code>CompDb</code> object using the
+<code><a href="../reference/addJoinDefinition.html">addJoinDefinition()</a></code> function.</p>
+<p>As an example we add a new database table <em>experiment</em> to a
+<code>CompDb</code> database. This new database table could contain
+information on the individual experiments in which certain compounds
+stored in the <code>CompDb</code>’s <em>ms_compound</em> table were
+measured.</p>
+<p>We add this new table to the test database of the
+<em>CompoundDb</em>. Below we first copy this database to a temporary
+file and connect through it using the <em>RSQLite</em> R package.</p>
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#' Copy the test database to a temporary file</span></span>
+<span><span class="va">tf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"sql/CompDb.MassBank.sql"</span>, package <span class="op">=</span> <span class="st">"CompoundDb"</span><span class="op">)</span>, <span class="va">tf</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
+<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#' Connect to this new database</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rsqlite.r-dbi.org" class="external-link">RSQLite</a></span><span class="op">)</span></span>
+<span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">dbConnect</span><span class="op">(</span><span class="fu"><a href="https://rsqlite.r-dbi.org/reference/SQLite.html" class="external-link">SQLite</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">tf</span><span class="op">)</span></span></code></pre></div>
+<p>The tables in this database are:</p>
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">dbListTables</span><span class="op">(</span><span class="va">con</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "metadata"           "ms_compound"        "msms_spectrum"     </span></span>
+<span><span class="co">## [4] "msms_spectrum_peak" "synonym"</span></span></code></pre>
+<p>As detailed above, we want to add a new database table
+<em>experiment</em> with some additional (experiment-related)
+information on the experiments/measurement runs in which certain
+compounds were measured. Such a table could for example be defined as
+follows:</p>
+<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">exp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>    experiment_id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,</span>
+<span>    experiment_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"exp_a"</span>, <span class="st">"exp_b"</span>, <span class="st">"exp_c"</span>, <span class="st">"exp_d"</span><span class="op">)</span>,</span>
+<span>    experiment_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2022-11-24"</span>, <span class="st">"2023-06-12"</span>, <span class="st">"2023-09-21"</span>, <span class="st">"2024-12-07"</span><span class="op">)</span>,</span>
+<span>    experiment_operator <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"AA"</span>, <span class="st">"VV"</span>, <span class="st">"AA"</span>, <span class="st">"AA"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>We next need to <em>link</em> entries in this table with rows in the
+<em>ms_compound</em> database table. We thus load the content of this
+table from the database and add a column <code>"experiment_id"</code> to
+link it’s entries to the new <em>experiment</em> table defined
+above.</p>
+<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cmp</span> <span class="op">&lt;-</span> <span class="fu">dbGetQuery</span><span class="op">(</span><span class="va">con</span>, <span class="st">"select * from ms_compound"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">cmp</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 70</span></span></code></pre>
+<p>We add the new column and fill it with values. Each row should
+contain one of the values of the <code>"experiment_id"</code> column of
+<code>exp</code>. In our example we fill the column randomly with values
+between 1 and 4 (the primary keys of the elements in the
+<code>exp</code> data frame). In a real use case this reference should
+of course represent a real relationship between elements in the two
+tables.</p>
+<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cmp</span><span class="op">$</span><span class="va">experiment_id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">cmp</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>We next write both tables to the database, replacing the existing
+<em>ms_compound</em> table and adding a new <em>experiment</em>
+table.</p>
+<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">dbWriteTable</span><span class="op">(</span><span class="va">con</span>, name <span class="op">=</span> <span class="st">"ms_compound"</span>, <span class="va">cmp</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu">dbWriteTable</span><span class="op">(</span><span class="va">con</span>, name <span class="op">=</span> <span class="st">"experiment"</span>, <span class="va">exp</span><span class="op">)</span></span>
+<span><span class="fu">dbListTables</span><span class="op">(</span><span class="va">con</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "experiment"         "metadata"           "ms_compound"       </span></span>
+<span><span class="co">## [4] "msms_spectrum"      "msms_spectrum_peak" "synonym"</span></span></code></pre>
+<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">dbDisconnect</span><span class="op">(</span><span class="va">con</span><span class="op">)</span></span></code></pre></div>
+<p>We can now load this database as a <code>CompDb</code> object.</p>
+<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/CompDb.html">CompDb</a></span><span class="op">(</span><span class="va">tf</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Note: found one or more database tables without defined relationship to other database tables. These are: "experiment". You might consider to use the 'addJoinDefinition()' to specify how that table(s) could be joined with the other database tables.</span></span></code></pre>
+<p>The message indicates that a database table was found which is not
+related to any other database table. We could use the <code>cdb</code>
+variable as any other <code>CompDb</code> object, the content of the new
+<em>experiment</em> would however not (yet) be included in the results
+returned from this database. The full list of available database tables
+(including their columns) is:</p>
+<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/CompDb.html">tables</a></span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## $experiment</span></span>
+<span><span class="co">## [1] "experiment_id"       "experiment_name"     "experiment_date"    </span></span>
+<span><span class="co">## [4] "experiment_operator"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $ms_compound</span></span>
+<span><span class="co">##  [1] "compound_id"   "formula"       "exactmass"     "smiles"       </span></span>
+<span><span class="co">##  [5] "inchi"         "inchikey"      "cas"           "pubchem"      </span></span>
+<span><span class="co">##  [9] "name"          "experiment_id"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $msms_spectrum</span></span>
+<span><span class="co">##  [1] "accession"             "spectrum_name"         "date"                 </span></span>
+<span><span class="co">##  [4] "authors"               "license"               "copyright"            </span></span>
+<span><span class="co">##  [7] "publication"           "ms_level"              "polarity"             </span></span>
+<span><span class="co">## [10] "splash"                "compound_id"           "precursor_intensity"  </span></span>
+<span><span class="co">## [13] "precursor_mz"          "adduct"                "ionization"           </span></span>
+<span><span class="co">## [16] "ionization_voltage"    "fragmentation_mode"    "collision_energy_text"</span></span>
+<span><span class="co">## [19] "instrument"            "instrument_type"       "precursor_mz_text"    </span></span>
+<span><span class="co">## [22] "spectrum_id"           "collision_energy"      "predicted"            </span></span>
+<span><span class="co">## [25] "msms_mz_range_min"     "msms_mz_range_max"    </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $msms_spectrum_peak</span></span>
+<span><span class="co">## [1] "spectrum_id" "mz"          "intensity"   "peak_id"    </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $synonym</span></span>
+<span><span class="co">## [1] "compound_id" "synonym"</span></span></code></pre>
+<p>In order to allow extraction of content of the new database table, we
+need to add the relationship information between the new table
+<em>experiment</em> and the other existing database tables in the
+<code>CompDb</code> object. We can add this information using the
+<code><a href="../reference/addJoinDefinition.html">addJoinDefinition()</a></code> function. With parameters
+<code>table_a</code> and <code>table_b</code> we provide the names of
+the database tables that are related to each other and with
+<code>column_a</code> and <code>column_b</code> we specify the names of
+the columns in the two tables that define the relationship (i.e. contain
+the primary and foreign keys of the relationship).</p>
+<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/addJoinDefinition.html">addJoinDefinition</a></span><span class="op">(</span></span>
+<span>    <span class="va">cdb</span>, table_a <span class="op">=</span> <span class="st">"ms_compound"</span>, table_b <span class="op">=</span> <span class="st">"experiment"</span>,</span>
+<span>    column_a <span class="op">=</span> <span class="st">"experiment_id"</span>, column_b <span class="op">=</span> <span class="st">"experiment_id"</span><span class="op">)</span></span></code></pre></div>
+<p>We can now also request information from the <em>experiment</em>
+database table. Below we show the first 6 rows returned by joining the
+<em>ms_compound</em> and <em>experiment</em> tables.</p>
+<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#' Show the first 6 rows</span></span>
+<span><span class="fu"><a href="../reference/CompDb.html">compounds</a></span><span class="op">(</span><span class="va">cdb</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"compound_id"</span>, <span class="st">"formula"</span>, <span class="st">"experiment_name"</span>,</span>
+<span>                           <span class="st">"experiment_date"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##   compound_id   formula experiment_name experiment_date</span></span>
+<span><span class="co">## 1           1  C10H10O3           exp_d      2024-12-07</span></span>
+<span><span class="co">## 2           2  C10H10O3           exp_d      2024-12-07</span></span>
+<span><span class="co">## 3           3  C10H10O3           exp_a      2022-11-24</span></span>
+<span><span class="co">## 4           4  C10H10O3           exp_d      2024-12-07</span></span>
+<span><span class="co">## 5           5  C10H10O3           exp_b      2023-06-12</span></span>
+<span><span class="co">## 6           6 C25H47NO9           exp_c      2023-09-21</span></span></code></pre>
+<p>Information on the <em>experiment</em> table is also available
+through the <code>Spectra</code> interface. Below we return the full
+content from the database through the <code><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">spectraData()</a></code>
+function.</p>
+<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">spectraData</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## DataFrame with 70 rows and 51 columns</span></span>
+<span><span class="co">##       msLevel     rtime acquisitionNum scanIndex dataStorage  dataOrigin</span></span>
+<span><span class="co">##     &lt;integer&gt; &lt;numeric&gt;      &lt;integer&gt; &lt;integer&gt; &lt;character&gt; &lt;character&gt;</span></span>
+<span><span class="co">## 1           2        NA             NA        NA        &lt;db&gt;          NA</span></span>
+<span><span class="co">## 2           2        NA             NA        NA        &lt;db&gt;          NA</span></span>
+<span><span class="co">## 3           2        NA             NA        NA        &lt;db&gt;          NA</span></span>
+<span><span class="co">## 4           2        NA             NA        NA        &lt;db&gt;          NA</span></span>
+<span><span class="co">## 5           2        NA             NA        NA        &lt;db&gt;          NA</span></span>
+<span><span class="co">## ...       ...       ...            ...       ...         ...         ...</span></span>
+<span><span class="co">## 66          2        NA             NA        NA        &lt;db&gt;          NA</span></span>
+<span><span class="co">## 67          2        NA             NA        NA        &lt;db&gt;          NA</span></span>
+<span><span class="co">## 68          2        NA             NA        NA        &lt;db&gt;          NA</span></span>
+<span><span class="co">## 69          2        NA             NA        NA        &lt;db&gt;          NA</span></span>
+<span><span class="co">## 70          2        NA             NA        NA        &lt;db&gt;          NA</span></span>
+<span><span class="co">##     centroided  smoothed  polarity precScanNum precursorMz precursorIntensity</span></span>
+<span><span class="co">##      &lt;logical&gt; &lt;logical&gt; &lt;integer&gt;   &lt;integer&gt;   &lt;numeric&gt;          &lt;numeric&gt;</span></span>
+<span><span class="co">## 1           NA        NA         1          NA      179.07            161.059</span></span>
+<span><span class="co">## 2           NA        NA         1          NA      179.07            161.059</span></span>
+<span><span class="co">## 3           NA        NA         1          NA      179.07            161.059</span></span>
+<span><span class="co">## 4           NA        NA         1          NA      179.07            161.059</span></span>
+<span><span class="co">## 5           NA        NA         1          NA      179.07            133.064</span></span>
+<span><span class="co">## ...        ...       ...       ...         ...         ...                ...</span></span>
+<span><span class="co">## 66          NA        NA         1          NA     337.091            301.070</span></span>
+<span><span class="co">## 67          NA        NA         1          NA     337.091            301.070</span></span>
+<span><span class="co">## 68          NA        NA         1          NA     337.091            273.075</span></span>
+<span><span class="co">## 69          NA        NA         1          NA     337.091            245.080</span></span>
+<span><span class="co">## 70          NA        NA         1          NA     337.091            245.080</span></span>
+<span><span class="co">##     precursorCharge collisionEnergy isolationWindowLowerMz</span></span>
+<span><span class="co">##           &lt;integer&gt;       &lt;numeric&gt;              &lt;numeric&gt;</span></span>
+<span><span class="co">## 1                NA              NA                     NA</span></span>
+<span><span class="co">## 2                NA              NA                     NA</span></span>
+<span><span class="co">## 3                NA              NA                     NA</span></span>
+<span><span class="co">## 4                NA              NA                     NA</span></span>
+<span><span class="co">## 5                NA              NA                     NA</span></span>
+<span><span class="co">## ...             ...             ...                    ...</span></span>
+<span><span class="co">## 66               NA              NA                     NA</span></span>
+<span><span class="co">## 67               NA              NA                     NA</span></span>
+<span><span class="co">## 68               NA              NA                     NA</span></span>
+<span><span class="co">## 69               NA              NA                     NA</span></span>
+<span><span class="co">## 70               NA              NA                     NA</span></span>
+<span><span class="co">##     isolationWindowTargetMz isolationWindowUpperMz compound_id experiment_id</span></span>
+<span><span class="co">##                   &lt;numeric&gt;              &lt;numeric&gt; &lt;character&gt;     &lt;integer&gt;</span></span>
+<span><span class="co">## 1                        NA                     NA           1             4</span></span>
+<span><span class="co">## 2                        NA                     NA           2             4</span></span>
+<span><span class="co">## 3                        NA                     NA           3             1</span></span>
+<span><span class="co">## 4                        NA                     NA           4             4</span></span>
+<span><span class="co">## 5                        NA                     NA           5             2</span></span>
+<span><span class="co">## ...                     ...                    ...         ...           ...</span></span>
+<span><span class="co">## 66                       NA                     NA          66             2</span></span>
+<span><span class="co">## 67                       NA                     NA          67             4</span></span>
+<span><span class="co">## 68                       NA                     NA          68             3</span></span>
+<span><span class="co">## 69                       NA                     NA          69             4</span></span>
+<span><span class="co">## 70                       NA                     NA          70             1</span></span>
+<span><span class="co">##     experiment_name experiment_date experiment_operator     formula exactmass</span></span>
+<span><span class="co">##         &lt;character&gt;     &lt;character&gt;         &lt;character&gt; &lt;character&gt; &lt;numeric&gt;</span></span>
+<span><span class="co">## 1             exp_d      2024-12-07                  AA    C10H10O3   178.063</span></span>
+<span><span class="co">## 2             exp_d      2024-12-07                  AA    C10H10O3   178.063</span></span>
+<span><span class="co">## 3             exp_a      2022-11-24                  AA    C10H10O3   178.063</span></span>
+<span><span class="co">## 4             exp_d      2024-12-07                  AA    C10H10O3   178.063</span></span>
+<span><span class="co">## 5             exp_b      2023-06-12                  VV    C10H10O3   178.063</span></span>
+<span><span class="co">## ...             ...             ...                 ...         ...       ...</span></span>
+<span><span class="co">## 66            exp_b      2023-06-12                  VV    C16H16O8   336.084</span></span>
+<span><span class="co">## 67            exp_d      2024-12-07                  AA    C16H16O8   336.084</span></span>
+<span><span class="co">## 68            exp_c      2023-09-21                  AA    C16H16O8   336.084</span></span>
+<span><span class="co">## 69            exp_d      2024-12-07                  AA    C16H16O8   336.084</span></span>
+<span><span class="co">## 70            exp_a      2022-11-24                  AA    C16H16O8   336.084</span></span>
+<span><span class="co">##                     smiles                  inchi               inchikey</span></span>
+<span><span class="co">##                &lt;character&gt;            &lt;character&gt;            &lt;character&gt;</span></span>
+<span><span class="co">## 1   CC1CC2=C(C(=CC=C2)O).. InChI=1S/C10H10O3/c1.. KWILGNNWGSNMPA-UHFFF..</span></span>
+<span><span class="co">## 2   CC1CC2=C(C(=CC=C2)O).. InChI=1S/C10H10O3/c1.. KWILGNNWGSNMPA-UHFFF..</span></span>
+<span><span class="co">## 3   CC1CC2=C(C(=CC=C2)O).. InChI=1S/C10H10O3/c1.. KWILGNNWGSNMPA-UHFFF..</span></span>
+<span><span class="co">## 4   CC1CC2=C(C(=CC=C2)O).. InChI=1S/C10H10O3/c1.. KWILGNNWGSNMPA-UHFFF..</span></span>
+<span><span class="co">## 5   CC1CC2=C(C(=CC=C2)O).. InChI=1S/C10H10O3/c1.. KWILGNNWGSNMPA-UHFFF..</span></span>
+<span><span class="co">## ...                    ...                    ...                    ...</span></span>
+<span><span class="co">## 66  C[C@]1([C@@H]([C@H](.. InChI=1S/C16H16O8/c1.. VSMBLBOUQJNJIL-JJXSE..</span></span>
+<span><span class="co">## 67  C[C@]1([C@@H]([C@H](.. InChI=1S/C16H16O8/c1.. VSMBLBOUQJNJIL-JJXSE..</span></span>
+<span><span class="co">## 68  C[C@]1([C@@H]([C@H](.. InChI=1S/C16H16O8/c1.. VSMBLBOUQJNJIL-JJXSE..</span></span>
+<span><span class="co">## 69  C[C@]1([C@@H]([C@H](.. InChI=1S/C16H16O8/c1.. VSMBLBOUQJNJIL-JJXSE..</span></span>
+<span><span class="co">## 70  C[C@]1([C@@H]([C@H](.. InChI=1S/C16H16O8/c1.. VSMBLBOUQJNJIL-JJXSE..</span></span>
+<span><span class="co">##             cas     pubchem           name   accession          spectrum_name</span></span>
+<span><span class="co">##     &lt;character&gt; &lt;character&gt;    &lt;character&gt; &lt;character&gt;            &lt;character&gt;</span></span>
+<span><span class="co">## 1    17397-85-2   CID:28516        Mellein    AC000001 Mellein; LC-ESI-ITFT..</span></span>
+<span><span class="co">## 2    17397-85-2   CID:28516        Mellein    AC000002 Mellein; LC-ESI-ITFT..</span></span>
+<span><span class="co">## 3    17397-85-2   CID:28516        Mellein    AC000003 Mellein; LC-ESI-ITFT..</span></span>
+<span><span class="co">## 4    17397-85-2   CID:28516        Mellein    AC000004 Mellein; LC-ESI-ITFT..</span></span>
+<span><span class="co">## 5    17397-85-2   CID:28516        Mellein    AC000005 Mellein; LC-ESI-ITFT..</span></span>
+<span><span class="co">## ...         ...         ...            ...         ...                    ...</span></span>
+<span><span class="co">## 66   22268-16-2   CID:89644 Altersolanol A    AC000066 Altersolanol A; LC-E..</span></span>
+<span><span class="co">## 67   22268-16-2   CID:89644 Altersolanol A    AC000067 Altersolanol A; LC-E..</span></span>
+<span><span class="co">## 68   22268-16-2   CID:89644 Altersolanol A    AC000068 Altersolanol A; LC-E..</span></span>
+<span><span class="co">## 69   22268-16-2   CID:89644 Altersolanol A    AC000069 Altersolanol A; LC-E..</span></span>
+<span><span class="co">## 70   22268-16-2   CID:89644 Altersolanol A    AC000070 Altersolanol A; LC-E..</span></span>
+<span><span class="co">##            date                authors     license          copyright</span></span>
+<span><span class="co">##     &lt;character&gt;            &lt;character&gt; &lt;character&gt;        &lt;character&gt;</span></span>
+<span><span class="co">## 1    2017.07.07 Justin B. Renaud, Ma..    CC BY-SA Copyright (C) 2017</span></span>
+<span><span class="co">## 2    2017.07.07 Justin B. Renaud, Ma..    CC BY-SA Copyright (C) 2017</span></span>
+<span><span class="co">## 3    2017.07.07 Justin B. Renaud, Ma..    CC BY-SA Copyright (C) 2017</span></span>
+<span><span class="co">## 4    2017.07.07 Justin B. Renaud, Ma..    CC BY-SA Copyright (C) 2017</span></span>
+<span><span class="co">## 5    2017.07.07 Justin B. Renaud, Ma..    CC BY-SA Copyright (C) 2017</span></span>
+<span><span class="co">## ...         ...                    ...         ...                ...</span></span>
+<span><span class="co">## 66   2017.07.07 Justin B. Renaud, Ma..    CC BY-SA Copyright (C) 2017</span></span>
+<span><span class="co">## 67   2017.07.07 Justin B. Renaud, Ma..    CC BY-SA Copyright (C) 2017</span></span>
+<span><span class="co">## 68   2017.07.07 Justin B. Renaud, Ma..    CC BY-SA Copyright (C) 2017</span></span>
+<span><span class="co">## 69   2017.07.07 Justin B. Renaud, Ma..    CC BY-SA Copyright (C) 2017</span></span>
+<span><span class="co">## 70   2017.07.07 Justin B. Renaud, Ma..    CC BY-SA Copyright (C) 2017</span></span>
+<span><span class="co">##                publication                 splash      adduct  ionization</span></span>
+<span><span class="co">##                &lt;character&gt;            &lt;character&gt; &lt;character&gt; &lt;character&gt;</span></span>
+<span><span class="co">## 1   Renaud, J. B.; Sumar.. splash10-03fr-090000..      [M+H]+         ESI</span></span>
+<span><span class="co">## 2   Renaud, J. B.; Sumar.. splash10-03fr-090000..      [M+H]+         ESI</span></span>
+<span><span class="co">## 3   Renaud, J. B.; Sumar.. splash10-03fr-090000..      [M+H]+         ESI</span></span>
+<span><span class="co">## 4   Renaud, J. B.; Sumar.. splash10-03di-090000..      [M+H]+         ESI</span></span>
+<span><span class="co">## 5   Renaud, J. B.; Sumar.. splash10-01q9-090000..      [M+H]+         ESI</span></span>
+<span><span class="co">## ...                    ...                    ...         ...         ...</span></span>
+<span><span class="co">## 66  Renaud, J. B.; Sumar.. splash10-0uk9-008900..      [M+H]+         ESI</span></span>
+<span><span class="co">## 67  Renaud, J. B.; Sumar.. splash10-0uk9-009500..      [M+H]+         ESI</span></span>
+<span><span class="co">## 68  Renaud, J. B.; Sumar.. splash10-0pi1-009200..      [M+H]+         ESI</span></span>
+<span><span class="co">## 69  Renaud, J. B.; Sumar.. splash10-0pi1-009100..      [M+H]+         ESI</span></span>
+<span><span class="co">## 70  Renaud, J. B.; Sumar.. splash10-0kus-029000..      [M+H]+         ESI</span></span>
+<span><span class="co">##     ionization_voltage fragmentation_mode collisionEnergy_text</span></span>
+<span><span class="co">##            &lt;character&gt;        &lt;character&gt;          &lt;character&gt;</span></span>
+<span><span class="co">## 1               3.9 kV                HCD              10(NCE)</span></span>
+<span><span class="co">## 2               3.9 kV                HCD              20(NCE)</span></span>
+<span><span class="co">## 3               3.9 kV                HCD              30(NCE)</span></span>
+<span><span class="co">## 4               3.9 kV                HCD              35(NCE)</span></span>
+<span><span class="co">## 5               3.9 kV                HCD              50(NCE)</span></span>
+<span><span class="co">## ...                ...                ...                  ...</span></span>
+<span><span class="co">## 66              3.9 kV                HCD              10(NCE)</span></span>
+<span><span class="co">## 67              3.9 kV                HCD              20(NCE)</span></span>
+<span><span class="co">## 68              3.9 kV                HCD              30(NCE)</span></span>
+<span><span class="co">## 69              3.9 kV                HCD              35(NCE)</span></span>
+<span><span class="co">## 70              3.9 kV                HCD              50(NCE)</span></span>
+<span><span class="co">##                 instrument instrument_type precursorMz_text spectrum_id</span></span>
+<span><span class="co">##                &lt;character&gt;     &lt;character&gt;      &lt;character&gt;   &lt;integer&gt;</span></span>
+<span><span class="co">## 1   Q-Exactive Orbitrap ..     LC-ESI-ITFT         179.0697           1</span></span>
+<span><span class="co">## 2   Q-Exactive Orbitrap ..     LC-ESI-ITFT         179.0697           2</span></span>
+<span><span class="co">## 3   Q-Exactive Orbitrap ..     LC-ESI-ITFT         179.0697           3</span></span>
+<span><span class="co">## 4   Q-Exactive Orbitrap ..     LC-ESI-ITFT         179.0697           4</span></span>
+<span><span class="co">## 5   Q-Exactive Orbitrap ..     LC-ESI-ITFT         179.0697           5</span></span>
+<span><span class="co">## ...                    ...             ...              ...         ...</span></span>
+<span><span class="co">## 66  Q-Exactive Orbitrap ..     LC-ESI-ITFT         337.0912          66</span></span>
+<span><span class="co">## 67  Q-Exactive Orbitrap ..     LC-ESI-ITFT         337.0912          67</span></span>
+<span><span class="co">## 68  Q-Exactive Orbitrap ..     LC-ESI-ITFT         337.0912          68</span></span>
+<span><span class="co">## 69  Q-Exactive Orbitrap ..     LC-ESI-ITFT         337.0912          69</span></span>
+<span><span class="co">## 70  Q-Exactive Orbitrap ..     LC-ESI-ITFT         337.0912          70</span></span>
+<span><span class="co">##     predicted msms_mz_range_min msms_mz_range_max</span></span>
+<span><span class="co">##     &lt;logical&gt;         &lt;numeric&gt;         &lt;numeric&gt;</span></span>
+<span><span class="co">## 1          NA           133.065            179.07</span></span>
+<span><span class="co">## 2          NA           133.065            179.07</span></span>
+<span><span class="co">## 3          NA           105.070            179.07</span></span>
+<span><span class="co">## 4          NA           105.070            179.07</span></span>
+<span><span class="co">## 5          NA           105.070            179.07</span></span>
+<span><span class="co">## ...       ...               ...               ...</span></span>
+<span><span class="co">## 66         NA          245.0808           337.092</span></span>
+<span><span class="co">## 67         NA          245.0808           319.081</span></span>
+<span><span class="co">## 68         NA          151.0390           301.071</span></span>
+<span><span class="co">## 69         NA          151.0390           301.071</span></span>
+<span><span class="co">## 70         NA           95.0491           301.071</span></span>
+<span><span class="co">##                                     synonym</span></span>
+<span><span class="co">##                             &lt;CharacterList&gt;</span></span>
+<span><span class="co">## 1   Mellein,Ochracin,8-hydroxy-3-methyl-3..</span></span>
+<span><span class="co">## 2   Mellein,Ochracin,8-hydroxy-3-methyl-3..</span></span>
+<span><span class="co">## 3   Mellein,Ochracin,8-hydroxy-3-methyl-3..</span></span>
+<span><span class="co">## 4   Mellein,Ochracin,8-hydroxy-3-methyl-3..</span></span>
+<span><span class="co">## 5   Mellein,Ochracin,8-hydroxy-3-methyl-3..</span></span>
+<span><span class="co">## ...                                     ...</span></span>
+<span><span class="co">## 66    Altersolanol A,(1S,2R,3S,4R)-1,2,3,..</span></span>
+<span><span class="co">## 67    Altersolanol A,(1S,2R,3S,4R)-1,2,3,..</span></span>
+<span><span class="co">## 68    Altersolanol A,(1S,2R,3S,4R)-1,2,3,..</span></span>
+<span><span class="co">## 69    Altersolanol A,(1S,2R,3S,4R)-1,2,3,..</span></span>
+<span><span class="co">## 70    Altersolanol A,(1S,2R,3S,4R)-1,2,3,..</span></span></code></pre>
+<p>This <code>DataFrame</code> includes thus also the columns
+<code>"experiment_id"</code>, <code>"experiment_name"</code>,
+<code>"experiment_date"</code> and <code>"experiment_operator"</code>
+from the new <em>experiment</em> table. Similarly, columns from this
+table can also be extracted using <code>$</code>, thus returning the
+values from the respective columns associated to the individual
+spectra.</p>
+<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">s</span><span class="op">$</span><span class="va">experiment_name</span></span></code></pre></div>
+<pre><code><span><span class="co">##  [1] "exp_d" "exp_d" "exp_a" "exp_d" "exp_b" "exp_c" "exp_a" "exp_a" "exp_d"</span></span>
+<span><span class="co">## [10] "exp_b" "exp_c" "exp_b" "exp_c" "exp_b" "exp_b" "exp_b" "exp_c" "exp_b"</span></span>
+<span><span class="co">## [19] "exp_a" "exp_b" "exp_c" "exp_b" "exp_a" "exp_c" "exp_b" "exp_c" "exp_d"</span></span>
+<span><span class="co">## [28] "exp_c" "exp_b" "exp_d" "exp_b" "exp_d" "exp_c" "exp_c" "exp_d" "exp_a"</span></span>
+<span><span class="co">## [37] "exp_a" "exp_a" "exp_a" "exp_c" "exp_d" "exp_b" "exp_b" "exp_c" "exp_b"</span></span>
+<span><span class="co">## [46] "exp_a" "exp_a" "exp_a" "exp_b" "exp_a" "exp_c" "exp_b" "exp_a" "exp_d"</span></span>
+<span><span class="co">## [55] "exp_a" "exp_c" "exp_d" "exp_c" "exp_c" "exp_d" "exp_d" "exp_a" "exp_c"</span></span>
+<span><span class="co">## [64] "exp_b" "exp_b" "exp_b" "exp_d" "exp_c" "exp_d" "exp_a"</span></span></code></pre>
+<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.remove</a></span><span class="op">(</span><span class="va">tf</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
+</div>
+<div class="section level2">
 <h2 id="session-information">Session information<a class="anchor" aria-label="anchor" href="#session-information"></a>
 </h2>
-<pre><code><span><span class="co">## R version 4.5.0 (2025-04-11)</span></span>
+<pre><code><span><span class="co">## R Under development (unstable) (2026-01-10 r89298)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
-<span><span class="co">## Running under: Ubuntu 24.04.2 LTS</span></span>
+<span><span class="co">## Running under: Ubuntu 24.04.3 LTS</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Matrix products: default</span></span>
 <span><span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 </span></span>
@@ -831,37 +1170,38 @@ parameter to the <code>CompDb</code> call to load the database).</p>
 <span><span class="co">## [8] base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">## [1] MsBackendMgf_1.17.0     Spectra_1.19.2          BiocParallel_1.43.2    </span></span>
-<span><span class="co">## [4] CompoundDb_1.13.0       S4Vectors_0.47.0        BiocGenerics_0.55.0    </span></span>
-<span><span class="co">## [7] generics_0.1.4          AnnotationFilter_1.33.0 BiocStyle_2.37.0       </span></span>
+<span><span class="co">##  [1] RSQLite_2.4.5           MsBackendMgf_1.19.0     Spectra_1.21.1         </span></span>
+<span><span class="co">##  [4] BiocParallel_1.45.0     CompoundDb_1.15.1       S4Vectors_0.49.0       </span></span>
+<span><span class="co">##  [7] BiocGenerics_0.57.0     generics_0.1.4          AnnotationFilter_1.35.0</span></span>
+<span><span class="co">## [10] BiocStyle_2.39.0       </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##  [1] gtable_0.3.6           rjson_0.2.23           xfun_0.52             </span></span>
-<span><span class="co">##  [4] bslib_0.9.0            ggplot2_3.5.2          htmlwidgets_1.6.4     </span></span>
-<span><span class="co">##  [7] Biobase_2.69.0         vctrs_0.6.5            tools_4.5.0           </span></span>
-<span><span class="co">## [10] bitops_1.0-9           parallel_4.5.0         RSQLite_2.3.11        </span></span>
-<span><span class="co">## [13] tibble_3.2.1           blob_1.2.4             cluster_2.1.8.1       </span></span>
-<span><span class="co">## [16] pkgconfig_2.0.3        dbplyr_2.5.0           RColorBrewer_1.1-3    </span></span>
-<span><span class="co">## [19] desc_1.4.3             lifecycle_1.0.4        compiler_4.5.0        </span></span>
-<span><span class="co">## [22] farver_2.1.2           textshaping_1.0.1      codetools_0.2-20      </span></span>
-<span><span class="co">## [25] clue_0.3-66            GenomeInfoDb_1.45.3    htmltools_0.5.8.1     </span></span>
-<span><span class="co">## [28] sass_0.4.10            RCurl_1.98-1.17        yaml_2.3.10           </span></span>
-<span><span class="co">## [31] lazyeval_0.2.2         pkgdown_2.1.3.9000     pillar_1.10.2         </span></span>
-<span><span class="co">## [34] jquerylib_0.1.4        MASS_7.3-65            DT_0.33               </span></span>
-<span><span class="co">## [37] cachem_1.1.0           MetaboCoreUtils_1.17.1 tidyselect_1.2.1      </span></span>
-<span><span class="co">## [40] digest_0.6.37          stringi_1.8.7          dplyr_1.1.4           </span></span>
-<span><span class="co">## [43] bookdown_0.43          rsvg_2.6.2             fastmap_1.2.0         </span></span>
-<span><span class="co">## [46] grid_4.5.0             cli_3.6.5              magrittr_2.0.3        </span></span>
-<span><span class="co">## [49] base64enc_0.1-3        utf8_1.2.5             ChemmineR_3.61.0      </span></span>
-<span><span class="co">## [52] UCSC.utils_1.5.0       scales_1.4.0           bit64_4.6.0-1         </span></span>
-<span><span class="co">## [55] rmarkdown_2.29         XVector_0.49.0         httr_1.4.7            </span></span>
-<span><span class="co">## [58] bit_4.6.0              gridExtra_2.3          ragg_1.4.0            </span></span>
-<span><span class="co">## [61] png_0.1-8              memoise_2.0.1          evaluate_1.0.3        </span></span>
-<span><span class="co">## [64] knitr_1.50             GenomicRanges_1.61.0   IRanges_2.43.0        </span></span>
-<span><span class="co">## [67] rlang_1.1.6            Rcpp_1.0.14            glue_1.8.0            </span></span>
-<span><span class="co">## [70] DBI_1.2.3              xml2_1.3.8             BiocManager_1.30.25   </span></span>
-<span><span class="co">## [73] jsonlite_2.0.0         R6_2.6.1               ProtGenerics_1.39.2   </span></span>
-<span><span class="co">## [76] MsCoreUtils_1.21.0     systemfonts_1.2.3      fs_1.6.6</span></span></code></pre>
+<span><span class="co">##  [1] gtable_0.3.6           rjson_0.2.23           xfun_0.55             </span></span>
+<span><span class="co">##  [4] bslib_0.9.0            ggplot2_4.0.1          htmlwidgets_1.6.4     </span></span>
+<span><span class="co">##  [7] Biobase_2.71.0         vctrs_0.6.5            tools_4.6.0           </span></span>
+<span><span class="co">## [10] bitops_1.0-9           parallel_4.6.0         tibble_3.3.1          </span></span>
+<span><span class="co">## [13] blob_1.2.4             cluster_2.1.8.1        pkgconfig_2.0.3       </span></span>
+<span><span class="co">## [16] dbplyr_2.5.1           RColorBrewer_1.1-3     S7_0.2.1              </span></span>
+<span><span class="co">## [19] desc_1.4.3             lifecycle_1.0.5        compiler_4.6.0        </span></span>
+<span><span class="co">## [22] farver_2.1.2           textshaping_1.0.4      Seqinfo_1.1.0         </span></span>
+<span><span class="co">## [25] codetools_0.2-20       clue_0.3-66            htmltools_0.5.9       </span></span>
+<span><span class="co">## [28] sass_0.4.10            RCurl_1.98-1.17        yaml_2.3.12           </span></span>
+<span><span class="co">## [31] lazyeval_0.2.2         pkgdown_2.2.0.9000     pillar_1.11.1         </span></span>
+<span><span class="co">## [34] jquerylib_0.1.4        MASS_7.3-65            DT_0.34.0             </span></span>
+<span><span class="co">## [37] cachem_1.1.0           MetaboCoreUtils_1.19.1 tidyselect_1.2.1      </span></span>
+<span><span class="co">## [40] digest_0.6.39          stringi_1.8.7          dplyr_1.1.4           </span></span>
+<span><span class="co">## [43] bookdown_0.46          rsvg_2.7.0             fastmap_1.2.0         </span></span>
+<span><span class="co">## [46] grid_4.6.0             cli_3.6.5              magrittr_2.0.4        </span></span>
+<span><span class="co">## [49] base64enc_0.1-3        utf8_1.2.6             ChemmineR_3.63.0      </span></span>
+<span><span class="co">## [52] scales_1.4.0           bit64_4.6.0-1          rmarkdown_2.30        </span></span>
+<span><span class="co">## [55] bit_4.6.0              otel_0.2.0             gridExtra_2.3         </span></span>
+<span><span class="co">## [58] ragg_1.5.0             png_0.1-8              memoise_2.0.1         </span></span>
+<span><span class="co">## [61] evaluate_1.0.5         knitr_1.51             GenomicRanges_1.63.1  </span></span>
+<span><span class="co">## [64] IRanges_2.45.0         rlang_1.1.7            Rcpp_1.1.1            </span></span>
+<span><span class="co">## [67] glue_1.8.0             DBI_1.2.3              xml2_1.5.1            </span></span>
+<span><span class="co">## [70] BiocManager_1.30.27    jsonlite_2.0.0         R6_2.6.1              </span></span>
+<span><span class="co">## [73] ProtGenerics_1.39.2    systemfonts_1.3.1      fs_1.6.6              </span></span>
+<span><span class="co">## [76] MsCoreUtils_1.23.2</span></span></code></pre>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -874,7 +1214,7 @@ parameter to the <code>CompDb</code> call to load the database).</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.9000.</p>
 </div>
 
     </footer>
