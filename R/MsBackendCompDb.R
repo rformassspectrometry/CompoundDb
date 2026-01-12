@@ -92,6 +92,8 @@
 #' - `$<-`: replace or add a spectrum variable. Note that `mz`, `intensity` and
 #'   `spectrum_id` variables can not be replaced.
 #'
+#' - `spectraNames()`: returns values from *spectrum_id* database column.
+#'
 #' @name MsBackendCompDb
 #'
 #' @author Johannes Rainer
@@ -188,6 +190,7 @@ setMethod("backendInitialize", "MsBackendCompDb", function(object,
     object@spectraIds <- as.character(local_data$spectrum_id)
     ## Get info on tables and column names. Put them into spectraVariables.
     object@.properties$tables <- .tables(x)
+    object@.properties$joins <- .joins(x)
     spectra_variables <- unique(unlist(.tables(object)))
     spectra_variables <- spectra_variables[!spectra_variables %in% c("peak_id")]
     object <- callNextMethod(
@@ -324,15 +327,6 @@ setReplaceMethod("$", "MsBackendCompDb", function(x, name, value) {
     if (name %in% c("spectrum_id"))
         stop("Spectra IDs can not be changed.", call. = FALSE)
     callNextMethod()
-})
-
-#' @rdname MsBackendCompDb
-#'
-#' @importMethodsFrom Spectra precScanNum
-#' @export
-setMethod("precScanNum", "MsBackendCompDb", function(object) {
-    message("precursor scan numbers not available")
-    rep(NA_integer_, length(object))
 })
 
 #' @importMethodsFrom ProtGenerics tic

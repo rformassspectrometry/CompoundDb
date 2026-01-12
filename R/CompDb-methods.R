@@ -101,7 +101,7 @@ setMethod("compoundVariables", "CompDb", function(object,
 #'
 #' @importMethodsFrom ProtGenerics compounds
 #'
-#' @export
+#' @exportMethod compounds
 #'
 #' @rdname CompDb
 setMethod("compounds", "CompDb", function(object,
