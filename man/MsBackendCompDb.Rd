@@ -17,7 +17,6 @@
 \alias{[,MsBackendCompDb,ANY-method}
 \alias{extractByIndex,MsBackendCompDb,ANY-method}
 \alias{$<-,MsBackendCompDb-method}
-\alias{precScanNum,MsBackendCompDb-method}
 \alias{tic,MsBackendCompDb-method}
 \alias{backendBpparam,MsBackendCompDb-method}
 \title{CompDb-based MS spectrum backend}
@@ -49,8 +48,6 @@ MsBackendCompDb()
 \S4method{extractByIndex}{MsBackendCompDb,ANY}(object, i)
 
 \S4method{$}{MsBackendCompDb}(x, name) <- value
-
-\S4method{precScanNum}{MsBackendCompDb}(object)
 
 \S4method{tic}{MsBackendCompDb}(object, initial = TRUE)
 
@@ -141,6 +138,7 @@ values.
 intensity values as a \code{\link[S4Vectors:DataFrame-class]{S4Vectors::DataFrame()}}.
 \item \verb{$<-}: replace or add a spectrum variable. Note that \code{mz}, \code{intensity} and
 \code{spectrum_id} variables can not be replaced.
+\item \code{spectraNames()}: returns values from \emph{spectrum_id} database column.
 }
 }
 

@@ -14,6 +14,7 @@
 \alias{insertCompound}
 \alias{deleteCompound}
 \alias{deleteCompound,IonDb-method}
+\alias{compounds}
 \alias{hasMsMsSpectra}
 \alias{src_compdb}
 \alias{tables}
@@ -253,6 +254,9 @@ database table. The function returns the updated \code{CompDb} object.
 \item \code{deleteSpectra()}: deletes specified spectra from the database. The IDs of
 the spectra to be deleted need to be provided with parameter \code{ids}.
 }
+
+Note that it is also possible to add new database tables and include them in
+the data retrieval queries. See \code{\link[=addJoinDefinition]{addJoinDefinition()}} for more information.
 }
 
 \section{Filtering the database}{
@@ -421,9 +425,12 @@ compounds(cdb)
 ## spectra.
 }
 \seealso{
-\code{\link[=createCompDb]{createCompDb()}} for the function to create a SQLite compound database.
-
-\code{\link[=CompoundIdFilter]{CompoundIdFilter()}} for filters that can be used on the \code{CompDb} database.
+\itemize{
+\item \code{\link[=createCompDb]{createCompDb()}} for the function to create a SQLite compound database.
+\item \code{\link[=CompoundIdFilter]{CompoundIdFilter()}} for filters that can be used on the \code{CompDb} database.
+\item \code{\link[=addJoinDefinition]{addJoinDefinition()}} to expand a \emph{CompDb} with additional, related,
+database tables.
+}
 }
 \author{
 Johannes Rainer

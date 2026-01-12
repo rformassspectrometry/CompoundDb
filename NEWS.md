@@ -1,3 +1,12 @@
+# CompoundDb version 1.4
+
+## Changes in version 1.14.1
+
+- Add `addJoinDefinition()` function to define relationships between core
+  database tables and newly added tables.
+- Add support for additional database tables.
+- Add support for `precScanNum()`.
+
 # CompoundDb version 1.11
 
 ## Changes in version 1.11.2
