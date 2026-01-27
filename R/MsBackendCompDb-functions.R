@@ -20,7 +20,7 @@ MsBackendCompDb <- function() {
 }
 
 .columns_sql <- c(
-    precursorIntensity = "precursor_intensity",
+    precursorIntensity = "precursorIntensity",
     precursorMz = "precursor_mz",
     msLevel = "ms_level",
     compound_id = "compound_id",
