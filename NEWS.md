@@ -1,5 +1,11 @@
 # CompoundDb version 1.4
 
+## Changes in version 1.14.2
+
+- Change internal mapping of the spectra variable `precursorIntensity` to a
+  database table columns `"precursorIntensity"` instead of
+  `"precursor_intensity"`.
+
 ## Changes in version 1.14.1
 
 - Add `addJoinDefinition()` function to define relationships between core
