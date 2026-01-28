@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">CompoundDb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.15.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.15.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (links[i].hostname != window.location.hostname)
       links[i].target = '_blank';
 });
-</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2026-01-12 14:54:30.09379<br><strong>Compiled</strong>: Mon Jan 12 14:58:50 2026</p>
+</script><p><strong>Authors</strong>: Johannes Rainer<br><strong>Modified</strong>: 2026-01-28 07:26:44.279722<br><strong>Compiled</strong>: Wed Jan 28 07:31:30 2026</p>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
@@ -395,7 +395,7 @@ are the package creator/maintainer and its version.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/createCompDb.html">createCompDbPackage</a></span><span class="op">(</span></span>
 <span>    <span class="va">db_file</span>, version <span class="op">=</span> <span class="st">"0.0.1"</span>, author <span class="op">=</span> <span class="st">"J Rainer"</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    maintainer <span class="op">=</span> <span class="st">"Johannes Rainer &lt;johannes.rainer@eurac.edu&gt;"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Creating package in /tmp/RtmpYDm67V/CompDb.Hsapiens.HMDB.4.0</span></span></code></pre>
+<pre><code><span><span class="co">## Creating package in /tmp/RtmpcR5ugD/CompDb.Hsapiens.HMDB.4.0</span></span></code></pre>
 <p>The function creates a folder (in our case in a temporary directory)
 that can be build and installed with <code>R CMD build</code> and
 <code>R CMD INSTALL</code>.</p>
@@ -952,7 +952,7 @@ function.</p>
 <div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">spectraData</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## DataFrame with 70 rows and 51 columns</span></span>
+<pre><code><span><span class="co">## DataFrame with 70 rows and 52 columns</span></span>
 <span><span class="co">##       msLevel     rtime acquisitionNum scanIndex dataStorage  dataOrigin</span></span>
 <span><span class="co">##     &lt;integer&gt; &lt;numeric&gt;      &lt;integer&gt; &lt;integer&gt; &lt;character&gt; &lt;character&gt;</span></span>
 <span><span class="co">## 1           2        NA             NA        NA        &lt;db&gt;          NA</span></span>
@@ -968,17 +968,17 @@ function.</p>
 <span><span class="co">## 70          2        NA             NA        NA        &lt;db&gt;          NA</span></span>
 <span><span class="co">##     centroided  smoothed  polarity precScanNum precursorMz precursorIntensity</span></span>
 <span><span class="co">##      &lt;logical&gt; &lt;logical&gt; &lt;integer&gt;   &lt;integer&gt;   &lt;numeric&gt;          &lt;numeric&gt;</span></span>
-<span><span class="co">## 1           NA        NA         1          NA      179.07            161.059</span></span>
-<span><span class="co">## 2           NA        NA         1          NA      179.07            161.059</span></span>
-<span><span class="co">## 3           NA        NA         1          NA      179.07            161.059</span></span>
-<span><span class="co">## 4           NA        NA         1          NA      179.07            161.059</span></span>
-<span><span class="co">## 5           NA        NA         1          NA      179.07            133.064</span></span>
+<span><span class="co">## 1           NA        NA         1          NA      179.07                 NA</span></span>
+<span><span class="co">## 2           NA        NA         1          NA      179.07                 NA</span></span>
+<span><span class="co">## 3           NA        NA         1          NA      179.07                 NA</span></span>
+<span><span class="co">## 4           NA        NA         1          NA      179.07                 NA</span></span>
+<span><span class="co">## 5           NA        NA         1          NA      179.07                 NA</span></span>
 <span><span class="co">## ...        ...       ...       ...         ...         ...                ...</span></span>
-<span><span class="co">## 66          NA        NA         1          NA     337.091            301.070</span></span>
-<span><span class="co">## 67          NA        NA         1          NA     337.091            301.070</span></span>
-<span><span class="co">## 68          NA        NA         1          NA     337.091            273.075</span></span>
-<span><span class="co">## 69          NA        NA         1          NA     337.091            245.080</span></span>
-<span><span class="co">## 70          NA        NA         1          NA     337.091            245.080</span></span>
+<span><span class="co">## 66          NA        NA         1          NA     337.091                 NA</span></span>
+<span><span class="co">## 67          NA        NA         1          NA     337.091                 NA</span></span>
+<span><span class="co">## 68          NA        NA         1          NA     337.091                 NA</span></span>
+<span><span class="co">## 69          NA        NA         1          NA     337.091                 NA</span></span>
+<span><span class="co">## 70          NA        NA         1          NA     337.091                 NA</span></span>
 <span><span class="co">##     precursorCharge collisionEnergy isolationWindowLowerMz</span></span>
 <span><span class="co">##           &lt;integer&gt;       &lt;numeric&gt;              &lt;numeric&gt;</span></span>
 <span><span class="co">## 1                NA              NA                     NA</span></span>
@@ -1057,58 +1057,58 @@ function.</p>
 <span><span class="co">## 68   2017.07.07 Justin B. Renaud, Ma..    CC BY-SA Copyright (C) 2017</span></span>
 <span><span class="co">## 69   2017.07.07 Justin B. Renaud, Ma..    CC BY-SA Copyright (C) 2017</span></span>
 <span><span class="co">## 70   2017.07.07 Justin B. Renaud, Ma..    CC BY-SA Copyright (C) 2017</span></span>
-<span><span class="co">##                publication                 splash      adduct  ionization</span></span>
-<span><span class="co">##                &lt;character&gt;            &lt;character&gt; &lt;character&gt; &lt;character&gt;</span></span>
-<span><span class="co">## 1   Renaud, J. B.; Sumar.. splash10-03fr-090000..      [M+H]+         ESI</span></span>
-<span><span class="co">## 2   Renaud, J. B.; Sumar.. splash10-03fr-090000..      [M+H]+         ESI</span></span>
-<span><span class="co">## 3   Renaud, J. B.; Sumar.. splash10-03fr-090000..      [M+H]+         ESI</span></span>
-<span><span class="co">## 4   Renaud, J. B.; Sumar.. splash10-03di-090000..      [M+H]+         ESI</span></span>
-<span><span class="co">## 5   Renaud, J. B.; Sumar.. splash10-01q9-090000..      [M+H]+         ESI</span></span>
-<span><span class="co">## ...                    ...                    ...         ...         ...</span></span>
-<span><span class="co">## 66  Renaud, J. B.; Sumar.. splash10-0uk9-008900..      [M+H]+         ESI</span></span>
-<span><span class="co">## 67  Renaud, J. B.; Sumar.. splash10-0uk9-009500..      [M+H]+         ESI</span></span>
-<span><span class="co">## 68  Renaud, J. B.; Sumar.. splash10-0pi1-009200..      [M+H]+         ESI</span></span>
-<span><span class="co">## 69  Renaud, J. B.; Sumar.. splash10-0pi1-009100..      [M+H]+         ESI</span></span>
-<span><span class="co">## 70  Renaud, J. B.; Sumar.. splash10-0kus-029000..      [M+H]+         ESI</span></span>
-<span><span class="co">##     ionization_voltage fragmentation_mode collisionEnergy_text</span></span>
-<span><span class="co">##            &lt;character&gt;        &lt;character&gt;          &lt;character&gt;</span></span>
-<span><span class="co">## 1               3.9 kV                HCD              10(NCE)</span></span>
-<span><span class="co">## 2               3.9 kV                HCD              20(NCE)</span></span>
-<span><span class="co">## 3               3.9 kV                HCD              30(NCE)</span></span>
-<span><span class="co">## 4               3.9 kV                HCD              35(NCE)</span></span>
-<span><span class="co">## 5               3.9 kV                HCD              50(NCE)</span></span>
-<span><span class="co">## ...                ...                ...                  ...</span></span>
-<span><span class="co">## 66              3.9 kV                HCD              10(NCE)</span></span>
-<span><span class="co">## 67              3.9 kV                HCD              20(NCE)</span></span>
-<span><span class="co">## 68              3.9 kV                HCD              30(NCE)</span></span>
-<span><span class="co">## 69              3.9 kV                HCD              35(NCE)</span></span>
-<span><span class="co">## 70              3.9 kV                HCD              50(NCE)</span></span>
-<span><span class="co">##                 instrument instrument_type precursorMz_text spectrum_id</span></span>
-<span><span class="co">##                &lt;character&gt;     &lt;character&gt;      &lt;character&gt;   &lt;integer&gt;</span></span>
-<span><span class="co">## 1   Q-Exactive Orbitrap ..     LC-ESI-ITFT         179.0697           1</span></span>
-<span><span class="co">## 2   Q-Exactive Orbitrap ..     LC-ESI-ITFT         179.0697           2</span></span>
-<span><span class="co">## 3   Q-Exactive Orbitrap ..     LC-ESI-ITFT         179.0697           3</span></span>
-<span><span class="co">## 4   Q-Exactive Orbitrap ..     LC-ESI-ITFT         179.0697           4</span></span>
-<span><span class="co">## 5   Q-Exactive Orbitrap ..     LC-ESI-ITFT         179.0697           5</span></span>
-<span><span class="co">## ...                    ...             ...              ...         ...</span></span>
-<span><span class="co">## 66  Q-Exactive Orbitrap ..     LC-ESI-ITFT         337.0912          66</span></span>
-<span><span class="co">## 67  Q-Exactive Orbitrap ..     LC-ESI-ITFT         337.0912          67</span></span>
-<span><span class="co">## 68  Q-Exactive Orbitrap ..     LC-ESI-ITFT         337.0912          68</span></span>
-<span><span class="co">## 69  Q-Exactive Orbitrap ..     LC-ESI-ITFT         337.0912          69</span></span>
-<span><span class="co">## 70  Q-Exactive Orbitrap ..     LC-ESI-ITFT         337.0912          70</span></span>
-<span><span class="co">##     predicted msms_mz_range_min msms_mz_range_max</span></span>
-<span><span class="co">##     &lt;logical&gt;         &lt;numeric&gt;         &lt;numeric&gt;</span></span>
-<span><span class="co">## 1          NA           133.065            179.07</span></span>
-<span><span class="co">## 2          NA           133.065            179.07</span></span>
-<span><span class="co">## 3          NA           105.070            179.07</span></span>
-<span><span class="co">## 4          NA           105.070            179.07</span></span>
-<span><span class="co">## 5          NA           105.070            179.07</span></span>
-<span><span class="co">## ...       ...               ...               ...</span></span>
-<span><span class="co">## 66         NA          245.0808           337.092</span></span>
-<span><span class="co">## 67         NA          245.0808           319.081</span></span>
-<span><span class="co">## 68         NA          151.0390           301.071</span></span>
-<span><span class="co">## 69         NA          151.0390           301.071</span></span>
-<span><span class="co">## 70         NA           95.0491           301.071</span></span>
+<span><span class="co">##                publication                 splash precursor_intensity</span></span>
+<span><span class="co">##                &lt;character&gt;            &lt;character&gt;           &lt;numeric&gt;</span></span>
+<span><span class="co">## 1   Renaud, J. B.; Sumar.. splash10-03fr-090000..             161.059</span></span>
+<span><span class="co">## 2   Renaud, J. B.; Sumar.. splash10-03fr-090000..             161.059</span></span>
+<span><span class="co">## 3   Renaud, J. B.; Sumar.. splash10-03fr-090000..             161.059</span></span>
+<span><span class="co">## 4   Renaud, J. B.; Sumar.. splash10-03di-090000..             161.059</span></span>
+<span><span class="co">## 5   Renaud, J. B.; Sumar.. splash10-01q9-090000..             133.064</span></span>
+<span><span class="co">## ...                    ...                    ...                 ...</span></span>
+<span><span class="co">## 66  Renaud, J. B.; Sumar.. splash10-0uk9-008900..             301.070</span></span>
+<span><span class="co">## 67  Renaud, J. B.; Sumar.. splash10-0uk9-009500..             301.070</span></span>
+<span><span class="co">## 68  Renaud, J. B.; Sumar.. splash10-0pi1-009200..             273.075</span></span>
+<span><span class="co">## 69  Renaud, J. B.; Sumar.. splash10-0pi1-009100..             245.080</span></span>
+<span><span class="co">## 70  Renaud, J. B.; Sumar.. splash10-0kus-029000..             245.080</span></span>
+<span><span class="co">##          adduct  ionization ionization_voltage fragmentation_mode</span></span>
+<span><span class="co">##     &lt;character&gt; &lt;character&gt;        &lt;character&gt;        &lt;character&gt;</span></span>
+<span><span class="co">## 1        [M+H]+         ESI             3.9 kV                HCD</span></span>
+<span><span class="co">## 2        [M+H]+         ESI             3.9 kV                HCD</span></span>
+<span><span class="co">## 3        [M+H]+         ESI             3.9 kV                HCD</span></span>
+<span><span class="co">## 4        [M+H]+         ESI             3.9 kV                HCD</span></span>
+<span><span class="co">## 5        [M+H]+         ESI             3.9 kV                HCD</span></span>
+<span><span class="co">## ...         ...         ...                ...                ...</span></span>
+<span><span class="co">## 66       [M+H]+         ESI             3.9 kV                HCD</span></span>
+<span><span class="co">## 67       [M+H]+         ESI             3.9 kV                HCD</span></span>
+<span><span class="co">## 68       [M+H]+         ESI             3.9 kV                HCD</span></span>
+<span><span class="co">## 69       [M+H]+         ESI             3.9 kV                HCD</span></span>
+<span><span class="co">## 70       [M+H]+         ESI             3.9 kV                HCD</span></span>
+<span><span class="co">##     collisionEnergy_text             instrument instrument_type</span></span>
+<span><span class="co">##              &lt;character&gt;            &lt;character&gt;     &lt;character&gt;</span></span>
+<span><span class="co">## 1                10(NCE) Q-Exactive Orbitrap ..     LC-ESI-ITFT</span></span>
+<span><span class="co">## 2                20(NCE) Q-Exactive Orbitrap ..     LC-ESI-ITFT</span></span>
+<span><span class="co">## 3                30(NCE) Q-Exactive Orbitrap ..     LC-ESI-ITFT</span></span>
+<span><span class="co">## 4                35(NCE) Q-Exactive Orbitrap ..     LC-ESI-ITFT</span></span>
+<span><span class="co">## 5                50(NCE) Q-Exactive Orbitrap ..     LC-ESI-ITFT</span></span>
+<span><span class="co">## ...                  ...                    ...             ...</span></span>
+<span><span class="co">## 66               10(NCE) Q-Exactive Orbitrap ..     LC-ESI-ITFT</span></span>
+<span><span class="co">## 67               20(NCE) Q-Exactive Orbitrap ..     LC-ESI-ITFT</span></span>
+<span><span class="co">## 68               30(NCE) Q-Exactive Orbitrap ..     LC-ESI-ITFT</span></span>
+<span><span class="co">## 69               35(NCE) Q-Exactive Orbitrap ..     LC-ESI-ITFT</span></span>
+<span><span class="co">## 70               50(NCE) Q-Exactive Orbitrap ..     LC-ESI-ITFT</span></span>
+<span><span class="co">##     precursorMz_text spectrum_id predicted msms_mz_range_min msms_mz_range_max</span></span>
+<span><span class="co">##          &lt;character&gt;   &lt;integer&gt; &lt;logical&gt;         &lt;numeric&gt;         &lt;numeric&gt;</span></span>
+<span><span class="co">## 1           179.0697           1        NA           133.065            179.07</span></span>
+<span><span class="co">## 2           179.0697           2        NA           133.065            179.07</span></span>
+<span><span class="co">## 3           179.0697           3        NA           105.070            179.07</span></span>
+<span><span class="co">## 4           179.0697           4        NA           105.070            179.07</span></span>
+<span><span class="co">## 5           179.0697           5        NA           105.070            179.07</span></span>
+<span><span class="co">## ...              ...         ...       ...               ...               ...</span></span>
+<span><span class="co">## 66          337.0912          66        NA          245.0808           337.092</span></span>
+<span><span class="co">## 67          337.0912          67        NA          245.0808           319.081</span></span>
+<span><span class="co">## 68          337.0912          68        NA          151.0390           301.071</span></span>
+<span><span class="co">## 69          337.0912          69        NA          151.0390           301.071</span></span>
+<span><span class="co">## 70          337.0912          70        NA           95.0491           301.071</span></span>
 <span><span class="co">##                                     synonym</span></span>
 <span><span class="co">##                             &lt;CharacterList&gt;</span></span>
 <span><span class="co">## 1   Mellein,Ochracin,8-hydroxy-3-methyl-3..</span></span>
@@ -1146,7 +1146,7 @@ spectra.</p>
 <div class="section level2">
 <h2 id="session-information">Session information<a class="anchor" aria-label="anchor" href="#session-information"></a>
 </h2>
-<pre><code><span><span class="co">## R Under development (unstable) (2026-01-10 r89298)</span></span>
+<pre><code><span><span class="co">## R Under development (unstable) (2026-01-25 r89330)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
 <span><span class="co">## Running under: Ubuntu 24.04.3 LTS</span></span>
 <span><span class="co">## </span></span>
@@ -1171,16 +1171,16 @@ spectra.</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
 <span><span class="co">##  [1] RSQLite_2.4.5           MsBackendMgf_1.19.0     Spectra_1.21.1         </span></span>
-<span><span class="co">##  [4] BiocParallel_1.45.0     CompoundDb_1.15.1       S4Vectors_0.49.0       </span></span>
+<span><span class="co">##  [4] BiocParallel_1.45.0     CompoundDb_1.15.2       S4Vectors_0.49.0       </span></span>
 <span><span class="co">##  [7] BiocGenerics_0.57.0     generics_0.1.4          AnnotationFilter_1.35.0</span></span>
 <span><span class="co">## [10] BiocStyle_2.39.0       </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##  [1] gtable_0.3.6           rjson_0.2.23           xfun_0.55             </span></span>
-<span><span class="co">##  [4] bslib_0.9.0            ggplot2_4.0.1          htmlwidgets_1.6.4     </span></span>
-<span><span class="co">##  [7] Biobase_2.71.0         vctrs_0.6.5            tools_4.6.0           </span></span>
+<span><span class="co">##  [1] gtable_0.3.6           rjson_0.2.23           xfun_0.56             </span></span>
+<span><span class="co">##  [4] bslib_0.10.0           ggplot2_4.0.1          htmlwidgets_1.6.4     </span></span>
+<span><span class="co">##  [7] Biobase_2.71.0         vctrs_0.7.1            tools_4.6.0           </span></span>
 <span><span class="co">## [10] bitops_1.0-9           parallel_4.6.0         tibble_3.3.1          </span></span>
-<span><span class="co">## [13] blob_1.2.4             cluster_2.1.8.1        pkgconfig_2.0.3       </span></span>
+<span><span class="co">## [13] blob_1.3.0             cluster_2.1.8.1        pkgconfig_2.0.3       </span></span>
 <span><span class="co">## [16] dbplyr_2.5.1           RColorBrewer_1.1-3     S7_0.2.1              </span></span>
 <span><span class="co">## [19] desc_1.4.3             lifecycle_1.0.5        compiler_4.6.0        </span></span>
 <span><span class="co">## [22] farver_2.1.2           textshaping_1.0.4      Seqinfo_1.1.0         </span></span>
@@ -1198,7 +1198,7 @@ spectra.</p>
 <span><span class="co">## [58] ragg_1.5.0             png_0.1-8              memoise_2.0.1         </span></span>
 <span><span class="co">## [61] evaluate_1.0.5         knitr_1.51             GenomicRanges_1.63.1  </span></span>
 <span><span class="co">## [64] IRanges_2.45.0         rlang_1.1.7            Rcpp_1.1.1            </span></span>
-<span><span class="co">## [67] glue_1.8.0             DBI_1.2.3              xml2_1.5.1            </span></span>
+<span><span class="co">## [67] glue_1.8.0             DBI_1.2.3              xml2_1.5.2            </span></span>
 <span><span class="co">## [70] BiocManager_1.30.27    jsonlite_2.0.0         R6_2.6.1              </span></span>
 <span><span class="co">## [73] ProtGenerics_1.39.2    systemfonts_1.3.1      fs_1.6.6              </span></span>
 <span><span class="co">## [76] MsCoreUtils_1.23.2</span></span></code></pre>

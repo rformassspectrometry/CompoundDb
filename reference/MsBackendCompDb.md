@@ -233,7 +233,7 @@ be
 #> 68          2     337.091         1
 #> 69          2     337.091         1
 #> 70          2     337.091         1
-#>  ... 46 more variables/columns.
+#>  ... 47 more variables/columns.
 #>  Use  'spectraVariables' to list all of them.
 #>  data source: MassBank 
 #>  version: 2020.09 

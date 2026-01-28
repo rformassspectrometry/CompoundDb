@@ -1,8 +1,8 @@
 # Creating CompoundDb annotation resources
 
 **Authors**: Johannes Rainer  
-**Modified**: 2026-01-12 14:54:30.09379  
-**Compiled**: Mon Jan 12 14:58:50 2026
+**Modified**: 2026-01-28 07:26:44.279722  
+**Compiled**: Wed Jan 28 07:31:30 2026
 
 ## Introduction
 
@@ -395,7 +395,7 @@ createCompDbPackage(
     maintainer = "Johannes Rainer <johannes.rainer@eurac.edu>")
 ```
 
-    ## Creating package in /tmp/RtmpYDm67V/CompDb.Hsapiens.HMDB.4.0
+    ## Creating package in /tmp/RtmpcR5ugD/CompDb.Hsapiens.HMDB.4.0
 
 The function creates a folder (in our case in a temporary directory)
 that can be build and installed with `R CMD build` and `R CMD INSTALL`.
@@ -1140,7 +1140,7 @@ s <- Spectra(cdb)
 spectraData(s)
 ```
 
-    ## DataFrame with 70 rows and 51 columns
+    ## DataFrame with 70 rows and 52 columns
     ##       msLevel     rtime acquisitionNum scanIndex dataStorage  dataOrigin
     ##     <integer> <numeric>      <integer> <integer> <character> <character>
     ## 1           2        NA             NA        NA        <db>          NA
@@ -1156,17 +1156,17 @@ spectraData(s)
     ## 70          2        NA             NA        NA        <db>          NA
     ##     centroided  smoothed  polarity precScanNum precursorMz precursorIntensity
     ##      <logical> <logical> <integer>   <integer>   <numeric>          <numeric>
-    ## 1           NA        NA         1          NA      179.07            161.059
-    ## 2           NA        NA         1          NA      179.07            161.059
-    ## 3           NA        NA         1          NA      179.07            161.059
-    ## 4           NA        NA         1          NA      179.07            161.059
-    ## 5           NA        NA         1          NA      179.07            133.064
+    ## 1           NA        NA         1          NA      179.07                 NA
+    ## 2           NA        NA         1          NA      179.07                 NA
+    ## 3           NA        NA         1          NA      179.07                 NA
+    ## 4           NA        NA         1          NA      179.07                 NA
+    ## 5           NA        NA         1          NA      179.07                 NA
     ## ...        ...       ...       ...         ...         ...                ...
-    ## 66          NA        NA         1          NA     337.091            301.070
-    ## 67          NA        NA         1          NA     337.091            301.070
-    ## 68          NA        NA         1          NA     337.091            273.075
-    ## 69          NA        NA         1          NA     337.091            245.080
-    ## 70          NA        NA         1          NA     337.091            245.080
+    ## 66          NA        NA         1          NA     337.091                 NA
+    ## 67          NA        NA         1          NA     337.091                 NA
+    ## 68          NA        NA         1          NA     337.091                 NA
+    ## 69          NA        NA         1          NA     337.091                 NA
+    ## 70          NA        NA         1          NA     337.091                 NA
     ##     precursorCharge collisionEnergy isolationWindowLowerMz
     ##           <integer>       <numeric>              <numeric>
     ## 1                NA              NA                     NA
@@ -1245,58 +1245,58 @@ spectraData(s)
     ## 68   2017.07.07 Justin B. Renaud, Ma..    CC BY-SA Copyright (C) 2017
     ## 69   2017.07.07 Justin B. Renaud, Ma..    CC BY-SA Copyright (C) 2017
     ## 70   2017.07.07 Justin B. Renaud, Ma..    CC BY-SA Copyright (C) 2017
-    ##                publication                 splash      adduct  ionization
-    ##                <character>            <character> <character> <character>
-    ## 1   Renaud, J. B.; Sumar.. splash10-03fr-090000..      [M+H]+         ESI
-    ## 2   Renaud, J. B.; Sumar.. splash10-03fr-090000..      [M+H]+         ESI
-    ## 3   Renaud, J. B.; Sumar.. splash10-03fr-090000..      [M+H]+         ESI
-    ## 4   Renaud, J. B.; Sumar.. splash10-03di-090000..      [M+H]+         ESI
-    ## 5   Renaud, J. B.; Sumar.. splash10-01q9-090000..      [M+H]+         ESI
-    ## ...                    ...                    ...         ...         ...
-    ## 66  Renaud, J. B.; Sumar.. splash10-0uk9-008900..      [M+H]+         ESI
-    ## 67  Renaud, J. B.; Sumar.. splash10-0uk9-009500..      [M+H]+         ESI
-    ## 68  Renaud, J. B.; Sumar.. splash10-0pi1-009200..      [M+H]+         ESI
-    ## 69  Renaud, J. B.; Sumar.. splash10-0pi1-009100..      [M+H]+         ESI
-    ## 70  Renaud, J. B.; Sumar.. splash10-0kus-029000..      [M+H]+         ESI
-    ##     ionization_voltage fragmentation_mode collisionEnergy_text
-    ##            <character>        <character>          <character>
-    ## 1               3.9 kV                HCD              10(NCE)
-    ## 2               3.9 kV                HCD              20(NCE)
-    ## 3               3.9 kV                HCD              30(NCE)
-    ## 4               3.9 kV                HCD              35(NCE)
-    ## 5               3.9 kV                HCD              50(NCE)
-    ## ...                ...                ...                  ...
-    ## 66              3.9 kV                HCD              10(NCE)
-    ## 67              3.9 kV                HCD              20(NCE)
-    ## 68              3.9 kV                HCD              30(NCE)
-    ## 69              3.9 kV                HCD              35(NCE)
-    ## 70              3.9 kV                HCD              50(NCE)
-    ##                 instrument instrument_type precursorMz_text spectrum_id
-    ##                <character>     <character>      <character>   <integer>
-    ## 1   Q-Exactive Orbitrap ..     LC-ESI-ITFT         179.0697           1
-    ## 2   Q-Exactive Orbitrap ..     LC-ESI-ITFT         179.0697           2
-    ## 3   Q-Exactive Orbitrap ..     LC-ESI-ITFT         179.0697           3
-    ## 4   Q-Exactive Orbitrap ..     LC-ESI-ITFT         179.0697           4
-    ## 5   Q-Exactive Orbitrap ..     LC-ESI-ITFT         179.0697           5
-    ## ...                    ...             ...              ...         ...
-    ## 66  Q-Exactive Orbitrap ..     LC-ESI-ITFT         337.0912          66
-    ## 67  Q-Exactive Orbitrap ..     LC-ESI-ITFT         337.0912          67
-    ## 68  Q-Exactive Orbitrap ..     LC-ESI-ITFT         337.0912          68
-    ## 69  Q-Exactive Orbitrap ..     LC-ESI-ITFT         337.0912          69
-    ## 70  Q-Exactive Orbitrap ..     LC-ESI-ITFT         337.0912          70
-    ##     predicted msms_mz_range_min msms_mz_range_max
-    ##     <logical>         <numeric>         <numeric>
-    ## 1          NA           133.065            179.07
-    ## 2          NA           133.065            179.07
-    ## 3          NA           105.070            179.07
-    ## 4          NA           105.070            179.07
-    ## 5          NA           105.070            179.07
-    ## ...       ...               ...               ...
-    ## 66         NA          245.0808           337.092
-    ## 67         NA          245.0808           319.081
-    ## 68         NA          151.0390           301.071
-    ## 69         NA          151.0390           301.071
-    ## 70         NA           95.0491           301.071
+    ##                publication                 splash precursor_intensity
+    ##                <character>            <character>           <numeric>
+    ## 1   Renaud, J. B.; Sumar.. splash10-03fr-090000..             161.059
+    ## 2   Renaud, J. B.; Sumar.. splash10-03fr-090000..             161.059
+    ## 3   Renaud, J. B.; Sumar.. splash10-03fr-090000..             161.059
+    ## 4   Renaud, J. B.; Sumar.. splash10-03di-090000..             161.059
+    ## 5   Renaud, J. B.; Sumar.. splash10-01q9-090000..             133.064
+    ## ...                    ...                    ...                 ...
+    ## 66  Renaud, J. B.; Sumar.. splash10-0uk9-008900..             301.070
+    ## 67  Renaud, J. B.; Sumar.. splash10-0uk9-009500..             301.070
+    ## 68  Renaud, J. B.; Sumar.. splash10-0pi1-009200..             273.075
+    ## 69  Renaud, J. B.; Sumar.. splash10-0pi1-009100..             245.080
+    ## 70  Renaud, J. B.; Sumar.. splash10-0kus-029000..             245.080
+    ##          adduct  ionization ionization_voltage fragmentation_mode
+    ##     <character> <character>        <character>        <character>
+    ## 1        [M+H]+         ESI             3.9 kV                HCD
+    ## 2        [M+H]+         ESI             3.9 kV                HCD
+    ## 3        [M+H]+         ESI             3.9 kV                HCD
+    ## 4        [M+H]+         ESI             3.9 kV                HCD
+    ## 5        [M+H]+         ESI             3.9 kV                HCD
+    ## ...         ...         ...                ...                ...
+    ## 66       [M+H]+         ESI             3.9 kV                HCD
+    ## 67       [M+H]+         ESI             3.9 kV                HCD
+    ## 68       [M+H]+         ESI             3.9 kV                HCD
+    ## 69       [M+H]+         ESI             3.9 kV                HCD
+    ## 70       [M+H]+         ESI             3.9 kV                HCD
+    ##     collisionEnergy_text             instrument instrument_type
+    ##              <character>            <character>     <character>
+    ## 1                10(NCE) Q-Exactive Orbitrap ..     LC-ESI-ITFT
+    ## 2                20(NCE) Q-Exactive Orbitrap ..     LC-ESI-ITFT
+    ## 3                30(NCE) Q-Exactive Orbitrap ..     LC-ESI-ITFT
+    ## 4                35(NCE) Q-Exactive Orbitrap ..     LC-ESI-ITFT
+    ## 5                50(NCE) Q-Exactive Orbitrap ..     LC-ESI-ITFT
+    ## ...                  ...                    ...             ...
+    ## 66               10(NCE) Q-Exactive Orbitrap ..     LC-ESI-ITFT
+    ## 67               20(NCE) Q-Exactive Orbitrap ..     LC-ESI-ITFT
+    ## 68               30(NCE) Q-Exactive Orbitrap ..     LC-ESI-ITFT
+    ## 69               35(NCE) Q-Exactive Orbitrap ..     LC-ESI-ITFT
+    ## 70               50(NCE) Q-Exactive Orbitrap ..     LC-ESI-ITFT
+    ##     precursorMz_text spectrum_id predicted msms_mz_range_min msms_mz_range_max
+    ##          <character>   <integer> <logical>         <numeric>         <numeric>
+    ## 1           179.0697           1        NA           133.065            179.07
+    ## 2           179.0697           2        NA           133.065            179.07
+    ## 3           179.0697           3        NA           105.070            179.07
+    ## 4           179.0697           4        NA           105.070            179.07
+    ## 5           179.0697           5        NA           105.070            179.07
+    ## ...              ...         ...       ...               ...               ...
+    ## 66          337.0912          66        NA          245.0808           337.092
+    ## 67          337.0912          67        NA          245.0808           319.081
+    ## 68          337.0912          68        NA          151.0390           301.071
+    ## 69          337.0912          69        NA          151.0390           301.071
+    ## 70          337.0912          70        NA           95.0491           301.071
     ##                                     synonym
     ##                             <CharacterList>
     ## 1   Mellein,Ochracin,8-hydroxy-3-methyl-3..
@@ -1340,7 +1340,7 @@ file.remove(tf)
 
 ## Session information
 
-    ## R Under development (unstable) (2026-01-10 r89298)
+    ## R Under development (unstable) (2026-01-25 r89330)
     ## Platform: x86_64-pc-linux-gnu
     ## Running under: Ubuntu 24.04.3 LTS
     ## 
@@ -1365,16 +1365,16 @@ file.remove(tf)
     ## 
     ## other attached packages:
     ##  [1] RSQLite_2.4.5           MsBackendMgf_1.19.0     Spectra_1.21.1         
-    ##  [4] BiocParallel_1.45.0     CompoundDb_1.15.1       S4Vectors_0.49.0       
+    ##  [4] BiocParallel_1.45.0     CompoundDb_1.15.2       S4Vectors_0.49.0       
     ##  [7] BiocGenerics_0.57.0     generics_0.1.4          AnnotationFilter_1.35.0
     ## [10] BiocStyle_2.39.0       
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] gtable_0.3.6           rjson_0.2.23           xfun_0.55             
-    ##  [4] bslib_0.9.0            ggplot2_4.0.1          htmlwidgets_1.6.4     
-    ##  [7] Biobase_2.71.0         vctrs_0.6.5            tools_4.6.0           
+    ##  [1] gtable_0.3.6           rjson_0.2.23           xfun_0.56             
+    ##  [4] bslib_0.10.0           ggplot2_4.0.1          htmlwidgets_1.6.4     
+    ##  [7] Biobase_2.71.0         vctrs_0.7.1            tools_4.6.0           
     ## [10] bitops_1.0-9           parallel_4.6.0         tibble_3.3.1          
-    ## [13] blob_1.2.4             cluster_2.1.8.1        pkgconfig_2.0.3       
+    ## [13] blob_1.3.0             cluster_2.1.8.1        pkgconfig_2.0.3       
     ## [16] dbplyr_2.5.1           RColorBrewer_1.1-3     S7_0.2.1              
     ## [19] desc_1.4.3             lifecycle_1.0.5        compiler_4.6.0        
     ## [22] farver_2.1.2           textshaping_1.0.4      Seqinfo_1.1.0         
@@ -1392,7 +1392,7 @@ file.remove(tf)
     ## [58] ragg_1.5.0             png_0.1-8              memoise_2.0.1         
     ## [61] evaluate_1.0.5         knitr_1.51             GenomicRanges_1.63.1  
     ## [64] IRanges_2.45.0         rlang_1.1.7            Rcpp_1.1.1            
-    ## [67] glue_1.8.0             DBI_1.2.3              xml2_1.5.1            
+    ## [67] glue_1.8.0             DBI_1.2.3              xml2_1.5.2            
     ## [70] BiocManager_1.30.27    jsonlite_2.0.0         R6_2.6.1              
     ## [73] ProtGenerics_1.39.2    systemfonts_1.3.1      fs_1.6.6              
     ## [76] MsCoreUtils_1.23.2

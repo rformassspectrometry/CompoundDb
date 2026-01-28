@@ -7,8 +7,8 @@
 (ORCID: <https://orcid.org/0000-0003-0288-9619>), Andrea Vicini \[aut\]
 (ORCID: <https://orcid.org/0000-0001-9438-6909>), Prateek Arora \[ctb\]
 (ORCID: <https://orcid.org/0000-0003-0822-9240>)  
-**Last modified:** 2026-01-12 14:54:30.09379  
-**Compiled**: Mon Jan 12 14:58:41 2026
+**Last modified:** 2026-01-28 07:26:44.279722  
+**Compiled**: Wed Jan 28 07:31:21 2026
 
 ## Introduction
 
@@ -377,7 +377,7 @@ sps
     ## 68          2     337.091         1
     ## 69          2     337.091         1
     ## 70          2     337.091         1
-    ##  ... 46 more variables/columns.
+    ##  ... 47 more variables/columns.
     ##  Use  'spectraVariables' to list all of them.
     ##  data source: MassBank 
     ##  version: 2020.09 
@@ -415,13 +415,13 @@ spectraVariables(sps)
     ## [29] "date"                    "authors"                
     ## [31] "license"                 "copyright"              
     ## [33] "publication"             "splash"                 
-    ## [35] "adduct"                  "ionization"             
-    ## [37] "ionization_voltage"      "fragmentation_mode"     
-    ## [39] "collisionEnergy_text"    "instrument"             
-    ## [41] "instrument_type"         "precursorMz_text"       
-    ## [43] "spectrum_id"             "predicted"              
-    ## [45] "msms_mz_range_min"       "msms_mz_range_max"      
-    ## [47] "synonym"
+    ## [35] "precursor_intensity"     "adduct"                 
+    ## [37] "ionization"              "ionization_voltage"     
+    ## [39] "fragmentation_mode"      "collisionEnergy_text"   
+    ## [41] "instrument"              "instrument_type"        
+    ## [43] "precursorMz_text"        "spectrum_id"            
+    ## [45] "predicted"               "msms_mz_range_min"      
+    ## [47] "msms_mz_range_max"       "synonym"
 
 Individual variables can then be accessed with `$` and the variable
 name:
@@ -465,7 +465,7 @@ mellein
     ## 3         2      179.07         1
     ## 4         2      179.07         1
     ## 5         2      179.07         1
-    ##  ... 46 more variables/columns.
+    ##  ... 47 more variables/columns.
     ##  Use  'spectraVariables' to list all of them.
     ##  data source: MassBank 
     ##  version: 2020.09 
@@ -599,7 +599,7 @@ ions(idb, columns = c("ion_adduct", "name", "exactmass"))
 sessionInfo()
 ```
 
-    ## R Under development (unstable) (2026-01-10 r89298)
+    ## R Under development (unstable) (2026-01-25 r89330)
     ## Platform: x86_64-pc-linux-gnu
     ## Running under: Ubuntu 24.04.3 LTS
     ## 
@@ -624,15 +624,15 @@ sessionInfo()
     ## 
     ## other attached packages:
     ## [1] RSQLite_2.4.5           Spectra_1.21.1          BiocParallel_1.45.0    
-    ## [4] CompoundDb_1.15.1       S4Vectors_0.49.0        BiocGenerics_0.57.0    
+    ## [4] CompoundDb_1.15.2       S4Vectors_0.49.0        BiocGenerics_0.57.0    
     ## [7] generics_0.1.4          AnnotationFilter_1.35.0 BiocStyle_2.39.0       
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] gtable_0.3.6           rjson_0.2.23           xfun_0.55             
-    ##  [4] bslib_0.9.0            ggplot2_4.0.1          htmlwidgets_1.6.4     
-    ##  [7] Biobase_2.71.0         vctrs_0.6.5            tools_4.6.0           
+    ##  [1] gtable_0.3.6           rjson_0.2.23           xfun_0.56             
+    ##  [4] bslib_0.10.0           ggplot2_4.0.1          htmlwidgets_1.6.4     
+    ##  [7] Biobase_2.71.0         vctrs_0.7.1            tools_4.6.0           
     ## [10] bitops_1.0-9           parallel_4.6.0         tibble_3.3.1          
-    ## [13] blob_1.2.4             cluster_2.1.8.1        pkgconfig_2.0.3       
+    ## [13] blob_1.3.0             cluster_2.1.8.1        pkgconfig_2.0.3       
     ## [16] dbplyr_2.5.1           RColorBrewer_1.1-3     S7_0.2.1              
     ## [19] desc_1.4.3             lifecycle_1.0.5        compiler_4.6.0        
     ## [22] farver_2.1.2           textshaping_1.0.4      Seqinfo_1.1.0         
@@ -650,7 +650,7 @@ sessionInfo()
     ## [58] png_0.1-8              memoise_2.0.1          evaluate_1.0.5        
     ## [61] knitr_1.51             GenomicRanges_1.63.1   IRanges_2.45.0        
     ## [64] rlang_1.1.7            Rcpp_1.1.1             glue_1.8.0            
-    ## [67] DBI_1.2.3              xml2_1.5.1             BiocManager_1.30.27   
+    ## [67] DBI_1.2.3              xml2_1.5.2             BiocManager_1.30.27   
     ## [70] jsonlite_2.0.0         R6_2.6.1               ProtGenerics_1.39.2   
     ## [73] systemfonts_1.3.1      fs_1.6.6               MsCoreUtils_1.23.2
 

@@ -2,6 +2,12 @@
 
 ## CompoundDb version 1.15
 
+### Changes in version 1.15.2
+
+- Change internal mapping of the `precursorIntensity` spectra variable
+  to a database table name from `"precursor_intensity"` to
+  `"precursorIntensity"`.
+
 ### Changes in version 1.15.1
 
 - Add

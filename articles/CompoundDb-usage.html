@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">CompoundDb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.15.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.15.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function() {
 [ctb] (ORCID: <a href="https://orcid.org/0000-0002-5704-1124" class="external-link uri">https://orcid.org/0000-0002-5704-1124</a>), Roger Gine [aut]
 (ORCID: <a href="https://orcid.org/0000-0003-0288-9619" class="external-link uri">https://orcid.org/0000-0003-0288-9619</a>), Andrea Vicini
 [aut] (ORCID: <a href="https://orcid.org/0000-0001-9438-6909" class="external-link uri">https://orcid.org/0000-0001-9438-6909</a>), Prateek Arora
-[ctb] (ORCID: <a href="https://orcid.org/0000-0003-0822-9240" class="external-link uri">https://orcid.org/0000-0003-0822-9240</a>)<br><strong>Last modified:</strong> 2026-01-12 14:54:30.09379<br><strong>Compiled</strong>: Mon Jan 12 14:58:41 2026</p>
+[ctb] (ORCID: <a href="https://orcid.org/0000-0003-0822-9240" class="external-link uri">https://orcid.org/0000-0003-0822-9240</a>)<br><strong>Last modified:</strong> 2026-01-28 07:26:44.279722<br><strong>Compiled</strong>: Wed Jan 28 07:31:21 2026</p>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
@@ -374,7 +374,7 @@ function as in the example below.</p>
 <span><span class="co">## 68          2     337.091         1</span></span>
 <span><span class="co">## 69          2     337.091         1</span></span>
 <span><span class="co">## 70          2     337.091         1</span></span>
-<span><span class="co">##  ... 46 more variables/columns.</span></span>
+<span><span class="co">##  ... 47 more variables/columns.</span></span>
 <span><span class="co">##  Use  'spectraVariables' to list all of them.</span></span>
 <span><span class="co">##  data source: MassBank </span></span>
 <span><span class="co">##  version: 2020.09 </span></span>
@@ -406,13 +406,13 @@ annotations of the associated compounds.</p>
 <span><span class="co">## [29] "date"                    "authors"                </span></span>
 <span><span class="co">## [31] "license"                 "copyright"              </span></span>
 <span><span class="co">## [33] "publication"             "splash"                 </span></span>
-<span><span class="co">## [35] "adduct"                  "ionization"             </span></span>
-<span><span class="co">## [37] "ionization_voltage"      "fragmentation_mode"     </span></span>
-<span><span class="co">## [39] "collisionEnergy_text"    "instrument"             </span></span>
-<span><span class="co">## [41] "instrument_type"         "precursorMz_text"       </span></span>
-<span><span class="co">## [43] "spectrum_id"             "predicted"              </span></span>
-<span><span class="co">## [45] "msms_mz_range_min"       "msms_mz_range_max"      </span></span>
-<span><span class="co">## [47] "synonym"</span></span></code></pre>
+<span><span class="co">## [35] "precursor_intensity"     "adduct"                 </span></span>
+<span><span class="co">## [37] "ionization"              "ionization_voltage"     </span></span>
+<span><span class="co">## [39] "fragmentation_mode"      "collisionEnergy_text"   </span></span>
+<span><span class="co">## [41] "instrument"              "instrument_type"        </span></span>
+<span><span class="co">## [43] "precursorMz_text"        "spectrum_id"            </span></span>
+<span><span class="co">## [45] "predicted"               "msms_mz_range_min"      </span></span>
+<span><span class="co">## [47] "msms_mz_range_max"       "synonym"</span></span></code></pre>
 <p>Individual variables can then be accessed with <code>$</code> and the
 variable name:</p>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
@@ -442,7 +442,7 @@ subsetting that to selected spectra.</p>
 <span><span class="co">## 3         2      179.07         1</span></span>
 <span><span class="co">## 4         2      179.07         1</span></span>
 <span><span class="co">## 5         2      179.07         1</span></span>
-<span><span class="co">##  ... 46 more variables/columns.</span></span>
+<span><span class="co">##  ... 47 more variables/columns.</span></span>
 <span><span class="co">##  Use  'spectraVariables' to list all of them.</span></span>
 <span><span class="co">##  data source: MassBank </span></span>
 <span><span class="co">##  version: 2020.09 </span></span>
@@ -544,7 +544,7 @@ mass.</p>
 </h2>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## R Under development (unstable) (2026-01-10 r89298)</span></span>
+<pre><code><span><span class="co">## R Under development (unstable) (2026-01-25 r89330)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
 <span><span class="co">## Running under: Ubuntu 24.04.3 LTS</span></span>
 <span><span class="co">## </span></span>
@@ -569,15 +569,15 @@ mass.</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
 <span><span class="co">## [1] RSQLite_2.4.5           Spectra_1.21.1          BiocParallel_1.45.0    </span></span>
-<span><span class="co">## [4] CompoundDb_1.15.1       S4Vectors_0.49.0        BiocGenerics_0.57.0    </span></span>
+<span><span class="co">## [4] CompoundDb_1.15.2       S4Vectors_0.49.0        BiocGenerics_0.57.0    </span></span>
 <span><span class="co">## [7] generics_0.1.4          AnnotationFilter_1.35.0 BiocStyle_2.39.0       </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##  [1] gtable_0.3.6           rjson_0.2.23           xfun_0.55             </span></span>
-<span><span class="co">##  [4] bslib_0.9.0            ggplot2_4.0.1          htmlwidgets_1.6.4     </span></span>
-<span><span class="co">##  [7] Biobase_2.71.0         vctrs_0.6.5            tools_4.6.0           </span></span>
+<span><span class="co">##  [1] gtable_0.3.6           rjson_0.2.23           xfun_0.56             </span></span>
+<span><span class="co">##  [4] bslib_0.10.0           ggplot2_4.0.1          htmlwidgets_1.6.4     </span></span>
+<span><span class="co">##  [7] Biobase_2.71.0         vctrs_0.7.1            tools_4.6.0           </span></span>
 <span><span class="co">## [10] bitops_1.0-9           parallel_4.6.0         tibble_3.3.1          </span></span>
-<span><span class="co">## [13] blob_1.2.4             cluster_2.1.8.1        pkgconfig_2.0.3       </span></span>
+<span><span class="co">## [13] blob_1.3.0             cluster_2.1.8.1        pkgconfig_2.0.3       </span></span>
 <span><span class="co">## [16] dbplyr_2.5.1           RColorBrewer_1.1-3     S7_0.2.1              </span></span>
 <span><span class="co">## [19] desc_1.4.3             lifecycle_1.0.5        compiler_4.6.0        </span></span>
 <span><span class="co">## [22] farver_2.1.2           textshaping_1.0.4      Seqinfo_1.1.0         </span></span>
@@ -595,7 +595,7 @@ mass.</p>
 <span><span class="co">## [58] png_0.1-8              memoise_2.0.1          evaluate_1.0.5        </span></span>
 <span><span class="co">## [61] knitr_1.51             GenomicRanges_1.63.1   IRanges_2.45.0        </span></span>
 <span><span class="co">## [64] rlang_1.1.7            Rcpp_1.1.1             glue_1.8.0            </span></span>
-<span><span class="co">## [67] DBI_1.2.3              xml2_1.5.1             BiocManager_1.30.27   </span></span>
+<span><span class="co">## [67] DBI_1.2.3              xml2_1.5.2             BiocManager_1.30.27   </span></span>
 <span><span class="co">## [70] jsonlite_2.0.0         R6_2.6.1               ProtGenerics_1.39.2   </span></span>
 <span><span class="co">## [73] systemfonts_1.3.1      fs_1.6.6               MsCoreUtils_1.23.2</span></span></code></pre>
 </div>

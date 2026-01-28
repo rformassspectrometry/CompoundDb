@@ -980,7 +980,7 @@ sps
 #> 68          2     337.091         1
 #> 69          2     337.091         1
 #> 70          2     337.091         1
-#>  ... 46 more variables/columns.
+#>  ... 47 more variables/columns.
 #>  Use  'spectraVariables' to list all of them.
 #>  data source: MassBank 
 #>  version: 2020.09 
@@ -997,7 +997,7 @@ sps
 #> 3         2      179.07         1
 #> 4         2      179.07         1
 #> 5         2      179.07         1
-#>  ... 46 more variables/columns.
+#>  ... 47 more variables/columns.
 #>  Use  'spectraVariables' to list all of them.
 #>  data source: MassBank 
 #>  version: 2020.09 
@@ -1022,13 +1022,13 @@ spectraVariables(sps)
 #> [29] "date"                    "authors"                
 #> [31] "license"                 "copyright"              
 #> [33] "publication"             "splash"                 
-#> [35] "adduct"                  "ionization"             
-#> [37] "ionization_voltage"      "fragmentation_mode"     
-#> [39] "collisionEnergy_text"    "instrument"             
-#> [41] "instrument_type"         "precursorMz_text"       
-#> [43] "spectrum_id"             "predicted"              
-#> [45] "msms_mz_range_min"       "msms_mz_range_max"      
-#> [47] "synonym"                
+#> [35] "precursor_intensity"     "adduct"                 
+#> [37] "ionization"              "ionization_voltage"     
+#> [39] "fragmentation_mode"      "collisionEnergy_text"   
+#> [41] "instrument"              "instrument_type"        
+#> [43] "precursorMz_text"        "spectrum_id"            
+#> [45] "predicted"               "msms_mz_range_min"      
+#> [47] "msms_mz_range_max"       "synonym"                
 
 ## Get access to the m/z values of these
 mz(sps)
