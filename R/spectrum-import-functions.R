@@ -109,6 +109,8 @@
 
 #' @title Import MS/MS spectra from HMDB xml files
 #'
+#' @importFrom data.table rbindlist
+#'
 #' @description
 #'
 #' `msms_spectra_hmdb()` imports MS/MS spectra from corresponding xml files from
@@ -199,8 +201,9 @@ msms_spectra_hmdb <- function(x, collapsed = TRUE) {
         stop("Unable to find any MS/MS spectrum xml files from HMDB in ",
              "folder ", x)
     message("Going to process ", length(fls), " xml files.")
-    res <- do.call(rbind, lapply(fls, .import_hmdb_ms_ms_spectrum,
-                                 nonStop = TRUE, collapsed = collapsed))
+    res <- as.data.frame(rbindlist(
+        lapply(fls, .import_hmdb_ms_ms_spectrum, nonStop = TRUE,
+               collapsed = collapsed), use.names = FALSE))
     ## Assign an arbitrary spectrum ID.
     message("Postprocessing data ... ", appendLF = FALSE)
     colnames(res)[colnames(res) == "spectrum_id"] <- "original_spectrum_id"
