@@ -2,6 +2,12 @@
 
 ## CompoundDb version 1.15
 
+### Changes in version 1.15.3
+
+- Use
+  [`data.table::rbindlist()`](https://rdrr.io/pkg/data.table/man/rbindlist.html)
+  to combine MS spectra for HMDB import improving its performance.
+
 ### Changes in version 1.15.2
 
 - Change internal mapping of the `precursorIntensity` spectra variable

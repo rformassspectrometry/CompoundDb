@@ -1,8 +1,8 @@
 # Creating CompoundDb annotation resources
 
-**Authors**: Johannes Rainer  
-**Modified**: 2026-01-28 07:26:44.279722  
-**Compiled**: Wed Jan 28 07:31:30 2026
+**Authors**: Johannes Rainer\
+**Modified**: 2026-03-02 06:49:32.137283\
+**Compiled**: Mon Mar 2 06:56:13 2026
 
 ## Introduction
 
@@ -395,7 +395,7 @@ createCompDbPackage(
     maintainer = "Johannes Rainer <johannes.rainer@eurac.edu>")
 ```
 
-    ## Creating package in /tmp/RtmpcR5ugD/CompDb.Hsapiens.HMDB.4.0
+    ## Creating package in /tmp/RtmpuGpsVq/CompDb.Hsapiens.HMDB.4.0
 
 The function creates a folder (in our case in a temporary directory)
 that can be build and installed with `R CMD build` and `R CMD INSTALL`.
@@ -1340,9 +1340,9 @@ file.remove(tf)
 
 ## Session information
 
-    ## R Under development (unstable) (2026-01-25 r89330)
+    ## R Under development (unstable) (2026-03-01 r89508)
     ## Platform: x86_64-pc-linux-gnu
-    ## Running under: Ubuntu 24.04.3 LTS
+    ## Running under: Ubuntu 24.04.4 LTS
     ## 
     ## Matrix products: default
     ## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
@@ -1364,35 +1364,35 @@ file.remove(tf)
     ## [8] base     
     ## 
     ## other attached packages:
-    ##  [1] RSQLite_2.4.5           MsBackendMgf_1.19.0     Spectra_1.21.1         
-    ##  [4] BiocParallel_1.45.0     CompoundDb_1.15.2       S4Vectors_0.49.0       
+    ##  [1] RSQLite_2.4.6           MsBackendMgf_1.19.0     Spectra_1.21.2         
+    ##  [4] BiocParallel_1.45.0     CompoundDb_1.15.3       S4Vectors_0.49.0       
     ##  [7] BiocGenerics_0.57.0     generics_0.1.4          AnnotationFilter_1.35.0
     ## [10] BiocStyle_2.39.0       
     ## 
     ## loaded via a namespace (and not attached):
     ##  [1] gtable_0.3.6           rjson_0.2.23           xfun_0.56             
-    ##  [4] bslib_0.10.0           ggplot2_4.0.1          htmlwidgets_1.6.4     
+    ##  [4] bslib_0.10.0           ggplot2_4.0.2          htmlwidgets_1.6.4     
     ##  [7] Biobase_2.71.0         vctrs_0.7.1            tools_4.6.0           
     ## [10] bitops_1.0-9           parallel_4.6.0         tibble_3.3.1          
-    ## [13] blob_1.3.0             cluster_2.1.8.1        pkgconfig_2.0.3       
-    ## [16] dbplyr_2.5.1           RColorBrewer_1.1-3     S7_0.2.1              
-    ## [19] desc_1.4.3             lifecycle_1.0.5        compiler_4.6.0        
-    ## [22] farver_2.1.2           textshaping_1.0.4      Seqinfo_1.1.0         
-    ## [25] codetools_0.2-20       clue_0.3-66            htmltools_0.5.9       
-    ## [28] sass_0.4.10            RCurl_1.98-1.17        yaml_2.3.12           
-    ## [31] lazyeval_0.2.2         pkgdown_2.2.0.9000     pillar_1.11.1         
-    ## [34] jquerylib_0.1.4        MASS_7.3-65            DT_0.34.0             
-    ## [37] cachem_1.1.0           MetaboCoreUtils_1.19.1 tidyselect_1.2.1      
-    ## [40] digest_0.6.39          stringi_1.8.7          dplyr_1.1.4           
-    ## [43] bookdown_0.46          rsvg_2.7.0             fastmap_1.2.0         
-    ## [46] grid_4.6.0             cli_3.6.5              magrittr_2.0.4        
-    ## [49] base64enc_0.1-3        utf8_1.2.6             ChemmineR_3.63.0      
-    ## [52] scales_1.4.0           bit64_4.6.0-1          rmarkdown_2.30        
-    ## [55] bit_4.6.0              otel_0.2.0             gridExtra_2.3         
-    ## [58] ragg_1.5.0             png_0.1-8              memoise_2.0.1         
-    ## [61] evaluate_1.0.5         knitr_1.51             GenomicRanges_1.63.1  
-    ## [64] IRanges_2.45.0         rlang_1.1.7            Rcpp_1.1.1            
-    ## [67] glue_1.8.0             DBI_1.2.3              xml2_1.5.2            
-    ## [70] BiocManager_1.30.27    jsonlite_2.0.0         R6_2.6.1              
-    ## [73] ProtGenerics_1.39.2    systemfonts_1.3.1      fs_1.6.6              
-    ## [76] MsCoreUtils_1.23.2
+    ## [13] blob_1.3.0             cluster_2.1.8.2        pkgconfig_2.0.3       
+    ## [16] data.table_1.18.2.1    dbplyr_2.5.2           RColorBrewer_1.1-3    
+    ## [19] S7_0.2.1               desc_1.4.3             lifecycle_1.0.5       
+    ## [22] compiler_4.6.0         farver_2.1.2           textshaping_1.0.4     
+    ## [25] Seqinfo_1.1.0          codetools_0.2-20       clue_0.3-67           
+    ## [28] htmltools_0.5.9        sass_0.4.10            RCurl_1.98-1.17       
+    ## [31] yaml_2.3.12            lazyeval_0.2.2         pkgdown_2.2.0.9000    
+    ## [34] pillar_1.11.1          jquerylib_0.1.4        MASS_7.3-65           
+    ## [37] DT_0.34.0              cachem_1.1.0           MetaboCoreUtils_1.19.2
+    ## [40] tidyselect_1.2.1       digest_0.6.39          stringi_1.8.7         
+    ## [43] dplyr_1.2.0            bookdown_0.46          rsvg_2.7.0            
+    ## [46] fastmap_1.2.0          grid_4.6.0             cli_3.6.5             
+    ## [49] magrittr_2.0.4         base64enc_0.1-6        utf8_1.2.6            
+    ## [52] ChemmineR_3.63.0       scales_1.4.0           bit64_4.6.0-1         
+    ## [55] rmarkdown_2.30         bit_4.6.0              otel_0.2.0            
+    ## [58] gridExtra_2.3          ragg_1.5.0             png_0.1-8             
+    ## [61] memoise_2.0.1          evaluate_1.0.5         knitr_1.51            
+    ## [64] GenomicRanges_1.63.1   IRanges_2.45.0         rlang_1.1.7           
+    ## [67] Rcpp_1.1.1             glue_1.8.0             DBI_1.3.0             
+    ## [70] xml2_1.5.2             BiocManager_1.30.27    jsonlite_2.0.0        
+    ## [73] R6_2.6.1               ProtGenerics_1.39.2    systemfonts_1.3.1     
+    ## [76] fs_1.6.6               MsCoreUtils_1.23.2

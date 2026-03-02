@@ -1116,7 +1116,7 @@ library(dplyr)
 #>     intersect, setdiff, setequal, union
 src_cmp <- src_compdb(cdb)
 src_cmp
-#> src:  sqlite 3.51.1 [/__w/_temp/Library/CompoundDb/sql/CompDb.MassBank.sql]
+#> src:  sqlite 3.51.2 [/__w/_temp/Library/CompoundDb/sql/CompDb.MassBank.sql]
 #> tbls: metadata, ms_compound, msms_spectrum, msms_spectrum_peak, synonym
 
 ## Get a tbl for the ms_compound table
