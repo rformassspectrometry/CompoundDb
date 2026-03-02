@@ -1,8 +1,8 @@
 # Creating CompoundDb annotation resources
 
 **Authors**: Johannes Rainer\
-**Modified**: 2026-03-02 06:49:32.137283\
-**Compiled**: Mon Mar 2 06:56:13 2026
+**Modified**: 2026-03-02 07:59:19.716368\
+**Compiled**: Mon Mar 2 08:03:38 2026
 
 ## Introduction
 
@@ -395,7 +395,7 @@ createCompDbPackage(
     maintainer = "Johannes Rainer <johannes.rainer@eurac.edu>")
 ```
 
-    ## Creating package in /tmp/RtmpuGpsVq/CompDb.Hsapiens.HMDB.4.0
+    ## Creating package in /tmp/RtmpKOiObf/CompDb.Hsapiens.HMDB.4.0
 
 The function creates a folder (in our case in a temporary directory)
 that can be build and installed with `R CMD build` and `R CMD INSTALL`.
