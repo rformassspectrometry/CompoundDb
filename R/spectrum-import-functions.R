@@ -203,7 +203,7 @@ msms_spectra_hmdb <- function(x, collapsed = TRUE) {
     message("Going to process ", length(fls), " xml files.")
     res <- as.data.frame(rbindlist(
         lapply(fls, .import_hmdb_ms_ms_spectrum, nonStop = TRUE,
-               collapsed = collapsed), use.names = FALSE))
+               collapsed = collapsed), use.names = FALSE, fill = TRUE))
     ## Assign an arbitrary spectrum ID.
     message("Postprocessing data ... ", appendLF = FALSE)
     colnames(res)[colnames(res) == "spectrum_id"] <- "original_spectrum_id"
