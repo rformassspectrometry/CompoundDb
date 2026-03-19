@@ -407,7 +407,7 @@ dbGetQuery(con, "select * from metadata")
 #> 3     source_version                        2
 #> 4        source_date                     <NA>
 #> 5           organism                 Hsapiens
-#> 6   db_creation_date Mon Mar  2 08:03:26 2026
+#> 6   db_creation_date Thu Mar 19 08:20:21 2026
 #> 7 supporting_package               CompoundDb
 #> 8  supporting_object                   CompDb
 dbGetQuery(con, "select * from ms_compound")

@@ -2,6 +2,10 @@
 
 ## CompoundDb version 1.15
 
+### Changes in version 1.15.4
+
+- Support filling missing columns/spectra variables in HMDB import.
+
 ### Changes in version 1.15.3
 
 - Use

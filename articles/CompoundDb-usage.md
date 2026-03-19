@@ -7,8 +7,8 @@
 (ORCID: <https://orcid.org/0000-0003-0288-9619>), Andrea Vicini \[aut\]
 (ORCID: <https://orcid.org/0000-0001-9438-6909>), Prateek Arora \[ctb\]
 (ORCID: <https://orcid.org/0000-0003-0822-9240>)\
-**Last modified:** 2026-03-02 07:59:19.715111\
-**Compiled**: Mon Mar 2 08:03:29 2026
+**Last modified:** 2026-03-19 08:11:39.351353\
+**Compiled**: Thu Mar 19 08:20:23 2026
 
 ## Introduction
 
@@ -599,7 +599,7 @@ ions(idb, columns = c("ion_adduct", "name", "exactmass"))
 sessionInfo()
 ```
 
-    ## R Under development (unstable) (2026-03-01 r89508)
+    ## R Under development (unstable) (2026-03-15 r89629)
     ## Platform: x86_64-pc-linux-gnu
     ## Running under: Ubuntu 24.04.4 LTS
     ## 
@@ -623,8 +623,8 @@ sessionInfo()
     ## [8] base     
     ## 
     ## other attached packages:
-    ## [1] RSQLite_2.4.6           Spectra_1.21.2          BiocParallel_1.45.0    
-    ## [4] CompoundDb_1.15.3       S4Vectors_0.49.0        BiocGenerics_0.57.0    
+    ## [1] RSQLite_2.4.6           Spectra_1.21.5          BiocParallel_1.45.0    
+    ## [4] CompoundDb_1.15.4       S4Vectors_0.49.0        BiocGenerics_0.57.0    
     ## [7] generics_0.1.4          AnnotationFilter_1.35.0 BiocStyle_2.39.0       
     ## 
     ## loaded via a namespace (and not attached):
@@ -635,7 +635,7 @@ sessionInfo()
     ## [13] blob_1.3.0             cluster_2.1.8.2        pkgconfig_2.0.3       
     ## [16] data.table_1.18.2.1    dbplyr_2.5.2           RColorBrewer_1.1-3    
     ## [19] S7_0.2.1               desc_1.4.3             lifecycle_1.0.5       
-    ## [22] compiler_4.6.0         farver_2.1.2           textshaping_1.0.4     
+    ## [22] compiler_4.6.0         farver_2.1.2           textshaping_1.0.5     
     ## [25] Seqinfo_1.1.0          codetools_0.2-20       clue_0.3-67           
     ## [28] htmltools_0.5.9        sass_0.4.10            RCurl_1.98-1.17       
     ## [31] yaml_2.3.12            lazyeval_0.2.2         pkgdown_2.2.0.9000    
@@ -644,16 +644,16 @@ sessionInfo()
     ## [40] tidyselect_1.2.1       digest_0.6.39          stringi_1.8.7         
     ## [43] dplyr_1.2.0            bookdown_0.46          rsvg_2.7.0            
     ## [46] fastmap_1.2.0          grid_4.6.0             cli_3.6.5             
-    ## [49] magrittr_2.0.4         base64enc_0.1-6        ChemmineR_3.63.0      
+    ## [49] magrittr_2.0.4         base64enc_0.1-6        ChemmineR_3.63.1      
     ## [52] scales_1.4.0           bit64_4.6.0-1          rmarkdown_2.30        
     ## [55] bit_4.6.0              otel_0.2.0             gridExtra_2.3         
-    ## [58] ragg_1.5.0             png_0.1-8              memoise_2.0.1         
+    ## [58] ragg_1.5.1             png_0.1-9              memoise_2.0.1         
     ## [61] evaluate_1.0.5         knitr_1.51             GenomicRanges_1.63.1  
     ## [64] IRanges_2.45.0         rlang_1.1.7            Rcpp_1.1.1            
     ## [67] glue_1.8.0             DBI_1.3.0              xml2_1.5.2            
     ## [70] BiocManager_1.30.27    jsonlite_2.0.0         R6_2.6.1              
-    ## [73] ProtGenerics_1.39.2    systemfonts_1.3.1      fs_1.6.6              
-    ## [76] MsCoreUtils_1.23.2
+    ## [73] ProtGenerics_1.39.2    systemfonts_1.3.2      fs_1.6.7              
+    ## [76] MsCoreUtils_1.23.6
 
 ## References
 
